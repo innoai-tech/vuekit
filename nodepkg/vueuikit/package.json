@@ -1,0 +1,53 @@
+{
+  "name": "@innoai-tech/vueuikit",
+  "version": "0.1.1",
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@emotion/cache": "^11.10.7",
+    "@emotion/serialize": "^1.1.1",
+    "@emotion/utils": "^1.2.0",
+    "@innoai-tech/lodash": "0.2.0",
+    "@innoai-tech/vuekit": "workspace:*",
+    "@material/material-color-utilities": "^0.2.4",
+    "@popperjs/core": "^2.11.7",
+    "csstype": "^3.1.2",
+    "polished": "^4.2.2",
+    "popmotion": "^11.0.5"
+  },
+  "peerDependencies": {
+    "vue": "3.x"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      }
+    }
+  },
+  "files": [
+    "*.mjs",
+    "*.d.ts"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/vueuikit"
+  },
+  "scripts": {
+    "lint": "prettier --write .",
+    "build": "monobundle",
+    "test": "vitest --run --passWithNoTests --dir .",
+    "prepublishOnly": "pnpm run build"
+  },
+  "type": "module"
+}

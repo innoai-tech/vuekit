@@ -1,0 +1,62 @@
+{
+  "name": "@innoai-tech/vuekit",
+  "version": "0.1.1",
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./jsx-runtime": "./src/jsx-runtime.ts",
+      "./jsx-dev-runtime": "./src/jsx-dev-runtime.ts"
+    }
+  },
+  "dependencies": {
+    "@innoai-tech/lodash": "^0.2.0",
+    "@innoai-tech/vue-jsx-runtime": "workspace:*"
+  },
+  "peerDependencies": {
+    "zod": "^3.21.4",
+    "vue-router": "^4.x",
+    "vue": "3.x",
+    "rxjs": "7.x"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      }
+    },
+    "./jsx-runtime": {
+      "import": {
+        "types": "./jsx-runtime.d.ts",
+        "default": "./jsx-runtime.mjs"
+      }
+    },
+    "./jsx-dev-runtime": {
+      "import": {
+        "types": "./jsx-dev-runtime.d.ts",
+        "default": "./jsx-dev-runtime.mjs"
+      }
+    }
+  },
+  "files": [
+    "*.mjs",
+    "*.d.ts"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/vuekit"
+  },
+  "scripts": {
+    "lint": "prettier --write .",
+    "build": "monobundle",
+    "test": "vitest --run --passWithNoTests --dir .",
+    "prepublishOnly": "pnpm run build"
+  },
+  "type": "module"
+}

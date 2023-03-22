@@ -1,0 +1,34 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "^19"
+          registry-url: "https://npm.pkg.github.com"
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: "^7"
+
+      - run: make dep
+        env:
+          NODE_AUTH_TOKEN: ${{ github.token }}
+
+      - run: make test
+      - run: make build
+
+      - uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          branch: gh-pages
+          folder: public/vuekit
+          clean: true

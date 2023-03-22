@@ -1,0 +1,44 @@
+{
+  "name": "@innoai-tech/vuematerial",
+  "version": "0.1.1",
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@innoai-tech/vuekit": "workspace:*",
+    "@innoai-tech/vueuikit": "workspace:*",
+    "@mdi/js": "7.2.96"
+  },
+  "peerDependencies": {},
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      }
+    }
+  },
+  "files": [
+    "*.mjs",
+    "*.d.ts"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/vuematerial"
+  },
+  "scripts": {
+    "lint": "prettier --write .",
+    "build": "monobundle",
+    "test": "vitest --run --passWithNoTests --dir .",
+    "prepublishOnly": "pnpm run build"
+  },
+  "type": "module"
+}

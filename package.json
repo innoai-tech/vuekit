@@ -1,0 +1,39 @@
+{
+  "name": "vuekit",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git"
+  },
+  "dependencies": {
+    "@innoai-tech/vuekit": "workspace:*",
+    "@innoai-tech/vueuikit": "workspace:*"
+  },
+  "devDependencies": {
+    "@innoai-tech/lodash": "^0.2.0",
+    "@innoai-tech/monobundle": "^0.8.4",
+    "@innoai-tech/vue-vite-presets": "workspace:*",
+    "@innoai-tech/vuedevconfig": "workspace:*",
+    "@vue/test-utils": "^2.3.2",
+    "jsdom": "^21.1.1",
+    "normalize.css": "^8.0.1",
+    "prettier": "^2.8.7",
+    "prismjs": "^1.29.0",
+    "tsx": "^3.12.6",
+    "turbo": "^1.8.8",
+    "typescript": "^5.0.3",
+    "vite": "^4.2.1",
+    "vitest": "^0.29.8",
+    "vue": "^3.2.47"
+  },
+  "prettier": {}
+}

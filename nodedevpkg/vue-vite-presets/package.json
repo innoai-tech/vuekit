@@ -1,0 +1,52 @@
+{
+  "name": "@innoai-tech/vue-vite-presets",
+  "version": "0.1.1",
+  "monobundle": {
+    "pipeline": {
+      "test": false
+    },
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@innoai-tech/lodash": "^0.2.0",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "vite-plugin-pages": "^0.29.0",
+    "vite-tsconfig-paths": "^4.0.8"
+  },
+  "peerDependencies": {
+    "vite": "^4.x"
+  },
+  "devDependencies": {
+    "rollup": "^3.20.2"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      }
+    }
+  },
+  "files": [
+    "*.mjs",
+    "*.d.ts"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodedevpkg/vue-vite-presets"
+  },
+  "scripts": {
+    "lint": "prettier --write .",
+    "build": "monobundle",
+    "prepublishOnly": "pnpm run build"
+  },
+  "type": "module"
+}

@@ -1,0 +1,25 @@
+{
+  "extends": "@innoai-tech/vuedevconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@innoai-tech/vuekit/jsx-runtime": [
+        "nodepkg/vuekit/src/jsx-runtime.ts"
+      ],
+      "@innoai-tech/vuekit": [
+        "nodepkg/vuekit/src/index.ts"
+      ],
+      "@webapp/vuekit/*": [
+        "webapp/vuekit/*/index.ts"
+      ],
+      "@innoai-tech/*": [
+        "nodedevpkg/*/src/index.ts",
+        "nodepkg/*/src/index.ts",
+        "*"
+      ]
+    },
+  },
+  "exclude": [
+    "nodepkg/*/*.d.ts"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "name": "@innoai-tech/vuedevconfig",
+  "version": "0.1.1",
+  "files": [
+    "*.json"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodedevpkg/vuedevconfig"
+  },
+  "scripts": {},
+  "type": "module"
+}

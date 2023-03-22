@@ -1,0 +1,12 @@
+*.log
+*.iml
+
+dist/
+.build/
+.next/
+.turbo/
+.swc/
+
+*.mjs
+
+public/
