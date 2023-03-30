@@ -1,4 +1,4 @@
-import{c as t,g as o,j as r}from"./lib-nodepkg-vuekit.936e1239.chunk.js";import{T as a,B as s,s as d}from"./lib-nodepkg-vueuikit.9964ca2d.chunk.js";const e=d("p")`
+import{c as t,g as o,j as r}from"./lib-nodepkg-vuekit.936e1239.chunk.js";import{T as a,B as s,s as d}from"./lib-nodepkg-vueuikit.f88d4146.chunk.js";const e=d("p")`
   a {
     border-bottom: 1px solid currentColor;
     cursor: pointer;
