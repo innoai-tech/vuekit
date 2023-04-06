@@ -1,4 +1,4 @@
-import{p as t,j as n}from"./lib-nodepkg-vuekit.16ea4e1f.chunk.js";import{C as o,S as s}from"./lib-webapp-vuekit.dc8d9f30.chunk.js";const e=`设计理念沿用 [Material 3](https://m3.material.io/)
+import{p as t,j as n}from"./lib-nodepkg-vuekit.16ea4e1f.chunk.js";import{C as o,S as e}from"./lib-webapp-vuekit.dc8d9f30.chunk.js";const s=`设计理念沿用 [Material 3](https://m3.material.io/)
 
 这里仅为适配该设计理念，抽象 Design System, 方便开发：
 
@@ -32,6 +32,9 @@ export const Button = styled("button", {
   }
 });
 \`\`\`
+
+不同于其他框架中的 theme 定义，为了更准确的类型推导，需要由 DesignToken 进行创建
+详细请[参考源码](https://github.com/innoai-tech/vuekit/blob/main/nodepkg/vueuikit/src/theming/m3)
 
 虽然底层使用的是 \`@emotion/*\`，但屏蔽掉了 \`array\` 等非 CSSObject 值的使用, 初衷是为了更稳定的类型推导。
 另外样式扩展有两种方式
@@ -80,4 +83,4 @@ import { Box } from "@innoai-tech/vueuikit";
     </Box>
   </Box>
 );
-\`\`\``,i=t(()=>()=>n(o,{children:n(s,{content:e})}));export{i as default};
+\`\`\``,i=t(()=>()=>n(o,{children:n(e,{content:s})}));export{i as default};
