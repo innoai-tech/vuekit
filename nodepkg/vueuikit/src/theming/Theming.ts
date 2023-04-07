@@ -1,15 +1,16 @@
 import { type CSSAllProps, type FullCSSObject } from "./csstype";
-import { isUndefined, set, isNumber, kebabCase } from "@innoai-tech/lodash";
+import { isNumber, isUndefined, kebabCase, set } from "@innoai-tech/lodash";
 import {
+  DesignToken,
   type DesignTokenOptionAny,
   type DesignTokens,
   DesignTokenType,
-  isVariant
+  isVariant,
+  Mixin,
+  TokenSet
 } from "./token";
-import { DesignToken, Mixin, TokenSet } from "./token";
 import { serializeStyles } from "@emotion/serialize";
 import type { EmotionCache } from "@emotion/utils";
-import { insertStyles } from "@emotion/utils";
 import { CSSProcessor } from "./CSSProcessor";
 
 export interface ThemingOptions {
@@ -180,30 +181,18 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
 
   unstable_css(
     cache: EmotionCache,
-    sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
-    {
-      isStringTag = true,
-      withoutScoping = false
-    }: {
-      isStringTag?: boolean;
-      withoutScoping?: boolean;
-    } = {}
+    sx: FullCSSObject<DesignTokens<T> & CSSAllProps>
   ) {
     const inputs = (sx ?? {}) as any;
 
-    const serialized =
-      inputs.__emotion_styles ??
-      serializeStyles(this.unstable_sx(sx), cache?.registered, {});
-
-    if (withoutScoping) {
-      cache.insert("", serialized, cache.sheet, true);
-    } else {
-      insertStyles(cache, serialized, isStringTag);
-    }
-
     // mutate for cache
-    inputs.__emotion_styles = serialized;
+    inputs.__emotion_styles = inputs.__emotion_styles ??
+      serializeStyles(
+        this.unstable_sx(sx),
+        cache?.registered,
+        {}
+      );
 
-    return `${cache.key}-${serialized.name}`;
+    return inputs.__emotion_styles;
   }
 }

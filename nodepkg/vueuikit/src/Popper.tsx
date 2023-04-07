@@ -2,7 +2,7 @@ import {
   createPopperLite,
   type Placement,
   arrow as arrowModify,
-  flip,
+  flip
 } from "@popperjs/core";
 import { z, component, type Component } from "@innoai-tech/vuekit";
 import {
@@ -12,7 +12,7 @@ import {
   Teleport,
   unref,
   type VNode,
-  watch,
+  watch
 } from "vue";
 
 export const Popper = component(
@@ -22,7 +22,7 @@ export const Popper = component(
     placement: z.custom<Placement>().optional(),
     arrow: z.boolean().optional(),
     transition: z.custom<Component<{}, {}>>().optional(),
-    onClickOutside: z.function().args(z.custom<Event>()),
+    onClickOutside: z.function().args(z.custom<Event>())
   },
   (props, { slots, emit }) => {
     const triggerRef = ref<HTMLElement | null>(null);
@@ -34,7 +34,7 @@ export const Popper = component(
         if (contentEl) {
           createPopperLite(triggerRef.value!, contentEl!, {
             placement: props.placement ?? "bottom",
-            modifiers: [flip, ...(props.arrow ?? true ? [arrowModify] : [])],
+            modifiers: [flip, ...(props.arrow ?? true ? [arrowModify] : [])]
           });
         }
       }
@@ -92,8 +92,8 @@ export const Popper = component(
         <>
           {cloneVNode(slots["default"]?.()[0]!, {
             onVnodeMounted: (n) => {
-              triggerRef.value = n.el as any;
-            },
+              triggerRef.value = resolveElement(n.el);
+            }
           })}
           <Teleport to="body">
             {MayTransition ? <MayTransition>{content}</MayTransition> : content}
@@ -103,3 +103,17 @@ export const Popper = component(
     };
   }
 );
+
+function resolveElement(el: VNode["el"]): (HTMLElement | null) {
+  if (el) {
+    if (el instanceof HTMLElement) {
+      return el;
+    }
+
+    // Fragment
+    if (el instanceof Text) {
+      return resolveElement((el as any).nextElementSibling);
+    }
+  }
+  return null;
+}

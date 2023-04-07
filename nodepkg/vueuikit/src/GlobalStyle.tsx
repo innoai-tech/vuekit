@@ -3,6 +3,7 @@ import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
 import { isString } from "@innoai-tech/lodash";
+import { Insertion } from "./Insertion";
 
 export const GlobalStyle = component(
   { styles: z.custom<SystemStyleObject | string>() },
@@ -10,12 +11,11 @@ export const GlobalStyle = component(
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();
 
-    theme.unstable_css(
+    const serialized = theme.unstable_css(
       cache,
-      isString(styles) ? ({ "&": styles } as any) : styles,
-      { withoutScoping: true }
+      isString(styles) ? ({ "&": styles } as any) : styles
     );
 
-    return () => null;
+    return () => <Insertion serialized={serialized} withoutScoping={true} />;
   }
 );

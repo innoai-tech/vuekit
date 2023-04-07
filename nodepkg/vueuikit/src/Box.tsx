@@ -2,13 +2,14 @@ import {
   z,
   component,
   type VElementType,
-  type OverridableComponent,
+  type OverridableComponent
 } from "@innoai-tech/vuekit";
 import { ref, type SetupContext, watch } from "vue";
 import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
 import { isString } from "@innoai-tech/lodash";
+import { Insertion } from "./Insertion";
 
 export type SxProps = {
   sx: SystemStyleObject;
@@ -19,34 +20,42 @@ export const Box: OverridableComponent<{
   defaultComponent: "div";
 }> = component(
   {
-    component: z.custom<VElementType>(),
     sx: z.custom<SystemStyleObject>(),
+    component: z.custom<VElementType>().optional().default("div")
   },
-  ({ component, sx, ...props }, { slots }: SetupContext) => {
-    const Comp: any = component ?? "div";
-
+  (props, { slots, attrs }: SetupContext) => {
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();
 
-    const className = ref();
+    const serialized = ref(props.sx ? theme.unstable_css(cache, props.sx) : undefined);
+    watch(() => props.sx, () => {
+      serialized.value = props.sx ? theme.unstable_css(cache, props.sx) : undefined;
+    });
 
-    const renderClassName = () => {
-      if (sx) {
-        className.value = theme.unstable_css(cache, sx, {
-          isStringTag: isString(Comp),
-        });
-      }
+    const cssName = () => {
+      const name = serialized.value?.name ?? "0";
+      return name != "0" ? `${cache.key}-${name}` : "";
     };
-
-    watch(() => sx, renderClassName);
-    renderClassName();
 
     return () => {
+      const Comp: any = props.component ?? "div";
+
       return (
-        <Comp {...props} class={className.value}>
-          {slots}
-        </Comp>
+        <>
+          {serialized.value && <Insertion
+            serialized={serialized.value}
+            isStringTag={isString(Comp)}
+          />}
+          <Comp
+            {...attrs}
+            class={`${attrs["class"] ? `${attrs["class"]} ` : ""}${cssName()}`}>
+            {slots}
+          </Comp>
+        </>
       );
     };
+  },
+  {
+    inheritAttrs: false
   }
 ) as any;

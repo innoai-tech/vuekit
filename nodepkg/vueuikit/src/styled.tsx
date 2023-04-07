@@ -6,7 +6,7 @@ import {
   type InternalPropsOf,
   type ZodTypeAny,
   type VElementType,
-  z,
+  z
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
 import { type SxProps, Box } from "./Box";
@@ -15,6 +15,7 @@ import { CacheProvider } from "./CacheProvider";
 import { isString } from "@innoai-tech/lodash";
 import type { SetupContext, VNode } from "vue";
 import { cloneVNode } from "vue";
+import { Insertion } from "./Insertion";
 
 const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
   const dataProps: Record<string, any> = {};
@@ -44,7 +45,7 @@ export function styled<
   ) => (Wrap: DefaultComponent) => VNode = defaultSetup
 ) {
   return (
-    sx: SystemStyleObject
+    presetSx: SystemStyleObject
   ): OverridableComponent<{
     props: PublicPropsOf<PropTypes> & Partial<SxProps>;
     defaultComponent: DefaultComponent;
@@ -53,28 +54,45 @@ export function styled<
       {
         ...propTypes,
         sx: z.custom<SystemStyleObject>().optional(),
-        component: z.custom<VElementType>().optional(),
+        component: z.custom<VElementType>().optional()
       },
       (props, ctx) => {
         const theme = ThemeProvider.use();
         const cache = CacheProvider.use();
 
-        const className = theme.unstable_css(cache, sx, {
-          isStringTag: isString((props as any).component ?? defaultComponent),
-        });
+        (presetSx as any).label = c.name;
+
+        const serialized = theme.unstable_css(cache, presetSx);
 
         const render = setup(props as any, ctx as any);
 
         return () => {
+          let className =
+            serialized.name != "0" ? `${cache.key}-${serialized.name}` : "";
+          if (ctx.attrs["class"]) {
+            className += ` ${ctx.attrs["class"]}`;
+          }
+
           if ((defaultComponent as any).__styled) {
             const ret = render(defaultComponent as any);
 
             if (ret) {
-              return cloneVNode(ret, {
-                component: (props as any).component,
-                sx: (props as any).sx,
-                class: `${className}`,
-              });
+              return (
+                <>
+                  {cloneVNode(ret, {
+                    ...ctx.attrs,
+                    component: (props as any).component,
+                    sx: (props as any).sx,
+                    class: className
+                  })}
+                  <Insertion
+                    serialized={serialized}
+                    isStringTag={isString(
+                      (props as any).component ?? defaultComponent
+                    )}
+                  />
+                </>
+              );
             }
             return null;
           }
@@ -82,15 +100,29 @@ export function styled<
           const ret = render(Box as any);
 
           if (ret) {
-            return cloneVNode(ret, {
-              component: (props as any).component ?? defaultComponent,
-              sx: (props as any).sx,
-              class: `${className}`,
-            });
+            return (
+              <>
+                <Insertion
+                  serialized={serialized}
+                  isStringTag={isString(
+                    (props as any).component ?? defaultComponent
+                  )}
+                />
+                {cloneVNode(ret, {
+                  ...ctx.attrs,
+                  component: (props as any).component ?? defaultComponent,
+                  sx: (props as any).sx,
+                  class: className
+                })}
+              </>
+            );
           }
 
           return null;
         };
+      },
+      {
+        inheritAttrs: false
       }
     ) as any;
 
