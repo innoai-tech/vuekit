@@ -12,7 +12,7 @@ import "prismjs/components/prism-typescript";
 import "prismjs/components/prism-jsx";
 import "prismjs/components/prism-tsx";
 
-import { ref, watch, renderSlot } from "vue";
+import { ref, watch } from "vue";
 import { get } from "@innoai-tech/lodash";
 
 
@@ -67,7 +67,8 @@ export const CodeBlock = component(({}, { slots }) => {
   );
 
   return () => {
-    const child = get(renderSlot(slots, "default"), ["children", 0], {});
+
+    const child = get(slots.default?.(), [0], {} as any);
 
     code.value = (child.type == "code" ? child.children[0] : child.children) ?? "";
 

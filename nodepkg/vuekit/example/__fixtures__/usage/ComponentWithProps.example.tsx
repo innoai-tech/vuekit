@@ -1,4 +1,4 @@
-import { component, z } from "@innoai-tech/vuekit";
+import { component, z, SlotType } from "@innoai-tech/vuekit";
 import { ref } from "vue";
 
 export const TextInput = component(
@@ -14,7 +14,7 @@ export const TextInput = component(
     type: z.enum(["text", "number"]),
 
     // on[A-Z] 前缀视为 emits
-    onValueChange: z.function().args(z.string()),
+    onValueChange: z.function().args(z.string())
   },
   (props, { emit }) => {
     // setup
@@ -30,20 +30,33 @@ export const TextInput = component(
   }
 );
 
+export const Card = component({
+  // render[A-Z] 前缀视为 slots
+  renderContent: SlotType
+}, ({}, { slots }) => () => {
+  return (
+    <div style={{ display: "flex", gap: "1rem" }}>
+      {slots.default?.()}
+      <div>
+        {slots.content?.()}
+      </div>
+    </div>
+  );
+});
+
 export default component(() => {
   const inputValue = ref("");
 
   return () => (
-    <div>
-      <div style={{ display: "flex", gap: "1rem" }}>
-        <TextInput
-          type={"text"}
-          onValueChange={(value) => {
-            inputValue.value = value;
-          }}
-        />
-        <div>Inputted: {inputValue.value}</div>
-      </div>
-    </div>
+    <Card
+      renderContent={() => <div>Inputted: {inputValue.value}</div>}
+    >
+      <TextInput
+        type={"text"}
+        onValueChange={(value) => {
+          inputValue.value = value;
+        }}
+      />
+    </Card>
   );
 });

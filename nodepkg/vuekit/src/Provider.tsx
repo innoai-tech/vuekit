@@ -5,7 +5,7 @@ import {
   type ComponentOptions,
   type Component,
   component,
-  z,
+  z
 } from "./component";
 
 export function createProvider<T extends object>(
@@ -20,22 +20,22 @@ export function createProvider<T extends object>(
 
   const Provider = component(
     {
-      value: z.custom<T>().optional(),
+      value: z.custom<T>().optional()
     },
     ({ value }, { slots }) => {
       provide(key, value ?? getDefaults());
 
-      return () => <>{slots["default"]?.()}</>;
+      return () => <>{slots.default?.()}</>;
     },
     {
       ...options,
-      name: `Provider(${options.name ?? ""})`,
+      name: `Provider(${options.name ?? ""})`
     }
   );
 
   return ext(Provider as any, {
     use: () => {
       return inject(key, getDefaults, true) as T;
-    },
+    }
   });
 }

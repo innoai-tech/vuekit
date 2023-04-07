@@ -1,14 +1,16 @@
 import type {
   EmitsOf,
   InternalPropsOf,
-  PublicPropsOf,
-  ToCamelCase,
+  PublicPropsOf, SlotsOf,
+  ToCamelCase
 } from "./tshelper";
 import {
   defineComponent,
   type SetupContext,
   type RenderFunction,
   type FunctionalComponent,
+  type VNode,
+  type Slot
 } from "vue";
 import { isFunction, partition, kebabCase } from "@innoai-tech/lodash";
 import { type ZodTypeAny, z } from "zod";
@@ -51,8 +53,8 @@ export type ComponentProps<
 > = T extends Component<infer P extends {}, infer E extends {}>
   ? P & EventProps<E>
   : T extends keyof JSX.IntrinsicElements
-  ? JSX.IntrinsicElements[T]
-  : {};
+    ? JSX.IntrinsicElements[T]
+    : {};
 
 export type Emits = Record<string, (...args: any[]) => any>;
 
@@ -67,9 +69,9 @@ export type Component<P extends {}, E extends Emits> = FunctionalComponent<
 
 export { type RenderFunction };
 
-export type SetupFunction<P extends {}, E extends Emits> = (
+export type SetupFunction<P extends {}, E extends Emits, Slots extends Record<string, Slot>> = (
   P: P,
-  ctx: SetupContext<E>
+  ctx: SetupContext<E> & { slots: { [K in keyof Slots]?: Slots[K] } & { default?: Slot } }
 ) => RenderFunction;
 
 export interface ComponentOptions {
@@ -77,34 +79,29 @@ export interface ComponentOptions {
   inheritAttrs?: boolean;
 }
 
-export type DefaultProps<P extends {}, E extends Emits = {}> = {
-  [K in keyof P]: P[K] | undefined;
-} & {
-  [K in keyof E as K extends string
-    ? ToCamelCase<`on-${K}`>
-    : never]: undefined;
-};
+export const SlotType = z.function().args().returns(z.custom<VNode>());
 
 export function component(
-  setup: SetupFunction<{}, {}>,
+  setup: SetupFunction<{}, {}, {}>,
   options?: ComponentOptions
 ): Component<{}, {}>;
 export function component<PropTypes extends Record<string, ZodTypeAny>>(
   propTypes: PropTypes,
-  setup: SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>>,
+  setup: SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>, SlotsOf<PropTypes>>,
   options?: ComponentOptions
 ): Component<PublicPropsOf<PropTypes>, EmitsOf<PropTypes>>;
 export function component<PropTypes extends Record<string, ZodTypeAny>>(
   propTypesOrSetup:
     | PropTypes
-    | SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>>,
+    | SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>, SlotsOf<PropTypes>>,
   setupOrOptions?:
-    | SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>>
+    | SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>, SlotsOf<PropTypes>>
     | ComponentOptions,
   options: ComponentOptions = {}
 ): Component<PublicPropsOf<PropTypes>, EmitsOf<PropTypes>> {
   const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
   const finalSetup = (setupOrOptions ?? propTypesOrSetup) as SetupFunction<
+    any,
     any,
     any
   >;
@@ -117,7 +114,7 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
   );
 
   const propsAndEmits = {
-    props: props.reduce((ret, prop) => {
+    props: props.filter((p) => !/^render[A-Z]/.test(p)).reduce((ret, prop) => {
       const d = finalPropTypes[prop]!;
       return {
         ...ret,
@@ -125,11 +122,11 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
           default: () => {
             return d.parse(undefined);
           },
-          validator: (value: any) => d.safeParse(value).success,
-        },
+          validator: (value: any) => d.safeParse(value).success
+        }
       };
     }, {}),
-    emits: emits.map((v) => kebabCase(v.slice("on".length))),
+    emits: emits.map((v) => kebabCase(v.slice("on".length)))
   };
 
   return defineComponent({
@@ -137,6 +134,6 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
     ...propsAndEmits,
     setup: (props: any, ctx: any) => {
       return finalSetup(props, ctx);
-    },
+    }
   }) as any;
 }

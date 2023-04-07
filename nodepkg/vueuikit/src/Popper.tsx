@@ -88,9 +88,11 @@ export const Popper = component(
         <div ref={contentRef}>{props.content}</div>
       ) : null;
 
+      const child = slots.default?.()[0];
+
       return (
         <>
-          {cloneVNode(slots["default"]?.()[0]!, {
+          {child && cloneVNode(child, {
             onVnodeMounted: (n) => {
               triggerRef.value = resolveElement(n.el);
             }

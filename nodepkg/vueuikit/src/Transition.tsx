@@ -1,7 +1,7 @@
 import {
   type Easing,
   animate,
-  cubicBezier as cubicBezierFunc,
+  cubicBezier as cubicBezierFunc
 } from "popmotion";
 import { Transition } from "vue";
 import { component } from "@innoai-tech/vuekit";
@@ -10,7 +10,7 @@ const cubicBezier = (mX1: number, mY1: number, mX2: number, mY2: number) => {
   return Object.assign(cubicBezierFunc(mX1, mY1, mX2, mY2), {
     toString() {
       return `cubic-bezier(${mX1}, ${mY1}, ${mX2}, ${mY2})`;
-    },
+    }
   });
 };
 
@@ -31,23 +31,23 @@ export const transition = {
     xl1: 700,
     xl2: 800,
     xl3: 900,
-    xl4: 1000,
+    xl4: 1000
   },
   easing: {
     linear: cubicBezier(0, 0, 1, 1),
     standard: Object.assign(cubicBezier(0.2, 0, 0, 1), {
       accelerate: cubicBezier(0.3, 0, 1, 1),
-      decelerate: cubicBezier(0, 0, 0, 1),
+      decelerate: cubicBezier(0, 0, 0, 1)
     }),
     emphasized: Object.assign(cubicBezier(0.2, 0, 0, 1), {
       accelerate: cubicBezier(0.3, 0, 0.8, 0.15),
-      decelerate: cubicBezier(0.05, 0.7, 0.1, 1),
+      decelerate: cubicBezier(0.05, 0.7, 0.1, 1)
     }),
     legacy: Object.assign(cubicBezier(0.4, 0, 0.2, 1), {
       decelerate: cubicBezier(0.0, 0, 0.2, 1),
-      accelerate: cubicBezier(0.4, 0, 1.0, 1),
-    }),
-  },
+      accelerate: cubicBezier(0.4, 0, 1.0, 1)
+    })
+  }
 };
 
 export const defineTransition = <T extends {}>(
@@ -67,11 +67,11 @@ export const defineTransition = <T extends {}>(
   leave = leave ?? {
     ...enter,
     from: {
-      ...enter.to,
+      ...enter.to
     },
     to: {
-      ...enter.from,
-    },
+      ...enter.from
+    }
   };
 
   return component(({}, { slots }) => {
@@ -84,7 +84,7 @@ export const defineTransition = <T extends {}>(
         onComplete: done,
         onUpdate: (style) => {
           Object.assign((e as HTMLElement).style, style);
-        },
+        }
       });
     };
 
@@ -95,7 +95,7 @@ export const defineTransition = <T extends {}>(
         onComplete: done,
         onUpdate: (style) => {
           Object.assign((e as HTMLElement).style, style);
-        },
+        }
       });
     };
 
@@ -112,7 +112,7 @@ export const defineTransition = <T extends {}>(
           onLeave={onLeave}
           onLeaveCancelled={onCancelled}
         >
-          {slots["default"]?.()}
+          {slots.default?.()}
         </Transition>
       );
     };
