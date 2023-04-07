@@ -24,6 +24,8 @@ const isObject = (val: any) => val !== null && typeof val === "object";
 
 const lowerFirst = (v: string) => `${v[0]?.toLowerCase() ?? ""}${v.slice(1)}`;
 
+const wrapSlot = (v: any) => isFunction(v) ? v : () => v;
+
 const createElementWithSlots = (type: any, props: any, children: any) => {
   const slots: any = {};
   const allProps: any = {};
@@ -31,15 +33,15 @@ const createElementWithSlots = (type: any, props: any, children: any) => {
   for (const prop in props) {
     const v = props[prop];
 
-    if (prop.startsWith("render") && isFunction(v)) {
-      slots[lowerFirst(prop.slice("render".length))] = v;
+    if (prop.startsWith("$")) {
+      slots[lowerFirst(prop.slice("$".length))] = wrapSlot(v);
       continue;
     }
 
     allProps[prop] = v;
   }
 
-  slots["default"] = isFunction(children) ? children : () => children;
+  slots["default"] = wrapSlot(children);
 
   return h(type, allProps, slots);
 };

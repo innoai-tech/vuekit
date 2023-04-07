@@ -1,7 +1,7 @@
 import { z } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 
-export const BaseButton = styled("button", {
+export const ButtonBase = styled("button", {
   hover: z.boolean().optional(),
   focus: z.boolean().optional(),
   active: z.boolean().optional(),

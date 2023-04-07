@@ -68,10 +68,10 @@ describe("vue reactive", () => {
       );
     });
 
-    const wrapper = mount(C as any, {
+    const wrapper = mount(C, {
       props: {
-        input: 1,
-      },
+        input: 1
+      }
     });
 
     expect(wrapper.find("[data-role=input]").text()).toContain(1);
@@ -79,7 +79,7 @@ describe("vue reactive", () => {
 
     for (let i = 2; i <= 4; i++) {
       await wrapper.setProps({
-        input: i,
+        input: i
       });
 
       expect(wrapper.find("[data-role=input]").text()).toContain(i);

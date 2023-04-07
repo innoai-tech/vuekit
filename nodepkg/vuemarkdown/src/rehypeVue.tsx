@@ -10,7 +10,7 @@ const tableElements = new Set(["table", "thead", "tbody", "tfoot", "tr"]);
 export function rehypeVue({
   components,
 }: {
-  components: Record<string, Component<any, any>>;
+  components: Record<string, Component<any>>;
 }) {
   // @ts-ignore
   Object.assign(this, { Compiler: compiler });

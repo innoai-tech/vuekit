@@ -1,7 +1,7 @@
 import { styled, variant, alpha, pseudoSelectors } from "@innoai-tech/vueuikit";
-import { BaseButton } from "./BaseButton";
+import { ButtonBase } from "./ButtonBase";
 
-export const FilledButton = styled(BaseButton)({
+export const FilledButton = styled(ButtonBase)({
   containerStyle: "sys.primary",
 
   state: {

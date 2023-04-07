@@ -7,7 +7,7 @@ export const Markdown = component$(
   {
     text: z.string(),
     components: z
-      .record(z.string(), z.custom<Component<any, any>>())
+      .record(z.string(), z.custom<Component<any>>())
       .optional(),
   },
   (props, {}) => {

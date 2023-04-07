@@ -1,7 +1,7 @@
 import { styled, variant, alpha, pseudoSelectors } from "@innoai-tech/vueuikit";
-import { BaseButton } from "./BaseButton";
+import { ButtonBase } from "./ButtonBase";
 
-export const OutlinedButton = styled(BaseButton)({
+export const OutlinedButton = styled(ButtonBase)({
   extends: [
     {
       // ensure the order to define border before all

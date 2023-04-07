@@ -85,7 +85,7 @@ export const Example: OverridableComponent<{
   props: {};
 }> = component(
   {
-    component: z.custom<Component<any, any>>()
+    component: z.custom<Component<any>>()
   },
   (props, {}) => {
     const Component = props.component;

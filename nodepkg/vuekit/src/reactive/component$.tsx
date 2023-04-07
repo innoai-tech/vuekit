@@ -1,10 +1,6 @@
-import { type SetupContext } from "vue";
 import {
   component,
-  type Component,
   type ComponentOptions,
-  type Emits,
-  type RenderFunction,
 } from "../component";
 import { Observable } from "rxjs";
 import { isFunction } from "@innoai-tech/lodash";
@@ -12,43 +8,41 @@ import { type Observables, toObservables } from "./toObservable";
 import { Slot } from "./Slot";
 import { type ZodTypeAny } from "zod";
 import {
-  type EmitsOf,
+  type Component,
+  type InternalEmitsOf,
   type InternalPropsOf,
   type PublicPropsOf,
-} from "../tshelper";
+  type InternalSlotsOf,
+  type RenderFunction,
+  type SetupContext
+} from "../types";
 
-export type ObservableSetupFunction<P extends {}, E extends Emits> = (
-  P: Observables<P>,
-  ctx: SetupContext<E>
+export type ObservableSetupFunction<PropTypes extends Record<string, ZodTypeAny>> = (
+  P: Observables<InternalPropsOf<PropTypes>>,
+  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
 ) => null | RenderFunction | Observable<JSX.Element | null>;
 
 export function component$(
-  setup: ObservableSetupFunction<{}, {}>,
+  setup: ObservableSetupFunction<{}>,
   options?: ComponentOptions
-): Component<{}, {}>;
+): Component<{}>;
 export function component$<PropTypes extends Record<string, ZodTypeAny>>(
   propTypes: PropTypes,
-  setup: ObservableSetupFunction<
-    InternalPropsOf<PropTypes>,
-    EmitsOf<PropTypes>
-  >,
+  setup: ObservableSetupFunction<PropTypes>,
   options?: ComponentOptions
-): Component<PublicPropsOf<PropTypes>, EmitsOf<PropTypes>>;
+): Component<PublicPropsOf<PropTypes>>;
 export function component$<PropTypes extends Record<string, ZodTypeAny>>(
   propTypesOrSetup:
     | PropTypes
-    | ObservableSetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>>,
+    | ObservableSetupFunction<PropTypes>,
   setupOrOptions?:
-    | ObservableSetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>>
+    | ObservableSetupFunction<PropTypes>
     | ComponentOptions,
   options: ComponentOptions = {}
-): Component<PublicPropsOf<PropTypes>, EmitsOf<PropTypes>> {
+): Component<PublicPropsOf<PropTypes>> {
   const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
   const finalSetup = (setupOrOptions ??
-    propTypesOrSetup) as ObservableSetupFunction<
-    InternalPropsOf<PropTypes>,
-    EmitsOf<PropTypes>
-  >;
+    propTypesOrSetup) as ObservableSetupFunction<PropTypes>;
 
   const finalPropTypes = (propTypesOrSetup ?? {}) as PropTypes;
 

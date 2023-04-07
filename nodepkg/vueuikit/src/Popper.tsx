@@ -21,8 +21,8 @@ export const Popper = component(
     content: z.custom<VNode>().optional(),
     placement: z.custom<Placement>().optional(),
     arrow: z.boolean().optional(),
-    transition: z.custom<Component<{}, {}>>().optional(),
-    onClickOutside: z.function().args(z.custom<Event>())
+    transition: z.custom<Component<any>>().optional(),
+    onClickOutside: z.custom<(e: Event) => void>()
   },
   (props, { slots, emit }) => {
     const triggerRef = ref<HTMLElement | null>(null);

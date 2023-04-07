@@ -2,7 +2,9 @@ import {
   component,
   type OverridableComponent,
   type PublicPropsOf,
-  type EmitsOf,
+  type SetupContext,
+  type InternalEmitsOf,
+  type InternalSlotsOf,
   type InternalPropsOf,
   type ZodTypeAny,
   type VElementType,
@@ -13,7 +15,7 @@ import { type SxProps, Box } from "./Box";
 import { ThemeProvider } from "./ThemeProvider";
 import { CacheProvider } from "./CacheProvider";
 import { isString } from "@innoai-tech/lodash";
-import type { SetupContext, VNode } from "vue";
+import type { VNode } from "vue";
 import { cloneVNode } from "vue";
 import { Insertion } from "./Insertion";
 
@@ -35,13 +37,13 @@ const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
 
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, ZodTypeAny>
+  PropTypes extends Record<string, ZodTypeAny> = {}
 >(
   defaultComponent: DefaultComponent,
   propTypes: PropTypes = {} as PropTypes,
   setup: (
     props: InternalPropsOf<PropTypes>,
-    ctx: SetupContext<EmitsOf<PropTypes>>
+    ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
   ) => (Wrap: DefaultComponent) => VNode = defaultSetup
 ) {
   return (

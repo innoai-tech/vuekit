@@ -1,7 +1,7 @@
 import { styled, variant, alpha, pseudoSelectors } from "@innoai-tech/vueuikit";
-import { BaseButton } from "./BaseButton";
+import { ButtonBase } from "./ButtonBase";
 
-export const TonalButton = styled(BaseButton)({
+export const TonalButton = styled(ButtonBase)({
   containerStyle: "sys.secondary-container",
 
   state: {

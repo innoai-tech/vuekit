@@ -1,5 +1,5 @@
-import { component, z, SlotType } from "@innoai-tech/vuekit";
-import { ref } from "vue";
+import { component, z } from "@innoai-tech/vuekit";
+import { ref, type VNode } from "vue";
 
 export const TextInput = component(
   {
@@ -14,7 +14,7 @@ export const TextInput = component(
     type: z.enum(["text", "number"]),
 
     // on[A-Z] 前缀视为 emits
-    onValueChange: z.function().args(z.string())
+    onValueChange: z.custom<(v: string) => void>()
   },
   (props, { emit }) => {
     // setup
@@ -30,26 +30,66 @@ export const TextInput = component(
   }
 );
 
-export const Card = component({
-  // render[A-Z] 前缀视为 slots
-  renderContent: SlotType
-}, ({}, { slots }) => () => {
-  return (
-    <div style={{ display: "flex", gap: "1rem" }}>
-      {slots.default?.()}
-      <div>
-        {slots.content?.()}
-      </div>
-    </div>
-  );
-});
+export interface Option {
+  label: string;
+  value: string;
+}
+
+export const List = component(
+  {
+    // $ 前缀视为 slots
+    $title: z.custom<VNode>(),
+    // renderProp
+    $item: z.custom<(option: Option) => VNode>()
+
+    // 以此避免多插槽时 children slots object 的写法, 且无类型约束，
+    // {{ default: () => VNode, title: () => VNode, item: (option: Option) => VNode }}
+  },
+  ({}, { slots }) =>
+    () => {
+      const options = [
+        {
+          label: "1",
+          value: "1"
+        },
+        {
+          label: "2",
+          value: "2"
+        }
+      ];
+
+      return (
+        <dl>
+          <dt>default</dt>
+          <dd>
+            {slots.default?.()}
+          </dd>
+          <dt>
+            title
+          </dt>
+          <dd>
+            {slots.title?.()}
+          </dd>
+          <dt>
+            item
+          </dt>
+          <dd>
+            {options.map((option) =>
+              slots.item?.(option)
+            )}
+          </dd>
+        </dl>
+      );
+    }
+);
 
 export default component(() => {
   const inputValue = ref("");
 
   return () => (
-    <Card
-      renderContent={() => <div>Inputted: {inputValue.value}</div>}
+    <List
+      $title={<div>Inputted: {inputValue.value}</div>}
+      $item={(o) => <div>{o.label}</div>}
     >
       <TextInput
         type={"text"}
@@ -57,6 +97,6 @@ export default component(() => {
           inputValue.value = value;
         }}
       />
-    </Card>
+    </List>
   );
 });

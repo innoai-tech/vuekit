@@ -7,13 +7,17 @@ import { Box } from "@innoai-tech/vueuikit";
 export default component(() => {
   return () => (
     <Box sx={{ display: "flex", gap: 8 }}>
-      <IconButton>
+      <IconButton active onClick={() => console.log(1)}>
         <Icon path={mdiSend} />
       </IconButton>
-      <FilledButton>
+      <FilledButton
+        active={false}
+      >
         Send
         <Icon path={mdiSend} placement="end" />
       </FilledButton>
     </Box>
   );
 });
+
+

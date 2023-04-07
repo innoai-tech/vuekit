@@ -1,7 +1,7 @@
 import { styled, variant, alpha, pseudoSelectors } from "@innoai-tech/vueuikit";
-import { BaseButton } from "./BaseButton";
+import { ButtonBase } from "./ButtonBase";
 
-export const TextButton = styled(BaseButton)({
+export const TextButton = styled(ButtonBase)({
   extends: [
     {
       px: 16,

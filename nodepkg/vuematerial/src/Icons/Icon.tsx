@@ -4,8 +4,8 @@ import { styled } from "@innoai-tech/vueuikit";
 export const Icon = styled(
   "svg",
   {
-    placement: z.string().optional(),
-    path: z.string(),
+    placement: z.enum(["start", "end"]).optional(),
+    path: z.string()
   },
   (props, {}) =>
     (Wrapper) =>
@@ -19,5 +19,5 @@ export const Icon = styled(
         </Wrapper>
       )
 )({
-  boxSize: "1.2em",
+  boxSize: "1.2em"
 });

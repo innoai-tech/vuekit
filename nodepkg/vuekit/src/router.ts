@@ -1,4 +1,4 @@
-import type { Component } from "./component";
+import type { Component } from "./types";
 
 import {
   RouterView as _RouterView,
@@ -8,10 +8,10 @@ import {
 } from "vue-router";
 
 export type RouterLinkProps = _RouterLinkProps;
-export const RouterLink: Component<RouterLinkProps, {}> = _RouterLink as any;
+export const RouterLink: Component<RouterLinkProps> = _RouterLink as any;
 
 export type RouterViewProps = _RouterViewProps;
-export const RouterView: Component<RouterViewProps, {}> = _RouterView as any;
+export const RouterView: Component<RouterViewProps> = _RouterView as any;
 
 export {
   useLink,

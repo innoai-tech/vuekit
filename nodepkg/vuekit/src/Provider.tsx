@@ -3,15 +3,18 @@ import { isFunction } from "@innoai-tech/lodash";
 import { ext } from "./ext";
 import {
   type ComponentOptions,
-  type Component,
   component,
   z
 } from "./component";
 
+import {
+  type Component,
+} from "./types"
+
 export function createProvider<T extends object>(
   defaults?: T | (() => T),
   options: ComponentOptions = {}
-): Component<{ value?: T }, {}> & { use: () => T } {
+): Component<{ value?: T }> & { use: () => T } {
   const key = Symbol(options.name ?? "");
 
   let _default: any;
@@ -22,8 +25,8 @@ export function createProvider<T extends object>(
     {
       value: z.custom<T>().optional()
     },
-    ({ value }, { slots }) => {
-      provide(key, value ?? getDefaults());
+    (props, { slots }) => {
+      provide(key, props.value ?? getDefaults());
 
       return () => <>{slots.default?.()}</>;
     },

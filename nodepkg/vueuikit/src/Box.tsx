@@ -4,7 +4,7 @@ import {
   type VElementType,
   type OverridableComponent
 } from "@innoai-tech/vuekit";
-import { ref, type SetupContext, watch } from "vue";
+import { ref, watch } from "vue";
 import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
@@ -23,7 +23,7 @@ export const Box: OverridableComponent<{
     sx: z.custom<SystemStyleObject>(),
     component: z.custom<VElementType>().optional().default("div")
   },
-  (props, { slots, attrs }: SetupContext) => {
+  (props, { slots, attrs }) => {
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();
 

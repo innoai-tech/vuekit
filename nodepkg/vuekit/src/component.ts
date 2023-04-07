@@ -1,110 +1,36 @@
 import type {
-  EmitsOf,
-  InternalPropsOf,
-  PublicPropsOf, SlotsOf,
-  ToCamelCase
-} from "./tshelper";
+  PublicPropsOf,
+  Component, SetupFunction
+} from "./types";
 import {
-  defineComponent,
-  type SetupContext,
-  type RenderFunction,
-  type FunctionalComponent,
-  type VNode,
-  type Slot
+  defineComponent
 } from "vue";
 import { isFunction, partition, kebabCase } from "@innoai-tech/lodash";
 import { type ZodTypeAny, z } from "zod";
 
 export { z };
 
-export type VElementType = string | Component<any, any>;
-
-export interface OverridableTypeMap {
-  props: {};
-  defaultComponent: VElementType;
-}
-
-export type BaseProps<M extends OverridableTypeMap> = M["props"];
-
-export type DistributiveOmit<T, K extends keyof any> = T extends any
-  ? Omit<T, K>
-  : never;
-
-export type OverrideProps<
-  M extends OverridableTypeMap,
-  C extends VElementType
-> = BaseProps<M> & DistributiveOmit<ComponentProps<C>, keyof BaseProps<M>>;
-
-export type DefaultComponentProps<M extends OverridableTypeMap> = BaseProps<M> &
-  DistributiveOmit<ComponentProps<M["defaultComponent"]>, keyof BaseProps<M>>;
-
-export interface OverridableComponent<M extends OverridableTypeMap> {
-  <C extends VElementType>(
-    props: {
-      component: C;
-    } & OverrideProps<M, C>
-  ): any;
-
-  (props: DefaultComponentProps<M>): any;
-}
-
-export type ComponentProps<
-  T extends keyof JSX.IntrinsicElements | Component<{}, {}>
-> = T extends Component<infer P extends {}, infer E extends {}>
-  ? P & EventProps<E>
-  : T extends keyof JSX.IntrinsicElements
-    ? JSX.IntrinsicElements[T]
-    : {};
-
-export type Emits = Record<string, (...args: any[]) => any>;
-
-export type EventProps<E extends Emits> = {
-  [K in keyof E as K extends string ? ToCamelCase<`on-${K}`> : never]?: E[K];
-};
-
-export type Component<P extends {}, E extends Emits> = FunctionalComponent<
-  P & EventProps<E>,
-  E
->;
-
-export { type RenderFunction };
-
-export type SetupFunction<P extends {}, E extends Emits, Slots extends Record<string, Slot>> = (
-  P: P,
-  ctx: SetupContext<E> & { slots: { [K in keyof Slots]?: Slots[K] } & { default?: Slot } }
-) => RenderFunction;
-
 export interface ComponentOptions {
   name?: string;
   inheritAttrs?: boolean;
 }
 
-export const SlotType = z.function().args().returns(z.custom<VNode>());
-
 export function component(
-  setup: SetupFunction<{}, {}, {}>,
+  setup: SetupFunction<{}>,
   options?: ComponentOptions
-): Component<{}, {}>;
+): Component<{}>;
 export function component<PropTypes extends Record<string, ZodTypeAny>>(
   propTypes: PropTypes,
-  setup: SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>, SlotsOf<PropTypes>>,
+  setup: SetupFunction<PropTypes>,
   options?: ComponentOptions
-): Component<PublicPropsOf<PropTypes>, EmitsOf<PropTypes>>;
+): Component<PublicPropsOf<PropTypes>>;
 export function component<PropTypes extends Record<string, ZodTypeAny>>(
-  propTypesOrSetup:
-    | PropTypes
-    | SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>, SlotsOf<PropTypes>>,
-  setupOrOptions?:
-    | SetupFunction<InternalPropsOf<PropTypes>, EmitsOf<PropTypes>, SlotsOf<PropTypes>>
-    | ComponentOptions,
+  propTypesOrSetup: PropTypes | SetupFunction<PropTypes>,
+  setupOrOptions?: SetupFunction<PropTypes> | ComponentOptions,
   options: ComponentOptions = {}
-): Component<PublicPropsOf<PropTypes>, EmitsOf<PropTypes>> {
+): Component<PublicPropsOf<PropTypes>> {
   const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
-  const finalSetup = (setupOrOptions ?? propTypesOrSetup) as SetupFunction<
-    any,
-    any,
-    any
-  >;
+  const finalSetup = (setupOrOptions ?? propTypesOrSetup) as SetupFunction<any>;
   const finalPropTypes = (
     isFunction(propTypesOrSetup) ? {} : propTypesOrSetup
   ) as Record<string, ZodTypeAny>;
@@ -113,25 +39,27 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
     /^on[A-Z]/.test(v)
   );
 
-  const propsAndEmits = {
-    props: props.filter((p) => !/^render[A-Z]/.test(p)).reduce((ret, prop) => {
-      const d = finalPropTypes[prop]!;
-      return {
-        ...ret,
-        [prop]: {
-          default: () => {
-            return d.parse(undefined);
-          },
-          validator: (value: any) => d.safeParse(value).success
-        }
-      };
-    }, {}),
-    emits: emits.map((v) => kebabCase(v.slice("on".length)))
+  const emitsAndProps = {
+    emits: emits.map((v) => kebabCase(v.slice("on".length))),
+    props: props
+      .filter((p) => !/^[$]/.test(p))
+      .reduce((ret, prop) => {
+        const d = finalPropTypes[prop]!;
+        return {
+          ...ret,
+          [prop]: {
+            default: () => {
+              return d.parse(undefined);
+            },
+            validator: (value: any) => d.safeParse(value).success
+          }
+        };
+      }, {})
   };
 
   return defineComponent({
     ...finalOptions,
-    ...propsAndEmits,
+    ...emitsAndProps,
     setup: (props: any, ctx: any) => {
       return finalSetup(props, ctx);
     }

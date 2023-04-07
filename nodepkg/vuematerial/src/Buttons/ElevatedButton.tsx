@@ -1,7 +1,7 @@
 import { styled, variant, alpha, pseudoSelectors } from "@innoai-tech/vueuikit";
-import { BaseButton } from "./BaseButton";
+import { ButtonBase } from "./ButtonBase";
 
-export const ElevatedButton = styled(BaseButton)({
+export const ElevatedButton = styled(ButtonBase)({
   state: {
     default: {
       color: "sys.primary",
