@@ -3,7 +3,9 @@ import {
   ZodDefault,
   ZodObject,
   ZodOptional,
-  type ZodTypeAny
+  type ZodTypeAny,
+  type ZodType,
+  type ZodTypeDef
 } from "zod";
 import {
   type FunctionalComponent,
@@ -13,17 +15,16 @@ import {
   type Slot
 } from "vue";
 
-
 export type VElementType = string | Component<any>;
 
-export {
-  type RenderFunction
-};
+export { type RenderFunction };
 
 export type Component<P extends Record<string, any>> = FunctionalComponent<
   P,
   ToInternalEmits<PickEmitProps<P>>
->;
+> & {
+  propTypes?: PropTypesOf<P>;
+};
 
 export type SetupContext<
   E extends ObjectEmitsOptions,
@@ -44,6 +45,10 @@ type EmitFn<
     : (event: Key) => void;
   }[Event]
 >;
+
+export type PropTypesOf<P extends Record<string, any>> = {
+  [K in keyof P]: P[K] extends NonNullable<P[K]> ? ZodType<P[K], ZodTypeDef, P[K]> : ZodOptional<ZodType<P[K], ZodTypeDef, P[K]>>;
+};
 
 export type SetupFunction<PropTypes extends Record<string, ZodTypeAny>> = (
   props: InternalPropsOf<PropTypes>,

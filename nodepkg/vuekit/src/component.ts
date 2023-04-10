@@ -57,11 +57,13 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
       }, {})
   };
 
-  return defineComponent({
+  return Object.assign(defineComponent({
     ...finalOptions,
     ...emitsAndProps,
     setup: (props: any, ctx: any) => {
       return finalSetup(props, ctx);
     }
+  }), {
+    propTypes: finalPropTypes
   }) as any;
 }

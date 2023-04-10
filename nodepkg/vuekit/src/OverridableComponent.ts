@@ -25,20 +25,12 @@ export type ComponentProps<T extends VElementType> = T extends Component<infer P
     ? JSX.IntrinsicElements[T]
     : never;
 
-export const v: Component<{ a: string; b: string, href: string }> =
-  {} as OverridableComponent<{
-    props: { a: string };
-    defaultComponent: OverridableComponent<{
-      props: { b: string };
-      defaultComponent: "a";
-    }>;
-  }>;
 
-export interface OverridableComponent<M extends OverridableTypeMap> {
+export interface OverridableComponent<M extends OverridableTypeMap, P extends Record<string, any> = DefaultComponentProps<M>> extends Component<P> {
   <C extends VElementType>(
     props: { component: C } & OverrideProps<M, C>,
     ctx: any
   ): any;
 
-  (props: DefaultComponentProps<M>, ctx: any): any;
+  (props: P, ctx: any): any;
 }
