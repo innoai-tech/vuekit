@@ -1,4 +1,5 @@
 import { GlobalStyle, CSSReset, Box } from "@innoai-tech/vueuikit";
+import { Tooltip } from "@innoai-tech/vuematerial";
 import {
   component,
   RouterView,
@@ -118,9 +119,7 @@ export const Scaffold = component((_, { slots }) => {
           <Nav />
         </Box>
 
-        <Box
-          sx={{ p: 16, display: "flex", justifyContent: "flex-end" }}
-        >
+        <Box sx={{ p: 16, display: "flex", justifyContent: "flex-end" }}>
           <IconButton
             component={"a"}
             target={"_blank"}
@@ -128,13 +127,21 @@ export const Scaffold = component((_, { slots }) => {
           >
             <Icon path={mdiGithub} />
           </IconButton>
-          <IconButton
-            onClick={() => {
-              themeMode.value = themeMode.value == "light" ? "dark" : "light";
-            }}
-          >
-            <Icon path={themeMode.value == "light" ? mdiWeatherNight : mdiWhiteBalanceSunny} />
-          </IconButton>
+          <Tooltip title={`切换到${themeMode.value == "light" ? "深色模式" : "浅色模式"}`}>
+            <IconButton
+              onClick={() => {
+                themeMode.value = themeMode.value == "light" ? "dark" : "light";
+              }}
+            >
+              <Icon
+                path={
+                  themeMode.value == "light"
+                    ? mdiWeatherNight
+                    : mdiWhiteBalanceSunny
+                }
+              />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Box>
       <Box sx={{ flex: 1, overflow: "auto" }}>{slots}</Box>

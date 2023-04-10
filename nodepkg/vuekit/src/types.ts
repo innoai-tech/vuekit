@@ -19,6 +19,8 @@ export type VElementType = string | Component<any>;
 
 export { type RenderFunction };
 
+export type Emits = Record<string, (...args: any[]) => any>;
+
 export type Component<P extends Record<string, any>> = FunctionalComponent<
   P,
   ToInternalEmits<PickEmitProps<P>>
@@ -27,7 +29,7 @@ export type Component<P extends Record<string, any>> = FunctionalComponent<
 };
 
 export type SetupContext<
-  E extends ObjectEmitsOptions,
+  E extends Emits,
   S extends Record<string, Slot>
 > = {
   attrs: Record<string, unknown>;
@@ -36,18 +38,42 @@ export type SetupContext<
 };
 
 type EmitFn<
-  Emits extends ObjectEmitsOptions,
-  Event extends keyof Emits = keyof Emits
+  E extends Emits,
+  Event extends keyof E = keyof E
 > = UnionToIntersection<
   {
-    [Key in Event]: Emits[Key] extends (...args: infer Args) => any
+    [Key in Event]: E[Key] extends (...args: infer Args) => any
     ? (event: Key, ...args: Args) => void
     : (event: Key) => void;
   }[Event]
 >;
 
-export type PropTypesOf<P extends Record<string, any>> = {
-  [K in keyof P]: P[K] extends NonNullable<P[K]> ? ZodType<P[K], ZodTypeDef, P[K]> : ZodOptional<ZodType<P[K], ZodTypeDef, P[K]>>;
+type PickRequired<T extends Record<string, any>> = {
+  [K in keyof T as K extends string
+    ? T[K] extends NonNullable<T[K]>
+      ? K
+      : never
+    : never]: T[K];
+};
+
+export type PropTypesOf<
+  Props extends Record<string, any>,
+  RequiredProps = Pick<Props, keyof PickRequired<Props>>,
+  OptionalProps = Omit<Props, keyof RequiredProps>
+> = {
+  [K in keyof RequiredProps]: ZodType<
+    RequiredProps[K],
+    ZodTypeDef,
+    RequiredProps[K]
+  >;
+} & {
+  [K in keyof OptionalProps]-?: ZodOptional<
+    ZodType<
+      NonNullable<OptionalProps[K]>,
+      ZodTypeDef,
+      NonNullable<OptionalProps[K]>
+    >
+  >;
 };
 
 export type SetupFunction<PropTypes extends Record<string, ZodTypeAny>> = (
@@ -95,21 +121,21 @@ export type PickProps<O extends Record<string, any>> = {
   [K in keyof O as K extends string ? NormalProp<K> : never]: O[K];
 };
 
-export type PickEmitProps<O extends Record<string, any>> = {
+export type PickEmitProps<O extends Record<string, any>> = Required<{
   [K in keyof O as K extends string
-    ? O[K] extends (...args: any[]) => any
+    ? NonNullable<O[K]> extends (...args: any[]) => any
       ? EmitProp<K>
       : never
-    : never]: O[K];
-};
+    : never]: NonNullable<O[K]>;
+}>;
 
 type ToInternalEmits<O extends ObjectEmitsOptions> = {
   [K in keyof O as K extends string ? EmitName<K> : never]: O[K];
 };
 
-export type PickSlotProps<O extends Record<string, any>> = {
-  [K in keyof O as K extends string ? SlotProp<K> : never]: O[K];
-};
+export type PickSlotProps<O extends Record<string, any>> = Required<{
+  [K in keyof O as K extends string ? SlotProp<K> : never]: NonNullable<O[K]>;
+}>;
 
 export type ToInternalSlots<O extends Record<string, any>> = {
   [K in keyof O as K extends string ? SlotName<K> : never]: O[K] extends (

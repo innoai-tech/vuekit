@@ -1,25 +1,25 @@
 {
   "name": "@innoai-tech/vueuikit",
-  "version": "0.2.1",
+  "version": "0.2.3",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
+    "@innoai-tech/lodash": "0.2.0",
+    "@innoai-tech/vuekit": "workspace:*"
+  },
+  "peerDependencies": {
     "@emotion/cache": "^11.10.7",
     "@emotion/serialize": "^1.1.1",
     "@emotion/utils": "^1.2.0",
-    "@innoai-tech/lodash": "0.2.0",
-    "@innoai-tech/vuekit": "workspace:*",
+    "vue": "3.x",
     "@material/material-color-utilities": "^0.2.4",
     "@popperjs/core": "^2.11.7",
     "csstype": "^3.1.2",
     "polished": "^4.2.2",
     "popmotion": "^11.0.5"
-  },
-  "peerDependencies": {
-    "vue": "3.x"
   },
   "exports": {
     ".": {

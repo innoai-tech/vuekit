@@ -17,7 +17,7 @@
         "nodepkg/*/src/index.ts",
         "*"
       ]
-    },
+    }
   },
   "exclude": [
     "nodepkg/*/*.d.ts"

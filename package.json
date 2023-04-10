@@ -4,7 +4,8 @@
   "type": "module",
   "private": true,
   "engines": {
-    "node": ">=16"
+    "node": ">=16",
+    "pnpm": ">=8"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -16,11 +17,12 @@
   },
   "dependencies": {
     "@innoai-tech/vuekit": "workspace:*",
+    "@innoai-tech/vuematerial": "workspace:*",
     "@innoai-tech/vueuikit": "workspace:*"
   },
   "devDependencies": {
     "@innoai-tech/lodash": "^0.2.0",
-    "@innoai-tech/monobundle": "^0.8.4",
+    "@innoai-tech/monobundle": "^0.8.7",
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@vue/test-utils": "^2.3.2",
@@ -30,9 +32,9 @@
     "prismjs": "^1.29.0",
     "tsx": "^3.12.6",
     "turbo": "^1.8.8",
-    "typescript": "^5.0.3",
+    "typescript": "^5.0.4",
     "vite": "^4.2.1",
-    "vitest": "^0.29.8",
+    "vitest": "^0.30.0",
     "vue": "^3.2.47"
   },
   "prettier": {}

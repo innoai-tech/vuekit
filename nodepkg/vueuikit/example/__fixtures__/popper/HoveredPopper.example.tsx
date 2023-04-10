@@ -8,7 +8,7 @@ export default component(() => {
   return () => (
     <Popper
       isOpen={isOpen.value}
-      content={
+      $content={
         <Box sx={{ containerStyle: "sys.on-surface" }}>Popper Content!</Box>
       }
     >

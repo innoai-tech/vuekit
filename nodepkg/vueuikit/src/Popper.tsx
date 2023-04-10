@@ -4,25 +4,29 @@ import {
   arrow as arrowModify,
   flip
 } from "@popperjs/core";
-import { z, component, type Component } from "@innoai-tech/vuekit";
+import {
+  z,
+  component
+} from "@innoai-tech/vuekit";
 import {
   cloneVNode,
-  onBeforeUnmount,
   ref,
-  Teleport,
-  unref,
-  type VNode,
-  watch
+  watch,
+  type VNode
 } from "vue";
+import { Overlay } from "./Overlay";
+
 
 export const Popper = component(
   {
-    isOpen: z.boolean().optional(),
-    content: z.custom<VNode>().optional(),
+    isOpen: (Overlay.propTypes!).isOpen,
+    transition: Overlay.propTypes!.transition,
+    onClickOutside: Overlay.propTypes!.onClickOutside,
+
     placement: z.custom<Placement>().optional(),
     arrow: z.boolean().optional(),
-    transition: z.custom<Component<any>>().optional(),
-    onClickOutside: z.custom<(e: Event) => void>()
+
+    $content: z.custom<VNode>()
   },
   (props, { slots, emit }) => {
     const triggerRef = ref<HTMLElement | null>(null);
@@ -40,73 +44,35 @@ export const Popper = component(
       }
     );
 
-    if (window) {
-      const event = "pointerdown";
-
-      const handleClickOutside = (event: Event) => {
-        const triggerEl = unref(triggerRef);
-        if (!triggerEl) {
-          return;
-        }
-
-        const contentEl = unref(contentRef);
-        if (!contentEl) {
-          return;
-        }
-
-        if (
-          triggerEl === event.target ||
-          contentEl === event.target ||
-          event.composedPath().includes(triggerEl) ||
-          event.composedPath().includes(contentEl)
-        ) {
-          return;
-        }
-
-        emit("click-outside", event);
-      };
-
-      watch(
-        () => contentRef.value,
-        (contentEl) => {
-          if (contentEl) {
-            window.addEventListener(event, handleClickOutside);
-          } else {
-            window.removeEventListener(event, handleClickOutside);
-          }
-        }
-      );
-
-      onBeforeUnmount(() => {
-        window.removeEventListener(event, handleClickOutside);
-      });
-    }
-
     return () => {
-      const MayTransition = props.transition;
-      const content = props.isOpen ? (
-        <div ref={contentRef}>{props.content}</div>
-      ) : null;
-
-      const child = slots.default?.()[0];
+      const trigger = slots.default?.()[0];
 
       return (
         <>
-          {child && cloneVNode(child, {
-            onVnodeMounted: (n) => {
-              triggerRef.value = resolveElement(n.el);
-            }
-          })}
-          <Teleport to="body">
-            {MayTransition ? <MayTransition>{content}</MayTransition> : content}
-          </Teleport>
+          {trigger &&
+            cloneVNode(trigger, {
+              onVnodeMounted: (n) => {
+                triggerRef.value = resolveElement(n.el);
+              }
+            })}
+          {cloneVNode(
+            <Overlay
+              contentRef={contentRef}
+              isOpen={props.isOpen}
+              transition={props.transition}
+              onClickOutside={(event) => emit("click-outside", event)}
+              style={{ zIndex: 100 }}
+            >
+              {slots.content?.()}
+            </Overlay>
+          )}
         </>
       );
     };
   }
 );
 
-function resolveElement(el: VNode["el"]): (HTMLElement | null) {
+function resolveElement(el: VNode["el"]): HTMLElement | null {
   if (el) {
     if (el instanceof HTMLElement) {
       return el;
@@ -119,3 +85,4 @@ function resolveElement(el: VNode["el"]): (HTMLElement | null) {
   }
   return null;
 }
+

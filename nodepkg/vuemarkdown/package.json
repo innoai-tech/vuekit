@@ -19,8 +19,8 @@
     "unified": "^10.1.2"
   },
   "peerDependencies": {
-    "rxjs": "^7.x",
-    "vue": "3.x"
+    "rxjs": "7.8.x",
+    "vue": "3.2.x"
   },
   "exports": {
     ".": {
@@ -35,6 +35,10 @@
     "*.d.ts"
   ],
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",

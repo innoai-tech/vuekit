@@ -2,7 +2,7 @@ NPX = pnpm exec
 TURBO = $(NPX) turbo
 VITE = $(NPX) vite
 
-dev: build.pkg
+dev:
 	$(VITE)
 
 build: build.pkg
@@ -15,6 +15,9 @@ preview:
 build.pkg:
 	$(TURBO) run build
 
+build.pkg.force:
+	$(TURBO) run build --force
+
 lint:
 	$(TURBO) run lint --force --no-cache
 
@@ -25,10 +28,13 @@ bootstrap:
 	$(NPX) monobundle
 
 dep:
-	pnpm i -d
+	pnpm install
 
 update:
 	pnpm up -r --latest
+
+clean:
+	find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
 
 pub:
 	pnpm -r publish --no-git-checks

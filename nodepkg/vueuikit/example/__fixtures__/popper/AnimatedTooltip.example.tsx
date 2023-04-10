@@ -38,7 +38,7 @@ export default component(() => {
     <Popper
       isOpen={isOpen.value}
       transition={FadeInOutTransition}
-      content={
+      $content={
         <Box sx={{ pt: "4px" }}>
           <Box
             sx={{
