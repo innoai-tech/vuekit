@@ -1,4 +1,4 @@
-import{c as t,j as n}from"./lib-nodepkg-vuekit.f219bf4b.chunk.js";import{C as o,S as e}from"./lib-webapp-vuekit.e5497c46.chunk.js";const s=`设计理念沿用 [Material 3](https://m3.material.io/)
+import{c as t,j as n}from"./lib-nodepkg-vuekit.757e915c.chunk.js";import{S as o,C as e}from"./lib-webapp-vuekit.d2d7c1a8.chunk.js";const s=`设计理念沿用 [Material 3](https://m3.material.io/)
 
 这里仅为适配该设计理念，抽象 Design System, 方便开发：
 
@@ -83,4 +83,4 @@ import { Box } from "@innoai-tech/vueuikit";
     </Box>
   </Box>
 );
-\`\`\``,i=t(()=>()=>n(o,{children:n(e,{content:s})}));export{i as default};
+\`\`\``,i=t(()=>()=>n(e,{children:n(o,{content:s})}));export{i as default};
