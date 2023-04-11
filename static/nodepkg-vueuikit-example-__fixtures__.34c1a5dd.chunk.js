@@ -1,4 +1,4 @@
-import{p as t,j as n}from"./lib-nodepkg-vuekit.0d376dfb.chunk.js";import{C as o,S as e}from"./lib-webapp-vuekit.182d8d2e.chunk.js";const s=`设计理念沿用 [Material 3](https://m3.material.io/)
+import{c as t,j as n}from"./lib-nodepkg-vuekit.f219bf4b.chunk.js";import{C as o,S as e}from"./lib-webapp-vuekit.e5497c46.chunk.js";const s=`设计理念沿用 [Material 3](https://m3.material.io/)
 
 这里仅为适配该设计理念，抽象 Design System, 方便开发：
 
