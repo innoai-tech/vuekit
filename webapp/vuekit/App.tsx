@@ -23,7 +23,7 @@ import {
 export const Nav = component(() => {
   const r = useRouter();
 
-  const groups = groupBy(r.options.routes, (route) => route.path.split("/")[1]);
+  const groups = groupBy(r.options.routes.filter((p) => p.path != "/"), (route) => route.path.split("/")[1]);
 
   return () => {
     return (

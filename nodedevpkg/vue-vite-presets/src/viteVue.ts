@@ -1,10 +1,10 @@
 import vue from "@vitejs/plugin-vue";
 import vitePages, {
-  vueResolver,
   type PageResolver,
-  type PageOptions,
+  type PageOptions
 } from "vite-plugin-pages";
 import { vueJsxHmr } from "./vueJsxHmr";
+import { customVueResolver } from "./vueresolver";
 
 export interface ViteReactOptions {
   pagesDirs?: string | (string | PageOptions)[];
@@ -19,9 +19,9 @@ export const viteVue = (options: ViteReactOptions = {}) => {
       extensions: ["vue", "tsx"],
       dirs: options.pagesDirs ?? "./page", // base from UserConfig.root
       resolver: {
-        ...vueResolver(),
-        ...options.pagesResolver,
-      },
-    }),
+        ...customVueResolver(),
+        ...options.pagesResolver
+      }
+    })
   ];
 };

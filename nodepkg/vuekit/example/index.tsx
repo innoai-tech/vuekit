@@ -4,6 +4,10 @@ import { Container, Example, Section } from "@webapp/vuekit/layout";
 import ComponentSimple from "./__fixtures__/usage/ComponentSimple.example";
 import ComponentWithProps from "./__fixtures__/usage/ComponentWithProps.example";
 
+/**
+ * @property {"Vuekit"} meta.name
+ * @property {import("@innoai-tech/vuematerial").mdiPlus} meta.icon
+ */
 export default component(() => {
   return () => (
     <Container>

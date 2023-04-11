@@ -13,7 +13,8 @@ export default defineConfig({
       pagesDirs: [
         { baseRoute: "vuekit", dir: "../../nodepkg/vuekit/example" },
         { baseRoute: "vueuikit", dir: "../../nodepkg/vueuikit/example" },
-        { baseRoute: "vuematerial", dir: "../../nodepkg/vuematerial/example" }
+        { baseRoute: "vuematerial", dir: "../../nodepkg/vuematerial/example" },
+        { baseRoute: "", dir: "page" }
       ]
     }),
     viteChunkSplit({
