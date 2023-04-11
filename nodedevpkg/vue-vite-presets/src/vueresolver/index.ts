@@ -25,7 +25,7 @@ export const extractRouteMeta = (jsdoc: string): RouteMetadata | undefined => {
     console.log();
 
     // Support import("@innoai-tech/vuematerial").mdiPlus
-    const importType = type.match(/import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/);
+    const importType = type.match(/(typeof +)?import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/);
 
     r = r ?? {
       __imports: {} as Record<string, boolean>,

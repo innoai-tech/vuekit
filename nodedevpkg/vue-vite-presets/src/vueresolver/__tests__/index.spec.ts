@@ -3,14 +3,14 @@ import { extractRouteMeta } from "../index";
 
 /**
  * @property {"名称"} meta.name
- * @property {import("@innoai-tech/vuematerial").mdiPlus} meta.icon
+ * @property {typeof import("@innoai-tech/vuematerial").mdiPlus} meta.icon
  */
 describe("extractRouteMeta", () => {
   test("should extract route meta", () => {
     const meta = extractRouteMeta(`
 /**
  * @property {"名称"} meta.name
- * @property {import("@innoai-tech/vuematerial").mdiPlus} meta.icon
+ * @property {typeof import("@innoai-tech/vuematerial").mdiPlus} meta.icon
  */
 `);
 
