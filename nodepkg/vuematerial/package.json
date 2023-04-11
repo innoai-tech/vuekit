@@ -7,8 +7,8 @@
     }
   },
   "dependencies": {
-    "@innoai-tech/vuekit": "workspace:*",
-    "@innoai-tech/vueuikit": "workspace:*"
+    "@innoai-tech/vuekit": "workspace:^",
+    "@innoai-tech/vueuikit": "workspace:^"
   },
   "peerDependencies": {
     "vue": "3.2.x",

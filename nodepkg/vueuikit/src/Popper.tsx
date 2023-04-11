@@ -4,22 +4,13 @@ import {
   arrow as arrowModify,
   flip
 } from "@popperjs/core";
-import {
-  z,
-  component
-} from "@innoai-tech/vuekit";
-import {
-  cloneVNode,
-  ref,
-  watch,
-  type VNode
-} from "vue";
+import { z, component } from "@innoai-tech/vuekit";
+import { cloneVNode, ref, watch, type VNode } from "vue";
 import { Overlay } from "./Overlay";
-
 
 export const Popper = component(
   {
-    isOpen: (Overlay.propTypes!).isOpen,
+    isOpen: Overlay.propTypes!.isOpen,
     transition: Overlay.propTypes!.transition,
     onClickOutside: Overlay.propTypes!.onClickOutside,
 
@@ -55,20 +46,21 @@ export const Popper = component(
                 triggerRef.value = resolveElement(n.el);
               }
             })}
-          {cloneVNode(
-            <Overlay
-              contentRef={contentRef}
-              isOpen={props.isOpen}
-              transition={props.transition}
-              onClickOutside={(event) => emit("click-outside", event)}
-              style={{ zIndex: 100 }}
-            >
-              {slots.content?.()}
-            </Overlay>
-          )}
+          <Overlay
+            contentRef={contentRef}
+            isOpen={props.isOpen}
+            transition={props.transition}
+            onClickOutside={(event) => emit("click-outside", event)}
+            style={{ zIndex: 100 }}
+          >
+            {slots.content?.()}
+          </Overlay>
         </>
       );
     };
+  },
+  {
+    name: "Popper"
   }
 );
 
@@ -85,4 +77,3 @@ function resolveElement(el: VNode["el"]): HTMLElement | null {
   }
   return null;
 }
-

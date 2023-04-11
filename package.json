@@ -16,15 +16,15 @@
     "url": "ssh://git@github.com:innoai-tech/vuekit.git"
   },
   "dependencies": {
-    "@innoai-tech/vuekit": "workspace:*",
-    "@innoai-tech/vuematerial": "workspace:*",
-    "@innoai-tech/vueuikit": "workspace:*"
+    "@innoai-tech/vuekit": "workspace:^",
+    "@innoai-tech/vuematerial": "workspace:^",
+    "@innoai-tech/vueuikit": "workspace:^"
   },
   "devDependencies": {
     "@innoai-tech/lodash": "^0.2.0",
     "@innoai-tech/monobundle": "^0.8.7",
-    "@innoai-tech/vue-vite-presets": "workspace:*",
-    "@innoai-tech/vuedevconfig": "workspace:*",
+    "@innoai-tech/vue-vite-presets": "workspace:^",
+    "@innoai-tech/vuedevconfig": "workspace:^",
     "@vue/test-utils": "^2.3.2",
     "jsdom": "^21.1.1",
     "normalize.css": "^8.0.1",

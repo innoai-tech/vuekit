@@ -20,6 +20,7 @@ export type VElementType = string | Component<any>;
 export { type RenderFunction };
 
 export type Emits = Record<string, (...args: any[]) => any>;
+export type Slots = Record<string, Slot>;
 
 export type Component<P extends Record<string, any>> = FunctionalComponent<
   P,
@@ -30,7 +31,7 @@ export type Component<P extends Record<string, any>> = FunctionalComponent<
 
 export type SetupContext<
   E extends Emits,
-  S extends Record<string, Slot>
+  S extends Slots
 > = {
   attrs: Record<string, unknown>;
   slots: { [K in keyof S]?: S[K] } & { default?: Slot };

@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueuikit",
-  "version": "0.2.3",
+  "version": "0.2.5",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@innoai-tech/lodash": "0.2.0",
-    "@innoai-tech/vuekit": "workspace:*"
+    "@innoai-tech/vuekit": "workspace:^"
   },
   "peerDependencies": {
     "@emotion/cache": "^11.10.7",

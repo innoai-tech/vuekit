@@ -66,28 +66,35 @@ export const jsxs = (
 
 export const jsx = (
   type: any,
-  {
-    children,
-    ...otherProps
-  }: {
+  rawProps: {
     children: any;
     [k: string]: any;
   },
   key: string | undefined
 ) => {
+  // slots.default?.() returns []
+  if (Array.isArray(rawProps.children)) {
+    return jsxs(type, rawProps, key);
+  }
+
+  const { children: child, ...otherProps } = rawProps;
+
   const props = key ? { ...otherProps, key } : otherProps;
 
-  if (children) {
+  if (child) {
     if (isTagOrInternal(type)) {
-      return h(type, props, isVNode(children) ? [children] : children);
+      return h(type, props, isVNode(child) ? [child] : child);
     }
+
     // component
-    if (isVNode(children) || !isObject(children)) {
+    if (isVNode(child) || !isObject(child)) {
       // nodes
-      return createElementWithSlots(type, props, children);
+      return createElementWithSlots(type, props, child);
     }
+
     // object slots
-    return h(type, props, children);
+    return h(type, props, child);
   }
+
   return h(type, props);
 };

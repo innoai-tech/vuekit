@@ -114,6 +114,7 @@ export const Overlay = component(
     };
   },
   {
-    inheritAttrs: false
+    inheritAttrs: false,
+    name: "Overlay"
   }
 );

@@ -1,5 +1,5 @@
 import { Fragment } from "vue";
-import { jsx, jsxs } from "./jsx-runtime";
+import { jsx } from "./jsx-runtime";
 
 export { Fragment };
 
@@ -11,8 +11,5 @@ export function jsxDEV(
   _source: object,
   _self: object
 ) {
-  if (Array.isArray(props.children)) {
-    return jsxs(type, props, key);
-  }
   return jsx(type, props, key);
 }

@@ -124,5 +124,7 @@ export const defineTransition = <T extends {}>(
         </Transition>
       );
     };
+  }, {
+    name: "Transition"
   });
 };
