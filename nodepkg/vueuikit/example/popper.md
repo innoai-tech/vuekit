@@ -1,3 +1,68 @@
+## Normal Popper
+
+```tsx live
+import { component } from "@innoai-tech/vuekit";
+import { Box, Popper } from "@innoai-tech/vueuikit";
+import { ref } from "vue";
+
+export default component(() => {
+  const isOpen = ref(false);
+
+  return () => (
+    <Popper
+      isOpen={isOpen.value}
+      onClickOutside={() => (isOpen.value = false)}
+      $content={
+        <Box sx={{ containerStyle: "sys.on-surface" }}>
+          Popper {`${isOpen.value}`}!
+        </Box>
+      }
+    >
+      <Box
+        sx={{ p: 4 }}
+        component={"button"}
+        onClick={() => (isOpen.value = !isOpen.value)}
+      >
+        Click Trigger Popper
+      </Box>
+    </Popper>
+  );
+});
+```
+
+## Hovered Popper
+
+```tsx live
+import { ref } from "vue";
+import { component } from "@innoai-tech/vuekit";
+import { Box, Popper } from "@innoai-tech/vueuikit";
+
+export default component(() => {
+  const isOpen = ref(false);
+
+  return () => (
+    <Popper
+      isOpen={isOpen.value}
+      $content={
+        <Box sx={{ containerStyle: "sys.on-surface" }}>Popper Content!</Box>
+      }
+    >
+      <Box
+        component={"button"}
+        sx={{ p: 4 }}
+        onMouseover={() => (isOpen.value = true)}
+        onMouseout={() => (isOpen.value = false)}
+      >
+        Popper Trigger
+      </Box>
+    </Popper>
+  );
+});
+```
+
+## Animated
+
+```tsx live
 import { ref } from "vue";
 import { component } from "@innoai-tech/vuekit";
 import {
@@ -79,3 +144,4 @@ export default component(() => {
     </Popper>
   );
 });
+```

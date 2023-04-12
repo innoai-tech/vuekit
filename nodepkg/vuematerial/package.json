@@ -11,11 +11,11 @@
     "@innoai-tech/vueuikit": "workspace:^"
   },
   "peerDependencies": {
-    "vue": "3.2.x",
-    "@mdi/js": "7.2.x"
+    "@mdi/js": "7.2.x",
+    "vue": "3.2.x"
   },
   "devDependencies": {
-    "@popperjs/core": "^2.*"
+    "@popperjs/core": "^2.11.7"
   },
   "exports": {
     ".": {

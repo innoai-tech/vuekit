@@ -5,18 +5,23 @@ import vitePages, {
 } from "vite-plugin-pages";
 import { vueJsxHmr } from "./vueJsxHmr";
 import { customVueResolver } from "./vueresolver";
+import { mdx } from "./mdx";
+import type { PluginOption } from "vite";
 
 export interface ViteReactOptions {
   pagesDirs?: string | (string | PageOptions)[];
   pagesResolver?: Partial<PageResolver>;
 }
 
-export const viteVue = (options: ViteReactOptions = {}) => {
+export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
   return [
-    vue(),
+    vue({
+      include: [/\.vue$/]
+    }),
+    mdx(),
     vueJsxHmr(),
     vitePages({
-      extensions: ["vue", "tsx"],
+      extensions: ["tsx", "mdx", "md", "vue"],
       dirs: options.pagesDirs ?? "./page", // base from UserConfig.root
       resolver: {
         ...customVueResolver(),

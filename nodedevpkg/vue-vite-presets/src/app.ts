@@ -2,7 +2,7 @@ import { resolve } from "path";
 import {
   type UserConfig,
   type PluginOption,
-  searchForWorkspaceRoot,
+  searchForWorkspaceRoot
 } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -29,10 +29,10 @@ export const app = (
 
         c.base = appConfig.enableBaseHref
           ? `/${
-              appConfig.buildWithPlaceHolder && command === "build"
-                ? "__APP_BASE_HREF__"
-                : appName
-            }/`
+            appConfig.buildWithPlaceHolder && command === "build"
+              ? "__APP_BASE_HREF__"
+              : appName
+          }/`
           : "/";
         c.publicDir = appConfig.enableBaseHref ? c.base : false;
 
@@ -51,7 +51,7 @@ export const app = (
         c.build.rollupOptions.output = {
           assetFileNames: `${c.build.assetsDir}/[name].[hash][extname]`,
           entryFileNames: `${c.build.assetsDir}/[name].[hash].entry.js`,
-          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`,
+          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`
         };
 
         c.resolve = c.resolve ?? {};
@@ -65,13 +65,13 @@ export const app = (
             {
               tag: "base",
               attrs: {
-                href: userConfig.base ?? "/",
-              },
-            },
-          ],
+                href: userConfig.base ?? "/"
+              }
+            }
+          ]
         };
-      },
+      }
     },
-    tsconfigPaths({}),
+    tsconfigPaths({})
   ];
 };

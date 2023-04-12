@@ -9,12 +9,20 @@
 
 TypeScript 的帮助下，还会提供准确的 Design Token 值. 如：
 
-```tsx
-import { alpha, styled, variant } from "@innoai-tech/vueuikit";
+```tsx live
+import { Box, alpha, styled, variant } from "@innoai-tech/vueuikit";
+import { z } from "@innoai-tech/vuekit";
 
 export const Button = styled("button", {
-  disabled: z.boolean().optional()
+  disabled: z.boolean().optional(),
 })({
+  bg: "none",
+  outline: "none",
+  border: "none",
+  px: 16,
+  h: 40,
+  rounded: "md",
+
   // 利用 TypeScript 的推导而来，且非 color 属性无该值
   // 实际将转换为 var(--vk-color-sys-primary)
   // sys-* 的 color 还会随暗黑/普通主题进行切换
@@ -27,10 +35,20 @@ export const Button = styled("button", {
   // 通常情况下，组件 props 将转换成 data-<prop> 作为 attr
   // 即： <Button disabled/>  =>  <button data-disabled=true />
   // 同理，在自定义转换规则中，也建议如下做类似的转换，避免动态创建 CSSObject
-  ["&[data-disabled=true]"]: {
-    bgColor: variant("sys.on-surface", alpha(0.08))
-  }
+  "&[data-disabled='true']": {
+    color: variant("sys.on-surface", alpha(0.12)),
+    bgColor: variant("sys.on-surface", alpha(0.08)),
+  },
 });
+
+export default () => {
+  return (
+    <Box sx={{ display: "flex", gap: 8 }}>
+      <Button>按钮</Button>
+      <Button disabled={true}>按钮</Button>
+    </Box>
+  );
+};
 ```
 
 不同于其他框架中的 theme 定义，为了更准确的类型推导，需要由 DesignToken 进行创建
@@ -41,29 +59,26 @@ export const Button = styled("button", {
 
 ```tsx
 import { z } from "@innoai-tech/vuekit";
-import { alpha, styled, variant, SystemStyleObject } from "@innoai-tech/vueuikit";
-import { BaseButton } from "./BaseButton";
+import { styled, SystemStyleObject } from "@innoai-tech/vueuikit";
 
 const shared: SystemStyleObject = {
-  color: "sys.primary"
+  color: "sys.primary",
   // ...
 };
 
 // 直接通过 extends 复用样式
-// 
+//
 // 组件 props 定义需要重新声明
 export const ButtonBase = styled("button", {
-  disabled: z.boolean().optional()
+  disabled: z.boolean().optional(),
 })({
-  extends: [
-    shared
-  ]
+  extends: [shared],
   // ...
 });
 
 // 通过 styled 覆写样式
 // 可以完全继承 BaseButton 的 props 定义
-export const Button = styled(BaseButton)({
+export const Button = styled(ButtonBase)({
   // ...
 });
 ```
@@ -73,14 +88,15 @@ export const Button = styled(BaseButton)({
 
 同样的，通过 styled 创建的组件也有一样的特性。
 
-```tsx
+```tsx live
+import { component } from "@innoai-tech/vuekit";
 import { Box } from "@innoai-tech/vueuikit";
 
-(
-  <Box sx={{ display: "flex" }}>
-    <Box sx={{ display: "block" }} component={"a"}>
-
+export default component(() => () => (
+  <Box sx={{ display: "flex", padding: 10, containerStyle: "sys.primary" }}>
+    <Box sx={{ containerStyle: "sys.surface-container" }} component={"button"}>
+      Hi 123
     </Box>
   </Box>
-);
+));
 ```

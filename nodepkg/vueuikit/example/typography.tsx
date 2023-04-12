@@ -1,12 +1,11 @@
 import { component } from "@innoai-tech/vuekit";
 import { Box, ThemeProvider } from "@innoai-tech/vueuikit";
-import { Container } from "@webapp/vuekit/layout";
 
 export default component(() => {
   const theme = ThemeProvider.use();
 
   return () => (
-    <Container>
+    <>
       <Box
         sx={{
           height: "40vh",
@@ -14,7 +13,7 @@ export default component(() => {
           flexDirection: "column",
           flexWrap: "wrap",
           justifyContent: "space-between",
-          gap: 8,
+          gap: 8
         }}
       >
         {theme.token.textStyle.tokens.map((textStyle) => (
@@ -34,12 +33,12 @@ export default component(() => {
 
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between",
+              justifyContent: "space-between"
             }}
           >
             <Box
               sx={{
-                textStyle: "sys.label-small",
+                textStyle: "sys.label-small"
               }}
             >
               {textStyle}
@@ -49,6 +48,6 @@ export default component(() => {
           </Box>
         ))}
       </Box>
-    </Container>
+    </>
   );
 });

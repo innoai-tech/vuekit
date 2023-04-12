@@ -6,7 +6,7 @@ import { createRouter, createWebHistory } from "@innoai-tech/vuekit";
 // @ts-ignore
 import routes from "~pages";
 
-console.log(routes)
+console.log(routes);
 
 const base = new URL(document.querySelector("base")?.href ?? "/");
 

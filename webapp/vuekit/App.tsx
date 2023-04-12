@@ -19,6 +19,7 @@ import {
   mdiWhiteBalanceSunny,
   mdiWeatherNight
 } from "@innoai-tech/vuematerial";
+import { Container } from "@innoai-tech/webapp/vuekit/layout";
 
 export const Nav = component(() => {
   const r = useRouter();
@@ -144,7 +145,11 @@ export const Scaffold = component((_, { slots }) => {
           </Tooltip>
         </Box>
       </Box>
-      <Box sx={{ flex: 1, overflow: "auto" }}>{slots}</Box>
+      <Box sx={{ flex: 1, overflow: "auto" }}>
+        <Container>
+          {slots}
+        </Container>
+      </Box>
     </Box>
   );
 });

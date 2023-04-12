@@ -1,3 +1,18 @@
+直接使用沿用 [mid](https://pictogrammers.com/library/mdi/)
+
+```tsx live
+import { component } from "@innoai-tech/vuekit";
+import { mdiSend } from "@mdi/js";
+import { Icon } from "@innoai-tech/vuematerial";
+
+export default component(() => {
+  return () => <Icon path={mdiSend} />;
+});
+```
+
+### 和 Button 一起使用
+
+```tsx live
 import { component } from "@innoai-tech/vuekit";
 import { mdiSend } from "@mdi/js";
 import { Icon } from "@innoai-tech/vuematerial";
@@ -19,5 +34,4 @@ export default component(() => {
     </Box>
   );
 });
-
-
+```

@@ -22,8 +22,6 @@ export const extractRouteMeta = (jsdoc: string): RouteMetadata | undefined => {
     const keyPath = m.groups!["path"]!;
     const type = m.groups!["type"]!;
 
-    console.log();
-
     // Support import("@innoai-tech/vuematerial").mdiPlus
     const importType = type.match(/(typeof +)?import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/);
 
@@ -55,7 +53,7 @@ export const customVueResolver = () => {
 
 
         return `
-${Object.keys(imports).map((importPath) => `import { ${Object.keys(imports[importPath]!).join(", ")} } from ${JSON.stringify(importPath)}`).join(",\n")}
+${Object.keys(imports).map((importPath) => `import { ${Object.keys(imports[importPath]!).join(", ")} } from ${JSON.stringify(importPath)}`).join(";\n")}
           
 ${code}        
 `;
@@ -65,11 +63,11 @@ ${code}
           const m = metaMap.get(path);
 
           return `(() => {
-    const load = () => import("${path}");
-    load.meta = {
+    const C = () => import("${path}");
+    C.meta = {
       ${Object.keys(m.meta).map((k) => `${k}: ${m.meta[k]}`).join(",\n")}
     };
-    return load;
+    return C;
   })()`;
         }
 

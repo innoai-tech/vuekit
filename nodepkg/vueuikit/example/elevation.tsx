@@ -1,12 +1,10 @@
 import { component } from "@innoai-tech/vuekit";
 import { Box, ThemeProvider } from "@innoai-tech/vueuikit";
-import { Container } from "@webapp/vuekit/layout";
-
 export default component(() => {
   const theme = ThemeProvider.use();
 
   return () => (
-    <Container>
+    <>
       {Object.keys(theme.token.elevation.tokens).map((elevation) => (
         <Box
           key={elevation}
@@ -25,6 +23,6 @@ export default component(() => {
           <div>Elevation {elevation}</div>
         </Box>
       ))}
-    </Container>
+    </>
   );
 });

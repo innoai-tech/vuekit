@@ -1,3 +1,7 @@
+和 [rxjs](https://rxjs.dev/) 集成
+
+
+```tsx live
 import { component, observableRef, subscribe, z } from "@innoai-tech/vuekit";
 import { ref } from "vue";
 import { tap, debounceTime } from "rxjs";
@@ -5,7 +9,7 @@ import { tap, debounceTime } from "rxjs";
 export const TextDebounceInput = component(
   {
     value: z.string().optional().default("1"),
-    onValueChange: z.function().args(z.string()),
+    onValueChange: z.custom<(v: string) => void>()
   },
   (props, { emit }) => {
     const ref = observableRef(props.value ?? "");
@@ -47,3 +51,4 @@ export default component(() => {
     </div>
   );
 });
+```

@@ -1,3 +1,28 @@
+为了更好的 TypeScript 和 JSX 的支持，重新抽象了定义组件的方式
+
+一般组件：
+
+```tsx live
+import { component } from "@innoai-tech/vuekit";
+import { ref } from "vue";
+
+export default component(() => {
+  const count = ref(1);
+
+  return () => (
+    <div style={{ display: "flex", gap: "1rem" }}>
+      <div>Counts: {count.value}</div>
+      <button onClick={() => count.value++}>Click To Count</button>
+    </div>
+  );
+});
+```
+
+可复用组件：
+
+- `props` 和 `emits` 合并声明，基于 [zod](https://zod.dev/)
+
+```tsx live
 import { component, z } from "@innoai-tech/vuekit";
 import { ref, type VNode } from "vue";
 
@@ -61,23 +86,11 @@ export const List = component(
       return (
         <dl>
           <dt>default</dt>
-          <dd>
-            {slots.default?.()}
-          </dd>
-          <dt>
-            title
-          </dt>
-          <dd>
-            {slots.title?.()}
-          </dd>
-          <dt>
-            item
-          </dt>
-          <dd>
-            {options.map((option) =>
-              slots.item?.(option)
-            )}
-          </dd>
+          <dd>{slots.default?.()}</dd>
+          <dt>title</dt>
+          <dd>{slots.title?.()}</dd>
+          <dt>item</dt>
+          <dd>{options.map((option) => slots.item?.(option))}</dd>
         </dl>
       );
     }
@@ -100,3 +113,4 @@ export default component(() => {
     </List>
   );
 });
+```

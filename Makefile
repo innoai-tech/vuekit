@@ -5,7 +5,7 @@ VITE = $(NPX) vite
 dev:
 	$(VITE)
 
-build: build.pkg
+build: build.pkg.force
 	$(VITE) build --mode production
 	cp ./public/vuekit/index.html  ./public/vuekit/404.html
 

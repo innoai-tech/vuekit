@@ -1,5 +1,5 @@
 import { defineConfig } from "vite";
-import { app, viteWithSourceCode, viteChunkSplit, viteVue } from "@innoai-tech/vue-vite-presets";
+import { app, viteChunkSplit, viteVue } from "@innoai-tech/vue-vite-presets";
 import { chunkCleanup } from "@innoai-tech/monobundle";
 
 export default defineConfig({
@@ -8,7 +8,6 @@ export default defineConfig({
   },
   plugins: [
     app("vuekit", { enableBaseHref: true }),
-    viteWithSourceCode(),
     viteVue({
       pagesDirs: [
         { baseRoute: "vuekit", dir: "../../nodepkg/vuekit/example" },

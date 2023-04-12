@@ -2,7 +2,6 @@ import { component } from "@innoai-tech/vuekit";
 import { Fragment } from "vue";
 import { Box } from "@innoai-tech/vueuikit";
 import { map, upperFirst } from "@innoai-tech/lodash";
-import { Container } from "@webapp/vuekit/layout";
 
 const tones = {
   "0": true,
@@ -21,7 +20,7 @@ const tones = {
 
 export default component(() => {
   return () => (
-    <Container>
+    <>
       {["light", "dark"].map((theme) => (
         <div data-theme={theme} key={theme}>
           <Box
@@ -175,6 +174,6 @@ export default component(() => {
           </Box>
         </div>
       ))}
-    </Container>
+    </>
   );
 });
