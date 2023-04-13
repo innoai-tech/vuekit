@@ -9,7 +9,7 @@
 
 TypeScript 的帮助下，还会提供准确的 Design Token 值. 如：
 
-```tsx live
+```tsx preview
 import { Box, alpha, styled, variant } from "@innoai-tech/vueuikit";
 import { z } from "@innoai-tech/vuekit";
 
@@ -88,14 +88,14 @@ export const Button = styled(ButtonBase)({
 
 同样的，通过 styled 创建的组件也有一样的特性。
 
-```tsx live
+```tsx preview
 import { component } from "@innoai-tech/vuekit";
 import { Box } from "@innoai-tech/vueuikit";
 
 export default component(() => () => (
   <Box sx={{ display: "flex", padding: 10, containerStyle: "sys.primary" }}>
     <Box sx={{ containerStyle: "sys.surface-container" }} component={"button"}>
-      Hi 123
+      Hi 111
     </Box>
   </Box>
 ));

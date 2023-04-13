@@ -21,7 +21,7 @@ build.pkg.force:
 lint:
 	$(TURBO) run lint --force --no-cache
 
-test: build
+test: build.pkg.force
 	$(TURBO) run test --force
 
 bootstrap:

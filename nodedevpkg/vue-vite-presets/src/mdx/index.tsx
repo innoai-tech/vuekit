@@ -37,7 +37,7 @@ export const mdx = (): PluginOption => {
           if (tagName === "code" && data && data.meta) {
             if (
               properties.className.includes("language-tsx") &&
-              data.meta.includes("live")
+              data.meta.includes("preview")
             ) {
               const metadata = parseMetadata(data.meta);
               const rawCode = children[0].value;

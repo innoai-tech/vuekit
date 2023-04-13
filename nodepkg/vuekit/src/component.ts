@@ -1,10 +1,4 @@
-import type {
-  PublicPropsOf,
-  Component, SetupFunction
-} from "./types";
-import {
-  defineComponent
-} from "vue";
+import type { PublicPropsOf, Component, SetupFunction } from "./types";
 import { isFunction, partition, kebabCase } from "@innoai-tech/lodash";
 import { type ZodTypeAny, z } from "zod";
 
@@ -57,13 +51,24 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
       }, {})
   };
 
-  return Object.assign(defineComponent({
-    ...finalOptions,
-    ...emitsAndProps,
-    setup: (props: any, ctx: any) => {
-      return finalSetup(props, ctx);
+  return {
+    get setup() {
+      return (props: any, ctx: any) => finalSetup(props, ctx);
+    },
+    get emits() {
+      return emitsAndProps.emits;
+    },
+    get props() {
+      return emitsAndProps.props;
+    },
+    get inheritAttrs() {
+      return finalOptions.inheritAttrs;
+    },
+    get name() {
+      return this.displayName ?? finalOptions.name;
+    },
+    get propTypes() {
+      return finalPropTypes;
     }
-  }), {
-    propTypes: finalPropTypes
-  }) as any;
+  } as any;
 }

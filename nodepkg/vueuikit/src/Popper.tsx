@@ -10,9 +10,9 @@ import { Overlay } from "./Overlay";
 
 export const Popper = component(
   {
-    isOpen: Overlay.propTypes!.isOpen,
-    transition: Overlay.propTypes!.transition,
-    onClickOutside: Overlay.propTypes!.onClickOutside,
+    isOpen: Overlay.propTypes.isOpen,
+    transition: Overlay.propTypes.transition,
+    onClickOutside: Overlay.propTypes.onClickOutside,
 
     placement: z.custom<Placement>().optional(),
     arrow: z.boolean().optional(),

@@ -26,7 +26,7 @@ export type Component<P extends Record<string, any>> = FunctionalComponent<
   P,
   ToInternalEmits<PickEmitProps<P>>
 > & {
-  propTypes?: PropTypesOf<P>;
+  propTypes: PropTypesOf<P>;
 };
 
 export type SetupContext<

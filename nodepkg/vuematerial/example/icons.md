@@ -1,6 +1,6 @@
 直接使用沿用 [mid](https://pictogrammers.com/library/mdi/)
 
-```tsx live
+```tsx preview
 import { component } from "@innoai-tech/vuekit";
 import { mdiSend } from "@mdi/js";
 import { Icon } from "@innoai-tech/vuematerial";
@@ -12,7 +12,7 @@ export default component(() => {
 
 ### 和 Button 一起使用
 
-```tsx live
+```tsx preview
 import { component } from "@innoai-tech/vuekit";
 import { mdiSend } from "@mdi/js";
 import { Icon } from "@innoai-tech/vuematerial";

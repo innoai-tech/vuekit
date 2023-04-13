@@ -1,5 +1,9 @@
 import { styled, variant, alpha } from "@innoai-tech/vueuikit";
 
+export const Unused = styled("div")({
+  bgColor: "sys.surface-container"
+});
+
 export const Container = styled("div", {})({
   padding: 24,
 

@@ -1,6 +1,6 @@
 ## Normal Popper
 
-```tsx live
+```tsx preview
 import { component } from "@innoai-tech/vuekit";
 import { Box, Popper } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
@@ -32,7 +32,7 @@ export default component(() => {
 
 ## Hovered Popper
 
-```tsx live
+```tsx preview
 import { ref } from "vue";
 import { component } from "@innoai-tech/vuekit";
 import { Box, Popper } from "@innoai-tech/vueuikit";
@@ -62,7 +62,7 @@ export default component(() => {
 
 ## Animated
 
-```tsx live
+```tsx preview
 import { ref } from "vue";
 import { component } from "@innoai-tech/vuekit";
 import {

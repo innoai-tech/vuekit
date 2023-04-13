@@ -2,7 +2,7 @@
 
 一般组件：
 
-```tsx live
+```tsx preview
 import { component } from "@innoai-tech/vuekit";
 import { ref } from "vue";
 
@@ -22,7 +22,7 @@ export default component(() => {
 
 - `props` 和 `emits` 合并声明，基于 [zod](https://zod.dev/)
 
-```tsx live
+```tsx preview
 import { component, z } from "@innoai-tech/vuekit";
 import { ref, type VNode } from "vue";
 

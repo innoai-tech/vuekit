@@ -1,7 +1,7 @@
 和 [rxjs](https://rxjs.dev/) 集成
 
 
-```tsx live
+```tsx preview
 import { component, observableRef, subscribe, z } from "@innoai-tech/vuekit";
 import { ref } from "vue";
 import { tap, debounceTime } from "rxjs";

@@ -13,7 +13,7 @@ export class VirtualCache {
   }
 
   store(id: string, code: string) {
-    const finalID = `virtual:cache:${id}`;
+    const finalID = id;
 
     if (this.server) {
       const mod = this.server.moduleGraph.getModuleById(finalID);
