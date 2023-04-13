@@ -1,10 +1,15 @@
-import { h, isVNode, Fragment } from "vue";
+import { h, Fragment } from "vue";
 
 export { Fragment };
 
 const isFunction = (val: any) => typeof val === "function";
+
+const isFragment = (val: any) => {
+  return val === Fragment;
+};
+
 const isTagOrInternal = (val: any) => {
-  if (typeof val === "symbol") {
+  if (isFragment(val)) {
     return true;
   }
 
@@ -17,84 +22,79 @@ const isTagOrInternal = (val: any) => {
       return true;
     }
   }
+
   return false;
 };
 
-const isObject = (val: any) => val !== null && typeof val === "object";
+const isSlots = (children: any) => {
+  if (children && typeof children === "object") {
+    if (children.__vInternal) {
+      return true;
+    }
+  }
+  return false;
+};
 
-const lowerFirst = (v: string) => `${v[0]?.toLowerCase() ?? ""}${v.slice(1)}`;
+const wrapSlot = (children: any) => {
+  if (children) {
+    if (isFunction(children)) {
+      return children;
+    }
+    if (Array.isArray(children)) {
+      return () => children;
+    }
+    return () => children;
+  }
+  return undefined;
+};
 
-const wrapSlot = (v: any) => isFunction(v) ? v : () => v;
+const pickPropsWithoutSlots = (
+  rawProps: Record<string, any>,
+  key?: string
+): [any, any] => {
+  const { children, ...otherProps } = rawProps;
 
-const createElementWithSlots = (type: any, props: any, children: any) => {
-  const slots: any = {};
-  const allProps: any = {};
+  // pass slots as children
+  if (isSlots(children)) {
+    return [key ? { ...otherProps, key } : otherProps, children];
+  }
 
-  for (const prop in props) {
-    const v = props[prop];
+  const props: Record<string, any> = {};
+  const slots: Record<string, any> = {};
+  let hasAnySlot = false;
 
+  for (const prop in otherProps) {
+    const v = otherProps[prop];
     if (prop.startsWith("$")) {
-      slots[lowerFirst(prop.slice("$".length))] = wrapSlot(v);
+      const slotName = prop.slice(1);
+      slots[slotName] = wrapSlot(v);
+      hasAnySlot = true;
       continue;
     }
-
-    allProps[prop] = v;
+    props[prop] = v;
   }
 
-  slots["default"] = wrapSlot(children);
+  const defaultSlot = wrapSlot(children);
+  if (defaultSlot) {
+    slots["default"] = defaultSlot;
+    hasAnySlot = true;
+  }
 
-  return h(type, allProps, slots);
+  return [key ? { ...props, key } : props, hasAnySlot ? slots : undefined];
 };
 
-
-export const jsxs = (
-  type: any,
-  { children, ...otherProps }: { children: any[]; [k: string]: any },
-  key: string | undefined
-) => {
-  const props = key ? { ...otherProps, key } : otherProps;
-
-  if (children) {
-    if (isTagOrInternal(type)) {
-      return h(type, props, children);
-    }
-    // component
-    return createElementWithSlots(type, props, children);
-  }
-  return h(type, props);
+export const jsxs = (type: any, rawProps: any, key?: string) => {
+  return jsx(type, rawProps, key);
 };
 
-export const jsx = (
-  type: any,
-  rawProps: {
-    children: any;
-    [k: string]: any;
-  },
-  key: string | undefined
-) => {
-  // slots.default?.() returns []
-  if (Array.isArray(rawProps.children)) {
-    return jsxs(type, rawProps, key);
+export const jsx = (type: any, rawProps: any, key?: string) => {
+  let [props, slots] = pickPropsWithoutSlots(rawProps, key);
+  if (isTagOrInternal(type)) {
+    return h(
+      type,
+      props,
+      slots?.default?.() ?? (isFragment(type) ? [] : undefined)
+    );
   }
-
-  const { children: child, ...otherProps } = rawProps;
-
-  const props = key ? { ...otherProps, key } : otherProps;
-
-  if (child) {
-    if (isTagOrInternal(type)) {
-      return h(type, props, isVNode(child) ? [child] : child);
-    }
-
-    // component
-    if (isVNode(child) || !isObject(child)) {
-      // nodes
-      return createElementWithSlots(type, props, child);
-    }
-
-    // object slots
-    return h(type, props, child);
-  }
-
-  return h(type, props);
+  return h(type, props, slots);
 };
