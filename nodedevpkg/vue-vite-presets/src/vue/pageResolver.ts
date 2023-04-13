@@ -7,6 +7,7 @@ import { readFile } from "fs/promises";
 
 // @ts-ignore
 import { parse } from "jsdoctypeparser";
+import type { UserConfig } from "vite";
 
 const reJsDoc = /\/\*\*\s*\n([^*]|\*[^\/])*\*\//g;
 const reProp = /@property( +)\{(?<type>[^}]+)}( +)(?<path>[\w.]+)/g;
@@ -41,7 +42,7 @@ export const extractRouteMeta = (jsdoc: string): RouteMetadata | undefined => {
   return r;
 };
 
-export const customVueResolver = () => {
+export const customVueResolver = (c: UserConfig) => {
   const r = vueResolver();
   const metaMap = new Map<string, any>();
   let imports = {} as Record<string, Record<string, boolean>>;
@@ -72,8 +73,8 @@ ${code}
         }
 
         return `(() => {
-    const load = () => import("${path}");
-    return load;
+    const C = () => import("${path}");
+    return C;
   })()`;
       }
     },
@@ -84,7 +85,7 @@ ${code}
           for (const m of src.matchAll(reJsDoc)) {
             const r = extractRouteMeta(m[0]);
             if (r) {
-              metaMap.set(path, r);
+              metaMap.set(path.slice(c.root!.length), r);
               imports = merge(imports, r.__imports);
             }
           }

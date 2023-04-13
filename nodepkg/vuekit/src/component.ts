@@ -52,18 +52,10 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
   };
 
   return {
-    get setup() {
-      return (props: any, ctx: any) => finalSetup(props, ctx);
-    },
-    get emits() {
-      return emitsAndProps.emits;
-    },
-    get props() {
-      return emitsAndProps.props;
-    },
-    get inheritAttrs() {
-      return finalOptions.inheritAttrs;
-    },
+    setup: (props: any, ctx: any) => finalSetup(props, ctx),
+    emits: emitsAndProps.emits,
+    props: emitsAndProps.props,
+    inheritAttrs: finalOptions.inheritAttrs,
     get name() {
       return this.displayName ?? finalOptions.name;
     },
