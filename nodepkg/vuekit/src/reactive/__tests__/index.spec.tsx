@@ -1,6 +1,6 @@
 import { test, describe, expect } from "vitest";
 import { of, filter, map } from "rxjs";
-import { toComputed, observableRef, component$, RxSlot, rx } from "..";
+import { toComputed, observableRef, component$, RxSlot, rx, render } from "..";
 import { mount } from "@vue/test-utils";
 import { component, z } from "../../component";
 
@@ -58,17 +58,17 @@ describe("vue reactive", () => {
     const C = component$({ input: z.number() }, ({ input$ }) => {
       const inputElem$ = rx(
         input$,
-        map((v) => <div data-role="input">{v}</div>)
+        render((v) => <div data-role="input">{v}</div>)
       );
 
       return rx(
         input$,
         filter((v) => v % 2 !== 0),
         map((v) => v * v),
-        map((v) => (
+        render((v) => (
           <div>
             <div data-role="result">{v}</div>
-            <RxSlot elem$={inputElem$} />
+            <RxSlot render$={inputElem$} />
           </div>
         ))
       );

@@ -1,4 +1,4 @@
-import { z, component$, type Component } from "@innoai-tech/vuekit";
+import { z, component$, type Component, render } from "@innoai-tech/vuekit";
 import { combineLatest, from, switchMap, map } from "rxjs";
 import { type VNode } from "vue";
 import { unified, remarkRehype, remarkParse, rehypeVue } from "./unified";
@@ -22,7 +22,7 @@ export const Markdown = component$(
 
     return combineLatest([processor$, props.text$]).pipe(
       switchMap(([processor, text]) => from(processor.process(text))),
-      map((vfile: any) => vfile.result as VNode)
+      render((vfile: any) => vfile.result as VNode)
     );
   }
 );

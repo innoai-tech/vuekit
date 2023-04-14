@@ -1,11 +1,19 @@
 和 [rxjs](https://rxjs.dev/) 集成
 
 ```tsx preview
-import { component, rx, observableRef, subscribeUntilUnmount, z } from "@innoai-tech/vuekit";
+import {
+  component,
+  component$,
+  rx,
+  render,
+  observableRef,
+  subscribeUntilUnmount,
+  z
+} from "@innoai-tech/vuekit";
 import { ref } from "vue";
 import { debounceTime, subscribeOn } from "rxjs";
 
-export const TextDebounceInput = component(
+export const TextDebounceInput = component$(
   {
     value: z.string().optional().default("1"),
     onValueChange: z.custom<(v: string) => void>()
@@ -15,20 +23,24 @@ export const TextDebounceInput = component(
 
     rx(
       value$,
-      debounceTime(500),
+      debounceTime(300),
       subscribeUntilUnmount((v) => emit("value-change", v))
     );
 
-    return () => {
-      return (
+    return rx(
+      value$,
+      // 由于 vue slots 的原因
+      // 这里必须返回 `() => VNodeChild`
+      // render 是 `rxMap((v) => () => VNodeChild)` 的 简写
+      render((v) => (
         <input
-          value={value$.value}
+          value={v}
           onInput={(e) => {
             value$.value = (e.target as HTMLInputElement).value;
           }}
         />
-      );
-    };
+      ))
+    );
   }
 );
 

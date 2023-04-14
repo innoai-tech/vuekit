@@ -1,20 +1,26 @@
 import { component, z } from "../component";
-import { Observable, tap } from "rxjs";
-import { shallowRef } from "vue";
+import { Observable, tap, map } from "rxjs";
+import { type RenderFunction, shallowRef, type VNodeChild } from "vue";
 import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribeUntilUnmount";
 
+export function render<T>(renderFunc: (value: T) => VNodeChild) {
+  return map<T, RenderFunction>((v) => () => renderFunc(v));
+}
+
 export const RxSlot = component(
   {
-    elem$: z.custom<Observable<any>>()
+    render$: z.custom<Observable<RenderFunction>>()
   },
   (props) => {
-    const r = shallowRef<JSX.Element | null>(null);
+    const r = shallowRef<RenderFunction | null>(null);
+
     rx(
-      props.elem$,
-      tap((elem) => (r.value = elem)),
+      props.render$,
+      tap((renderFunc) => (r.value = renderFunc)),
       subscribeUntilUnmount()
     );
-    return () => r.value;
+
+    return () => r.value?.();
   }
 );

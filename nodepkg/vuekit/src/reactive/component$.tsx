@@ -22,7 +22,7 @@ export type ObservableSetupFunction<
 > = (
   P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
   ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
-) => null | RenderFunction | Observable<JSX.Element | null>;
+) => null | RenderFunction | Observable<RenderFunction>;
 
 export function component$(
   setup: ObservableSetupFunction<{}>,
@@ -66,7 +66,7 @@ export function component$<PropTypes extends Record<string, ZodTypeAny>>(
       }
 
       if (renderFuncOrElem$) {
-        return () => <RxSlot elem$={renderFuncOrElem$} />;
+        return () => <RxSlot render$={renderFuncOrElem$} />;
       }
 
       return () => null;
