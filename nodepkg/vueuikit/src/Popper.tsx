@@ -1,12 +1,27 @@
 import {
   createPopperLite,
   type Placement,
-  arrow as arrowModify,
-  flip
+  flip,
+  type Modifier
 } from "@popperjs/core";
 import { z, component } from "@innoai-tech/vuekit";
 import { cloneVNode, ref, watch, type VNode } from "vue";
 import { Overlay } from "./Overlay";
+import type {
+  ModifierArguments,
+  State
+} from "@popperjs/core";
+
+export function createPopperModifier<Options extends Record<string, any>>(
+  fn: (o: ModifierArguments<Options>) => State | void,
+  options: Omit<Modifier<string | Symbol, Options>, "fn" | "enabled">
+): Modifier<string | Symbol, Options> {
+  return {
+    fn,
+    enabled: true,
+    ...options
+  };
+}
 
 export const Popper = component(
   {
@@ -15,7 +30,7 @@ export const Popper = component(
     onClickOutside: Overlay.propTypes.onClickOutside,
 
     placement: z.custom<Placement>().optional(),
-    arrow: z.boolean().optional(),
+    modifiers: z.custom<Array<Modifier<any, any>>>().optional(),
 
     $content: z.custom<VNode>()
   },
@@ -29,7 +44,7 @@ export const Popper = component(
         if (contentEl) {
           createPopperLite(triggerRef.value!, contentEl!, {
             placement: props.placement ?? "bottom",
-            modifiers: [flip, ...(props.arrow ?? true ? [arrowModify] : [])]
+            modifiers: [...(props.modifiers ?? []), flip]
           });
         }
       }

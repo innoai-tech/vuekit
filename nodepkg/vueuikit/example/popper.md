@@ -2,16 +2,26 @@
 
 ```tsx preview
 import { component } from "@innoai-tech/vuekit";
-import { Box, Popper } from "@innoai-tech/vueuikit";
+import { Box, Popper, createPopperModifier } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
 
 export default component(() => {
   const isOpen = ref(false);
 
+  const modifier = createPopperModifier(({ state }) => {
+    state.styles.popper.width = `${state.rects.reference.width}px`;
+  }, {
+    name: "sameWidth",
+    phase: "beforeWrite",
+    requires: ["computeStyles"]
+  });
+
   return () => (
     <Popper
       isOpen={isOpen.value}
       onClickOutside={() => (isOpen.value = false)}
+      placement={"bottom-start"}
+      modifiers={[modifier]}
       $content={
         <Box sx={{ containerStyle: "sys.on-surface" }}>
           Popper {`${isOpen.value}`}!
@@ -70,29 +80,29 @@ import {
   defineTransition,
   Popper,
   transition,
-  triangle,
+  triangle
 } from "@innoai-tech/vueuikit";
 
 export const FadeInOutTransition = defineTransition(
   {
     from: {
-      opacity: 0,
+      opacity: 0
     },
     to: {
-      opacity: 1,
+      opacity: 1
     },
     duration: transition.duration.md1,
-    easing: transition.easing.standard.accelerate,
+    easing: transition.easing.standard.accelerate
   },
   {
     from: {
-      opacity: 1,
+      opacity: 1
     },
     to: {
-      opacity: 0,
+      opacity: 0
     },
     duration: transition.duration.sm4,
-    easing: transition.easing.standard.decelerate,
+    easing: transition.easing.standard.decelerate
   }
 );
 
@@ -104,32 +114,16 @@ export default component(() => {
       isOpen={isOpen.value}
       transition={FadeInOutTransition}
       $content={
-        <Box sx={{ pt: "4px" }}>
-          <Box
-            sx={{
-              "[data-popper-placement='bottom'] &": {
-                top: "0",
-                ...triangle({
-                  pointingDirection: "top",
-                  height: "4px",
-                  width: "8px",
-                  foregroundColor: "sys.on-surface",
-                }),
-              },
-            }}
-            data-popper-arrow
-          />
-          <Box
-            sx={{
-              containerStyle: "sys.on-surface",
-              shadow: "2",
-              py: 2,
-              px: 4,
-              rounded: "sm",
-            }}
-          >
-            Popper {`${isOpen.value}`}!
-          </Box>
+        <Box
+          sx={{
+            containerStyle: "sys.on-surface",
+            shadow: "2",
+            py: 2,
+            px: 4,
+            rounded: "sm"
+          }}
+        >
+          Popper {`${isOpen.value}`}!
         </Box>
       }
     >
