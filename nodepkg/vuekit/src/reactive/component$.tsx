@@ -1,7 +1,4 @@
-import {
-  component,
-  type ComponentOptions,
-} from "../component";
+import { component, type ComponentOptions } from "../component";
 import { Observable } from "rxjs";
 import { isFunction } from "@innoai-tech/lodash";
 import { type Observables, toObservables } from "./toObservable";
@@ -17,8 +14,13 @@ import {
   type SetupContext
 } from "../types";
 
-export type ObservableSetupFunction<PropTypes extends Record<string, ZodTypeAny>> = (
-  P: Observables<InternalPropsOf<PropTypes>>,
+export type ObservablesAndProps<Props extends Record<string, any>> =
+  Observables<Props> & Omit<Props, keyof Observables<Props>>;
+
+export type ObservableSetupFunction<
+  PropTypes extends Record<string, ZodTypeAny>
+> = (
+  P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
   ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
 ) => null | RenderFunction | Observable<JSX.Element | null>;
 
@@ -32,12 +34,8 @@ export function component$<PropTypes extends Record<string, ZodTypeAny>>(
   options?: ComponentOptions
 ): Component<PublicPropsOf<PropTypes>>;
 export function component$<PropTypes extends Record<string, ZodTypeAny>>(
-  propTypesOrSetup:
-    | PropTypes
-    | ObservableSetupFunction<PropTypes>,
-  setupOrOptions?:
-    | ObservableSetupFunction<PropTypes>
-    | ComponentOptions,
+  propTypesOrSetup: PropTypes | ObservableSetupFunction<PropTypes>,
+  setupOrOptions?: ObservableSetupFunction<PropTypes> | ComponentOptions,
   options: ComponentOptions = {}
 ): Component<PublicPropsOf<PropTypes>> {
   const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
@@ -49,7 +47,19 @@ export function component$<PropTypes extends Record<string, ZodTypeAny>>(
   return component(
     finalPropTypes,
     (props, ctx) => {
-      const renderFuncOrElem$ = finalSetup(toObservables(props), ctx);
+      const props$ = toObservables(props);
+
+      const renderFuncOrElem$ = finalSetup(
+        new Proxy(
+          {},
+          {
+            get(_, key: string) {
+              return props[key] ?? (props$ as any)[key];
+            }
+          }
+        ) as any,
+        ctx
+      );
 
       if (isFunction(renderFuncOrElem$)) {
         return renderFuncOrElem$;
