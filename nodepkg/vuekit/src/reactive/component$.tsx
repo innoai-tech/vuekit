@@ -5,7 +5,7 @@ import {
 import { Observable } from "rxjs";
 import { isFunction } from "@innoai-tech/lodash";
 import { type Observables, toObservables } from "./toObservable";
-import { Slot } from "./Slot";
+import { RxSlot } from "./RxSlot";
 import { type ZodTypeAny } from "zod";
 import {
   type Component,
@@ -56,7 +56,7 @@ export function component$<PropTypes extends Record<string, ZodTypeAny>>(
       }
 
       if (renderFuncOrElem$) {
-        return () => <Slot elem$={renderFuncOrElem$} />;
+        return () => <RxSlot elem$={renderFuncOrElem$} />;
       }
 
       return () => null;

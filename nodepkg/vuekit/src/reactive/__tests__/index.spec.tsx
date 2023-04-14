@@ -1,6 +1,6 @@
 import { test, describe, expect } from "vitest";
 import { of, filter, map } from "rxjs";
-import { computedObservable, observableRef, component$, Slot } from "..";
+import { toComputed, observableRef, component$, RxSlot, rx } from "..";
 import { mount } from "@vue/test-utils";
 import { component, z } from "../../component";
 
@@ -10,7 +10,7 @@ import { component, z } from "../../component";
 describe("vue reactive", () => {
   test("when first render, should use the first ", () => {
     const C = component(() => {
-      const v = computedObservable(of(1));
+      const v = rx(of(1), toComputed());
       return () => <div>{v.value}</div>;
     });
 
@@ -25,7 +25,11 @@ describe("vue reactive", () => {
     const C = component(() => {
       const input$ = observableRef(1);
 
-      const ret = computedObservable(input$.pipe(map((v) => v * v)));
+      const ret = rx(
+        input$,
+        map((v) => v * v),
+        toComputed()
+      );
 
       return () => (
         <div
@@ -52,17 +56,19 @@ describe("vue reactive", () => {
 
   test("when props changed, should rerender", async () => {
     const C = component$({ input: z.number() }, ({ input$ }) => {
-      const inputElem$ = input$.pipe(
+      const inputElem$ = rx(
+        input$,
         map((v) => <div data-role="input">{v}</div>)
       );
 
-      return input$.pipe(
+      return rx(
+        input$,
         filter((v) => v % 2 !== 0),
         map((v) => v * v),
         map((v) => (
           <div>
             <div data-role="result">{v}</div>
-            <Slot elem$={inputElem$} />
+            <RxSlot elem$={inputElem$} />
           </div>
         ))
       );

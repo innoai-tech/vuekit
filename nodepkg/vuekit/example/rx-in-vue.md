@@ -1,10 +1,9 @@
 和 [rxjs](https://rxjs.dev/) 集成
 
-
 ```tsx preview
-import { component, observableRef, subscribe, z } from "@innoai-tech/vuekit";
+import { component, rx, observableRef, subscribeUntilUnmount, z } from "@innoai-tech/vuekit";
 import { ref } from "vue";
-import { tap, debounceTime } from "rxjs";
+import { debounceTime, subscribeOn } from "rxjs";
 
 export const TextDebounceInput = component(
   {
@@ -12,21 +11,20 @@ export const TextDebounceInput = component(
     onValueChange: z.custom<(v: string) => void>()
   },
   (props, { emit }) => {
-    const ref = observableRef(props.value ?? "");
+    const value$ = observableRef(props.value ?? "");
 
-    subscribe(
-      ref.pipe(
-        debounceTime(500),
-        tap((v) => emit("value-change", v))
-      )
+    rx(
+      value$,
+      debounceTime(500),
+      subscribeUntilUnmount((v) => emit("value-change", v))
     );
 
     return () => {
       return (
         <input
-          value={ref.value}
+          value={value$.value}
           onInput={(e) => {
-            ref.value = (e.target as HTMLInputElement).value;
+            value$.value = (e.target as HTMLInputElement).value;
           }}
         />
       );
