@@ -17,7 +17,7 @@ import {
 
 export type VElementType = string | Component<any>;
 
-export { type RenderFunction };
+export { type RenderFunction, type VNode };
 
 export type Emits = Record<string, (...args: any[]) => any>;
 export type Slots = Record<string, Slot>;

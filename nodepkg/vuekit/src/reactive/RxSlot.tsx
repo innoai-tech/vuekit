@@ -1,26 +1,47 @@
 import { component, z } from "../component";
-import { Observable, tap, map } from "rxjs";
+import { map, Observable, tap } from "rxjs";
 import { type RenderFunction, shallowRef, type VNodeChild } from "vue";
 import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribeUntilUnmount";
+import type { Slots } from "../types";
 
-export function render<T>(renderFunc: (value: T) => VNodeChild) {
-  return map<T, RenderFunction>((v) => () => renderFunc(v));
+export function createRender(slots: Slots) {
+  return <T extends any>(renderFunc: (value: T) => VNodeChild) => {
+    return (input$: Observable<T>) => {
+
+      return (
+        <RxSlot
+          elem$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}
+        >
+          {slots}
+        </RxSlot>
+      );
+    };
+  };
 }
 
-export const RxSlot = component(
+/**
+ * When elem$ with slots, slots must pass as children to trigger rerender
+ * <RxSlot elem$={elem$}>{slots}</RxSlot>
+ */
+const RxSlot = component(
   {
-    render$: z.custom<Observable<RenderFunction>>()
+    elem$: z.custom<Observable<RenderFunction>>()
   },
   (props) => {
     const r = shallowRef<RenderFunction | null>(null);
 
     rx(
-      props.render$,
+      props.elem$,
       tap((renderFunc) => (r.value = renderFunc)),
       subscribeUntilUnmount()
     );
 
-    return () => r.value?.();
+    return () => {
+      return r.value?.();
+    };
+  },
+  {
+    name: "RxSlot"
   }
 );

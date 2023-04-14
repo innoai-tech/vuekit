@@ -1,8 +1,8 @@
 import { test, describe, expect } from "vitest";
 import { of, filter, map } from "rxjs";
-import { toComputed, observableRef, component$, RxSlot, rx, render } from "..";
+import { toComputed, observableRef, component$, rx } from "..";
+import { z, component, type VNode } from "../..";
 import { mount } from "@vue/test-utils";
-import { component, z } from "../../component";
 
 /**
  *  @vitest-environment jsdom
@@ -54,11 +54,59 @@ describe("vue reactive", () => {
     wrapper.unmount();
   });
 
+  test("when slots changed, should rerender", async () => {
+    const C = component$(
+      {
+        $input: z.custom<VNode>()
+      },
+      ({}, { slots, render }) => {
+        const input$ = observableRef("");
+
+        return rx(
+          input$,
+          render((input) => (
+            <div>
+              <div>{input}</div>
+              <div>{slots.input?.()}</div>
+            </div>
+          ))
+        );
+      }
+    );
+
+    const Wrap = component(
+      {
+        input: z.custom<VNode>()
+      },
+      (props) => {
+        return () => (
+          <C $input={props.input} />
+        );
+      }
+    );
+
+    const wrapper = mount(Wrap as any, {
+      props: {
+        input: 1
+      }
+    });
+
+    expect(wrapper.text()).toContain(1);
+
+    await wrapper.setProps({
+      input: 2
+    });
+
+    expect(wrapper.text()).toContain(2);
+  });
+
   test("when props changed, should rerender", async () => {
-    const C = component$({ input: z.number() }, ({ input$ }) => {
-      const inputElem$ = rx(
+    const C = component$({ input: z.number() }, ({ input$ }, { render }) => {
+      const inputEl = rx(
         input$,
-        render((v) => <div data-role="input">{v}</div>)
+        render((v) => (
+          <div data-role="input">{v}</div>
+        ))
       );
 
       return rx(
@@ -68,7 +116,7 @@ describe("vue reactive", () => {
         render((v) => (
           <div>
             <div data-role="result">{v}</div>
-            <RxSlot render$={inputElem$} />
+            {inputEl}
           </div>
         ))
       );

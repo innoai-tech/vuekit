@@ -1,6 +1,5 @@
 export * from "./rx";
 
-export * from "./RxSlot";
 export * from "./component$";
 
 export * from "./toObservable";

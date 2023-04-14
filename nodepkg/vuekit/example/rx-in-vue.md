@@ -5,7 +5,6 @@ import {
   component,
   component$,
   rx,
-  render,
   observableRef,
   subscribeUntilUnmount,
   z
@@ -18,7 +17,7 @@ export const TextDebounceInput = component$(
     value: z.string().optional().default("1"),
     onValueChange: z.custom<(v: string) => void>()
   },
-  (props, { emit }) => {
+  (props, { emit, render }) => {
     const value$ = observableRef(props.value ?? "");
 
     rx(
@@ -29,9 +28,9 @@ export const TextDebounceInput = component$(
 
     return rx(
       value$,
-      // 由于 vue slots 的原因
-      // 这里必须返回 `() => VNodeChild`
-      // render 是 `rxMap((v) => () => VNodeChild)` 的 简写
+      // 由于 vue slots 机制的原因, 
+      // render 需要 slots，以确保 slot 更新时会 re-render.
+      // 因而，render 作为 额外的 ctx 方法
       render((v) => (
         <input
           value={v}

@@ -1,8 +1,6 @@
 import { component, type ComponentOptions } from "../component";
-import { Observable } from "rxjs";
 import { isFunction } from "@innoai-tech/lodash";
 import { type Observables, toObservables } from "./toObservable";
-import { RxSlot } from "./RxSlot";
 import { type ZodTypeAny } from "zod";
 import {
   type Component,
@@ -11,8 +9,9 @@ import {
   type PublicPropsOf,
   type InternalSlotsOf,
   type RenderFunction,
-  type SetupContext
+  type SetupContext,
 } from "../types";
+import { createRender } from "./RxSlot";
 
 export type ObservablesAndProps<Props extends Record<string, any>> =
   Observables<Props> & Omit<Props, keyof Observables<Props>>;
@@ -21,8 +20,11 @@ export type ObservableSetupFunction<
   PropTypes extends Record<string, ZodTypeAny>
 > = (
   P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
-  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
-) => null | RenderFunction | Observable<RenderFunction>;
+  ctx: SetupContext<
+    InternalEmitsOf<PropTypes>,
+    InternalSlotsOf<PropTypes>
+  > & { render: ReturnType<typeof createRender> }
+) => RenderFunction | JSX.Element | null;
 
 export function component$(
   setup: ObservableSetupFunction<{}>,
@@ -49,27 +51,36 @@ export function component$<PropTypes extends Record<string, ZodTypeAny>>(
     (props, ctx) => {
       const props$ = toObservables(props);
 
-      const renderFuncOrElem$ = finalSetup(
-        new Proxy(
-          {},
-          {
-            get(_, key: string) {
-              return props[key] ?? (props$ as any)[key];
-            }
+      const p = new Proxy(
+        {},
+        {
+          get(_, key: string) {
+            return props[key] ?? (props$ as any)[key];
           }
-        ) as any,
-        ctx
-      );
+        }
+      ) as any;
 
-      if (isFunction(renderFuncOrElem$)) {
-        return renderFuncOrElem$;
+      const render = createRender(ctx.slots);
+
+      const c = new Proxy(
+        {},
+        {
+          get(_, key: string) {
+            if (key == "render") {
+              return render;
+            }
+            return (ctx as any)[key];
+          }
+        }
+      ) as any;
+
+      const renderFuncOrVNode = finalSetup(p, c);
+
+      if (isFunction(renderFuncOrVNode)) {
+        return renderFuncOrVNode;
       }
 
-      if (renderFuncOrElem$) {
-        return () => <RxSlot render$={renderFuncOrElem$} />;
-      }
-
-      return () => null;
+      return () => renderFuncOrVNode;
     },
     finalOptions
   ) as any;
