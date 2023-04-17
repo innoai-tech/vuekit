@@ -40,7 +40,7 @@ describe("jsx-runtime", () => {
 
     it("with single raw value child", () => {
       expect(mount(() => jsx(Layout, { children: "1" })).html()).toEqual(
-        mount(() => h(Layout, {}, ["1"])).html()
+        mount(() => h(Layout, {}, () => ["1"])).html()
       );
     });
 

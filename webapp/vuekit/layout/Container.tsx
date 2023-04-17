@@ -4,7 +4,7 @@ export const Unused = styled("div")({
   bgColor: "sys.surface-container"
 });
 
-export const Container = styled("div", {})({
+export const Container = styled("div")({
   padding: 24,
 
   "& [data-example]": {

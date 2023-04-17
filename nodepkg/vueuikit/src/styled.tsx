@@ -8,13 +8,13 @@ import {
   type InternalPropsOf,
   type ZodTypeAny,
   type VElementType,
-  z
+  z,
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
 import { type SxProps, Box } from "./Box";
 import { ThemeProvider } from "./ThemeProvider";
 import { CacheProvider } from "./CacheProvider";
-import { isString } from "@innoai-tech/lodash";
+import { isFunction, isPlainObject, isString } from "@innoai-tech/lodash";
 import type { VNode } from "vue";
 import { cloneVNode } from "vue";
 import { Insertion } from "./Insertion";
@@ -35,28 +35,60 @@ const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
   return <Wrap {...dataProps}>{ctx.slots}</Wrap>;
 };
 
+export type StyledSetupFunction<
+  DefaultComponent extends VElementType,
+  PropTypes extends Record<string, ZodTypeAny>
+> = (
+  props: InternalPropsOf<PropTypes>,
+  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
+) => (Wrap: DefaultComponent) => VNode;
+
 export function styled<
   DefaultComponent extends VElementType,
   PropTypes extends Record<string, ZodTypeAny> = {}
 >(
   defaultComponent: DefaultComponent,
-  propTypes: PropTypes = {} as PropTypes,
-  setup: (
-    props: InternalPropsOf<PropTypes>,
-    ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
-  ) => (Wrap: DefaultComponent) => VNode = defaultSetup
-) {
-  return (
-    presetSx: SystemStyleObject
-  ): OverridableComponent<{
-    props: PublicPropsOf<PropTypes> & Partial<SxProps>;
-    defaultComponent: DefaultComponent;
-  }> => {
+  setup?: StyledSetupFunction<DefaultComponent, PropTypes>
+): (presetSx: SystemStyleObject) => OverridableComponent<{
+  props: PublicPropsOf<PropTypes> & Partial<SxProps>;
+  defaultComponent: DefaultComponent;
+}>;
+export function styled<
+  DefaultComponent extends VElementType,
+  PropTypes extends Record<string, ZodTypeAny> = {}
+>(
+  defaultComponent: DefaultComponent,
+  propTypes: PropTypes,
+  setup?: StyledSetupFunction<DefaultComponent, PropTypes>
+): (presetSx: SystemStyleObject) => OverridableComponent<{
+  props: PublicPropsOf<PropTypes> & Partial<SxProps>;
+  defaultComponent: DefaultComponent;
+}>;
+export function styled<
+  DefaultComponent extends VElementType,
+  PropTypes extends Record<string, ZodTypeAny> = {}
+>(
+  defaultComponent: DefaultComponent,
+  propTypesOrSetup?:
+    | PropTypes
+    | StyledSetupFunction<DefaultComponent, PropTypes>,
+  setup?: StyledSetupFunction<DefaultComponent, PropTypes>
+): (presetSx: SystemStyleObject) => OverridableComponent<{
+  props: PublicPropsOf<PropTypes> & Partial<SxProps>;
+  defaultComponent: DefaultComponent;
+}> {
+  const finalSetup =
+    (isFunction(propTypesOrSetup) ? propTypesOrSetup : setup) ?? defaultSetup;
+  const finalPropTypes = isPlainObject(propTypesOrSetup)
+    ? propTypesOrSetup
+    : {};
+
+  return (presetSx: SystemStyleObject) => {
     const c = component(
       {
-        ...propTypes,
+        ...finalPropTypes,
         sx: z.custom<SystemStyleObject>().optional(),
-        component: z.custom<VElementType>().optional()
+        component: z.custom<VElementType>().optional(),
       },
       (props, ctx) => {
         const theme = ThemeProvider.use();
@@ -66,7 +98,7 @@ export function styled<
 
         const serialized = theme.unstable_css(cache, presetSx);
 
-        const render = setup(props as any, ctx as any);
+        const render = finalSetup(props as any, ctx as any);
 
         return () => {
           let className =
@@ -85,7 +117,7 @@ export function styled<
                     ...ctx.attrs,
                     component: (props as any).component,
                     sx: (props as any).sx,
-                    class: className
+                    class: className,
                   })}
                   <Insertion
                     serialized={serialized}
@@ -114,7 +146,7 @@ export function styled<
                   ...ctx.attrs,
                   component: (props as any).component ?? defaultComponent,
                   sx: (props as any).sx,
-                  class: className
+                  class: className,
                 })}
               </>
             );
@@ -124,7 +156,7 @@ export function styled<
         };
       },
       {
-        inheritAttrs: false
+        inheritAttrs: false,
       }
     ) as any;
 
