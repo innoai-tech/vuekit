@@ -1,20 +1,12 @@
-import { inject, provide } from "vue";
+import { inject, provide, type VNodeChild } from "vue";
 import { isFunction } from "@innoai-tech/lodash";
 import { ext } from "./ext";
-import {
-  type ComponentOptions,
-  component,
-  z
-} from "./component";
-
-import {
-  type Component,
-} from "./types"
+import { type ComponentOptions, component, z } from "./component";
 
 export function createProvider<T extends object>(
   defaults?: T | (() => T),
   options: ComponentOptions = {}
-): Component<{ value?: T }> & { use: () => T } {
+) {
   const key = Symbol(options.name ?? "");
 
   let _default: any;
@@ -23,20 +15,24 @@ export function createProvider<T extends object>(
 
   const Provider = component(
     {
-      value: z.custom<T>().optional()
+      value: z.custom<T>().optional(),
+      $default: z.custom<VNodeChild>()
     },
     (props, { slots }) => {
       provide(key, props.value ?? getDefaults());
 
-      return () => <>{slots.default?.()}</>;
+      return () => {
+
+        return <>{slots.default?.(undefined)}</>;
+      };
     },
     {
       ...options,
-      name: `Provider(${options.name ?? ""})`
+      name: `Provide(${options.name ?? ""})`
     }
   );
 
-  return ext(Provider as any, {
+  return ext(Provider, {
     use: () => {
       return inject(key, getDefaults, true) as T;
     }

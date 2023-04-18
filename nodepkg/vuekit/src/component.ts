@@ -1,6 +1,7 @@
-import type { PublicPropsOf, Component, SetupFunction } from "./types";
+import type { PublicPropsOf, Component, SetupFunction, WithDefaultSlot } from "./types";
 import { isFunction, partition, kebabCase } from "@innoai-tech/lodash";
 import { type ZodTypeAny, z } from "zod";
+import { Fragment as OriginFragment } from "vue";
 
 export { z };
 
@@ -8,6 +9,8 @@ export interface ComponentOptions {
   name?: string;
   inheritAttrs?: boolean;
 }
+
+export const Fragment: Component<WithDefaultSlot> = OriginFragment as any;
 
 export function component(
   setup: SetupFunction<{}>,

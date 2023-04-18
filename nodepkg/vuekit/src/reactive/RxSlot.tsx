@@ -3,32 +3,30 @@ import { map, Observable, tap } from "rxjs";
 import { type RenderFunction, shallowRef, type VNodeChild } from "vue";
 import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribeUntilUnmount";
-import type { Slots } from "../types";
+import { type Slots } from "../types";
 
-export function createRender(slots: Slots) {
-  return <T extends any>(renderFunc: (value: T) => VNodeChild) => {
-    return (input$: Observable<T>) => {
-
-      return (
-        <RxSlot
-          elem$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}
-        >
-          {slots}
-        </RxSlot>
-      );
-    };
+export function render<T extends any>(renderFunc: (value: T) => VNodeChild) {
+  return (input$: Observable<T>): JSX.Element => {
+    return (
+      <RxSlot
+        elem$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}
+      >
+        {{}}
+      </RxSlot>
+    );
   };
 }
 
 /**
  * When elem$ with slots, slots must pass as children to trigger rerender
- * <RxSlot elem$={elem$}>{slots}</RxSlot>
+ * <RxSlot elem$={elem$}>{{}}</RxSlot>
  */
-const RxSlot = component(
+export const RxSlot = component(
   {
-    elem$: z.custom<Observable<RenderFunction>>()
+    elem$: z.custom<Observable<RenderFunction>>(),
+    $default: z.custom<Slots>()
   },
-  (props) => {
+  (props, {}) => {
     const r = shallowRef<RenderFunction | null>(null);
 
     rx(

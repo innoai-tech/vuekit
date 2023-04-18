@@ -24,7 +24,7 @@ export default component(() => {
 
 ```tsx preview
 import { component, z } from "@innoai-tech/vuekit";
-import { ref, type VNode } from "vue";
+import { ref, type VNode, VNodeChild } from "vue";
 
 export const TextInput = component(
   {
@@ -63,9 +63,11 @@ export interface Option {
 export const List = component(
   {
     // $ 前缀视为 slots
-    $title: z.custom<VNode>(),
+    $title: z.custom<VNodeChild>().optional(),
     // renderProp
-    $item: z.custom<(option: Option) => VNode>()
+    $item: z.custom<(option: Option) => VNode>().optional(),
+
+    $default: z.custom<VNodeChild>().optional()
 
     // 以此避免多插槽时 children slots object 的写法, 且无类型约束，
     // {{ default: () => VNode, title: () => VNode, item: (option: Option) => VNode }}

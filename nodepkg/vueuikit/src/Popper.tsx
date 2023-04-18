@@ -5,7 +5,7 @@ import {
   type Modifier
 } from "@popperjs/core";
 import { z, component } from "@innoai-tech/vuekit";
-import { cloneVNode, ref, watch, type VNode } from "vue";
+import { cloneVNode, ref, watch, type VNode, type VNodeChild } from "vue";
 import { Overlay } from "./Overlay";
 import type {
   ModifierArguments,
@@ -32,7 +32,8 @@ export const Popper = component(
     placement: z.custom<Placement>().optional(),
     modifiers: z.custom<Array<Modifier<any, any>>>().optional(),
 
-    $content: z.custom<VNode>()
+    $content: z.custom<VNodeChild>(),
+    $default: z.custom<JSX.Element | null>()
   },
   (props, { slots, emit }) => {
     const triggerRef = ref<HTMLElement | null>(null);

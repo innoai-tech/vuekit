@@ -42,13 +42,14 @@ const TooltipContainer = styled("div")({
 
 export const Tooltip = component(
   {
-    title: z.custom<string | VNode>()
+    title: z.custom<string | VNode>(),
+    $default: z.custom<JSX.Element>()
   },
   (props, { slots }) => {
     const isOpen = ref(false);
 
     return () => {
-      const child = slots.default ? slots.default()[0] : undefined;
+      const child = slots.default()[0];
 
       return (
         <Popper

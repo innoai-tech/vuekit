@@ -7,7 +7,8 @@ import {
   rx,
   observableRef,
   subscribeUntilUnmount,
-  z
+  z,
+  render
 } from "@innoai-tech/vuekit";
 import { ref } from "vue";
 import { debounceTime, subscribeOn } from "rxjs";
@@ -17,7 +18,7 @@ export const TextDebounceInput = component$(
     value: z.string().optional().default("1"),
     onValueChange: z.custom<(v: string) => void>()
   },
-  (props, { emit, render }) => {
+  (props, { emit }) => {
     const value$ = observableRef(props.value ?? "");
 
     rx(
@@ -28,9 +29,6 @@ export const TextDebounceInput = component$(
 
     return rx(
       value$,
-      // 由于 vue slots 机制的原因, 
-      // render 需要 slots，以确保 slot 更新时会 re-render.
-      // 因而，render 作为 额外的 ctx 方法
       render((v) => (
         <input
           value={v}

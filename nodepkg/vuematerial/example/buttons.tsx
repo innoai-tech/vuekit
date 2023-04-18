@@ -1,16 +1,15 @@
-import { component } from "@innoai-tech/vuekit";
+import { component, Fragment } from "@innoai-tech/vuekit";
 import {
   ElevatedButton,
   FilledButton,
   TextButton,
   TonalButton,
   OutlinedButton,
-  Icon,
+  Icon
 } from "@innoai-tech/vuematerial";
 import { Container } from "@webapp/vuekit/layout";
 import { Box } from "@innoai-tech/vueuikit";
 import { map } from "@innoai-tech/lodash";
-import { Fragment } from "vue";
 import { mdiPlus, mdiSend } from "@mdi/js";
 
 export default component(() => {
@@ -19,7 +18,7 @@ export default component(() => {
     Disabled: { disabled: true },
     Hovered: { hover: true },
     Focused: { focus: true },
-    Pressed: { active: true },
+    Pressed: { active: true }
   };
 
   const buttons = {
@@ -27,7 +26,7 @@ export default component(() => {
     FilledButton: FilledButton,
     TonalButton: TonalButton,
     OutlinedButton: OutlinedButton,
-    TextButton: TextButton,
+    TextButton: TextButton
   };
 
   return () => (
@@ -51,7 +50,7 @@ export default component(() => {
                   {v}
                   <Icon path={mdiSend} placement={"end"} />
                 </>
-              ),
+              )
             ].map((render, i) => (
               <Fragment key={i}>
                 <Box sx={{ display: "flex", gap: 16 }}>

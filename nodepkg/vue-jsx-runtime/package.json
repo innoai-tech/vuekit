@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-jsx-runtime",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "monobundle": {
     "exports": {
       "./jsx-runtime": "./src/jsx-runtime.ts",

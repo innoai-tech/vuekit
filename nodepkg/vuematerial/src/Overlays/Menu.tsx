@@ -32,7 +32,8 @@ export const ListItem = styled("div")({
 export const Menu = component(
   {
     placement: z.custom<import("@popperjs/core").Placement>().optional(),
-    $menu: z.custom<VNode>()
+    $menu: z.custom<VNode>(),
+    $default: z.custom<JSX.Element>()
   },
   (props, { slots }) => {
     const isOpen = ref(false);

@@ -1,7 +1,7 @@
 import { test, describe, expect } from "vitest";
 import { of, filter, map } from "rxjs";
 import { toComputed, observableRef, component$, rx } from "..";
-import { z, component, type VNode } from "../..";
+import { z, component, type VNode } from "../../index";
 import { mount } from "@vue/test-utils";
 
 /**
@@ -62,12 +62,17 @@ describe("vue reactive", () => {
       ({}, { slots, render }) => {
         const input$ = observableRef("");
 
+        const inputEl = rx(
+          input$,
+          render(() => <div>{slots.input?.()}</div>)
+        );
+
         return rx(
           input$,
           render((input) => (
             <div>
               <div>{input}</div>
-              <div>{slots.input?.()}</div>
+              {inputEl}
             </div>
           ))
         );
@@ -79,9 +84,7 @@ describe("vue reactive", () => {
         input: z.custom<VNode>()
       },
       (props) => {
-        return () => (
-          <C $input={props.input} />
-        );
+        return () => <C $input={props.input} />;
       }
     );
 
@@ -104,9 +107,7 @@ describe("vue reactive", () => {
     const C = component$({ input: z.number() }, ({ input$ }, { render }) => {
       const inputEl = rx(
         input$,
-        render((v) => (
-          <div data-role="input">{v}</div>
-        ))
+        render((v) => <div data-role="input">{v}</div>)
       );
 
       return rx(

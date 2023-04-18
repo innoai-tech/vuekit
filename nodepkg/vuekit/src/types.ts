@@ -12,12 +12,13 @@ import {
   type ObjectEmitsOptions,
   type VNode,
   type RenderFunction,
-  type Slot
+  type Slot,
+  type VNodeChild
 } from "vue";
 
 export type VElementType = string | Component<any>;
 
-export { type RenderFunction, type VNode };
+export { type RenderFunction, type VNode, type VNodeChild };
 
 export type Emits = Record<string, (...args: any[]) => any>;
 export type Slots = Record<string, Slot>;
@@ -29,13 +30,14 @@ export type Component<P extends Record<string, any>> = FunctionalComponent<
   propTypes: PropTypesOf<P>;
 };
 
-export type SetupContext<
-  E extends Emits,
-  S extends Slots
-> = {
+export  type WithDefaultSlot = {
+  $default?: VNodeChild,
+}
+
+export type SetupContext<E extends Emits, S extends Slots> = {
   attrs: Record<string, unknown>;
-  slots: { [K in keyof S]?: S[K] } & { default?: Slot };
   emit: EmitFn<E>;
+  slots: S;
 };
 
 type EmitFn<
@@ -85,7 +87,7 @@ export type SetupFunction<PropTypes extends Record<string, ZodTypeAny>> = (
 export type PublicPropsOf<
   O extends Record<string, ZodTypeAny>,
   P extends Record<string, any> = TypeOfPublic<O>
-> = PickProps<P> & Partial<PickEmitProps<P>> & Partial<PickSlotProps<P>>;
+> = PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>;
 
 export type InternalPropsOf<
   O extends Record<string, ZodTypeAny>,
@@ -134,14 +136,12 @@ type ToInternalEmits<O extends ObjectEmitsOptions> = {
   [K in keyof O as K extends string ? EmitName<K> : never]: O[K];
 };
 
-export type PickSlotProps<O extends Record<string, any>> = Required<{
-  [K in keyof O as K extends string ? SlotProp<K> : never]: NonNullable<O[K]>;
-}>;
+export type PickSlotProps<O extends Record<string, any>> = {
+  [K in keyof O as K extends string ? SlotProp<K> : never]: O[K];
+};
 
 export type ToInternalSlots<O extends Record<string, any>> = {
-  [K in keyof O as K extends string ? SlotName<K> : never]: O[K] extends (
-      v: infer P
-    ) => any
+  [K in keyof O as K extends string ? SlotName<K> : never]: O[K] extends (v: infer P) => any
     ? (p: P) => VNode[]
     : () => VNode[];
 };

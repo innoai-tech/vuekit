@@ -11,7 +11,8 @@ import {
   unref,
   type Ref,
   watch,
-  type CSSProperties
+  type CSSProperties,
+  type VNodeChild
 } from "vue";
 
 const OverlayProvider = createProvider<OverlayContext>(
@@ -68,7 +69,9 @@ export const Overlay = component(
     contentRef: z.custom<Ref<HTMLDivElement | null>>().optional(),
     triggerRef: z.custom<Ref<HTMLElement | null>>().optional(),
     transition: z.custom<Component<any>>().optional(),
-    onClickOutside: z.custom<(e: Event) => void>()
+    onClickOutside: z.custom<(e: Event) => void>(),
+
+    $default: z.custom<VNodeChild>().optional()
   },
   (props, { slots, attrs, emit }) => {
     const contentRef = props.contentRef || ref<HTMLDivElement | null>(null);
@@ -113,15 +116,17 @@ export const Overlay = component(
       const content = props.isOpen ? (
         <div {...attrs} ref={contentRef} style={props.style}>
           <OverlayProvider value={popperContext}>
-            {slots.default?.()}
+            <>{slots.default?.()}</>
           </OverlayProvider>
         </div>
       ) : null;
 
+      const Portal = Teleport as any;
+
       return (
-        <Teleport to="body">
-          {MayTransition ? <MayTransition>{content}</MayTransition> : content}
-        </Teleport>
+        <Portal to="body">
+          {MayTransition ? <MayTransition>{content}</MayTransition> : <>{content}</>}
+        </Portal>
       );
     };
   },

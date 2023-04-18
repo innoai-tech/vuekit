@@ -1,5 +1,4 @@
 import { component, type ComponentOptions } from "../component";
-import { isFunction } from "@innoai-tech/lodash";
 import { type Observables, toObservables } from "./toObservable";
 import { type ZodTypeAny } from "zod";
 import {
@@ -8,10 +7,13 @@ import {
   type InternalPropsOf,
   type PublicPropsOf,
   type InternalSlotsOf,
-  type RenderFunction,
-  type SetupContext,
+  type SetupContext
 } from "../types";
-import { createRender } from "./RxSlot";
+import { render } from "./RxSlot";
+import type { RenderFunction } from "vue";
+import { isFunction } from "@innoai-tech/lodash";
+
+export { render };
 
 export type ObservablesAndProps<Props extends Record<string, any>> =
   Observables<Props> & Omit<Props, keyof Observables<Props>>;
@@ -23,7 +25,7 @@ export type ObservableSetupFunction<
   ctx: SetupContext<
     InternalEmitsOf<PropTypes>,
     InternalSlotsOf<PropTypes>
-  > & { render: ReturnType<typeof createRender> }
+  > & { render: typeof render }
 ) => RenderFunction | JSX.Element | null;
 
 export function component$(
@@ -59,8 +61,6 @@ export function component$<PropTypes extends Record<string, ZodTypeAny>>(
           }
         }
       ) as any;
-
-      const render = createRender(ctx.slots);
 
       const c = new Proxy(
         {},

@@ -75,7 +75,8 @@ export const defineTransition = <T extends {}>(
   };
 
   return component({
-    onComplete: z.custom<(v: "enter" | "leave") => void>()
+    onComplete: z.custom<(v: "enter" | "leave") => void>(),
+    $default: z.custom<JSX.Element | null>()
   }, ({}, { slots, emit }) => {
     let animated: any;
 

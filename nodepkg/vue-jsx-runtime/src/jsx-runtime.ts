@@ -1,4 +1,4 @@
-import { h, Fragment } from "vue";
+import { h, Fragment, type VNodeChild } from "vue";
 
 export { Fragment };
 
@@ -98,3 +98,29 @@ export const jsx = (type: any, rawProps: any, key?: string) => {
   }
   return h(type, props, slots);
 };
+
+
+declare module "vue" {
+  // always contains default slots
+  interface HTMLAttributes {
+    $default?: VNodeChild;
+  }
+
+  interface SVGAttributes {
+    $default?: VNodeChild;
+  }
+
+  interface TransitionProps {
+    $default?: VNodeChild;
+  }
+
+}
+
+declare global {
+  namespace JSX {
+    //  infer children type
+    interface ElementChildrenAttribute {
+      $default: {};
+    }
+  }
+}
