@@ -4,7 +4,15 @@ import {
   component,
   type Component
 } from "@innoai-tech/vuekit";
-import { Teleport, onBeforeUnmount, ref, unref, type Ref, watch, type CSSProperties } from "vue";
+import {
+  Teleport,
+  onBeforeUnmount,
+  ref,
+  unref,
+  type Ref,
+  watch,
+  type CSSProperties
+} from "vue";
 
 const OverlayProvider = createProvider<OverlayContext>(
   () => {
@@ -58,13 +66,17 @@ export const Overlay = component(
     isOpen: z.boolean().optional(),
     style: z.custom<CSSProperties>().optional(),
     contentRef: z.custom<Ref<HTMLDivElement | null>>().optional(),
+    triggerRef: z.custom<Ref<HTMLElement | null>>().optional(),
     transition: z.custom<Component<any>>().optional(),
     onClickOutside: z.custom<(e: Event) => void>()
   },
   (props, { slots, attrs, emit }) => {
     const contentRef = props.contentRef || ref<HTMLDivElement | null>(null);
 
-    const popperContext = new OverlayContext(ref(null), contentRef);
+    const popperContext = new OverlayContext(
+      props.triggerRef ?? ref(null),
+      contentRef
+    );
 
     const parent = OverlayProvider.use();
     onBeforeUnmount(parent.add(popperContext));

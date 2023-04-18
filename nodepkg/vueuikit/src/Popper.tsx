@@ -62,6 +62,7 @@ export const Popper = component(
               }
             })}
           <Overlay
+            triggerRef={triggerRef}
             contentRef={contentRef}
             isOpen={props.isOpen}
             transition={props.transition}
