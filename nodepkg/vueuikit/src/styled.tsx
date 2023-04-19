@@ -8,7 +8,7 @@ import {
   type InternalPropsOf,
   type ZodTypeAny,
   type VElementType,
-  z,
+  z
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
 import { type SxProps, Box } from "./Box";
@@ -88,7 +88,7 @@ export function styled<
       {
         ...finalPropTypes,
         sx: z.custom<SystemStyleObject>().optional(),
-        component: z.custom<VElementType>().optional(),
+        component: z.custom<VElementType>().optional()
       },
       (props, ctx) => {
         const theme = ThemeProvider.use();
@@ -117,7 +117,7 @@ export function styled<
                     ...ctx.attrs,
                     component: (props as any).component,
                     sx: (props as any).sx,
-                    class: className,
+                    class: className
                   })}
                   <Insertion
                     serialized={serialized}
@@ -146,7 +146,7 @@ export function styled<
                   ...ctx.attrs,
                   component: (props as any).component ?? defaultComponent,
                   sx: (props as any).sx,
-                  class: className,
+                  class: className
                 })}
               </>
             );
@@ -156,7 +156,7 @@ export function styled<
         };
       },
       {
-        inheritAttrs: false,
+        inheritAttrs: false
       }
     ) as any;
 

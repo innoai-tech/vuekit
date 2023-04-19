@@ -1,5 +1,6 @@
 import { component } from "@innoai-tech/vuekit";
 import { Box, ThemeProvider } from "@innoai-tech/vueuikit";
+
 export default component(() => {
   const theme = ThemeProvider.use();
 
@@ -15,9 +16,10 @@ export default component(() => {
             transitionDuration: "md4",
             transitionTimingFunction: "standard",
             shadow: elevation as any,
-            "&:hover": {
-              shadow: `${1 + parseInt(elevation)}` as any,
-            },
+
+            _hover: {
+              shadow: `${1 + parseInt(elevation)}` as any
+            }
           }}
         >
           <div>Elevation {elevation}</div>

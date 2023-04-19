@@ -7,7 +7,7 @@ import {
   DesignTokenType,
   isVariant,
   Mixin,
-  TokenSet
+  TokenSet,
 } from "./token";
 import { serializeStyles } from "@emotion/serialize";
 import type { EmotionCache } from "@emotion/utils";
@@ -28,7 +28,7 @@ const toMap = (list: string[]): { [K: string]: true } =>
   list.reduce(
     (ret, v) => ({
       ...ret,
-      [v]: true
+      [v]: true,
     }),
     {}
   ) as any;
@@ -42,7 +42,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     ...DesignToken.fontSize({}).on,
     ...DesignToken.letterSpacing({}).on,
     ...DesignToken.lineHeight({}).on,
-    ...DesignToken.rounded({}).on
+    ...DesignToken.rounded({}).on,
   ]);
 
   static create<T extends Record<string, DesignTokenOptionAny>>(
@@ -84,7 +84,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
       if (dt.type == DesignTokenType.var) {
         const dtv = new TokenSet(dt, {
           cssVar: (token: string) => this.cssVar(scale, token),
-          transformFallback: (v) => this.transformFallback(dt.on[0], v)
+          transformFallback: (v) => this.transformFallback(dt.on[0], v),
         });
 
         this.tokens[scale] = dtv;
@@ -144,7 +144,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
             (token: string) =>
               this.tokens[prop as any]?.get(token, `_${this.mode}`),
             {
-              tokens: this.tokens[prop as any]?.tokens
+              tokens: this.tokens[prop as any]?.tokens,
             }
           );
         }
@@ -152,12 +152,12 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
           return Object.assign(
             (token: string) => this.mixins[prop as any]?.get(token),
             {
-              tokens: this.mixins[prop as any]?.tokens
+              tokens: this.mixins[prop as any]?.tokens,
             }
           );
         }
         return;
-      }
+      },
     }
   ) as any;
 
@@ -175,7 +175,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     return new CSSProcessor({
       mixins: this.mixins,
       varPrefix: this.varPrefix,
-      processValue: this.processValue
+      processValue: this.processValue,
     }).processAll(sx);
   };
 
@@ -186,12 +186,9 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     const inputs = (sx ?? {}) as any;
 
     // mutate for cache
-    inputs.__emotion_styles = inputs.__emotion_styles ??
-      serializeStyles(
-        this.unstable_sx(sx),
-        cache?.registered,
-        {}
-      );
+    inputs.__emotion_styles =
+      inputs.__emotion_styles ??
+      serializeStyles(this.unstable_sx(sx), cache?.registered, {});
 
     return inputs.__emotion_styles;
   }

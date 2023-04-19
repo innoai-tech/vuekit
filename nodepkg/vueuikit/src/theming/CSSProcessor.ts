@@ -1,11 +1,84 @@
-import { isPlainObject, isEmpty, set, last, get } from "@innoai-tech/lodash";
-import { aliases, extensions, pseudoSelectors } from "./csstype";
+import {
+  isPlainObject,
+  isEmpty,
+  set,
+  last,
+  get,
+  kebabCase
+} from "@innoai-tech/lodash";
+import {
+  aliases,
+  extensions,
+  getSupportedPseudoClasses,
+  pseudoSelectors
+} from "./csstype";
 
 export interface Mixin {
   get(token: string): {} | undefined;
 }
 
 export class CSSProcessor {
+  static supportedPseudoClasses: Record<string, string> =
+    getSupportedPseudoClasses();
+
+  static convertSelector = (selector: string) => {
+    if ((pseudoSelectors as any)[selector]) {
+      return (pseudoSelectors as any)[selector];
+    }
+
+    if (
+      selector.startsWith("$") ||
+      selector.endsWith("$") ||
+      selector.startsWith("_")
+    ) {
+      let prefix = "";
+      let suffix = "";
+
+      if (selector.startsWith("_")) {
+        prefix = "&";
+        selector = selector.slice(1);
+      } else if (selector.startsWith("$")) {
+        prefix = "& ";
+        selector = selector.slice(1);
+      } else {
+        suffix = " &";
+        selector = selector.slice(0, selector.length - 1);
+      }
+
+      if (selector.startsWith("data") || selector.startsWith("aria")) {
+        const [k, v] = selector.split("__");
+        return v
+          ? `${prefix}[${kebabCase(k)}='${kebabCase(v)}']${suffix}`
+          : `${prefix}[${kebabCase(k)}]${suffix}`;
+      }
+
+      if (prefix == "&") {
+        if (selector.startsWith("$")) {
+          return `${prefix}::${selector.slice(1)}`;
+        }
+
+        if (CSSProcessor.supportedPseudoClasses[selector]) {
+          const pseudoClass = CSSProcessor.supportedPseudoClasses[selector]!;
+
+          return [
+            `${prefix}:${pseudoClass}`,
+            `${prefix}[data-${pseudoClass}]:not([data-${pseudoClass}='false'])`,
+            `${prefix}.${pseudoClass}` // fallback with class for overwrite
+          ].join(", ");
+        }
+
+        const [k, v] = selector.split("__");
+        const stateKey = kebabCase(k);
+
+        return v
+          ? `${prefix}[data-${stateKey}='${kebabCase(v)}']`
+          : `${prefix}[data-${stateKey}]:not([data-${stateKey}='false'])`;
+      }
+    }
+
+    return;
+  };
+
   static walkStateValues = (
     values: Record<string, any>,
     cb: (v: any, path: string[], when: string[]) => void,
@@ -16,7 +89,7 @@ export class CSSProcessor {
     } = {
       default: {},
       selectorPath: [],
-      path: [],
+      path: []
     }
   ) => {
     const { $, ...others } = values;
@@ -36,7 +109,7 @@ export class CSSProcessor {
         CSSProcessor.walkStateValues(v, cb, {
           path,
           selectorPath: selectorPath,
-          default: finalDefault,
+          default: finalDefault
         });
         continue;
       }
@@ -51,7 +124,8 @@ export class CSSProcessor {
       processValue: (p: string, v: any) => any;
       varPrefix: string;
     }
-  ) {}
+  ) {
+  }
 
   processAll(src: Record<string, any>, full: boolean = true) {
     const ret: Array<Record<string, any>> = [];
@@ -115,8 +189,9 @@ export class CSSProcessor {
     }
 
     if (isPlainObject(v)) {
-      // resolve pseudoSelectors
-      p = (pseudoSelectors as any)[p] ?? p;
+      // resolve pseudoSelectors or std selector
+      p = CSSProcessor.convertSelector(p) ?? p;
+
       dest[p] = dest[p] ?? {};
       this.processTo(dest[p], v);
       return;

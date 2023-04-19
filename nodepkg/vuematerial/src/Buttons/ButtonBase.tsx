@@ -37,7 +37,7 @@ export const ButtonBase = styled("button", {
   pos: "relative",
   zIndex: 1,
 
-  _before: {
+  _$before: {
     content: `""`,
     pos: "absolute",
     top: 0,
@@ -50,13 +50,12 @@ export const ButtonBase = styled("button", {
     transitionTimingFunction: "standard-accelerate",
   },
 
-  "& [data-icon]": {
+  $data_icon: {
     boxSize: 18,
-
-    "&[data-placement=start]": {
+    _data_placement__start: {
       ml: -8,
     },
-    "&[data-placement=end]": {
+    _data_placement__end: {
       mr: -8,
     },
   },

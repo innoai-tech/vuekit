@@ -1,5 +1,4 @@
-import { component } from "@innoai-tech/vuekit";
-import { Fragment } from "vue";
+import { component, Fragment } from "@innoai-tech/vuekit";
 import { Box } from "@innoai-tech/vueuikit";
 import { map, upperFirst } from "@innoai-tech/lodash";
 

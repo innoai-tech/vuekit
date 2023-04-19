@@ -19,7 +19,8 @@ const Container = styled("div")({
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
-  "& [data-dialog-backdrop]": {
+
+  $_data_dialog_backdrop: {
     cursor: "pointer",
     pos: "absolute",
     top: 0,

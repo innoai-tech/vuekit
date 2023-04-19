@@ -1,57 +1,114 @@
+import { type SimplePseudos } from "csstype";
+
 export const pseudoSelectors = {
-  _: "&",
-
-  _before: "&::before",
-  _after: "&::after",
-  _empty: "&:empty",
-
-  _hover: "&:hover, &[data-hover], &.hover",
-  _active: "&:active, &[data-active], &.active",
-  _focus: "&:focus, &[data-focus], &.focus",
-  _disabled:
-    "&:disabled, &[disabled], &[aria-disabled=true], &[data-disabled], &.disabled",
-
-  _highlighted: "&[data-highlighted]",
-  _focusWithin: "&:focus-within",
-  _focusVisible: "&:focus-visible, &[data-focus-visible]",
-
-  _readOnly: "&[aria-readonly=true], &[readonly], &[data-readonly], &.readonly",
-
-  _expanded: "&[aria-expanded=true], &[data-expanded], &.expanded",
-  _checked: "&[aria-checked=true], &[data-checked], &.checked",
-  _grabbed: "&[aria-grabbed=true], &[data-grabbed], &.grabbed",
-  _pressed: "&[aria-pressed=true], &[data-pressed], &.pressed",
-  _invalid: "&[aria-invalid=true], &[data-invalid], &.invalid",
-  _valid: "&[data-valid], &[data-state=valid], &.valid",
-  _loading: "&[data-loading], &[aria-busy=true], &.loading",
-  _selected: "&[aria-selected=true], &[data-selected], &.selected",
-  _hidden: "&[hidden], &[data-hidden], &.hidden",
-
-  _autofill: "&:-webkit-autofill",
-  _even: "&:nth-of-type(even)",
-  _odd: "&:nth-of-type(odd)",
-  _first: "&:first-of-type",
-  _firstLetter: "&::first-letter",
-  _last: "&:last-of-type",
-  _notFirst: "&:not(:first-of-type)",
-  _notLast: "&:not(:last-of-type)",
-  _visited: "&:visited",
-
-  _activeLink: "&[aria-current=page]",
-  _activeStep: "&[aria-current=step]",
-
-  _indeterminate:
-    "&:indeterminate, &[aria-checked=mixed], &[data-indeterminate]",
-  _placeholder: "&::placeholder",
-  _placeholderShown: "&:placeholder-shown",
-  _fullScreen: "&:fullscreen",
-  _selection: "&::selection",
-
   _rtl: "[dir=rtl] &, &[dir=rtl]",
   _ltr: "[dir=ltr] &, &[dir=ltr]",
-
   _dark: "&[data-theme=dark]",
-  _light: "&[data-theme=light]",
+  _light: "&[data-theme=light]"
 };
 
 export type Pseudos = typeof pseudoSelectors;
+
+type DistributePseudoElement<U> = U extends `::-${
+    | "moz"
+    | "ms"
+    | "khtml"
+    | "webkit"}-${string}`
+  ? never
+  : U extends `::${string}`
+    ? U
+    : never;
+
+type DistributePseudoClass<U> = U extends `::${string}`
+  ? never
+  : U extends `:-${"moz" | "ms" | "khtml" | "webkit"}-${string}`
+    ? never
+    : U extends `:${string}`
+      ? U
+      : never;
+
+type PseudoElements = DistributePseudoElement<SimplePseudos>;
+type PseudoClasses = DistributePseudoClass<SimplePseudos>;
+
+type ToCamelCase<S> = S extends `${infer T}-${infer U}`
+  ? `${T}${Capitalize<ToCamelCase<U>>}`
+  : S;
+
+type DistributePseudoElementNames<U> = U extends `::${infer N}` ? N : never;
+type DistributePseudoClassNames<U> = U extends `:${infer N}` ? N : never;
+
+export type PseudoElementAliases = {
+  [K in DistributePseudoElementNames<PseudoElements> as K extends string
+    ? `_$${ToCamelCase<K>}`
+    : never]: K;
+};
+
+export type PseudoClassAliases = {
+  [K in DistributePseudoClassNames<PseudoClasses> as K extends string
+    ? `_${ToCamelCase<K>}`
+    : never]: K;
+};
+
+
+export function getSupportedPseudoClasses(): {
+  [K in DistributePseudoClassNames<PseudoClasses> as K extends string
+    ? `${ToCamelCase<K>}`
+    : never]: K;
+} {
+  return {
+    active: "active",
+    after: "after",
+    anyLink: "any-link",
+    before: "before",
+    blank: "blank",
+    checked: "checked",
+    current: "current",
+    default: "default",
+    defined: "defined",
+    disabled: "disabled",
+    empty: "empty",
+    enabled: "enabled",
+    first: "first",
+    firstChild: "first-child",
+    firstLetter: "first-letter",
+    firstLine: "first-line",
+    firstOfType: "first-of-type",
+    focus: "focus",
+    focusVisible: "focus-visible",
+    focusWithin: "focus-within",
+    fullscreen: "fullscreen",
+    future: "future",
+    hover: "hover",
+    inRange: "in-range",
+    indeterminate: "indeterminate",
+    invalid: "invalid",
+    lastChild: "last-child",
+    lastOfType: "last-of-type",
+    left: "left",
+    link: "link",
+    localLink: "local-link",
+    nthCol: "nth-col",
+    nthLastCol: "nth-last-col",
+    onlyChild: "only-child",
+    onlyOfType: "only-of-type",
+    optional: "optional",
+    outOfRange: "out-of-range",
+    past: "past",
+    paused: "paused",
+    pictureInPicture: "picture-in-picture",
+    placeholderShown: "placeholder-shown",
+    playing: "playing",
+    readOnly: "read-only",
+    readWrite: "read-write",
+    required: "required",
+    right: "right",
+    root: "root",
+    scope: "scope",
+    target: "target",
+    targetWithin: "target-within",
+    userInvalid: "user-invalid",
+    userValid: "user-valid",
+    valid: "valid",
+    visited: "visited"
+  };
+};

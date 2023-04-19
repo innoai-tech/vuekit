@@ -35,7 +35,7 @@ export const Button = styled("button", {
   // 通常情况下，组件 props 将转换成 data-<prop> 作为 attr
   // 即： <Button disabled/>  =>  <button data-disabled=true />
   // 同理，在自定义转换规则中，也建议如下做类似的转换，避免动态创建 CSSObject
-  "&[data-disabled='true']": {
+  _disabled: {
     color: variant("sys.on-surface", alpha(0.12)),
     bgColor: variant("sys.on-surface", alpha(0.08)),
   },
@@ -100,3 +100,24 @@ export default component(() => () => (
   </Box>
 ));
 ```
+
+### CSS Selector 简写规则
+
+另外，为了简化 `"&:hover"` `&[aria-current='page']` 等选择器声明，
+提供的如下的简化规则：
+
+- 所有名称支持 _下划线命名_ 或者 _驼峰命名_，最终都将转换为 _短横小写命名_, `=` 用 `__` 替代
+- `_*` 一般表示**状态**，可用值
+    - `data-*` 和 `aria-*`, `
+        - 如 `_aria_current__page`： 等效为 `&[aria-current='page']`,
+    - `before`，`after` 等[伪元素](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements), 需要声明 "$" 表示为元素
+        - 如 `_$before`： 等效为 `&::before`
+    - `hover`, `focus`, `active`, `disabled` 等[伪类](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes)
+        - 如 `_hover`： 等效为 `&:hover, &.hover, &[data-hover]:not([data-hover='false'])`,
+    - 以及其他自定义状态
+        - 如 `_has_icon`： 等效为 `&[data-has-icon]:not([data-has-icon='false'])`
+- `$*` 或 `*$`，一般指代**元素节点**, 可用值为
+    - `data-*` 和 `aria-*`, `
+        - 如 `$data_icon`： 等效为 `&[data-icon]`
+        - 如 `$data_popper_arrow`： 等效为 `&[data-popper-arrow]`
+        - 如 `data_popper_placement__right$`： 等效为 `[data-popper-placement=right] &`

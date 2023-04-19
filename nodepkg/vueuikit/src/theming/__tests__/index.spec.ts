@@ -1,8 +1,26 @@
 import { test, describe, expect } from "vitest";
 import { alpha, defaultTheming, variant } from "../index";
-import { pseudoSelectors } from "../csstype";
+import { CSSProcessor } from "../CSSProcessor";
 
 describe("theming", () => {
+  test("selector rule", () => {
+    const selectors: Record<string, string> = {
+      _aria_current__page: "&[aria-current='page']",
+      _hover: "&:hover, &[data-hover]:not([data-hover='false']), &.hover",
+      _$before: "&::before",
+      _data_role__heading: "&[data-role='heading']",
+      $dataRole__heading: "& [data-role='heading']",
+
+      $data_popper_arrow: "& [data-popper-arrow]",
+
+      data_popper_placement__right$: "[data-popper-placement='right'] &"
+    };
+
+    for (const k in selectors) {
+      expect(CSSProcessor.convertSelector(k)).toBe(selectors[k]);
+    }
+  });
+
   test("css", () => {
     const cs = defaultTheming.unstable_sx({
       extends: [
@@ -10,24 +28,19 @@ describe("theming", () => {
           px: 4,
           py: 2,
           w: 1 / 4,
-          rounded: 20,
-        },
+          rounded: 20
+        }
       ],
-      state: {
-        default: {
-          color: "sys.on-primary-container",
 
-          layer: {
-            $: pseudoSelectors._before,
+      color: "sys.on-primary-container",
 
-            bgColor: "sys.primary-container",
-          },
-        },
-
-        hovered: {
-          bgColor: variant("secondary.20", alpha(0.12)),
-        },
+      _$before: {
+        bgColor: "sys.primary-container"
       },
+
+      _error: {
+        bgColor: variant("secondary.20", alpha(0.12))
+      }
     });
 
     expect(cs).toEqual([
@@ -37,23 +50,18 @@ describe("theming", () => {
         paddingLeft: "calc(4 * var(--vk-space-dp))",
         paddingRight: "calc(4 * var(--vk-space-dp))",
         paddingTop: "calc(2 * var(--vk-space-dp))",
-        width: "25%",
+        width: "25%"
       },
       {
-        "--vk-state-default-color": "var(--vk-color-sys-on-primary-container)",
-        "--vk-state-default-layer-bgColor":
-          "var(--vk-color-sys-primary-container)",
-        "--vk-state-hovered-bgColor":
-          "rgba(var(--vk-color-secondary-20-rgb) / 0.12)",
-      },
-      {
+        color: "var(--vk-color-sys-on-primary-container)",
+        fill: "var(--vk-color-sys-on-primary-container)",
         "&::before": {
-          backgroundColor: "var(--vk-state-default-layer-bgColor)",
+          backgroundColor: "var(--vk-color-sys-primary-container)"
         },
-        backgroundColor: "var(--vk-state-hovered-bgColor)",
-        color: "var(--vk-state-default-color)",
-        fill: "var(--vk-state-default-color)",
-      },
+        "&[data-error]:not([data-error='false'])": {
+          backgroundColor: "rgba(var(--vk-color-secondary-20-rgb) / 0.12)"
+        }
+      }
     ]);
   });
 });
