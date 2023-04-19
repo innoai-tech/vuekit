@@ -114,6 +114,9 @@ declare module "vue" {
     $default?: VNodeChild;
   }
 
+  interface TeleportProps {
+    $default?: VNodeChild;
+  }
 }
 
 declare global {

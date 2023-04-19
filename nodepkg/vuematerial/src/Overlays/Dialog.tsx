@@ -71,7 +71,7 @@ export const Dialog = component(
   },
   (props, { slots, emit }) => {
     const mount = ref(props.isOpen ?? false);
-    const animate = ref(false);
+    const animateEnterOrLeave = ref(false);
 
     watch(() => props.isOpen, (open) => {
       if (open === true) {
@@ -79,13 +79,13 @@ export const Dialog = component(
         mount.value = true;
       } else if (open === false) {
         // animate leave first，then unmount
-        animate.value = false;
+        animateEnterOrLeave.value = false;
       }
     });
 
     return () => {
       return (
-        <Overlay isOpen={mount.value}>
+        <Overlay isOpen={mount.value} onEscKeydown={() => animateEnterOrLeave.value = false}>
           {cloneVNode(
             <Container>
               <FadeInOutTransition
@@ -96,10 +96,10 @@ export const Dialog = component(
                   }
                 }}
               >
-                {animate.value ? (
+                {animateEnterOrLeave.value ? (
                   <div
                     data-dialog-backdrop={""}
-                    onClick={() => (animate.value = false)}
+                    onClick={() => (animateEnterOrLeave.value = false)}
                   />
                 ) : null}
               </FadeInOutTransition>
@@ -107,7 +107,7 @@ export const Dialog = component(
             </Container>,
             {
               onVnodeBeforeMount: () => {
-                animate.value = true;
+                animateEnterOrLeave.value = true;
               }
             }
           )}

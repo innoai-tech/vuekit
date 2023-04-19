@@ -2,7 +2,11 @@ import {
   createProvider,
   z,
   component,
-  type Component
+  type Component,
+  rx,
+  toObservable,
+  tapEffect,
+  subscribeUntilUnmount
 } from "@innoai-tech/vuekit";
 import {
   Teleport,
@@ -10,7 +14,6 @@ import {
   ref,
   unref,
   type Ref,
-  watch,
   type CSSProperties,
   type VNodeChild
 } from "vue";
@@ -60,6 +63,10 @@ class OverlayContext {
           event.composedPath().includes(contentEl)))
     );
   };
+
+  topmost() {
+    return this.children.length == 0;
+  }
 }
 
 export const Overlay = component(
@@ -69,7 +76,9 @@ export const Overlay = component(
     contentRef: z.custom<Ref<HTMLDivElement | null>>().optional(),
     triggerRef: z.custom<Ref<HTMLElement | null>>().optional(),
     transition: z.custom<Component<any>>().optional(),
+
     onClickOutside: z.custom<(e: Event) => void>(),
+    onEscKeydown: z.custom<(e: Event) => void>(),
 
     $default: z.custom<VNodeChild>().optional()
   },
@@ -85,29 +94,44 @@ export const Overlay = component(
     onBeforeUnmount(parent.add(popperContext));
 
     if (window) {
-      const event = "pointerdown";
-
-      const handleClickOutside = (event: Event) => {
-        if (popperContext.isClickInside(event)) {
-          return;
-        }
-        emit("click-outside", event);
-      };
-
-      watch(
-        () => contentRef.value,
-        (contentEl) => {
-          if (contentEl) {
-            window.addEventListener(event, handleClickOutside);
-          } else {
-            window.removeEventListener(event, handleClickOutside);
+      rx(
+        toObservable(contentRef, "value"),
+        tapEffect((contentEl) => {
+          if (!contentEl) {
+            return;
           }
-        }
-      );
 
-      onBeforeUnmount(() => {
-        window.removeEventListener(event, handleClickOutside);
-      });
+          const handleClickOutside = (event: Event) => {
+            if (popperContext.isClickInside(event)) {
+              return;
+            }
+            emit("click-outside", event);
+          };
+
+          window.addEventListener("pointerdown", handleClickOutside);
+          return () => {
+            window.removeEventListener("pointerdown", handleClickOutside);
+          };
+        }),
+
+        tapEffect((contentEl) => {
+          if (!contentEl) {
+            return;
+          }
+
+          const handleEscKeydown = (event: KeyboardEvent) => {
+            if (event.key === "Escape" && popperContext.topmost()) {
+              emit("esc-keydown", event);
+            }
+          };
+
+          window.addEventListener("keydown", handleEscKeydown);
+          return () => {
+            window.removeEventListener("keydown", handleEscKeydown);
+          };
+        }),
+        subscribeUntilUnmount()
+      );
     }
 
     return () => {
@@ -121,12 +145,10 @@ export const Overlay = component(
         </div>
       ) : null;
 
-      const Portal = Teleport as any;
-
       return (
-        <Portal to="body">
-          {MayTransition ? <MayTransition>{content}</MayTransition> : <>{content}</>}
-        </Portal>
+        <Teleport to="body">
+          {MayTransition ? <MayTransition>{content}</MayTransition> : content}
+        </Teleport>
       );
     };
   },
