@@ -1,4 +1,4 @@
-import{z as r,b as a,j as e,c as p,O as d,P as m,F as h}from"./lib-nodepkg-vuekit.2f75a673.chunk.js";import{s as u,v as c,a as t,B as l}from"./lib-nodepkg-vueuikit.896efdd5.chunk.js";const k=u("button",{disabled:r.boolean().optional()})({bg:"none",outline:"none",border:"none",px:16,h:40,rounded:"md",color:"sys.primary",bgColor:c("sys.primary",t(.08)),_disabled:{color:c("sys.on-surface",t(.12)),bgColor:c("sys.on-surface",t(.08))}}),N=()=>a(l,{sx:{display:"flex",gap:8},children:[e(o,{children:"按钮"}),e(o,{disabled:!0,children:"按钮"})]}),o=Object.assign(k,{displayName:"Button"}),g=p(()=>()=>e(l,{sx:{display:"flex",padding:10,containerStyle:"sys.primary"},children:e(l,{sx:{containerStyle:"sys.surface-container"},component:"button",children:"Hi 111"})})),y=Object.assign(g,{displayName:"IndexMdCodeBlock785F3Ec7Default"});function i(s){const n=Object.assign({p:"p",a:"a",code:"code",h2:"h2",div:"div",codeblock4a44dc15:"codeblock4a44dc15",pre:"pre",span:"span",codeblock785f3ec7:"codeblock785f3ec7",h3:"h3",ul:"ul",li:"li",em:"em"},s.components);return a(h,{children:[a(n.p,{children:["设计理念沿用 ",e(n.a,{href:"https://m3.material.io/",children:"Material 3"})]}),`
+import{z as r,b as a,j as e,c as p,P as d,Q as m,F as h}from"./lib-nodepkg-vuekit.7add095a.chunk.js";import{s as u,v as c,a as t,B as l}from"./lib-nodepkg-vueuikit.c4a21e8c.chunk.js";const k=u("button",{disabled:r.boolean().optional()})({bg:"none",outline:"none",border:"none",px:16,h:40,rounded:"md",color:"sys.primary",bgColor:c("sys.primary",t(.08)),_disabled:{color:c("sys.on-surface",t(.12)),bgColor:c("sys.on-surface",t(.08))}}),N=()=>a(l,{sx:{display:"flex",gap:8},children:[e(o,{children:"按钮"}),e(o,{disabled:!0,children:"按钮"})]}),o=Object.assign(k,{displayName:"Button"}),g=p(()=>()=>e(l,{sx:{display:"flex",padding:10,containerStyle:"sys.primary"},children:e(l,{sx:{containerStyle:"sys.surface-container"},component:"button",children:"Hi 111"})})),y=Object.assign(g,{displayName:"IndexMdCodeBlock785F3Ec7Default"});function i(s){const n=Object.assign({p:"p",a:"a",code:"code",h2:"h2",div:"div",codeblock4a44dc15:"codeblock4a44dc15",pre:"pre",span:"span",codeblock785f3ec7:"codeblock785f3ec7",h3:"h3",ul:"ul",li:"li",em:"em",strong:"strong"},s.components);return a(h,{children:[a(n.p,{children:["设计理念沿用 ",e(n.a,{href:"https://m3.material.io/",children:"Material 3"})]}),`
 `,e(n.p,{children:"这里仅为适配该设计理念，抽象 Design System, 方便开发："}),`
 `,a(n.p,{children:["所有的 Design Token 将声明为 ",e(n.code,{children:"css var"})," (",e(n.a,{href:"https://developer.mozilla.org/en-US/docs/Web/CSS/--*",children:"Custom properties"}),`),
 可同时支持在 `,e(n.code,{children:"css-in-js"})," 和 ",e(n.code,{children:"raw css"})," 中使用。"]}),`
@@ -91,16 +91,11 @@ import{z as r,b as a,j as e,c as p,O as d,P as m,F as h}from"./lib-nodepkg-vueki
 提供的如下的简化规则：`]}),`
 `,a(n.ul,{children:[`
 `,a(n.li,{children:["所有名称支持 ",e(n.em,{children:"下划线命名"})," 或者 ",e(n.em,{children:"驼峰命名"}),"，最终都将转换为 ",e(n.em,{children:"短横小写命名"}),", ",e(n.code,{children:"="})," 用 ",e(n.code,{children:"__"})," 替代"]}),`
-`,a(n.li,{children:[e(n.code,{children:"_TARGET"})," 等效为 ",e(n.code,{children:"&TARGET"}),", ",e(n.code,{children:"TARGET"})," 支持:",`
+`,a(n.li,{children:[e(n.code,{children:"_*"})," 一般表示",e(n.strong,{children:"状态"}),"，可用值",`
 `,a(n.ul,{children:[`
 `,a(n.li,{children:[e(n.code,{children:"data-*"})," 和 ",e(n.code,{children:"aria-*"}),", `",`
 `,a(n.ul,{children:[`
 `,a(n.li,{children:["如 ",e(n.code,{children:"_aria_current__page"}),"： 等效为 ",e(n.code,{children:"&[aria-current='page']"}),","]}),`
-`]}),`
-`]}),`
-`,a(n.li,{children:[e(n.code,{children:"hover"}),", ",e(n.code,{children:"focus"}),", ",e(n.code,{children:"active"}),", ",e(n.code,{children:"disabled"})," 等",e(n.a,{href:"https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes",children:"伪类"}),`
-`,a(n.ul,{children:[`
-`,a(n.li,{children:["如 ",e(n.code,{children:"_hover"}),"： 等效为 ",e(n.code,{children:"&:hover, &[data-hover=true], &.hover"})]}),`
 `]}),`
 `]}),`
 `,a(n.li,{children:[e(n.code,{children:"before"}),"，",e(n.code,{children:"after"})," 等",e(n.a,{href:"https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements",children:"伪元素"}),', 需要声明 "$" 表示为元素',`
@@ -108,9 +103,19 @@ import{z as r,b as a,j as e,c as p,O as d,P as m,F as h}from"./lib-nodepkg-vueki
 `,a(n.li,{children:["如 ",e(n.code,{children:"_$before"}),"： 等效为 ",e(n.code,{children:"&::before"})]}),`
 `]}),`
 `]}),`
+`,a(n.li,{children:[e(n.code,{children:"hover"}),", ",e(n.code,{children:"focus"}),", ",e(n.code,{children:"active"}),", ",e(n.code,{children:"disabled"})," 等",e(n.a,{href:"https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes",children:"伪类"}),`
+`,a(n.ul,{children:[`
+`,a(n.li,{children:["如 ",e(n.code,{children:"_hover"}),"： 等效为 ",e(n.code,{children:"&:hover, &.hover, &[data-hover]:not([data-hover='false'])"}),","]}),`
 `]}),`
 `]}),`
-`,a(n.li,{children:[e(n.code,{children:"$TARGET"})," 等效 ",e(n.code,{children:"& TARGET"}),", ",e(n.code,{children:"TARGET$"})," 等效 ",e(n.code,{children:"TARGET&"}),", ",e(n.code,{children:"TARGET"})," 支持",`
+`,a(n.li,{children:["以及其他自定义状态",`
+`,a(n.ul,{children:[`
+`,a(n.li,{children:["如 ",e(n.code,{children:"_has_icon"}),"： 等效为 ",e(n.code,{children:"&[data-has-icon]:not([data-has-icon='false'])"})]}),`
+`]}),`
+`]}),`
+`]}),`
+`]}),`
+`,a(n.li,{children:[e(n.code,{children:"$*"})," 或 ",e(n.code,{children:"*$"}),"，一般指代",e(n.strong,{children:"元素节点"}),", 可用值为",`
 `,a(n.ul,{children:[`
 `,a(n.li,{children:[e(n.code,{children:"data-*"})," 和 ",e(n.code,{children:"aria-*"}),", `",`
 `,a(n.ul,{children:[`
