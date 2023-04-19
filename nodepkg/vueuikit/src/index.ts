@@ -1,6 +1,5 @@
 export { triangle } from "polished";
 export { animate } from "popmotion";
-export * from "./types";
 export * from "./ThemeProvider";
 export * from "./Box";
 export * from "./styled";

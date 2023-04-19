@@ -8,31 +8,30 @@ import {
   type ZodTypeDef
 } from "zod";
 import {
-  type FunctionalComponent,
   type ObjectEmitsOptions,
   type VNode,
   type RenderFunction,
-  type Slot,
-  type VNodeChild
+  type Slot
 } from "vue";
 
 export type VElementType = string | Component<any>;
+export type VNodeChildAtom = VNode | string | number | boolean | null | undefined | void;
+export type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
+export type VNodeChild = VNodeChildAtom | VNodeArrayChildren
 
-export { type RenderFunction, type VNode, type VNodeChild };
+export { type RenderFunction, type VNode };
 
 export type Emits = Record<string, (...args: any[]) => any>;
 export type Slots = Record<string, Slot>;
 
-export type Component<P extends Record<string, any>> = FunctionalComponent<
-  P,
-  ToInternalEmits<PickEmitProps<P>>
-> & {
+export type Component<P extends Record<string, any>> = {
+  (props: P): any;
   propTypes: PropTypesOf<P>;
 };
 
-export  type WithDefaultSlot = {
-  $default?: VNodeChild,
-}
+export type WithDefaultSlot = {
+  $default?: VNodeChild;
+};
 
 export type SetupContext<E extends Emits, S extends Slots> = {
   attrs: Record<string, unknown>;
@@ -141,7 +140,9 @@ export type PickSlotProps<O extends Record<string, any>> = {
 };
 
 export type ToInternalSlots<O extends Record<string, any>> = {
-  [K in keyof O as K extends string ? SlotName<K> : never]: O[K] extends (v: infer P) => any
+  [K in keyof O as K extends string ? SlotName<K> : never]: O[K] extends (
+      v: infer P
+    ) => any
     ? (p: P) => VNode[]
     : () => VNode[];
 };
