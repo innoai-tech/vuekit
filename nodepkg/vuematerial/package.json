@@ -7,6 +7,7 @@
     }
   },
   "dependencies": {
+    "@innoai-tech/lodash": "^0.2.0",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^"
   },

@@ -15,7 +15,7 @@ import {
   unref,
   type Ref,
   type CSSProperties,
-  type VNodeChild
+  type VNodeChild, cloneVNode
 } from "vue";
 
 const OverlayProvider = createProvider<OverlayContext>(
@@ -80,6 +80,8 @@ export const Overlay = component(
     onClickOutside: z.custom<(e: Event) => void>(),
     onEscKeydown: z.custom<(e: Event) => void>(),
 
+    onContentBeforeMount: z.custom<() => void>(),
+
     $default: z.custom<VNodeChild>().optional()
   },
   (props, { slots, attrs, emit }) => {
@@ -137,12 +139,16 @@ export const Overlay = component(
     return () => {
       const MayTransition = props.transition;
 
-      const content = props.isOpen ? (
+      const content = props.isOpen ? cloneVNode(
         <div {...attrs} ref={contentRef} style={props.style}>
           <OverlayProvider value={popperContext}>
             <>{slots.default?.()}</>
           </OverlayProvider>
-        </div>
+        </div>, {
+          onVnodeBeforeMount: () => {
+            emit("content-before-mount");
+          }
+        }
       ) : null;
 
       return (

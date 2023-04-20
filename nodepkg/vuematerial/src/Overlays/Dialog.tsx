@@ -7,7 +7,7 @@ import {
   defineTransition
 } from "@innoai-tech/vueuikit";
 import { component, type VNodeChild, z } from "@innoai-tech/vuekit";
-import { watch, cloneVNode, ref } from "vue";
+import { watch, ref } from "vue";
 
 const Container = styled("div")({
   pos: "absolute",
@@ -20,7 +20,7 @@ const Container = styled("div")({
   alignItems: "center",
   justifyContent: "center",
 
-  $_data_dialog_backdrop: {
+  $data_dialog_backdrop: {
     cursor: "pointer",
     pos: "absolute",
     top: 0,
@@ -63,7 +63,6 @@ const FadeInOutTransition = defineTransition(
   }
 );
 
-
 export const Dialog = component(
   {
     isOpen: Overlay.propTypes.isOpen,
@@ -74,44 +73,44 @@ export const Dialog = component(
     const mount = ref(props.isOpen ?? false);
     const animateEnterOrLeave = ref(false);
 
-    watch(() => props.isOpen, (open) => {
-      if (open === true) {
-        // mount first，then animate enter
-        mount.value = true;
-      } else if (open === false) {
-        // animate leave first，then unmount
-        animateEnterOrLeave.value = false;
+    watch(
+      () => props.isOpen,
+      (open) => {
+        if (open === true) {
+          // mount first，then animate enter
+          mount.value = true;
+        } else if (open === false) {
+          // animate leave first，then unmount
+          animateEnterOrLeave.value = false;
+        }
       }
-    });
+    );
 
     return () => {
       return (
-        <Overlay isOpen={mount.value} onEscKeydown={() => animateEnterOrLeave.value = false}>
-          {cloneVNode(
-            <Container>
-              <FadeInOutTransition
-                onComplete={(t) => {
-                  if (t == "leave") {
-                    mount.value = false;
-                    emit("close");
-                  }
-                }}
-              >
-                {animateEnterOrLeave.value ? (
-                  <div
-                    data-dialog-backdrop={""}
-                    onClick={() => (animateEnterOrLeave.value = false)}
-                  />
-                ) : null}
-              </FadeInOutTransition>
-              <>{slots.default?.()}</>
-            </Container>,
-            {
-              onVnodeBeforeMount: () => {
-                animateEnterOrLeave.value = true;
-              }
-            }
-          )}
+        <Overlay
+          isOpen={mount.value}
+          onContentBeforeMount={() => (animateEnterOrLeave.value = true)}
+          onEscKeydown={() => (animateEnterOrLeave.value = false)}
+        >
+          <Container>
+            <FadeInOutTransition
+              onComplete={(t) => {
+                if (t == "leave") {
+                  mount.value = false;
+                  emit("close");
+                }
+              }}
+            >
+              {animateEnterOrLeave.value ? (
+                <div
+                  data-dialog-backdrop={""}
+                  onClick={() => (animateEnterOrLeave.value = false)}
+                />
+              ) : null}
+            </FadeInOutTransition>
+            <>{slots.default?.()}</>
+          </Container>
         </Overlay>
       );
     };
