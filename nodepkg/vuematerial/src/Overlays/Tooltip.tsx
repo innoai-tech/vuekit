@@ -54,9 +54,8 @@ export const Tooltip = component(
       return (
         <Popper
           isOpen={isOpen.value}
-          transition={FadeInOutTransition}
-
           $content={<TooltipContainer>{props.title}</TooltipContainer>}
+          $transition={({ content }) => <FadeInOutTransition>{content}</FadeInOutTransition>}
         >
           {child
             ? cloneVNode(child, {

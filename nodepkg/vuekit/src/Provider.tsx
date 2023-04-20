@@ -26,7 +26,6 @@ export function createProvider<T extends object>(
       provide(key, props.value ?? getDefaults());
 
       return () => {
-
         return <>{slots.default?.(undefined)}</>;
       };
     },

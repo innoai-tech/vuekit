@@ -2,7 +2,7 @@ import { component, z } from "../component";
 import { map, Observable, tap } from "rxjs";
 import { type RenderFunction, shallowRef, type VNodeChild } from "vue";
 import { rx } from "./rx";
-import { subscribeUntilUnmount } from "./subscribeUntilUnmount";
+import { subscribeUntilUnmount } from "./subscribe";
 import { type Slots } from "../types";
 
 export function render<T extends any>(renderFunc: (value: T) => VNodeChild) {

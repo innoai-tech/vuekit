@@ -2,7 +2,6 @@ import {
   createProvider,
   z,
   component,
-  type Component,
   rx,
   toObservable,
   tapEffect,
@@ -15,7 +14,8 @@ import {
   unref,
   type Ref,
   type CSSProperties,
-  type VNodeChild, cloneVNode
+  type VNodeChild,
+  cloneVNode
 } from "vue";
 
 const OverlayProvider = createProvider<OverlayContext>(
@@ -75,13 +75,14 @@ export const Overlay = component(
     style: z.custom<CSSProperties>().optional(),
     contentRef: z.custom<Ref<HTMLDivElement | null>>().optional(),
     triggerRef: z.custom<Ref<HTMLElement | null>>().optional(),
-    transition: z.custom<Component<any>>().optional(),
 
     onClickOutside: z.custom<(e: Event) => void>(),
     onEscKeydown: z.custom<(e: Event) => void>(),
-
     onContentBeforeMount: z.custom<() => void>(),
 
+    $transition: z
+      .custom<(ctx: { content: JSX.Element | null }) => VNodeChild>()
+      .optional(),
     $default: z.custom<VNodeChild>().optional()
   },
   (props, { slots, attrs, emit }) => {
@@ -137,23 +138,24 @@ export const Overlay = component(
     }
 
     return () => {
-      const MayTransition = props.transition;
-
-      const content = props.isOpen ? cloneVNode(
-        <div {...attrs} ref={contentRef} style={props.style}>
-          <OverlayProvider value={popperContext}>
-            <>{slots.default?.()}</>
-          </OverlayProvider>
-        </div>, {
-          onVnodeBeforeMount: () => {
-            emit("content-before-mount");
+      const content = props.isOpen
+        ? cloneVNode(
+          <div {...attrs} ref={contentRef} style={props.style}>
+            <OverlayProvider value={popperContext}>
+              <>{slots.default?.()}</>
+            </OverlayProvider>
+          </div>,
+          {
+            onVnodeBeforeMount: () => {
+              emit("content-before-mount");
+            }
           }
-        }
-      ) : null;
+        )
+        : null;
 
       return (
         <Teleport to="body">
-          {MayTransition ? <MayTransition>{content}</MayTransition> : content}
+          {slots.transition ? slots.transition({ content }) : content}
         </Teleport>
       );
     };

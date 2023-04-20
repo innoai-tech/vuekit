@@ -7,10 +7,7 @@ import {
 import { z, component, type VNode, type VNodeChild } from "@innoai-tech/vuekit";
 import { cloneVNode, ref, watch } from "vue";
 import { Overlay } from "./Overlay";
-import type {
-  ModifierArguments,
-  State
-} from "@popperjs/core";
+import type { ModifierArguments, State } from "@popperjs/core";
 
 export function createPopperModifier<Options extends Record<string, any>>(
   fn: (o: ModifierArguments<Options>) => State | void,
@@ -26,12 +23,12 @@ export function createPopperModifier<Options extends Record<string, any>>(
 export const Popper = component(
   {
     isOpen: Overlay.propTypes.isOpen,
-    transition: Overlay.propTypes.transition,
     onClickOutside: Overlay.propTypes.onClickOutside,
 
     placement: z.custom<Placement>().optional(),
     modifiers: z.custom<Array<Modifier<any, any>>>().optional(),
 
+    $transition: Overlay.propTypes.$transition,
     $content: z.custom<VNodeChild>(),
     $default: z.custom<JSX.Element | null>()
   },
@@ -66,9 +63,9 @@ export const Popper = component(
             triggerRef={triggerRef}
             contentRef={contentRef}
             isOpen={props.isOpen}
-            transition={props.transition}
             onClickOutside={(event) => emit("click-outside", event)}
             style={{ zIndex: 100 }}
+            $transition={slots.transition}
           >
             {slots.content?.()}
           </Overlay>

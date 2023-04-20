@@ -140,7 +140,7 @@ export type PickSlotProps<O extends Record<string, any>> = {
 };
 
 export type ToInternalSlots<O extends Record<string, any>> = {
-  [K in keyof O as K extends string ? SlotName<K> : never]: O[K] extends (
+  [K in keyof O as K extends string ? SlotName<K> : never]: NonNullable<O[K]> extends (
       v: infer P
     ) => any
     ? (p: P) => VNode[]

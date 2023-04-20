@@ -1,6 +1,12 @@
 import { test, describe, expect } from "vitest";
 import { of, filter, map } from "rxjs";
-import { toComputed, observableRef, component$, rx } from "..";
+import {
+  toComputed,
+  observableRef,
+  component$,
+  rx,
+  subscribeUntilUnmount
+} from "..";
 import { z, component, type VNode } from "../../index";
 import { mount } from "@vue/test-utils";
 
@@ -104,24 +110,31 @@ describe("vue reactive", () => {
   });
 
   test("when props changed, should rerender", async () => {
-    const C = component$({ input: z.number() }, ({ input$ }, { render }) => {
-      const inputEl = rx(
-        input$,
-        render((v) => <div data-role="input">{v}</div>)
-      );
+    const C = component$(
+      { input: z.number() },
+      ({ input$, input }, { render }) => {
+        const localInput$ = observableRef(input);
 
-      return rx(
-        input$,
-        filter((v) => v % 2 !== 0),
-        map((v) => v * v),
-        render((v) => (
-          <div>
-            <div data-role="result">{v}</div>
-            {inputEl}
-          </div>
-        ))
-      );
-    });
+        rx(input$, subscribeUntilUnmount(localInput$.next));
+
+        const inputEl = rx(
+          localInput$,
+          render((v) => <div data-role="input">{v}</div>)
+        );
+
+        return rx(
+          input$,
+          filter((v) => v % 2 !== 0),
+          map((v) => v * v),
+          render((v) => (
+            <div>
+              <div data-role="result">{v}</div>
+              {inputEl}
+            </div>
+          ))
+        );
+      }
+    );
 
     const wrapper = mount(C, {
       props: {
