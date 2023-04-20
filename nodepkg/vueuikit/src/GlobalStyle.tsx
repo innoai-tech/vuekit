@@ -3,7 +3,8 @@ import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
 import { isString } from "@innoai-tech/lodash";
-import { Insertion } from "./Insertion";
+import { useInsertStyles } from "./useInsertStyles";
+import { onBeforeMount } from "vue";
 
 export const GlobalStyle = component(
   { styles: z.custom<SystemStyleObject | string>() },
@@ -11,11 +12,20 @@ export const GlobalStyle = component(
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();
 
+    const insert = useInsertStyles(cache);
+
     const serialized = theme.unstable_css(
       cache,
       isString(styles) ? ({ "&": styles } as any) : styles
     );
 
-    return () => <Insertion serialized={serialized} withoutScoping={true} />;
+    onBeforeMount(() => {
+      insert({
+        serialized,
+        withoutScoping: true
+      });
+    });
+
+    return () => null;
   }
 );

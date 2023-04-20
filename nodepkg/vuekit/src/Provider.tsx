@@ -20,13 +20,13 @@ export function createProvider<T extends object>(
   const Provider = component(
     {
       value: z.custom<T>().optional(),
-      $default: z.custom<VNodeChild>()
+      $default: z.custom<VNodeChild>().optional()
     },
     (props, { slots }) => {
       provide(key, props.value ?? getDefaults());
 
       return () => {
-        return <>{slots.default?.(undefined)}</>;
+        return slots.default?.(undefined);
       };
     },
     {

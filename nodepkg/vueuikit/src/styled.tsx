@@ -17,7 +17,7 @@ import { CacheProvider } from "./CacheProvider";
 import { isFunction, isPlainObject, isString } from "@innoai-tech/lodash";
 import type { VNode } from "vue";
 import { cloneVNode } from "vue";
-import { Insertion } from "./Insertion";
+import { useInsertStyles } from "./useInsertStyles";
 
 const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
   const dataProps: Record<string, any> = {};
@@ -97,66 +97,57 @@ export function styled<
         (presetSx as any).label = c.name;
 
         const serialized = theme.unstable_css(cache, presetSx);
-
         const render = finalSetup(props as any, ctx as any);
+        const insertCSS = useInsertStyles(cache);
 
         return () => {
-          let className =
+          const className =
             serialized.name != "0" ? `${cache.key}-${serialized.name}` : "";
-          if (ctx.attrs["class"]) {
-            className += ` ${ctx.attrs["class"]}`;
-          }
+          const isStringTag = isString(
+            (props as any).component ?? defaultComponent
+          );
 
           if ((defaultComponent as any).__styled) {
             const ret = render(defaultComponent as any);
 
             if (ret) {
-              return (
-                <>
-                  {cloneVNode(ret, {
-                    ...ctx.attrs,
-                    component: (props as any).component,
-                    sx: (props as any).sx,
-                    class: className
-                  })}
-                  <Insertion
-                    serialized={serialized}
-                    isStringTag={isString(
-                      (props as any).component ?? defaultComponent
-                    )}
-                  />
-                </>
-              );
+              return cloneVNode(ret, {
+                component: (props as any).component,
+                sx: (props as any).sx,
+                class: className,
+                onVnodeMounted: () => {
+                  // to overwrite styles of styled component,
+                  // should mount component and insert first
+                  // then insert
+                  insertCSS({
+                    serialized: serialized,
+                    isStringTag: isStringTag
+                  });
+                }
+              });
             }
+
             return null;
           }
 
           const ret = render(Box as any);
 
           if (ret) {
-            return (
-              <>
-                <Insertion
-                  serialized={serialized}
-                  isStringTag={isString(
-                    (props as any).component ?? defaultComponent
-                  )}
-                />
-                {cloneVNode(ret, {
-                  ...ctx.attrs,
-                  component: (props as any).component ?? defaultComponent,
-                  sx: (props as any).sx,
-                  class: className
-                })}
-              </>
-            );
+            return cloneVNode(ret, {
+              component: (props as any).component ?? defaultComponent,
+              sx: (props as any).sx,
+              class: className,
+              onVnodeBeforeMount: () => {
+                insertCSS({
+                  serialized: serialized,
+                  isStringTag: isStringTag
+                });
+              }
+            });
           }
 
           return null;
         };
-      },
-      {
-        inheritAttrs: false
       }
     ) as any;
 

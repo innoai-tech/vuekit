@@ -142,7 +142,7 @@ export const Overlay = component(
         ? cloneVNode(
           <div {...attrs} ref={contentRef} style={props.style}>
             <OverlayProvider value={popperContext}>
-              <>{slots.default?.()}</>
+              {slots.default?.()}
             </OverlayProvider>
           </div>,
           {

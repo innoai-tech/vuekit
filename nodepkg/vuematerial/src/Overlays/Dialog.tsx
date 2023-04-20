@@ -18,18 +18,18 @@ const Container = styled("div")({
   zIndex: 100,
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "center"
+});
 
-  $data_dialog_backdrop: {
-    cursor: "pointer",
-    pos: "absolute",
-    top: 0,
-    left: 0,
-    h: "100vh",
-    w: "100vw",
-    zIndex: -1,
-    bgColor: variant("sys.scrim", alpha(0.38))
-  }
+export const DialogBackdrop = styled("div")({
+  cursor: "pointer",
+  pos: "absolute",
+  top: 0,
+  left: 0,
+  h: "100vh",
+  w: "100vw",
+  zIndex: -1,
+  bgColor: variant("sys.scrim", alpha(0.38))
 });
 
 export const DialogContainer = styled("div")({
@@ -103,8 +103,7 @@ export const Dialog = component(
               }}
             >
               {animateEnterOrLeave.value ? (
-                <div
-                  data-dialog-backdrop={""}
+                <DialogBackdrop
                   onClick={() => (animateEnterOrLeave.value = false)}
                 />
               ) : null}

@@ -4,13 +4,14 @@ import {
   component,
   RouterView,
   useRouter,
-  RouterLink
+  RouterLink,
+  z
 } from "@innoai-tech/vuekit";
 import { groupBy, map, partition, last } from "@innoai-tech/lodash";
 
 // @ts-ignore
 import normalizeCss from "normalize.css/normalize.css?raw";
-import { ref } from "vue";
+import { ref, type VNodeChild } from "vue";
 import {
   Icon,
   TextButton,
@@ -24,7 +25,10 @@ import { Container } from "@innoai-tech/webapp/vuekit/layout";
 export const Nav = component(() => {
   const r = useRouter();
 
-  const groups = groupBy(r.options.routes.filter((p) => p.path != "/"), (route) => route.path.split("/")[1]);
+  const groups = groupBy(
+    r.options.routes.filter((p) => p.path != "/"),
+    (route) => route.path.split("/")[1]
+  );
 
   return () => {
     return (
@@ -83,76 +87,87 @@ export const Nav = component(() => {
   };
 });
 
-export const Scaffold = component((_, { slots }) => {
-  const themeMode = ref("light");
+export const Scaffold = component(
+  {
+    $default: z.custom<VNodeChild>().optional()
+  },
+  (_, { slots }) => {
+    const themeMode = ref("light");
 
-  return () => (
-    <Box
-      data-theme={themeMode.value}
-      sx={{
-        display: "flex",
-        height: "100vh",
-        width: "100vw",
-        containerStyle: "sys.surface"
-      }}
-    >
+    return () => (
       <Box
+        data-theme={themeMode.value}
         sx={{
           display: "flex",
-          flexDirection: "column",
-          width: "280px",
           height: "100vh",
-          borderRightRadius: "lg",
-          overflowY: "auto",
-          containerStyle: "sys.surface-container-low",
-
-          elevation: "0",
-          _hover: {
-            elevation: "2"
-          }
+          width: "100vw",
+          containerStyle: "sys.surface"
         }}
       >
         <Box
           sx={{
-            flex: 1
+            display: "flex",
+            flexDirection: "column",
+            width: "280px",
+            height: "100vh",
+            borderRightRadius: "lg",
+            overflowY: "auto",
+            containerStyle: "sys.surface-container-low",
+
+            elevation: "0",
+            _hover: {
+              elevation: "2"
+            }
           }}
         >
-          <Nav />
-        </Box>
-
-        <Box sx={{ p: 16, display: "flex", justifyContent: "flex-end" }}>
-          <IconButton
-            component={"a"}
-            target={"_blank"}
-            href={"//github.com/innoai-tech/vuekit"}
+          <Box
+            sx={{
+              flex: 1
+            }}
           >
-            <Icon path={mdiGithub} />
-          </IconButton>
-          <Tooltip title={`切换到${themeMode.value == "light" ? "深色模式" : "浅色模式"}`}>
+            <Nav />
+          </Box>
+
+          <Box sx={{ p: 16, display: "flex", justifyContent: "flex-end" }}>
             <IconButton
-              onClick={() => {
-                themeMode.value = themeMode.value == "light" ? "dark" : "light";
-              }}
+              component={"a"}
+              target={"_blank"}
+              href={"//github.com/innoai-tech/vuekit"}
             >
-              <Icon
-                path={
-                  themeMode.value == "light"
-                    ? mdiWeatherNight
-                    : mdiWhiteBalanceSunny
-                }
-              />
+              <Icon path={mdiGithub} />
             </IconButton>
-          </Tooltip>
+            <Tooltip
+              title={`切换到${
+                themeMode.value == "light" ? "深色模式" : "浅色模式"
+              }`}
+            >
+              <Box
+                component={IconButton}
+                data-test={true}
+                sx={{ color: "sys.on-surface-variant" }}
+                onClick={() => {
+                  themeMode.value =
+                    themeMode.value == "light" ? "dark" : "light";
+                }}
+              >
+                <Icon
+                  path={
+                    themeMode.value == "light"
+                      ? mdiWeatherNight
+                      : mdiWhiteBalanceSunny
+                  }
+                />
+              </Box>
+            </Tooltip>
+          </Box>
+        </Box>
+        <Box sx={{ flex: 1, overflow: "auto" }}>
+          <Container>{slots.default?.()}</Container>
         </Box>
       </Box>
-      <Box sx={{ flex: 1, overflow: "auto" }}>
-        <Container>
-          {slots}
-        </Container>
-      </Box>
-    </Box>
-  );
-});
+    );
+  }
+);
 
 export const App = component(() => {
   return () => {
