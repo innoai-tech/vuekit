@@ -16,10 +16,12 @@ export const defaultTheme = {
     green: "#4caf50",
     yellow: "#ffcd38",
     orange: "#ff9800",
-    blue: "#03a9f4",
+    blue: "#03a9f4"
   }).toDesignTokens(),
   ...typography,
   ...motion,
   ...elevation,
-  rounded: rounded,
+  rounded: rounded
 } as const;
+
+export * from "./palette";
