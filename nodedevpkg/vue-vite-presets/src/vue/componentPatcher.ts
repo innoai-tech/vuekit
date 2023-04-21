@@ -129,11 +129,13 @@ __VUE_HMR_RUNTIME__.createRecord(${ident}.__hmrId, ${ident});
 `;
   });
 
-  code += `
+  if (callbackBlock) {
+    code += `
 import.meta.hot?.accept((exports) => {
 ${callbackBlock}
 })
 `;
+  }
 
   return code;
 }

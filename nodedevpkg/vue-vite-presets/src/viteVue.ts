@@ -3,9 +3,9 @@ import vitePages, {
   type PageResolver,
   type PageOptions
 } from "vite-plugin-pages";
-import { customVueResolver, viteVueComponentPatcher } from "./vue";
+import { createPageMetaResolver, viteVueComponentPatcher } from "./vue";
 import { mdx } from "./mdx";
-import type { PluginOption, UserConfig } from "vite";
+import type { PluginOption } from "vite";
 
 export interface ViteReactOptions {
   pagesDirs?: string | (string | PageOptions)[];
@@ -13,30 +13,19 @@ export interface ViteReactOptions {
 }
 
 export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
-  let useConfig: UserConfig;
-  const useConfigProxy = new Proxy({} as UserConfig, {
-    get(_, k) {
-      return (useConfig as any)[k];
-    }
-  });
-
+  const r = createPageMetaResolver();
 
   return [
-    {
-      name: "vue-vite-presets/vue",
-      enforce: "pre",
-      config(c) {
-        useConfig = c;
-      }
-    },
+    r.plugin,
     mdx(),
     vue(),
     viteVueComponentPatcher(),
     vitePages({
       extensions: ["tsx", "mdx", "md", "vue"],
       dirs: options.pagesDirs ?? "./page", // base from UserConfig.root
+      onRoutesGenerated: r.onRoutesGenerated,
       resolver: {
-        ...customVueResolver(useConfigProxy),
+        ...r.pagesResolver,
         ...options.pagesResolver
       }
     })

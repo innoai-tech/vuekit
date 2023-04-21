@@ -10,17 +10,14 @@ export default defineConfig({
     app("vuekit", { enableBaseHref: true }),
     viteVue({
       pagesDirs: [
+        { baseRoute: "", dir: "page" },
         { baseRoute: "vuekit", dir: "../../nodepkg/vuekit/example" },
         { baseRoute: "vueuikit", dir: "../../nodepkg/vueuikit/example" },
-        { baseRoute: "vuematerial", dir: "../../nodepkg/vuematerial/example" },
-        { baseRoute: "", dir: "page" }
+        { baseRoute: "vuematerial", dir: "../../nodepkg/vuematerial/example" }
       ]
     }),
     viteChunkSplit({
-      lib: [
-        /nodepkg\/([^/]+)\/src/,
-        /webapp\/vuekit\/layout/
-      ]
+      lib: [/nodepkg\/([^/]+)\/src/, /webapp\/vuekit\/layout/]
       // handleModuleFederations: (pkgRelations) => {
       //   // bundle debug
       //   writeFileSync("./public/g.d2", d2Graph(pkgRelations));

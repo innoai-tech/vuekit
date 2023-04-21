@@ -1,2 +1,2 @@
-export * from "./pageResolver";
+export * from "./pageMetaResolver";
 export * from "./componentPatcher";

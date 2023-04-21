@@ -7,7 +7,7 @@ import { extractRouteMeta } from "../index";
  */
 describe("extractRouteMeta", () => {
   test("should extract route meta", () => {
-    const meta = extractRouteMeta(`
+    const meta = extractRouteMeta("", `
 /**
  * @property {"名称"} meta.name
  * @property {typeof import("@innoai-tech/vuematerial").mdiPlus} meta.icon
