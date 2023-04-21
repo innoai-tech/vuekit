@@ -1,38 +1,43 @@
-import { BehaviorSubject, Subject } from "rxjs";
 import { customRef, type Ref } from "vue";
+import { ImmerBehaviorSubject, type ImmerSubject } from "./Immer";
+import { isFunction } from "@innoai-tech/lodash";
+import { produce } from "immer";
 
-export type ObservableRef<T> = Ref<T> & Subject<T>;
+export type ObservableRef<T> = Ref<T> & ImmerSubject<T>;
 
 export const observableRef = <T extends any>(value: T): ObservableRef<T> => {
-  const value$ = new BehaviorSubject(value);
+  const store$ = new ImmerBehaviorSubject(value);
 
   const ref = customRef<T>((track, trigger) => {
     return {
       get() {
         track();
-        return value$.value;
+        return store$.value;
       },
       set(newValue: T) {
-        if (!Object.is(newValue, value$.value)) {
-          value$.next(newValue);
+        if (!Object.is(newValue, store$.value)) {
+          store$.next(newValue);
           trigger();
         }
-      },
+      }
     };
   });
 
-  return new Proxy(value$, {
-    get(value$: any, p: string | symbol): any {
+  return new Proxy(store$, {
+    get(_: any, p: string | symbol): any {
       if (p == "next") {
-        return (v: T) => {
-          ref.value = v;
+        return (valueOrUpdater: ((v: T) => void) | T) => {
+          ref.value = isFunction(valueOrUpdater)
+            ? produce(store$.value, valueOrUpdater)
+            : valueOrUpdater;
         };
       }
       if (p === "value") {
         return ref.value;
       }
-      return value$[p] ?? (ref as any)[p];
+      return (store$ as any)[p] ?? (ref as any)[p];
     },
+
     set(value$: any, p: string | symbol, newValue: any): boolean {
       if (p === "value") {
         ref.value = newValue;
@@ -40,6 +45,6 @@ export const observableRef = <T extends any>(value: T): ObservableRef<T> => {
       }
       value$[p] = newValue;
       return true;
-    },
+    }
   });
 };

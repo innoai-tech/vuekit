@@ -29,11 +29,13 @@ describe("vue reactive", () => {
 
   test("when state changed, should rerender", async () => {
     const C = component(() => {
-      const input$ = observableRef(1);
+      const input$ = observableRef({
+        count: 1
+      });
 
       const ret = rx(
         input$,
-        map((v) => v * v),
+        map(({ count }) => count * count),
         toComputed()
       );
 
@@ -41,7 +43,9 @@ describe("vue reactive", () => {
         <div
           role="button"
           onClick={() => {
-            input$.value++;
+            input$.next((i) => {
+              i.count++;
+            });
           }}
         >
           {ret.value}

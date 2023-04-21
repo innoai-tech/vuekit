@@ -1,4 +1,5 @@
 export * from "./rx";
+export * from "./Immer";
 
 export * from "./component$";
 
