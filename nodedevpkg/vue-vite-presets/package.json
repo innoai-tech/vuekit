@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.3.10",
+  "version": "0.3.11",
   "monobundle": {
     "pipeline": {
       "test": false
@@ -20,10 +20,10 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "peerDependencies": {
-    "vite": "^4.2.1"
+    "vite": "^4.3.1"
   },
   "devDependencies": {
-    "rollup": "^3.20.6"
+    "rollup": "^3.20.7"
   },
   "exports": {
     ".": {
