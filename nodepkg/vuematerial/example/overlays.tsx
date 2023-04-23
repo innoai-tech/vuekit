@@ -53,44 +53,46 @@ export default component(() => {
           <TextButton>Hover me</TextButton>
         </Tooltip>
 
-        <Menu
-          $menu={
-            <>
-              <ListItem>选项一</ListItem>
+        <Tooltip title={"Menu"}>
+          <Menu
+            $menu={
+              <>
+                <ListItem>选项一</ListItem>
 
-              <ListItem
-                onClick={() => {
-                  dialogIsOpen.value = true;
-                }}
-              >
-                选项二
-              </ListItem>
-              <Dialog
-                isOpen={dialogIsOpen.value}
-                onClose={() => {
-                  dialogIsOpen.value = false;
-                }}
-              >
-                <DialogContainer sx={{ minH: "40vh" }}>
-                  我是对话框
-                </DialogContainer>
-              </Dialog>
-              <Menu
-                placement={"right-start"}
-                $menu={
-                  <>
-                    <ListItem>选项三.1</ListItem>
-                    <ListItem>选项三.2</ListItem>
-                  </>
-                }
-              >
-                <ListItem>选项三</ListItem>
-              </Menu>
-            </>
-          }
-        >
-          <TextButton>Menu</TextButton>
-        </Menu>
+                <ListItem
+                  onClick={() => {
+                    dialogIsOpen.value = true;
+                  }}
+                >
+                  选项二
+                </ListItem>
+                <Dialog
+                  isOpen={dialogIsOpen.value}
+                  onClose={() => {
+                    dialogIsOpen.value = false;
+                  }}
+                >
+                  <DialogContainer sx={{ minH: "40vh" }}>
+                    我是对话框
+                  </DialogContainer>
+                </Dialog>
+                <Menu
+                  placement={"right-start"}
+                  $menu={
+                    <>
+                      <ListItem>选项三.1</ListItem>
+                      <ListItem>选项三.2</ListItem>
+                    </>
+                  }
+                >
+                  <ListItem>选项三</ListItem>
+                </Menu>
+              </>
+            }
+          >
+            <TextButton>Menu</TextButton>
+          </Menu>
+        </Tooltip>
       </Box>
     </Container>
   );

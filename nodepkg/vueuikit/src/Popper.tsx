@@ -32,7 +32,7 @@ export const Popper = component(
     $content: z.custom<VNodeChild>(),
     $default: z.custom<JSX.Element | null>()
   },
-  (props, { slots, emit }) => {
+  (props, { slots, emit, attrs }) => {
     const triggerRef = ref<HTMLElement | null>(null);
     const contentRef = ref<HTMLDivElement | null>(null);
 
@@ -51,14 +51,18 @@ export const Popper = component(
     return () => {
       const trigger = slots.default?.()[0];
 
+      if (!trigger) {
+        return null;
+      }
+
       return (
         <>
-          {trigger &&
-            cloneVNode(trigger, {
-              onVnodeMounted: (n) => {
-                triggerRef.value = resolveElement(n.el);
-              }
-            })}
+          {cloneVNode(trigger, {
+            ...attrs,
+            onVnodeMounted: (n) => {
+              triggerRef.value = resolveElement(n.el);
+            }
+          })}
           <Overlay
             triggerRef={triggerRef}
             contentRef={contentRef}
@@ -74,7 +78,8 @@ export const Popper = component(
     };
   },
   {
-    name: "Popper"
+    name: "Popper",
+    inheritAttrs: false
   }
 );
 
