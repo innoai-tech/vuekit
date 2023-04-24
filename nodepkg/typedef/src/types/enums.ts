@@ -4,7 +4,7 @@ import * as ss from "superstruct";
 export function enums<T extends readonly any[]>(
   values: T
 ): Type<T[number], { [K in T[number]]: K }> {
-  return Type.wrap(ss.enums(values as any)) as any;
+  return new Type(ss.enums(values as any)) as any;
 }
 
 export type EnumLike = { [k: string]: string | number; [nu: number]: string };

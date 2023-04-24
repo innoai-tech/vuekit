@@ -7,8 +7,8 @@ describe("Type", () => {
       const value = {};
       const ctx = { path: [], branch: [] };
 
-      for (let [k, v, s] of schema.entries(value, ctx)) {
-        console.log(k, v, s);
+      for (let [k, _, s] of schema.entries(value, ctx)) {
+        console.log(k, s.meta["description"]);
       }
     });
 
@@ -42,6 +42,7 @@ describe("Type", () => {
         expect(errors![0]).toHaveProperty(
           "key", "endpoint"
         );
+
         expect(errors![0]).toHaveProperty(
           "message", "Expected a string, but received: undefined"
         );
@@ -65,6 +66,7 @@ const objectSchema = t.object({
   name: t
     .string()
     .use(
+      t.describe("名称"),
       t.pattern(
         /[a-z][a-z0-9-]+/,
         "只能包含小写字符，数字与短横 -， 且必须由小写字符开头"

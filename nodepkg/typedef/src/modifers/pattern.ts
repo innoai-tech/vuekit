@@ -1,7 +1,7 @@
 import { Type } from "../Type";
 
 export function pattern(regexp: RegExp, msg?: string) {
-  return <S extends Type<string, any>>(type: S) => {
+  return <S extends Type<string, any>>(type: S): Type<string, any> => {
     return Type.refine(type, "pattern", (value) => {
       return (
         regexp.test(value) ||

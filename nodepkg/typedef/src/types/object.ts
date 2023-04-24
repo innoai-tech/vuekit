@@ -2,10 +2,10 @@ import { Type, type TypeAny } from "../Type";
 import * as ss from "superstruct";
 import type { ObjectType } from "superstruct/dist/utils";
 
-export function object<S extends Record<string, TypeAny>>(
-  schema: S
-): Type<ObjectType<S>, S> {
-  return Type.wrap(Object.keys(schema).length == 0 ? ss.object() : ss.object(schema) as any);
+export function object(): Type<Record<string, unknown>, null>
+export function object<S extends Record<string, TypeAny>>(schema: S): Type<ObjectType<S>, S>
+export function object<S extends Record<string, TypeAny>>(schema?: S): Type<any> {
+  return new Type(schema ? ss.object(schema) : ss.object());
 }
 
 export function record<K extends string, V>(
@@ -15,10 +15,11 @@ export function record<K extends string, V>(
   additionalProperties: V,
   propertyNames: K
 }> {
-  return Type.wrap(ss.record(k, v) as any, (t) => Object.assign(t, {
+  return new Type({
+    ...ss.record(k, v) as any,
     schema: {
       additionalProperties: v,
       propertyNames: k
     }
-  }));
+  });
 }

@@ -6,7 +6,12 @@ import {
   type Simplify,
   type UnionToIntersection
 } from "superstruct/dist/utils";
-import { type Refiner, type Validator } from "superstruct/dist/struct";
+import {
+  type Coercer,
+  type Context,
+  type Refiner,
+  type Validator
+} from "superstruct/dist/struct";
 
 export {
   type Infer,
@@ -14,7 +19,9 @@ export {
   type UnionToIntersection,
   type Describe,
   type InferStructTuple as InferTuple,
-  type ObjectType
+  type ObjectType,
+  type Context,
+  type Validator
 };
 
 interface UnaryFunction<T, R> {
@@ -25,9 +32,9 @@ export type Modifier<T, R, S> = UnaryFunction<Type<T, S>, Type<R, S>>;
 
 export type TypeAny = Type<any, any>;
 
-export class Type<T, S> extends Struct<T, S> {
+export class Type<T, S = unknown> extends Struct<T, S> {
   static define<T>(name: string, validator: Validator): Type<T, null> {
-    return Type.wrap(ss.define(name, validator));
+    return new Type({ type: name, schema: null, validator });
   }
 
   static refine<T, S>(
@@ -35,51 +42,72 @@ export class Type<T, S> extends Struct<T, S> {
     name: string,
     refiner: Refiner<T>
   ): Type<T, S> {
-    return Type.wrap(ss.refine(t, name, refiner));
+    return Type.callWith(t, ss.refine, name, refiner);
   }
 
-  static wrap<T, S>(
-    struct: Struct<T, S>,
-    ...modifiers: Array<(t: Type<T, S>) => Type<T, S>>
+  static callWith<T, S, RT, RS, Args extends any[]>(
+    source: Type<T, S>,
+    fn: (s: Struct<T, S>, ...args: Args) => Struct<RT, RS>,
+    ...args: Args
   ) {
-    let t = new Type<T, S>(struct);
-    for (const m of modifiers) {
-      t = m(t);
-    }
-    return t;
+    return new Type<RT, RS>({
+      ...fn(source, ...args),
+      meta: source.meta
+    });
   }
 
   meta: Record<string, any>;
 
   constructor({
+                entries = function* () {
+                },
+                coercer,
+                validator,
+                refiner,
                 meta,
                 ...others
               }: {
-    type: Struct<T, S>["type"];
-    schema: Struct<T, S>["schema"];
-    coercer?: Struct<T, S>["coercer"];
-    validator?: Struct<T, S>["validator"];
-    refiner?: Struct<T, S>["refiner"];
+
     entries?: Struct<T, S>["entries"];
+    coercer?: Coercer;
+    validator?: Validator;
+    refiner?: Refiner<T>;
     meta?: Record<string, any>;
+    type: string;
+    schema: S;
   }) {
-    super(others);
+    super({
+      ...others,
+      coercer: coercer ? (...args: any[]) => {
+        return (coercer as any).apply(this, args);
+      } : undefined,
+      validator: validator ? (...args: any[]) => {
+        return (validator as any).apply(this, args);
+      } : undefined,
+      refiner: refiner ? (...args: any[]) => {
+        return (refiner as any).apply(this, args);
+      } : undefined
+    });
+
+    this.entries = entries as any;
     this.meta = meta ?? {};
   }
 
+  override entries: (
+    value: unknown,
+    context: Context
+  ) => Iterable<[string | number, unknown, Type<any> | Type<never>]>;
+
   optional(): Type<T | undefined, S> {
-    return Type.wrap(ss.optional(this));
+    return Type.callWith(this, ss.optional);
   }
 
   default(v: T): Type<T, S> {
-    return Type.wrap(ss.defaulted(this, v));
+    return Type.callWith(this, ss.defaulted, v);
   }
 
   use<A>(op1: Modifier<T, A, S>): Type<A, S>;
-  use<A, B>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>
-  ): Type<B, S>;
+  use<A, B>(op1: Modifier<T, A, S>, op2: Modifier<A, B, S>): Type<B, S>;
   use<A, B, C>(
     op1: Modifier<T, A, S>,
     op2: Modifier<A, B, S>,

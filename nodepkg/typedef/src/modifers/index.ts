@@ -1,2 +1,3 @@
-export * from "./describe"
-export * from "./pattern"
+export * from "./meta";
+export * from "./describe";
+export * from "./pattern";
