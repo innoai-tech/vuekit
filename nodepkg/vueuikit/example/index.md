@@ -11,10 +11,10 @@ TypeScript 的帮助下，还会提供准确的 Design Token 值. 如：
 
 ```tsx preview
 import { Box, alpha, styled, variant } from "@innoai-tech/vueuikit";
-import { z } from "@innoai-tech/vuekit";
+import { t } from "@innoai-tech/vuekit";
 
 export const Button = styled("button", {
-  disabled: z.boolean().optional(),
+  disabled: t.boolean().optional(),
 })({
   bg: "none",
   outline: "none",
@@ -58,7 +58,7 @@ export default () => {
 另外样式扩展有两种方式
 
 ```tsx
-import { z } from "@innoai-tech/vuekit";
+import { t } from "@innoai-tech/vuekit";
 import { styled, SystemStyleObject } from "@innoai-tech/vueuikit";
 
 const shared: SystemStyleObject = {
@@ -70,7 +70,7 @@ const shared: SystemStyleObject = {
 //
 // 组件 props 定义需要重新声明
 export const ButtonBase = styled("button", {
-  disabled: z.boolean().optional(),
+  disabled: t.boolean().optional(),
 })({
   extends: [shared],
   // ...

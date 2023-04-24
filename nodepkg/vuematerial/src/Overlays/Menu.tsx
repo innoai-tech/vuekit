@@ -1,5 +1,5 @@
 import { Popper, styled, variant, alpha } from "@innoai-tech/vueuikit";
-import { component, z } from "@innoai-tech/vuekit";
+import { component, t } from "@innoai-tech/vuekit";
 import { type VNode, cloneVNode, ref } from "vue";
 
 export const MenuContainer = styled("div")({
@@ -31,9 +31,9 @@ export const ListItem = styled("div")({
 
 export const Menu = component(
   {
-    placement: z.custom<import("@popperjs/core").Placement>().optional(),
-    $menu: z.custom<VNode>(),
-    $default: z.custom<JSX.Element>()
+    placement: t.custom<import("@popperjs/core").Placement>().optional(),
+    $menu: t.custom<VNode>(),
+    $default: t.custom<JSX.Element>()
   },
   (props, { slots }) => {
     const isOpen = ref(false);

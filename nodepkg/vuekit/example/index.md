@@ -23,7 +23,7 @@ export default component(() => {
 - `props` 和 `emits` 合并声明，基于 [zod](https://zod.dev/)
 
 ```tsx preview
-import { component, z } from "@innoai-tech/vuekit";
+import { component, t } from "@innoai-tech/vuekit";
 import { ref, type VNode, VNodeChild } from "vue";
 
 export const TextInput = component(
@@ -33,13 +33,12 @@ export const TextInput = component(
     //
     // 又由于 TypeString 的老问题  https://www.typescriptneedstypes.com/#the-problem
     // 类型定义无法转为 Runtime 对象
-    // 因此这里通过 zod 定义类型后 来进行反向推导 （同时作为 Runtime 验证）
-    // 注意，如有 optional 和 default，需要放到最后, 且 default 需要放到最后，否则，vue 拿不到默认值
-    value: z.string().optional().default("1"),
-    type: z.enum(["text", "number"]),
+    // 因此这里通过 superstruct 定义类型后 来进行反向推导 （同时作为 Runtime 验证
+    value: t.string().optional().default("1"),
+    type: t.enums(["text", "number"]),
 
     // on[A-Z] 前缀视为 emits
-    onValueChange: z.custom<(v: string) => void>()
+    onValueChange: t.custom<(v: string) => void>()
   },
   (props, { emit }) => {
     // setup
@@ -63,11 +62,11 @@ export interface Option {
 export const List = component(
   {
     // $ 前缀视为 slots
-    $title: z.custom<VNodeChild>().optional(),
+    $title: t.custom<VNodeChild>().optional(),
     // renderProp
-    $item: z.custom<(option: Option) => VNode>().optional(),
+    $item: t.custom<(option: Option) => VNode>().optional(),
 
-    $default: z.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional()
 
     // 以此避免多插槽时 children slots object 的写法, 且无类型约束，
     // {{ default: () => VNode, title: () => VNode, item: (option: Option) => VNode }}

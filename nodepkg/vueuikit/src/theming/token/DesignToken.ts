@@ -1,7 +1,6 @@
 import type { CSSAllProps, Globals } from "../csstype";
 import { CSSAllProperty, CSSProperty, expandAliases } from "../csstype";
 import type { UnionToIntersection, ValuesOf } from "../typeutil";
-import type { Primitive } from "@innoai-tech/vuekit";
 
 export type DesignTokenValues<T> = {
   [K: string]: T | DesignTokenValues<T>;
@@ -19,8 +18,8 @@ export type FlattenTokenNames<
     ? O[K]["__mixin"] extends boolean // mixin values
       ? `${K}`
       : O[K]["_default"] extends T // condition values
-      ? `${K}`
-      : `${K}.${FlattenTokenNames<T, O[K]>}`
+        ? `${K}`
+        : `${K}.${FlattenTokenNames<T, O[K]>}`
     : `${K}`
   : never;
 
@@ -28,6 +27,13 @@ export enum DesignTokenType {
   var,
   mixin,
 }
+
+export type Primitive =
+  | string
+  | number
+  | symbol
+  | bigint
+  | boolean
 
 export type MustDefined<T> = T extends Primitive ? T : never;
 
@@ -50,9 +56,9 @@ export interface DesignTokenOption<
   __Tokens: FlattenTokenNames<InputValueType, Tokens>;
   __CSSTokens: {
     [P in CSSPropNames]:
-      | FlattenTokenNames<InputValueType, Tokens>
-      | Globals
-      | MustDefined<Fallback>;
+    | FlattenTokenNames<InputValueType, Tokens>
+    | Globals
+    | MustDefined<Fallback>;
   };
   __ValueType: ValueType;
 }
@@ -84,7 +90,7 @@ export class DesignToken {
     {
       values,
       on,
-      transform,
+      transform
     }: {
       values: Tokens;
       on: Array<CSSPropNames>;
@@ -106,7 +112,7 @@ export class DesignToken {
 
       __Tokens: undefined as any,
       __ValueType: undefined as any,
-      __CSSTokens: undefined as any,
+      __CSSTokens: undefined as any
     };
   }
 
@@ -127,9 +133,9 @@ export class DesignToken {
       ),
       transform: (rgb: [number, number, number]) => ({
         default: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
-        rgb: `${rgb[0]} ${rgb[1]} ${rgb[2]}`,
+        rgb: `${rgb[0]} ${rgb[1]} ${rgb[2]}`
       }),
-      fallback: "" as Color,
+      fallback: "" as Color
     });
   }
 
@@ -165,7 +171,7 @@ export class DesignToken {
         CSSAllProperty.pl,
         CSSAllProperty.px,
         CSSAllProperty.py
-      ),
+      )
     });
   }
 
@@ -181,7 +187,7 @@ export class DesignToken {
         CSSAllProperty.maxH,
         CSSAllProperty.boxSize
       ),
-      fallback: 0 as number,
+      fallback: 0 as number
     });
   }
 
@@ -189,7 +195,7 @@ export class DesignToken {
     return DesignToken.create(DesignTokenType.var, {
       values,
       on: expandAliases(CSSAllProperty.fontSize),
-      fallback: 0 as number,
+      fallback: 0 as number
     });
   }
 
@@ -197,7 +203,7 @@ export class DesignToken {
     return DesignToken.create(DesignTokenType.var, {
       values,
       on: expandAliases(CSSAllProperty.lineHeight),
-      fallback: 0 as number,
+      fallback: 0 as number
     });
   }
 
@@ -220,7 +226,7 @@ export class DesignToken {
         CSSProperty.borderBottomRightRadius,
         CSSProperty.borderTopLeftRadius,
         CSSProperty.borderBottomLeftRadius
-      ),
+      )
     });
   }
 
@@ -229,7 +235,7 @@ export class DesignToken {
   ) {
     return DesignToken.create(DesignTokenType.var, {
       values,
-      on: expandAliases(CSSAllProperty.transitionTimingFunction),
+      on: expandAliases(CSSAllProperty.transitionTimingFunction)
     });
   }
 
@@ -237,21 +243,21 @@ export class DesignToken {
     return DesignToken.create(DesignTokenType.var, {
       values,
       on: expandAliases(CSSAllProperty.transitionDuration),
-      transform: (v) => `${v}ms`,
+      transform: (v) => `${v}ms`
     });
   }
 
   static font<T extends DesignTokenValues<string>>(values: T) {
     return DesignToken.create(DesignTokenType.var, {
       values,
-      on: expandAliases(CSSAllProperty.font),
+      on: expandAliases(CSSAllProperty.font)
     });
   }
 
   static fontWeight<T extends DesignTokenValues<string | number>>(values: T) {
     return DesignToken.create(DesignTokenType.var, {
       values,
-      on: expandAliases(CSSAllProperty.fontWeight),
+      on: expandAliases(CSSAllProperty.fontWeight)
     });
   }
 
@@ -260,14 +266,14 @@ export class DesignToken {
   ) {
     return DesignToken.create(DesignTokenType.var, {
       values,
-      on: expandAliases(CSSAllProperty.letterSpacing),
+      on: expandAliases(CSSAllProperty.letterSpacing)
     });
   }
 
   static shadow<T extends DesignTokenValues<string>>(values: T) {
     return DesignToken.create(DesignTokenType.var, {
       values,
-      on: expandAliases(CSSAllProperty.shadow),
+      on: expandAliases(CSSAllProperty.shadow)
     });
   }
 
@@ -277,7 +283,7 @@ export class DesignToken {
   >(customProp: CustomProp, values: T) {
     return DesignToken.create(DesignTokenType.mixin, {
       values: values,
-      on: [customProp],
+      on: [customProp]
     });
   }
 

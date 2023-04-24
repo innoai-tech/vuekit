@@ -4,7 +4,7 @@ import {
   flip,
   type Modifier
 } from "@popperjs/core";
-import { z, component, type VNode, type VNodeChild } from "@innoai-tech/vuekit";
+import { t, component, type VNode, type VNodeChild } from "@innoai-tech/vuekit";
 import { cloneVNode, ref, watch } from "vue";
 import { Overlay } from "./Overlay";
 import type { ModifierArguments, State } from "@popperjs/core";
@@ -25,12 +25,12 @@ export const Popper = component(
     isOpen: Overlay.propTypes.isOpen,
     onClickOutside: Overlay.propTypes.onClickOutside,
 
-    placement: z.custom<Placement>().optional(),
-    modifiers: z.custom<Array<Modifier<any, any>>>().optional(),
+    placement: t.custom<Placement>().optional(),
+    modifiers: t.custom<Array<Modifier<any, any>>>().optional(),
 
     $transition: Overlay.propTypes.$transition,
-    $content: z.custom<VNodeChild>(),
-    $default: z.custom<JSX.Element | null>()
+    $content: t.custom<VNodeChild>(),
+    $default: t.custom<JSX.Element | null>()
   },
   (props, { slots, emit, attrs }) => {
     const triggerRef = ref<HTMLElement | null>(null);

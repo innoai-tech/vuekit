@@ -1,6 +1,6 @@
 import {
   createProvider,
-  z,
+  t,
   component,
   rx,
   toObservable,
@@ -71,19 +71,18 @@ class OverlayContext {
 
 export const Overlay = component(
   {
-    isOpen: z.boolean().optional(),
-    style: z.custom<CSSProperties>().optional(),
-    contentRef: z.custom<Ref<HTMLDivElement | null>>().optional(),
-    triggerRef: z.custom<Ref<HTMLElement | null>>().optional(),
+    isOpen: t.boolean().optional(),
+    style: t.custom<CSSProperties>().optional(),
+    contentRef: t.custom<Ref<HTMLDivElement | null>>().optional(),
+    triggerRef: t.custom<Ref<HTMLElement | null>>().optional(),
 
-    onClickOutside: z.custom<(e: Event) => void>(),
-    onEscKeydown: z.custom<(e: Event) => void>(),
-    onContentBeforeMount: z.custom<() => void>(),
-
-    $transition: z
+    onClickOutside: t.custom<(e: Event) => void>(),
+    onEscKeydown: t.custom<(e: Event) => void>(),
+    onContentBeforeMount: t.custom<() => void>(),
+    $transition: t
       .custom<(ctx: { content: JSX.Element | null }) => VNodeChild>()
       .optional(),
-    $default: z.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional()
   },
   (props, { slots, attrs, emit }) => {
     const contentRef = props.contentRef || ref<HTMLDivElement | null>(null);

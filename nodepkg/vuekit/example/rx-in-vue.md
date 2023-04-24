@@ -7,7 +7,7 @@ import {
   rx,
   observableRef,
   subscribeUntilUnmount,
-  z,
+  t,
   render
 } from "@innoai-tech/vuekit";
 import { ref } from "vue";
@@ -15,8 +15,8 @@ import { debounceTime, subscribeOn } from "rxjs";
 
 export const TextDebounceInput = component$(
   {
-    value: z.string().optional().default("1"),
-    onValueChange: z.custom<(v: string) => void>()
+    value: t.string().optional().default("1"),
+    onValueChange: t.custom<(v: string) => void>()
   },
   (props, { emit }) => {
     const value$ = observableRef(props.value ?? "");

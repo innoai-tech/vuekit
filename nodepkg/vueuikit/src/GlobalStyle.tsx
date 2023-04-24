@@ -1,4 +1,4 @@
-import { component, z } from "@innoai-tech/vuekit";
+import { component, t } from "@innoai-tech/vuekit";
 import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
@@ -7,7 +7,7 @@ import { useInsertStyles } from "./useInsertStyles";
 import { onBeforeMount } from "vue";
 
 export const GlobalStyle = component(
-  { styles: z.custom<SystemStyleObject | string>() },
+  { styles: t.custom<SystemStyleObject | string>() },
   ({ styles }) => {
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();

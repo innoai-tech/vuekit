@@ -6,7 +6,7 @@ import {
   alpha,
   defineTransition
 } from "@innoai-tech/vueuikit";
-import { component, type VNodeChild, z } from "@innoai-tech/vuekit";
+import { component, type VNodeChild, t } from "@innoai-tech/vuekit";
 import { watch, ref } from "vue";
 
 const Container = styled("div")({
@@ -66,8 +66,8 @@ const FadeInOutTransition = defineTransition(
 export const Dialog = component(
   {
     isOpen: Overlay.propTypes.isOpen,
-    onClose: z.custom<() => void>(),
-    $default: z.custom<VNodeChild>().optional()
+    onClose: t.custom<() => void>(),
+    $default: t.custom<VNodeChild>().optional()
   },
   (props, { slots, emit }) => {
     const mount = ref(props.isOpen ?? false);

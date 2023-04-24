@@ -1,5 +1,5 @@
 import {
-  z,
+  t,
   component,
   type VElementType,
   type OverridableComponent
@@ -20,8 +20,8 @@ export const Box: OverridableComponent<{
   defaultComponent: "div";
 }> = component(
   {
-    sx: z.custom<SystemStyleObject>(),
-    component: z.custom<VElementType>().optional().default("div")
+    sx: t.custom<SystemStyleObject>(),
+    component: t.custom<VElementType>().optional().default("div")
   },
   (props, { slots }) => {
     const theme = ThemeProvider.use();

@@ -5,7 +5,7 @@ import {
   RouterView,
   useRouter,
   RouterLink,
-  z
+  t
 } from "@innoai-tech/vuekit";
 import { groupBy, map, partition, last } from "@innoai-tech/lodash";
 
@@ -89,7 +89,7 @@ export const Nav = component(() => {
 
 export const Scaffold = component(
   {
-    $default: z.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional()
   },
   (_, { slots }) => {
     const themeMode = ref("light");

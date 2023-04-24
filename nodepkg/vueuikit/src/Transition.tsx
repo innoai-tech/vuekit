@@ -4,7 +4,7 @@ import {
   cubicBezier as cubicBezierFunc
 } from "popmotion";
 import { Transition } from "vue";
-import { component, z } from "@innoai-tech/vuekit";
+import { component, t } from "@innoai-tech/vuekit";
 
 const cubicBezier = (mX1: number, mY1: number, mX2: number, mY2: number) => {
   return Object.assign(cubicBezierFunc(mX1, mY1, mX2, mY2), {
@@ -75,8 +75,8 @@ export const defineTransition = <T extends {}>(
   };
 
   return component({
-    onComplete: z.custom<(v: "enter" | "leave") => void>(),
-    $default: z.custom<JSX.Element | null>()
+    onComplete: t.custom<(v: "enter" | "leave") => void>(),
+    $default: t.custom<JSX.Element | null>()
   }, ({}, { slots, emit }) => {
     let animated: any;
 

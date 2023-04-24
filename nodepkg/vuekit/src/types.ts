@@ -1,12 +1,10 @@
 import {
-  type TypeOf,
-  ZodDefault,
-  ZodObject,
-  ZodOptional,
-  type ZodTypeAny,
-  type ZodType,
-  type ZodTypeDef
-} from "zod";
+  t,
+  type TypeAny,
+  type Infer,
+  type Simplify,
+  type UnionToIntersection
+} from "@innoai-tech/typedef";
 import {
   type ObjectEmitsOptions,
   type VNode,
@@ -15,9 +13,16 @@ import {
 } from "vue";
 
 export type VElementType = string | Component<any>;
-export type VNodeChildAtom = VNode | string | number | boolean | null | undefined | void;
+export type VNodeChildAtom =
+  | VNode
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | void;
 export type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
-export type VNodeChild = VNodeChildAtom | VNodeArrayChildren
+export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 
 export { type RenderFunction, type VNode };
 
@@ -34,8 +39,8 @@ export type WithDefaultSlot = {
 };
 
 export type SetupContext<E extends Emits, S extends Slots> = {
-  attrs: Record<string, unknown>;
   emit: EmitFn<E>;
+  attrs: Record<string, unknown>;
   slots: S;
 };
 
@@ -63,60 +68,44 @@ export type PropTypesOf<
   RequiredProps = Pick<Props, keyof PickRequired<Props>>,
   OptionalProps = Omit<Props, keyof RequiredProps>
 > = {
-  [K in keyof RequiredProps]: ZodType<
-    RequiredProps[K],
-    ZodTypeDef,
-    RequiredProps[K]
-  >;
+  [K in keyof RequiredProps]: ReturnType<typeof t.custom<RequiredProps[K]>>;
 } & {
-  [K in keyof OptionalProps]-?: ZodOptional<
-    ZodType<
-      NonNullable<OptionalProps[K]>,
-      ZodTypeDef,
-      NonNullable<OptionalProps[K]>
-    >
+  [K in keyof OptionalProps]-?: ReturnType<
+    typeof t.custom<NonNullable<OptionalProps[K]> | undefined>
   >;
 };
 
-export type SetupFunction<PropTypes extends Record<string, ZodTypeAny>> = (
+export type SetupFunction<PropTypes extends Record<string, TypeAny>> = (
   props: InternalPropsOf<PropTypes>,
   ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
 ) => RenderFunction;
 
 export type PublicPropsOf<
-  O extends Record<string, ZodTypeAny>,
+  O extends Record<string, TypeAny>,
   P extends Record<string, any> = TypeOfPublic<O>
-> = PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>;
+> = Simplify<PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>>;
 
 export type InternalPropsOf<
-  O extends Record<string, ZodTypeAny>,
+  O extends Record<string, TypeAny>,
   P extends Record<string, any> = TypeOfInternal<O>
-> = PickProps<P>;
+> = Simplify<PickProps<P>>;
 
 export type InternalEmitsOf<
-  O extends Record<string, ZodTypeAny>,
+  O extends Record<string, TypeAny>,
   P extends Record<string, any> = TypeOfInternal<O>
-> = ToInternalEmits<PickEmitProps<P>>;
+> = ToInternalEmits<Simplify<PickEmitProps<P>>>;
 
 export type InternalSlotsOf<
-  O extends Record<string, ZodTypeAny>,
+  O extends Record<string, TypeAny>,
   P extends Record<string, any> = TypeOfInternal<O>
-> = ToInternalSlots<PickSlotProps<P>>;
+> = ToInternalSlots<Simplify<PickSlotProps<P>>>;
 
-type TypeOfPublic<O extends Record<string, ZodTypeAny>> = TypeOf<
-  ZodObject<{
-    [K in keyof O]: O[K] extends ZodDefault<infer U> ? U : O[K];
-  }>
+type TypeOfPublic<O extends Record<string, TypeAny>> = Infer<
+  ReturnType<typeof t.object<O>>
 >;
 
-type TypeOfInternal<O extends Record<string, ZodTypeAny>> = TypeOf<
-  ZodObject<{
-    [K in keyof O]: O[K] extends ZodOptional<infer U>
-      ? U extends ZodDefault<any>
-        ? U
-        : ZodOptional<U>
-      : O[K];
-  }>
+type TypeOfInternal<O extends Record<string, TypeAny>> = Infer<
+  ReturnType<typeof t.object<O>>
 >;
 
 export type PickProps<O extends Record<string, any>> = {
@@ -140,9 +129,9 @@ export type PickSlotProps<O extends Record<string, any>> = {
 };
 
 export type ToInternalSlots<O extends Record<string, any>> = {
-  [K in keyof O as K extends string ? SlotName<K> : never]: NonNullable<O[K]> extends (
-      v: infer P
-    ) => any
+  [K in keyof O as K extends string ? SlotName<K> : never]: NonNullable<
+    O[K]
+  > extends (v: infer P) => any
     ? (p: P) => VNode[]
     : () => VNode[];
 };
@@ -186,9 +175,3 @@ export type ToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
   : S extends `${infer T}_${infer U}`
     ? `${T}${Capitalize<ToCamelCase<U>>}`
     : S;
-
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-    k: infer I
-  ) => void
-  ? I
-  : never;

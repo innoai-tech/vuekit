@@ -1,8 +1,9 @@
 import { inject, provide, type VNodeChild } from "vue";
 import { isFunction } from "@innoai-tech/lodash";
 import { ext } from "./ext";
-import { type ComponentOptions, component, z } from "./component";
+import { type ComponentOptions, component } from "./component";
 import { type Component } from "./types";
+import { t } from "@innoai-tech/typedef";
 
 export function createProvider<T extends object>(
   defaults?: T | (() => T),
@@ -19,14 +20,14 @@ export function createProvider<T extends object>(
 
   const Provider = component(
     {
-      value: z.custom<T>().optional(),
-      $default: z.custom<VNodeChild>().optional()
+      value: t.any().optional(),
+      $default: t.custom<VNodeChild>().optional()
     },
     (props, { slots }) => {
       provide(key, props.value ?? getDefaults());
 
       return () => {
-        return slots.default?.(undefined);
+        return slots.default?.();
       };
     },
     {

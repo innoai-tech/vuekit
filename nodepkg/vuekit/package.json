@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuekit",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts",
@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "@innoai-tech/lodash": "^0.2.0",
-    "@innoai-tech/vue-jsx-runtime": "workspace:^"
+    "@innoai-tech/vue-jsx-runtime": "workspace:^",
+    "@innoai-tech/typedef": "workspace:^"
   },
   "peerDependencies": {
-    "zod": "^3.21.x",
     "immer": "^10.0.x",
     "vue-router": "^4.1.x",
     "vue": "3.2.x",

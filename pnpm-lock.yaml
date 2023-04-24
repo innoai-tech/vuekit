@@ -99,6 +99,12 @@ importers:
 
   nodedevpkg/vuedevconfig: {}
 
+  nodepkg/typedef:
+    dependencies:
+      superstruct:
+        specifier: ^1.0.3
+        version: 1.0.3
+
   nodepkg/vue-jsx-runtime:
     dependencies:
       vue:
@@ -110,6 +116,9 @@ importers:
       '@innoai-tech/lodash':
         specifier: ^0.2.0
         version: 0.2.0
+      '@innoai-tech/typedef':
+        specifier: workspace:^
+        version: link:../typedef
       '@innoai-tech/vue-jsx-runtime':
         specifier: workspace:^
         version: link:../vue-jsx-runtime
@@ -125,9 +134,6 @@ importers:
       vue-router:
         specifier: ^4.1.x
         version: 4.1.0(vue@3.2.47)
-      zod:
-        specifier: ^3.21.x
-        version: 3.21.4
 
   nodepkg/vuemarkdown:
     dependencies:
@@ -4446,6 +4452,11 @@ packages:
     resolution: {integrity: sha512-GP6WDNWf+o403jrEp9c5jibKavrtLW+/qYGhFxFrG8maXhwTBI7gLLhiBb0o7uFccWN+EOS9aMO6cGHWAO07OA==}
     dev: false
 
+  /superstruct@1.0.3:
+    resolution: {integrity: sha512-8iTn3oSS8nRGn+C2pgXSKPI3jmpm6FExNazNpjvqS6ZUJQCej3PUXEKM8NjHBOs54ExM+LPW/FBRhymrdcCiSg==}
+    engines: {node: '>=14.0.0'}
+    dev: false
+
   /supports-color@2.0.0:
     resolution: {integrity: sha512-KKNVtd6pCYgPIKU4cp2733HWYCpplQhddZLBUryaAHou723x+FRzQ5Df824Fj+IyyuiQTRoub4SnIFfIcrp70g==}
     engines: {node: '>=0.8.0'}
@@ -5396,10 +5407,6 @@ packages:
     resolution: {integrity: sha512-9bnSc/HEW2uRy67wc+T8UwauLuPJVn28jb+GtJY16iiKWyvmYJRXVT4UamsAEGQfPohgr2q4Tq0sQbQlxTfi1g==}
     engines: {node: '>=12.20'}
     dev: true
-
-  /zod@3.21.4:
-    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
-    dev: false
 
   /zwitch@2.0.4:
     resolution: {integrity: sha512-bXE4cR/kVZhKZX/RjPEflHaKVhUVl85noU3v6b8apfQEc1x4A+zBxjZ4lN8LqGd6WZ3dl98pY4o717VFmoPp+A==}

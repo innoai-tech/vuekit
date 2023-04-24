@@ -1,4 +1,5 @@
-import { component, z } from "../component";
+import { component } from "../component";
+import { t } from "@innoai-tech/typedef";
 import { map, Observable, tap } from "rxjs";
 import { type RenderFunction, shallowRef, type VNodeChild } from "vue";
 import { rx } from "./rx";
@@ -23,8 +24,8 @@ export function render<T extends any>(renderFunc: (value: T) => VNodeChild) {
  */
 export const RxSlot = component(
   {
-    elem$: z.custom<Observable<RenderFunction>>(),
-    $default: z.custom<Slots>()
+    elem$: t.custom<Observable<RenderFunction>>(),
+    $default: t.custom<Slots>()
   },
   (props, {}) => {
     const r = shallowRef<RenderFunction | null>(null);
@@ -43,3 +44,5 @@ export const RxSlot = component(
     name: "RxSlot"
   }
 );
+
+

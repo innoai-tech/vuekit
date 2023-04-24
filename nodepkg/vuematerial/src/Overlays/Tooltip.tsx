@@ -4,7 +4,7 @@ import {
   Popper,
   styled
 } from "@innoai-tech/vueuikit";
-import { component, z } from "@innoai-tech/vuekit";
+import { component, t } from "@innoai-tech/vuekit";
 import { type VNode, cloneVNode, ref } from "vue";
 
 const FadeInOutTransition = defineTransition(
@@ -42,8 +42,8 @@ const TooltipContainer = styled("div")({
 
 export const Tooltip = component(
   {
-    title: z.custom<string | VNode>(),
-    $default: z.custom<JSX.Element>()
+    title: t.custom<string | VNode>(),
+    $default: t.custom<JSX.Element>()
   },
   (props, { slots }) => {
     const isOpen = ref(false);

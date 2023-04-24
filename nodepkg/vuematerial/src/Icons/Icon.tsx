@@ -1,11 +1,11 @@
-import { z } from "@innoai-tech/vuekit";
+import { t } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 
 export const Icon = styled(
   "span",
   {
-    placement: z.enum(["start", "end"]).optional(),
-    path: z.string()
+    placement: t.enums(["start", "end"]).optional(),
+    path: t.string()
   },
   (props, {}) =>
     (Wrapper) =>

@@ -1,11 +1,11 @@
-import { z } from "@innoai-tech/vuekit";
+import { t } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 
 export const ButtonBase = styled("button", {
-  hover: z.boolean().optional(),
-  focus: z.boolean().optional(),
-  active: z.boolean().optional(),
-  disabled: z.boolean().optional(),
+  hover: t.boolean().optional(),
+  focus: t.boolean().optional(),
+  active: t.boolean().optional(),
+  disabled: t.boolean().optional(),
 })({
   textStyle: "sys.label-large",
   display: "inline-flex",

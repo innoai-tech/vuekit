@@ -1,4 +1,5 @@
 import {
+  t,
   component,
   type OverridableComponent,
   type PublicPropsOf,
@@ -6,9 +7,8 @@ import {
   type InternalEmitsOf,
   type InternalSlotsOf,
   type InternalPropsOf,
-  type ZodTypeAny,
+  type TypeAny,
   type VElementType,
-  z
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
 import { type SxProps, Box } from "./Box";
@@ -37,7 +37,7 @@ const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
 
 export type StyledSetupFunction<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, ZodTypeAny>
+  PropTypes extends Record<string, TypeAny>
 > = (
   props: InternalPropsOf<PropTypes>,
   ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
@@ -45,7 +45,7 @@ export type StyledSetupFunction<
 
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, ZodTypeAny> = {}
+  PropTypes extends Record<string, TypeAny> = {}
 >(
   defaultComponent: DefaultComponent,
   setup?: StyledSetupFunction<DefaultComponent, PropTypes>
@@ -55,7 +55,7 @@ export function styled<
 }>;
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, ZodTypeAny> = {}
+  PropTypes extends Record<string, TypeAny> = {}
 >(
   defaultComponent: DefaultComponent,
   propTypes: PropTypes,
@@ -66,7 +66,7 @@ export function styled<
 }>;
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, ZodTypeAny> = {}
+  PropTypes extends Record<string, TypeAny> = {}
 >(
   defaultComponent: DefaultComponent,
   propTypesOrSetup?:
@@ -87,8 +87,8 @@ export function styled<
     const c = component(
       {
         ...finalPropTypes,
-        sx: z.custom<SystemStyleObject>().optional(),
-        component: z.custom<VElementType>().optional()
+        sx: t.custom<SystemStyleObject>().optional(),
+        component: t.custom<VElementType>().optional(),
       },
       (props, ctx) => {
         const theme = ThemeProvider.use();
@@ -121,9 +121,9 @@ export function styled<
                   // then insert
                   insertCSS({
                     serialized: serialized,
-                    isStringTag: isStringTag
+                    isStringTag: isStringTag,
                   });
-                }
+                },
               });
             }
 
@@ -140,9 +140,9 @@ export function styled<
               onVnodeBeforeMount: () => {
                 insertCSS({
                   serialized: serialized,
-                  isStringTag: isStringTag
+                  isStringTag: isStringTag,
                 });
-              }
+              },
             });
           }
 

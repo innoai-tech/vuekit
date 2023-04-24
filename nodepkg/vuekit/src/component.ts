@@ -1,9 +1,8 @@
 import type { PublicPropsOf, Component, SetupFunction, WithDefaultSlot } from "./types";
 import { isFunction, partition, kebabCase } from "@innoai-tech/lodash";
-import { type ZodTypeAny, z } from "zod";
 import { Fragment as OriginFragment } from "vue";
 
-export { z };
+import { type TypeAny } from "@innoai-tech/typedef";
 
 export interface ComponentOptions {
   name?: string;
@@ -16,12 +15,12 @@ export function component(
   setup: SetupFunction<{}>,
   options?: ComponentOptions
 ): Component<{}>;
-export function component<PropTypes extends Record<string, ZodTypeAny>>(
+export function component<PropTypes extends Record<string, TypeAny>>(
   propTypes: PropTypes,
   setup: SetupFunction<PropTypes>,
   options?: ComponentOptions
 ): Component<PublicPropsOf<PropTypes>>;
-export function component<PropTypes extends Record<string, ZodTypeAny>>(
+export function component<PropTypes extends Record<string, TypeAny>>(
   propTypesOrSetup: PropTypes | SetupFunction<PropTypes>,
   setupOrOptions?: SetupFunction<PropTypes> | ComponentOptions,
   options: ComponentOptions = {}
@@ -30,7 +29,7 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
   const finalSetup = (setupOrOptions ?? propTypesOrSetup) as SetupFunction<any>;
   const finalPropTypes = (
     isFunction(propTypesOrSetup) ? {} : propTypesOrSetup
-  ) as Record<string, ZodTypeAny>;
+  ) as Record<string, TypeAny>;
 
   const [emits, props] = partition(Object.keys(finalPropTypes), (v: string) =>
     /^on[A-Z]/.test(v)
@@ -46,9 +45,15 @@ export function component<PropTypes extends Record<string, ZodTypeAny>>(
           ...ret,
           [prop]: {
             default: () => {
-              return d.parse(undefined);
+              try {
+                return d.create(undefined);
+              } catch (e) {
+              }
+              return;
             },
-            validator: (value: any) => d.safeParse(value).success
+            validator: (value: any) => {
+              return d.validate(value);
+            }
           }
         };
       }, {})

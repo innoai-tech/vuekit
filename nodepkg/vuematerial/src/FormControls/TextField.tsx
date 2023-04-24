@@ -1,4 +1,4 @@
-import { z, type VNodeChild } from "@innoai-tech/vuekit";
+import { t, type VNodeChild } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 import { cloneVNode } from "vue";
 import { get } from "@innoai-tech/lodash";
@@ -6,15 +6,15 @@ import { get } from "@innoai-tech/lodash";
 export const TextField = styled(
   "label",
   {
-    focus: z.boolean().optional(),
-    invalid: z.boolean().optional(),
-    disabled: z.boolean().optional(),
+    focus: t.boolean().optional(),
+    invalid: t.boolean().optional(),
+    disabled: t.boolean().optional(),
 
-    $label: z.custom<VNodeChild>().optional(),
-    $supporting: z.custom<VNodeChild>().optional(),
-    $leading: z.custom<VNodeChild>().optional(),
-    $trailing: z.custom<VNodeChild>().optional(),
-    $default: z.custom<VNodeChild>()
+    $label: t.custom<VNodeChild>().optional(),
+    $supporting: t.custom<VNodeChild>().optional(),
+    $leading: t.custom<VNodeChild>().optional(),
+    $trailing: t.custom<VNodeChild>().optional(),
+    $default: t.custom<VNodeChild>()
   },
   (props, { slots }) => {
     return (Wrap) => {
@@ -193,7 +193,7 @@ export const TextField = styled(
 });
 
 const Maker = styled("div", {
-  role: z.enum(["leading", "trailing"])
+  role: t.enums(["leading", "trailing"])
 })({
   pos: "absolute",
   top: 4,

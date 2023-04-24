@@ -7,7 +7,7 @@ import {
   rx,
   subscribeUntilUnmount
 } from "..";
-import { z, component, type VNode } from "../../index";
+import { t, component, type VNode } from "../../index";
 import { mount } from "@vue/test-utils";
 
 /**
@@ -67,7 +67,7 @@ describe("vue reactive", () => {
   test("when slots changed, should rerender", async () => {
     const C = component$(
       {
-        $input: z.custom<VNode>()
+        $input: t.custom<VNode>()
       },
       ({}, { slots, render }) => {
         const input$ = observableRef("");
@@ -91,7 +91,7 @@ describe("vue reactive", () => {
 
     const Wrap = component(
       {
-        input: z.custom<VNode>()
+        input: t.custom<VNode>()
       },
       (props) => {
         return () => <C $input={props.input} />;
@@ -115,7 +115,7 @@ describe("vue reactive", () => {
 
   test("when props changed, should rerender", async () => {
     const C = component$(
-      { input: z.number() },
+      { input: t.number() },
       ({ input$, input }, { render }) => {
         const localInput$ = observableRef(input);
 
