@@ -5,18 +5,17 @@ import type { ObjectType } from "superstruct/dist/utils";
 export function object(): Type<Record<string, unknown>, null>
 export function object<S extends Record<string, TypeAny>>(schema: S): Type<ObjectType<S>, S>
 export function object<S extends Record<string, TypeAny>>(schema?: S): Type<any> {
-  return new Type(schema ? ss.object(schema) : ss.object());
+  return Type.from(schema ? ss.object(schema) : ss.object() as any);
 }
 
 export function record<K extends string, V>(
   k: Type<K, any>,
   v: Type<V, any>
 ): Type<Record<K, V>, {
-  additionalProperties: V,
-  propertyNames: K
+  additionalProperties: Type<V, any>,
+  propertyNames: Type<K, any>
 }> {
-  return new Type({
-    ...ss.record(k, v) as any,
+  return Type.from(ss.record(k, v), {
     schema: {
       additionalProperties: v,
       propertyNames: k

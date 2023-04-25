@@ -4,8 +4,7 @@ import { Type, type TypeAny, type Infer } from "../Type";
 export function intersection<Types extends [...TypeAny[]]>(
   ...types: Types
 ): Type<IntersectionTypes<Types>, { allOf: Types }> {
-  return new Type({
-    ...(ss.intersection(types as any)),
+  return Type.from(ss.intersection(types as any), {
     schema: { allOf: types }
   });
 }

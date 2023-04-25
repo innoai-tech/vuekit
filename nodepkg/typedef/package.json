@@ -1,12 +1,12 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.1.1",
+  "version": "0.1.6",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
-  "peerDependencies": {
+  "devDependencies": {
     "superstruct": "^1.0.3"
   },
   "exports": {
@@ -37,5 +37,6 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {}
 }

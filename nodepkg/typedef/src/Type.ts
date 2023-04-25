@@ -6,33 +6,63 @@ import {
   type Simplify,
   type UnionToIntersection
 } from "superstruct/dist/utils";
-import {
-  type Coercer,
-  type Context,
-  type Refiner,
-  type Validator
-} from "superstruct/dist/struct";
+import { type Context, type Result } from "superstruct/dist/struct";
 
 export {
   type Infer,
   type Simplify,
   type UnionToIntersection,
   type Describe,
-  type InferStructTuple as InferTuple,
-  type ObjectType,
   type Context,
-  type Validator
+  type InferStructTuple as InferTuple,
+  type ObjectType
 };
 
-interface UnaryFunction<T, R> {
-  (source: T): R;
-}
+export type Coercer<T = unknown> = (
+  value: T,
+  context: Context,
+  t: Type
+) => unknown;
+export type Validator = (value: unknown, context: Context, t: Type) => Result;
+export type Refiner<T> = (value: T, context: Context, t: Type<T>) => Result;
+export type EntryIter = (
+  value: unknown,
+  context: Context,
+  t: Type
+) => Iterable<[string | number, unknown, Type<any> | Type<never>]>;
 
-export type Modifier<T, R, S> = UnaryFunction<Type<T, S>, Type<R, S>>;
+export interface Modifier<T, S> {
+  (t: Type<T, S>): Type<T, S>;
+}
 
 export type TypeAny = Type<any, any>;
 
-export class Type<T, S = unknown> extends Struct<T, S> {
+export class Type<T = unknown, S = unknown> extends Struct<T, S> {
+  static from<T, S>(
+    s: Struct<T, any>,
+    overwrites: {
+      schema?: S;
+      entries?: EntryIter;
+      coercer?: Coercer;
+      validator?: Validator;
+      refiner?: Refiner<T>;
+      meta?: Record<string, any>;
+    } = {}
+  ) {
+    return new Type<T, S>({
+      type: s.type,
+      schema: s.schema || overwrites.schema,
+      entries: (s.entries as any) ?? overwrites.entries,
+      coercer: (s.coercer as any) ?? overwrites.coercer,
+      validator: (s.validator as any) ?? overwrites.validator,
+      refiner: (s.refiner as any) ?? overwrites.refiner,
+      meta: {
+        ...((s as any)?.meta ?? {}),
+        ...(overwrites.meta ?? {})
+      }
+    });
+  }
+
   static define<T>(name: string, validator: Validator): Type<T, null> {
     return new Type({ type: name, schema: null, validator });
   }
@@ -42,7 +72,7 @@ export class Type<T, S = unknown> extends Struct<T, S> {
     name: string,
     refiner: Refiner<T>
   ): Type<T, S> {
-    return Type.callWith(t, ss.refine, name, refiner);
+    return Type.callWith(t, ss.refine, name, refiner as any);
   }
 
   static callWith<T, S, RT, RS, Args extends any[]>(
@@ -50,8 +80,7 @@ export class Type<T, S = unknown> extends Struct<T, S> {
     fn: (s: Struct<T, S>, ...args: Args) => Struct<RT, RS>,
     ...args: Args
   ) {
-    return new Type<RT, RS>({
-      ...fn(source, ...args),
+    return Type.from<RT, RS>(fn(source, ...args), {
       meta: source.meta
     });
   }
@@ -59,16 +88,14 @@ export class Type<T, S = unknown> extends Struct<T, S> {
   meta: Record<string, any>;
 
   constructor({
-                entries = function* () {
-                },
                 coercer,
+                entries,
                 validator,
                 refiner,
                 meta,
                 ...others
               }: {
-
-    entries?: Struct<T, S>["entries"];
+    entries?: EntryIter;
     coercer?: Coercer;
     validator?: Validator;
     refiner?: Refiner<T>;
@@ -78,19 +105,17 @@ export class Type<T, S = unknown> extends Struct<T, S> {
   }) {
     super({
       ...others,
-      coercer: coercer ? (...args: any[]) => {
-        return (coercer as any).apply(this, args);
-      } : undefined,
-      validator: validator ? (...args: any[]) => {
-        return (validator as any).apply(this, args);
-      } : undefined,
-      refiner: refiner ? (...args: any[]) => {
-        return (refiner as any).apply(this, args);
-      } : undefined
+      coercer: delegate(() => this as Type, coercer as any) as any,
+      validator: delegate(() => this as Type, validator) as any,
+      refiner: delegate(() => this as Type, refiner as any) as any
     });
 
-    this.entries = entries as any;
     this.meta = meta ?? {};
+
+    this.entries = entries
+      ? (delegate(() => this as Type, entries) as any)
+      : function* () {
+      };
   }
 
   override entries: (
@@ -106,77 +131,21 @@ export class Type<T, S = unknown> extends Struct<T, S> {
     return Type.callWith(this, ss.defaulted, v);
   }
 
-  use<A>(op1: Modifier<T, A, S>): Type<A, S>;
-  use<A, B>(op1: Modifier<T, A, S>, op2: Modifier<A, B, S>): Type<B, S>;
-  use<A, B, C>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>
-  ): Type<C, S>;
-  use<A, B, C, D>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>
-  ): Type<D, S>;
-  use<A, B, C, D, E>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>,
-    op5: Modifier<D, E, S>
-  ): Type<E, S>;
-  use<A, B, C, D, E, F>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>,
-    op5: Modifier<D, E, S>,
-    op6: Modifier<E, F, S>
-  ): Type<F, S>;
-  use<A, B, C, D, E, F, G>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>,
-    op5: Modifier<D, E, S>,
-    op6: Modifier<E, F, S>,
-    op7: Modifier<F, G, S>
-  ): Type<G, S>;
-  use<A, B, C, D, E, F, G, H>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>,
-    op5: Modifier<D, E, S>,
-    op6: Modifier<E, F, S>,
-    op7: Modifier<F, G, S>,
-    op8: Modifier<G, H, S>
-  ): Type<H, S>;
-  use<A, B, C, D, E, F, G, H, I>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>,
-    op5: Modifier<D, E, S>,
-    op6: Modifier<E, F, S>,
-    op7: Modifier<F, G, S>,
-    op8: Modifier<G, H, S>,
-    op9: Modifier<H, I, S>
-  ): Type<I, S>;
-  use<A, B, C, D, E, F, G, H, I>(
-    op1: Modifier<T, A, S>,
-    op2: Modifier<A, B, S>,
-    op3: Modifier<B, C, S>,
-    op4: Modifier<C, D, S>,
-    op5: Modifier<D, E, S>,
-    op6: Modifier<E, F, S>,
-    op7: Modifier<F, G, S>,
-    op8: Modifier<G, H, S>,
-    op9: Modifier<H, I, S>,
-    ...operations: Modifier<any, any, S>[]
-  ): Type<unknown, unknown>;
-  use(...annotations: any[]): TypeAny {
-    return annotations.reduce((ret, r) => r(ret), this);
+  use(...modifiers: Modifier<T, S>[]): Type<T, S> {
+    return modifiers.reduce((ret, r) => r(ret), this as Type<T, S>);
   }
 }
+
+function delegate(
+  getType: () => Type,
+  fn?: (v: unknown, ctx: Context, t: Type) => unknown
+) {
+  if (fn) {
+    return (v: unknown, ctx: Context, t?: Type) => {
+      return fn(v, ctx, t ?? getType());
+    };
+  }
+  return;
+}
+
+export type EnumLike = { [k: string]: string | number; [nu: number]: string };

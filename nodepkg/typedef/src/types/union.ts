@@ -8,14 +8,13 @@ import {
 import * as ss from "superstruct";
 import { enums } from "./enums";
 import { object } from "./object";
-import { literal } from "./primitive";
 import { dynamic } from "./custom";
 
 export function union<Types extends [...TypeAny[]]>(
   ...types: Types
 ): Type<InferTuple<Types>[number], null> {
   return new Type({
-    ...ss.union(types as any) as any,
+    ...(ss.union(types as any) as any),
     schema: {
       oneOf: types
     }
@@ -37,30 +36,29 @@ export function discriminatorMapping<
     mapping: Mapping;
   }
 > {
-  const c = dynamic<any>((v: any = {}, _, t) => {
+  const discriminatorValues = enums(Object.keys(mapping));
+
+  const c = dynamic<any>(function(v: any = {}, _, t) {
     const discriminatorPropValue = (v as any)[discriminatorPropName];
     const matched = mapping[discriminatorPropValue];
 
     if (typeof discriminatorPropValue === "undefined" || !matched) {
       return object({
-        [discriminatorPropName]: new Type({
-          ...enums(Object.keys(mapping)),
-          meta: t?.meta
+        [discriminatorPropName]: Type.from(discriminatorValues, {
+          meta: t.meta
         })
       });
     }
 
     return object({
-      [discriminatorPropName]: new Type({
-        ...literal(discriminatorPropValue),
-        meta: t?.meta
+      [discriminatorPropName]: Type.from(discriminatorValues, {
+        meta: t.meta
       }),
       ...matched.schema
     });
   });
 
-  return new Type({
-    ...c,
+  return Type.from(c, {
     schema: {
       discriminator: {
         propertyName: discriminatorPropName

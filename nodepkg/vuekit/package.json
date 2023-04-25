@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuekit",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts",
@@ -8,12 +8,10 @@
       "./jsx-dev-runtime": "./src/jsx-dev-runtime.ts"
     }
   },
-  "dependencies": {
+  "peerDependencies": {
     "@innoai-tech/lodash": "^0.2.0",
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
-    "@innoai-tech/typedef": "workspace:^"
-  },
-  "peerDependencies": {
+    "@innoai-tech/typedef": "workspace:^",
     "immer": "^10.0.x",
     "vue-router": "^4.1.x",
     "vue": "3.2.x",

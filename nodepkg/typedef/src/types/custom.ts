@@ -1,4 +1,4 @@
-import { Type, type Context, type Validator } from "../Type";
+import { Type, type Context, type Validator, type TypeAny } from "../Type";
 
 export function custom<T>(validator?: Validator, name = "custom") {
   return Type.define<T>(name, validator ?? (() => true));
@@ -10,20 +10,20 @@ export function dynamic<T>(
   return new Type({
     type: "dynamic",
     schema: null,
-    * entries(value, ctx) {
-      const struct = fn(value, ctx, this as any);
+    * entries(value, ctx, t) {
+      const struct = fn(value, ctx, t as TypeAny);
       yield* struct.entries(value, ctx);
     },
-    validator(value, ctx) {
-      const struct = fn(value, ctx, this as any);
+    validator(value, ctx, t) {
+      const struct = fn(value, ctx, t as TypeAny);
       return struct.validator(value, ctx);
     },
-    coercer(value, ctx) {
-      const struct = fn(value, ctx, this as any);
+    coercer(value, ctx, t) {
+      const struct = fn(value, ctx, t as TypeAny);
       return struct.coercer(value, ctx);
     },
-    refiner(value, ctx) {
-      const struct = fn(value, ctx, this as any);
+    refiner(value, ctx, t) {
+      const struct = fn(value, ctx, t as TypeAny);
       return struct.refiner(value, ctx);
     }
   });
