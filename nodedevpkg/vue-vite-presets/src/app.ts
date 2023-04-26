@@ -28,12 +28,11 @@ export const app = (
         userConfig = c;
 
         c.base = appConfig.enableBaseHref
-          ? `/${
-            appConfig.buildWithPlaceHolder && command === "build"
-              ? "__APP_BASE_HREF__"
-              : appName
-          }/`
+          ? appConfig.buildWithPlaceHolder && command === "build"
+            ? "/__APP_BASE_HREF__/"
+            : `/${appName}/`
           : "/";
+
         c.publicDir = appConfig.enableBaseHref ? c.base : false;
 
         c.root = resolve(viteConfigRoot, `./webapp/${appName}`);
