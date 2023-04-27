@@ -1,7 +1,13 @@
-import { Struct, type Infer, type Describe } from "superstruct";
+import { Struct, type Infer } from "superstruct";
 import * as ss from "superstruct";
 import {
+  type EnumSchema,
   type InferStructTuple,
+  type IsExactMatch,
+  type IsMatch,
+  type IsRecord,
+  type IsTuple,
+  type IsUnion,
   type ObjectType,
   type Simplify,
   type UnionToIntersection
@@ -12,7 +18,6 @@ export {
   type Infer,
   type Simplify,
   type UnionToIntersection,
-  type Describe,
   type Context,
   type InferStructTuple as InferTuple,
   type ObjectType
@@ -149,3 +154,48 @@ function delegate(
 }
 
 export type EnumLike = { [k: string]: string | number; [nu: number]: string };
+
+
+export declare type Describe<T> = Type<T, StructSchema<T>>;
+
+export declare type StructSchema<T> = [T] extends [string | undefined | null]
+  ? [T] extends [IsMatch<T, string | undefined | null>]
+    ? null
+    : [T] extends [IsUnion<T>]
+      ? EnumSchema<T>
+      : T
+  : [T] extends [number | undefined | null]
+    ? [T] extends [IsMatch<T, number | undefined | null>]
+      ? null
+      : [T] extends [IsUnion<T>]
+        ? EnumSchema<T>
+        : T
+    : [T] extends [boolean]
+      ? [T] extends [IsExactMatch<T, boolean>]
+        ? null
+        : T
+      : T extends | bigint
+        | symbol
+        | undefined
+        | null
+        | Function
+        | Date
+        | Error
+        | RegExp
+        | Map<any, any>
+        | WeakMap<any, any>
+        | Set<any>
+        | WeakSet<any>
+        | Promise<any>
+        ? null
+        : T extends Array<infer E>
+          ? T extends IsTuple<T>
+            ? null
+            : Struct<E>
+          : T extends object
+            ? T extends IsRecord<T>
+              ? null
+              : {
+                [K in keyof T]: Describe<T[K]>;
+              }
+            : null;
