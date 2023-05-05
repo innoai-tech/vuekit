@@ -6,6 +6,7 @@ import { get } from "@innoai-tech/lodash";
 export const TextField = styled(
   "label",
   {
+    valued: t.boolean().optional(),
     focus: t.boolean().optional(),
     invalid: t.boolean().optional(),
     disabled: t.boolean().optional(),
@@ -18,7 +19,7 @@ export const TextField = styled(
   },
   (props, { slots }) => {
     return (Wrap) => {
-      let valued = false;
+      let valued = props.valued;
       let invalid = props.invalid;
       let disabled = props.disabled;
 
@@ -48,16 +49,16 @@ export const TextField = styled(
           data-has-leading={!!slots.leading}
           data-has-trailing={!!slots.trailing}
         >
-          <div data-role="container">
+          <div data-input-container="">
             {slots.leading && <Maker role="leading">{slots.leading()}</Maker>}
-            <div data-role="label">{slots.label?.()}</div>
+            <div data-input-label="">{slots.label?.()}</div>
             {children}
             {slots.trailing && (
               <Maker role={"trailing"}>{slots.trailing()}</Maker>
             )}
           </div>
           {slots.supporting && (
-            <div data-role="supporting">{slots.supporting?.()}</div>
+            <div data-input-supporting="">{slots.supporting?.()}</div>
           )}
         </Wrap>
       );
@@ -68,7 +69,7 @@ export const TextField = styled(
   pos: "relative",
   textStyle: "sys.body-large",
 
-  $data_role__container: {
+  $data_input_container: {
     pos: "relative"
   },
 
@@ -105,7 +106,7 @@ export const TextField = styled(
     transitionTimingFunction: "standard"
   },
 
-  $data_role__label: {
+  $data_input_label: {
     pos: "absolute",
     top: 4,
     bottom: 4,
@@ -119,7 +120,7 @@ export const TextField = styled(
     transitionTimingFunction: "standard-accelerate"
   },
 
-  $data_role__supporting: {
+  $data_input_supporting: {
     textStyle: "sys.body-small",
     px: 16,
     pt: 4,
@@ -133,7 +134,7 @@ export const TextField = styled(
     $data_input: {
       pl: 16 + 20
     },
-    $data_role__label: {
+    $data_input_label: {
       left: 16 + 20
     }
   },
@@ -149,7 +150,7 @@ export const TextField = styled(
       pt: 18
     },
 
-    $data_role__label: {
+    $data_input_label: {
       top: 8,
       bottom: "auto",
       textStyle: "sys.body-small"
@@ -163,7 +164,7 @@ export const TextField = styled(
       borderColor: "sys.primary"
     },
 
-    $data_role__label: {
+    $data_input_label: {
       top: 8,
       bottom: "auto",
       textStyle: "sys.body-small",
@@ -177,11 +178,11 @@ export const TextField = styled(
       borderColor: "sys.error"
     },
 
-    $data_role__label: {
+    $data_input_label: {
       color: "sys.error"
     },
 
-    $data_role__supporting: {
+    $data_input_supporting: {
       color: "sys.error"
     }
   },
