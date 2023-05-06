@@ -7,7 +7,7 @@ import type { VNodeChild } from "vue";
 /**
  *  @vitest-environment jsdom
  **/
-describe("component", () => {
+describe("Type", () => {
   test("render with optional props", () => {
     const propTypes = {
       input: t.number().optional(),
