@@ -6,7 +6,10 @@ import { unified, remarkRehype, remarkParse, rehypeVue } from "./unified";
 export const Markdown = component$(
   {
     text: t.string(),
-    components: t.record(t.string(), t.custom<Component<any>>()).optional()
+    components: t
+      .record(t.string(), t.custom<Component<any>>())
+      .optional()
+      .default({}),
   },
   (props, { render }) => {
     const processor$ = props.components$.pipe(
@@ -14,7 +17,7 @@ export const Markdown = component$(
         unified()
           .use(remarkParse)
           .use(remarkRehype)
-          .use(rehypeVue, { components: components ?? {} })
+          .use(rehypeVue, { components: components })
       )
     );
 

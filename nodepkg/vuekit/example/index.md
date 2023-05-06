@@ -34,6 +34,7 @@ export const TextInput = component(
     // 又由于 TypeString 的老问题  https://www.typescriptneedstypes.com/#the-problem
     // 类型定义无法转为 Runtime 对象
     // 因此这里通过 superstruct 定义类型后 来进行反向推导 （同时作为 Runtime 验证
+    // 注意 default 需要在 最后，为了 内部推导
     value: t.string().optional().default("1"),
     type: t.enums(["text", "number"]),
 

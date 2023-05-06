@@ -5,12 +5,7 @@ import {
   type Simplify,
   type UnionToIntersection
 } from "@innoai-tech/typedef";
-import {
-  type ObjectEmitsOptions,
-  type VNode,
-  type RenderFunction,
-  type Slot
-} from "vue";
+import { type ObjectEmitsOptions, type VNode, type RenderFunction } from "vue";
 
 export type VElementType = string | Component<any>;
 export type VNodeChildAtom =
@@ -27,7 +22,6 @@ export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 export { type RenderFunction, type VNode };
 
 export type Emits = Record<string, (...args: any[]) => any>;
-export type Slots = Record<string, Slot>;
 
 export type Component<P extends Record<string, any>> = {
   (props: P): any;
@@ -38,7 +32,7 @@ export type WithDefaultSlot = {
   $default?: VNodeChild;
 };
 
-export type SetupContext<E extends Emits, S extends Slots> = {
+export type SetupContext<E extends Emits, S> = {
   emit: EmitFn<E>;
   attrs: Record<string, unknown>;
   slots: S;
@@ -81,32 +75,55 @@ export type SetupFunction<PropTypes extends Record<string, TypeAny>> = (
 ) => RenderFunction;
 
 export type PublicPropsOf<
-  O extends Record<string, TypeAny>,
-  P extends Record<string, any> = TypeOfPublic<O>
+  PropTypes extends Record<string, TypeAny>,
+  P extends Record<string, any> = TypeOfPublic<PropTypes>
 > = Simplify<PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>>;
 
 export type InternalPropsOf<
-  O extends Record<string, TypeAny>,
-  P extends Record<string, any> = TypeOfInternal<O>
+  PropTypes extends Record<string, TypeAny>,
+  P extends Record<string, any> = TypeOfInternal<PropTypes>
 > = Simplify<PickProps<P>>;
 
-export type InternalEmitsOf<
-  O extends Record<string, TypeAny>,
-  P extends Record<string, any> = TypeOfInternal<O>
-> = ToInternalEmits<Simplify<PickEmitProps<P>>>;
-
 export type InternalSlotsOf<
-  O extends Record<string, TypeAny>,
-  P extends Record<string, any> = TypeOfInternal<O>
-> = ToInternalSlots<Simplify<PickSlotProps<P>>>;
+  PropTypes extends Record<string, TypeAny>,
+  P extends Record<string, any> = TypeOfInternal<PropTypes>
+> = Simplify<ToInternalSlots<PickSlotProps<P>>>;
+
+export type InternalEmitsOf<
+  PropTypes extends Record<string, TypeAny>,
+  P extends Record<string, any> = TypeOfInternal<PropTypes>
+> = ToInternalEmits<Simplify<PickEmitProps<P>>>;
 
 type TypeOfPublic<O extends Record<string, TypeAny>> = Infer<
   ReturnType<typeof t.object<O>>
 >;
 
-type TypeOfInternal<O extends Record<string, TypeAny>> = Infer<
-  ReturnType<typeof t.object<O>>
->;
+// optional with default as InternalRequired
+type PickInternalRequired<T extends Record<string, TypeAny>> = {
+  [K in keyof T as K extends string
+    ? Infer<T[K]> extends NonNullable<Infer<T[K]>>
+      ? K
+      : T[K] extends { __DEFAULTED: boolean }
+        ? K
+        : never
+    : never]: T[K];
+};
+
+export type TypeOfInternal<
+  PropTypes extends Record<string, TypeAny>,
+  RequiredProps extends Record<string, TypeAny> = Pick<
+    PropTypes,
+    keyof PickInternalRequired<PropTypes>
+  >,
+  OptionalProps extends Record<string, TypeAny> = Omit<
+    PropTypes,
+    keyof RequiredProps
+  >
+> = {
+  [K in keyof RequiredProps]: NonNullable<Infer<RequiredProps[K]>>;
+} & {
+  [K in keyof OptionalProps]?: Infer<OptionalProps[K]>;
+};
 
 export type PickProps<O extends Record<string, any>> = {
   [K in keyof O as K extends string ? NormalProp<K> : never]: O[K];

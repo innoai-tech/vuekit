@@ -17,6 +17,7 @@ import { type Context, type Result } from "superstruct/dist/struct";
 export {
   type Infer,
   type Simplify,
+  type EnumSchema,
   type UnionToIntersection,
   type Context,
   type InferStructTuple as InferTuple,
@@ -56,7 +57,7 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
   ) {
     return new Type<T, S>({
       type: s.type,
-      schema: s.schema || overwrites.schema,
+      schema: s.schema || (overwrites.schema as any),
       entries: (s.entries as any) ?? overwrites.entries,
       coercer: (s.coercer as any) ?? overwrites.coercer,
       validator: (s.validator as any) ?? overwrites.validator,
@@ -132,8 +133,8 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
     return Type.callWith(this, ss.optional);
   }
 
-  default(v: T): Type<T, S> {
-    return Type.callWith(this, ss.defaulted, v);
+  default(v: T): Type<T, S> & { __DEFAULTED: true } {
+    return Type.callWith(this, ss.defaulted, v) as any;
   }
 
   use(...modifiers: Modifier<T, S>[]): Type<T, S> {
@@ -153,8 +154,20 @@ function delegate(
   return;
 }
 
-export type EnumLike = { [k: string]: string | number; [nu: number]: string };
+export type NativeEnumLike = {
+  [k: string]: string | number;
+  [nu: number]: string;
+};
 
+export type RecordSchema<T extends Record<any, any>> = T extends Record<
+    infer K,
+    infer V
+  >
+  ? {
+    additionalProperties: Type<V, any>;
+    propertyNames: Type<K, any>;
+  }
+  : never;
 
 export declare type Describe<T> = Type<T, StructSchema<T>>;
 
@@ -191,10 +204,10 @@ export declare type StructSchema<T> = [T] extends [string | undefined | null]
         : T extends Array<infer E>
           ? T extends IsTuple<T>
             ? null
-            : Struct<E>
+            : Type<E>
           : T extends object
             ? T extends IsRecord<T>
-              ? null
+              ? RecordSchema<T>
               : {
                 [K in keyof T]: Describe<T[K]>;
               }

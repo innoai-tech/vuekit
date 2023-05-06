@@ -4,7 +4,6 @@ import { map, Observable, tap } from "rxjs";
 import { type RenderFunction, shallowRef, type VNodeChild } from "vue";
 import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribe";
-import { type Slots } from "../types";
 
 export function render<T extends any>(renderFunc: (value: T) => VNodeChild) {
   return (input$: Observable<T>): JSX.Element => {
@@ -22,10 +21,10 @@ export function render<T extends any>(renderFunc: (value: T) => VNodeChild) {
  * When elem$ with slots, slots must pass as children to trigger rerender
  * <RxSlot elem$={elem$}>{{}}</RxSlot>
  */
-export const RxSlot = component(
+const RxSlot = component(
   {
     elem$: t.custom<Observable<RenderFunction>>(),
-    $default: t.custom<Slots>()
+    $default: t.custom<{}>()
   },
   (props, {}) => {
     const r = shallowRef<RenderFunction | null>(null);

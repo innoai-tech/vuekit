@@ -1,4 +1,4 @@
-import { Type, type TypeAny } from "../Type";
+import { type RecordSchema, Type, type TypeAny } from "../Type";
 import * as ss from "superstruct";
 import type { ObjectType } from "superstruct/dist/utils";
 
@@ -11,14 +11,11 @@ export function object<S extends Record<string, TypeAny>>(schema?: S): Type<any>
 export function record<K extends string, V>(
   k: Type<K, any>,
   v: Type<V, any>
-): Type<Record<K, V>, {
-  additionalProperties: Type<V, any>,
-  propertyNames: Type<K, any>
-}> {
+): Type<Record<K, V>, RecordSchema<Record<K, V>>> {
   return Type.from(ss.record(k, v), {
     schema: {
       additionalProperties: v,
       propertyNames: k
-    }
+    } as unknown as RecordSchema<Record<K, V>>
   });
 }
