@@ -3,8 +3,11 @@ import * as ss from "superstruct";
 
 export function tuple<A extends TypeAny, B extends TypeAny[]>(
   types: [A, ...B]
-): Type<[Infer<A>, ...InferTuple<B>], [A, ...B]> {
+): Type<[Infer<A>, ...InferTuple<B>], { items: [A, ...B] }> {
   return Type.from(ss.tuple(types), {
-    schema: types
+    schema: {
+      type: "array",
+      items: types
+    }
   });
 }

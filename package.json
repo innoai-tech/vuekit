@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@innoai-tech/lodash": "^0.2.0",
-    "@innoai-tech/monobundle": "^0.8.7",
+    "@innoai-tech/monobundle": "^0.8.8",
     "@innoai-tech/vue-vite-presets": "workspace:^",
     "@innoai-tech/vuedevconfig": "workspace:^",
     "@mdi/js": "^7.2.96",

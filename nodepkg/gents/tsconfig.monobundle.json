@@ -1,0 +1,3 @@
+{
+  "extends": "@innoai-tech/vuedevconfig/tsconfig.json"
+}

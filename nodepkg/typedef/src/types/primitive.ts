@@ -14,3 +14,4 @@ export const boolean = () => Type.from(ss.boolean(), { schema: null });
 export const number = () => Type.from(ss.number(), { schema: null });
 export const integer = () => Type.from(ss.integer(), { schema: null });
 export const bigint = () => Type.from(ss.bigint(), { schema: null });
+export const nil = () => Type.define("nil", (v) => Object.is(v, null), { schema: null });

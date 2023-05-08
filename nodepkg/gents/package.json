@@ -1,16 +1,24 @@
 {
-  "name": "@innoai-tech/typedef",
-  "version": "0.1.9",
+  "name": "@innoai-tech/gents",
+  "version": "0.5.0",
   "monobundle": {
+    "build": {
+      "clean": true
+    },
     "exports": {
       ".": "./src/index.ts"
     }
   },
+  "dependencies": {
+    "@innoai-tech/config": "0.4.x",
+    "@innoai-tech/lodash": "0.2.x",
+    "node-fetch": "^3.x"
+  },
   "peerDependencies": {
-    "@innoai-tech/lodash": "^0.2.0"
+    "@innoai-tech/typedef": "workspace:^"
   },
   "devDependencies": {
-    "superstruct": "^1.0.3"
+    "@innoai-tech/fetcher": "0.4.x"
   },
   "exports": {
     ".": {
@@ -32,13 +40,13 @@
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/typedef"
+    "directory": "nodepkg/gents"
   },
   "scripts": {
-    "lint": "prettier --write .",
     "build": "monobundle",
     "test": "vitest --run --passWithNoTests --dir .",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "lint": "prettier --write ."
   },
   "type": "module"
 }

@@ -47,6 +47,7 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
   static from<T, S>(
     s: Struct<T, any>,
     overwrites: {
+      type?: string;
       schema?: S;
       entries?: EntryIter;
       coercer?: Coercer;
@@ -56,12 +57,12 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
     } = {}
   ) {
     return new Type<T, S>({
-      type: s.type,
-      schema: s.schema || (overwrites.schema as any),
-      entries: (s.entries as any) ?? overwrites.entries,
-      coercer: (s.coercer as any) ?? overwrites.coercer,
-      validator: (s.validator as any) ?? overwrites.validator,
-      refiner: (s.refiner as any) ?? overwrites.refiner,
+      type: overwrites.type ?? s.type,
+      schema: (overwrites.schema as any) ?? s.schema,
+      entries: overwrites.entries ?? (s.entries as any),
+      coercer: overwrites.coercer ?? (s.coercer as any),
+      validator: overwrites.validator ?? (s.validator as any),
+      refiner: overwrites.refiner ?? (s.refiner as any),
       meta: {
         ...((s as any)?.meta ?? {}),
         ...(overwrites.meta ?? {})
@@ -69,8 +70,8 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
     });
   }
 
-  static define<T>(name: string, validator: Validator): Type<T, null> {
-    return new Type({ type: name, schema: null, validator });
+  static define<T, S>(name: string, validator: Validator, schema: S): Type<T, S> {
+    return new Type({ type: name, schema: schema, validator });
   }
 
   static refine<T, S>(
@@ -139,6 +140,18 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
 
   use(...modifiers: Modifier<T, S>[]): Type<T, S> {
     return modifiers.reduce((ret, r) => r(ret), this as Type<T, S>);
+  }
+
+  private _isOptional?: boolean;
+  get isOptional() {
+    return (this._isOptional ??= (() => {
+      try {
+        this.create(undefined);
+        return true;
+      } catch (_) {
+        return false;
+      }
+    })());
   }
 }
 
