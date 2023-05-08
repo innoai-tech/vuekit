@@ -41,7 +41,7 @@ export type StyledSetupFunction<
 > = (
   props: InternalPropsOf<PropTypes>,
   ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
-) => (Wrap: DefaultComponent) => VNode;
+) => (Wrap: DefaultComponent) => VNode | null;
 
 export function styled<
   DefaultComponent extends VElementType,
