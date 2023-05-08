@@ -1,5 +1,5 @@
 import { inject, provide, type VNodeChild } from "vue";
-import { isFunction, isEmpty } from "@innoai-tech/lodash";
+import { isPlainObject, isFunction, isEmpty } from "@innoai-tech/lodash";
 import { ext } from "./ext";
 import { type ComponentOptions, component } from "./component";
 import {
@@ -40,14 +40,13 @@ export function createProvider<
   createOrOptions?: CreateFunction<Context, PropTypes> | ComponentOptions,
   options?: ComponentOptions
 ): ProviderComponent<Context, PublicPropsOf<PropTypes>> {
-  const finalOptions = (options ?? createOrOptions ?? {}) as ComponentOptions;
-  const finalCreate = (createOrOptions ?? propTypesOrCreate) as CreateFunction<
-    Context,
-    {}
-  >;
   const finalPropTypes = (
-    isFunction(propTypesOrCreate) ? {} : propTypesOrCreate
+    isPlainObject(propTypesOrCreate) ? propTypesOrCreate : {}
   ) as Record<string, TypeAny>;
+  const finalCreate = (
+    isFunction(propTypesOrCreate) ? propTypesOrCreate : createOrOptions
+  ) as CreateFunction<Context, {}>;
+  const finalOptions = (options ?? createOrOptions ?? {}) as ComponentOptions;
 
   const key = Symbol(finalOptions.name ?? "");
 
