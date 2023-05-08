@@ -23,20 +23,21 @@ export function union<Types extends [...TypeAny[]]>(
 
 export function discriminatorMapping<
   D extends string,
-  Mapping extends Record<string, TypeAny>
+  Mapping extends Record<string, Type<any, Record<string, TypeAny>>>
 >(
   discriminatorPropName: D,
   mapping: Mapping
 ): Type<
   Simplify<DiscriminatedUnion<D, Mapping>>,
   {
+    oneOf: Array<Type<any, Record<string, TypeAny>>>;
     discriminator: {
       propertyName: D;
     };
-    mapping: Mapping;
   }
 > {
-  const discriminatorValues = enums(Object.keys(mapping));
+  const discriminatorValues = Object.keys(mapping);
+  const discriminatorValuesSchema = enums(discriminatorValues);
 
   const c = dynamic<any>(function(v: any = {}, _, t) {
     const discriminatorPropValue = (v as any)[discriminatorPropName];
@@ -44,26 +45,32 @@ export function discriminatorMapping<
 
     if (typeof discriminatorPropValue === "undefined" || !matched) {
       return object({
-        [discriminatorPropName]: Type.from(discriminatorValues, {
+        [discriminatorPropName]: Type.from(discriminatorValuesSchema, {
           meta: t.meta
         })
       });
     }
 
     return object({
-      [discriminatorPropName]: Type.from(discriminatorValues, {
+      [discriminatorPropName]: Type.from(discriminatorValuesSchema, {
         meta: t.meta
       }),
-      ...matched.schema
+      ...(matched.schema as any)
     });
   });
 
   return Type.from(c, {
+    type: "union",
     schema: {
+      oneOf: discriminatorValues.map((discriminatorValue) => {
+        return object({
+          [discriminatorPropName]: enums([discriminatorValue]),
+          ...(mapping[discriminatorValue]!.schema as any)
+        });
+      }),
       discriminator: {
         propertyName: discriminatorPropName
-      },
-      mapping: mapping
+      }
     }
   });
 }

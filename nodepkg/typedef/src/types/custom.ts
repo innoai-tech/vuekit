@@ -1,4 +1,17 @@
 import { Type, type Context, type Validator, type TypeAny } from "../Type";
+import * as ss from "superstruct";
+
+export function ref<T>(
+  ref: string,
+  underlying: () => Type<T, any>
+): Type<T, { $ref: string }> {
+  return Type.from(ss.lazy(underlying) as any, {
+    schema: {
+      $ref: ref,
+      $underlying: underlying
+    }
+  }) as any;
+}
 
 export function custom<T>(validator?: Validator, name = "custom") {
   return Type.define<T>(name, validator ?? (() => true));
