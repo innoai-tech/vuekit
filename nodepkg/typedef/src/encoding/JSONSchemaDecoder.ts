@@ -11,7 +11,7 @@ import {
   last,
   mapValues,
   isPlainObject,
-  omit
+  isEmpty
 } from "@innoai-tech/lodash";
 import type { JSONSchema } from "./JSONSchemaEncoder";
 
@@ -62,27 +62,39 @@ export class JSONSchemaDecoder {
           const mapping: Record<string, any> = {};
 
           for (const o of schema["oneOf"]) {
-            const s = this.decode(o);
-            if (s) {
-              if (s.type == "object") {
-                const discriminatorType = s.schema[discriminatorPropertyName];
-                if (discriminatorType && discriminatorType.schema) {
+            const tt = this.decode(o);
 
-                  switch (discriminatorType.type) {
+            if (tt) {
+              const objectSchema: Record<string, any> = {};
+              const values: any[] = [];
+
+              for (const [propName, _, p] of tt.entries(
+                {},
+                { path: [], branch: [] }
+              )) {
+                if (p.type === "never") {
+                  continue;
+                }
+
+                if (propName === discriminatorPropertyName) {
+                  switch (p.type) {
                     case "literal": {
-                      mapping[discriminatorType.schema] = t.object(
-                        omit(s.schema, [discriminatorPropertyName])
-                      );
+                      values.push(p.schema);
                       break;
                     }
                     case "enums": {
-                      for (const value of discriminatorType.schema) {
-                        mapping[value] = t.object(
-                          omit(s.schema, [discriminatorPropertyName])
-                        );
-                      }
+                      values.push(...Object.values(p.schema as Record<string, any>));
                     }
                   }
+                  continue;
+                }
+
+                objectSchema[propName] = p;
+              }
+
+              if (values.length) {
+                for (const value of values) {
+                  mapping[value] = isEmpty(objectSchema) ? t.object() : t.object(objectSchema);
                 }
               }
             }

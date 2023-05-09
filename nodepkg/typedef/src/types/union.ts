@@ -9,6 +9,8 @@ import * as ss from "superstruct";
 import { enums } from "./enums";
 import { object } from "./object";
 import { dynamic } from "./custom";
+import { literal } from "./primitive";
+import { mapValues } from "@innoai-tech/lodash";
 
 export function union<Types extends [...TypeAny[]]>(
   ...types: Types
@@ -23,7 +25,7 @@ export function union<Types extends [...TypeAny[]]>(
 
 export function discriminatorMapping<
   D extends string,
-  Mapping extends Record<string, Type<any, Record<string, TypeAny>>>
+  Mapping extends Record<string, TypeAny>
 >(
   discriminatorPropName: D,
   mapping: Mapping
@@ -39,9 +41,21 @@ export function discriminatorMapping<
   const discriminatorValues = Object.keys(mapping);
   const discriminatorValuesSchema = enums(discriminatorValues);
 
+  const normalizedMapping = mapValues(mapping, (def, discriminatorValue) => {
+    const schema: Record<string, any> = {
+      [discriminatorPropName]: literal(discriminatorValue)
+    };
+
+    for (const [prop, _, t] of def.entries({}, { path: [], branch: [] })) {
+      schema[prop] = t;
+    }
+
+    return object(schema);
+  });
+
   const c = dynamic<any>(function(v: any = {}, _, t) {
     const discriminatorPropValue = (v as any)[discriminatorPropName];
-    const matched = mapping[discriminatorPropValue];
+    const matched = normalizedMapping[discriminatorPropValue];
 
     if (typeof discriminatorPropValue === "undefined" || !matched) {
       return object({
@@ -62,12 +76,7 @@ export function discriminatorMapping<
   return Type.from(c, {
     type: "union",
     schema: {
-      oneOf: discriminatorValues.map((discriminatorValue) => {
-        return object({
-          [discriminatorPropName]: enums([discriminatorValue]),
-          ...(mapping[discriminatorValue]!.schema as any)
-        });
-      }),
+      oneOf: Object.values(normalizedMapping),
       discriminator: {
         propertyName: discriminatorPropName
       }

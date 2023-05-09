@@ -14,14 +14,14 @@ describe("Encoding", () => {
 
   const schemaTaggedUnion = t.discriminatorMapping("type", {
     [InputType.text]: t.object(),
-    [InputType.select]: t.object({
+    [InputType.select]: t.ref("WithOptions", () => t.object({
       options: t.array(
         t.object({
           label: t.string(),
           value: t.string()
         })
       )
-    })
+    }))
   });
 
   const schema = t.intersection(
@@ -48,6 +48,7 @@ describe("Encoding", () => {
 
   test("JSONSchema encode", () => {
     const jsonSchema = JSONSchemaEncoder.encode(schema);
+    console.log(JSON.stringify(jsonSchema, null, 2))
     expect(jsonSchema).toMatchSnapshot();
   });
 

@@ -165,13 +165,7 @@ export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
   \\"array\\": t.array(t.boolean()),
   \\"point\\": t.tuple([t.number(), t.number()]),
 }), t.discriminatorMapping(\\"type\\", {
-\\"text\\": t.object(),
-\\"select\\": t.object({
-  \\"options\\": t.array(t.object({
-  \\"label\\": t.string(),
-  \\"value\\": t.string(),
-})),
-})
+
           }))
       
 export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
