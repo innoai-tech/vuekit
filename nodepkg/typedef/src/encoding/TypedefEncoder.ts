@@ -33,6 +33,14 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
   }
 
   private _encode<T extends TypeAny>(type: T, declName = ""): string {
+    return `${this._encodeCode(type, declName)}${
+      type.meta["description"]
+        ? `.annotate({ description: ${JSON.stringify(type.meta["description"])} })`
+        : ""
+    }`;
+  }
+
+  private _encodeCode<T extends TypeAny>(type: T, declName = ""): string {
     if (this.isRef(type)) {
       const refName = type.schema["$ref"];
 

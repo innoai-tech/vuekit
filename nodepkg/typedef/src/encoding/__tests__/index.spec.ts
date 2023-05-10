@@ -1,6 +1,12 @@
 import { describe, test, expect } from "vitest";
 import * as t from "../../t";
-import { TypeScriptEncoder, JSONSchemaDecoder, JSONSchemaEncoder, refName, TypedefEncoder } from "../";
+import {
+  TypeScriptEncoder,
+  JSONSchemaDecoder,
+  JSONSchemaEncoder,
+  refName,
+  TypedefEncoder
+} from "../";
 import { get } from "@innoai-tech/lodash";
 
 describe("Encoding", () => {
@@ -14,19 +20,25 @@ describe("Encoding", () => {
 
   const schemaTaggedUnion = t.discriminatorMapping("type", {
     [InputType.text]: t.object(),
-    [InputType.select]: t.ref("WithOptions", () => t.object({
-      options: t.array(
-        t.object({
-          label: t.string(),
-          value: t.string()
-        })
-      )
-    }))
+    [InputType.select]: t.ref("WithOptions", () =>
+      t.object({
+        options: t.array(
+          t.object({
+            label: t.string(),
+            value: t.string()
+          })
+        )
+      })
+    )
   });
 
   const schema = t.intersection(
     t.object({
-      strOrInt: t.ref("StrOrInt", () => schemaStrOrInt),
+      strOrInt: t
+        .ref("StrOrInt", () => schemaStrOrInt)
+        .annotate({
+          description: "StrOrInt"
+        }),
       placement: t.enums(["leading", "trailing"] as const),
       inputType: t.ref("InputType", () => t.nativeEnum(InputType)).optional(),
       keyValues: t.record(t.string(), t.any()).optional(),
@@ -35,6 +47,17 @@ describe("Encoding", () => {
     }),
     schemaTaggedUnion
   );
+
+  test("JSONSchema decode", () => {
+    const jsonSchema = JSONSchemaEncoder.encode(schema);
+
+    const schema2 = JSONSchemaDecoder.decode(jsonSchema, (ref) => {
+      return [get(jsonSchema, ref.split("#/")[1]!.split("/")), refName(ref)];
+    });
+
+    const jsonSchema2 = JSONSchemaEncoder.encode(schema2);
+    expect(jsonSchema2).toEqual(jsonSchema);
+  });
 
   test("Typedef encode", () => {
     const typeDefCode = TypedefEncoder.encode(t.ref("Type", () => schema));
@@ -48,18 +71,7 @@ describe("Encoding", () => {
 
   test("JSONSchema encode", () => {
     const jsonSchema = JSONSchemaEncoder.encode(schema);
-    console.log(JSON.stringify(jsonSchema, null, 2))
+    console.log(JSON.stringify(jsonSchema, null, 2));
     expect(jsonSchema).toMatchSnapshot();
-  });
-
-  test("JSONSchema decode", () => {
-    const jsonSchema = JSONSchemaEncoder.encode(schema);
-
-    const schema2 = JSONSchemaDecoder.decode(jsonSchema, (ref) => {
-      return [get(jsonSchema, ref.split("#/")[1]!.split("/")), refName(ref)];
-    });
-
-    const jsonSchema2 = JSONSchemaEncoder.encode(schema2);
-    expect(jsonSchema2).toEqual(jsonSchema);
   });
 });

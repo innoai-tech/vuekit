@@ -32,7 +32,18 @@ export class JSONSchemaDecoder {
   constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {
   }
 
-  decode(schema: JSONSchema): TypeAny {
+  decode(jsonSchema: JSONSchema): TypeAny {
+    const tt = this._decode(jsonSchema);
+    if (jsonSchema && jsonSchema["description"]) {
+      return tt.annotate({
+        // only pick the first line as description
+        description: jsonSchema["description"].split("\n")[0]
+      });
+    }
+    return tt;
+  }
+
+  private _decode(schema: JSONSchema): TypeAny {
     schema = normalizeSchema(schema);
 
     if (schema["$ref"]) {

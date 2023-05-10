@@ -70,7 +70,11 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
     });
   }
 
-  static define<T, S>(name: string, validator: Validator, schema: S): Type<T, S> {
+  static define<T, S>(
+    name: string,
+    validator: Validator,
+    schema: S
+  ): Type<T, S> {
     return new Type({ type: name, schema: schema, validator });
   }
 
@@ -136,6 +140,10 @@ export class Type<T = unknown, S = unknown> extends Struct<T, S> {
 
   default(v: T): Type<T, S> & { __DEFAULTED: true } {
     return Type.callWith(this, ss.defaulted, v) as any;
+  }
+
+  annotate<M extends Record<string, any>>(meta: M): Type<T, S> {
+    return Type.from(this, { meta });
   }
 
   use(...modifiers: Modifier<T, S>[]): Type<T, S> {

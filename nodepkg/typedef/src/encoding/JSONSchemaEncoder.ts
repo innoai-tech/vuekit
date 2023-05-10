@@ -28,6 +28,18 @@ export class JSONSchemaEncoder {
   }
 
   private _encode<T extends TypeAny>(type: T): JSONSchema {
+    const jsonSchema = this._encodeCore(type);
+
+    if (type.meta["description"]) {
+      return Object.assign(jsonSchema, {
+        "description": type.meta["description"]
+      });
+    }
+
+    return jsonSchema;
+  }
+
+  private _encodeCore<T extends TypeAny>(type: T): JSONSchema {
     switch (type.type) {
       case "literal": {
         return {
