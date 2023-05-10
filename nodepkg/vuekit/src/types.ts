@@ -109,6 +109,12 @@ type PickInternalRequired<T extends Record<string, TypeAny>> = {
     : never]: T[K];
 };
 
+export type InferNonNullable<T extends TypeAny> = Infer<T> extends NonNullable<
+    Infer<T>
+  >
+  ? Infer<T>
+  : NonNullable<Infer<T>>;
+
 export type TypeOfInternal<
   PropTypes extends Record<string, TypeAny>,
   RequiredProps extends Record<string, TypeAny> = Pick<
@@ -120,7 +126,7 @@ export type TypeOfInternal<
     keyof RequiredProps
   >
 > = {
-  [K in keyof RequiredProps]: NonNullable<Infer<RequiredProps[K]>>;
+  [K in keyof RequiredProps]: InferNonNullable<RequiredProps[K]>;
 } & {
   [K in keyof OptionalProps]?: Infer<OptionalProps[K]>;
 };

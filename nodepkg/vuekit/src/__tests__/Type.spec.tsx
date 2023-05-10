@@ -9,8 +9,14 @@ import type { VNodeChild } from "vue";
  **/
 describe("Type", () => {
   test("render with optional props", () => {
+    enum InputType {
+      text = "text",
+      select = "text"
+    }
+
     const propTypes = {
       input: t.number().optional(),
+      type: t.nativeEnum(InputType),
       inputWithDefault: t.number().optional().default(1),
 
       onDidSetup: t.custom<() => void>(),
@@ -24,13 +30,18 @@ describe("Type", () => {
 
       return () => (
         <div>
-          optional: {props.input ?? 1}
-          optional: {props.inputWithDefault * 2}
+          input: {props.input ?? 1}
+          type: {props.type == InputType.select}
+          inputWithDefault: {props.inputWithDefault * 2}
         </div>
       );
     });
 
-    const wrapper = mount(C, {});
+    const wrapper = mount(C, {
+      props: {
+        type: InputType.text
+      }
+    });
 
     expect(wrapper.text()).toContain("2");
 
