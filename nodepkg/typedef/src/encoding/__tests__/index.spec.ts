@@ -51,6 +51,10 @@ describe("Encoding", () => {
   test("JSONSchema decode", () => {
     const jsonSchema = JSONSchemaEncoder.encode(schema);
 
+    console.log(
+      JSON.stringify(jsonSchema, null, 2)
+    );
+
     const schema2 = JSONSchemaDecoder.decode(jsonSchema, (ref) => {
       return [get(jsonSchema, ref.split("#/")[1]!.split("/")), refName(ref)];
     });

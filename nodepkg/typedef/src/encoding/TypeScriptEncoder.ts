@@ -63,20 +63,20 @@ export type ${name} = ${decl}`;
       }
 
       case "literal": {
-        return JSON.stringify(type.schema);
+        return JSON.stringify(type.schema.enum[0]);
       }
 
       case "enums": {
         if (decl) {
           return `enum {
-${Object.values(type.schema)
-            .map((v) => `${v} = ${JSON.stringify(v)}`)
+${type.schema.enum
+            .map((v: any) => `${v} = ${JSON.stringify(v)}`)
             .join(",\n")}         
 }`;
         }
 
-        return Object.values(type.schema)
-          .map((v) => JSON.stringify(v))
+        return type.schema.enum
+          .map((v: any) => JSON.stringify(v))
           .join(" | ");
       }
 
@@ -90,8 +90,8 @@ ${Object.values(type.schema)
         let ts = `{
 `;
 
-        for (const p in type.schema) {
-          const propSchema = type.schema[p] as Type;
+        for (const p in type.schema.properties) {
+          const propSchema = type.schema.properties[p] as Type;
 
           ts += `  ${JSON.stringify(p)}`;
           if (propSchema.isOptional) {
@@ -110,7 +110,7 @@ ${Object.values(type.schema)
           .map((t: TypeAny) => this._encode(t))
           .join(", ")}]`;
       case "array":
-        return `Array<${this._encode(type.schema)}>`;
+        return `Array<${this._encode(type.schema.items)}>`;
       case "string": {
         return "string";
       }

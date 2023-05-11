@@ -4,6 +4,7 @@ exports[`Encoding > JSONSchema encode 1`] = `
 {
   "allOf": [
     {
+      "additionalProperties": false,
       "properties": {
         "array": {
           "items": {
@@ -40,6 +41,7 @@ exports[`Encoding > JSONSchema encode 1`] = `
         },
         "strOrInt": {
           "$ref": "#/definitions/StrOrInt",
+          "description": "StrOrInt",
         },
       },
       "required": [
@@ -56,6 +58,7 @@ exports[`Encoding > JSONSchema encode 1`] = `
       },
       "oneOf": [
         {
+          "additionalProperties": false,
           "properties": {
             "type": {
               "enum": [
@@ -69,9 +72,11 @@ exports[`Encoding > JSONSchema encode 1`] = `
           "type": "object",
         },
         {
+          "additionalProperties": false,
           "properties": {
             "options": {
               "items": {
+                "additionalProperties": false,
                 "properties": {
                   "label": {
                     "type": "string",
@@ -158,14 +163,20 @@ exports[`Encoding > Typedef encode 1`] = `
 "
       
 export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  \\"strOrInt\\": t.ref(\\"StrOrInt\\", () => StrOrIntSchema),
+  \\"strOrInt\\": t.ref(\\"StrOrInt\\", () => StrOrIntSchema).annotate({ description: \\"StrOrInt\\" }),
   \\"placement\\": t.enums([\\"leading\\", \\"trailing\\"]),
   \\"inputType\\": t.ref(\\"InputType\\", () => InputTypeSchema).optional(),
   \\"keyValues\\": t.record(t.string(), t.any()).optional(),
   \\"array\\": t.array(t.boolean()),
   \\"point\\": t.tuple([t.number(), t.number()]),
 }), t.discriminatorMapping(\\"type\\", {
-
+\\"text\\": t.object(),
+\\"select\\": t.object({
+  \\"options\\": t.array(t.object({
+  \\"label\\": t.string(),
+  \\"value\\": t.string(),
+})),
+})
           }))
       
 export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())

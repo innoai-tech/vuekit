@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/gents",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "monobundle": {
     "build": {
       "clean": true
@@ -10,15 +10,13 @@
     }
   },
   "dependencies": {
-    "@innoai-tech/config": "0.4.x",
-    "@innoai-tech/lodash": "0.2.x",
-    "node-fetch": "^3.x"
-  },
-  "peerDependencies": {
-    "@innoai-tech/typedef": "workspace:^"
+    "@innoai-tech/config": "0.4.13",
+    "@innoai-tech/lodash": "0.2.0",
+    "@innoai-tech/typedef": "workspace:^",
+    "node-fetch": "^3.3.1"
   },
   "devDependencies": {
-    "@innoai-tech/fetcher": "0.4.x"
+    "@innoai-tech/fetcher": "0.4.0"
   },
   "exports": {
     ".": {
@@ -48,5 +46,6 @@
     "prepublishOnly": "pnpm run build",
     "lint": "prettier --write ."
   },
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {}
 }

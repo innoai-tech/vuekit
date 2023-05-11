@@ -48,7 +48,6 @@ describe("Type", () => {
         const errors = err?.failures();
 
         expect(errors![0]).toHaveProperty("key", "endpoint");
-
         expect(errors![0]).toHaveProperty(
           "message",
           "Expected a string, but received: undefined"

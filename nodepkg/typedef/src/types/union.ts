@@ -6,15 +6,14 @@ import {
   type Simplify
 } from "../Type";
 import * as ss from "superstruct";
-import { enums } from "./enums";
 import { object } from "./object";
 import { dynamic } from "./custom";
-import { literal } from "./primitive";
+import { literal, enums } from "./primitive";
 import { mapValues } from "@innoai-tech/lodash";
 
 export function union<Types extends [...TypeAny[]]>(
   ...types: Types
-): Type<InferTuple<Types>[number], null> {
+): Type<InferTuple<Types>[number], { oneOf: Types }> {
   return new Type({
     ...(ss.union(types as any) as any),
     schema: {
@@ -69,14 +68,16 @@ export function discriminatorMapping<
       [discriminatorPropName]: Type.from(discriminatorValuesSchema, {
         meta: t.meta
       }),
-      ...(matched.schema as any)
+      ...(matched.schema.properties)
     });
   });
+
+  console.log(normalizedMapping)
 
   return Type.from(c, {
     type: "union",
     schema: {
-      oneOf: Object.values(normalizedMapping),
+      oneOf: Object.values(normalizedMapping) as any,
       discriminator: {
         propertyName: discriminatorPropName
       }

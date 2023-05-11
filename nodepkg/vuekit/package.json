@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuekit",
-  "version": "0.5.2",
+  "version": "0.5.3",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts",
@@ -14,7 +14,7 @@
     "@innoai-tech/typedef": "workspace:^",
     "immer": "^10.0.x",
     "vue-router": "^4.1.x",
-    "vue": "3.2.x",
+    "vue": "3.x",
     "rxjs": "7.8.x"
   },
   "exports": {

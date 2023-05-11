@@ -7,13 +7,13 @@ export type JSONSchema = {
 };
 
 export class JSONSchemaEncoder {
-  static encode<T extends TypeAny>(type: T): JSONSchema {
+  static encode<T extends TypeAny>(type: T): JSONSchema | false {
     return new JSONSchemaEncoder().encode(type);
   }
 
-  def = new Map<string, JSONSchema>();
+  def = new Map<string, JSONSchema | false>();
 
-  encode<T extends TypeAny>(type: T): JSONSchema {
+  encode<T extends TypeAny>(type: T): JSONSchema | false {
     const s = this._encode(type);
 
     const definitions: Record<string, any> = {};
@@ -27,85 +27,35 @@ export class JSONSchemaEncoder {
     });
   }
 
-  private _encode<T extends TypeAny>(type: T): JSONSchema {
+  private _encode<T extends TypeAny>(type: T): JSONSchema | false {
     const jsonSchema = this._encodeCore(type);
 
     if (type.meta["description"]) {
       return Object.assign(jsonSchema, {
-        "description": type.meta["description"]
+        description: type.meta["description"]
       });
     }
 
     return jsonSchema;
   }
 
-  private _encodeCore<T extends TypeAny>(type: T): JSONSchema {
+  private _encodeCore<T extends TypeAny>(type: T): JSONSchema | false {
     switch (type.type) {
-      case "literal": {
-        return {
-          enum: [type.schema]
-        };
-      }
-      case "enums": {
-        return {
-          enum: Object.values(type.schema)
-        };
-      }
-      case "object":
-        const props: Record<string, any> = {};
-        const required: string[] = [];
-
-        for (const p in type.schema) {
-          const propSchema = type.schema[p] as Type;
-          props[p] = this._encode(propSchema);
-          if (!propSchema.isOptional) {
-            required.push(p);
-          }
-        }
-
-        return {
-          type: "object",
-          properties: props,
-          required: required
-        };
-      case "array":
-        return {
-          type: "array",
-          items: this._encode(type.schema)
-        };
-      case "binary": {
+      case "binary":
         return {
           type: "string",
           format: "binary"
         };
-      }
-      case "string": {
-        return {
-          type: "string"
-        };
-      }
-      case "number": {
-        return {
-          type: "number"
-        };
-      }
-      case "integer": {
-        return {
-          type: "integer"
-        };
-      }
-      case "boolean": {
-        return {
-          type: "boolean"
-        };
-      }
     }
 
     return this._encodeFromSchema(type.schema);
   }
 
-  private _encodeFromSchema(s: Record<string, any> | null): JSONSchema {
+  private _encodeFromSchema(s: Record<string, any> | null): JSONSchema | false {
     if (!s) {
+      if (s == false) {
+        return false;
+      }
       return {};
     }
 
@@ -139,7 +89,7 @@ export class JSONSchemaEncoder {
           if (item instanceof Type) {
             return this._encode(item);
           }
-          return p;
+          return item;
         });
       } else if (isPlainObject(p)) {
         schema[n] = this._encodeFromSchema(p);

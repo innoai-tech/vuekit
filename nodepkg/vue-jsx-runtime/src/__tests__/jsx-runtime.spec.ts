@@ -3,11 +3,11 @@ import { jsx, Fragment } from "../jsx-runtime";
 import { h, defineComponent, renderSlot } from "vue";
 import { mount } from "@vue/test-utils";
 
-const Layout = defineComponent(() => {
-  return (_: any, { slots }: any) =>
+const Layout = defineComponent(
+  (_, { slots }) =>
     () =>
-      h("div", {}, [renderSlot(slots, "title"), renderSlot(slots, "default")]);
-});
+      h("div", {}, [renderSlot(slots, "title"), renderSlot(slots, "default")])
+);
 
 /**
  *  @vitest-environment jsdom
@@ -61,9 +61,7 @@ describe("jsx-runtime", () => {
             children: ["1", jsx("div", {})]
           })
         ).html()
-      ).toEqual(mount(() => h(Layout, {}, () => [
-        ["1", h("div", {})]
-      ])).html());
+      ).toEqual(mount(() => h(Layout, {}, () => [["1", h("div", {})]])).html());
     });
 
     it("with children and slots", () => {
@@ -75,12 +73,18 @@ describe("jsx-runtime", () => {
               children: ["1", jsx("div", {})]
             })
           ).html()
-        ).toEqual(mount(() => h(Layout, {}, {
-          title: () => h("h1", {}),
-          default: () => [
-            ["1", h("div", {})]
-          ]
-        })).html());
+        ).toEqual(
+          mount(() =>
+            h(
+              Layout,
+              {},
+              {
+                title: () => h("h1", {}),
+                default: () => [["1", h("div", {})]]
+              }
+            )
+          ).html()
+        );
       });
     });
   });

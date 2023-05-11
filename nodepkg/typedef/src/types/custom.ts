@@ -18,11 +18,16 @@ export function custom<T>(validator?: Validator, name = "custom") {
 }
 
 export function binary() {
-  return Type.define<File | Blob, null>(
-    "binary",
-    (v) => v instanceof File || v instanceof Blob,
-    null
-  );
+  return Type.define<
+    File | Blob,
+    {
+      type: "string";
+      format: "binary";
+    }
+  >("binary", (v) => v instanceof File || v instanceof Blob, {
+    type: "string",
+    format: "binary"
+  });
 }
 
 export function dynamic<T>(

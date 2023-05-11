@@ -10,7 +10,6 @@ import {
   some,
   last,
   mapValues,
-  isPlainObject,
   isEmpty
 } from "@innoai-tech/lodash";
 import type { JSONSchema } from "./JSONSchemaEncoder";
@@ -21,9 +20,12 @@ export const refName = (ref: string) => {
 
 export class JSONSchemaDecoder {
   static decode(
-    type: JSONSchema,
+    type: JSONSchema | false,
     resolveRef: (ref: string) => [JSONSchema, string]
   ): TypeAny {
+    if (type == false) {
+      return t.never() as any;
+    }
     return new JSONSchemaDecoder(resolveRef).decode(type);
   }
 
@@ -34,6 +36,7 @@ export class JSONSchemaDecoder {
 
   decode(jsonSchema: JSONSchema): TypeAny {
     const tt = this._decode(jsonSchema);
+
     if (jsonSchema && jsonSchema["description"]) {
       return tt.annotate({
         // only pick the first line as description
@@ -89,12 +92,9 @@ export class JSONSchemaDecoder {
 
                 if (propName === discriminatorPropertyName) {
                   switch (p.type) {
-                    case "literal": {
-                      values.push(p.schema);
-                      break;
-                    }
+                    case "literal":
                     case "enums": {
-                      values.push(...Object.values(p.schema as Record<string, any>));
+                      values.push(...(p.schema as any).enum);
                     }
                   }
                   continue;
@@ -105,7 +105,9 @@ export class JSONSchemaDecoder {
 
               if (values.length) {
                 for (const value of values) {
-                  mapping[value] = isEmpty(objectSchema) ? t.object() : t.object(objectSchema);
+                  mapping[value] = isEmpty(objectSchema)
+                    ? t.object()
+                    : t.object(objectSchema);
                 }
               }
             }
@@ -135,24 +137,30 @@ export class JSONSchemaDecoder {
     }
 
     if (isObjectType(schema)) {
-      if (isPlainObject(schema["additionalProperties"])) {
-        return t.record(
-          this.decode(schema["propertyNames"] ?? { type: "string" }),
-          this.decode(schema["additionalProperties"])
+      if (schema["properties"]) {
+        const required = schema["required"] ?? [];
+
+        return t.object(
+          mapValues(schema["properties"], (s, n) => {
+            const propType = this.decode(s);
+            if (required.includes(n)) {
+              return propType;
+            }
+            return propType.optional();
+          })
         );
       }
 
-      const required = schema["required"] ?? [];
+      const additionalProperties = schema["additionalProperties"] ?? {};
 
-      return t.object(
-        mapValues(schema["properties"], (s, n) => {
-          const propType = this.decode(s);
-          if (required.includes(n)) {
-            return propType;
-          }
-          return propType.optional();
-        })
-      );
+      if (additionalProperties) {
+        return t.record(
+          this.decode(schema["propertyNames"] ?? { type: "string" }),
+          this.decode(additionalProperties)
+        );
+      }
+
+      return t.object();
     }
 
     if (isArrayType(schema)) {

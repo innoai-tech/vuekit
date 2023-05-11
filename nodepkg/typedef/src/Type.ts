@@ -1,14 +1,12 @@
 import { Struct, type Infer } from "superstruct";
 import * as ss from "superstruct";
 import {
-  type EnumSchema,
   type InferStructTuple,
   type IsExactMatch,
   type IsMatch,
   type IsRecord,
   type IsTuple,
   type IsUnion,
-  type ObjectType,
   type Simplify,
   type UnionToIntersection
 } from "superstruct/dist/utils";
@@ -17,11 +15,9 @@ import { type Context, type Result } from "superstruct/dist/struct";
 export {
   type Infer,
   type Simplify,
-  type EnumSchema,
   type UnionToIntersection,
   type Context,
-  type InferStructTuple as InferTuple,
-  type ObjectType
+  type InferStructTuple as InferTuple
 };
 
 export type Coercer<T = unknown> = (
@@ -175,6 +171,36 @@ function delegate(
   return;
 }
 
+export type StringSchema = {
+  type: "string";
+};
+
+export type NumberSchema = {
+  type: "number";
+};
+
+export type IntegerSchema = {
+  type: "integer";
+};
+
+export type BooleanSchema = {
+  type: "boolean";
+};
+
+export type ArraySchema<T> = {
+  type: "array";
+  items: T;
+};
+
+export type TupleSchema<T> = {
+  type: "array";
+  items: { [K in keyof T]: Type<T[K], TypeSchema<T[K]>> };
+};
+
+export type EnumSchema<U extends string | number | undefined | null> = {
+  enum: readonly U[];
+};
+
 export type NativeEnumLike = {
   [k: string]: string | number;
   [nu: number]: string;
@@ -190,24 +216,26 @@ export type RecordSchema<T extends Record<any, any>> = T extends Record<
   }
   : never;
 
-export declare type Describe<T> = Type<T, StructSchema<T>>;
+export declare type Describe<T> = Type<T, TypeSchema<T>>;
 
-export declare type StructSchema<T> = [T] extends [string | undefined | null]
+export declare type TypeSchema<T> = [T] extends [string | undefined | null]
   ? [T] extends [IsMatch<T, string | undefined | null>]
-    ? null
+    ? StringSchema
     : [T] extends [IsUnion<T>]
-      ? EnumSchema<T>
-      : T
+      ? // string enum
+      EnumSchema<T>
+      : { enum: [T] }
   : [T] extends [number | undefined | null]
     ? [T] extends [IsMatch<T, number | undefined | null>]
-      ? null
+      ? NumberSchema
       : [T] extends [IsUnion<T>]
-        ? EnumSchema<T>
-        : T
+        ? // number enum
+        EnumSchema<T>
+        : { enum: [T] }
     : [T] extends [boolean]
       ? [T] extends [IsExactMatch<T, boolean>]
-        ? null
-        : T
+        ? BooleanSchema
+        : { enum: [T] }
       : T extends | bigint
         | symbol
         | undefined
@@ -221,15 +249,17 @@ export declare type StructSchema<T> = [T] extends [string | undefined | null]
         | Set<any>
         | WeakSet<any>
         | Promise<any>
-        ? null
+        ? null // js runtime types
         : T extends Array<infer E>
           ? T extends IsTuple<T>
-            ? null
-            : Type<E>
+            ? TupleSchema<T>
+            : ArraySchema<Type<E>>
           : T extends object
             ? T extends IsRecord<T>
               ? RecordSchema<T>
               : {
-                [K in keyof T]: Describe<T[K]>;
+                properties: {
+                  [K in keyof T]: Describe<T[K]>;
+                };
               }
             : null;

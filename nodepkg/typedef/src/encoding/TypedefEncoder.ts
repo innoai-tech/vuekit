@@ -68,20 +68,24 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
           "discriminator",
           "propertyName"
         ]);
+
         if (discriminatorPropertyName) {
           const mapping: Record<string, string> = {};
 
           for (const sub of type.schema.oneOf) {
-            const e = get(sub.schema, discriminatorPropertyName);
-            const props = omit(sub.schema, discriminatorPropertyName);
+            const e = get(sub.schema.properties, discriminatorPropertyName);
+
+            const props = omit(sub.schema.properties, discriminatorPropertyName);
+
             if (e) {
-              if (e.type == "enums") {
-                for (const v of Object.values(e.schema)) {
-                  mapping[`${v}`] = this._encode(t.object(props));
+              if (e.type == "enums" || e.type === "literal") {
+                for (const enumValue of e.schema.enum) {
+                  mapping[`${enumValue}`] = this._encode(t.object(props));
                 }
               }
             }
           }
+
 
           return `t.discriminatorMapping("${discriminatorPropertyName}", {
 ${Object.keys(mapping)
@@ -96,7 +100,7 @@ ${Object.keys(mapping)
       }
 
       case "literal": {
-        return `t.literal(${JSON.stringify(type.schema)})`;
+        return `t.literal(${JSON.stringify(type.schema.enum[0])})`;
       }
 
       case "enums": {
@@ -104,8 +108,8 @@ ${Object.keys(mapping)
           return `t.nativeEnum(${declName})`;
         }
 
-        return `t.enums([${Object.values(type.schema)
-          .map((v) => JSON.stringify(v))
+        return `t.enums([${type.schema.enum
+          .map((v: any) => JSON.stringify(v))
           .join(", ")}])`;
       }
 
@@ -116,15 +120,15 @@ ${Object.keys(mapping)
       }
 
       case "object":
-        if (isEmpty(type.schema)) {
+        if (isEmpty(type.schema.properties)) {
           return `t.object()`;
         }
 
         let ts = `{
 `;
 
-        for (const p in type.schema) {
-          const propSchema = type.schema[p] as Type;
+        for (const p in type.schema.properties) {
+          const propSchema = type.schema.properties[p] as Type;
 
           ts += `  ${JSON.stringify(p)}`;
           ts += `: ${this._encode(propSchema)}`;
@@ -145,7 +149,7 @@ ${Object.keys(mapping)
           .map((t: TypeAny) => this._encode(t))
           .join(", ")}])`;
       case "array":
-        return `t.array(${this._encode(type.schema)})`;
+        return `t.array(${this._encode(type.schema.items)})`;
       case "string":
         return `t.string()`;
       case "binary":
