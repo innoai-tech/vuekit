@@ -6,9 +6,11 @@
       ".": "./src/index.ts"
     }
   },
+  "dependencies": {
+    "@innoai-tech/vuekit": "workspace:^"
+  },
   "peerDependencies": {
     "@innoai-tech/lodash": "0.2.0",
-    "@innoai-tech/vuekit": "workspace:^",
     "@emotion/cache": "^11.10.7",
     "@emotion/serialize": "^1.1.1",
     "@emotion/utils": "^1.2.0",
