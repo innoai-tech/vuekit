@@ -72,7 +72,6 @@ export function discriminatorMapping<
     });
   });
 
-  console.log(normalizedMapping)
 
   return Type.from(c, {
     type: "union",
