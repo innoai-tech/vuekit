@@ -7,7 +7,7 @@ export const uploadBlob = /*#__PURE__*/ createRequest<
     "Content-Type": string;
     body: File | Blob;
   },
-  null
+  any
 >(
   "example.UploadBlob",
   ({ "Content-Type": header_contentType, body: body }) => ({
@@ -24,7 +24,7 @@ export const statBlob = /*#__PURE__*/ createRequest<
   {
     digest: string | "sha256";
   },
-  null
+  any
 >("example.StatBlob", ({ digest: path_digest }) => ({
   method: "GET",
   url: `/api/kubepkg.innoai.tech/v1/blobs/${path_digest}/stat`,
@@ -64,7 +64,7 @@ export const delKubePkg = /*#__PURE__*/ createRequest<
     name: string;
     namespace?: string;
   },
-  null
+  any
 >("example.DelKubePkg", ({ name: path_name, namespace: query_namespace }) => ({
   method: "DELETE",
   url: `/api/kubepkg.innoai.tech/v1/kubepkgs/${path_name}`,

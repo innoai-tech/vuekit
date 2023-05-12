@@ -55,6 +55,7 @@ describe("Provider", () => {
         context: t.string().optional().default("injected")
       }, (props, {}) => {
         const r = ref({ context: props.context });
+
         watch(() => props.context, (context) => {
           r.value = { context: context };
         });

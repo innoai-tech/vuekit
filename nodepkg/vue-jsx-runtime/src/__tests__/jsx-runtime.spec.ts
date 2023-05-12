@@ -5,8 +5,14 @@ import { mount } from "@vue/test-utils";
 
 const Layout = defineComponent(
   (_, { slots }) =>
-    () =>
-      h("div", {}, [renderSlot(slots, "title"), renderSlot(slots, "default")])
+    () => {
+      return h(
+        "div", {}, [
+          renderSlot(slots, "title"),
+          renderSlot(slots, "default")
+        ]
+      );
+    }
 );
 
 /**

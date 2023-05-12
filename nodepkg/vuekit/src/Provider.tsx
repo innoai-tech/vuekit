@@ -7,7 +7,7 @@ import {
   type InternalPropsOf,
   type PublicPropsOf
 } from "./types";
-import { t, type TypeAny } from "@innoai-tech/typedef";
+import { t, type AnyType } from "@innoai-tech/typedef";
 
 export type ProviderComponent<Context, P = { value?: Context }> = Component<
   P & {
@@ -17,7 +17,7 @@ export type ProviderComponent<Context, P = { value?: Context }> = Component<
 
 export type CreateFunction<
   Context extends object,
-  PropTypes extends Record<string, TypeAny>
+  PropTypes extends Record<string, AnyType>
 > = (props: InternalPropsOf<PropTypes>) => Context;
 
 export function createProvider<Context extends object>(
@@ -26,7 +26,7 @@ export function createProvider<Context extends object>(
 ): ProviderComponent<Context>;
 export function createProvider<
   Context extends object,
-  PropTypes extends Record<string, TypeAny>
+  PropTypes extends Record<string, AnyType>
 >(
   propTypes: PropTypes,
   create: CreateFunction<Context, PropTypes>,
@@ -34,7 +34,7 @@ export function createProvider<
 ): ProviderComponent<Context, PublicPropsOf<PropTypes>>;
 export function createProvider<
   Context extends object,
-  PropTypes extends Record<string, TypeAny>
+  PropTypes extends Record<string, AnyType>
 >(
   propTypesOrCreate: PropTypes | CreateFunction<Context, PropTypes>,
   createOrOptions?: CreateFunction<Context, PropTypes> | ComponentOptions,
@@ -42,7 +42,7 @@ export function createProvider<
 ): ProviderComponent<Context, PublicPropsOf<PropTypes>> {
   const finalPropTypes = (
     isPlainObject(propTypesOrCreate) ? propTypesOrCreate : {}
-  ) as Record<string, TypeAny>;
+  ) as Record<string, AnyType>;
   const finalCreate = (
     isFunction(propTypesOrCreate) ? propTypesOrCreate : createOrOptions
   ) as CreateFunction<Context, {}>;

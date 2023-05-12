@@ -1,6 +1,7 @@
 {
   "extends": "@innoai-tech/vuedevconfig/tsconfig.json",
   "compilerOptions": {
+    "noErrorTruncation": true,
     "baseUrl": ".",
     "paths": {
       "@innoai-tech/vuekit/jsx-runtime": [

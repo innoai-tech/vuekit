@@ -1,18 +1,17 @@
-import { Type, type TypeAny } from "../Type";
+import { t, Type, type AnyType, TypeRef } from "../core";
 import { get, omit, isEmpty } from "@innoai-tech/lodash";
-import * as t from "../t";
 
 export class TypedefEncoder {
-  static encode<T extends TypeAny>(type: T): string {
+  static encode<T extends AnyType>(type: T): string {
     return new TypedefEncoder().encode(type);
   }
 
   def = new Map<string, string>();
 
-  encode<T extends TypeAny>(type: T, all = true): string {
+  encode(type: AnyType, all = true): string {
     const d = this._encode(type);
     if (all) {
-      return (this.isRef(type) ? "" : d) + this.decls();
+      return (type instanceof TypeRef ? "" : d) + this.decls();
     }
     return d;
   }
@@ -28,29 +27,35 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
     return decls;
   }
 
-  private isRef(type: TypeAny) {
-    return type.schema && type.schema["$ref"];
-  }
-
-  private _encode<T extends TypeAny>(type: T, declName = ""): string {
+  private _encode(type: AnyType, declName = ""): string {
     return `${this._encodeCode(type, declName)}${
       type.meta["description"]
-        ? `.annotate({ description: ${JSON.stringify(type.meta["description"])} })`
+        ? `.annotate({ description: ${JSON.stringify(
+          type.meta["description"]
+        )} })`
         : ""
     }`;
   }
 
-  private _encodeCode<T extends TypeAny>(type: T, declName = ""): string {
-    if (this.isRef(type)) {
-      const refName = type.schema["$ref"];
+  private _encodeCode(type: AnyType, declName = ""): string {
+    while (true) {
+      if (type instanceof TypeRef) {
+        break;
+      }
+      const unwrapped = type.unwrap;
+      if (unwrapped === type) {
+        break;
+      }
+      type = unwrapped as AnyType;
+    }
+
+    if (type instanceof TypeRef) {
+      const refName = type.schema.$ref;
 
       if (!this.def.has(refName)) {
         // set to lock to avoid loop
         this.def.set(refName, "");
-        this.def.set(
-          refName,
-          this._encode(type.schema["$underlying"](), refName)
-        );
+        this.def.set(refName, this._encode(type.unwrap, refName));
       }
 
       return `t.ref("${refName}", () => ${refName}Schema)`;
@@ -59,7 +64,7 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
     switch (type.type) {
       case "intersection": {
         return `t.intersection(${type.schema.allOf
-          .map((t: TypeAny) => this._encode(t))
+          .map((t: AnyType) => this._encode(t))
           .join(", ")})`;
       }
 
@@ -75,17 +80,19 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
           for (const sub of type.schema.oneOf) {
             const e = get(sub.schema.properties, discriminatorPropertyName);
 
-            const props = omit(sub.schema.properties, discriminatorPropertyName);
+            const props = omit(
+              sub.schema.properties,
+              discriminatorPropertyName
+            );
 
             if (e) {
-              if (e.type == "enums" || e.type === "literal") {
+              if (e.type == "enums") {
                 for (const enumValue of e.schema.enum) {
                   mapping[`${enumValue}`] = this._encode(t.object(props));
                 }
               }
             }
           }
-
 
           return `t.discriminatorMapping("${discriminatorPropertyName}", {
 ${Object.keys(mapping)
@@ -95,12 +102,8 @@ ${Object.keys(mapping)
         }
 
         return `t.union(${type.schema.oneOf
-          .map((t: TypeAny) => this._encode(t))
+          .map((t: AnyType) => this._encode(t))
           .join(", ")})`;
-      }
-
-      case "literal": {
-        return `t.literal(${JSON.stringify(type.schema.enum[0])})`;
       }
 
       case "enums": {
@@ -146,7 +149,7 @@ ${Object.keys(mapping)
         return `t.object(${ts})`;
       case "tuple":
         return `t.tuple([${type.schema.items
-          .map((t: TypeAny) => this._encode(t))
+          .map((t: AnyType) => this._encode(t))
           .join(", ")}])`;
       case "array":
         return `t.array(${this._encode(type.schema.items)})`;

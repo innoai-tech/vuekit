@@ -1,6 +1,6 @@
 import { component, type ComponentOptions } from "../component";
 import { type Observables, toObservables } from "./toObservable";
-import { type TypeAny } from "@innoai-tech/typedef";
+import { type AnyType } from "@innoai-tech/typedef";
 import {
   type Component,
   type InternalEmitsOf,
@@ -19,7 +19,7 @@ export type ObservablesAndProps<Props extends Record<string, any>> =
   Observables<Props> & Omit<Props, keyof Observables<Props>>;
 
 export type ObservableSetupFunction<
-  PropTypes extends Record<string, TypeAny>
+  PropTypes extends Record<string, AnyType>
 > = (
   P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
   ctx: SetupContext<
@@ -32,12 +32,12 @@ export function component$(
   setup: ObservableSetupFunction<{}>,
   options?: ComponentOptions
 ): Component<{}>;
-export function component$<PropTypes extends Record<string, TypeAny>>(
+export function component$<PropTypes extends Record<string, AnyType>>(
   propTypes: PropTypes,
   setup: ObservableSetupFunction<PropTypes>,
   options?: ComponentOptions
 ): Component<PublicPropsOf<PropTypes>>;
-export function component$<PropTypes extends Record<string, TypeAny>>(
+export function component$<PropTypes extends Record<string, AnyType>>(
   propTypesOrSetup: PropTypes | ObservableSetupFunction<PropTypes>,
   setupOrOptions?: ObservableSetupFunction<PropTypes> | ComponentOptions,
   options: ComponentOptions = {}

@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.1.12",
+  "version": "0.2.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -8,9 +8,6 @@
   },
   "peerDependencies": {
     "@innoai-tech/lodash": "^0.2.0"
-  },
-  "devDependencies": {
-    "superstruct": "^1.0.3"
   },
   "exports": {
     ".": {

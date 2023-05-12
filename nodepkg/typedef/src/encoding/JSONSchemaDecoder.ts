@@ -1,5 +1,4 @@
-import { type TypeAny } from "../Type";
-import * as t from "../t";
+import { type AnyType, t } from "../core";
 import {
   assign,
   filter,
@@ -22,19 +21,19 @@ export class JSONSchemaDecoder {
   static decode(
     type: JSONSchema | false,
     resolveRef: (ref: string) => [JSONSchema, string]
-  ): TypeAny {
+  ): AnyType {
     if (type == false) {
       return t.never() as any;
     }
     return new JSONSchemaDecoder(resolveRef).decode(type);
   }
 
-  def = new Map<string, TypeAny>();
+  def = new Map<string, AnyType>();
 
   constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {
   }
 
-  decode(jsonSchema: JSONSchema): TypeAny {
+  decode(jsonSchema: JSONSchema): AnyType {
     const tt = this._decode(jsonSchema);
 
     if (jsonSchema && jsonSchema["description"]) {
@@ -43,10 +42,11 @@ export class JSONSchemaDecoder {
         description: jsonSchema["description"].split("\n")[0]
       });
     }
+
     return tt;
   }
 
-  private _decode(schema: JSONSchema): TypeAny {
+  private _decode(schema: JSONSchema): AnyType {
     schema = normalizeSchema(schema);
 
     if (schema["$ref"]) {
@@ -61,9 +61,6 @@ export class JSONSchemaDecoder {
     }
 
     if (schema["enum"]) {
-      if (schema["enum"].length == 1) {
-        return t.literal(schema["enum"][0]);
-      }
       return t.enums(schema["enum"]);
     }
 
@@ -72,6 +69,7 @@ export class JSONSchemaDecoder {
         const discriminatorPropertyName = schema["discriminator"][
           "propertyName"
           ] as string;
+
         if (discriminatorPropertyName) {
           const mapping: Record<string, any> = {};
 

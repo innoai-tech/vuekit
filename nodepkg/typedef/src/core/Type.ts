@@ -1,0 +1,540 @@
+import { isObject } from "@innoai-tech/lodash";
+
+export interface Modifier<T, S> {
+  (t: Type<T, S>): Type<T, S>;
+}
+
+export const EmptyContext: Context = {
+  path: [],
+  branch: []
+};
+
+export type Context = {
+  branch: Array<any>;
+  path: Array<any>;
+  node?: TypeNode<AnyType, AnyType>;
+  mask?: boolean;
+};
+
+export type Failure = {
+  value: any;
+  key: any;
+  type: string;
+  refinement: string | undefined;
+  message: string;
+  explanation?: string;
+} & Context;
+
+export class TypedError extends TypeError {
+  value: any;
+  key!: any;
+  type!: string;
+  refinement!: string | undefined;
+  path!: Array<any>;
+  branch!: Array<any>;
+  failures: () => Array<Failure>;
+
+  [x: string]: any;
+
+  constructor(failure: Failure, failures: () => Generator<Failure>) {
+    let cached: Array<Failure> | undefined;
+
+    const { message, explanation, ...rest } = failure;
+    const { path } = failure;
+    const msg =
+      path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
+
+    super(explanation ?? msg);
+
+    if (explanation != null) {
+      this["cause"] = msg;
+    }
+
+    Object.assign(this, rest);
+
+    this.name = this.constructor.name;
+
+    this.failures = () => {
+      return (cached ??= [failure, ...failures()]);
+    };
+  }
+}
+
+export type Result =
+  | boolean
+  | string
+  | Partial<Failure>
+  | Iterable<boolean | string | Partial<Failure>>;
+
+export type AnyType = Type<any, any>;
+
+export class Type<T = unknown, S = unknown> {
+  static define<T>(
+    validator: (value: unknown, ctx: Context) => Result = () => true
+  ) {
+    class CustomType<T> extends Type<T, null> {
+      override validator(value: unknown, ctx: Context): Result {
+        return validator(value, ctx);
+      }
+    }
+
+    return new CustomType<T>(null);
+  }
+
+  constructor(public readonly schema: S) {
+  }
+
+  readonly Type!: T;
+
+  get type() {
+    return (this.schema || ({} as any)).type ?? "unknown";
+  }
+
+  * entries(
+    _value: unknown,
+    _context: Context = EmptyContext
+  ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
+  }
+
+  refiner(_value: T, _context: Context): Result {
+    return [];
+  }
+
+  validator(_value: unknown, _context: Context): Result {
+    return [];
+  }
+
+  coercer(value: unknown, _context: Context): unknown {
+    return value;
+  }
+
+  public validate(
+    value: unknown,
+    options: {
+      coerce?: boolean;
+      message?: string;
+    } = {}
+  ): [TypedError, undefined] | [undefined, T] {
+    return validate(value, this, options);
+  }
+
+  public create(value: unknown): T {
+    const result = validate(value, this, { coerce: true });
+
+    if (result[0]) {
+      throw result[0];
+    } else {
+      return result[1];
+    }
+  }
+
+  public mask(value: unknown): T {
+    const result = validate(value, this, { coerce: true, mask: true });
+    if (result[0]) {
+      throw result[0];
+    } else {
+      return result[1];
+    }
+  }
+
+  default(v: T): DefaultedType<Type<T, S>> {
+    return DefaultedType.create(this, v);
+  }
+
+  optional(): OptionalType<Type<T, S>> {
+    return OptionalType.create(this);
+  }
+
+  use(...modifiers: Modifier<T, S>[]): Type<T, S> {
+    return modifiers.reduce((ret, r) => r(ret), this as Type<T, S>);
+  }
+
+  annotate<M extends Record<string, any>>(meta: M) {
+    return TypeWrapper.of(this, { $meta: meta });
+  }
+
+  get isOptional(): boolean {
+    if (this instanceof OptionalType) {
+      return true;
+    }
+    if (this.schema && (this.schema as any)["$unwrap"]) {
+      return ((this.schema as any)["$unwrap"] as AnyType).isOptional;
+    }
+    return false;
+  }
+
+  get unwrap(): Type<T, S> {
+    return this;
+  }
+
+  get meta(): Record<string, any> {
+    if (this.schema) {
+      const meta = (this.schema as any)["$meta"] ?? {};
+
+      if ((this.schema as any)["$unwrap"]) {
+        return {
+          ...((this.schema as any)["$unwrap"] as AnyType).meta,
+          ...meta
+        };
+      }
+
+      return meta;
+    }
+    return {};
+  }
+}
+
+export class TypeWrapper<
+  T,
+  U extends AnyType,
+  Extra extends Record<string, any>
+> extends Type<T, Extra & { $unwrap: U | (() => U) }> {
+  static of<U extends AnyType, ExtraSchema extends Record<string, any>>(
+    t: U,
+    extra: ExtraSchema
+  ) {
+    return new TypeWrapper<Infer<U>, U, ExtraSchema>({
+      ...extra,
+      $unwrap: t
+    });
+  }
+
+  static refine<U extends AnyType, S extends Record<string, any>>(
+    t: U,
+    refiner: (v: Infer<U>, ctx: Context) => Result,
+    schema: S
+  ) {
+    class Refiner<
+      U extends AnyType,
+      S extends Record<string, any>
+    > extends TypeWrapper<Infer<U>, U, S> {
+      override* refiner(value: Infer<U>, ctx: Context): Result {
+        yield* this.unwrap.refiner(value, ctx);
+        const result = refiner(value, ctx);
+        const failures = toFailures(result, ctx, t, value);
+
+        for (const failure of failures) {
+          yield { ...failure, refinement: Object.keys(schema).join(",") };
+        }
+      }
+    }
+
+    return new Refiner<U, S>({
+      ...schema,
+      $unwrap: t
+    });
+  }
+
+  override get type() {
+    return this.unwrap.type;
+  }
+
+  override get unwrap() {
+    return typeof this.schema.$unwrap === "function" ? this.schema.$unwrap() : this.schema.$unwrap;
+  }
+
+  override* entries(
+    value: unknown,
+    context: Context = EmptyContext
+  ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
+    yield* this.unwrap.entries(value, {
+      ...context,
+      node: TypeNode.create(this, context.node)
+    });
+  }
+
+  override validator(value: unknown, context: Context): Result {
+    return toFailures(
+      this.unwrap.validator(value, context),
+      context,
+      this,
+      value
+    );
+  }
+
+  override refiner(value: T, context: Context): Result {
+    return toFailures(
+      this.unwrap.refiner(value, context),
+      context,
+      this,
+      value
+    );
+  }
+
+  override coercer(value: unknown, context: Context) {
+    return this.unwrap.coercer(value, context);
+  }
+}
+
+export class TypeNode<U extends AnyType, P extends AnyType> extends TypeWrapper<
+  Infer<U>,
+  U,
+  { $parent: P | null }
+> {
+  static create<U extends AnyType, P extends AnyType>(
+    t: U,
+    p: P | undefined | null
+  ) {
+    return new TypeNode<U, P>({
+      $unwrap: t,
+      $parent: p ? p : null
+    });
+  }
+}
+
+export class DefaultedType<T extends AnyType> extends TypeWrapper<
+  Infer<T>,
+  T,
+  { default: Infer<T> }
+> {
+  static create<U extends AnyType>(t: U, defaultValue: Infer<U>) {
+    return new DefaultedType<U>({
+      $unwrap: t,
+      default: defaultValue
+    });
+  }
+
+  override coercer(value: unknown, context: Context): unknown {
+    return typeof value == "undefined"
+      ? this.schema.default
+      : super.unwrap.coercer(value, context);
+  }
+}
+
+export class OptionalType<T extends AnyType> extends TypeWrapper<
+  Infer<T> | undefined,
+  T,
+  {}
+> {
+  static create<T extends AnyType>(t: T) {
+    return new OptionalType<T>({
+      $unwrap: t
+    });
+  }
+
+  override refiner(value: T | undefined, context: Context): Result {
+    return value === undefined || super.unwrap.refiner(value, context);
+  }
+
+  override validator(value: unknown, context: Context): Result {
+    return value === undefined || super.unwrap.validator(value, context);
+  }
+}
+
+export type Infer<T extends AnyType> = T["Type"];
+
+export type InferTuple<
+  Tuple extends Type<any>[],
+  Length extends number = Tuple["length"]
+> = Length extends Length
+  ? number extends Length
+    ? Tuple
+    : _InferTuple<Tuple, Length, []>
+  : never;
+type _InferTuple<
+  Tuple extends Type<any>[],
+  Length extends number,
+  Accumulated extends unknown[],
+  Index extends number = Accumulated["length"]
+> = Index extends Length
+  ? Accumulated
+  : _InferTuple<Tuple, Length, [...Accumulated, Infer<Tuple[Index]>]>;
+
+export type Simplify<T> = T extends any[] ? T : { [K in keyof T]: T[K] } & {};
+
+export type OmitBy<T, V> = Omit<
+  T,
+  { [K in keyof T]: V extends Extract<T[K], V> ? K : never }[keyof T]
+>;
+
+export type PickBy<T, V> = Pick<
+  T,
+  { [K in keyof T]: V extends Extract<T[K], V> ? K : never }[keyof T]
+>;
+
+export type Optionalize<S extends object> = OmitBy<S, undefined> &
+  Partial<PickBy<S, undefined>>;
+
+export type ObjectType<S extends Record<string, AnyType>> = Simplify<
+  Optionalize<{ [K in keyof S]: Infer<S[K]> }>
+>
+
+export function shiftIterator<T>(input: Iterator<T>): T | undefined {
+  const { done, value } = input.next();
+  return done ? undefined : value;
+}
+
+function isIterable<T>(x: unknown): x is Iterable<T> {
+  return isObject(x) && typeof (x as any)[Symbol.iterator] === "function";
+}
+
+export function toFailure<T, S>(
+  result: string | boolean | Partial<Failure>,
+  context: Context,
+  t: Type<T, S>,
+  value: any
+): Failure | undefined {
+  if (result === true) {
+    return;
+  } else if (result === false) {
+    result = {};
+  } else if (typeof result === "string") {
+    result = { message: result };
+  }
+
+  const { path, branch, node } = context;
+  const { type } = t;
+
+  const {
+    refinement,
+    message = `Expected a value of type \`${type}\`${
+      refinement ? ` with refinement \`${refinement}\`` : ""
+    }, but received: \`${value}\``
+  } = result;
+
+  return {
+    value,
+    type,
+    refinement,
+    key: path[path.length - 1],
+    path,
+    branch,
+    node,
+    ...result,
+    message
+  };
+}
+
+export function* toFailures<T, S>(
+  result: Result,
+  context: Context,
+  t: Type<T, S>,
+  value: any
+): IterableIterator<Failure> {
+  if (!isIterable(result)) {
+    result = [result];
+  }
+
+  for (const r of result) {
+    const failure = toFailure(r, context, t, value);
+
+    if (failure) {
+      yield failure;
+    }
+  }
+}
+
+export function validate<T, S>(
+  value: unknown,
+  typed: Type<T, S>,
+  options: {
+    coerce?: boolean;
+    mask?: boolean;
+    message?: string;
+  } = {}
+): [TypedError, undefined] | [undefined, T] {
+  const tuples = run(value, typed, options);
+  const tuple = shiftIterator(tuples)!;
+
+  if (tuple[0]) {
+    const error = new TypedError(tuple[0], function* () {
+      for (const t of tuples) {
+        if (t[0]) {
+          yield t[0];
+        }
+      }
+    });
+    return [error, undefined];
+  } else {
+    const v = tuple[1];
+    return [undefined, v];
+  }
+}
+
+export function* run<T, S>(
+  value: any,
+  t: Type<T, S>,
+  options: Partial<Context> & {
+    coerce?: boolean;
+    mask?: boolean;
+    message?: string;
+  } = {}
+): IterableIterator<[Failure, undefined] | [undefined, T]> {
+  const {
+    path = [],
+    branch = [value],
+    node = TypeNode.create(t, null),
+    coerce = false,
+    mask = false
+  } = options;
+
+  const ctx: Context = { mask, path, branch, node };
+
+  if (coerce) {
+    value = t.coercer(value, ctx);
+  }
+
+  let status: Status = Status.valid;
+
+  for (const failure of toFailures(t.validator(value, ctx), ctx, t, value)) {
+    failure.explanation = options.message;
+    status = Status.not_valid;
+    yield [failure, undefined];
+  }
+
+  for (let [k, v, st] of t.entries(value, ctx)) {
+    const ts = run(v, st as Type, {
+      path: k === undefined ? path : [...path, k],
+      branch: k === undefined ? branch : [...branch, v],
+      node: k === undefined ? node : TypeNode.create(st, node),
+      coerce,
+      mask,
+      message: options.message
+    });
+
+    for (const t of ts) {
+      if (t[0]) {
+        status =
+          t[0].refinement != null ? Status.not_refined : Status.not_valid;
+        yield [t[0], undefined];
+      } else if (coerce) {
+        v = t[1];
+
+        if (k === undefined) {
+          value = v;
+        } else if (value instanceof Map) {
+          value.set(k, v);
+        } else if (value instanceof Set) {
+          value.add(v);
+        } else if (isObject(value)) {
+          if (v !== undefined || k in value) {
+            (value as any)[k] = v;
+          }
+        }
+      }
+    }
+  }
+
+  if (status !== Status.not_valid) {
+    for (const failure of toFailures(
+      t.refiner(value as T, ctx),
+      ctx,
+      t,
+      value
+    )) {
+      failure.explanation = options.message;
+      status = Status.not_refined;
+      yield [failure, undefined];
+    }
+  }
+
+  if (status === Status.valid) {
+    yield [undefined, value as T];
+  }
+}
+
+enum Status {
+  valid,
+  not_refined,
+  not_valid,
+}
