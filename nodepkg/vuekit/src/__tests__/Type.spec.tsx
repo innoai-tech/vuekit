@@ -11,20 +11,18 @@ describe("Type", () => {
   test("render with optional props", () => {
     enum InputType {
       text = "text",
-      select = "text"
+      select = "text",
     }
 
     const propTypes = {
       input: t.number().optional(),
       type: t.nativeEnum(InputType),
       inputWithDefault: t.number().optional().default(1),
-
       onDidSetup: t.custom<() => void>(),
       onDidSetupWith: t.custom<(v: string) => void>()
     };
 
     const C = component(propTypes, (props, { emit }) => {
-
       emit("did-setup");
       emit("did-setup-with", "1");
 
@@ -54,9 +52,7 @@ describe("Type", () => {
       $optional: t.custom<VNodeChild>().optional()
     };
 
-    const C = component(propTypes, ({}, {
-      slots
-    }) => {
+    const C = component(propTypes, ({}, { slots }) => {
       return () => (
         <div>
           {slots.optional?.()}

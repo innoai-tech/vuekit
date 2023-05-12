@@ -12,7 +12,7 @@ import {
   JSONSchemaDecoder,
   refName,
   t,
-  type TypeAny,
+  type AnyType,
   TypedefEncoder,
   TypeScriptEncoder
 } from "@innoai-tech/typedef";
@@ -73,7 +73,7 @@ export class ClientGen extends Genfile {
       url: path
     };
 
-    const requestParameterSchema: Record<string, TypeAny> = {};
+    const requestParameterSchema: Record<string, AnyType> = {};
 
     const requestUsed = {};
     let hasParamInPath = false;
@@ -133,7 +133,7 @@ export class ClientGen extends Genfile {
       }
     }
 
-    const bodyTypes: TypeAny[] = [];
+    const bodyTypes: AnyType[] = [];
 
     if (op.requestBody) {
       const contentTypes = keys(op.requestBody.content);
@@ -207,7 +207,7 @@ export const ${lowerCamelCase(op.operationId)} =
 `);
   }
 
-  private decodeAsTypeScript(t: TypeAny) {
+  private decodeAsTypeScript(t: AnyType) {
     // just for collect
     this.td.encode(t, false);
 

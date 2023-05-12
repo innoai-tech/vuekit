@@ -1,6 +1,4 @@
-export * from "./Type";
-export * from "./MetaBuilder";
-export * as t from "./t";
+export * from "./core";
 export * from "./encoding";
 
 

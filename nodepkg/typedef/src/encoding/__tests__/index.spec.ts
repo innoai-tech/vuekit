@@ -1,5 +1,5 @@
 import { describe, test, expect } from "vitest";
-import * as t from "../../t";
+import { t } from "../../core";
 import {
   TypeScriptEncoder,
   JSONSchemaDecoder,
@@ -39,7 +39,7 @@ describe("Encoding", () => {
         .annotate({
           description: "StrOrInt"
         }),
-      placement: t.enums(["leading", "trailing"] as const),
+      placement: t.enums(["leading", "trailing"]),
       inputType: t.ref("InputType", () => t.nativeEnum(InputType)).optional(),
       keyValues: t.record(t.string(), t.any()).optional(),
       array: t.array(t.boolean()),
@@ -50,10 +50,6 @@ describe("Encoding", () => {
 
   test("JSONSchema decode", () => {
     const jsonSchema = JSONSchemaEncoder.encode(schema);
-
-    console.log(
-      JSON.stringify(jsonSchema, null, 2)
-    );
 
     const schema2 = JSONSchemaDecoder.decode(jsonSchema, (ref) => {
       return [get(jsonSchema, ref.split("#/")[1]!.split("/")), refName(ref)];
@@ -75,7 +71,6 @@ describe("Encoding", () => {
 
   test("JSONSchema encode", () => {
     const jsonSchema = JSONSchemaEncoder.encode(schema);
-    console.log(JSON.stringify(jsonSchema, null, 2));
     expect(jsonSchema).toMatchSnapshot();
   });
 });

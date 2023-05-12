@@ -1,16 +1,16 @@
-import { Type, type TypeAny } from "../Type";
+import { Type, type AnyType, TypeRef } from "../core";
 
 export class TypeScriptEncoder {
-  static encode<T extends TypeAny>(type: T): string {
+  static encode(type: AnyType): string {
     return new TypeScriptEncoder().encode(type);
   }
 
   def = new Map<string, string>();
 
-  encode<T extends TypeAny>(type: T, all = true): string {
+  encode(type: AnyType, all = true): string {
     const d = this._encode(type);
     if (all) {
-      return (this.isRef(type) ? "" : d) + this.decls();
+      return (type instanceof TypeRef ? "" : d) + this.decls();
     }
     return d;
   }
@@ -32,18 +32,25 @@ export type ${name} = ${decl}`;
     return decls;
   }
 
-  private isRef(type: TypeAny) {
-    return type.schema && type.schema["$ref"];
-  }
+  private _encode(type: AnyType, decl = false): string {
+    while (true) {
+      if (type instanceof TypeRef) {
+        break;
+      }
+      const unwrapped = type.unwrap;
+      if (unwrapped === type) {
+        break;
+      }
+      type = unwrapped as AnyType;
+    }
 
-  private _encode<T extends TypeAny>(type: T, decl = false): string {
-    if (this.isRef(type)) {
-      const refName = type.schema["$ref"];
+    if (type instanceof TypeRef) {
+      const refName = type.schema.$ref;
 
       if (!this.def.has(refName)) {
         // set to lock to avoid loop
         this.def.set(refName, "");
-        this.def.set(refName, this._encode(type.schema["$underlying"](), true));
+        this.def.set(refName, this._encode(type.unwrap, true));
       }
 
       return refName;
@@ -52,13 +59,13 @@ export type ${name} = ${decl}`;
     switch (type.type) {
       case "intersection": {
         return `(${type.schema.allOf
-          .map((t: TypeAny) => this._encode(t))
+          .map((t: AnyType) => this._encode(t))
           .join(" & ")})`;
       }
 
       case "union": {
         return `(${type.schema.oneOf
-          .map((t: TypeAny) => this._encode(t))
+          .map((t: AnyType) => this._encode(t))
           .join(" | ")})`;
       }
 
@@ -107,7 +114,7 @@ ${type.schema.enum
         return ts;
       case "tuple":
         return `[${type.schema.items
-          .map((t: TypeAny) => this._encode(t))
+          .map((t: AnyType) => this._encode(t))
           .join(", ")}]`;
       case "array":
         return `Array<${this._encode(type.schema.items)}>`;

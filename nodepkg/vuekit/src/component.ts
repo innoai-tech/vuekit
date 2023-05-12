@@ -1,8 +1,13 @@
-import type { PublicPropsOf, Component, SetupFunction, WithDefaultSlot } from "./types";
+import type {
+  PublicPropsOf,
+  Component,
+  SetupFunction,
+  WithDefaultSlot,
+} from "./types";
 import { isFunction, partition, kebabCase } from "@innoai-tech/lodash";
 import { Fragment as OriginFragment } from "vue";
 
-import { type TypeAny } from "@innoai-tech/typedef";
+import { type AnyType } from "@innoai-tech/typedef";
 
 export interface ComponentOptions {
   name?: string;
@@ -15,12 +20,12 @@ export function component(
   setup: SetupFunction<{}>,
   options?: ComponentOptions
 ): Component<{}>;
-export function component<PropTypes extends Record<string, TypeAny>>(
+export function component<PropTypes extends Record<string, AnyType>>(
   propTypes: PropTypes,
   setup: SetupFunction<PropTypes>,
   options?: ComponentOptions
 ): Component<PublicPropsOf<PropTypes>>;
-export function component<PropTypes extends Record<string, TypeAny>>(
+export function component<PropTypes extends Record<string, AnyType>>(
   propTypesOrSetup: PropTypes | SetupFunction<PropTypes>,
   setupOrOptions?: SetupFunction<PropTypes> | ComponentOptions,
   options: ComponentOptions = {}
@@ -29,7 +34,7 @@ export function component<PropTypes extends Record<string, TypeAny>>(
   const finalSetup = (setupOrOptions ?? propTypesOrSetup) as SetupFunction<any>;
   const finalPropTypes = (
     isFunction(propTypesOrSetup) ? {} : propTypesOrSetup
-  ) as Record<string, TypeAny>;
+  ) as Record<string, AnyType>;
 
   const [emits, props] = partition(Object.keys(finalPropTypes), (v: string) =>
     /^on[A-Z]/.test(v)
@@ -47,16 +52,15 @@ export function component<PropTypes extends Record<string, TypeAny>>(
             default: () => {
               try {
                 return d.create(undefined);
-              } catch (e) {
-              }
+              } catch (e) {}
               return;
             },
             validator: (value: any) => {
               return d.validate(value);
-            }
-          }
+            },
+          },
         };
-      }, {})
+      }, {}),
   };
 
   return {
@@ -70,6 +74,6 @@ export function component<PropTypes extends Record<string, TypeAny>>(
     emits: emitsAndProps.emits,
     props: emitsAndProps.props,
     inheritAttrs: finalOptions.inheritAttrs,
-    propTypes: finalPropTypes
+    propTypes: finalPropTypes,
   } as any;
 }

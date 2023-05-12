@@ -1,4 +1,4 @@
-import { Type, type TypeAny } from "../Type";
+import { Type, type AnyType } from "../core";
 import { isArray, isPlainObject } from "@innoai-tech/lodash";
 
 export type JSONSchema = {
@@ -7,13 +7,13 @@ export type JSONSchema = {
 };
 
 export class JSONSchemaEncoder {
-  static encode<T extends TypeAny>(type: T): JSONSchema | false {
+  static encode<T extends AnyType>(type: T): JSONSchema | false {
     return new JSONSchemaEncoder().encode(type);
   }
 
   def = new Map<string, JSONSchema | false>();
 
-  encode<T extends TypeAny>(type: T): JSONSchema | false {
+  encode<T extends AnyType>(type: T): JSONSchema | false {
     const s = this._encode(type);
 
     const definitions: Record<string, any> = {};
@@ -23,29 +23,39 @@ export class JSONSchemaEncoder {
     }
 
     return Object.assign(s, {
-      definitions: definitions
+      definitions: definitions,
     });
   }
 
-  private _encode<T extends TypeAny>(type: T): JSONSchema | false {
+  private _encode<T extends AnyType>(type: T): JSONSchema | false {
     const jsonSchema = this._encodeCore(type);
 
     if (type.meta["description"]) {
       return Object.assign(jsonSchema, {
-        description: type.meta["description"]
+        description: type.meta["description"],
       });
     }
 
     return jsonSchema;
   }
 
-  private _encodeCore<T extends TypeAny>(type: T): JSONSchema | false {
-    switch (type.type) {
-      case "binary":
+  private _encodeCore<T extends AnyType>(type: T): JSONSchema | false {
+    if (type.schema && type.schema["$unwrap"]) {
+      const refName = type.schema["$ref"];
+
+      if (refName) {
+        if (!this.def.has(refName)) {
+          // set to lock to avoid loop
+          this.def.set(refName, {});
+          this.def.set(refName, this._encode(type.schema["$unwrap"]()));
+        }
+
         return {
-          type: "string",
-          format: "binary"
+          $ref: `#/definitions/${refName}`,
         };
+      }
+
+      return this._encode(type.schema["$unwrap"]);
     }
 
     return this._encodeFromSchema(type.schema);
@@ -57,20 +67,6 @@ export class JSONSchemaEncoder {
         return false;
       }
       return {};
-    }
-
-    if (s["$ref"]) {
-      const refName = s["$ref"];
-
-      if (!this.def.has(refName)) {
-        // set to lock to avoid loop
-        this.def.set(refName, {});
-        this.def.set(refName, this._encode(s["$underlying"]()));
-      }
-
-      return {
-        $ref: `#/definitions/${refName}`
-      };
     }
 
     const schema: Record<string, any> = {};

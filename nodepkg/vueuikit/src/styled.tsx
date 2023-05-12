@@ -7,7 +7,7 @@ import {
   type InternalEmitsOf,
   type InternalSlotsOf,
   type InternalPropsOf,
-  type TypeAny,
+  type AnyType,
   type VElementType,
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
@@ -37,7 +37,7 @@ const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
 
 export type StyledSetupFunction<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, TypeAny>
+  PropTypes extends Record<string, AnyType>
 > = (
   props: InternalPropsOf<PropTypes>,
   ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
@@ -45,7 +45,7 @@ export type StyledSetupFunction<
 
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, TypeAny> = {}
+  PropTypes extends Record<string, AnyType> = {}
 >(
   defaultComponent: DefaultComponent,
   setup?: StyledSetupFunction<DefaultComponent, PropTypes>
@@ -55,7 +55,7 @@ export function styled<
 }>;
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, TypeAny> = {}
+  PropTypes extends Record<string, AnyType> = {}
 >(
   defaultComponent: DefaultComponent,
   propTypes: PropTypes,
@@ -66,7 +66,7 @@ export function styled<
 }>;
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, TypeAny> = {}
+  PropTypes extends Record<string, AnyType> = {}
 >(
   defaultComponent: DefaultComponent,
   propTypesOrSetup?:
