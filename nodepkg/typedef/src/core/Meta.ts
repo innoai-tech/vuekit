@@ -20,7 +20,7 @@ export function createMetaBuilder<M extends Record<string, any>>(
   const b = new Proxy(fn, {
     get(_, name: string) {
       return (v: any): any => {
-        metadata[`_${name}`] = v ?? true;
+        metadata[`${name}`] = v ?? true;
         return b;
       };
     }
