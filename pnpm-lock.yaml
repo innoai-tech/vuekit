@@ -130,6 +130,15 @@ importers:
         specifier: 3.x
         version: 3.3.2
 
+  nodepkg/vueformdata:
+    dependencies:
+      '@innoai-tech/lodash':
+        specifier: ^0.2.0
+        version: 0.2.0
+      '@innoai-tech/vuekit':
+        specifier: workspace:^
+        version: link:../vuekit
+
   nodepkg/vuekit:
     dependencies:
       '@innoai-tech/lodash':

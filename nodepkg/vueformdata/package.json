@@ -1,0 +1,44 @@
+{
+  "name": "@innoai-tech/vueformdata",
+  "version": "0.1.0",
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@innoai-tech/vuekit": "workspace:^",
+    "@innoai-tech/lodash": "^0.2.0",
+    "rxjs": "^7.8.1"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      }
+    }
+  },
+  "files": [
+    "*.mjs",
+    "*.d.ts"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/typedef"
+  },
+  "scripts": {
+    "lint": "prettier --write .",
+    "build": "monobundle",
+    "test": "vitest --run --passWithNoTests --dir .",
+    "prepublishOnly": "pnpm run build"
+  },
+  "type": "module",
+  "peerDependencies": {}
+}
