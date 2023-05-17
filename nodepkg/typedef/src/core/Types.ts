@@ -1,4 +1,4 @@
-import { isObject, mapValues } from "@innoai-tech/lodash";
+import { isObject, mapValues, omit } from "@innoai-tech/lodash";
 import {
   Type,
   TypeNode,
@@ -43,6 +43,10 @@ export class TypeRef<U extends AnyType> extends TypeWrapper<
       $unwrap: t,
       $ref: name
     });
+  }
+
+  override get isOptional(): boolean {
+    return false;
   }
 }
 
@@ -270,7 +274,7 @@ export class TypeObject<
     }
   }
 
-  override validator(value: unknown) {
+  override validator(value: unknown, _ctx: Context) {
     return isObject(value);
   }
 
@@ -547,7 +551,8 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
     })());
   }
 
-  _discriminatorMapping: { [K: string | number]: AnyType } = {};
+  _discriminatorMapping: { [K: string | number]: { [K: string]: AnyType } } =
+    {};
 
   discriminatorMapping(discriminatorPropValue: any, ctx: Context) {
     const discriminatorPropName = this.schema.discriminator!.propertyName;
@@ -569,22 +574,11 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
       });
 
       if (matched) {
-        const s = matched.unwrap.schema;
-
-        return (this._discriminatorMapping[discriminatorPropValue] ??=
-          TypeObject.create({
-            ...s.properties,
-            [discriminatorPropName]: TypeWrapper.of(
-              s.properties[discriminatorPropName],
-              {
-                $meta: ctx.node?.meta ?? {}
-              }
-            )
-          }));
+        return (this._discriminatorMapping[`${discriminatorPropValue}`] ??= omit(matched.unwrap.schema.properties, [discriminatorPropName]));
       }
     }
 
-    return undefined;
+    return {};
   }
 
   override* entries(
@@ -598,13 +592,10 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
         discriminatorPropName
         ];
 
-      const base =
-        (typeof discriminatorPropValue !== "undefined"
-          ? this.discriminatorMapping(discriminatorPropValue, context)
-          : undefined) ??
-        TypeObject.create({
-          [discriminatorPropName]: this.discriminatorPropType(context)
-        });
+      const base = TypeObject.create({
+        [discriminatorPropName]: this.discriminatorPropType(context),
+        ...this.discriminatorMapping(discriminatorPropValue, context)
+      });
 
       yield* base.entries(value, context);
     }
@@ -631,13 +622,10 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
         discriminatorPropName
         ];
 
-      const base =
-        (typeof discriminatorPropValue !== "undefined"
-          ? this.discriminatorMapping(discriminatorPropValue, context)
-          : undefined) ??
-        TypeObject.create({
-          [discriminatorPropName]: this.discriminatorPropType(context)
-        });
+      const base = TypeObject.create({
+        [discriminatorPropName]: this.discriminatorPropType(context),
+        ...this.discriminatorMapping(discriminatorPropValue, context)
+      });
 
       return base.validator(value, context);
     }

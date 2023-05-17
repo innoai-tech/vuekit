@@ -7,14 +7,21 @@ describe("Meta", () => {
       const fields: { [k: string]: string } = {};
 
       for (const [k, _, s] of schema.entries({})) {
-        fields[k] = s.meta["description"];
+        if (s.type == "never") {
+          continue;
+        }
+
+        fields[k] = [
+          s.getMeta("description") ?? "",
+          ...(s.getSchema("enum") ?? [])
+        ].join("|");
       }
 
       expect(fields).toEqual({
         name: "名称",
         desc: "描述",
-        envType: "环境类型",
-        netType: "网络类型"
+        envType: "环境类型|DEV|ONLINE",
+        netType: "网络类型|AIRGAP|DIRECT"
       });
     });
 
@@ -24,14 +31,21 @@ describe("Meta", () => {
       for (const [k, _, s] of schema.entries({
         netType: "DIRECT"
       })) {
-        fields[k] = s.meta["description"];
+        if (s.type == "never") {
+          continue;
+        }
+
+        fields[k] = [
+          s.getMeta("description") ?? "",
+          ...(s.getSchema("enum") ?? [])
+        ].join("|");
       }
 
       expect(fields).toEqual({
         name: "名称",
         desc: "描述",
-        envType: "环境类型",
-        netType: "网络类型",
+        envType: "环境类型|DEV|ONLINE",
+        netType: "网络类型|AIRGAP|DIRECT",
         endpoint: "访问地址"
       });
     });

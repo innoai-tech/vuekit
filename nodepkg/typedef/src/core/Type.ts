@@ -1,19 +1,19 @@
-import { isObject } from "@innoai-tech/lodash";
+import { isObject, get } from "@innoai-tech/lodash";
 
 export interface Modifier<T, S> {
   (t: Type<T, S>): Type<T, S>;
 }
-
-export const EmptyContext: Context = {
-  path: [],
-  branch: []
-};
 
 export type Context = {
   branch: Array<any>;
   path: Array<any>;
   node?: TypeNode<AnyType, AnyType>;
   mask?: boolean;
+};
+
+export const EmptyContext: Context = {
+  path: [],
+  branch: []
 };
 
 export type Failure = {
@@ -153,34 +153,33 @@ export class Type<T = unknown, S = unknown> {
     return TypeWrapper.of(this, { $meta: meta });
   }
 
-  get isOptional(): boolean {
-    if (this instanceof OptionalType) {
-      return true;
-    }
-    if (this.schema && (this.schema as any)["$unwrap"]) {
-      return ((this.schema as any)["$unwrap"] as AnyType).isOptional;
-    }
-    return false;
-  }
-
   get unwrap(): Type<T, S> {
     return this;
   }
 
   get meta(): Record<string, any> {
     if (this.schema) {
-      const meta = (this.schema as any)["$meta"] ?? {};
-
-      if ((this.schema as any)["$unwrap"]) {
-        return {
-          ...((this.schema as any)["$unwrap"] as AnyType).meta,
-          ...meta
-        };
-      }
-
-      return meta;
+      return get(this.schema, ["$meta"]) ?? {};
     }
     return {};
+  }
+
+  getMeta<T>(key: string): T | undefined {
+    if (this.schema) {
+      return get(this.schema, ["$meta", key]);
+    }
+    return undefined;
+  }
+
+  getSchema<T = any>(key: string): T | undefined {
+    if (key && this.schema) {
+      return get(this.schema, [key]);
+    }
+    return undefined;
+  }
+
+  get isOptional(): boolean {
+    return false;
   }
 }
 
@@ -230,7 +229,32 @@ export class TypeWrapper<
   }
 
   override get unwrap() {
-    return typeof this.schema.$unwrap === "function" ? this.schema.$unwrap() : this.schema.$unwrap;
+    return (typeof this.schema.$unwrap === "function" ? this.schema.$unwrap() : this.schema.$unwrap);
+  }
+
+  override get isOptional(): boolean {
+    return this.unwrap.isOptional;
+  }
+
+  override get meta(): Record<string, any> {
+    return {
+      ...this.unwrap.meta,
+      ...get(this.schema, ["$meta"], {})
+    };
+  }
+
+  override getMeta<T = any>(key: string): T | undefined {
+    if (this.schema) {
+      return get(this.schema, ["$meta", key]) ?? this.unwrap.getMeta(key);
+    }
+    return undefined;
+  }
+
+  override getSchema<T = any>(key?: string): T | undefined {
+    if (key) {
+      return get(this.schema, [key]) ?? this.unwrap.getSchema<T>(key);
+    }
+    return undefined;
   }
 
   override* entries(
@@ -310,6 +334,10 @@ export class OptionalType<T extends AnyType> extends TypeWrapper<
     return new OptionalType<T>({
       $unwrap: t
     });
+  }
+
+  override get isOptional(): boolean {
+    return true;
   }
 
   override refiner(value: T | undefined, context: Context): Result {
