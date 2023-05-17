@@ -1,5 +1,5 @@
 import { vueResolver, type VueRoute } from "vite-plugin-pages";
-import { set, trimEnd } from "@innoai-tech/lodash";
+import { set } from "@innoai-tech/lodash";
 import { readFile } from "fs/promises";
 import { searchForWorkspaceRoot, type Plugin, type UserConfig } from "vite";
 
@@ -8,7 +8,7 @@ const reProp = /@property( +)\{(?<type>[^}]+)}( +)(?<path>[\w.]+)/g;
 
 type RouteMetadata = {
   id: string;
-  imports: Record<string, boolean>;
+  imports: Record<string, Record<string, boolean>>;
   meta: Record<string, any>;
 };
 
@@ -28,7 +28,7 @@ export const extractRouteMeta = (
     );
 
     r = r ?? {
-      imports: {} as Record<string, boolean>,
+      imports: {} as Record<string, Record<string, boolean>>,
       meta: {} as Record<string, any>,
       id
     };
@@ -56,7 +56,7 @@ export const createPageMetaResolver = () => {
   const viteRoot = searchForWorkspaceRoot(process.cwd());
 
   const pageMetaLocalIdSuffix = "page_meta__";
-  const pageMetaSuffix = "?id=~page-meta.ts";
+  const pageMetaSuffix = "id=~page-meta.ts";
 
   const r = vueResolver();
 
@@ -83,24 +83,34 @@ export const createPageMetaResolver = () => {
       },
       load(id: string) {
         if (isPageMeta(id)) {
-          let filepath = trimEnd(id, pageMetaSuffix);
-          const m = metaMap.get(filepath);
+          let [filepath, search] = id.split("?");
+          const m = metaMap.get(filepath!);
+          const q = new URLSearchParams(search ?? "");
+
+          if (q.has("exportAsDefault")) {
+            return `export { ${q.get("exportAsDefault")} as default } from "${filepath}";`;
+          }
 
           if (m) {
-            const importDecls = Object.keys(m.imports).map((importPath) => {
-              const importNames = Object.keys(m.imports[importPath]!);
-              return `import { ${importNames.join(
-                ", "
-              )} } from ${JSON.stringify(importPath)}`;
-            });
+            const nameOfImports: Record<string, string> = {};
+
+            for (const importPath in m.imports) {
+              for (const importName in (m.imports[importPath])) {
+                nameOfImports[importName] = importPath;
+              }
+            }
 
             return `
-${importDecls.join(";\n")}
-            
 export default {
   meta: {
     ${Object.keys(m.meta)
-              .map((k) => `${k}: ${m.meta[k]}`)
+              .map((k) => {
+                const name = m.meta[k];
+                if (nameOfImports[name]) {
+                  return `${k}: () => import("${nameOfImports[name]}?exportAsDefault=${name}&id=~page-meta.ts")`;
+                }
+                return `${k}: ${name}`;
+              })
               .join(",\n")}
   }
 }`;
@@ -152,7 +162,7 @@ export default {
       stringify: {
         final(code: string) {
           const importDecls = [...metaImports].map(([id, importPath]) => {
-            return `import ${id}${pageMetaLocalIdSuffix} from "${importPath}${pageMetaSuffix}"`;
+            return `import ${id}${pageMetaLocalIdSuffix} from "${importPath}?${pageMetaSuffix}"`;
           });
 
           return `
