@@ -49,6 +49,7 @@ export const viteChunkSplit = (
         chunkFileNames: (chunkInfo: PreRenderedChunk) => {
           if (
             chunkInfo.name.startsWith("lib-") ||
+            chunkInfo.name.startsWith("webapp-") ||
             chunkInfo.name.startsWith("vendor-")
           ) {
             return chunkFileNames;
@@ -169,7 +170,14 @@ class ChunkSplit {
 
   private extractPkgName(id: string): string {
     if (this.isLib(id)) {
-      return `@lib/${relative(this.root, id).split("/").slice(0, 2).join("-")}`;
+      const base = relative(this.root, id);
+      if (base.startsWith("webapp/")) {
+        if (base.includes("/mod/")) {
+          return `@${base.split("/").slice(0, 4).join("-")}`;
+        }
+        return `@${base.split("/").slice(0, 3).join("-")}`;
+      }
+      return `@lib/${base.split("/").slice(0, 2).join("-")}`;
     }
 
     const parts = id.split("/node_modules/");
