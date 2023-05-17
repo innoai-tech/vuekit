@@ -375,7 +375,7 @@ export class TypeArray<T extends any, S extends AnyType> extends Type<
   override* entries(
     value: unknown
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
-    if (this.schema.items.type == "any") {
+    if (this.schema.items.type != "any") {
       if (Array.isArray(value)) {
         for (const [i, v] of value.entries()) {
           yield [i, v, this.schema.items];

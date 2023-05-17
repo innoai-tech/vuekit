@@ -3,6 +3,24 @@ import { createMetaBuilder, t } from "../index";
 
 describe("Meta", () => {
   describe("iter desc", () => {
+    test("when as array", () => {
+      const fields: { [k: string]: string } = {};
+
+      for (const [k, _, s] of t.array(schema).entries([undefined, undefined])) {
+        if (s.type == "never") {
+          continue;
+        }
+
+        fields[k] = "";
+      }
+
+      expect(fields).toEqual({
+        "0": "",
+        "1": ""
+      });
+    });
+
+
     test("when value empty", () => {
       const fields: { [k: string]: string } = {};
 
