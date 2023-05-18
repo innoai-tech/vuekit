@@ -1,14 +1,14 @@
 {
   "name": "@innoai-tech/vue-jsx-runtime",
-  "version": "0.2.6",
+  "version": "0.3.0",
   "monobundle": {
     "exports": {
       "./jsx-runtime": "./src/jsx-runtime.ts",
       "./jsx-dev-runtime": "./src/jsx-dev-runtime.ts"
     }
   },
-  "peerDependencies": {
-    "vue": "3.x"
+  "dependencies": {
+    "vue": "^3.3.3"
   },
   "exports": {
     "./jsx-runtime": {
@@ -44,5 +44,6 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {}
 }

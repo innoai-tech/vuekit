@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuematerial",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -8,15 +8,10 @@
   },
   "dependencies": {
     "@innoai-tech/vuekit": "workspace:^",
-    "@innoai-tech/vueuikit": "workspace:^"
-  },
-  "peerDependencies": {
+    "@innoai-tech/vueuikit": "workspace:^",
     "@innoai-tech/lodash": "^0.2.0",
-    "@mdi/js": "7.2.x",
-    "vue": "3.x"
-  },
-  "devDependencies": {
-    "@popperjs/core": "^2.11.7"
+    "@mdi/js": "^7.2.96",
+    "vue": "^3.3.3"
   },
   "exports": {
     ".": {
@@ -46,5 +41,6 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {}
 }

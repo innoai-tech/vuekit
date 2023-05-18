@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuemarkdown",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "monobundle": {
     "build": {
       "clean": true
@@ -16,11 +16,9 @@
     "hast-util-whitespace": "^2.0.1",
     "remark-parse": "^10.0.2",
     "remark-rehype": "^10.1.0",
-    "unified": "^10.1.2"
-  },
-  "peerDependencies": {
-    "rxjs": "7.8.x",
-    "vue": "3.x"
+    "rxjs": "^7.8.1",
+    "unified": "^10.1.2",
+    "vue": "^3.3.3"
   },
   "exports": {
     ".": {
@@ -50,5 +48,6 @@
     "prepublishOnly": "pnpm run build",
     "lint": "prettier --write ."
   },
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {}
 }

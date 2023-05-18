@@ -1,6 +1,5 @@
-import { rx, t, component$, type Component } from "@innoai-tech/vuekit";
+import { rx, t, component$, type Component, type VNode } from "@innoai-tech/vuekit";
 import { combineLatest, from, switchMap, map } from "rxjs";
-import { type VNode } from "vue";
 import { unified, remarkRehype, remarkParse, rehypeVue } from "./unified";
 
 export const Markdown = component$(

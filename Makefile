@@ -28,7 +28,7 @@ bootstrap:
 	$(NPX) monobundle
 
 dep:
-	pnpm install
+	pnpm install && pnpm dedupe
 
 update:
 	pnpm up -r --latest
