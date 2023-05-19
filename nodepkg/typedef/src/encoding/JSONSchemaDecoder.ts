@@ -141,7 +141,7 @@ export class JSONSchemaDecoder {
         return t.object(
           mapValues(schema["properties"], (s, n) => {
             const propType = this.decode(s);
-            if (required.includes(n)) {
+            if (required.includes(n) && !s["nullable"]) {
               return propType;
             }
             return propType.optional();
