@@ -7,12 +7,13 @@
     }
   },
   "dependencies": {
+    "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
-    "@innoai-tech/lodash": "^0.2.0",
     "@mdi/js": "^7.2.96",
-    "vue": "^3.3.3"
+    "vue": "^3.3.4"
   },
+  "peerDependencies": {},
   "exports": {
     ".": {
       "import": {
@@ -41,6 +42,5 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module",
-  "peerDependencies": {}
+  "type": "module"
 }

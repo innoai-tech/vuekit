@@ -21,8 +21,8 @@
     "@innoai-tech/vueuikit": "workspace:^"
   },
   "devDependencies": {
-    "@innoai-tech/lodash": "^0.2.0",
-    "@innoai-tech/monobundle": "^0.8.14",
+    "@innoai-tech/lodash": "^0.2.1",
+    "@innoai-tech/monobundle": "^0.9.3",
     "@innoai-tech/vue-vite-presets": "workspace:^",
     "@innoai-tech/vuedevconfig": "workspace:^",
     "@mdi/js": "^7.2.96",
@@ -34,9 +34,9 @@
     "tsx": "^3.12.7",
     "turbo": "^1.9.8",
     "typescript": "^5.0.4",
-    "vite": "^4.3.7",
+    "vite": "^4.3.8",
     "vitest": "^0.31.1",
-    "vue": "^3.3.3"
+    "vue": "^3.3.4"
   },
   "prettier": {}
 }

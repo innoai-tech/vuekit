@@ -7,8 +7,9 @@
     }
   },
   "dependencies": {
-    "@innoai-tech/lodash": "^0.2.0"
+    "@innoai-tech/lodash": "^0.2.1"
   },
+  "peerDependencies": {},
   "exports": {
     ".": {
       "import": {
@@ -37,6 +38,5 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module",
-  "peerDependencies": {}
+  "type": "module"
 }

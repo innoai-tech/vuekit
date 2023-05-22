@@ -10,13 +10,14 @@
     }
   },
   "dependencies": {
-    "@innoai-tech/config": "0.4.13",
-    "@innoai-tech/lodash": "0.2.0",
+    "@innoai-tech/config": "0.5.2",
+    "@innoai-tech/lodash": "0.2.1",
     "@innoai-tech/typedef": "workspace:^",
     "node-fetch": "^3.3.1"
   },
+  "peerDependencies": {},
   "devDependencies": {
-    "@innoai-tech/fetcher": "0.4.0"
+    "@innoai-tech/fetcher": "0.5.2"
   },
   "exports": {
     ".": {
@@ -46,6 +47,5 @@
     "prepublishOnly": "pnpm run build",
     "lint": "prettier --write ."
   },
-  "type": "module",
-  "peerDependencies": {}
+  "type": "module"
 }

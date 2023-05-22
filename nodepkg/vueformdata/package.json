@@ -7,10 +7,11 @@
     }
   },
   "dependencies": {
+    "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/vuekit": "workspace:^",
-    "@innoai-tech/lodash": "^0.2.0",
     "rxjs": "^7.8.1"
   },
+  "peerDependencies": {},
   "exports": {
     ".": {
       "import": {
@@ -31,7 +32,7 @@
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/typedef"
+    "directory": "nodepkg/vueformdata"
   },
   "scripts": {
     "lint": "prettier --write .",
@@ -39,6 +40,5 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module",
-  "peerDependencies": {}
+  "type": "module"
 }
