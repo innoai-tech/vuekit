@@ -5,7 +5,7 @@ export class TypeScriptEncoder {
     return new TypeScriptEncoder().encode(type);
   }
 
-  def = new Map<string, string>();
+  def = new Map<string, [string, string]>();
 
   encode(type: AnyType, all = true): string {
     const d = this._encode(type);
@@ -17,22 +17,19 @@ export class TypeScriptEncoder {
 
   decls() {
     let decls = "";
-    for (const [name, decl] of this.def) {
-      if (decl.startsWith("enum {")) {
-        decls += `
-      
-export enum ${name} ${decl.slice("enum ".length)}`;
-        continue;
-      }
+
+    for (const [name, [t, decl]] of this.def) {
       decls += `
       
-export type ${name} = ${decl}`;
+export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
     }
 
     return decls;
   }
 
-  private _encode(type: AnyType, decl = false): string {
+  private _encode(rawType: AnyType, declName = ""): string {
+    let type = rawType;
+
     while (true) {
       if (type instanceof TypeRef) {
         break;
@@ -49,8 +46,12 @@ export type ${name} = ${decl}`;
 
       if (!this.def.has(refName)) {
         // set to lock to avoid loop
-        this.def.set(refName, "");
-        this.def.set(refName, this._encode(type.unwrap, true));
+        this.def.set(refName, ["type", "any"]);
+
+        const decl = this._encode(type.unwrap, refName);
+        if (decl) {
+          this.def.set(refName, ["type", decl]);
+        }
       }
 
       return refName;
@@ -74,12 +75,27 @@ export type ${name} = ${decl}`;
       }
 
       case "enums": {
-        if (decl) {
-          return `enum {
+        if (declName) {
+
+          this.def.set(declName, ["enum", `{
 ${type.schema.enum
             .map((v: any) => `${v} = ${JSON.stringify(v)}`)
             .join(",\n")}         
-}`;
+}`]);
+
+          const enumLabels = rawType.getMeta("enumLabels") as any[];
+
+          if (enumLabels) {
+            this.def.set(`display${declName}`, ["const", `(v: ${declName}) => {
+  return ({
+${type.schema.enum
+              .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
+              .join(",\n")}   
+  })[v] ?? v      
+}`]);
+          }
+
+          return "";
         }
 
         return type.schema.enum

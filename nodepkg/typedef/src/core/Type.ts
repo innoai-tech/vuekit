@@ -150,7 +150,9 @@ export class Type<T = unknown, S = unknown> {
   }
 
   annotate<M extends Record<string, any>>(meta: M) {
-    return TypeWrapper.of(this, { $meta: meta });
+    return TypeWrapper.of(this, {
+      $meta: meta
+    });
   }
 
   get unwrap(): Type<T, S> {

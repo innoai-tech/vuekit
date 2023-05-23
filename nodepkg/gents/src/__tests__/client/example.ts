@@ -173,6 +173,17 @@ export enum KubepkgV1Alpha1DigestMetaType {
   manifest = "manifest",
 }
 
+export const displayKubepkgV1Alpha1DigestMetaType = (
+  v: KubepkgV1Alpha1DigestMetaType
+) => {
+  return (
+    {
+      blob: "Blob",
+      manifest: "Manifest",
+    }[v] ?? v
+  );
+};
+
 export type KubepkgV1Alpha1Statuses = { [k: string]: any };
 
 export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/ t

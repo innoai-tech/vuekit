@@ -40,7 +40,13 @@ describe("Encoding", () => {
           description: "StrOrInt"
         }),
       placement: t.enums(["leading", "trailing"]),
-      inputType: t.ref("InputType", () => t.nativeEnum(InputType)).optional(),
+      inputType: t.ref("InputType", () => t.nativeEnum(InputType).annotate({
+        "enumLabels": [
+          "文本",
+          "数字",
+          "选项"
+        ]
+      })).optional(),
       keyValues: t.record(t.string(), t.any()).optional(),
       array: t.array(t.boolean()),
       point: t.tuple([t.number(), t.number()])

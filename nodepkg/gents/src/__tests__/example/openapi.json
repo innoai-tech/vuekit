@@ -394,6 +394,10 @@
           "blob",
           "manifest"
         ],
+        "x-enum-labels": [
+          "Blob",
+          "Manifest"
+        ],
         "x-go-vendor-type": "github.com/octohelm/kubepkg/pkg/apis/kubepkg/v1alpha1.DigestMetaType"
       },
       "KubepkgV1Alpha1FileSize": {

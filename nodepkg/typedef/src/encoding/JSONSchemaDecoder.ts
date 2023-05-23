@@ -61,7 +61,15 @@ export class JSONSchemaDecoder {
     }
 
     if (schema["enum"]) {
-      return t.enums(schema["enum"]);
+      const e = t.enums(schema["enum"]);
+
+      if (schema["x-enum-labels"]) {
+        return e.annotate({
+          "enumLabels": schema["x-enum-labels"]
+        });
+      }
+
+      return e;
     }
 
     if (schema["oneOf"]) {
