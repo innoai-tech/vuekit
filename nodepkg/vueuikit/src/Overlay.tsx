@@ -18,6 +18,14 @@ import {
   cloneVNode
 } from "vue";
 
+export const OverlaySettingProvider = createProvider(() => {
+  return {
+    mountPoint: () => document.body
+  };
+}, {
+  name: "OverlaySetting"
+});
+
 const OverlayProvider = createProvider<OverlayContext>(
   () => {
     return new OverlayContext(ref(null), ref(null));
@@ -92,6 +100,8 @@ export const Overlay = component(
       contentRef
     );
 
+    const setting = OverlaySettingProvider.use();
+
     const parent = OverlayProvider.use();
     onBeforeUnmount(parent.add(popperContext));
 
@@ -153,7 +163,7 @@ export const Overlay = component(
         : null;
 
       return (
-        <Teleport to="body">
+        <Teleport to={setting.mountPoint()}>
           {slots.transition ? slots.transition({ content }) : content}
         </Teleport>
       );
