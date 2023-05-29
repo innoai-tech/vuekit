@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "monobundle": {
     "pipeline": {
       "test": false
@@ -23,7 +23,7 @@
     "vite": "^4.3.1"
   },
   "devDependencies": {
-    "rollup": "^3.22.1"
+    "rollup": "^3.23.0"
   },
   "exports": {
     ".": {
