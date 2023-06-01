@@ -3,7 +3,7 @@ import { h, Fragment, type VNodeChild } from "vue";
 export { Fragment };
 
 const isFunction = (val: any) => typeof val === "function";
-
+const isUndefined = (val: any) => typeof val === "undefined";
 const isFragment = (val: any) => {
   return val === Fragment;
 };
@@ -36,16 +36,13 @@ const isSlots = (children: any) => {
 };
 
 const wrapSlot = (children: any) => {
-  if (children) {
-    if (isFunction(children)) {
-      return children;
-    }
-    if (Array.isArray(children)) {
-      return () => children;
-    }
+  if (isFunction(children)) {
+    return children;
+  }
+  if (Array.isArray(children)) {
     return () => children;
   }
-  return undefined;
+  return isUndefined(children) ? children : () => children;
 };
 
 const pickPropsWithoutSlots = (

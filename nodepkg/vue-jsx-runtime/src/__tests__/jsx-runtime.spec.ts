@@ -109,7 +109,7 @@ describe("jsx-runtime", () => {
     });
 
     it("with single raw value child", () => {
-      expect(jsx("div", { children: "1" })).toEqual(h("div", {}, "1"));
+      expect(jsx("div", { children: 0 })).toEqual(h("div", {}, "0"));
     });
 
     it("with single child node", () => {
