@@ -17,6 +17,7 @@ import { ref } from "vue";
 export default component(() => {
   const dialogIsOpen = ref(false);
   const dialogIsOpen1 = ref(false);
+  const dialogIsOpen2 = ref(false);
 
   return () => (
     <Container>
@@ -46,6 +47,36 @@ export default component(() => {
                 <Icon path={mdiClose} />
               </IconButton>
             </Box>
+
+            <TextButton
+              onClick={() => {
+                dialogIsOpen2.value = true;
+              }}
+            >
+              Open Dialog In Dialog
+            </TextButton>
+
+            <Dialog
+              isOpen={dialogIsOpen2.value}
+              onClose={() => {
+                dialogIsOpen2.value = false;
+              }}
+            >
+              <DialogContainer sx={{ minH: "40vh" }}>
+                <Box sx={{ display: "flex", alignItems: "center", px: 16, textStyle: "sys.title-large" }}>
+                  <Box sx={{ flex: 1 }}>
+                    我是对话框 2
+                  </Box>
+                  <IconButton onClick={() => {
+                    dialogIsOpen2.value = false;
+                  }}>
+                    <Icon path={mdiClose} />
+                  </IconButton>
+
+                </Box>
+              </DialogContainer>
+            </Dialog>
+
           </DialogContainer>
         </Dialog>
 

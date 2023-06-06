@@ -28,7 +28,7 @@ export const OverlaySettingProvider = createProvider(() => {
 
 const OverlayProvider = createProvider<OverlayContext>(
   () => {
-    return new OverlayContext(ref(null), ref(null));
+    return new OverlayContext(ref(null), ref(null), () => false);
   },
   {
     name: "Overlay"
@@ -40,7 +40,8 @@ class OverlayContext {
 
   constructor(
     private triggerRef: Ref<HTMLElement | null>,
-    private contentRef: Ref<HTMLDivElement | null>
+    private contentRef: Ref<HTMLDivElement | null>,
+    private isOpen: () => boolean
   ) {
   }
 
@@ -73,7 +74,7 @@ class OverlayContext {
   };
 
   topmost() {
-    return this.children.length == 0;
+    return this.children.filter(c => c.isOpen()).length == 0;
   }
 }
 
@@ -97,7 +98,8 @@ export const Overlay = component(
 
     const popperContext = new OverlayContext(
       props.triggerRef ?? ref(null),
-      contentRef
+      contentRef,
+      () => !!props.isOpen
     );
 
     const setting = OverlaySettingProvider.use();
