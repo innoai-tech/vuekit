@@ -8,15 +8,15 @@ import {
   type InternalSlotsOf,
   type InternalPropsOf,
   type AnyType,
-  type VElementType,
+  type VElementType
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
 import { type SxProps, Box } from "./Box";
 import { ThemeProvider } from "./ThemeProvider";
 import { CacheProvider } from "./CacheProvider";
-import { isFunction, isPlainObject, isString } from "@innoai-tech/lodash";
+import { isFunction, isPlainObject } from "@innoai-tech/lodash";
 import type { VNode } from "vue";
-import { cloneVNode } from "vue";
+import { cloneVNode, onBeforeMount, onMounted, ref } from "vue";
 import { useInsertStyles } from "./useInsertStyles";
 
 const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
@@ -88,42 +88,58 @@ export function styled<
       {
         ...finalPropTypes,
         sx: t.custom<SystemStyleObject>().optional(),
-        component: t.custom<VElementType>().optional(),
+        component: t.custom<VElementType>().optional()
       },
       (props, ctx) => {
         const theme = ThemeProvider.use();
         const cache = CacheProvider.use();
+        const insertCSS = useInsertStyles(cache);
 
         (presetSx as any).label = c.name;
 
-        const serialized = theme.unstable_css(cache, presetSx);
+        const sxClassName = ref("");
+
+        const presetSxSerialized = theme.unstable_css(cache, presetSx);
+
+        const className = () => presetSxSerialized.name != "0" ? `${cache.key}-${presetSxSerialized.name}${sxClassName.value}` : `${sxClassName.value}`;
+
+        if ((defaultComponent as any).__styled) {
+          const serialized = theme.unstable_css(cache, props.sx ?? {});
+
+          if (serialized.name != "0") {
+            sxClassName.value = ` ${cache.key}-${serialized.name}`;
+          }
+
+          onMounted(() => {
+            insertCSS({
+              serialized: presetSxSerialized,
+              isStringTag: true
+            });
+
+            insertCSS({
+              serialized,
+              isStringTag: true
+            });
+          });
+        } else {
+          onBeforeMount(() => {
+            insertCSS({
+              serialized: presetSxSerialized,
+              isStringTag: true
+            });
+          });
+        }
+
         const render = finalSetup(props as any, ctx as any);
-        const insertCSS = useInsertStyles(cache);
 
         return () => {
-          const className =
-            serialized.name != "0" ? `${cache.key}-${serialized.name}` : "";
-          const isStringTag = isString(
-            (props as any).component ?? defaultComponent
-          );
-
           if ((defaultComponent as any).__styled) {
-            const ret = render(defaultComponent as any);
+            const ret = render(defaultComponent);
 
             if (ret) {
               return cloneVNode(ret, {
                 component: (props as any).component,
-                sx: (props as any).sx,
-                class: className,
-                onVnodeMounted: () => {
-                  // to overwrite styles of styled component,
-                  // should mount component and insert first
-                  // then insert
-                  insertCSS({
-                    serialized: serialized,
-                    isStringTag: isStringTag,
-                  });
-                },
+                class: className()
               });
             }
 
@@ -134,15 +150,9 @@ export function styled<
 
           if (ret) {
             return cloneVNode(ret, {
-              component: (props as any).component ?? defaultComponent,
+              component: (props as any).component,
               sx: (props as any).sx,
-              class: className,
-              onVnodeBeforeMount: () => {
-                insertCSS({
-                  serialized: serialized,
-                  isStringTag: isStringTag,
-                });
-              },
+              class: className()
             });
           }
 

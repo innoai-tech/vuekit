@@ -132,6 +132,7 @@ export const Scaffold = component(
             <IconButton
               component={"a"}
               target={"_blank"}
+              sx={{ color: "sys.on-surface-variant" }}
               href={"//github.com/innoai-tech/vuekit"}
             >
               <Icon path={mdiGithub} />

@@ -4,12 +4,12 @@ import {
   type VElementType,
   type OverridableComponent
 } from "@innoai-tech/vuekit";
-import { cloneVNode, ref, watch } from "vue";
+import { watch, onMounted } from "vue";
 import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
-import { isString } from "@innoai-tech/lodash";
 import { useInsertStyles } from "./useInsertStyles";
+import { isEqual } from "@innoai-tech/lodash";
 
 export type SxProps = {
   sx: SystemStyleObject;
@@ -27,37 +27,35 @@ export const Box: OverridableComponent<{
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();
 
-    const serialized = ref(
-      props.sx ? theme.unstable_css(cache, props.sx) : undefined
-    );
-    watch(
-      () => props.sx,
-      () => {
-        serialized.value = props.sx
-          ? theme.unstable_css(cache, props.sx)
-          : undefined;
-      }
-    );
+    if ((process.env as any).NODE_ENV == "development") {
+      watch(
+        () => props.sx,
+        (current, prev) => {
+          if (!isEqual(prev, current)) {
+            console.error("props.sx must static object");
+          }
+        }
+      );
+    }
 
-    const cssName = () => {
-      const name = serialized.value?.name ?? "0";
-      return name != "0" ? `${cache.key}-${name}` : "";
+    const serialized = theme.unstable_css(cache, props.sx ?? {});
+
+    const className = () => {
+      return serialized.name != "0" ? `${cache.key}-${serialized.name}` : ``;
     };
 
     const insertStyle = useInsertStyles(cache);
 
-    return () => {
-      const Comp: any = props.component ?? "div";
-      const el = <Comp class={cssName()}>{slots}</Comp>;
-
-      return cloneVNode(el, {
-        onVnodeMounted: () => {
-          insertStyle({
-            serialized: serialized.value,
-            isStringTag: isString(Comp)
-          });
-        }
+    onMounted(() => {
+      insertStyle({
+        serialized: serialized,
+        isStringTag: true
       });
+    });
+
+    return () => {
+      const Component: any = props.component ?? "div";
+      return <Component class={className()}>{slots}</Component>;
     };
   }
 ) as any;
