@@ -4,12 +4,11 @@ import {
   type VElementType,
   type OverridableComponent
 } from "@innoai-tech/vuekit";
-import { watch, onMounted } from "vue";
+import { onMounted } from "vue";
 import { ThemeProvider } from "./ThemeProvider";
 import { type SystemStyleObject } from "./theming";
 import { CacheProvider } from "./CacheProvider";
 import { useInsertStyles } from "./useInsertStyles";
-import { isEqual } from "@innoai-tech/lodash";
 
 export type SxProps = {
   sx: SystemStyleObject;
@@ -26,17 +25,6 @@ export const Box: OverridableComponent<{
   (props, { slots }) => {
     const theme = ThemeProvider.use();
     const cache = CacheProvider.use();
-
-    if ((process.env as any).NODE_ENV == "development") {
-      watch(
-        () => props.sx,
-        (current, prev) => {
-          if (!isEqual(prev, current)) {
-            console.error("props.sx must static object");
-          }
-        }
-      );
-    }
 
     const serialized = theme.unstable_css(cache, props.sx ?? {});
 
