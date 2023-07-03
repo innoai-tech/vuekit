@@ -150,7 +150,7 @@ export function styled<
 
           if (ret) {
             return cloneVNode(ret, {
-              component: (props as any).component,
+              component: (props as any).component || defaultComponent,
               sx: (props as any).sx,
               class: className()
             });
