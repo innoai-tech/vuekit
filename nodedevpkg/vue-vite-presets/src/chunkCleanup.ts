@@ -22,6 +22,7 @@ export const chunkCleanup = (opt: {
 
   return {
     name: "monobundle/chunk-cleanup",
+    enforce: "post",
     apply: "build",
 
     config(c) {
