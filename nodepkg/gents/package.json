@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/gents",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "monobundle": {
     "build": {
       "clean": true

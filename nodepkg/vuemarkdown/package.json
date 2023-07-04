@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuemarkdown",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "monobundle": {
     "build": {
       "clean": true

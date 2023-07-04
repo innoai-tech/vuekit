@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "monobundle": {
     "pipeline": {
       "test": false
@@ -18,7 +18,8 @@
     "unist-util-visit": "^4.1.2",
     "vite": "^4.3.9",
     "vite-plugin-pages": "^0.31.0",
-    "vite-tsconfig-paths": "^4.2.0"
+    "vite-tsconfig-paths": "^4.2.0",
+    "@innoai-tech/purebundle": "^0.2.9"
   },
   "exports": {
     ".": {
