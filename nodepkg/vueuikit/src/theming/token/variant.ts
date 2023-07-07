@@ -1,7 +1,7 @@
 import { has, isFunction } from "@innoai-tech/lodash";
 
 export const alpha = (a: number) => {
-  return (cssVar: string): any => `rgba(var(${cssVar}-rgb) / ${a})`;
+  return (cssVar: string): any => `rgba(var(${cssVar}--rgb) / ${a})`;
 };
 
 export interface Variant<T> {
@@ -27,7 +27,7 @@ export function variant<T extends string>(
     },
     {
       toString: () => token,
-      token: token,
+      token: token
     }
   ) as any;
 }

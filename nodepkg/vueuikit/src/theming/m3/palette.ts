@@ -6,7 +6,7 @@ import {
 } from "@material/material-color-utilities";
 import {
   mapValues,
-  type Dictionary, padStart
+  type Dictionary, padStart, isNumber
 } from "@innoai-tech/lodash";
 import { DesignToken, type WithMixin } from "../token";
 
@@ -145,15 +145,15 @@ export class Palette<Colors extends SeedColors = SeedColors> {
 
     return new Palette<Colors>(
       {
-        ...mapValues(otherColors as Dictionary<string>, (v) =>
-          TonalPalette.fromInt(argbFromHex(v))
-        ) as any,
         primary: palette.a1,
         secondary: palette.a2,
         tertiary: palette.a3,
         neutral: palette.n1,
         neutralVariant: palette.n2,
-        error: palette.error
+        error: palette.error,
+        ...mapValues(otherColors as Dictionary<string>, (v) =>
+          TonalPalette.fromInt(argbFromHex(v))
+        ) as any
       }
     );
   };
@@ -217,60 +217,12 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       const [base, toneOnDark, toneOnLight] = (roleRules as any)[role]!;
 
       if ((this.seeds as any)[base]) {
-        darkThemeColors[role] = (this.seeds as any)[base]!.tone(toneOnDark);
-        themeColors[role] = (this.seeds as any)[base]!.tone(toneOnLight);
+        darkThemeColors[role] = (tones as any)[toneOnDark] ? `${base}.${toneOnDark}` : (this.seeds as any)[base]!.tone(toneOnDark);
+        themeColors[role] = (tones as any)[toneOnLight] ? `${base}.${toneOnLight}` : (this.seeds as any)[base]!.tone(toneOnLight);
       }
     }
 
-
     return [themeColors, darkThemeColors] as const;
-  }
-
-  toTokenObject(rules: Partial<RoleColorRules<Colors>> = {}) {
-    const toToken = (n: number) => {
-      return {
-        type: "color",
-        value: `rgb(${rgbFromArgb(n).join(",")})`
-      };
-    };
-
-    const colors: any = {
-      "seed": {} as any,
-      "palette": {} as any,
-      "sys": {
-        "dark": {},
-        "light": {}
-      } as any
-    };
-
-    for (const name in this.seeds) {
-      colors["seed"][name] = toToken(this.seeds[name]!.keyColor.toInt());
-
-      Object.keys(tones).forEach((tone) => {
-        colors["palette"][name] = {
-          ...(colors["palette"][name] || {}),
-          [tone]: toToken(this.seeds[name]!.tone(parseInt(tone)))
-        };
-      });
-    }
-
-    const roleColors = this.normalizeRoleRules(rules);
-
-    for (const role in roleColors) {
-      const [base, onDark, onLight] = (roleColors as any)[role];
-
-      colors["sys"]["dark"][role] = {
-        "value": `{palette.${base}.${onDark}}`,
-        "type": "color"
-      };
-
-      colors["sys"]["light"][role] = {
-        "value": `{palette.${base}.${onLight}}`,
-        "type": "color"
-      };
-    }
-
-    return colors;
   }
 
   toDesignTokens(rules: Partial<RoleColorRules<Colors>> = {}) {
@@ -282,8 +234,8 @@ export class Palette<Colors extends SeedColors = SeedColors> {
 
     for (let role in themeColors) {
       sysColors[`${role}`] = {
-        _default: rgbFromArgb((themeColors as any)[role]),
-        _dark: rgbFromArgb((dartThemeColors as any)[role])
+        _default: isNumber((themeColors as any)[role]) ? rgbFromArgb((themeColors as any)[role]) : (themeColors as any)[role],
+        _dark: isNumber((dartThemeColors as any)[role]) ? rgbFromArgb((dartThemeColors as any)[role]) : (dartThemeColors as any)[role]
       };
 
       if (isKeyColor(role)) {
@@ -335,6 +287,8 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       black: [0, 0, 0],
       sys: sysColors as unknown as ColorPalettes<Colors>
     });
+
+    console.log(color);
 
     const containerStyle = DesignToken.customMixin("containerStyle", {
       sys: containerStyles as ContainerStyles<

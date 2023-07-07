@@ -9,7 +9,6 @@ const seedColors = Palette.fromColors({
   secondary: "#8a90a5",
   tertiary: "#b58391",
   neutral: "#5e5e5e",
-
   error: "#d93f23",
   warning: "#e69c00",
   success: "#5ac220"

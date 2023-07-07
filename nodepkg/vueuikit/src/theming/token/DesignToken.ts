@@ -1,6 +1,7 @@
 import type { CSSAllProps, Globals } from "../csstype";
 import { CSSAllProperty, CSSProperty, expandAliases } from "../csstype";
 import type { UnionToIntersection, ValuesOf } from "../typeutil";
+import { isString } from "@innoai-tech/lodash";
 
 export type DesignTokenValues<T> = {
   [K: string]: T | DesignTokenValues<T>;
@@ -38,7 +39,7 @@ export type Primitive =
 export type MustDefined<T> = T extends Primitive ? T : never;
 
 export type DesignTokenTransform<I, O> = (
-  i: I
+  i: I, cssVar: (token: string) => string
 ) => O | { default: O; [V: string]: O };
 
 export interface DesignTokenOption<
@@ -116,7 +117,7 @@ export class DesignToken {
     };
   }
 
-  static color<T extends DesignTokenValues<[number, number, number]>>(
+  static color<T extends DesignTokenValues<[number, number, number] | string>>(
     values: T
   ) {
     return DesignToken.create(DesignTokenType.var, {
@@ -131,10 +132,15 @@ export class DesignToken {
         CSSAllProperty.fill,
         CSSAllProperty.stroke
       ),
-      transform: (rgb: [number, number, number]) => ({
-        default: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
-        rgb: `${rgb[0]} ${rgb[1]} ${rgb[2]}`
-      }),
+      transform: (rgb: [number, number, number] | string, cssVar: (token: string) => string) => {
+        return isString(rgb) ? ({
+          default: `var(${cssVar(rgb)})`,
+          rgb: `var(${cssVar(`${rgb}/rgb`)})`
+        }) : ({
+          default: `rgb(${rgb[0]}, ${rgb[1]}, ${rgb[2]})`,
+          rgb: `${rgb[0]} ${rgb[1]} ${rgb[2]}`
+        });
+      },
       fallback: "" as Color
     });
   }

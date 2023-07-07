@@ -1,5 +1,5 @@
 import { type CSSAllProps, type FullCSSObject } from "./csstype";
-import { isNumber, isUndefined, kebabCase, set } from "@innoai-tech/lodash";
+import { camelCase, isNumber, isObject, isString, isUndefined, kebabCase, mapValues, set } from "@innoai-tech/lodash";
 import {
   DesignToken,
   type DesignTokenOptionAny,
@@ -7,7 +7,7 @@ import {
   DesignTokenType,
   isVariant,
   Mixin,
-  TokenSet,
+  TokenSet
 } from "./token";
 import { serializeStyles } from "@emotion/serialize";
 import type { EmotionCache } from "@emotion/utils";
@@ -28,7 +28,7 @@ const toMap = (list: string[]): { [K: string]: true } =>
   list.reduce(
     (ret, v) => ({
       ...ret,
-      [v]: true,
+      [v]: true
     }),
     {}
   ) as any;
@@ -42,7 +42,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     ...DesignToken.fontSize({}).on,
     ...DesignToken.letterSpacing({}).on,
     ...DesignToken.lineHeight({}).on,
-    ...DesignToken.rounded({}).on,
+    ...DesignToken.rounded({}).on
   ]);
 
   static create<T extends Record<string, DesignTokenOptionAny>>(
@@ -84,7 +84,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
       if (dt.type == DesignTokenType.var) {
         const dtv = new TokenSet(dt, {
           cssVar: (token: string) => this.cssVar(scale, token),
-          transformFallback: (v) => this.transformFallback(dt.on[0], v),
+          transformFallback: (v) => this.transformFallback(dt.on[0], v)
         });
 
         this.tokens[scale] = dtv;
@@ -120,10 +120,9 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
   }
 
   private cssVar(scale: string, key: string) {
-    return `--${this.varPrefix}-${kebabCase(scale)}-${key.replaceAll(
-      /[./]/g,
-      "-"
-    )}`;
+    return `--${this.varPrefix}-${kebabCase(scale)}__${key
+      .replaceAll("/", "--")
+      .replaceAll(".", "__")}`;
   }
 
   get rootCSSVars(): DesignTokens<T> & CSSAllProps {
@@ -144,7 +143,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
             (token: string) =>
               this.tokens[prop as any]?.get(token, `_${this.mode}`),
             {
-              tokens: this.tokens[prop as any]?.tokens,
+              tokens: this.tokens[prop as any]?.tokens
             }
           );
         }
@@ -152,12 +151,12 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
           return Object.assign(
             (token: string) => this.mixins[prop as any]?.get(token),
             {
-              tokens: this.mixins[prop as any]?.tokens,
+              tokens: this.mixins[prop as any]?.tokens
             }
           );
         }
         return;
-      },
+      }
     }
   ) as any;
 
@@ -175,7 +174,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     return new CSSProcessor({
       mixins: this.mixins,
       varPrefix: this.varPrefix,
-      processValue: this.processValue,
+      processValue: this.processValue
     }).processAll(sx);
   };
 
@@ -191,5 +190,128 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
       serializeStyles(this.unstable_sx(sx), cache?.registered, {});
 
     return inputs.__emotion_styles;
+  }
+
+  toFigmaTokens() {
+    const seedTokens: any = {
+      space: {
+        dp: {
+          type: "sizing",
+          value: 1
+        }
+      }
+    };
+
+
+    const baseTokens: any = {};
+    const darkTokens: any = {};
+
+    const recordTo = (target: any, keyPath: string[], v: any) => {
+      let f = target;
+
+      for (let i = 0; i < keyPath.length; i++) {
+        if (i == keyPath.length - 1) {
+          f[keyPath[i]!] = v;
+          continue;
+        }
+
+        f[keyPath[i]!] = f[keyPath[i]!] ?? {};
+        f = f[keyPath[i]!];
+      }
+    };
+
+    const toFigmaToken = (type: string, value: any): {
+      type: string,
+      value: any
+    } => {
+      if (isObject(value)) {
+        return ({
+          type: type,
+          value: mapValues(value, (v) => {
+            return toFigmaToken(type, v).value;
+          })
+        });
+      }
+
+      if (isString(value)) {
+        value = value
+          .replace(/var\(([^)]+)\)/g, (v) => {
+            // var(--vk-space-dp)
+            const k = v.slice("var(".length, v.length - 1);
+            const parts = k.slice(`--${this.varPrefix}-`.length).split("--");
+
+            return `{${parts[0]!.split("__").map((p, i) => i == 0 ? camelCase(p) : p).join(".")}}`;
+          })
+          .replace(/calc\(.+\)$/g, (v) => v.slice("calc(".length, v.length - 1));
+      }
+
+      return ({
+        type: type,
+        value: value
+      });
+    };
+
+    for (const topic in this.tokens) {
+      const ts = this.tokens[topic];
+
+      const collect = (type: string) => ts.tokens.forEach((t) => {
+        if (t.includes("/")) {
+          return;
+        }
+
+        if (t.startsWith("sys.")) {
+          const defaultValue = ts.get(t, "_default");
+          const darkValue = ts.get(t, "_dark");
+
+          recordTo(baseTokens, [topic, ...t.split(".")], toFigmaToken(type, defaultValue));
+          if (defaultValue != darkValue) {
+            recordTo(darkTokens, [topic, ...t.split(".")], toFigmaToken(type, darkValue));
+          }
+        } else {
+          recordTo(seedTokens, [topic, ...t.split(".")], toFigmaToken(type, ts.get(t, "_default")));
+        }
+      });
+
+      switch (topic) {
+        case "color":
+          collect("color");
+          break;
+        case "rounded":
+          collect("borderRadius");
+          break;
+        case "shadow":
+          collect("boxShadow");
+          break;
+        case "font":
+          collect("fontFamily");
+          break;
+        case "fontWeight":
+          collect("fontWeight");
+          break;
+      }
+    }
+
+    for (const topic in this.mixins) {
+      const mixin = this.mixins[topic]!;
+
+      const collect = (type: string) => mixin.tokens.forEach((t) => {
+        const value = this.unstable_sx(mixin.get(t)!)[0];
+
+        recordTo(baseTokens, [topic, ...t.split(".")], toFigmaToken(type, value));
+      });
+
+      switch (topic) {
+        case "textStyle":
+          collect("typography");
+          break;
+
+      }
+    }
+
+    return {
+      "seed": seedTokens,
+      "base": baseTokens,
+      "dark": darkTokens
+    };
   }
 }

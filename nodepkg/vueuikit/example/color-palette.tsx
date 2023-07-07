@@ -126,11 +126,6 @@ export default component(() => {
           })}
         </Box>
         <Box sx={{ display: "flex", gap: 16, "& > *": { flex: 1 } }}>
-           <pre onClick={() => copyToClipboard(JSON.stringify(pp.toTokenObject(p.value.rules)))}>
-            <code>
-              {JSON.stringify(pp.toTokenObject(p.value.rules), null, 2)}
-            </code>
-          </pre>
           <pre onClick={() => copyToClipboard(JSON.stringify(p.value))}>
           <code>
             {JSON.stringify(p.value, null, 2)}

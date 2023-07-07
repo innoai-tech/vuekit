@@ -43,23 +43,26 @@ describe("theming", () => {
       }
     });
 
+
+    console.log(cs)
+
     expect(cs).toEqual([
       {
-        borderRadius: "calc(20 * var(--vk-space-dp))",
-        paddingBottom: "calc(2 * var(--vk-space-dp))",
-        paddingLeft: "calc(4 * var(--vk-space-dp))",
-        paddingRight: "calc(4 * var(--vk-space-dp))",
-        paddingTop: "calc(2 * var(--vk-space-dp))",
+        borderRadius: "calc(20 * var(--vk-space__dp))",
+        paddingBottom: "calc(2 * var(--vk-space__dp))",
+        paddingLeft: "calc(4 * var(--vk-space__dp))",
+        paddingRight: "calc(4 * var(--vk-space__dp))",
+        paddingTop: "calc(2 * var(--vk-space__dp))",
         width: "25%"
       },
       {
-        color: "var(--vk-color-sys-on-primary-container)",
-        fill: "var(--vk-color-sys-on-primary-container)",
+        color: "var(--vk-color__sys__on-primary-container)",
+        fill: "var(--vk-color__sys__on-primary-container)",
         "&::before": {
-          backgroundColor: "var(--vk-color-sys-primary-container)"
+          backgroundColor: "var(--vk-color__sys__primary-container)"
         },
         "&[data-error]:not([data-error='false'])": {
-          backgroundColor: "rgba(var(--vk-color-secondary-20-rgb) / 0.12)"
+          backgroundColor: "rgba(var(--vk-color__secondary__20--rgb) / 0.12)"
         }
       }
     ]);

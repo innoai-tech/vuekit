@@ -5,5 +5,5 @@ export const rounded = DesignToken.rounded({
   sm: 8,
   md: 12,
   lg: 16,
-  xl: 28,
+  xl: 28
 });

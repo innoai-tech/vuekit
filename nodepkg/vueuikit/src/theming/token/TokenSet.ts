@@ -33,7 +33,7 @@ export class TokenSet<T extends DesignTokenOptionAny, V = T["__ValueType"]> {
     dt: T,
     {
       cssVar,
-      transformFallback,
+      transformFallback
     }: {
       cssVar: (token: string) => string;
       transformFallback: (v: any) => any;
@@ -43,7 +43,7 @@ export class TokenSet<T extends DesignTokenOptionAny, V = T["__ValueType"]> {
       const token = p.join(".");
 
       const forEachTransformed = (v: any, each: (v: any, k: string) => any) => {
-        const ret = dt.transform ? dt.transform(v) : transformFallback(v);
+        const ret = dt.transform ? dt.transform(v, cssVar) : transformFallback(v);
 
         if (isObject(ret)) {
           for (const i in ret) {
