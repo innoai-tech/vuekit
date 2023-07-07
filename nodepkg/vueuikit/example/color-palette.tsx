@@ -1,9 +1,9 @@
 import { component } from "@innoai-tech/vuekit";
-import { Palette } from "@innoai-tech/nodepkg/vueuikit/src";
+import { Palette } from "@innoai-tech/vueuikit";
 import { map } from "@innoai-tech/lodash";
 import { ref } from "vue";
-import { Box } from "@innoai-tech/nodepkg/vueuikit";
-
+import { Box } from "@innoai-tech/vueuikit";
+import copyToClipboard from "copy-to-clipboard";
 
 export default component(() => {
   const seed = {
@@ -125,16 +125,18 @@ export default component(() => {
             );
           })}
         </Box>
-        <pre>
+        <Box sx={{ display: "flex", gap: 16, "& > *": { flex: 1 } }}>
+           <pre onClick={() => copyToClipboard(JSON.stringify(pp.toTokenObject(p.value.rules)))}>
             <code>
               {JSON.stringify(pp.toTokenObject(p.value.rules), null, 2)}
             </code>
           </pre>
-        <pre>
+          <pre onClick={() => copyToClipboard(JSON.stringify(p.value))}>
           <code>
             {JSON.stringify(p.value, null, 2)}
           </code>
         </pre>
+        </Box>
       </Box>
     );
   };
