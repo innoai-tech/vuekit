@@ -40,13 +40,13 @@ export const Container = styled("div")({
       color: variant("sys.on-surface", alpha(0.38))
     },
     "& .string": {
-      color: "sys.green"
+      color: "sys.success"
     },
     "& .tag .attr-name": {
-      color: "sys.green"
+      color: "sys.success"
     },
     "& .function": {
-      color: "sys.blue"
+      color: "sys.warning"
     },
     "& .punctuation": {
       color: variant("sys.on-surface", alpha(0.38))

@@ -4,24 +4,25 @@ import { Palette } from "./palette";
 import { motion } from "./motion";
 import { rounded } from "./shape";
 
-export const defaultTheme = {
-  ...Palette.fromColors({
-    primary: "#6750A4",
-    secondary: "#625B71",
-    tertiary: "#7D5260",
-    error: "#B3261E",
-    // neutral: "#ff00ff",
+const seedColors = Palette.fromColors({
+  primary: "#1270f5",
+  secondary: "#8a90a5",
+  tertiary: "#b58391",
+  neutral: "#5e5e5e",
 
-    pink: "#ff00ff",
-    green: "#4caf50",
-    yellow: "#ffcd38",
-    orange: "#ff9800",
-    blue: "#03a9f4"
-  }).toDesignTokens(),
+  error: "#d93f23",
+  warning: "#e69c00",
+  success: "#5ac220"
+});
+
+export const defaultTheme = {
   ...typography,
   ...motion,
   ...elevation,
-  rounded: rounded
+  rounded: rounded,
+  ...seedColors.toDesignTokens({
+    "primary": ["primary", 80, 50]
+  })
 } as const;
 
 export * from "./palette";
