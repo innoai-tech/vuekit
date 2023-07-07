@@ -708,7 +708,7 @@ let tO = (e10) => e10.reduce((e11, t10) => ({ ...e11, [t10]: true }), {}), tD = 
     }, n3 = (e11, t11) => M(t11) ? { type: e11, value: $(t11, (t12) => n3(e11, t12).value) } : (v(t11) && (t11 = t11.replace(/var\(([^)]+)\)/g, (e12) => {
       let t12 = e12.slice(4, e12.length - 1), r11 = t12.slice(`--${this.varPrefix}-`.length).split("--");
       return `{${r11[0].split("__").map((e13, t13) => 0 == t13 ? A(e13) : e13).join(".")}}`;
-    })), { type: e11, value: t11 });
+    }).replace(/calc\(.+\)$/g, (e12) => e12.slice(5, e12.length - 1))), { type: e11, value: t11 });
     for (let a2 in this.tokens) {
       let o2 = this.tokens[a2], i2 = (i3) => o2.tokens.forEach((s2) => {
         if (s2.includes("/"))
@@ -724,7 +724,7 @@ let tO = (e10) => e10.reduce((e11, t10) => ({ ...e11, [t10]: true }), {}), tD = 
           i2("borderRadius");
           break;
         case "shadow":
-          i2("shadow");
+          i2("boxShadow");
           break;
         case "font":
           i2("fontFamily");
