@@ -18,7 +18,7 @@ export interface ThemingOptions {
   varPrefix: string;
 }
 
-interface TokenGetter<Token extends string, Value> {
+export interface TokenGetter<Token extends string, Value> {
   (token: Token): Value;
 
   tokens: string[];

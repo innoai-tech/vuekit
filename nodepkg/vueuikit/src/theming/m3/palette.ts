@@ -288,8 +288,6 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       sys: sysColors as unknown as ColorPalettes<Colors>
     });
 
-    console.log(color);
-
     const containerStyle = DesignToken.customMixin("containerStyle", {
       sys: containerStyles as ContainerStyles<
         Omit<Colors, "neutral" | "neutralVariant">

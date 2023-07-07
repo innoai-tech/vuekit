@@ -1,4 +1,4 @@
-import { GlobalStyle, CSSReset, Box } from "@innoai-tech/vueuikit";
+import { GlobalStyle, CSSReset, Box, ThemeProvider, Palette, Theming, defaultTheme } from "@innoai-tech/vueuikit";
 import { Tooltip } from "@innoai-tech/vuematerial";
 import {
   component,
@@ -11,7 +11,7 @@ import { groupBy, map, partition, last } from "@innoai-tech/lodash";
 
 // @ts-ignore
 import normalizeCss from "normalize.css/normalize.css?raw";
-import { ref, type VNodeChild } from "vue";
+import { ref, type VNodeChild, watch } from "vue";
 import {
   Icon,
   TextButton,
@@ -20,7 +20,8 @@ import {
   mdiWhiteBalanceSunny,
   mdiWeatherNight
 } from "@innoai-tech/vuematerial";
-import { Container } from "@innoai-tech/webapp/vuekit/layout";
+import { Container, DynamicThemingProvider } from "@innoai-tech/webapp/vuekit/layout";
+import { CacheProvider } from "@innoai-tech/nodepkg/vueuikit/src/CacheProvider";
 
 export const Nav = component(() => {
   const r = useRouter();
@@ -171,15 +172,37 @@ export const Scaffold = component(
 );
 
 export const App = component(() => {
+  const x = DynamicThemingProvider.use();
+  const cache = CacheProvider.use();
+
+  watch([
+    () => x.value.seed,
+    () => x.value.rules
+  ], ([seed, rules]) => {
+    x.next((x) => {
+      x.theming = Theming.create({
+        ...defaultTheme,
+        ...Palette.fromColors(seed).toDesignTokens(rules)
+      }, { varPrefix: "vk" });
+    });
+  });
+
   return () => {
+    const theming = x.value.theming;
+
+    // to set hash
+    const v = theming.unstable_css(cache, { ":root": theming.rootCSSVars });
+
     return (
-      <>
-        <CSSReset />
-        <GlobalStyle styles={normalizeCss} />
-        <Scaffold>
-          <RouterView />
-        </Scaffold>
-      </>
+      <DynamicThemingProvider value={x}>
+        <ThemeProvider value={theming} key={v.name}>
+          <CSSReset />
+          <GlobalStyle styles={normalizeCss} />
+          <Scaffold>
+            <RouterView />
+          </Scaffold>
+        </ThemeProvider>
+      </DynamicThemingProvider>
     );
   };
 });

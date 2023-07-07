@@ -7,27 +7,29 @@ export const CSSReset = component(() => {
 
   const rootVars = theme.rootCSSVars;
 
-  return () => (
-    <GlobalStyle
-      styles={{
-        ":host, :root, [data-theme]": rootVars,
+  return () => {
+    return (
+      <GlobalStyle
+        styles={{
+          ":host, :root, [data-theme]": rootVars,
 
-        "*, *::after, *::before": {
-          boxSizing: "border-box",
-        },
+          "*, *::after, *::before": {
+            boxSizing: "border-box"
+          },
 
-        html: {
-          fontSize: "10px",
-        },
+          html: {
+            fontSize: "10px"
+          },
 
-        a: {
-          color: "inherit",
-        },
+          a: {
+            color: "inherit"
+          },
 
-        body: {
-          textStyle: "sys.body-medium",
-        },
-      }}
-    />
-  );
+          body: {
+            textStyle: "sys.body-medium"
+          }
+        }}
+      />
+    );
+  };
 });
