@@ -695,52 +695,55 @@ let tO = (e10) => e10.reduce((e11, t10) => ({ ...e11, [t10]: true }), {}), tD = 
     return n3.__emotion_styles = null !== (r10 = n3.__emotion_styles) && void 0 !== r10 ? r10 : t_(this.unstable_sx(t10), null == e10 ? void 0 : e10.registered, {}), n3.__emotion_styles;
   }
   toFigmaTokens() {
-    let e10 = { space: { dp: { type: "sizing", value: 1 } } }, t10 = {}, r10 = (e11, t11, r11) => {
+    let e10 = { space: { dp: { type: "sizing", value: 1 } } }, t10 = {}, r10 = {}, n3 = (e11, t11, r11) => {
       let n6 = e11;
       for (let e12 = 0; e12 < t11.length; e12++) {
-        var a2;
+        var a3;
         if (e12 == t11.length - 1) {
           n6[t11[e12]] = r11;
           continue;
         }
-        n6[t11[e12]] = null !== (a2 = n6[t11[e12]]) && void 0 !== a2 ? a2 : {}, n6 = n6[t11[e12]];
+        n6[t11[e12]] = null !== (a3 = n6[t11[e12]]) && void 0 !== a3 ? a3 : {}, n6 = n6[t11[e12]];
       }
-    }, n3 = (e11, t11) => M(t11) ? { type: e11, value: $(t11, (t12) => n3(e11, t12).value) } : (v(t11) && (t11 = t11.replace(/var\(([^)]+)\)/g, (e12) => {
+    }, a2 = (e11, t11) => M(t11) ? { type: e11, value: $(t11, (t12) => a2(e11, t12).value) } : (v(t11) && (t11 = t11.replace(/var\(([^)]+)\)/g, (e12) => {
       let t12 = e12.slice(4, e12.length - 1), r11 = t12.slice(`--${this.varPrefix}-`.length).split("--");
       return `{${r11[0].split("__").map((e13, t13) => 0 == t13 ? A(e13) : e13).join(".")}}`;
     }).replace(/calc\(.+\)$/g, (e12) => e12.slice(5, e12.length - 1))), { type: e11, value: t11 });
-    for (let a2 in this.tokens) {
-      let o2 = this.tokens[a2], i2 = (i3) => o2.tokens.forEach((s2) => {
-        if (s2.includes("/"))
-          return;
-        let l2 = o2.get(s2, "_default"), c2 = o2.get(s2, "_dark");
-        r10(e10, [a2, ...s2.split(".")], n3(i3, l2)), l2 != c2 && r10(t10, [a2, ...s2.split(".")], n3(i3, c2));
+    for (let o2 in this.tokens) {
+      let i2 = this.tokens[o2], s2 = (s3) => i2.tokens.forEach((l2) => {
+        if (!l2.includes("/")) {
+          if (l2.startsWith("sys.")) {
+            let e11 = i2.get(l2, "_default"), c2 = i2.get(l2, "_dark");
+            n3(t10, [o2, ...l2.split(".")], a2(s3, e11)), e11 != c2 && n3(r10, [o2, ...l2.split(".")], a2(s3, c2));
+          } else
+            n3(e10, [o2, ...l2.split(".")], a2(s3, i2.get(l2, "_default")));
+        }
       });
-      switch (a2) {
+      switch (o2) {
         case "color":
-          i2("color");
+          s2("color");
           break;
         case "rounded":
-          i2("borderRadius");
+          s2("borderRadius");
           break;
         case "shadow":
-          i2("boxShadow");
+          s2("boxShadow");
           break;
         case "font":
-          i2("fontFamily");
+          s2("fontFamily");
           break;
         case "fontWeight":
-          i2("fontWeight");
+          s2("fontWeight");
       }
     }
-    for (let t11 in this.mixins) {
-      let a2 = this.mixins[t11], o2 = (o3) => a2.tokens.forEach((i2) => {
-        let s2 = this.unstable_sx(a2.get(i2))[0];
-        r10(e10, [t11, ...i2.split(".")], n3(o3, s2));
+    for (let e11 in this.mixins) {
+      let r11 = this.mixins[e11], o2 = (o3) => r11.tokens.forEach((i2) => {
+        let s2 = this.unstable_sx(r11.get(i2))[0];
+        n3(t10, [e11, ...i2.split(".")], a2(o3, s2));
       });
-      "textStyle" === t11 && o2("typography");
+      "textStyle" === e11 && o2("typography");
     }
-    return { core: e10, dark: t10 };
+    return { seed: e10, base: t10, dark: r10 };
   }
   constructor(e10, t10 = {}) {
     var r10, n3;
