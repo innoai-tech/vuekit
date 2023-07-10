@@ -3,7 +3,7 @@ import { isMap } from "./util";
 import type { DesignTokenOption } from "./DesignToken";
 
 export class Mixin {
-  static walkValues = (
+  static walkValue = (
     o: any,
     cb: (v: any, path: any[]) => void,
     parent: any[] = []
@@ -15,7 +15,7 @@ export class Mixin {
           cb(v, [...parent, k]);
           continue;
         }
-        Mixin.walkValues(v, cb, [...parent, k]);
+        Mixin.walkValue(v, cb, [...parent, k]);
         continue;
       }
       cb(v, [...parent, k]);
@@ -25,7 +25,7 @@ export class Mixin {
   private _values: Record<string, {}> = {};
 
   constructor(dt: DesignTokenOption<any, any, any, any>) {
-    Mixin.walkValues(dt.values, (v, p) => {
+    Mixin.walkValue(dt.value, (v, p) => {
       const token = p.join(".");
       set(this._values, [token], omit(v, "__mixin"));
     });

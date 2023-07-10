@@ -12,7 +12,7 @@ describe("theming", () => {
       $dataRole__heading: "& [data-role='heading']",
 
       $data_popper_arrow: "& [data-popper-arrow]",
-
+      
       data_popper_placement__right$: "[data-popper-placement='right'] &"
     };
 

@@ -25,8 +25,8 @@ export type FlattenTokenNames<
   : never;
 
 export enum DesignTokenType {
-  var,
-  mixin,
+  var = "var",
+  mixin = "mixin",
 }
 
 export type Primitive =
@@ -50,7 +50,7 @@ export interface DesignTokenOption<
   Fallback = unknown
 > {
   type: DesignTokenType;
-  values: Tokens;
+  value: Tokens;
   on: Array<CSSPropNames>;
   transform?: DesignTokenTransform<InputValueType, ValueType>;
 
@@ -89,11 +89,11 @@ export class DesignToken {
   >(
     type: DesignTokenType,
     {
-      values,
+      value,
       on,
       transform
     }: {
-      values: Tokens;
+      value: Tokens;
       on: Array<CSSPropNames>;
       transform?: DesignTokenTransform<InputValueType, ValueType>;
       fallback?: Fallback;
@@ -107,7 +107,7 @@ export class DesignToken {
   > {
     return {
       type,
-      values,
+      value,
       on: on,
       transform: transform,
 
@@ -118,10 +118,10 @@ export class DesignToken {
   }
 
   static color<T extends DesignTokenValues<[number, number, number] | string>>(
-    values: T
+    value: T
   ) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(
         CSSAllProperty.color,
         CSSAllProperty.bgColor,
@@ -145,9 +145,9 @@ export class DesignToken {
     });
   }
 
-  static space<T extends DesignTokenValues<number>>(values: T) {
+  static space<T extends DesignTokenValues<number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(
         CSSAllProperty.gap,
         CSSAllProperty.rowGap,
@@ -181,9 +181,9 @@ export class DesignToken {
     });
   }
 
-  static boxSize<T extends DesignTokenValues<number>>(values: T) {
+  static boxSize<T extends DesignTokenValues<number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(
         CSSAllProperty.w,
         CSSAllProperty.minW,
@@ -197,25 +197,25 @@ export class DesignToken {
     });
   }
 
-  static fontSize<T extends DesignTokenValues<number>>(values: T) {
+  static fontSize<T extends DesignTokenValues<number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.fontSize),
       fallback: 0 as number
     });
   }
 
-  static lineHeight<T extends DesignTokenValues<number>>(values: T) {
+  static lineHeight<T extends DesignTokenValues<number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.lineHeight),
       fallback: 0 as number
     });
   }
 
-  static rounded<T extends DesignTokenValues<number>>(values: T) {
+  static rounded<T extends DesignTokenValues<number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       fallback: 0,
       on: expandAliases(
         CSSAllProperty.rounded,
@@ -237,48 +237,48 @@ export class DesignToken {
   }
 
   static transitionTimingFunction<T extends DesignTokenValues<string>>(
-    values: T
+    value: T
   ) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.transitionTimingFunction)
     });
   }
 
-  static transitionDuration<T extends DesignTokenValues<number>>(values: T) {
+  static transitionDuration<T extends DesignTokenValues<number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.transitionDuration),
       transform: (v) => `${v}ms`
     });
   }
 
-  static font<T extends DesignTokenValues<string>>(values: T) {
+  static font<T extends DesignTokenValues<string>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.font)
     });
   }
 
-  static fontWeight<T extends DesignTokenValues<string | number>>(values: T) {
+  static fontWeight<T extends DesignTokenValues<string | number>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.fontWeight)
     });
   }
 
   static letterSpacing<T extends DesignTokenValues<string | number>>(
-    values: T
+    value: T
   ) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.letterSpacing)
     });
   }
 
-  static shadow<T extends DesignTokenValues<string>>(values: T) {
+  static shadow<T extends DesignTokenValues<string>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
-      values,
+      value,
       on: expandAliases(CSSAllProperty.shadow)
     });
   }
@@ -286,9 +286,9 @@ export class DesignToken {
   static customMixin<
     CustomProp extends string,
     T extends DesignTokenValues<WithMixin<CSSAllProps>>
-  >(customProp: CustomProp, values: T) {
+  >(customProp: CustomProp, value: T) {
     return DesignToken.create(DesignTokenType.mixin, {
-      values: values,
+      value: value,
       on: [customProp]
     });
   }

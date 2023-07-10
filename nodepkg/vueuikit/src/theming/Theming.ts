@@ -1,9 +1,10 @@
 import { type CSSAllProps, type FullCSSObject } from "./csstype";
 import { camelCase, isNumber, isObject, isString, isUndefined, kebabCase, mapValues, set } from "@innoai-tech/lodash";
 import {
-  DesignToken,
+  type FigmaTokenValues,
   type DesignTokenOptionAny,
   type DesignTokens,
+  DesignToken,
   DesignTokenType,
   isVariant,
   Mixin,
@@ -72,7 +73,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     return v;
   };
 
-  constructor(theme: T, options: Partial<ThemingOptions> = {}) {
+  constructor(public readonly theme: T, options: Partial<ThemingOptions> = {}) {
     this.varPrefix = options.varPrefix ?? "vk";
     this.mode = options.mode ?? "light";
 
@@ -193,7 +194,7 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
   }
 
   toFigmaTokens() {
-    const seedTokens: any = {
+    const seedTokens: FigmaTokenValues = {
       space: {
         dp: {
           type: "sizing",
@@ -202,9 +203,8 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
       }
     };
 
-
-    const baseTokens: any = {};
-    const darkTokens: any = {};
+    const baseTokens: FigmaTokenValues = {};
+    const darkTokens: FigmaTokenValues = {};
 
     const recordTo = (target: any, keyPath: string[], v: any) => {
       let f = target;
@@ -304,7 +304,6 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
         case "textStyle":
           collect("typography");
           break;
-
       }
     }
 
@@ -315,3 +314,4 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     };
   }
 }
+

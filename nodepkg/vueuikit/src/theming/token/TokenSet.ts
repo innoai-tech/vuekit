@@ -39,7 +39,7 @@ export class TokenSet<T extends DesignTokenOptionAny, V = T["__ValueType"]> {
       transformFallback: (v: any) => any;
     }
   ) {
-    TokenSet.walkValues(dt.values, (v, p) => {
+    TokenSet.walkValues(dt.value, (v, p) => {
       const token = p.join(".");
 
       const forEachTransformed = (v: any, each: (v: any, k: string) => any) => {

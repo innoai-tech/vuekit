@@ -17,7 +17,7 @@ export const uploadBlob = /*#__PURE__*/ createRequest<
       "Content-Type": header_contentType,
     },
     body: body,
-  })
+  }),
 );
 
 export const statBlob = /*#__PURE__*/ createRequest<
@@ -174,7 +174,7 @@ export enum KubepkgV1Alpha1DigestMetaType {
 }
 
 export const displayKubepkgV1Alpha1DigestMetaType = (
-  v: KubepkgV1Alpha1DigestMetaType
+  v: KubepkgV1Alpha1DigestMetaType,
 ) => {
   return (
     {
@@ -196,16 +196,16 @@ export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/ t
       spec: t
         .ref(
           "KubepkgV1Alpha1KubePkgSpec",
-          () => KubepkgV1Alpha1KubePkgSpecSchema
+          () => KubepkgV1Alpha1KubePkgSpecSchema,
         )
         .optional(),
       status: t
         .ref(
           "KubepkgV1Alpha1KubePkgStatus",
-          () => KubepkgV1Alpha1KubePkgStatusSchema
+          () => KubepkgV1Alpha1KubePkgStatusSchema,
         )
         .optional(),
-    })
+    }),
   )
   .annotate({ description: "KubePkg" });
 
@@ -226,7 +226,7 @@ export const MetaV1ObjectMetaSchema = /*#__PURE__*/ t.object({
   labels: t.record(t.string(), t.string()).optional(),
   managedFields: t
     .array(
-      t.ref("MetaV1ManagedFieldsEntry", () => MetaV1ManagedFieldsEntrySchema)
+      t.ref("MetaV1ManagedFieldsEntry", () => MetaV1ManagedFieldsEntrySchema),
     )
     .optional(),
   name: t.string().optional(),
@@ -249,7 +249,7 @@ export const MetaV1ManagedFieldsEntrySchema = /*#__PURE__*/ t.object({
   operation: t
     .ref(
       "MetaV1ManagedFieldsOperationType",
-      () => MetaV1ManagedFieldsOperationTypeSchema
+      () => MetaV1ManagedFieldsOperationTypeSchema,
     )
     .optional(),
   subresource: t.string().optional(),
@@ -281,13 +281,13 @@ export const KubepkgV1Alpha1KubePkgSpecSchema = /*#__PURE__*/ t.object({
 
 export const KubepkgV1Alpha1ManifestsSchema = /*#__PURE__*/ t.record(
   t.string(),
-  t.any()
+  t.any(),
 );
 
 export const KubepkgV1Alpha1KubePkgStatusSchema = /*#__PURE__*/ t.object({
   digests: t
     .array(
-      t.ref("KubepkgV1Alpha1DigestMeta", () => KubepkgV1Alpha1DigestMetaSchema)
+      t.ref("KubepkgV1Alpha1DigestMeta", () => KubepkgV1Alpha1DigestMetaSchema),
     )
     .optional(),
   statuses: t
@@ -303,17 +303,17 @@ export const KubepkgV1Alpha1DigestMetaSchema = /*#__PURE__*/ t.object({
   tag: t.string().optional(),
   type: t.ref(
     "KubepkgV1Alpha1DigestMetaType",
-    () => KubepkgV1Alpha1DigestMetaTypeSchema
+    () => KubepkgV1Alpha1DigestMetaTypeSchema,
   ),
 });
 
 export const KubepkgV1Alpha1FileSizeSchema = /*#__PURE__*/ t.integer();
 
 export const KubepkgV1Alpha1DigestMetaTypeSchema = /*#__PURE__*/ t.nativeEnum(
-  KubepkgV1Alpha1DigestMetaType
+  KubepkgV1Alpha1DigestMetaType,
 );
 
 export const KubepkgV1Alpha1StatusesSchema = /*#__PURE__*/ t.record(
   t.string(),
-  t.any()
+  t.any(),
 );
