@@ -43,6 +43,7 @@ export const app = (
         c.build.emptyOutDir = true;
 
         c.build.rollupOptions = c.build.rollupOptions ?? {};
+        c.build.rollupOptions.external = c.build.rollupOptions.external ?? ["csstype"];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
 
@@ -55,6 +56,7 @@ export const app = (
 
         c.resolve = c.resolve ?? {};
         c.resolve.alias = c.resolve.alias ?? ({} as Record<string, string>);
+
       },
 
       transformIndexHtml(html: string) {
