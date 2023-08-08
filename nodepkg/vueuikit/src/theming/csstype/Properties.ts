@@ -1,4 +1,4 @@
-import { type Properties } from "csstype";
+import { type Properties } from "@innoai-tech/csstype";
 import type { ValuesOf } from "../typeutil";
 
 export type CSSProps<Fallback = string | number> = {

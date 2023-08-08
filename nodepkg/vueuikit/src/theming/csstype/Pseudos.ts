@@ -1,4 +1,4 @@
-import { type SimplePseudos } from "csstype";
+import { type SimplePseudos } from "@innoai-tech/csstype";
 
 export const pseudoSelectors = {
   _rtl: "[dir=rtl] &, &[dir=rtl]",

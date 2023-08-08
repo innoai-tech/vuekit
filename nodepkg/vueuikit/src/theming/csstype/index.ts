@@ -1,7 +1,7 @@
 export * from "./Properties";
 export * from "./Pseudos";
 
-export type { Globals } from "csstype";
+export type { Globals } from "@innoai-tech/csstype";
 import type { PseudoClassAliases, PseudoElementAliases, Pseudos } from "./Pseudos";
 import type { CSSAllProps } from "./Properties";
 
