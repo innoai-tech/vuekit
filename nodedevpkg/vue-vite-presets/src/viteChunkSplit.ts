@@ -259,8 +259,11 @@ const markPkgRelegation = (
 
   for (const targetPkg in moduleFederations) {
     let federation = targetPkg;
+    const visited: Record<string, boolean> = { }
 
-    while (!directs[federation]) {
+    while (!visited[federation] && !directs[federation]) {
+      visited[federation] = true
+
       const pkgRelation = moduleFederations[federation]!;
 
       if (pkgRelation) {
