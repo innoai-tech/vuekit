@@ -30,7 +30,7 @@ bootstrap:
 dep:
 	pnpm install && pnpm dedupe
 
-update:
+dep.u:
 	pnpm up -r --latest
 
 clean:

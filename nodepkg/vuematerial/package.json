@@ -10,10 +10,9 @@
     "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
-    "@mdi/js": "^7.2.96",
+    "@mdi/js": "^7.3.67",
     "vue": "^3.3.4"
   },
-  "peerDependencies": {},
   "exports": {
     ".": {
       "import": {
@@ -42,5 +41,6 @@
     "test": "vitest --run --passWithNoTests --dir .",
     "prepublishOnly": "pnpm run build"
   },
-  "type": "module"
+  "type": "module",
+  "peerDependencies": {}
 }

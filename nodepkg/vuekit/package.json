@@ -12,10 +12,10 @@
     "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/typedef": "workspace:^",
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
-    "immer": "^10.0.2",
+    "immer": "^10.0.3",
     "rxjs": "^7.8.1",
     "vue": "^3.3.4",
-    "vue-router": "^4.2.4"
+    "vue-router": "^4.2.5"
   },
   "exports": {
     ".": {
