@@ -1,0 +1,9 @@
+import { c as e, j as i, F as o } from "./lib-nodepkg-vuekit.07a3eb77.chunk.js";
+import { e as l, B as r } from "./lib-nodepkg-vueuikit.0cd81685.chunk.js";
+let t = /* @__PURE__ */ e(() => {
+  let e2 = /* @__PURE__ */ l.use();
+  return () => /* @__PURE__ */ i(o, { children: /* @__PURE__ */ i(r, { sx: { height: "40vh", display: "flex", flexDirection: "column", flexWrap: "wrap", justifyContent: "space-between", gap: 8 }, children: /* @__PURE__ */ e2.token.textStyle.tokens.map((e3) => /* @__PURE__ */ i(r, { sx: { flex: 1, rounded: "md", textStyle: e3, p: 16, border: "2px solid", borderColor: "sys.outline-variant", bgColor: "sys.surface-container", color: "sys.primary", minW: "10vw", whiteSpace: "nowrap", display: "flex", flexDirection: "column", justifyContent: "space-between" }, children: [/* @__PURE__ */ i(r, { sx: { textStyle: "sys.label-small" }, children: e3 }, void 0, false, { fileName: "/home/runner/work/vuekit/vuekit/nodepkg/vueuikit/example/typography.tsx", lineNumber: 39, columnNumber: 13 }, globalThis), /* @__PURE__ */ i(r, { sx: { flex: 1 } }, void 0, false, { fileName: "/home/runner/work/vuekit/vuekit/nodepkg/vueuikit/example/typography.tsx", lineNumber: 46, columnNumber: 13 }, globalThis), /* @__PURE__ */ i(r, { sx: { py: 16 }, children: "中文测试" }, void 0, false, { fileName: "/home/runner/work/vuekit/vuekit/nodepkg/vueuikit/example/typography.tsx", lineNumber: 47, columnNumber: 13 }, globalThis)] }, e3, true, { fileName: "/home/runner/work/vuekit/vuekit/nodepkg/vueuikit/example/typography.tsx", lineNumber: 20, columnNumber: 11 }, globalThis)) }, void 0, false, { fileName: "/home/runner/work/vuekit/vuekit/nodepkg/vueuikit/example/typography.tsx", lineNumber: 9, columnNumber: 7 }, globalThis) }, void 0);
+}), u = /* @__PURE__ */ Object.assign(t, { displayName: "TypographyDefault" });
+export {
+  u as default
+};
