@@ -1,11 +1,14 @@
-NPX = pnpm exec
-TURBO = $(NPX) turbo
-VITE = $(NPX) vite
+BUN = bun
+BUNX = bunx --bun
+TURBO = $(BUNX) turbo
+VITE = $(BUNX) vite
 
 dev:
 	$(VITE)
 
-build: build.pkg.force
+build: build.pkg.force build.app
+
+build.app:
 	$(VITE) build --mode production
 	cp ./public/vuekit/index.html  ./public/vuekit/404.html
 
@@ -21,20 +24,23 @@ build.pkg.force:
 lint:
 	$(TURBO) run lint --force --no-cache
 
-test: build.pkg.force
-	$(TURBO) run test --force
-
 bootstrap:
-	$(NPX) monobundle
+	$(BUNX) monobundle
+
+test:
+	$(BUN) test
+
+ci: bootstrap test build
 
 dep:
-	pnpm install && pnpm dedupe
+	$(BUN) install
 
-dep.u:
-	pnpm up -r --latest
+dep.update:
+	$(BUN) update --save --latest
 
 clean:
 	find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
+	find . -name '.turbo' -type d -prune -print -exec rm -rf '{}' \;
 
 pub:
-	pnpm -r publish --no-git-checks
+	$(BUNX) bunpublish

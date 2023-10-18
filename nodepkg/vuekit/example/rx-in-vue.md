@@ -8,7 +8,7 @@ import {
   observableRef,
   subscribeUntilUnmount,
   t,
-  render
+  render,
 } from "@innoai-tech/vuekit";
 import { ref } from "vue";
 import { debounceTime, subscribeOn } from "rxjs";
@@ -16,7 +16,7 @@ import { debounceTime, subscribeOn } from "rxjs";
 export const TextDebounceInput = component$(
   {
     value: t.string().optional().default("1"),
-    onValueChange: t.custom<(v: string) => void>()
+    onValueChange: t.custom<(v: string) => void>(),
   },
   (props, { emit }) => {
     const value$ = observableRef(props.value ?? "");
@@ -24,7 +24,7 @@ export const TextDebounceInput = component$(
     rx(
       value$,
       debounceTime(300),
-      subscribeUntilUnmount((v) => emit("value-change", v))
+      subscribeUntilUnmount((v) => emit("value-change", v)),
     );
 
     return rx(
@@ -36,9 +36,9 @@ export const TextDebounceInput = component$(
             value$.value = (e.target as HTMLInputElement).value;
           }}
         />
-      ))
+      )),
     );
-  }
+  },
 );
 
 export default component(() => {

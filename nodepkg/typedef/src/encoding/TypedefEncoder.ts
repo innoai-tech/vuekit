@@ -31,8 +31,8 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
     return `${this._encodeCode(type, declName)}${
       type.meta["description"]
         ? `.annotate({ description: ${JSON.stringify(
-          type.meta["description"]
-        )} })`
+            type.meta["description"],
+          )} })`
         : ""
     }`;
   }
@@ -71,7 +71,7 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
       case "union": {
         const discriminatorPropertyName = get(type.schema, [
           "discriminator",
-          "propertyName"
+          "propertyName",
         ]);
 
         if (discriminatorPropertyName) {
@@ -82,7 +82,7 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
 
             const props = omit(
               sub.schema.properties,
-              discriminatorPropertyName
+              discriminatorPropertyName,
             );
 
             if (e) {
@@ -96,8 +96,8 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
 
           return `t.discriminatorMapping("${discriminatorPropertyName}", {
 ${Object.keys(mapping)
-            .map((k) => `${JSON.stringify(k)}: ${mapping[k]}`)
-            .join(",\n")}
+  .map((k) => `${JSON.stringify(k)}: ${mapping[k]}`)
+  .join(",\n")}
           })`;
         }
 
@@ -118,7 +118,7 @@ ${Object.keys(mapping)
 
       case "record": {
         return `t.record(${this._encode(
-          type.schema.propertyNames
+          type.schema.propertyNames,
         )}, ${this._encode(type.schema.additionalProperties)})`;
       }
 

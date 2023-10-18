@@ -4,12 +4,12 @@ import { isFunction } from "@innoai-tech/lodash";
 
 export const toObservable = <O extends {}, K extends keyof O>(
   obj: O,
-  key: K
+  key: K,
 ): Observable<O[K]> => {
   const value$ = new BehaviorSubject(obj[key]);
   watch(
     () => obj[key],
-    (v) => value$.next(v)
+    (v) => value$.next(v),
   );
   return value$;
 };

@@ -39,7 +39,7 @@ export const TextInput = component(
     type: t.enums(["text", "number"]),
 
     // on[A-Z] 前缀视为 emits
-    onValueChange: t.custom<(v: string) => void>()
+    onValueChange: t.custom<(v: string) => void>(),
   },
   (props, { emit }) => {
     // setup
@@ -52,7 +52,7 @@ export const TextInput = component(
         }}
       />
     );
-  }
+  },
 );
 
 export interface Option {
@@ -67,7 +67,7 @@ export const List = component(
     // renderProp
     $item: t.custom<(option: Option) => VNode>().optional(),
 
-    $default: t.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional(),
 
     // 以此避免多插槽时 children slots object 的写法, 且无类型约束，
     // {{ default: () => VNode, title: () => VNode, item: (option: Option) => VNode }}
@@ -77,12 +77,12 @@ export const List = component(
       const options = [
         {
           label: "1",
-          value: "1"
+          value: "1",
         },
         {
           label: "2",
-          value: "2"
-        }
+          value: "2",
+        },
       ];
 
       return (
@@ -95,7 +95,7 @@ export const List = component(
           <dd>{options.map((option) => slots.item?.(option))}</dd>
         </dl>
       );
-    }
+    },
 );
 
 export default component(() => {

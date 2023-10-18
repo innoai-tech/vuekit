@@ -4,28 +4,28 @@ export const pseudoSelectors = {
   _rtl: "[dir=rtl] &, &[dir=rtl]",
   _ltr: "[dir=ltr] &, &[dir=ltr]",
   _dark: "&[data-theme=dark]",
-  _light: "&[data-theme=light]"
+  _light: "&[data-theme=light]",
 };
 
 export type Pseudos = typeof pseudoSelectors;
 
 type DistributePseudoElement<U> = U extends `::-${
-    | "moz"
-    | "ms"
-    | "khtml"
-    | "webkit"}-${string}`
+  | "moz"
+  | "ms"
+  | "khtml"
+  | "webkit"}-${string}`
   ? never
   : U extends `::${string}`
-    ? U
-    : never;
+  ? U
+  : never;
 
 type DistributePseudoClass<U> = U extends `::${string}`
   ? never
   : U extends `:-${"moz" | "ms" | "khtml" | "webkit"}-${string}`
-    ? never
-    : U extends `:${string}`
-      ? U
-      : never;
+  ? never
+  : U extends `:${string}`
+  ? U
+  : never;
 
 type PseudoElements = DistributePseudoElement<SimplePseudos>;
 type PseudoClasses = DistributePseudoClass<SimplePseudos>;
@@ -48,7 +48,6 @@ export type PseudoClassAliases = {
     ? `_${ToCamelCase<K>}`
     : never]: K;
 };
-
 
 export function getSupportedPseudoClasses(): {
   [K in DistributePseudoClassNames<PseudoClasses> as K extends string
@@ -109,6 +108,6 @@ export function getSupportedPseudoClasses(): {
     userInvalid: "user-invalid",
     userValid: "user-valid",
     valid: "valid",
-    visited: "visited"
+    visited: "visited",
   };
-};
+}

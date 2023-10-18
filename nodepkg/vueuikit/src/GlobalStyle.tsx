@@ -16,16 +16,16 @@ export const GlobalStyle = component(
 
     const serialized = theme.unstable_css(
       cache,
-      isString(styles) ? ({ "&": styles } as any) : styles
+      isString(styles) ? ({ "&": styles } as any) : styles,
     );
 
     onBeforeMount(() => {
       insert({
         serialized,
-        withoutScoping: true
+        withoutScoping: true,
       });
     });
 
     return () => null;
-  }
+  },
 );

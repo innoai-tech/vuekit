@@ -1,17 +1,15 @@
-import {
-  map,
-  of,
-  firstValueFrom
-} from "rxjs";
-import { it, describe, expect } from "vitest";
+import { map, of, firstValueFrom } from "rxjs";
+import { it, describe, expect } from "bun:test";
 import { rx } from "../index";
 
 describe("rx", () => {
   it("with only observable operator", async () => {
-    const ret = await firstValueFrom(rx(
-      of(2),
-      map((v) => v * v)
-    ));
+    const ret = await firstValueFrom(
+      rx(
+        of(2),
+        map((v) => v * v),
+      ),
+    );
 
     expect(ret).toEqual(4);
   });
@@ -20,7 +18,7 @@ describe("rx", () => {
     const ret = await rx(
       of(2),
       map((v) => v * v),
-      firstValueFrom
+      firstValueFrom,
     );
 
     expect(ret).toEqual(4);

@@ -1,17 +1,23 @@
 {
-  "extends": "@innoai-tech/vuedevconfig/tsconfig.json",
+  "extends": "./nodedevpkg/vuedevconfig/tsconfig.json",
   "compilerOptions": {
     "noErrorTruncation": true,
     "baseUrl": ".",
+    "lib": [
+      "dom"
+    ],
     "paths": {
       "@webapp/vuekit/*": [
-        "webapp/vuekit/*"
+        "./webapp/vuekit/*"
       ],
       "@innoai-tech/vuekit/*": [
-        "nodepkg/vuekit/src/*.ts"
+        "./nodepkg/vuekit/src/*.ts"
       ],
       "@innoai-tech/vuekit": [
-        "nodepkg/vuekit/src/index.ts"
+        "./nodepkg/vuekit/src/index.ts"
+      ],
+      "@innoai-tech/typedef": [
+        "./nodepkg/typedef/src/index.ts"
       ],
       "@innoai-tech/*": [
         "nodedevpkg/*/src/index.ts",

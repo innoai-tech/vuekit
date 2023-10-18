@@ -2,7 +2,7 @@ import {
   t,
   component,
   type VElementType,
-  type OverridableComponent
+  type OverridableComponent,
 } from "@innoai-tech/vuekit";
 import { onMounted } from "vue";
 import { ThemeProvider } from "./ThemeProvider";
@@ -20,7 +20,7 @@ export const Box: OverridableComponent<{
 }> = component(
   {
     sx: t.custom<SystemStyleObject>(),
-    component: t.custom<VElementType>().optional().default("div")
+    component: t.custom<VElementType>().optional().default("div"),
   },
   (props, { slots }) => {
     const theme = ThemeProvider.use();
@@ -37,7 +37,7 @@ export const Box: OverridableComponent<{
     onMounted(() => {
       insertStyle({
         serialized: serialized,
-        isStringTag: true
+        isStringTag: true,
       });
     });
 
@@ -45,5 +45,5 @@ export const Box: OverridableComponent<{
       const Component: any = props.component ?? "div";
       return <Component class={className()}>{slots}</Component>;
     };
-  }
+  },
 ) as any;

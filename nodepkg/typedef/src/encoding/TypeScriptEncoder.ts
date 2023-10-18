@@ -76,36 +76,39 @@ export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
 
       case "enums": {
         if (declName) {
-
-          this.def.set(declName, ["enum", `{
+          this.def.set(declName, [
+            "enum",
+            `{
 ${type.schema.enum
-            .map((v: any) => `${v} = ${JSON.stringify(v)}`)
-            .join(",\n")}         
-}`]);
+  .map((v: any) => `${v} = ${JSON.stringify(v)}`)
+  .join(",\n")}         
+}`,
+          ]);
 
           const enumLabels = rawType.getMeta("enumLabels") as any[];
 
           if (enumLabels) {
-            this.def.set(`display${declName}`, ["const", `(v: ${declName}) => {
+            this.def.set(`display${declName}`, [
+              "const",
+              `(v: ${declName}) => {
   return ({
 ${type.schema.enum
-              .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
-              .join(",\n")}   
+  .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
+  .join(",\n")}   
   })[v] ?? v      
-}`]);
+}`,
+            ]);
           }
 
           return "";
         }
 
-        return type.schema.enum
-          .map((v: any) => JSON.stringify(v))
-          .join(" | ");
+        return type.schema.enum.map((v: any) => JSON.stringify(v)).join(" | ");
       }
 
       case "record": {
         return `{ [k: ${this._encode(
-          type.schema.propertyNames
+          type.schema.propertyNames,
         )}]: ${this._encode(type.schema.additionalProperties)} }`;
       }
 

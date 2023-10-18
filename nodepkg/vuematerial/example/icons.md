@@ -25,9 +25,7 @@ export default component(() => {
       <IconButton active onClick={() => console.log(1)}>
         <Icon path={mdiSend} />
       </IconButton>
-      <FilledButton
-        active={false}
-      >
+      <FilledButton active={false}>
         Send
         <Icon path={mdiSend} placement="end" />
       </FilledButton>

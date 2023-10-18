@@ -9,13 +9,13 @@ export const MenuContainer = styled("div")({
   minW: 120,
   containerStyle: "sys.surface-container",
   pos: "relative",
-  zIndex: 100
+  zIndex: 100,
 });
 
 export const ListItem = styled("div")({
   "& + &": {
     borderTop: "1px solid",
-    borderColor: "sys.outline-variant"
+    borderColor: "sys.outline-variant",
   },
   py: 8,
   px: 16,
@@ -25,15 +25,15 @@ export const ListItem = styled("div")({
 
   _hover: {
     cursor: "pointer",
-    bgColor: variant("sys.on-surface", alpha(0.08))
-  }
+    bgColor: variant("sys.on-surface", alpha(0.08)),
+  },
 });
 
 export const Menu = component(
   {
     placement: t.custom<import("@popperjs/core").Placement>().optional(),
     $menu: t.custom<VNode>(),
-    $default: t.custom<JSX.Element>()
+    $default: t.custom<JSX.Element>(),
   },
   (props, { slots }) => {
     const isOpen = ref(false);
@@ -50,11 +50,11 @@ export const Menu = component(
         >
           {trigger
             ? cloneVNode(trigger, {
-              onClick: () => (isOpen.value = true)
-            })
+                onClick: () => (isOpen.value = true),
+              })
             : null}
         </Popper>
       );
     };
-  }
+  },
 );

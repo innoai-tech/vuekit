@@ -5,40 +5,40 @@ import { type ComponentOptions, component } from "./component";
 import {
   type Component,
   type InternalPropsOf,
-  type PublicPropsOf
+  type PublicPropsOf,
 } from "./types";
 import { t, type AnyType } from "@innoai-tech/typedef";
 
 export type ProviderComponent<Context, P = { value?: Context }> = Component<
   P & {
-  $default?: VNodeChild;
-}
+    $default?: VNodeChild;
+  }
 > & { use: () => Context };
 
 export type CreateFunction<
   Context extends object,
-  PropTypes extends Record<string, AnyType>
+  PropTypes extends Record<string, AnyType>,
 > = (props: InternalPropsOf<PropTypes>) => Context;
 
 export function createProvider<Context extends object>(
   create: CreateFunction<Context, {}>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): ProviderComponent<Context>;
 export function createProvider<
   Context extends object,
-  PropTypes extends Record<string, AnyType>
+  PropTypes extends Record<string, AnyType>,
 >(
   propTypes: PropTypes,
   create: CreateFunction<Context, PropTypes>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): ProviderComponent<Context, PublicPropsOf<PropTypes>>;
 export function createProvider<
   Context extends object,
-  PropTypes extends Record<string, AnyType>
+  PropTypes extends Record<string, AnyType>,
 >(
   propTypesOrCreate: PropTypes | CreateFunction<Context, PropTypes>,
   createOrOptions?: CreateFunction<Context, PropTypes> | ComponentOptions,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): ProviderComponent<Context, PublicPropsOf<PropTypes>> {
   const finalPropTypes = (
     isPlainObject(propTypesOrCreate) ? propTypesOrCreate : {}
@@ -57,7 +57,7 @@ export function createProvider<
     const Provider = component(
       {
         value: t.custom<any>().optional(),
-        $default: t.custom<VNodeChild>().optional()
+        $default: t.custom<VNodeChild>().optional(),
       },
       (props, { slots }) => {
         provide(key, props.value ?? getDefaults());
@@ -68,14 +68,14 @@ export function createProvider<
       },
       {
         ...finalOptions,
-        name: `Provide(${finalOptions.name ?? ""})`
-      }
+        name: `Provide(${finalOptions.name ?? ""})`,
+      },
     );
 
     return ext(Provider as any, {
       use: () => {
         return inject(key, getDefaults, true) as Context;
-      }
+      },
     });
   }
 
@@ -89,7 +89,7 @@ export function createProvider<
   const Provider = component(
     {
       ...finalPropTypes,
-      $default: t.custom<VNodeChild>().optional()
+      $default: t.custom<VNodeChild>().optional(),
     },
     (props, { slots }) => {
       provide(key, finalCreate(props));
@@ -100,13 +100,13 @@ export function createProvider<
     },
     {
       ...finalOptions,
-      name: `Provide(${finalOptions.name ?? ""})`
-    }
+      name: `Provide(${finalOptions.name ?? ""})`,
+    },
   );
 
   return ext(Provider as any, {
     use: () => {
       return inject(key, getDefaults, true) as Context;
-    }
+    },
   });
 }

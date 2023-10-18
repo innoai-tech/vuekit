@@ -3,9 +3,14 @@ import {
   type AnyType,
   type Infer,
   type Simplify,
-  type DefaultedType
+  type DefaultedType,
 } from "@innoai-tech/typedef";
-import { type ObjectEmitsOptions, type VNode, type RenderFunction, type SlotsType } from "vue";
+import {
+  type ObjectEmitsOptions,
+  type VNode,
+  type RenderFunction,
+  type SlotsType,
+} from "vue";
 
 export type VElementType = string | Component<any>;
 export type VNodeChildAtom =
@@ -30,7 +35,7 @@ export type Component<P extends Record<string, any>> = {
 };
 
 type ToVueSlotsType<O extends Record<string, any>> = {
-  [K in keyof O as K extends string ? SlotName<K> : never]: O[K]
+  [K in keyof O as K extends string ? SlotName<K> : never]: O[K];
 };
 
 export type WithDefaultSlot = {
@@ -45,20 +50,20 @@ export type SetupContext<E extends Emits, S> = {
 
 type EmitFn<
   E extends Emits,
-  Event extends keyof E = keyof E
+  Event extends keyof E = keyof E,
 > = UnionToIntersection<
   {
     [Key in Event]: E[Key] extends (...args: infer Args) => any
-    ? (event: Key, ...args: Args) => void
-    : (event: Key) => void;
+      ? (event: Key, ...args: Args) => void
+      : (event: Key) => void;
   }[Event]
 >;
 
 type UnionToIntersection<U> = (
   U extends any ? (arg: U) => any : never
-  ) extends (arg: infer I) => void
+) extends (arg: infer I) => void
   ? I
-  : never
+  : never;
 
 type PickRequired<T extends Record<string, any>> = {
   [K in keyof T as K extends string
@@ -71,7 +76,7 @@ type PickRequired<T extends Record<string, any>> = {
 export type PropTypesOf<
   Props extends Record<string, any>,
   RequiredProps = Pick<Props, keyof PickRequired<Props>>,
-  OptionalProps = Omit<Props, keyof RequiredProps>
+  OptionalProps = Omit<Props, keyof RequiredProps>,
 > = {
   [K in keyof RequiredProps]: ReturnType<typeof t.custom<RequiredProps[K]>>;
 } & {
@@ -82,27 +87,27 @@ export type PropTypesOf<
 
 export type SetupFunction<PropTypes extends Record<string, AnyType>> = (
   props: InternalPropsOf<PropTypes>,
-  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
+  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>,
 ) => RenderFunction;
 
 export type PublicPropsOf<
   PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfPublic<PropTypes>
+  P extends Record<string, any> = TypeOfPublic<PropTypes>,
 > = Simplify<PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>>;
 
 export type InternalPropsOf<
   PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfInternal<PropTypes>
+  P extends Record<string, any> = TypeOfInternal<PropTypes>,
 > = Simplify<PickProps<P>>;
 
 export type InternalSlotsOf<
   PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfInternal<PropTypes>
+  P extends Record<string, any> = TypeOfInternal<PropTypes>,
 > = Simplify<ToInternalSlots<PickSlotProps<P>>>;
 
 export type InternalEmitsOf<
   PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfInternal<PropTypes>
+  P extends Record<string, any> = TypeOfInternal<PropTypes>,
 > = ToInternalEmits<Simplify<PickEmitProps<P>>>;
 
 type TypeOfPublic<O extends Record<string, AnyType>> = Infer<
@@ -115,14 +120,14 @@ type PickInternalNonOptional<T extends Record<string, AnyType>> = {
     ? Infer<T[K]> extends NonNullable<Infer<T[K]>>
       ? K
       : T[K] extends DefaultedType<any>
-        ? K
-        : never
+      ? K
+      : never
     : never]: T[K];
 };
 
 export type InferNonNullable<T extends AnyType> = Infer<T> extends NonNullable<
-    Infer<T>
-  >
+  Infer<T>
+>
   ? Infer<T>
   : NonNullable<Infer<T>>;
 
@@ -135,7 +140,7 @@ export type TypeOfInternal<
   OptionalProps extends Record<string, AnyType> = Omit<
     PropTypes,
     keyof RequiredProps
-  >
+  >,
 > = {
   [K in keyof RequiredProps]: InferNonNullable<RequiredProps[K]>;
 } & {
@@ -173,8 +178,8 @@ export type ToInternalSlots<O extends Record<string, any>> = {
 type NormalProp<Prop extends string> = Prop extends EmitProp<Prop>
   ? never
   : Prop extends SlotProp<Prop>
-    ? never
-    : Prop;
+  ? never
+  : Prop;
 
 type EmitProp<Prop extends string> = Prop extends `on${infer Name}`
   ? Name extends Capitalize<Name>
@@ -207,5 +212,5 @@ export type ToKebabCase<S> = S extends `${infer C}${infer T}`
 export type ToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
   ? `${T}${Capitalize<ToCamelCase<U>>}`
   : S extends `${infer T}_${infer U}`
-    ? `${T}${Capitalize<ToCamelCase<U>>}`
-    : S;
+  ? `${T}${Capitalize<ToCamelCase<U>>}`
+  : S;

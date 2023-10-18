@@ -83,12 +83,12 @@ export class Genfile {
         [
           ...map([...this.imports.entries()], ([path, nameAndAlias]) => {
             return `import { ${map(nameAndAlias, (alias, name) =>
-              alias ? `${name} as ${alias}` : name
+              alias ? `${name} as ${alias}` : name,
             ).join(", ")} } from "${path}";`;
           }),
           ...this.decls,
-        ].join("\n\n")
-      )
+        ].join("\n\n"),
+      ),
     );
 
     try {

@@ -15,7 +15,7 @@ import {
   validate,
   run,
   toFailures,
-  EmptyContext
+  EmptyContext,
 } from "./Type";
 
 export {
@@ -30,7 +30,7 @@ export {
   type InferTuple,
   type Simplify,
   type Result,
-  type AnyType
+  type AnyType,
 };
 
 export class TypeRef<U extends AnyType> extends TypeWrapper<
@@ -41,7 +41,7 @@ export class TypeRef<U extends AnyType> extends TypeWrapper<
   static create<U extends AnyType>(name: string, t: () => U) {
     return new TypeRef<U>({
       $unwrap: t,
-      $ref: name
+      $ref: name,
     });
   }
 
@@ -178,13 +178,13 @@ export type NativeEnumLike = {
 
 export class TypeEnum<U> extends Type<U, { enum: U[] }> {
   static create<U extends number, T extends readonly U[]>(
-    values: T
+    values: T,
   ): TypeEnum<T[number]>;
   static create<U extends string, T extends readonly U[]>(
-    values: T
+    values: T,
   ): TypeEnum<T[number]>;
   static create<U extends string | number, T extends readonly U[]>(
-    values: U[]
+    values: U[],
   ): TypeEnum<T[number]> {
     return new TypeEnum<T[number]>({ enum: values });
   }
@@ -195,7 +195,7 @@ export class TypeEnum<U> extends Type<U, { enum: U[] }> {
 
   static nativeEnum<U extends NativeEnumLike>(nativeEnum: U) {
     return new TypeEnum<U[keyof U]>({
-      enum: Object.values(nativeEnum) as any[]
+      enum: Object.values(nativeEnum) as any[],
     });
   }
 
@@ -210,7 +210,7 @@ export class TypeEnum<U> extends Type<U, { enum: U[] }> {
 
 export class TypeObject<
   T extends Record<string, any>,
-  Props extends Record<string, AnyType>
+  Props extends Record<string, AnyType>,
 > extends Type<
   ObjectType<Props>,
   {
@@ -222,7 +222,7 @@ export class TypeObject<
 > {
   static create(): TypeObject<{}, {}>;
   static create<Props extends Record<string, AnyType>>(
-    props: Props
+    props: Props,
   ): TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>;
   static create<Props extends Record<string, AnyType>>(props?: Props) {
     const required: string[] = [];
@@ -240,7 +240,7 @@ export class TypeObject<
       type: "object",
       properties: props,
       required: required,
-      additionalProperties: TypeNever.create()
+      additionalProperties: TypeNever.create(),
     });
   }
 
@@ -248,9 +248,9 @@ export class TypeObject<
     return this.schema.type;
   }
 
-  override* entries(
+  override *entries(
     value: unknown,
-    ctx: Context
+    ctx: Context,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     if (isObject(value)) {
       const propNames = new Set(Object.keys(value));
@@ -261,7 +261,7 @@ export class TypeObject<
           yield [
             key,
             (value as any)[key],
-            (this.schema.properties as any)[key]
+            (this.schema.properties as any)[key],
           ];
         }
       }
@@ -309,7 +309,7 @@ export class TypeRecord<
   S extends {
     propertyNames: Type<K>;
     additionalProperties: Type<V>;
-  }
+  },
 > extends Type<
   Record<K, V>,
   {
@@ -327,7 +327,7 @@ export class TypeRecord<
     >({
       propertyNames: k,
       additionalProperties: v,
-      type: "object"
+      type: "object",
     });
   }
 
@@ -335,8 +335,8 @@ export class TypeRecord<
     return "record";
   }
 
-  override* entries(
-    value: unknown
+  override *entries(
+    value: unknown,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     if (isObject(value)) {
       if (isObject(value)) {
@@ -364,7 +364,7 @@ export class TypeArray<T extends any, S extends AnyType> extends Type<
   static create<Items extends AnyType>(items: Items) {
     return new TypeArray<Infer<Items>, Items>({
       type: "array",
-      items: items
+      items: items,
     });
   }
 
@@ -372,8 +372,8 @@ export class TypeArray<T extends any, S extends AnyType> extends Type<
     return this.schema.type;
   }
 
-  override* entries(
-    value: unknown
+  override *entries(
+    value: unknown,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     if (this.schema.items.type != "any") {
       if (Array.isArray(value)) {
@@ -403,7 +403,7 @@ export class TypeTuple<T, S extends AnyType[]> extends Type<
   static create<Values extends AnyType[]>(values: [...Values]) {
     return new TypeTuple<InferTuple<Values>, Values>({
       type: "array",
-      items: values
+      items: values,
     });
   }
 
@@ -411,9 +411,9 @@ export class TypeTuple<T, S extends AnyType[]> extends Type<
     return "tuple";
   }
 
-  override* entries(
+  override *entries(
     value: unknown,
-    _context: Context
+    _context: Context,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     if (Array.isArray(value)) {
       const length = Math.max(this.schema.items.length, value.length);
@@ -434,9 +434,9 @@ export class TypeTuple<T, S extends AnyType[]> extends Type<
 }
 
 type IntersectionTypes<Types extends any[]> = Types extends [
-    infer T,
-    ...infer O
-  ]
+  infer T,
+  ...infer O,
+]
   ? T extends AnyType
     ? Infer<T> & IntersectionTypes<O>
     : unknown
@@ -450,7 +450,7 @@ export class TypeIntersection<T, S extends [...AnyType[]]> extends Type<
 > {
   static create<Types extends [...AnyType[]]>(...types: Types) {
     return new TypeIntersection<IntersectionTypes<Types>, Types>({
-      allOf: types
+      allOf: types,
     });
   }
 
@@ -458,22 +458,22 @@ export class TypeIntersection<T, S extends [...AnyType[]]> extends Type<
     return "intersection";
   }
 
-  override* entries(
+  override *entries(
     value: unknown,
-    ctx: Context = EmptyContext
+    ctx: Context = EmptyContext,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     for (const t of this.schema.allOf) {
       yield* t.entries(value, ctx);
     }
   }
 
-  override* validator(value: unknown, ctx: Context): Result {
+  override *validator(value: unknown, ctx: Context): Result {
     for (const t of this.schema.allOf) {
       yield* toFailures(t.validator(value, ctx), ctx, this, value);
     }
   }
 
-  override* refiner(value: unknown, ctx: Context): Result {
+  override *refiner(value: unknown, ctx: Context): Result {
     for (const t of this.schema.allOf) {
       yield* toFailures(t.refiner(value, ctx), ctx, this, value);
     }
@@ -482,7 +482,7 @@ export class TypeIntersection<T, S extends [...AnyType[]]> extends Type<
 
 type DiscriminatedUnionType<
   D extends string,
-  Mapping extends Record<string, AnyType>
+  Mapping extends Record<string, AnyType>,
 > = ValueOf<{
   [K in keyof Mapping]: { [k in D]: K } & Infer<Mapping[K]>;
 }>;
@@ -500,17 +500,17 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
 > {
   static create<Types extends AnyType[]>(...types: Types) {
     return new TypeUnion<InferTuple<Types>[number], Types>({
-      oneOf: types
+      oneOf: types,
     });
   }
 
   static discriminatorMapping<
     D extends string,
-    Mapping extends Record<string, AnyType>
+    Mapping extends Record<string, AnyType>,
   >(discriminatorPropertyName: D, mapping: Mapping) {
     const normalizedMapping = mapValues(mapping, (def, discriminatorValue) => {
       const schema: Record<string, any> = {
-        [discriminatorPropertyName]: TypeEnum.literal(discriminatorValue)
+        [discriminatorPropertyName]: TypeEnum.literal(discriminatorValue),
       };
 
       for (const [prop, _, t] of def.entries({}, EmptyContext)) {
@@ -526,8 +526,8 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
     >({
       oneOf: Object.values(normalizedMapping) as any,
       discriminator: {
-        propertyName: discriminatorPropertyName
-      }
+        propertyName: discriminatorPropertyName,
+      },
     });
   }
 
@@ -541,12 +541,12 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
         return [
           ...ret,
           ...(s.unwrap.schema.properties[discriminatorPropName] as AnyType)
-            .unwrap.schema.enum
+            .unwrap.schema.enum,
         ];
       }, [] as any[]);
 
       return TypeWrapper.of(TypeEnum.create(values), {
-        $meta: ctx.node?.meta ?? {}
+        $meta: ctx.node?.meta ?? {},
       });
     })());
   }
@@ -574,27 +574,28 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
       });
 
       if (matched) {
-        return (this._discriminatorMapping[`${discriminatorPropValue}`] ??= omit(matched.unwrap.schema.properties, [discriminatorPropName]));
+        return (this._discriminatorMapping[`${discriminatorPropValue}`] ??=
+          omit(matched.unwrap.schema.properties, [discriminatorPropName]));
       }
     }
 
     return {};
   }
 
-  override* entries(
+  override *entries(
     value: unknown,
-    context: Context
+    context: Context,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     if (this.schema.discriminator) {
       const discriminatorPropName = this.schema.discriminator.propertyName;
 
       const discriminatorPropValue = ((value as any) ?? {})[
         discriminatorPropName
-        ];
+      ];
 
       const base = TypeObject.create({
         [discriminatorPropName]: this.discriminatorPropType(context),
-        ...this.discriminatorMapping(discriminatorPropValue, context)
+        ...this.discriminatorMapping(discriminatorPropValue, context),
       });
 
       yield* base.entries(value, context);
@@ -620,11 +621,11 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
       const discriminatorPropName = this.schema.discriminator.propertyName;
       const discriminatorPropValue = ((value as any) ?? {})[
         discriminatorPropName
-        ];
+      ];
 
       const base = TypeObject.create({
         [discriminatorPropName]: this.discriminatorPropType(context),
-        ...this.discriminatorMapping(discriminatorPropValue, context)
+        ...this.discriminatorMapping(discriminatorPropValue, context),
       });
 
       return base.validator(value, context);
@@ -651,7 +652,7 @@ export class TypeUnion<T, S extends AnyType[]> extends Type<
       `Expected the value to satisfy a union of \`${this.schema.oneOf
         .map((t) => t.type)
         .join(" | ")}\`, but received: ${value}`,
-      ...failures
+      ...failures,
     ];
   }
 }

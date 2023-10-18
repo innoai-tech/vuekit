@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect } from "bun:test";
 import { extractRouteMeta } from "../index";
 
 /**
@@ -7,23 +7,27 @@ import { extractRouteMeta } from "../index";
  */
 describe("extractRouteMeta", () => {
   test("should extract route meta", () => {
-    const meta = extractRouteMeta("", `
+    const meta = extractRouteMeta(
+      "",
+      `
 /**
  * @property {"名称"} meta.name
  * @property {typeof import("@innoai-tech/vuematerial").mdiPlus} meta.icon
  */
-`);
+`,
+    );
 
     expect(meta).toEqual({
+      id: "",
       meta: {
         name: `"名称"`,
-        icon: "mdiPlus"
+        icon: "mdiPlus",
       },
-      __imports: {
+      imports: {
         "@innoai-tech/vuematerial": {
-          "mdiPlus": true
-        }
-      }
+          mdiPlus: true,
+        },
+      },
     });
   });
 });

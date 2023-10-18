@@ -47,7 +47,7 @@ const wrapSlot = (children: any) => {
 
 const pickPropsWithoutSlots = (
   rawProps: Record<string, any>,
-  key?: string
+  key?: string,
 ): [any, any] => {
   const { children, ...otherProps } = rawProps;
 
@@ -90,12 +90,11 @@ export const jsx = (type: any, rawProps: any, key?: string) => {
     return h(
       type,
       props,
-      slots?.default?.() ?? (isFragment(type) ? [] : undefined)
+      slots?.default?.() ?? (isFragment(type) ? [] : undefined),
     );
   }
   return h(type, props, slots);
 };
-
 
 declare module "vue" {
   // always contains default slots

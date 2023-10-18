@@ -18,17 +18,17 @@ export const Fragment: Component<WithDefaultSlot> = OriginFragment as any;
 
 export function component(
   setup: SetupFunction<{}>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<{}>;
 export function component<PropTypes extends Record<string, AnyType>>(
   propTypes: PropTypes,
   setup: SetupFunction<PropTypes>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<PublicPropsOf<PropTypes>>;
 export function component<PropTypes extends Record<string, AnyType>>(
   propTypesOrSetup: PropTypes | SetupFunction<PropTypes>,
   setupOrOptions?: SetupFunction<PropTypes> | ComponentOptions,
-  options: ComponentOptions = {}
+  options: ComponentOptions = {},
 ): Component<PublicPropsOf<PropTypes>> {
   const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
   const finalSetup = (setupOrOptions ?? propTypesOrSetup) as SetupFunction<any>;
@@ -37,7 +37,7 @@ export function component<PropTypes extends Record<string, AnyType>>(
   ) as Record<string, AnyType>;
 
   const [emits, props] = partition(Object.keys(finalPropTypes), (v: string) =>
-    /^on[A-Z]/.test(v)
+    /^on[A-Z]/.test(v),
   );
 
   const emitsAndProps = {

@@ -4,13 +4,13 @@ import {
   set,
   last,
   get,
-  kebabCase
+  kebabCase,
 } from "@innoai-tech/lodash";
 import {
   aliases,
   extensions,
   getSupportedPseudoClasses,
-  pseudoSelectors
+  pseudoSelectors,
 } from "./csstype";
 
 export interface Mixin {
@@ -63,7 +63,7 @@ export class CSSProcessor {
           return [
             `${prefix}:${pseudoClass}`,
             `${prefix}[data-${pseudoClass}]:not([data-${pseudoClass}='false'])`,
-            `${prefix}.${pseudoClass}` // fallback with class for overwrite
+            `${prefix}.${pseudoClass}`, // fallback with class for overwrite
           ].join(", ");
         }
 
@@ -89,8 +89,8 @@ export class CSSProcessor {
     } = {
       default: {},
       selectorPath: [],
-      path: []
-    }
+      path: [],
+    },
   ) => {
     const { $, ...others } = values;
 
@@ -109,7 +109,7 @@ export class CSSProcessor {
         CSSProcessor.walkStateValues(v, cb, {
           path,
           selectorPath: selectorPath,
-          default: finalDefault
+          default: finalDefault,
         });
         continue;
       }
@@ -123,9 +123,8 @@ export class CSSProcessor {
       mixins: Record<string, Mixin>;
       processValue: (p: string, v: any) => any;
       varPrefix: string;
-    }
-  ) {
-  }
+    },
+  ) {}
 
   processAll(src: Record<string, any>, full: boolean = true) {
     const ret: Array<Record<string, any>> = [];
@@ -170,7 +169,7 @@ export class CSSProcessor {
   processTo(
     dest: Record<string, any>,
     src: Record<string, any>,
-    full: boolean = true
+    full: boolean = true,
   ) {
     for (const p in src) {
       this.process(dest, p, src[p], full);

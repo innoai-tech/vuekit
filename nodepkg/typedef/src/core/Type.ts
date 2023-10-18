@@ -13,7 +13,7 @@ export type Context = {
 
 export const EmptyContext: Context = {
   path: [],
-  branch: []
+  branch: [],
 };
 
 export type Failure = {
@@ -70,7 +70,7 @@ export type AnyType = Type<any, any>;
 
 export class Type<T = unknown, S = unknown> {
   static define<T>(
-    validator: (value: unknown, ctx: Context) => Result = () => true
+    validator: (value: unknown, ctx: Context) => Result = () => true,
   ) {
     class CustomType<T> extends Type<T, null> {
       override validator(value: unknown, ctx: Context): Result {
@@ -81,8 +81,7 @@ export class Type<T = unknown, S = unknown> {
     return new CustomType<T>(null);
   }
 
-  constructor(public readonly schema: S) {
-  }
+  constructor(public readonly schema: S) {}
 
   readonly Type!: T;
 
@@ -90,11 +89,10 @@ export class Type<T = unknown, S = unknown> {
     return (this.schema || ({} as any)).type ?? "unknown";
   }
 
-  * entries(
+  *entries(
     _value: unknown,
-    _context: Context = EmptyContext
-  ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
-  }
+    _context: Context = EmptyContext,
+  ): Iterable<[string | number, unknown, AnyType | Type<never>]> {}
 
   refiner(_value: T, _context: Context): Result {
     return [];
@@ -113,7 +111,7 @@ export class Type<T = unknown, S = unknown> {
     options: {
       coerce?: boolean;
       message?: string;
-    } = {}
+    } = {},
   ): [TypedError, undefined] | [undefined, T] {
     return validate(value, this, options);
   }
@@ -151,7 +149,7 @@ export class Type<T = unknown, S = unknown> {
 
   annotate<M extends Record<string, any>>(meta: M) {
     return TypeWrapper.of(this, {
-      $meta: meta
+      $meta: meta,
     });
   }
 
@@ -188,28 +186,28 @@ export class Type<T = unknown, S = unknown> {
 export class TypeWrapper<
   T,
   U extends AnyType,
-  Extra extends Record<string, any>
+  Extra extends Record<string, any>,
 > extends Type<T, Extra & { $unwrap: U | (() => U) }> {
   static of<U extends AnyType, ExtraSchema extends Record<string, any>>(
     t: U,
-    extra: ExtraSchema
+    extra: ExtraSchema,
   ) {
     return new TypeWrapper<Infer<U>, U, ExtraSchema>({
       ...extra,
-      $unwrap: t
+      $unwrap: t,
     });
   }
 
   static refine<U extends AnyType, S extends Record<string, any>>(
     t: U,
     refiner: (v: Infer<U>, ctx: Context) => Result,
-    schema: S
+    schema: S,
   ) {
     class Refiner<
       U extends AnyType,
-      S extends Record<string, any>
+      S extends Record<string, any>,
     > extends TypeWrapper<Infer<U>, U, S> {
-      override* refiner(value: Infer<U>, ctx: Context): Result {
+      override *refiner(value: Infer<U>, ctx: Context): Result {
         yield* this.unwrap.refiner(value, ctx);
         const result = refiner(value, ctx);
         const failures = toFailures(result, ctx, t, value);
@@ -222,7 +220,7 @@ export class TypeWrapper<
 
     return new Refiner<U, S>({
       ...schema,
-      $unwrap: t
+      $unwrap: t,
     });
   }
 
@@ -231,7 +229,9 @@ export class TypeWrapper<
   }
 
   override get unwrap() {
-    return (typeof this.schema.$unwrap === "function" ? this.schema.$unwrap() : this.schema.$unwrap);
+    return typeof this.schema.$unwrap === "function"
+      ? this.schema.$unwrap()
+      : this.schema.$unwrap;
   }
 
   override get isOptional(): boolean {
@@ -241,7 +241,7 @@ export class TypeWrapper<
   override get meta(): Record<string, any> {
     return {
       ...this.unwrap.meta,
-      ...get(this.schema, ["$meta"], {})
+      ...get(this.schema, ["$meta"], {}),
     };
   }
 
@@ -259,13 +259,13 @@ export class TypeWrapper<
     return undefined;
   }
 
-  override* entries(
+  override *entries(
     value: unknown,
-    context: Context = EmptyContext
+    context: Context = EmptyContext,
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
     yield* this.unwrap.entries(value, {
       ...context,
-      node: TypeNode.create(this, context.node)
+      node: TypeNode.create(this, context.node),
     });
   }
 
@@ -274,7 +274,7 @@ export class TypeWrapper<
       this.unwrap.validator(value, context),
       context,
       this,
-      value
+      value,
     );
   }
 
@@ -283,7 +283,7 @@ export class TypeWrapper<
       this.unwrap.refiner(value, context),
       context,
       this,
-      value
+      value,
     );
   }
 
@@ -299,11 +299,11 @@ export class TypeNode<U extends AnyType, P extends AnyType> extends TypeWrapper<
 > {
   static create<U extends AnyType, P extends AnyType>(
     t: U,
-    p: P | undefined | null
+    p: P | undefined | null,
   ) {
     return new TypeNode<U, P>({
       $unwrap: t,
-      $parent: p ? p : null
+      $parent: p ? p : null,
     });
   }
 }
@@ -316,7 +316,7 @@ export class DefaultedType<T extends AnyType> extends TypeWrapper<
   static create<U extends AnyType>(t: U, defaultValue: Infer<U>) {
     return new DefaultedType<U>({
       $unwrap: t,
-      default: defaultValue
+      default: defaultValue,
     });
   }
 
@@ -334,7 +334,7 @@ export class OptionalType<T extends AnyType> extends TypeWrapper<
 > {
   static create<T extends AnyType>(t: T) {
     return new OptionalType<T>({
-      $unwrap: t
+      $unwrap: t,
     });
   }
 
@@ -355,7 +355,7 @@ export type Infer<T extends AnyType> = T["Type"];
 
 export type InferTuple<
   Tuple extends Type<any>[],
-  Length extends number = Tuple["length"]
+  Length extends number = Tuple["length"],
 > = Length extends Length
   ? number extends Length
     ? Tuple
@@ -365,7 +365,7 @@ type _InferTuple<
   Tuple extends Type<any>[],
   Length extends number,
   Accumulated extends unknown[],
-  Index extends number = Accumulated["length"]
+  Index extends number = Accumulated["length"],
 > = Index extends Length
   ? Accumulated
   : _InferTuple<Tuple, Length, [...Accumulated, Infer<Tuple[Index]>]>;
@@ -387,7 +387,7 @@ export type Optionalize<S extends object> = OmitBy<S, undefined> &
 
 export type ObjectType<S extends Record<string, AnyType>> = Simplify<
   Optionalize<{ [K in keyof S]: Infer<S[K]> }>
->
+>;
 
 export function shiftIterator<T>(input: Iterator<T>): T | undefined {
   const { done, value } = input.next();
@@ -402,7 +402,7 @@ export function toFailure<T, S>(
   result: string | boolean | Partial<Failure>,
   context: Context,
   t: Type<T, S>,
-  value: any
+  value: any,
 ): Failure | undefined {
   if (result === true) {
     return;
@@ -419,7 +419,7 @@ export function toFailure<T, S>(
     refinement,
     message = `Expected a value of type \`${type}\`${
       refinement ? ` with refinement \`${refinement}\`` : ""
-    }, but received: \`${value}\``
+    }, but received: \`${value}\``,
   } = result;
 
   return {
@@ -431,7 +431,7 @@ export function toFailure<T, S>(
     branch,
     node,
     ...result,
-    message
+    message,
   };
 }
 
@@ -439,7 +439,7 @@ export function* toFailures<T, S>(
   result: Result,
   context: Context,
   t: Type<T, S>,
-  value: any
+  value: any,
 ): IterableIterator<Failure> {
   if (!isIterable(result)) {
     result = [result];
@@ -461,7 +461,7 @@ export function validate<T, S>(
     coerce?: boolean;
     mask?: boolean;
     message?: string;
-  } = {}
+  } = {},
 ): [TypedError, undefined] | [undefined, T] {
   const tuples = run(value, typed, options);
   const tuple = shiftIterator(tuples)!;
@@ -488,14 +488,14 @@ export function* run<T, S>(
     coerce?: boolean;
     mask?: boolean;
     message?: string;
-  } = {}
+  } = {},
 ): IterableIterator<[Failure, undefined] | [undefined, T]> {
   const {
     path = [],
     branch = [value],
     node = TypeNode.create(t, null),
     coerce = false,
-    mask = false
+    mask = false,
   } = options;
 
   const ctx: Context = { mask, path, branch, node };
@@ -519,7 +519,7 @@ export function* run<T, S>(
       node: k === undefined ? node : TypeNode.create(st, node),
       coerce,
       mask,
-      message: options.message
+      message: options.message,
     });
 
     for (const t of ts) {
@@ -550,7 +550,7 @@ export function* run<T, S>(
       t.refiner(value as T, ctx),
       ctx,
       t,
-      value
+      value,
     )) {
       failure.explanation = options.message;
       status = Status.not_refined;

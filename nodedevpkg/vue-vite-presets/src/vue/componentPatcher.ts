@@ -26,7 +26,7 @@ export const exportScanner = (id: string, filename = id) => {
     scan(code: string): Module {
       let ret = {
         code: "",
-        exports: new Map<string, ModuleExport>()
+        exports: new Map<string, ModuleExport>(),
       };
       let src = code;
       let m: RegExpMatchArray | null;
@@ -37,12 +37,12 @@ export const exportScanner = (id: string, filename = id) => {
           exported !== "default"
             ? `__${exported}`
             : upperFirst(
-              camelCase(`${basename(filename, extname(filename))}Default`)
-            );
+                camelCase(`${basename(filename, extname(filename))}Default`),
+              );
 
         const range = {
           start: m.index ?? 0,
-          length: m[0].length
+          length: m[0].length,
         };
 
         ret.exports.set(local, { exported, id: getHash(`${id}#${exported}`) });
@@ -54,16 +54,16 @@ export const exportScanner = (id: string, filename = id) => {
       ret.code += src;
 
       return ret;
-    }
+    },
   };
 };
 
 export const viteVueComponentPatcher = (
-  options: VueJsxHmrOptions = {}
+  options: VueJsxHmrOptions = {},
 ): Plugin => {
   const filter = createFilter(
     options.include || [/\.tsx$/, /\.mdx?$/],
-    options.exclude
+    options.exclude,
   );
 
   let hmrEnabled = false;
@@ -89,7 +89,7 @@ export const viteVueComponentPatcher = (
       }
 
       return null;
-    }
+    },
   };
 };
 

@@ -19,8 +19,10 @@
     "popmotion": "^11.0.5",
     "vue": "^3.3.4"
   },
+  "peerDependencies": {},
   "exports": {
     ".": {
+      "bun": "./src/index.ts",
       "import": {
         "types": "./index.d.ts",
         "default": "./index.mjs"
@@ -42,11 +44,9 @@
     "directory": "nodepkg/vueuikit"
   },
   "scripts": {
-    "lint": "prettier --write .",
-    "build": "monobundle",
-    "test": "vitest --run --passWithNoTests --dir .",
-    "prepublishOnly": "pnpm run build"
+    "lint": "bunx --bun prettier --write .",
+    "build": "bunx --bun monobundle",
+    "prepublishOnly": "bun run build"
   },
-  "type": "module",
-  "peerDependencies": {}
+  "type": "module"
 }

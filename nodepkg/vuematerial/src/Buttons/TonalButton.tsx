@@ -10,20 +10,20 @@ export const TonalButton = styled(ButtonBase)({
   _hover: {
     shadow: "1",
     _$before: {
-      bgColor: variant("sys.on-secondary-container" as const, alpha(0.08))
-    }
+      bgColor: variant("sys.on-secondary-container" as const, alpha(0.08)),
+    },
   },
 
   _focus: {
     _$before: {
-      bgColor: variant("sys.on-secondary-container" as const, alpha(0.12))
-    }
+      bgColor: variant("sys.on-secondary-container" as const, alpha(0.12)),
+    },
   },
 
   _active: {
     _$before: {
-      bgColor: variant("sys.on-secondary-container" as const, alpha(0.12))
-    }
+      bgColor: variant("sys.on-secondary-container" as const, alpha(0.12)),
+    },
   },
 
   _disabled: {
@@ -31,7 +31,7 @@ export const TonalButton = styled(ButtonBase)({
     bgColor: "rgba(0,0,0,0)",
     shadow: "0",
     _$before: {
-      bgColor: variant("sys.on-surface" as const, alpha(0.12))
-    }
-  }
+      bgColor: variant("sys.on-surface" as const, alpha(0.12)),
+    },
+  },
 });

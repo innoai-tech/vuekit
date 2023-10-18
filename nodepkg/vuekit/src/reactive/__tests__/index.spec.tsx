@@ -1,4 +1,4 @@
-import { test, describe, expect } from "vitest";
+import { test, describe, expect } from "bun:test";
 import { of, filter, map } from "rxjs";
 import {
   toComputed,
@@ -10,9 +10,6 @@ import {
 import { t, component, type VNode } from "../../index";
 import { mount } from "@vue/test-utils";
 
-/**
- *  @vitest-environment jsdom
- **/
 describe("vue reactive", () => {
   test("when first render, should use the first ", () => {
     const C = component(() => {
@@ -104,13 +101,13 @@ describe("vue reactive", () => {
       }
     });
 
-    expect(wrapper.text()).toContain(1);
+    expect(wrapper.text()).toContain("1");
 
     await wrapper.setProps({
       input: 2
     });
 
-    expect(wrapper.text()).toContain(2);
+    expect(wrapper.text()).toContain("2");
   });
 
   test("when props changed, should rerender", async () => {
@@ -146,22 +143,20 @@ describe("vue reactive", () => {
       }
     });
 
-    expect(wrapper.find("[data-role=input]").text()).toContain(1);
-    expect(wrapper.find("[data-role=result]").text()).toContain(1);
+    expect(wrapper.find("[data-role=input]").text()).toContain(`${1}`);
+    expect(wrapper.find("[data-role=result]").text()).toContain(`${1}`);
 
     for (let i = 2; i <= 4; i++) {
       await wrapper.setProps({
         input: i
       });
 
-      expect(wrapper.find("[data-role=input]").text()).toContain(i);
+      expect(wrapper.find("[data-role=input]").text()).toContain(`${i}`);
 
       if (i % 2 !== 0) {
-        expect(wrapper.find("[data-role=result]").text()).toContain(i * i);
+        expect(wrapper.find("[data-role=result]").text()).toContain(`${i * i}`);
       } else {
-        expect(wrapper.find("[data-role=result]").text()).toContain(
-          (i - 1) * (i - 1)
-        );
+        expect(wrapper.find("[data-role=result]").text()).toContain(`${(i - 1) * (i - 1)}`);
       }
     }
   });

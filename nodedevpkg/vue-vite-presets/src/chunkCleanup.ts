@@ -1,23 +1,25 @@
 import { createFilter, type Plugin } from "vite";
 import { transform } from "@innoai-tech/purebundle";
 
-export const chunkCleanup = (opt: {
-  annotatePure?: boolean,
-  minify?: boolean,
-  env?: {
-    targets?: string | { [K: string]: string }
-    mode?: string,
-    coreJs?: string,
-    exclude?: string[]
-    include?: string[]
-  }
-} = {}): Plugin => {
+export const chunkCleanup = (
+  opt: {
+    annotatePure?: boolean;
+    minify?: boolean;
+    env?: {
+      targets?: string | { [K: string]: string };
+      mode?: string;
+      coreJs?: string;
+      exclude?: string[];
+      include?: string[];
+    };
+  } = {},
+): Plugin => {
   const isJSOrLike = createFilter([
     /\.vue$/,
     /\.mdx$/,
     /\.tsx?$/,
     /\.mjs$/,
-    /\.jsx?$/
+    /\.jsx?$/,
   ]);
 
   return {
@@ -47,20 +49,24 @@ export const chunkCleanup = (opt: {
       const result = await transform(code, {
         filename: id,
         env: opt.env ?? { targets: "defaults" },
-        minify: false
+        minify: false,
       });
 
-      return result.code && {
-        code: result.code,
-        map: result.map || null
-      };
+      return (
+        result.code && {
+          code: result.code,
+          map: result.map || null,
+        }
+      );
     },
 
     async renderChunk(code: string) {
-      return (await transform(code, {
-        minify: opt.minify ?? false,
-        annotatePure: opt.annotatePure ?? true
-      })).code;
-    }
+      return (
+        await transform(code, {
+          minify: opt.minify ?? false,
+          annotatePure: opt.annotatePure ?? true,
+        })
+      ).code;
+    },
   };
 };

@@ -19,7 +19,7 @@ export const observableRef = <T extends any>(value: T): ObservableRef<T> => {
           store$.next(newValue);
           trigger();
         }
-      }
+      },
     };
   });
 
@@ -45,6 +45,6 @@ export const observableRef = <T extends any>(value: T): ObservableRef<T> => {
       }
       value$[p] = newValue;
       return true;
-    }
+    },
   });
 };

@@ -7,7 +7,7 @@ import {
   type InternalPropsOf,
   type PublicPropsOf,
   type InternalSlotsOf,
-  type SetupContext
+  type SetupContext,
 } from "../types";
 import { render } from "./RxSlot";
 import type { RenderFunction } from "vue";
@@ -18,29 +18,28 @@ export { render };
 export type ObservablesAndProps<Props extends Record<string, any>> =
   Observables<Props> & Omit<Props, keyof Observables<Props>>;
 
-export type ObservableSetupFunction<
-  PropTypes extends Record<string, AnyType>
-> = (
-  P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
-  ctx: SetupContext<
-    InternalEmitsOf<PropTypes>,
-    InternalSlotsOf<PropTypes>
-  > & { render: typeof render }
-) => RenderFunction | JSX.Element | null;
+export type ObservableSetupFunction<PropTypes extends Record<string, AnyType>> =
+  (
+    P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
+    ctx: SetupContext<
+      InternalEmitsOf<PropTypes>,
+      InternalSlotsOf<PropTypes>
+    > & { render: typeof render },
+  ) => RenderFunction | JSX.Element | null;
 
 export function component$(
   setup: ObservableSetupFunction<{}>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<{}>;
 export function component$<PropTypes extends Record<string, AnyType>>(
   propTypes: PropTypes,
   setup: ObservableSetupFunction<PropTypes>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<PublicPropsOf<PropTypes>>;
 export function component$<PropTypes extends Record<string, AnyType>>(
   propTypesOrSetup: PropTypes | ObservableSetupFunction<PropTypes>,
   setupOrOptions?: ObservableSetupFunction<PropTypes> | ComponentOptions,
-  options: ComponentOptions = {}
+  options: ComponentOptions = {},
 ): Component<PublicPropsOf<PropTypes>> {
   const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
   const finalSetup = (setupOrOptions ??
@@ -58,8 +57,8 @@ export function component$<PropTypes extends Record<string, AnyType>>(
         {
           get(_, key: string) {
             return (props as any)[key] ?? (props$ as any)[key];
-          }
-        }
+          },
+        },
       ) as any;
 
       const c = new Proxy(
@@ -70,8 +69,8 @@ export function component$<PropTypes extends Record<string, AnyType>>(
               return render;
             }
             return (ctx as any)[key];
-          }
-        }
+          },
+        },
       ) as any;
 
       const renderFuncOrVNode = finalSetup(p, c);
@@ -82,6 +81,6 @@ export function component$<PropTypes extends Record<string, AnyType>>(
 
       return () => renderFuncOrVNode;
     },
-    finalOptions
+    finalOptions,
   ) as any;
 }

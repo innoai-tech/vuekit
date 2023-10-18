@@ -13,7 +13,7 @@ export default component(() => {
           flexDirection: "column",
           flexWrap: "wrap",
           justifyContent: "space-between",
-          gap: 8
+          gap: 8,
         }}
       >
         {theme.token.textStyle.tokens.map((textStyle) => (
@@ -33,12 +33,12 @@ export default component(() => {
 
               display: "flex",
               flexDirection: "column",
-              justifyContent: "space-between"
+              justifyContent: "space-between",
             }}
           >
             <Box
               sx={{
-                textStyle: "sys.label-small"
+                textStyle: "sys.label-small",
               }}
             >
               {textStyle}

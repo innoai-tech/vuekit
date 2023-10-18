@@ -2,12 +2,19 @@ export * from "./Properties";
 export * from "./Pseudos";
 
 export type { Globals } from "@innoai-tech/csstype";
-import type { PseudoClassAliases, PseudoElementAliases, Pseudos } from "./Pseudos";
+import type {
+  PseudoClassAliases,
+  PseudoElementAliases,
+  Pseudos,
+} from "./Pseudos";
 import type { CSSAllProps } from "./Properties";
 
 export type RecursivePseudo<D> = {
-  [K in keyof PseudoElementAliases | keyof PseudoClassAliases | keyof Pseudos]?: D;
-}
+  [K in
+    | keyof PseudoElementAliases
+    | keyof PseudoClassAliases
+    | keyof Pseudos]?: D;
+};
 
 type CSSDefinition<D> = D | RecursiveCSSSelector<D>;
 

@@ -9,7 +9,7 @@ import {
   DialogContainer,
   Icon,
   IconButton,
-  mdiClose
+  mdiClose,
 } from "@innoai-tech/vuematerial";
 import { Container } from "@webapp/vuekit/layout";
 import { ref } from "vue";
@@ -22,7 +22,6 @@ export default component(() => {
   return () => (
     <Container>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 8 }}>
-
         <TextButton
           onClick={() => {
             dialogIsOpen1.value = true;
@@ -37,13 +36,20 @@ export default component(() => {
           }}
         >
           <DialogContainer sx={{ minH: "40vh" }}>
-            <Box sx={{ display: "flex", alignItems: "center", px: 16, textStyle: "sys.title-large" }}>
-              <Box sx={{ flex: 1 }}>
-                我是对话框
-              </Box>
-              <IconButton onClick={() => {
-                dialogIsOpen1.value = false;
-              }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                px: 16,
+                textStyle: "sys.title-large",
+              }}
+            >
+              <Box sx={{ flex: 1 }}>我是对话框</Box>
+              <IconButton
+                onClick={() => {
+                  dialogIsOpen1.value = false;
+                }}
+              >
                 <Icon path={mdiClose} />
               </IconButton>
             </Box>
@@ -63,20 +69,25 @@ export default component(() => {
               }}
             >
               <DialogContainer sx={{ minH: "40vh" }}>
-                <Box sx={{ display: "flex", alignItems: "center", px: 16, textStyle: "sys.title-large" }}>
-                  <Box sx={{ flex: 1 }}>
-                    我是对话框 2
-                  </Box>
-                  <IconButton onClick={() => {
-                    dialogIsOpen2.value = false;
-                  }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    px: 16,
+                    textStyle: "sys.title-large",
+                  }}
+                >
+                  <Box sx={{ flex: 1 }}>我是对话框 2</Box>
+                  <IconButton
+                    onClick={() => {
+                      dialogIsOpen2.value = false;
+                    }}
+                  >
                     <Icon path={mdiClose} />
                   </IconButton>
-
                 </Box>
               </DialogContainer>
             </Dialog>
-
           </DialogContainer>
         </Dialog>
 

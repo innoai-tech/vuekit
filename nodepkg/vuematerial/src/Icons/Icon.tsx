@@ -5,20 +5,16 @@ export const Icon = styled(
   "span",
   {
     placement: t.enums(["start", "end"]).optional(),
-    path: t.string()
+    path: t.string(),
   },
   (props, {}) =>
-    (Wrapper) =>
-      (
-        <Wrapper
-          data-icon={true}
-          data-placement={props.placement}
-        >
-          <svg viewBox="0 0 24 24">
-            <path d={props.path} />
-          </svg>
-        </Wrapper>
-      )
+    (Wrapper) => (
+      <Wrapper data-icon={true} data-placement={props.placement}>
+        <svg viewBox="0 0 24 24">
+          <path d={props.path} />
+        </svg>
+      </Wrapper>
+    ),
 )({
-  boxSize: "1.2em"
+  boxSize: "1.2em",
 });

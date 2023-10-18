@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "workspaces": [
+    "nodepkg/*",
+    "nodedevpkg/*"
+  ],
   "engines": {
-    "node": ">=20",
-    "pnpm": ">=8"
+    "bun": ">=1"
   },
   "publishConfig": {
     "registry": "https://npm.pkg.github.com",
@@ -16,28 +19,28 @@
     "url": "ssh://git@github.com:innoai-tech/vuekit.git"
   },
   "dependencies": {
-    "@innoai-tech/vuekit": "workspace:^",
-    "@innoai-tech/vuematerial": "workspace:^",
-    "@innoai-tech/vueuikit": "workspace:^",
+    "@innoai-tech/vuekit": "workspace:*",
+    "@innoai-tech/vuematerial": "workspace:*",
+    "@innoai-tech/vueuikit": "workspace:*",
     "core-js": "^3.33.0"
   },
   "devDependencies": {
+    "@happy-dom/global-registrator": "^12.9.1",
+    "@innoai-tech/bunpublish": "^0.1.4",
     "@innoai-tech/lodash": "^0.2.1",
-    "@innoai-tech/monobundle": "^0.10.2",
-    "@innoai-tech/vue-vite-presets": "workspace:^",
-    "@innoai-tech/vuedevconfig": "workspace:^",
+    "@innoai-tech/monobundle": "^0.11.6",
+    "@innoai-tech/vue-vite-presets": "workspace:*",
+    "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.3.67",
     "@vue/test-utils": "^2.4.1",
+    "bun-types": "^1.0.6",
     "copy-to-clipboard": "^3.3.3",
-    "jsdom": "^22.1.0",
     "normalize.css": "^8.0.1",
     "prettier": "^3.0.3",
     "rxjs": "^7.8.1",
-    "tsx": "^3.13.0",
     "turbo": "^1.10.15",
     "typescript": "^5.2.2",
     "vite": "^4.4.11",
-    "vitest": "^0.34.6",
     "vue": "^3.3.4"
   },
   "prettier": {}

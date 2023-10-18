@@ -2,7 +2,7 @@ import {
   createPopperLite,
   type Placement,
   flip,
-  type Modifier
+  type Modifier,
 } from "@popperjs/core";
 import { t, component, type VNode, type VNodeChild } from "@innoai-tech/vuekit";
 import { cloneVNode, ref, watch } from "vue";
@@ -11,12 +11,12 @@ import type { ModifierArguments, State } from "@popperjs/core";
 
 export function createPopperModifier<Options extends Record<string, any>>(
   fn: (o: ModifierArguments<Options>) => State | void,
-  options: Omit<Modifier<string | Symbol, Options>, "fn" | "enabled">
+  options: Omit<Modifier<string | Symbol, Options>, "fn" | "enabled">,
 ): Modifier<string | Symbol, Options> {
   return {
     fn,
     enabled: true,
-    ...options
+    ...options,
   };
 }
 
@@ -30,7 +30,7 @@ export const Popper = component(
 
     $transition: Overlay.propTypes.$transition,
     $content: t.custom<VNodeChild>(),
-    $default: t.custom<JSX.Element | null>()
+    $default: t.custom<JSX.Element | null>(),
   },
   (props, { slots, emit, attrs }) => {
     const triggerRef = ref<HTMLElement | null>(null);
@@ -42,10 +42,10 @@ export const Popper = component(
         if (contentEl) {
           createPopperLite(triggerRef.value!, contentEl!, {
             placement: props.placement ?? "bottom",
-            modifiers: [...(props.modifiers ?? []), flip]
+            modifiers: [...(props.modifiers ?? []), flip],
           });
         }
-      }
+      },
     );
 
     return () => {
@@ -61,7 +61,7 @@ export const Popper = component(
             ...attrs,
             onVnodeMounted: (n) => {
               triggerRef.value = resolveElement(n.el);
-            }
+            },
           })}
           <Overlay
             triggerRef={triggerRef}
@@ -79,8 +79,8 @@ export const Popper = component(
   },
   {
     name: "Popper",
-    inheritAttrs: false
-  }
+    inheritAttrs: false,
+  },
 );
 
 function resolveElement(el: VNode["el"]): HTMLElement | null {

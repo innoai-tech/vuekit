@@ -1,7 +1,7 @@
 import vue from "@vitejs/plugin-vue";
 import vitePages, {
   type PageResolver,
-  type PageOptions
+  type PageOptions,
 } from "vite-plugin-pages";
 import { createPageMetaResolver, viteVueComponentPatcher } from "./vue";
 import { mdx } from "./mdx";
@@ -26,8 +26,8 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
       onRoutesGenerated: r.onRoutesGenerated,
       resolver: {
         ...r.pagesResolver,
-        ...options.pagesResolver
-      }
-    })
+        ...options.pagesResolver,
+      },
+    }),
   ];
 };

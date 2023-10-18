@@ -8,13 +8,16 @@ import { ref } from "vue";
 export default component(() => {
   const isOpen = ref(false);
 
-  const modifier = createPopperModifier(({ state }) => {
-    state.styles.popper.width = `${state.rects.reference.width}px`;
-  }, {
-    name: "sameWidth",
-    phase: "beforeWrite",
-    requires: ["computeStyles"]
-  });
+  const modifier = createPopperModifier(
+    ({ state }) => {
+      state.styles.popper.width = `${state.rects.reference.width}px`;
+    },
+    {
+      name: "sameWidth",
+      phase: "beforeWrite",
+      requires: ["computeStyles"],
+    },
+  );
 
   return () => (
     <Popper
@@ -80,30 +83,30 @@ import {
   defineTransition,
   Popper,
   transition,
-  triangle
+  triangle,
 } from "@innoai-tech/vueuikit";
 
 export const FadeInOutTransition = defineTransition(
   {
     from: {
-      opacity: 0
+      opacity: 0,
     },
     to: {
-      opacity: 1
+      opacity: 1,
     },
     duration: transition.duration.md1,
-    easing: transition.easing.standard.accelerate
+    easing: transition.easing.standard.accelerate,
   },
   {
     from: {
-      opacity: 1
+      opacity: 1,
     },
     to: {
-      opacity: 0
+      opacity: 0,
     },
     duration: transition.duration.sm4,
-    easing: transition.easing.standard.decelerate
-  }
+    easing: transition.easing.standard.decelerate,
+  },
 );
 
 export default component(() => {
@@ -112,7 +115,9 @@ export default component(() => {
   return () => (
     <Popper
       isOpen={isOpen.value}
-      $transition={({ content }) => <FadeInOutTransition>{content}</FadeInOutTransition>}
+      $transition={({ content }) => (
+        <FadeInOutTransition>{content}</FadeInOutTransition>
+      )}
       $content={
         <Box
           sx={{
@@ -120,7 +125,7 @@ export default component(() => {
             shadow: "2",
             py: 2,
             px: 4,
-            rounded: "sm"
+            rounded: "sm",
           }}
         >
           Popper {`${isOpen.value}`}!

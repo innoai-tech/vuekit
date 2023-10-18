@@ -13,23 +13,27 @@ type DistributiveOmit<T, K extends keyof any> = T extends any
 
 type OverrideProps<
   M extends OverridableTypeMap,
-  C extends VElementType
+  C extends VElementType,
 > = BaseProps<M> & DistributiveOmit<ComponentProps<C>, keyof BaseProps<M>>;
 
 type DefaultComponentProps<M extends OverridableTypeMap> = BaseProps<M> &
   DistributiveOmit<ComponentProps<M["defaultComponent"]>, keyof BaseProps<M>>;
 
-export type ComponentProps<T extends VElementType> = T extends Component<infer P>
+export type ComponentProps<T extends VElementType> = T extends Component<
+  infer P
+>
   ? P
   : T extends keyof JSX.IntrinsicElements
-    ? JSX.IntrinsicElements[T]
-    : never;
+  ? JSX.IntrinsicElements[T]
+  : never;
 
-
-export interface OverridableComponent<M extends OverridableTypeMap, P extends Record<string, any> = DefaultComponentProps<M>> extends Component<P> {
+export interface OverridableComponent<
+  M extends OverridableTypeMap,
+  P extends Record<string, any> = DefaultComponentProps<M>,
+> extends Component<P> {
   <C extends VElementType>(
     props: { component: C } & OverrideProps<M, C>,
-    ctx: any
+    ctx: any,
   ): any;
 
   (props: P, ctx: any): any;

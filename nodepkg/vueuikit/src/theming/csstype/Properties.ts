@@ -14,7 +14,7 @@ function createNameGetter<T extends Record<string, any>>(): {
       get(_, p) {
         return p;
       },
-    }
+    },
   ) as any;
 }
 
@@ -134,7 +134,7 @@ export const CSSAllProperty = createNameGetter<Required<CSSAllProps>>();
 
 export type ExpandedAliases<
   P extends keyof CSSAllProps,
-  Aliases = typeof aliases
+  Aliases = typeof aliases,
 > = P | ValuesOf<P extends keyof Aliases ? Pick<Aliases, P> : never>;
 
 export const expandAliases = <P extends keyof CSSAllProps>(

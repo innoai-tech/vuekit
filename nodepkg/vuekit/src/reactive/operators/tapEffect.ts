@@ -17,7 +17,7 @@ const equal = (a: any, b: any) => {
 };
 
 export const tapEffect = <T extends any>(
-  create: (input: T) => (() => void) | undefined
+  create: (input: T) => (() => void) | undefined,
 ) => {
   let cleanup: (() => void) | undefined = undefined;
   let prevInput: T | null = null;

@@ -4,13 +4,16 @@ import { DesignToken } from "./DesignToken";
 export type FigmaToken = {
   type: string;
   value: any;
-}
+};
 
 export type FigmaTokenValues<T = FigmaToken> = {
-  [K: string]: FigmaToken | FigmaTokenValues<T>
-}
+  [K: string]: FigmaToken | FigmaTokenValues<T>;
+};
 
-export function themeFromFigmaTokens(defaultTokens: FigmaTokenValues[], darkTokens: FigmaTokenValues[]) {
+export function themeFromFigmaTokens(
+  defaultTokens: FigmaTokenValues[],
+  darkTokens: FigmaTokenValues[],
+) {
   const target: Record<string, any> = {};
 
   walkFigmaTokens(defaultTokens, (v: any, path: string[]) => {
@@ -88,7 +91,10 @@ function parseToRgb(color: string) {
   return [parseInt(m[1]!), parseInt(m[2]!), parseInt(m[3]!)];
 }
 
-function walkFigmaTokens(tokens: FigmaTokenValues[], cb: (value: any, path: string[]) => void) {
+function walkFigmaTokens(
+  tokens: FigmaTokenValues[],
+  cb: (value: any, path: string[]) => void,
+) {
   tokens.forEach((token) => {
     walkValue(token, cb);
   });
@@ -108,7 +114,11 @@ function setTo(target: any, keyPath: string[], v: any) {
   }
 }
 
-function walkValue(o: any, cb: (v: any, path: any[]) => void, parent: any[] = []) {
+function walkValue(
+  o: any,
+  cb: (v: any, path: any[]) => void,
+  parent: any[] = [],
+) {
   for (const k in o) {
     const v = o[k]! as any;
     if (isPlainObject(v)) {
@@ -122,4 +132,3 @@ function walkValue(o: any, cb: (v: any, path: any[]) => void, parent: any[] = []
     cb(v, [...parent, k]);
   }
 }
-

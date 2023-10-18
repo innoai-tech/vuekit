@@ -14,7 +14,7 @@ type RouteMetadata = {
 
 export const extractRouteMeta = (
   id: string,
-  jsdoc: string
+  jsdoc: string,
 ): RouteMetadata | undefined => {
   let r;
 
@@ -24,13 +24,13 @@ export const extractRouteMeta = (
 
     // Support import("@innoai-tech/vuematerial").mdiPlus
     const importType = type.match(
-      /(typeof +)?import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/
+      /(typeof +)?import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/,
     );
 
     r = r ?? {
       imports: {} as Record<string, Record<string, boolean>>,
       meta: {} as Record<string, any>,
-      id
+      id,
     };
 
     if (importType) {
@@ -39,9 +39,9 @@ export const extractRouteMeta = (
         [
           "imports",
           importType.groups!["importPath"]!,
-          importType.groups!["name"]!
+          importType.groups!["name"]!,
         ],
-        true
+        true,
       );
       set(r, keyPath, importType.groups!["name"]!);
     } else {
@@ -88,14 +88,16 @@ export const createPageMetaResolver = () => {
           const q = new URLSearchParams(search ?? "");
 
           if (q.has("exportAsDefault")) {
-            return `export { ${q.get("exportAsDefault")} as default } from "${filepath}";`;
+            return `export { ${q.get(
+              "exportAsDefault",
+            )} as default } from "${filepath}";`;
           }
 
           if (m) {
             const nameOfImports: Record<string, string> = {};
 
             for (const importPath in m.imports) {
-              for (const importName in (m.imports[importPath])) {
+              for (const importName in m.imports[importPath]) {
                 nameOfImports[importName] = importPath;
               }
             }
@@ -104,14 +106,14 @@ export const createPageMetaResolver = () => {
 export default {
   meta: {
     ${Object.keys(m.meta)
-              .map((k) => {
-                const name = m.meta[k];
-                if (nameOfImports[name]) {
-                  return `${k}: () => import("${nameOfImports[name]}?exportAsDefault=${name}&id=~page-meta.ts")`;
-                }
-                return `${k}: ${name}`;
-              })
-              .join(",\n")}
+      .map((k) => {
+        const name = m.meta[k];
+        if (nameOfImports[name]) {
+          return `${k}: () => import("${nameOfImports[name]}?exportAsDefault=${name}&id=~page-meta.ts")`;
+        }
+        return `${k}: ${name}`;
+      })
+      .join(",\n")}
   }
 }`;
           }
@@ -119,7 +121,7 @@ export default {
           return `export default {}`;
         }
         return null;
-      }
+      },
     } as Plugin,
     onRoutesGenerated: async (routes: VueRoute[]) => {
       const imports = new Map<string, string>();
@@ -176,8 +178,8 @@ ${code}
             return `Object.assign(${importName}, ${importName}${pageMetaLocalIdSuffix})`;
           }
           return importName;
-        }
-      }
-    }
+        },
+      },
+    },
   };
 };

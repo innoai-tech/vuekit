@@ -6,7 +6,7 @@ export class Mixin {
   static walkValue = (
     o: any,
     cb: (v: any, path: any[]) => void,
-    parent: any[] = []
+    parent: any[] = [],
   ) => {
     for (const k in o) {
       const v = o[k]! as any;

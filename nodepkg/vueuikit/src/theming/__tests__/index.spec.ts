@@ -1,4 +1,4 @@
-import { test, describe, expect } from "vitest";
+import { test, describe, expect } from "bun:test";
 import { alpha, defaultTheming, variant } from "../index";
 import { CSSProcessor } from "../CSSProcessor";
 
@@ -12,8 +12,8 @@ describe("theming", () => {
       $dataRole__heading: "& [data-role='heading']",
 
       $data_popper_arrow: "& [data-popper-arrow]",
-      
-      data_popper_placement__right$: "[data-popper-placement='right'] &"
+
+      data_popper_placement__right$: "[data-popper-placement='right'] &",
     };
 
     for (const k in selectors) {
@@ -28,23 +28,22 @@ describe("theming", () => {
           px: 4,
           py: 2,
           w: 1 / 4,
-          rounded: 20
-        }
+          rounded: 20,
+        },
       ],
 
       color: "sys.on-primary-container",
 
       _$before: {
-        bgColor: "sys.primary-container"
+        bgColor: "sys.primary-container",
       },
 
       _error: {
-        bgColor: variant("secondary.20", alpha(0.12))
-      }
+        bgColor: variant("secondary.20", alpha(0.12)),
+      },
     });
 
-
-    console.log(cs)
+    console.log(cs);
 
     expect(cs).toEqual([
       {
@@ -53,18 +52,18 @@ describe("theming", () => {
         paddingLeft: "calc(4 * var(--vk-space__dp))",
         paddingRight: "calc(4 * var(--vk-space__dp))",
         paddingTop: "calc(2 * var(--vk-space__dp))",
-        width: "25%"
+        width: "25%",
       },
       {
         color: "var(--vk-color__sys__on-primary-container)",
         fill: "var(--vk-color__sys__on-primary-container)",
         "&::before": {
-          backgroundColor: "var(--vk-color__sys__primary-container)"
+          backgroundColor: "var(--vk-color__sys__primary-container)",
         },
         "&[data-error]:not([data-error='false'])": {
-          backgroundColor: "rgba(var(--vk-color__secondary__20--rgb) / 0.12)"
-        }
-      }
+          backgroundColor: "rgba(var(--vk-color__secondary__20--rgb) / 0.12)",
+        },
+      },
     ]);
   });
 });

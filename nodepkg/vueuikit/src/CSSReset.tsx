@@ -14,20 +14,20 @@ export const CSSReset = component(() => {
           ":host, :root, [data-theme]": rootVars,
 
           "*, *::after, *::before": {
-            boxSizing: "border-box"
+            boxSizing: "border-box",
           },
 
           html: {
-            fontSize: "10px"
+            fontSize: "10px",
           },
 
           a: {
-            color: "inherit"
+            color: "inherit",
           },
 
           body: {
-            textStyle: "sys.body-medium"
-          }
+            textStyle: "sys.body-medium",
+          },
         }}
       />
     );

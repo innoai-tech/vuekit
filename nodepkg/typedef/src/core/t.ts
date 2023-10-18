@@ -16,7 +16,7 @@ import {
   TypeIntersection,
   TypeRef,
   TypeWrapper,
-  Type
+  Type,
 } from "./Types";
 
 export const ref = TypeRef.create;

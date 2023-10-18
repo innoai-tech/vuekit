@@ -38,7 +38,7 @@ export const generateClient = async (opt: Options) => {
 export const generateClients = async (
   outDir: string,
   c: AppConfig & { metadata: Record<string, any> },
-  options: GenerateOptions
+  options: GenerateOptions,
 ) => {
   for (const k in c.config) {
     if (c.metadata[k] && c.metadata[k]!.api) {
@@ -52,7 +52,7 @@ export const generateClients = async (
         ...options,
         id,
         uri: openapi,
-        outDir
+        outDir,
       });
     }
   }

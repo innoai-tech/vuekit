@@ -2,7 +2,7 @@ import { resolve } from "path";
 import {
   type UserConfig,
   type PluginOption,
-  searchForWorkspaceRoot
+  searchForWorkspaceRoot,
 } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
@@ -13,7 +13,7 @@ export interface AppConfig {
 
 export const app = (
   appName: string,
-  appConfig: AppConfig = {}
+  appConfig: AppConfig = {},
 ): PluginOption[] => {
   (process.env as any).APP_VERSION = "__VERSION__";
 
@@ -43,7 +43,9 @@ export const app = (
         c.build.emptyOutDir = true;
 
         c.build.rollupOptions = c.build.rollupOptions ?? {};
-        c.build.rollupOptions.external = c.build.rollupOptions.external ?? ["csstype"];
+        c.build.rollupOptions.external = c.build.rollupOptions.external ?? [
+          "csstype",
+        ];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
 
@@ -51,12 +53,11 @@ export const app = (
         c.build.rollupOptions.output = {
           assetFileNames: `${c.build.assetsDir}/[name].[hash][extname]`,
           entryFileNames: `${c.build.assetsDir}/[name].[hash].entry.js`,
-          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`
+          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`,
         };
 
         c.resolve = c.resolve ?? {};
         c.resolve.alias = c.resolve.alias ?? ({} as Record<string, string>);
-
       },
 
       transformIndexHtml(html: string) {
@@ -66,13 +67,13 @@ export const app = (
             {
               tag: "base",
               attrs: {
-                href: userConfig.base ?? "/"
-              }
-            }
-          ]
+                href: userConfig.base ?? "/",
+              },
+            },
+          ],
         };
-      }
+      },
     },
-    tsconfigPaths({})
+    tsconfigPaths({}),
   ];
 };

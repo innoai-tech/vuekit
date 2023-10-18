@@ -14,7 +14,7 @@ const tones = {
   "80": true,
   "90": true,
   "95": true,
-  "100": true
+  "100": true,
 } as const;
 
 export default component(() => {
@@ -27,7 +27,7 @@ export default component(() => {
             sx={{
               textStyle: "sys.headline-medium",
               pb: 8,
-              mt: 16
+              mt: 16,
             }}
           >
             {upperFirst(theme)} Scheme
@@ -40,7 +40,7 @@ export default component(() => {
                 "tertiary",
                 "error",
                 "warning",
-                "success"
+                "success",
               ].map((keyColor) => {
                 return (
                   <Box
@@ -49,7 +49,7 @@ export default component(() => {
                       flex: 1,
                       minW: 1 / 4,
                       display: "flex",
-                      alignItems: "stretch"
+                      alignItems: "stretch",
                     }}
                   >
                     <Box
@@ -62,7 +62,7 @@ export default component(() => {
                               bgColor: `sys.${keyColor}${suffix}` as any,
                               color: `sys.on-${keyColor}${suffix}` as any,
                               p: 8,
-                              flex: 3
+                              flex: 3,
                             }}
                           >
                             {`${keyColor}${suffix}`}
@@ -72,7 +72,7 @@ export default component(() => {
                               color: `sys.${keyColor}${suffix}` as any,
                               bgColor: `sys.on-${keyColor}${suffix}` as any,
                               p: 8,
-                              flex: 1
+                              flex: 1,
                             }}
                           >
                             {`on-${keyColor}${suffix}`}
@@ -90,7 +90,7 @@ export default component(() => {
                             bgColor: `${keyColor}.${k}` as any,
                             w: 60,
                             p: 8,
-                            textAlign: "right"
+                            textAlign: "right",
                           }}
                         >
                           .{k}
@@ -110,7 +110,7 @@ export default component(() => {
                       color: `sys.on-surface`,
                       bgColor: `sys.surface${suffix}` as any,
                       height: 80,
-                      p: 8
+                      p: 8,
                     }}
                   >
                     {`surface${suffix}`}
@@ -124,7 +124,7 @@ export default component(() => {
                       color: `sys.on-surface`,
                       bgColor: `sys.surface-container${suffix}` as any,
                       height: 80,
-                      p: 8
+                      p: 8,
                     }}
                   >
                     {`surface-container${suffix}`}
@@ -136,7 +136,7 @@ export default component(() => {
                   "on-surface",
                   "on-surface-variant",
                   "outline",
-                  "outline-variant"
+                  "outline-variant",
                 ].map((color) => (
                   <Box
                     sx={{
@@ -145,7 +145,7 @@ export default component(() => {
                         : "sys.inverse-on-surface",
                       bgColor: `sys.${color}` as any,
                       height: 80,
-                      p: 8
+                      p: 8,
                     }}
                   >
                     {color}
@@ -160,7 +160,7 @@ export default component(() => {
                       bgColor: `neutral.${k}` as any,
                       flex: 1,
                       p: 8,
-                      textAlign: "right"
+                      textAlign: "right",
                     }}
                   >
                     .{k}

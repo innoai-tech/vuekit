@@ -1,12 +1,9 @@
-import { test, describe, expect } from "vitest";
+import { test, describe, expect } from "bun:test";
 import { component, createProvider } from "../index";
 import { mount } from "@vue/test-utils";
 import { t } from "@innoai-tech/typedef";
 import { ref, watch } from "vue";
 
-/**
- *  @vitest-environment jsdom
- **/
 describe("Provider", () => {
   describe("static", () => {
     const P = createProvider(() => ({ context: "default" }));
@@ -51,26 +48,32 @@ describe("Provider", () => {
     });
 
     test("could inject custom value", async () => {
-      const With = component({
-        context: t.string().optional().default("injected")
-      }, (props, {}) => {
-        const r = ref({ context: props.context });
+      const With = component(
+        {
+          context: t.string().optional().default("injected"),
+        },
+        (props, {}) => {
+          const r = ref({ context: props.context });
 
-        watch(() => props.context, (context) => {
-          r.value = { context: context };
-        });
+          watch(
+            () => props.context,
+            (context) => {
+              r.value = { context: context };
+            },
+          );
 
-        return () => (
-          <P value={r}>
-            <C />
-          </P>
-        );
-      });
+          return () => (
+            <P value={r}>
+              <C />
+            </P>
+          );
+        },
+      );
 
       const wrapper = mount(With, {});
       expect(wrapper.text()).toContain("injected");
       await wrapper.setProps({
-        context: "injected2"
+        context: "injected2",
       });
       expect(wrapper.text()).toContain("injected2");
 
@@ -81,9 +84,9 @@ describe("Provider", () => {
   describe("factory", () => {
     const P = createProvider(
       {
-        input: t.string().default("default")
+        input: t.string().default("default"),
       },
-      (props) => ({ context: `${props.input}` })
+      (props) => ({ context: `${props.input}` }),
     );
 
     const C = component(({}, {}) => {
@@ -116,17 +119,20 @@ describe("Provider", () => {
   describe("reactive factory", () => {
     const P = createProvider(
       {
-        input: t.string().default("default")
+        input: t.string().default("default"),
       },
       (props) => {
         const r = ref(props.input);
 
-        watch(() => props.input, (input) => {
-          r.value = input;
-        });
+        watch(
+          () => props.input,
+          (input) => {
+            r.value = input;
+          },
+        );
 
         return r;
-      }
+      },
     );
 
     const C = component(({}, {}) => {
@@ -141,23 +147,25 @@ describe("Provider", () => {
     });
 
     test("could inject custom value", async () => {
-      const With = component({
-        input: t.string().optional().default("injected")
-      }, (props, {}) => {
-        return () => (
-          <P input={props.input}>
-            <C />
-          </P>
-        );
-      });
+      const With = component(
+        {
+          input: t.string().optional().default("injected"),
+        },
+        (props, {}) => {
+          return () => (
+            <P input={props.input}>
+              <C />
+            </P>
+          );
+        },
+      );
 
       const wrapper = mount(With, {});
       expect(wrapper.text()).toContain("injected");
 
-
       for (let i = 0; i < 2; i++) {
         await wrapper.setProps({
-          input: "injected2"
+          input: "injected2",
         });
         expect(wrapper.text()).toContain("injected2");
       }

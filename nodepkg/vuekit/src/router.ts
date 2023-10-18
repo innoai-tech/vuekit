@@ -4,7 +4,7 @@ import {
   RouterView as _RouterView,
   type RouterViewProps as _RouterViewProps,
   RouterLink as _RouterLink,
-  type RouterLinkProps as _RouterLinkProps
+  type RouterLinkProps as _RouterLinkProps,
 } from "vue-router";
 
 export type RouterLinkProps = _RouterLinkProps & WithDefaultSlot;
@@ -18,5 +18,5 @@ export {
   useRoute,
   useRouter,
   createRouter,
-  createWebHistory
+  createWebHistory,
 } from "vue-router";

@@ -1,4 +1,4 @@
-import { describe, it } from "vitest";
+import { describe, it } from "bun:test";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -14,8 +14,8 @@ describe("#generateClient", () => {
       outDir: join(__dirname, "client"),
       requestCreator: {
         expose: "createRequest",
-        importPath: "./client"
-      }
+        importPath: "./client",
+      },
     });
   });
 });

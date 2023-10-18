@@ -108,16 +108,16 @@ export default component(() => () => (
 
 - 所有名称支持 _下划线命名_ 或者 _驼峰命名_，最终都将转换为 _短横小写命名_, `=` 用 `__` 替代
 - `_*` 一般表示**状态**，可用值
-    - `data-*` 和 `aria-*`, `
-        - 如 `_aria_current__page`： 等效为 `&[aria-current='page']`,
-    - `before`，`after` 等[伪元素](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements), 需要声明 "$" 表示为元素
-        - 如 `_$before`： 等效为 `&::before`
-    - `hover`, `focus`, `active`, `disabled` 等[伪类](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes)
-        - 如 `_hover`： 等效为 `&:hover, &.hover, &[data-hover]:not([data-hover='false'])`,
-    - 以及其他自定义状态
-        - 如 `_has_icon`： 等效为 `&[data-has-icon]:not([data-has-icon='false'])`
+  - `data-*` 和 `aria-*`, `
+    - 如 `_aria_current__page`： 等效为 `&[aria-current='page']`,
+  - `before`，`after` 等[伪元素](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements), 需要声明 "$" 表示为元素
+    - 如 `_$before`： 等效为 `&::before`
+  - `hover`, `focus`, `active`, `disabled` 等[伪类](https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes)
+    - 如 `_hover`： 等效为 `&:hover, &.hover, &[data-hover]:not([data-hover='false'])`,
+  - 以及其他自定义状态
+    - 如 `_has_icon`： 等效为 `&[data-has-icon]:not([data-has-icon='false'])`
 - `$*` 或 `*$`，一般指代**元素节点**, 可用值为
-    - `data-*` 和 `aria-*`, `
-        - 如 `$data_icon`： 等效为 `&[data-icon]`
-        - 如 `$data_popper_arrow`： 等效为 `&[data-popper-arrow]`
-        - 如 `data_popper_placement__right$`： 等效为 `[data-popper-placement=right] &`
+  - `data-*` 和 `aria-*`, `
+    - 如 `$data_icon`： 等效为 `&[data-icon]`
+    - 如 `$data_popper_arrow`： 等效为 `&[data-popper-arrow]`
+    - 如 `data_popper_placement__right$`： 等效为 `[data-popper-placement=right] &`

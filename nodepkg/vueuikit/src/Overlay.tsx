@@ -1,3 +1,5 @@
+/// <reference lib="dom" />
+
 import {
   createProvider,
   t,
@@ -5,7 +7,7 @@ import {
   rx,
   toObservable,
   tapEffect,
-  subscribeUntilUnmount
+  subscribeUntilUnmount,
 } from "@innoai-tech/vuekit";
 import {
   Teleport,
@@ -15,24 +17,27 @@ import {
   type Ref,
   type CSSProperties,
   type VNodeChild,
-  cloneVNode
+  cloneVNode,
 } from "vue";
 
-export const OverlaySettingProvider = createProvider(() => {
-  return {
-    mountPoint: () => document.body
-  };
-}, {
-  name: "OverlaySetting"
-});
+export const OverlaySettingProvider = createProvider(
+  () => {
+    return {
+      mountPoint: () => document.body,
+    };
+  },
+  {
+    name: "OverlaySetting",
+  },
+);
 
 const OverlayProvider = createProvider<OverlayContext>(
   () => {
     return new OverlayContext(ref(null), ref(null), () => false);
   },
   {
-    name: "Overlay"
-  }
+    name: "Overlay",
+  },
 );
 
 class OverlayContext {
@@ -41,9 +46,8 @@ class OverlayContext {
   constructor(
     private triggerRef: Ref<HTMLElement | null>,
     private contentRef: Ref<HTMLDivElement | null>,
-    private isOpen: () => boolean
-  ) {
-  }
+    private isOpen: () => boolean,
+  ) {}
 
   add = (p: OverlayContext) => {
     this.children = [...this.children, p];
@@ -74,7 +78,7 @@ class OverlayContext {
   };
 
   topmost() {
-    return this.children.filter(c => c.isOpen()).length == 0;
+    return this.children.filter((c) => c.isOpen()).length == 0;
   }
 }
 
@@ -91,7 +95,7 @@ export const Overlay = component(
     $transition: t
       .custom<(ctx: { content: JSX.Element | null }) => VNodeChild>()
       .optional(),
-    $default: t.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional(),
   },
   (props, { slots, attrs, emit }) => {
     const contentRef = props.contentRef || ref<HTMLDivElement | null>(null);
@@ -99,7 +103,7 @@ export const Overlay = component(
     const popperContext = new OverlayContext(
       props.triggerRef ?? ref(null),
       contentRef,
-      () => !!props.isOpen
+      () => !!props.isOpen,
     );
 
     const setting = OverlaySettingProvider.use();
@@ -144,24 +148,24 @@ export const Overlay = component(
             window.removeEventListener("keydown", handleEscKeydown);
           };
         }),
-        subscribeUntilUnmount()
+        subscribeUntilUnmount(),
       );
     }
 
     return () => {
       const content = props.isOpen
         ? cloneVNode(
-          <div {...attrs} ref={contentRef} style={props.style}>
-            <OverlayProvider value={popperContext}>
-              {slots.default?.()}
-            </OverlayProvider>
-          </div>,
-          {
-            onVnodeBeforeMount: () => {
-              emit("content-before-mount");
-            }
-          }
-        )
+            <div {...attrs} ref={contentRef} style={props.style}>
+              <OverlayProvider value={popperContext}>
+                {slots.default?.()}
+              </OverlayProvider>
+            </div>,
+            {
+              onVnodeBeforeMount: () => {
+                emit("content-before-mount");
+              },
+            },
+          )
         : null;
 
       return (
@@ -173,6 +177,6 @@ export const Overlay = component(
   },
   {
     inheritAttrs: false,
-    name: "Overlay"
-  }
+    name: "Overlay",
+  },
 );

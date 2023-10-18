@@ -11,7 +11,7 @@ const seedColors = Palette.fromColors({
   neutral: "#5e5e5e",
   error: "#d93f23",
   warning: "#e69c00",
-  success: "#5ac220"
+  success: "#5ac220",
 });
 
 export const defaultTheme = {
@@ -20,8 +20,8 @@ export const defaultTheme = {
   ...elevation,
   rounded: rounded,
   ...seedColors.toDesignTokens({
-    "primary": ["primary", 80, 50]
-  })
+    primary: ["primary", 80, 50],
+  }),
 } as const;
 
 export * from "./palette";

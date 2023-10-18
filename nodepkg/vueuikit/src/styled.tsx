@@ -8,7 +8,7 @@ import {
   type InternalSlotsOf,
   type InternalPropsOf,
   type AnyType,
-  type VElementType
+  type VElementType,
 } from "@innoai-tech/vuekit";
 import { type SystemStyleObject } from "./theming";
 import { type SxProps, Box } from "./Box";
@@ -37,42 +37,42 @@ const defaultSetup = (props: any, ctx: any) => (Wrap: VElementType) => {
 
 export type StyledSetupFunction<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, AnyType>
+  PropTypes extends Record<string, AnyType>,
 > = (
   props: InternalPropsOf<PropTypes>,
-  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>
+  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>,
 ) => (Wrap: DefaultComponent) => VNode | null;
 
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, AnyType> = {}
+  PropTypes extends Record<string, AnyType> = {},
 >(
   defaultComponent: DefaultComponent,
-  setup?: StyledSetupFunction<DefaultComponent, PropTypes>
+  setup?: StyledSetupFunction<DefaultComponent, PropTypes>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
   props: PublicPropsOf<PropTypes> & Partial<SxProps>;
   defaultComponent: DefaultComponent;
 }>;
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, AnyType> = {}
+  PropTypes extends Record<string, AnyType> = {},
 >(
   defaultComponent: DefaultComponent,
   propTypes: PropTypes,
-  setup?: StyledSetupFunction<DefaultComponent, PropTypes>
+  setup?: StyledSetupFunction<DefaultComponent, PropTypes>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
   props: PublicPropsOf<PropTypes> & Partial<SxProps>;
   defaultComponent: DefaultComponent;
 }>;
 export function styled<
   DefaultComponent extends VElementType,
-  PropTypes extends Record<string, AnyType> = {}
+  PropTypes extends Record<string, AnyType> = {},
 >(
   defaultComponent: DefaultComponent,
   propTypesOrSetup?:
     | PropTypes
     | StyledSetupFunction<DefaultComponent, PropTypes>,
-  setup?: StyledSetupFunction<DefaultComponent, PropTypes>
+  setup?: StyledSetupFunction<DefaultComponent, PropTypes>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
   props: PublicPropsOf<PropTypes> & Partial<SxProps>;
   defaultComponent: DefaultComponent;
@@ -88,7 +88,7 @@ export function styled<
       {
         ...finalPropTypes,
         sx: t.custom<SystemStyleObject>().optional(),
-        component: t.custom<VElementType>().optional()
+        component: t.custom<VElementType>().optional(),
       },
       (props, ctx) => {
         const theme = ThemeProvider.use();
@@ -101,7 +101,10 @@ export function styled<
 
         const presetSxSerialized = theme.unstable_css(cache, presetSx);
 
-        const className = () => presetSxSerialized.name != "0" ? `${cache.key}-${presetSxSerialized.name}${sxClassName.value}` : `${sxClassName.value}`;
+        const className = () =>
+          presetSxSerialized.name != "0"
+            ? `${cache.key}-${presetSxSerialized.name}${sxClassName.value}`
+            : `${sxClassName.value}`;
 
         if ((defaultComponent as any).__styled) {
           const serialized = theme.unstable_css(cache, props.sx ?? {});
@@ -113,19 +116,19 @@ export function styled<
           onMounted(() => {
             insertCSS({
               serialized: presetSxSerialized,
-              isStringTag: true
+              isStringTag: true,
             });
 
             insertCSS({
               serialized,
-              isStringTag: true
+              isStringTag: true,
             });
           });
         } else {
           onBeforeMount(() => {
             insertCSS({
               serialized: presetSxSerialized,
-              isStringTag: true
+              isStringTag: true,
             });
           });
         }
@@ -139,7 +142,7 @@ export function styled<
             if (ret) {
               return cloneVNode(ret, {
                 component: (props as any).component,
-                class: className()
+                class: className(),
               });
             }
 
@@ -152,13 +155,13 @@ export function styled<
             return cloneVNode(ret, {
               component: (props as any).component || defaultComponent,
               sx: (props as any).sx,
-              class: className()
+              class: className(),
             });
           }
 
           return null;
         };
-      }
+      },
     ) as any;
 
     c.__styled = true;

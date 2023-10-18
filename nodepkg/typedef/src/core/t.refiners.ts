@@ -12,8 +12,8 @@ export function pattern(pattern: RegExp, msg?: string) {
         );
       },
       {
-        pattern
-      }
+        pattern,
+      },
     );
   };
 }

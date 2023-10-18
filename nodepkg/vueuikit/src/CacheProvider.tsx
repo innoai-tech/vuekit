@@ -3,10 +3,11 @@ import { type EmotionCache } from "@emotion/utils";
 import createCache from "@emotion/cache";
 
 export const CacheProvider = createProvider<EmotionCache>(
-  () => createCache({
-    key: "css"
-  }),
+  () =>
+    createCache({
+      key: "css",
+    }),
   {
-    name: "Cache"
-  }
+    name: "Cache",
+  },
 );

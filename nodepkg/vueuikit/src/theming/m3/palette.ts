@@ -2,11 +2,13 @@ import {
   argbFromHex,
   CorePalette,
   TonalPalette,
-  rgbaFromArgb
+  rgbaFromArgb,
 } from "@material/material-color-utilities";
 import {
   mapValues,
-  type Dictionary, padStart, isNumber
+  type Dictionary,
+  padStart,
+  isNumber,
 } from "@innoai-tech/lodash";
 import { DesignToken, type WithMixin } from "../token";
 
@@ -22,7 +24,7 @@ const tones = {
   "80": true,
   "90": true,
   "95": true,
-  "100": true
+  "100": true,
 } as const;
 
 export type ColorTonalPalette<Color = [number, number, number]> = {
@@ -92,7 +94,7 @@ export interface SeedColors {
 
 export type RoleColorRules<Seeds extends {}> = {
   [k in keyof ColorPalettes<Seeds>]: [keyof Seeds, number, number];
-}
+};
 
 const rgbFromArgb = (argb: number): [number, number, number] => {
   const rgba = rgbaFromArgb(argb);
@@ -106,17 +108,19 @@ const isKeyColor = (k: string) => {
     tertiary: true,
     error: true,
     warning: true,
-    success: true
+    success: true,
   }[k];
 };
 
 export class Palette<Colors extends SeedColors = SeedColors> {
   static toHEX = (n: number) => {
-    return `#${rgbFromArgb(n).map((v) => padStart(v.toString(16), 2, "0")).join("")}`;
+    return `#${rgbFromArgb(n)
+      .map((v) => padStart(v.toString(16), 2, "0"))
+      .join("")}`;
   };
 
   static fromColors = <Colors extends SeedColors = SeedColors>(
-    colors: Partial<Colors> & { primary: string }
+    colors: Partial<Colors> & { primary: string },
   ) => {
     const {
       primary,
@@ -132,7 +136,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       primary: argbFromHex(primary),
       secondary: secondary ? argbFromHex(secondary) : undefined,
       tertiary: tertiary ? argbFromHex(tertiary) : undefined,
-      error: error ? argbFromHex(error) : undefined
+      error: error ? argbFromHex(error) : undefined,
     });
 
     if (neutral) {
@@ -140,38 +144,38 @@ export class Palette<Colors extends SeedColors = SeedColors> {
     }
 
     if (neutralVariant) {
-      palette.n2 = TonalPalette.fromHueAndChroma(argbFromHex(neutralVariant), 8);
+      palette.n2 = TonalPalette.fromHueAndChroma(
+        argbFromHex(neutralVariant),
+        8,
+      );
     }
 
-    return new Palette<Colors>(
-      {
-        primary: palette.a1,
-        secondary: palette.a2,
-        tertiary: palette.a3,
-        neutral: palette.n1,
-        neutralVariant: palette.n2,
-        error: palette.error,
-        ...mapValues(otherColors as Dictionary<string>, (v) =>
-          TonalPalette.fromInt(argbFromHex(v))
-        ) as any
-      }
-    );
+    return new Palette<Colors>({
+      primary: palette.a1,
+      secondary: palette.a2,
+      tertiary: palette.a3,
+      neutral: palette.n1,
+      neutralVariant: palette.n2,
+      error: palette.error,
+      ...(mapValues(otherColors as Dictionary<string>, (v) =>
+        TonalPalette.fromInt(argbFromHex(v)),
+      ) as any),
+    });
   };
 
-  constructor(
-    public seeds: { [K in keyof Colors]: TonalPalette }
-  ) {
-  }
+  constructor(public seeds: { [K in keyof Colors]: TonalPalette }) {}
 
-  normalizeRoleRules(rules: Partial<RoleColorRules<Colors>> = {}): RoleColorRules<Colors> {
+  normalizeRoleRules(
+    rules: Partial<RoleColorRules<Colors>> = {},
+  ): RoleColorRules<Colors> {
     const roleRules: { [K: string]: [keyof Colors, number, number] } = {
-      "shadow": ["neutral", 0, 0],
-      "scrim": ["neutral", 0, 0],
+      shadow: ["neutral", 0, 0],
+      scrim: ["neutral", 0, 0],
 
-      "outline": ["neutralVariant", 60, 50],
+      outline: ["neutralVariant", 60, 50],
       "outline-variant": ["neutralVariant", 30, 80],
 
-      "surface": ["neutral", 10, 99],
+      surface: ["neutral", 10, 99],
       "on-surface": ["neutral", 90, 10],
 
       "surface-variant": ["neutralVariant", 30, 90],
@@ -188,7 +192,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
 
       "inverse-surface": ["neutral", 90, 20],
       "inverse-on-surface": ["neutral", 20, 95],
-      "inverse-primary": ["primary", 40, 80]
+      "inverse-primary": ["primary", 40, 80],
     };
 
     for (const name in this.seeds) {
@@ -205,7 +209,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
 
     return {
       ...roleRules,
-      ...rules
+      ...rules,
     } as RoleColorRules<Colors>;
   }
 
@@ -217,8 +221,12 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       const [base, toneOnDark, toneOnLight] = (roleRules as any)[role]!;
 
       if ((this.seeds as any)[base]) {
-        darkThemeColors[role] = (tones as any)[toneOnDark] ? `${base}.${toneOnDark}` : (this.seeds as any)[base]!.tone(toneOnDark);
-        themeColors[role] = (tones as any)[toneOnLight] ? `${base}.${toneOnLight}` : (this.seeds as any)[base]!.tone(toneOnLight);
+        darkThemeColors[role] = (tones as any)[toneOnDark]
+          ? `${base}.${toneOnDark}`
+          : (this.seeds as any)[base]!.tone(toneOnDark);
+        themeColors[role] = (tones as any)[toneOnLight]
+          ? `${base}.${toneOnLight}`
+          : (this.seeds as any)[base]!.tone(toneOnLight);
       }
     }
 
@@ -226,7 +234,9 @@ export class Palette<Colors extends SeedColors = SeedColors> {
   }
 
   toDesignTokens(rules: Partial<RoleColorRules<Colors>> = {}) {
-    const [themeColors, dartThemeColors] = this.getThemeRoleColors(this.normalizeRoleRules(rules));
+    const [themeColors, dartThemeColors] = this.getThemeRoleColors(
+      this.normalizeRoleRules(rules),
+    );
 
     const sysColors: Record<string, ConditionColors> = {};
     const containerStyles: Record<string, { color: string; bgColor: string }> =
@@ -234,19 +244,23 @@ export class Palette<Colors extends SeedColors = SeedColors> {
 
     for (let role in themeColors) {
       sysColors[`${role}`] = {
-        _default: isNumber((themeColors as any)[role]) ? rgbFromArgb((themeColors as any)[role]) : (themeColors as any)[role],
-        _dark: isNumber((dartThemeColors as any)[role]) ? rgbFromArgb((dartThemeColors as any)[role]) : (dartThemeColors as any)[role]
+        _default: isNumber((themeColors as any)[role])
+          ? rgbFromArgb((themeColors as any)[role])
+          : (themeColors as any)[role],
+        _dark: isNumber((dartThemeColors as any)[role])
+          ? rgbFromArgb((dartThemeColors as any)[role])
+          : (dartThemeColors as any)[role],
       };
 
       if (isKeyColor(role)) {
         containerStyles[`${role}`] = DesignToken.mixin({
           bgColor: `sys.${role}`,
-          color: `sys.on-${role}`
+          color: `sys.on-${role}`,
         });
 
         containerStyles[`${role}-container`] = DesignToken.mixin({
           bgColor: `sys.${role}-container`,
-          color: `sys.on-${role}-container`
+          color: `sys.on-${role}-container`,
         });
       }
 
@@ -254,19 +268,19 @@ export class Palette<Colors extends SeedColors = SeedColors> {
         if (role.includes("container")) {
           containerStyles[`${role}`] = DesignToken.mixin({
             bgColor: `sys.${role}`,
-            color: `sys.on-surface`
+            color: `sys.on-surface`,
           });
           continue;
         }
 
         containerStyles[`${role}`] = DesignToken.mixin({
           bgColor: `sys.${role}`,
-          color: `sys.on-surface`
+          color: `sys.on-surface`,
         });
 
         containerStyles[`on-${role}`] = DesignToken.mixin({
           bgColor: `sys.on-${role}`,
-          color: `sys.inverse-on-surface`
+          color: `sys.inverse-on-surface`,
         });
       }
     }
@@ -275,28 +289,30 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       return Object.keys(tones).reduce(
         (ret, tone) => ({
           ...ret,
-          [tone]: rgbFromArgb(t.tone(parseInt(tone)))
+          [tone]: rgbFromArgb(t.tone(parseInt(tone))),
         }),
-        {}
+        {},
       ) as any;
     };
 
     const color = DesignToken.color({
-      ...mapValues(this.seeds as { [K in keyof Colors]: TonalPalette }, (tp) => toTonalPalette(tp)),
+      ...mapValues(this.seeds as { [K in keyof Colors]: TonalPalette }, (tp) =>
+        toTonalPalette(tp),
+      ),
       white: [255, 255, 255],
       black: [0, 0, 0],
-      sys: sysColors as unknown as ColorPalettes<Colors>
+      sys: sysColors as unknown as ColorPalettes<Colors>,
     });
 
     const containerStyle = DesignToken.customMixin("containerStyle", {
       sys: containerStyles as ContainerStyles<
         Omit<Colors, "neutral" | "neutralVariant">
-      >
+      >,
     });
 
     return {
       color,
-      containerStyle
+      containerStyle,
     };
   }
 }
@@ -307,7 +323,7 @@ export type ContainerStyles<
     color: string;
     fill: string;
     bgColor: string;
-  }>
+  }>,
 > = {
   [K in keyof KeyColors as K extends string ? `${K}` : never]: Mixin;
 } & {

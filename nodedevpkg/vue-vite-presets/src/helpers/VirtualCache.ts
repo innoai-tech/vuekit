@@ -3,8 +3,7 @@ import type { ViteDevServer } from "vite";
 export class VirtualCache {
   private files = new Map<string, string>();
 
-  constructor() {
-  }
+  constructor() {}
 
   private server?: ViteDevServer;
 
@@ -18,7 +17,12 @@ export class VirtualCache {
     if (this.server) {
       const mod = this.server.moduleGraph.getModuleById(finalID);
       if (mod) {
-        this.server.moduleGraph.invalidateModule(mod, undefined, undefined, true);
+        this.server.moduleGraph.invalidateModule(
+          mod,
+          undefined,
+          undefined,
+          true,
+        );
       }
     }
 

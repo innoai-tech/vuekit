@@ -10,11 +10,11 @@ export default component(() => {
     Enabled: {},
     Focused: { focus: true },
     Invalid: { invalid: true },
-    Disabled: { disabled: true }
+    Disabled: { disabled: true },
   };
 
   const buttons = {
-    TextField: TextField
+    TextField: TextField,
   };
 
   return () => (
@@ -45,15 +45,17 @@ export default component(() => {
                 <TextField {...props} $trailing={<Icon path={mdiPlus} />}>
                   <input data-input="" type="text" />
                 </TextField>
-              )
+              ),
             ].map((render, i) => (
               <Fragment key={i}>
                 <Box sx={{ display: "flex", gap: 16 }}>
-                  {map(stateProps, (props) => render({
-                    ...props,
-                    $label: "Name",
-                    $supporting: "Desc"
-                  }))}
+                  {map(stateProps, (props) =>
+                    render({
+                      ...props,
+                      $label: "Name",
+                      $supporting: "Desc",
+                    }),
+                  )}
                 </Box>
               </Fragment>
             ))}

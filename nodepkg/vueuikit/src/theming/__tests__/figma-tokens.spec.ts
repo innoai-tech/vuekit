@@ -1,23 +1,24 @@
-import { describe, expect, test } from "vitest";
+import { describe, expect, test } from "bun:test";
 import { defaultTheming, themeFromFigmaTokens, Theming } from "../index";
 
 describe("#FigmaTokens", () => {
   const figmaTokens = defaultTheming.toFigmaTokens();
 
   test("from figmaTokens", () => {
-    const themeTokens = themeFromFigmaTokens([
-      figmaTokens.seed,
-      figmaTokens.base
-    ], [
-      figmaTokens.dark
-    ]);
+    const themeTokens = themeFromFigmaTokens(
+      [figmaTokens.seed, figmaTokens.base],
+      [figmaTokens.dark],
+    );
 
-    const t = Theming.create({
-      ...defaultTheming.theme,
-      ...themeTokens
-    }, {
-      varPrefix: "vk"
-    });
+    const t = Theming.create(
+      {
+        ...defaultTheming.theme,
+        ...themeTokens,
+      },
+      {
+        varPrefix: "vk",
+      },
+    );
 
     const nextTokens = t.toFigmaTokens();
 

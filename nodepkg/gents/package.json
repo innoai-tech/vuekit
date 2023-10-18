@@ -15,11 +15,13 @@
     "@innoai-tech/typedef": "workspace:^",
     "node-fetch": "^3.3.2"
   },
+  "peerDependencies": {},
   "devDependencies": {
     "@innoai-tech/fetcher": "0.5.3"
   },
   "exports": {
     ".": {
+      "bun": "./src/index.ts",
       "import": {
         "types": "./index.d.ts",
         "default": "./index.mjs"
@@ -41,11 +43,9 @@
     "directory": "nodepkg/gents"
   },
   "scripts": {
-    "build": "monobundle",
-    "test": "vitest --run --passWithNoTests --dir .",
-    "prepublishOnly": "pnpm run build",
-    "lint": "prettier --write ."
+    "build": "bunx --bun monobundle",
+    "prepublishOnly": "bun run build",
+    "lint": "bunx --bun prettier --write ."
   },
-  "type": "module",
-  "peerDependencies": {}
+  "type": "module"
 }

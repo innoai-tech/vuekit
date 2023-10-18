@@ -8,7 +8,7 @@ import {
   ImmerBehaviorSubject
 } from "@innoai-tech/vuekit";
 import { get, isUndefined, set, isFunction } from "@innoai-tech/lodash";
-import { distinctUntilChanged, map, Subject } from "rxjs";
+import { distinctUntilChanged, map, Observable, Subject } from "rxjs";
 
 export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
   static of<T extends AnyType>(
@@ -26,7 +26,10 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
   public readonly inputs$: ImmerBehaviorSubject<Partial<Infer<T>>>;
 
-  constructor(public typedef: T, initials: () => Partial<Infer<T>>) {
+  constructor(
+    public typedef: T,
+    initials: () => Partial<Infer<T>>
+  ) {
     super();
     this.inputs$ = new ImmerBehaviorSubject<Partial<Infer<T>>>(
       initials() ?? {}
@@ -173,11 +176,14 @@ export class Field extends ImmerBehaviorSubject<FieldState> {
     return this.meta?.label ?? this.name;
   }
 
-  input$ = rx(
-    this.form$.inputs$,
-    map((v) => get(v, this.name)),
-    distinctUntilChanged()
-  );
+  private _input$?: Observable<any>;
+  get input$(): Observable<any> {
+    return this._input$ ?? (this._input$ = rx(
+      this.form$.inputs$,
+      map((v) => get(v, this.name)),
+      distinctUntilChanged()
+    ));
+  }
 
   focus = () => {
     this.next((state) => {

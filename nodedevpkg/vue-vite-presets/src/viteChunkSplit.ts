@@ -4,24 +4,24 @@ import { relative, dirname, join, resolve } from "path";
 import {
   type ManualChunkMeta,
   type PreRenderedChunk,
-  type OutputOptions
+  type OutputOptions,
 } from "rollup";
 import {
   type PluginOption,
   searchForWorkspaceRoot,
   createFilter,
-  type FilterPattern
+  type FilterPattern,
 } from "vite";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
   handleModuleFederations?: (
-    pkgRelations: Record<string, ModuleFederation>
+    pkgRelations: Record<string, ModuleFederation>,
   ) => void;
 }
 
 export const viteChunkSplit = (
-  options: ChunkSplitOptions = {}
+  options: ChunkSplitOptions = {},
 ): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   const cs = new ChunkSplit(resolve(viteRoot), options);
@@ -41,7 +41,7 @@ export const viteChunkSplit = (
       const chunkFileNames = get(
         c.build.rollupOptions.output,
         ["chunkFileNames"],
-        `${assetsDir}/[name].[hash].chunk.js`
+        `${assetsDir}/[name].[hash].chunk.js`,
       );
 
       c.build.rollupOptions.output = {
@@ -60,14 +60,14 @@ export const viteChunkSplit = (
             .replaceAll(/[\[\]]/g, "_")
             .replaceAll("/", "-");
           return `${assetsDir}/${name}.[hash].chunk.js`;
-        }
+        },
       };
     },
     outputOptions(o) {
       o.manualChunks = (id: string, meta: ManualChunkMeta) => {
         return cs.chunkName(id, meta)?.replaceAll("/", "-").replaceAll("@", "");
       };
-    }
+    },
   };
 };
 
@@ -75,7 +75,10 @@ class ChunkSplit {
   private readonly isLib: (id: string) => boolean;
   private readonly dependencies: Record<string, string>;
 
-  constructor(private root: string, private options: ChunkSplitOptions) {
+  constructor(
+    private root: string,
+    private options: ChunkSplitOptions,
+  ) {
     this.isLib = createFilter(options.lib ?? []);
     this.dependencies =
       JSON.parse(String(readFileSync(join(root, "package.json"))))
@@ -106,9 +109,9 @@ class ChunkSplit {
   }
 
   private resolvePkgRelations({
-                                getModuleInfo,
-                                getModuleIds
-                              }: ManualChunkMeta) {
+    getModuleInfo,
+    getModuleIds,
+  }: ManualChunkMeta) {
     const directImports: Record<string, boolean> = {};
     const moduleFederations: Record<string, ModuleFederation> = {};
 
@@ -226,8 +229,7 @@ export class ModuleFederation {
   _rank = 0;
   _imported = new Map<string, ModuleFederation>();
 
-  constructor(public name: string) {
-  }
+  constructor(public name: string) {}
 
   get federation() {
     return this._federation ?? this.name;
@@ -253,16 +255,16 @@ export class ModuleFederation {
 
 const markPkgRelegation = (
   moduleFederations: Record<string, ModuleFederation>,
-  directs: Record<string, boolean>
+  directs: Record<string, boolean>,
 ) => {
   const federations: Record<string, boolean> = {};
 
   for (const targetPkg in moduleFederations) {
     let federation = targetPkg;
-    const visited: Record<string, boolean> = { }
+    const visited: Record<string, boolean> = {};
 
     while (!visited[federation] && !directs[federation]) {
-      visited[federation] = true
+      visited[federation] = true;
 
       const pkgRelation = moduleFederations[federation]!;
 
@@ -271,7 +273,7 @@ const markPkgRelegation = (
 
         names.sort((a, b) => {
           return (moduleFederations[a]?.rank() ?? 0) >
-          (moduleFederations[b]?.rank() ?? 0)
+            (moduleFederations[b]?.rank() ?? 0)
             ? -1
             : 1;
         });
@@ -294,7 +296,7 @@ const markPkgRelegation = (
 };
 
 export const d2Graph = (
-  moduleFederations: Record<string, ModuleFederation>
+  moduleFederations: Record<string, ModuleFederation>,
 ) => {
   let g = "";
 

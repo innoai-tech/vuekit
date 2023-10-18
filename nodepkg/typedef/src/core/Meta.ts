@@ -9,12 +9,12 @@ export type MetaBuilder<M extends Record<string, any>> = {
 };
 
 export function createMetaBuilder<M extends Record<string, any>>(
-  meta?: M
+  meta?: M,
 ): MetaBuilder<M> {
   const metadata = meta ?? ({} as Record<string, any>);
 
   const fn = (t: Type) => {
-    return TypeWrapper.of(t, { "$meta": metadata });
+    return TypeWrapper.of(t, { $meta: metadata });
   };
 
   const b = new Proxy(fn, {
@@ -23,7 +23,7 @@ export function createMetaBuilder<M extends Record<string, any>>(
         metadata[`${name}`] = v ?? true;
         return b;
       };
-    }
+    },
   });
 
   return b as any;

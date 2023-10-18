@@ -18,8 +18,8 @@ export default component(() => {
             shadow: elevation as any,
 
             _hover: {
-              shadow: `${1 + parseInt(elevation)}` as any
-            }
+              shadow: `${1 + parseInt(elevation)}` as any,
+            },
           }}
         >
           <div>Elevation {elevation}</div>

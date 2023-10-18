@@ -1,11 +1,11 @@
-import { describe, test, expect } from "vitest";
+import { describe, test, expect } from "bun:test";
 import { t } from "../../core";
 import {
   TypeScriptEncoder,
   JSONSchemaDecoder,
   JSONSchemaEncoder,
   refName,
-  TypedefEncoder
+  TypedefEncoder,
 } from "../";
 import { get } from "@innoai-tech/lodash";
 
@@ -25,11 +25,11 @@ describe("Encoding", () => {
         options: t.array(
           t.object({
             label: t.string(),
-            value: t.string()
-          })
-        )
-      })
-    )
+            value: t.string(),
+          }),
+        ),
+      }),
+    ),
   });
 
   const schema = t.intersection(
@@ -37,21 +37,21 @@ describe("Encoding", () => {
       strOrInt: t
         .ref("StrOrInt", () => schemaStrOrInt)
         .annotate({
-          description: "StrOrInt"
+          description: "StrOrInt",
         }),
       placement: t.enums(["leading", "trailing"]),
-      inputType: t.ref("InputType", () => t.nativeEnum(InputType).annotate({
-        "enumLabels": [
-          "文本",
-          "数字",
-          "选项"
-        ]
-      })).optional(),
+      inputType: t
+        .ref("InputType", () =>
+          t.nativeEnum(InputType).annotate({
+            enumLabels: ["文本", "数字", "选项"],
+          }),
+        )
+        .optional(),
       keyValues: t.record(t.string(), t.any()).optional(),
       array: t.array(t.boolean()),
-      point: t.tuple([t.number(), t.number()])
+      point: t.tuple([t.number(), t.number()]),
     }),
-    schemaTaggedUnion
+    schemaTaggedUnion,
   );
 
   test("JSONSchema decode", () => {
