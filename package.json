@@ -26,7 +26,6 @@
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^12.9.1",
-    "@innoai-tech/bunpublish": "^0.1.4",
     "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/monobundle": "^0.11.6",
     "@innoai-tech/vue-vite-presets": "workspace:*",
