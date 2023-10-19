@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueformdata",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"

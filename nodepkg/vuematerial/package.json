@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "@innoai-tech/lodash": "^0.2.1",
-    "@innoai-tech/vuekit": "workspace:^",
-    "@innoai-tech/vueuikit": "workspace:^",
+    "@innoai-tech/vuekit": "^0.6.6",
+    "@innoai-tech/vueuikit": "^0.9.6",
     "@mdi/js": "^7.3.67",
     "vue": "^3.3.4"
   },

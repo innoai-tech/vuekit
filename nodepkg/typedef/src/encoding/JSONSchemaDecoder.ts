@@ -9,7 +9,7 @@ import {
   some,
   last,
   mapValues,
-  isEmpty,
+  isEmpty
 } from "@innoai-tech/lodash";
 import type { JSONSchema } from "./JSONSchemaEncoder";
 
@@ -20,7 +20,7 @@ export const refName = (ref: string) => {
 export class JSONSchemaDecoder {
   static decode(
     type: JSONSchema | false,
-    resolveRef: (ref: string) => [JSONSchema, string],
+    resolveRef: (ref: string) => [JSONSchema, string]
   ): AnyType {
     if (type == false) {
       return t.never() as any;
@@ -30,7 +30,8 @@ export class JSONSchemaDecoder {
 
   def = new Map<string, AnyType>();
 
-  constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {}
+  constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {
+  }
 
   decode(jsonSchema: JSONSchema): AnyType {
     const tt = this._decode(jsonSchema);
@@ -38,7 +39,7 @@ export class JSONSchemaDecoder {
     if (jsonSchema && jsonSchema["description"]) {
       return tt.annotate({
         // only pick the first line as description
-        description: jsonSchema["description"].split("\n")[0],
+        description: jsonSchema["description"].split("\n")[0]
       });
     }
 
@@ -64,7 +65,7 @@ export class JSONSchemaDecoder {
 
       if (schema["x-enum-labels"]) {
         return e.annotate({
-          enumLabels: schema["x-enum-labels"],
+          enumLabels: schema["x-enum-labels"]
         });
       }
 
@@ -75,7 +76,7 @@ export class JSONSchemaDecoder {
       if (schema["discriminator"]) {
         const discriminatorPropertyName = schema["discriminator"][
           "propertyName"
-        ] as string;
+          ] as string;
 
         if (discriminatorPropertyName) {
           const mapping: Record<string, any> = {};
@@ -87,9 +88,9 @@ export class JSONSchemaDecoder {
               const objectSchema: Record<string, any> = {};
               const values: any[] = [];
 
-              for (const [propName, _, p] of tt.entries(
+              for (let [propName, _, p] of tt.entries(
                 {},
-                { path: [], branch: [] },
+                { path: [], branch: [] }
               )) {
                 if (p.type === "never") {
                   continue;
@@ -99,7 +100,7 @@ export class JSONSchemaDecoder {
                   switch (p.type) {
                     case "literal":
                     case "enums": {
-                      values.push(...(p.schema as any).enum);
+                      values.push(...p.getSchema("enum"));
                     }
                   }
                   continue;
@@ -152,7 +153,7 @@ export class JSONSchemaDecoder {
               return propType;
             }
             return propType.optional();
-          }),
+          })
         );
       }
 
@@ -161,7 +162,7 @@ export class JSONSchemaDecoder {
       if (additionalProperties) {
         return t.record(
           this.decode(schema["propertyNames"] ?? { type: "string" }),
-          this.decode(additionalProperties),
+          this.decode(additionalProperties)
         );
       }
 
@@ -171,7 +172,7 @@ export class JSONSchemaDecoder {
     if (isArrayType(schema)) {
       if (isArray(schema["items"])) {
         return t.tuple(
-          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any,
+          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any
         );
       }
 
@@ -222,7 +223,7 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "dependentSchemas",
 
     "maxProperties",
-    "minProperties",
+    "minProperties"
     // "required",
     // "dependentRequired",
   ],
@@ -236,7 +237,7 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "minItems",
     "uniqueItems",
     "maxContains",
-    "minContains",
+    "minContains"
   ],
   string: [
     "pattern",
@@ -244,15 +245,15 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "contentEncoding",
     "contentSchema",
     "maxLength",
-    "minLength",
+    "minLength"
   ],
   number: [
     "maximum",
     "minimum",
     "multipleOf",
     "exclusiveMaximum",
-    "exclusiveMinimum",
-  ],
+    "exclusiveMinimum"
+  ]
 };
 
 const hasProps = <T>(schema: T, props: Array<keyof T>): boolean =>

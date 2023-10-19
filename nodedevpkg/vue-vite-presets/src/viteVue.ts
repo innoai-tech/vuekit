@@ -18,7 +18,7 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
   return [
     r.plugin,
     mdx(),
-    vue(),
+    vue() as PluginOption,
     viteVueComponentPatcher(),
     vitePages({
       extensions: ["tsx", "mdx", "md", "vue"],
@@ -28,6 +28,6 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
         ...r.pagesResolver,
         ...options.pagesResolver,
       },
-    }),
+    }) as PluginOption,
   ];
 };

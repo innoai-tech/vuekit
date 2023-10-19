@@ -74,6 +74,6 @@ export const app = (
         };
       },
     },
-    tsconfigPaths({}),
+    tsconfigPaths({}) as PluginOption,
   ];
 };
