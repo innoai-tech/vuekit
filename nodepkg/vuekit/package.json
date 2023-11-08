@@ -14,7 +14,7 @@
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
     "immer": "^10.0.3",
     "rxjs": "^7.8.1",
-    "vue": "^3.3.4",
+    "vue": "v3.3.8",
     "vue-router": "^4.2.5"
   },
   "peerDependencies": {},
