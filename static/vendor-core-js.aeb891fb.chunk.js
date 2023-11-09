@@ -93,7 +93,7 @@ var J = i, Q = S.String, Z = !!Object.getOwnPropertySymbols && !E(function() {
 }, ty = "__core-js_shared__", th = S[ty] || tp(ty, {});
 (tl.exports = function(t3, r10) {
   return th[t3] || (th[t3] = void 0 !== r10 ? r10 : {});
-})("versions", []).push({ version: "3.33.0", mode: "global", copyright: "© 2014-2023 Denis Pushkarev (zloirock.ru)", license: "https://github.com/zloirock/core-js/blob/v3.33.0/LICENSE", source: "https://github.com/zloirock/core-js" });
+})("versions", []).push({ version: "3.33.2", mode: "global", copyright: "© 2014-2023 Denis Pushkarev (zloirock.ru)", license: "https://github.com/zloirock/core-js/blob/v3.33.2/LICENSE", source: "https://github.com/zloirock/core-js" });
 var td = tl.exports, tg = TypeError, tv = function(t3) {
   if (ta(t3))
     throw new tg("Can't call method on " + t3);
