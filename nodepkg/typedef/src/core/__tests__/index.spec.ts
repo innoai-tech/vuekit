@@ -26,7 +26,7 @@ describe("Type", () => {
   describe("OptionalType", () => {
     test("optional", () => {
       const s = t.string().optional();
-      expect(s.create(undefined)).toBe(undefined);
+      expect(s.create(undefined)).toBeUndefined();
     });
   });
 

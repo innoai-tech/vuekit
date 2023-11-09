@@ -20,8 +20,8 @@ import {
   mdiWhiteBalanceSunny,
   mdiWeatherNight
 } from "@innoai-tech/vuematerial";
-import { Container, DynamicThemingProvider } from "@innoai-tech/webapp/vuekit/layout";
-import { CacheProvider } from "@innoai-tech/nodepkg/vueuikit/src/CacheProvider";
+import { Container, DynamicThemingProvider } from "./layout";
+import { CacheProvider } from "@innoai-tech/vueuikit";
 
 export const Nav = component(() => {
   const r = useRouter();

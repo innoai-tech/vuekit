@@ -14,7 +14,7 @@
     "hast-util-to-jsx-runtime": "^2.2.0",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.0.0",
-    "unified": "^11.0.3"
+    "unified": "^11.0.4"
   },
   "peerDependencies": {},
   "exports": {
@@ -28,7 +28,9 @@
   },
   "files": [
     "*.mjs",
-    "*.d.ts"
+    "*.d.ts",
+    "src/*",
+    "!/**/__tests__"
   ],
   "license": "MIT",
   "publishConfig": {

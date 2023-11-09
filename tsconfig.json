@@ -13,21 +13,15 @@
       "@innoai-tech/vuekit/*": [
         "./nodepkg/vuekit/src/*.ts"
       ],
+      "@innoai-tech/vueuikit": [
+        "./nodepkg/vueuikit/src/index.ts"
+      ],
       "@innoai-tech/vuekit": [
         "./nodepkg/vuekit/src/index.ts"
       ],
       "@innoai-tech/typedef": [
         "./nodepkg/typedef/src/index.ts"
-      ],
-      "@innoai-tech/*": [
-        "nodedevpkg/*/src/index.ts",
-        "nodepkg/*/src/index.ts",
-        "nodepkg/*/index.d.ts",
-        "*"
       ]
     }
-  },
-  "exclude": [
-    "nodepkg/*/*.d.ts"
-  ]
+  }
 }

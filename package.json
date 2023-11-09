@@ -19,9 +19,6 @@
     "url": "ssh://git@github.com:innoai-tech/vuekit.git"
   },
   "dependencies": {
-    "@innoai-tech/vuekit": "workspace:*",
-    "@innoai-tech/vuematerial": "workspace:*",
-    "@innoai-tech/vueuikit": "workspace:*",
     "core-js": "^3.33.0"
   },
   "devDependencies": {
