@@ -43,5 +43,5 @@ clean:
 	find . -name '.turbo' -type d -prune -print -exec rm -rf '{}' \;
 
 pub:
-	$(BUNX) @morlay/bunpublish@0.1.4
+	$(BUNX) @morlay/bunpublish
 

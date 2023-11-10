@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.6.1",
+  "version": "0.6.2",
   "monobundle": {
     "pipeline": {
       "test": false
@@ -13,7 +13,7 @@
     "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/purebundle": "^0.2.12",
     "@mapbox/rehype-prism": "^0.9.0",
-    "@mdx-js/rollup": "^2.3.0",
+    "@mdx-js/rollup": "^3.0.0",
     "@vitejs/plugin-vue": "^4.4.1",
     "hastscript": "^8.0.0",
     "unist-util-visit": "^5.0.0",
