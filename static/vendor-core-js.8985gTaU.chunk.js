@@ -21,10 +21,10 @@ var b = "object" == typeof document && document.all, w = { all: b, IS_HTMLDDA: v
 }, S = (
   // eslint-disable-next-line es/no-global-this -- safe
   T("object" == typeof globalThis && globalThis) || T("object" == typeof window && window) || // eslint-disable-next-line no-restricted-globals -- safe
-  T("object" == typeof self && self) || T("object" == typeof g && g) || // eslint-disable-next-line no-new-func -- fallback
-  function() {
+  T("object" == typeof self && self) || T("object" == typeof g && g) || T("object" == typeof g && g) || // eslint-disable-next-line no-new-func -- fallback
+  /* @__PURE__ */ function() {
     return this;
-  }() || g || Function("return this")()
+  }() || Function("return this")()
 ), j = w.all, I = w.IS_HTMLDDA ? function(t3) {
   return "object" == typeof t3 ? null !== t3 : A(t3) || t3 === j;
 } : function(t3) {
@@ -93,7 +93,7 @@ var J = i, Q = S.String, Z = !!Object.getOwnPropertySymbols && !E(function() {
 }, ty = "__core-js_shared__", th = S[ty] || tp(ty, {});
 (tl.exports = function(t3, r10) {
   return th[t3] || (th[t3] = void 0 !== r10 ? r10 : {});
-})("versions", []).push({ version: "3.33.2", mode: "global", copyright: "© 2014-2023 Denis Pushkarev (zloirock.ru)", license: "https://github.com/zloirock/core-js/blob/v3.33.2/LICENSE", source: "https://github.com/zloirock/core-js" });
+})("versions", []).push({ version: "3.33.3", mode: "global", copyright: "© 2014-2023 Denis Pushkarev (zloirock.ru)", license: "https://github.com/zloirock/core-js/blob/v3.33.3/LICENSE", source: "https://github.com/zloirock/core-js" });
 var td = tl.exports, tg = TypeError, tv = function(t3) {
   if (ta(t3))
     throw new tg("Can't call method on " + t3);
