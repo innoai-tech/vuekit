@@ -36,7 +36,7 @@ dep:
 	$(BUN) install
 
 dep.update:
-	$(BUNX) npm-check-updates -ws -ui
+	$(BUNX) npm-check-updates -ws --root -ui
 
 clean:
 	find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;

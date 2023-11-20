@@ -4,6 +4,6 @@ export * from "./ext";
 export * from "./router";
 export * from "./reactive";
 export * from "./Provider";
-export * from "./types";
+export * from "./vue";
 
 export * from "@innoai-tech/typedef";

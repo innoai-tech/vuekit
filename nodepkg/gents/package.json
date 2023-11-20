@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/gents",
-  "version": "0.6.5",
+  "version": "0.6.7",
   "monobundle": {
     "build": {
       "clean": true
@@ -47,7 +47,7 @@
   "scripts": {
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build",
-    "lint": "bunx --bun prettier --write ."
+    "lint": "bunx --bun @biomejs/biome check --apply ."
   },
   "type": "module"
 }

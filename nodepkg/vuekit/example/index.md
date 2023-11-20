@@ -23,8 +23,8 @@ export default component(() => {
 - `props` 和 `emits` 合并声明，基于 [zod](https://zod.dev/)
 
 ```tsx preview
-import { component, t } from "@innoai-tech/vuekit";
-import { ref, type VNode, VNodeChild } from "vue";
+import { component, t, type VNode, type VNodeChild } from "@innoai-tech/vuekit";
+import { ref } from "vue";
 
 export const TextInput = component(
   {

@@ -19,25 +19,25 @@
     "url": "ssh://git@github.com:innoai-tech/vuekit.git"
   },
   "dependencies": {
-    "core-js": "^3.33.0"
+    "core-js": "^3.35.0"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^12.9.1",
+    "@happy-dom/global-registrator": "^13.0.0",
     "@innoai-tech/lodash": "^0.2.1",
-    "@innoai-tech/monobundle": "^0.11.10",
+    "@innoai-tech/devconfig": "^0.5.0",
+    "@innoai-tech/monobundle": "^0.12.0",
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
-    "@mdi/js": "^7.3.67",
-    "@vue/test-utils": "^2.4.1",
-    "bun-types": "^1.0.10",
+    "@biomejs/biome": "^1.5.1",
+    "@mdi/js": "^7.4.47",
+    "@vue/test-utils": "^2.4.3",
+    "bun-types": "^1.0.22",
     "copy-to-clipboard": "^3.3.3",
     "normalize.css": "^8.0.1",
-    "prettier": "^3.0.3",
     "rxjs": "^7.8.1",
-    "turbo": "^1.10.16",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.0",
-    "vue": "v3.3.8"
-  },
-  "prettier": {}
+    "turbo": "^1.11.3",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.11",
+    "vue": "v3.4.8"
+  }
 }

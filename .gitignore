@@ -12,3 +12,5 @@ dist/
 .DS_Store
 
 public/
+node_modules/
+.idea/

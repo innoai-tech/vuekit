@@ -1,10 +1,10 @@
-import type { Component, WithDefaultSlot } from "./types";
+import type { Component, WithDefaultSlot } from "./vue";
 
 import {
-  RouterView as _RouterView,
-  type RouterViewProps as _RouterViewProps,
-  RouterLink as _RouterLink,
-  type RouterLinkProps as _RouterLinkProps,
+	RouterLink as _RouterLink,
+	type RouterLinkProps as _RouterLinkProps,
+	RouterView as _RouterView,
+	type RouterViewProps as _RouterViewProps,
 } from "vue-router";
 
 export type RouterLinkProps = _RouterLinkProps & WithDefaultSlot;
@@ -14,9 +14,9 @@ export type RouterViewProps = _RouterViewProps & WithDefaultSlot;
 export const RouterView: Component<RouterViewProps> = _RouterView as any;
 
 export {
-  useLink,
-  useRoute,
-  useRouter,
-  createRouter,
-  createWebHistory,
+	useLink,
+	useRoute,
+	useRouter,
+	createRouter,
+	createWebHistory,
 } from "vue-router";

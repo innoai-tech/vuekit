@@ -1,214 +1,214 @@
 import {
-  isPlainObject,
-  isEmpty,
-  set,
-  last,
-  get,
-  kebabCase,
+	get,
+	isEmpty,
+	isPlainObject,
+	kebabCase,
+	last,
+	set,
 } from "@innoai-tech/lodash";
 import {
-  aliases,
-  extensions,
-  getSupportedPseudoClasses,
-  pseudoSelectors,
+	aliases,
+	extensions,
+	getSupportedPseudoClasses,
+	pseudoSelectors,
 } from "./csstype";
 
 export interface Mixin {
-  get(token: string): {} | undefined;
+	get(token: string): {} | undefined;
 }
 
 export class CSSProcessor {
-  static supportedPseudoClasses: Record<string, string> =
-    getSupportedPseudoClasses();
+	static supportedPseudoClasses: Record<string, string> =
+		getSupportedPseudoClasses();
 
-  static convertSelector = (selector: string) => {
-    if ((pseudoSelectors as any)[selector]) {
-      return (pseudoSelectors as any)[selector];
-    }
+	static convertSelector = (sel: string) => {
+		if ((pseudoSelectors as any)[sel]) {
+			return (pseudoSelectors as any)[sel];
+		}
 
-    if (
-      selector.startsWith("$") ||
-      selector.endsWith("$") ||
-      selector.startsWith("_")
-    ) {
-      let prefix = "";
-      let suffix = "";
+		let selector = sel;
 
-      if (selector.startsWith("_")) {
-        prefix = "&";
-        selector = selector.slice(1);
-      } else if (selector.startsWith("$")) {
-        prefix = "& ";
-        selector = selector.slice(1);
-      } else {
-        suffix = " &";
-        selector = selector.slice(0, selector.length - 1);
-      }
+		if (
+			selector.startsWith("$") ||
+			selector.endsWith("$") ||
+			selector.startsWith("_")
+		) {
+			let prefix = "";
+			let suffix = "";
 
-      if (selector.startsWith("data") || selector.startsWith("aria")) {
-        const [k, v] = selector.split("__");
-        return v
-          ? `${prefix}[${kebabCase(k)}='${kebabCase(v)}']${suffix}`
-          : `${prefix}[${kebabCase(k)}]${suffix}`;
-      }
+			if (selector.startsWith("_")) {
+				prefix = "&";
+				selector = selector.slice(1);
+			} else if (selector.startsWith("$")) {
+				prefix = "& ";
+				selector = selector.slice(1);
+			} else {
+				suffix = " &";
+				selector = selector.slice(0, selector.length - 1);
+			}
 
-      if (prefix == "&") {
-        if (selector.startsWith("$")) {
-          return `${prefix}::${selector.slice(1)}`;
-        }
+			if (selector.startsWith("data") || selector.startsWith("aria")) {
+				const [k, v] = selector.split("__");
+				return v
+					? `${prefix}[${kebabCase(k)}='${kebabCase(v)}']${suffix}`
+					: `${prefix}[${kebabCase(k)}]${suffix}`;
+			}
 
-        if (CSSProcessor.supportedPseudoClasses[selector]) {
-          const pseudoClass = CSSProcessor.supportedPseudoClasses[selector]!;
+			if (prefix === "&") {
+				if (selector.startsWith("$")) {
+					return `${prefix}::${selector.slice(1)}`;
+				}
 
-          return [
-            `${prefix}:${pseudoClass}`,
-            `${prefix}[data-${pseudoClass}]:not([data-${pseudoClass}='false'])`,
-            `${prefix}.${pseudoClass}`, // fallback with class for overwrite
-          ].join(", ");
-        }
+				if (CSSProcessor.supportedPseudoClasses[selector]) {
+					const pseudoClass = CSSProcessor.supportedPseudoClasses[selector];
 
-        const [k, v] = selector.split("__");
-        const stateKey = kebabCase(k);
+					return [
+						`${prefix}:${pseudoClass}`,
+						`${prefix}[data-${pseudoClass}]:not([data-${pseudoClass}='false'])`,
+						`${prefix}.${pseudoClass}`, // fallback with class for overwrite
+					].join(", ");
+				}
 
-        return v
-          ? `${prefix}[data-${stateKey}='${kebabCase(v)}']`
-          : `${prefix}[data-${stateKey}]:not([data-${stateKey}='false'])`;
-      }
-    }
+				const [k, v] = selector.split("__");
+				const stateKey = kebabCase(k);
 
-    return;
-  };
+				return v
+					? `${prefix}[data-${stateKey}='${kebabCase(v)}']`
+					: `${prefix}[data-${stateKey}]:not([data-${stateKey}='false'])`;
+			}
+		}
 
-  static walkStateValues = (
-    values: Record<string, any>,
-    cb: (v: any, path: string[], when: string[]) => void,
-    ctx: {
-      default: object;
-      selectorPath: string[];
-      path: string[];
-    } = {
-      default: {},
-      selectorPath: [],
-      path: [],
-    },
-  ) => {
-    const { $, ...others } = values;
+		return;
+	};
 
-    for (const k in others) {
-      const v = others[k]! as any;
+	static walkStateValues = (
+		values: Record<string, any>,
+		cb: (v: any, path: string[], when: string[]) => void,
+		ctx: {
+			default: object;
+			selectorPath: string[];
+			path: string[];
+		} = {
+			default: {},
+			selectorPath: [],
+			path: [],
+		},
+	) => {
+		const { $, ...others } = values;
 
-      const finalDefault = others["default"] ?? ctx["default"];
-      const selectorForCurrentNode =
-        $ ?? get(finalDefault, [...ctx.path.slice(1), "$"]);
-      const selectorPath = selectorForCurrentNode
-        ? [...ctx.selectorPath, selectorForCurrentNode]
-        : ctx.selectorPath;
-      const path = [...ctx.path, k];
+		for (const k in others) {
+			const v = others[k] as any;
 
-      if (isPlainObject(v)) {
-        CSSProcessor.walkStateValues(v, cb, {
-          path,
-          selectorPath: selectorPath,
-          default: finalDefault,
-        });
-        continue;
-      }
+			const finalDefault = others["default"] ?? ctx["default"];
+			const selectorForCurrentNode =
+				$ ?? get(finalDefault, [...ctx.path.slice(1), "$"]);
+			const selectorPath = selectorForCurrentNode
+				? [...ctx.selectorPath, selectorForCurrentNode]
+				: ctx.selectorPath;
+			const path = [...ctx.path, k];
 
-      cb(v, path, selectorPath);
-    }
-  };
+			if (isPlainObject(v)) {
+				CSSProcessor.walkStateValues(v, cb, {
+					path,
+					selectorPath: selectorPath,
+					default: finalDefault,
+				});
+				continue;
+			}
 
-  constructor(
-    private opt: {
-      mixins: Record<string, Mixin>;
-      processValue: (p: string, v: any) => any;
-      varPrefix: string;
-    },
-  ) {}
+			cb(v, path, selectorPath);
+		}
+	};
 
-  processAll(src: Record<string, any>, full: boolean = true) {
-    const ret: Array<Record<string, any>> = [];
+	constructor(
+		private opt: {
+			mixins: Record<string, Mixin>;
+			processValue: (p: string, v: any) => any;
+			varPrefix: string;
+		},
+	) {}
 
-    const { state, extends: ex, ...others } = src;
+	processAll(src: Record<string, any>, full = true) {
+		const ret: Array<Record<string, any>> = [];
 
-    if (ex) {
-      // extends should process before all
-      for (const sx of ex) {
-        ret.push(...this.processAll(sx, full));
-      }
-    }
+		const { state, extends: ex, ...others } = src;
 
-    if (state) {
-      const cssVars: Record<string, any> = {};
-      const finalSx: {} = {};
+		if (ex) {
+			// extends should process before all
+			for (const sx of ex) {
+				ret.push(...this.processAll(sx, full));
+			}
+		}
 
-      CSSProcessor.walkStateValues(state, (v, path, selectorPath) => {
-        const varName = `--${this.opt.varPrefix}-state-${path.join("-")}`;
-        const prop = last(path)!;
-        const sx: Record<string, any> = {};
-        this.process(sx, prop, v, false);
+		if (state) {
+			const cssVars: Record<string, any> = {};
+			const finalSx: {} = {};
 
-        cssVars[varName] = sx[prop];
+			CSSProcessor.walkStateValues(state, (v, path, selectorPath) => {
+				const varName = `--${this.opt.varPrefix}-state-${path.join("-")}`;
+				const prop = last(path) ?? "";
+				const sx: Record<string, any> = {};
+				this.process(sx, prop, v, false);
 
-        set(finalSx, [...selectorPath, prop], `var(${varName})`);
-      });
+				cssVars[varName] = sx[prop];
 
-      ret.push(cssVars);
-      ret.push(...this.processAll(finalSx));
-    }
+				set(finalSx, [...selectorPath, prop], `var(${varName})`);
+			});
 
-    if (!isEmpty(others)) {
-      const sx = {};
-      this.processTo(sx, others, full);
-      ret.push(sx);
-    }
+			ret.push(cssVars);
+			ret.push(...this.processAll(finalSx));
+		}
 
-    return ret;
-  }
+		if (!isEmpty(others)) {
+			const sx = {};
+			this.processTo(sx, others, full);
+			ret.push(sx);
+		}
 
-  processTo(
-    dest: Record<string, any>,
-    src: Record<string, any>,
-    full: boolean = true,
-  ) {
-    for (const p in src) {
-      this.process(dest, p, src[p], full);
-    }
-  }
+		return ret;
+	}
 
-  process(dest: Record<string, any>, p: string, v: any, full: boolean = true) {
-    if (this.opt.mixins[p]) {
-      const mixinObj = this.opt.mixins[p]?.get(v);
-      if (mixinObj) {
-        for (const p in mixinObj) {
-          this.process(dest, p, (mixinObj as any)[p], full);
-        }
-      }
-      return;
-    }
+	processTo(dest: Record<string, any>, src: Record<string, any>, full = true) {
+		for (const p in src) {
+			this.process(dest, p, src[p], full);
+		}
+	}
 
-    if (isPlainObject(v)) {
-      // resolve pseudoSelectors or std selector
-      p = CSSProcessor.convertSelector(p) ?? p;
+	process(dest: Record<string, any>, prop: string, v: any, full = true) {
+		if (this.opt.mixins[prop]) {
+			const mixinObj = this.opt.mixins[prop]?.get(v);
+			if (mixinObj) {
+				for (const p in mixinObj) {
+					this.process(dest, p, (mixinObj as any)[p], full);
+				}
+			}
+			return;
+		}
 
-      dest[p] = dest[p] ?? {};
-      this.processTo(dest[p], v);
-      return;
-    }
+		let p = prop;
 
-    if (full) {
-      // resolve aliases
-      p = (aliases as any)[p] ?? p;
+		if (isPlainObject(v)) {
+			// resolve pseudoSelectors or std selector
+			p = CSSProcessor.convertSelector(p) ?? p;
 
-      // extensions should process value for each
-      if ((extensions as any)[p]) {
-        for (const p2 of (extensions as any)[p]) {
-          dest[p2] = this.opt.processValue(p2, v);
-        }
-        return;
-      }
-    }
+			dest[p] = dest[p] ?? {};
+			this.processTo(dest[p], v);
+			return;
+		}
 
-    dest[p] = this.opt.processValue(p, v);
-  }
+		if (full) {
+			// resolve aliases
+			p = (aliases as any)[p] ?? p;
+
+			// extensions should process value for each
+			if ((extensions as any)[p]) {
+				for (const p2 of (extensions as any)[p]) {
+					dest[p2] = this.opt.processValue(p2, v);
+				}
+				return;
+			}
+		}
+
+		dest[p] = this.opt.processValue(p, v);
+	}
 }

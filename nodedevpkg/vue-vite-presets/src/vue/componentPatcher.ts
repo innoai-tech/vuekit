@@ -1,141 +1,149 @@
-import { type Plugin, createFilter } from "vite";
 import { basename, extname } from "path";
 import { camelCase, upperFirst } from "@innoai-tech/lodash";
+import { type Plugin, createFilter } from "vite";
 import { getHash } from "../helpers";
 
 export interface VueJsxHmrOptions {
-  include?: string[];
-  exclude?: string[];
+	include?: string[];
+	exclude?: string[];
 }
 
 export interface ModuleExport {
-  exported: string;
-  id: string;
+	exported: string;
+	id: string;
 }
 
 export interface Module {
-  code: string;
-  exports: Map<string, ModuleExport>;
+	code: string;
+	exports: Map<string, ModuleExport>;
 }
 
 export const exportScanner = (id: string, filename = id) => {
-  const re =
-    /export (const (?<name>\w+) =|default) (?<defn>define[A-Z]|styled|component\$?)/;
+	const re =
+		/export (const (?<name>\w+) =|default) (?<defn>define[A-Z]|styled|component\$?)/;
 
-  return {
-    scan(code: string): Module {
-      let ret = {
-        code: "",
-        exports: new Map<string, ModuleExport>(),
-      };
-      let src = code;
-      let m: RegExpMatchArray | null;
-      while ((m = src.match(re)) !== null) {
-        const defn = m.groups!["defn"]!!;
-        const exported = m.groups!["name"] ?? "default";
-        const local =
-          exported !== "default"
-            ? `__${exported}`
-            : upperFirst(
-                camelCase(`${basename(filename, extname(filename))}Default`),
-              );
+	return {
+		scan(code: string): Module {
+			const ret = {
+				code: "",
+				exports: new Map<string, ModuleExport>(),
+			};
+			let src = code;
+			let m: RegExpMatchArray | null = null;
+			while (true) {
+				m = src.match(re);
 
-        const range = {
-          start: m.index ?? 0,
-          length: m[0].length,
-        };
+				if (m === null) {
+					break;
+				}
 
-        ret.exports.set(local, { exported, id: getHash(`${id}#${exported}`) });
+				const defn = m.groups?.["defn"] ?? "";
 
-        ret.code += src.slice(0, range.start) + `const ${local} = ${defn}`;
-        src = src.slice(range.start + range.length);
-      }
+				const exported = m.groups?.["name"] ?? "default";
+				const local =
+					exported !== "default"
+						? `__${exported}`
+						: upperFirst(
+								camelCase(`${basename(filename, extname(filename))}Default`),
+						  );
 
-      ret.code += src;
+				const range = {
+					start: m.index ?? 0,
+					length: m[0].length,
+				};
 
-      return ret;
-    },
-  };
+				ret.exports.set(local, { exported, id: getHash(`${id}#${exported}`) });
+
+				ret.code += `${src.slice(0, range.start)}const ${local} = ${defn}`;
+
+				src = src.slice(range.start + range.length);
+			}
+
+			ret.code += src;
+
+			return ret;
+		},
+	};
 };
 
 export const viteVueComponentPatcher = (
-  options: VueJsxHmrOptions = {},
+	options: VueJsxHmrOptions = {},
 ): Plugin => {
-  const filter = createFilter(
-    options.include || [/\.tsx$/, /\.mdx?$/],
-    options.exclude,
-  );
+	const filter = createFilter(
+		options.include || [/\.tsx$/, /\.mdx?$/],
+		options.exclude,
+	);
 
-  let hmrEnabled = false;
+	let hmrEnabled = false;
 
-  return {
-    name: "vite-plugin/vue-component-patcher",
+	return {
+		name: "vite-plugin/vue-component-patcher",
 
-    config(_, env) {
-      hmrEnabled = env.command === "serve";
-    },
+		config(_, env) {
+			hmrEnabled = env.command === "serve";
+		},
 
-    async transform(code, id) {
-      const [filepath] = id.split("?");
+		async transform(code, id) {
+			const [filepath] = id.split("?");
 
-      if (filter(id) || filter(filepath)) {
-        const m = exportScanner(id, filepath).scan(code);
-        let patched = m.code;
-        patched += exportWithDisplayName(m);
-        if (hmrEnabled) {
-          patched += hmrPatch(m);
-        }
-        return patched;
-      }
+			if (filter(id) || filter(filepath)) {
+				const m = exportScanner(id, filepath).scan(code);
+				let patched = m.code;
+				patched += exportWithDisplayName(m);
+				if (hmrEnabled) {
+					patched += hmrPatch(m);
+				}
+				return patched;
+			}
 
-      return null;
-    },
-  };
+			return null;
+		},
+	};
 };
 
 function exportWithDisplayName(m: Module) {
-  let code = "";
+	let code = "";
 
-  m.exports.forEach(({ exported }, local) => {
-    if (exported === "default") {
-      code += `
+	m.exports.forEach(({ exported }, local) => {
+		if (exported === "default") {
+			code += `
 export default `;
-    } else {
-      code += `
+		} else {
+			code += `
 export const ${exported} = `;
-    }
+		}
 
-    code += `Object.assign(${local}, { displayName: "${
-      exported === "default" ? local : exported
-    }" });
+		code += `Object.assign(${local}, { displayName: "${
+			exported === "default" ? local : exported
+		}" });
 `;
-  });
+	});
 
-  return code;
+	return code;
 }
 
 function hmrPatch(m: Module) {
-  let code = "";
-  let callbackBlock = ``;
+	let code = "";
+	let callbackBlock = "";
 
-  m.exports.forEach(({ exported, id }, local) => {
-    const ident = exported === "default" ? local : exported;
+	m.exports.forEach(({ exported, id }, local) => {
+		const ident = exported === "default" ? local : exported;
 
-    code += `
+		code += `
 ${ident}.__hmrId = "${id}"
 __VUE_HMR_RUNTIME__.createRecord(${ident}.__hmrId, ${ident});
 `;
-    callbackBlock += `__VUE_HMR_RUNTIME__.reload(exports.${exported}.__hmrId, exports.${exported});
+		callbackBlock += `__VUE_HMR_RUNTIME__.reload(exports.${exported}.__hmrId, exports.${exported});
 `;
-  });
+	});
 
-  if (callbackBlock) {
-    code += `
+	if (callbackBlock) {
+		code += `
 import.meta.hot?.accept((exports) => {
 ${callbackBlock}
 })
 `;
-  }
+	}
 
-  return code;
+	return code;
 }

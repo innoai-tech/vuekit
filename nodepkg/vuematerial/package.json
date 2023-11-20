@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuematerial",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -10,8 +10,8 @@
     "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
-    "@mdi/js": "^7.3.67",
-    "vue": "v3.3.8"
+    "@mdi/js": "^7.4.47",
+    "vue": "v3.4.8"
   },
   "peerDependencies": {},
   "exports": {
@@ -40,7 +40,7 @@
     "directory": "nodepkg/vuematerial"
   },
   "scripts": {
-    "lint": "bunx --bun prettier --write .",
+    "lint": "bunx --bun @biomejs/biome check --apply .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"
   },

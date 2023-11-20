@@ -1,354 +1,358 @@
-import { type CSSAllProps, type FullCSSObject } from "./csstype";
-import {
-  camelCase,
-  isNumber,
-  isObject,
-  isString,
-  isUndefined,
-  kebabCase,
-  mapValues,
-  set,
-} from "@innoai-tech/lodash";
-import {
-  type FigmaTokenValues,
-  type DesignTokenOptionAny,
-  type DesignTokens,
-  DesignToken,
-  DesignTokenType,
-  isVariant,
-  Mixin,
-  TokenSet,
-} from "./token";
 import { serializeStyles } from "@emotion/serialize";
 import type { EmotionCache } from "@emotion/utils";
+import {
+	camelCase,
+	isNumber,
+	isObject,
+	isString,
+	isUndefined,
+	kebabCase,
+	mapValues,
+	set,
+} from "@innoai-tech/lodash";
 import { CSSProcessor } from "./CSSProcessor";
+import { type CSSAllProps, type FullCSSObject } from "./csstype";
+import {
+	DesignToken,
+	type DesignTokenOptionAny,
+	DesignTokenType,
+	type DesignTokens,
+	type FigmaTokenValues,
+	Mixin,
+	TokenSet,
+	isVariant,
+	setTo,
+} from "./token";
 
 export interface ThemingOptions {
-  mode: "light" | "dark";
-  varPrefix: string;
+	mode: "light" | "dark";
+	varPrefix: string;
 }
 
 export interface TokenGetter<Token extends string, Value> {
-  (token: Token): Value;
+	(token: Token): Value;
 
-  tokens: string[];
+	tokens: string[];
 }
 
 const toMap = (list: string[]): { [K: string]: true } =>
-  list.reduce(
-    (ret, v) => ({
-      ...ret,
-      [v]: true,
-    }),
-    {},
-  ) as any;
+	list.reduce((ret, v) => {
+		return Object.assign(ret, {
+			[v]: true,
+		});
+	}, {}) as any;
 
 export class Theming<T extends Record<string, DesignTokenOptionAny>> {
-  private static propsCanPercent = toMap([...DesignToken.boxSize({}).on]);
+	private static propsCanPercent = toMap([...DesignToken.boxSize({}).on]);
 
-  private static propsCanBaseDp = toMap([
-    ...DesignToken.boxSize({}).on,
-    ...DesignToken.space({}).on,
-    ...DesignToken.fontSize({}).on,
-    ...DesignToken.letterSpacing({}).on,
-    ...DesignToken.lineHeight({}).on,
-    ...DesignToken.rounded({}).on,
-  ]);
+	private static propsCanBaseDp = toMap([
+		...DesignToken.boxSize({}).on,
+		...DesignToken.space({}).on,
+		...DesignToken.fontSize({}).on,
+		...DesignToken.letterSpacing({}).on,
+		...DesignToken.lineHeight({}).on,
+		...DesignToken.rounded({}).on,
+	]);
 
-  static create<T extends Record<string, DesignTokenOptionAny>>(
-    theme: T,
-    options: Partial<ThemingOptions>,
-  ) {
-    return new Theming<T>(theme, options);
-  }
+	static create<T extends Record<string, DesignTokenOptionAny>>(
+		theme: T,
+		options: Partial<ThemingOptions>,
+	) {
+		return new Theming<T>(theme, options);
+	}
 
-  private readonly mode: string;
-  private readonly varPrefix: string;
-  private readonly cssVars: { [K: string]: any } = {};
-  private readonly tokens: { [K in keyof T]: TokenSet<T[K]> } = {} as any;
-  private readonly propValues: { [K in string]: TokenSet<any> } = {};
-  private readonly mixins: { [K: string]: Mixin } = {} as any;
+	private readonly mode: string;
+	private readonly varPrefix: string;
+	private readonly cssVars: { [K: string]: any } = {};
+	private readonly tokens: { [K in keyof T]: TokenSet<T[K]> } = {} as any;
+	private readonly propValues: { [K in string]: TokenSet<any> } = {};
+	private readonly mixins: { [K: string]: Mixin } = {} as any;
 
-  dp = (v: number) =>
-    v === 0 ? 0 : `calc(${v} * var(${this.cssVar("space", "dp")}))`;
+	dp = (v: number) =>
+		v === 0 ? 0 : `calc(${v} * var(${this.cssVar("space", "dp")}))`;
 
-  private transformFallback = (p: string, v: any) => {
-    if (Theming.propsCanBaseDp[p] && isNumber(v)) {
-      if (Theming.propsCanPercent[p] && Math.abs(v) < 1) {
-        return `${v * 100}%`;
-      }
-      return this.dp(v);
-    }
-    return v;
-  };
+	private transformFallback = (p: string, v: any) => {
+		if (Theming.propsCanBaseDp[p] && isNumber(v)) {
+			if (Theming.propsCanPercent[p] && Math.abs(v) < 1) {
+				return `${v * 100}%`;
+			}
+			return this.dp(v);
+		}
+		return v;
+	};
 
-  constructor(
-    public readonly theme: T,
-    options: Partial<ThemingOptions> = {},
-  ) {
-    this.varPrefix = options.varPrefix ?? "vk";
-    this.mode = options.mode ?? "light";
+	constructor(
+		public readonly theme: T,
+		options: Partial<ThemingOptions> = {},
+	) {
+		this.varPrefix = options.varPrefix ?? "vk";
+		this.mode = options.mode ?? "light";
 
-    set(this.cssVars, [this.cssVar("space", "dp")!], "0.1rem");
+		set(this.cssVars, [this.cssVar("space", "dp")], "0.1rem");
 
-    for (let scale in theme) {
-      const dt = theme[scale]!;
+		for (const scale in theme) {
+			const dt = theme[scale];
 
-      if (dt.type == DesignTokenType.var) {
-        const dtv = new TokenSet(dt, {
-          cssVar: (token: string) => this.cssVar(scale, token),
-          transformFallback: (v) => this.transformFallback(dt.on[0], v),
-        });
+			if (!dt) {
+				continue;
+			}
 
-        this.tokens[scale] = dtv;
-        for (const prop of dt.on) {
-          this.propValues[prop] = dtv;
-        }
+			if (dt.type === DesignTokenType.var) {
+				const dtv = new TokenSet(dt, {
+					cssVar: (token: string) => this.cssVar(scale, token),
+					transformFallback: (v) => this.transformFallback(dt.on[0], v),
+				});
 
-        for (const token of dtv.tokens) {
-          for (const mode of ["light", "dark"] as const) {
-            const modePseudo = mode === this.mode ? "_default" : `_${mode}`;
+				this.tokens[scale] = dtv;
+				for (const prop of dt.on) {
+					this.propValues[prop] = dtv;
+				}
 
-            const v = dtv.get(token, modePseudo, true);
-            if (!isUndefined(v)) {
-              if (modePseudo === "_default") {
-                set(this.cssVars, [this.cssVar(scale, token)!], v);
-              } else {
-                set(this.cssVars, [modePseudo, this.cssVar(scale, token)!], v);
-              }
-            }
-          }
-        }
+				for (const token of dtv.tokens) {
+					for (const mode of ["light", "dark"] as const) {
+						const modePseudo = mode === this.mode ? "_default" : `_${mode}`;
 
-        continue;
-      }
+						const v = dtv.get(token, modePseudo, true);
+						if (!isUndefined(v)) {
+							if (modePseudo === "_default") {
+								set(this.cssVars, [this.cssVar(scale, token)], v);
+							} else {
+								set(this.cssVars, [modePseudo, this.cssVar(scale, token)], v);
+							}
+						}
+					}
+				}
 
-      if (dt.type == DesignTokenType.mixin) {
-        const m = new Mixin(dt);
-        for (const prop of dt.on) {
-          this.mixins[prop] = m;
-        }
-      }
-    }
-  }
+				continue;
+			}
 
-  private cssVar(scale: string, key: string) {
-    return `--${this.varPrefix}-${kebabCase(scale)}__${key
-      .replaceAll("/", "--")
-      .replaceAll(".", "__")}`;
-  }
+			if (dt.type === DesignTokenType.mixin) {
+				const m = new Mixin(dt);
+				for (const prop of dt.on) {
+					this.mixins[prop] = m;
+				}
+			}
+		}
+	}
 
-  get rootCSSVars(): DesignTokens<T> & CSSAllProps {
-    return this.cssVars as any;
-  }
+	private cssVar(scale: string, key: string) {
+		return `--${this.varPrefix}-${kebabCase(scale)}__${key
+			.replaceAll("/", "--")
+			.replaceAll(".", "__")}`;
+	}
 
-  token: {
-    [K in keyof T]: TokenGetter<
-      TokenSet<T[K]>["__Tokens"],
-      T[K]["__ValueType"]
-    >;
-  } = new Proxy(
-    {},
-    {
-      get: (_, prop) => {
-        if (this.tokens[prop as any]) {
-          return Object.assign(
-            (token: string) =>
-              this.tokens[prop as any]?.get(token, `_${this.mode}`),
-            {
-              tokens: this.tokens[prop as any]?.tokens,
-            },
-          );
-        }
-        if (this.mixins[prop as any]) {
-          return Object.assign(
-            (token: string) => this.mixins[prop as any]?.get(token),
-            {
-              tokens: this.mixins[prop as any]?.tokens,
-            },
-          );
-        }
-        return;
-      },
-    },
-  ) as any;
+	get rootCSSVars(): DesignTokens<T> & CSSAllProps {
+		return this.cssVars as any;
+	}
 
-  private processValue = (p: string, v: any) => {
-    if (isVariant(v)) {
-      const cssVar = this.propValues[p]?.use(v.token, true);
-      return cssVar ? v(cssVar) : undefined;
-    }
-    return this.propValues[p]?.use(v) ?? this.transformFallback(p, v);
-  };
+	token: {
+		[K in keyof T]: TokenGetter<
+			TokenSet<T[K]>["__Tokens"],
+			T[K]["__ValueType"]
+		>;
+	} = new Proxy(
+		{},
+		{
+			get: (_, prop) => {
+				if (this.tokens[prop as any]) {
+					return Object.assign(
+						(token: string) =>
+							this.tokens[prop as any]?.get(token, `_${this.mode}`),
+						{
+							tokens: this.tokens[prop as any]?.tokens,
+						},
+					);
+				}
+				if (this.mixins[prop as any]) {
+					return Object.assign(
+						(token: string) => this.mixins[prop as any]?.get(token),
+						{
+							tokens: this.mixins[prop as any]?.tokens,
+						},
+					);
+				}
+				return;
+			},
+		},
+	) as any;
 
-  unstable_sx = (
-    sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
-  ): Array<Record<string, any>> => {
-    return new CSSProcessor({
-      mixins: this.mixins,
-      varPrefix: this.varPrefix,
-      processValue: this.processValue,
-    }).processAll(sx);
-  };
+	private processValue = (p: string, v: any) => {
+		if (isVariant(v)) {
+			const cssVar = this.propValues[p]?.use(v.token, true);
+			return cssVar ? v(cssVar) : undefined;
+		}
+		return this.propValues[p]?.use(v) ?? this.transformFallback(p, v);
+	};
 
-  unstable_css(
-    cache: EmotionCache,
-    sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
-  ) {
-    const inputs = (sx ?? {}) as any;
+	unstable_sx = (
+		sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
+	): Array<Record<string, any>> => {
+		return new CSSProcessor({
+			mixins: this.mixins,
+			varPrefix: this.varPrefix,
+			processValue: this.processValue,
+		}).processAll(sx);
+	};
 
-    // mutate for cache
-    inputs.__emotion_styles =
-      inputs.__emotion_styles ??
-      serializeStyles(this.unstable_sx(sx), cache?.registered, {});
+	unstable_css(
+		cache: EmotionCache,
+		sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
+	) {
+		const inputs = (sx ?? {}) as any;
 
-    return inputs.__emotion_styles;
-  }
+		// mutate for cache
+		inputs.__emotion_styles =
+			inputs.__emotion_styles ??
+			serializeStyles(this.unstable_sx(sx), cache?.registered, {});
 
-  toFigmaTokens() {
-    const seedTokens: FigmaTokenValues = {
-      space: {
-        dp: {
-          type: "sizing",
-          value: 1,
-        },
-      },
-    };
+		return inputs.__emotion_styles;
+	}
 
-    const baseTokens: FigmaTokenValues = {};
-    const darkTokens: FigmaTokenValues = {};
+	toFigmaTokens() {
+		const seedTokens: FigmaTokenValues = {
+			space: {
+				dp: {
+					type: "sizing",
+					value: 1,
+				},
+			},
+		};
 
-    const recordTo = (target: any, keyPath: string[], v: any) => {
-      let f = target;
+		const baseTokens: FigmaTokenValues = {};
+		const darkTokens: FigmaTokenValues = {};
 
-      for (let i = 0; i < keyPath.length; i++) {
-        if (i == keyPath.length - 1) {
-          f[keyPath[i]!] = v;
-          continue;
-        }
+		const toFigmaToken = (
+			type: string,
+			value: any,
+		): {
+			type: string;
+			value: any;
+		} => {
+			if (isObject(value)) {
+				return {
+					type: type,
+					value: mapValues(value, (v) => {
+						return toFigmaToken(type, v).value;
+					}),
+				};
+			}
 
-        f[keyPath[i]!] = f[keyPath[i]!] ?? {};
-        f = f[keyPath[i]!];
-      }
-    };
+			if (isString(value)) {
+				return {
+					type: type,
+					value: value
+						.replace(/var\(([^)]+)\)/g, (v) => {
+							// var(--vk-space-dp)
+							const k = v.slice("var(".length, v.length - 1);
+							const parts = k.slice(`--${this.varPrefix}-`.length).split("--");
 
-    const toFigmaToken = (
-      type: string,
-      value: any,
-    ): {
-      type: string;
-      value: any;
-    } => {
-      if (isObject(value)) {
-        return {
-          type: type,
-          value: mapValues(value, (v) => {
-            return toFigmaToken(type, v).value;
-          }),
-        };
-      }
+							return `{${parts[0]
+								?.split("__")
+								.map((p, i) => (i === 0 ? camelCase(p) : p))
+								.join(".")}}`;
+						})
+						.replace(/calc\(.+\)$/g, (v) =>
+							v.slice("calc(".length, v.length - 1),
+						),
+				};
+			}
 
-      if (isString(value)) {
-        value = value
-          .replace(/var\(([^)]+)\)/g, (v) => {
-            // var(--vk-space-dp)
-            const k = v.slice("var(".length, v.length - 1);
-            const parts = k.slice(`--${this.varPrefix}-`.length).split("--");
+			return {
+				type: type,
+				value: value,
+			};
+		};
 
-            return `{${parts[0]!
-              .split("__")
-              .map((p, i) => (i == 0 ? camelCase(p) : p))
-              .join(".")}}`;
-          })
-          .replace(/calc\(.+\)$/g, (v) =>
-            v.slice("calc(".length, v.length - 1),
-          );
-      }
+		for (const topic in this.tokens) {
+			const ts = this.tokens[topic];
 
-      return {
-        type: type,
-        value: value,
-      };
-    };
+			const collect = (type: string) => {
+				for (const t of ts.tokens) {
+					if (t.includes("/")) {
+						continue;
+					}
 
-    for (const topic in this.tokens) {
-      const ts = this.tokens[topic];
+					if (t.startsWith("sys.")) {
+						const defaultValue = ts.get(t, "_default");
+						const darkValue = ts.get(t, "_dark");
 
-      const collect = (type: string) =>
-        ts.tokens.forEach((t) => {
-          if (t.includes("/")) {
-            return;
-          }
+						setTo(
+							baseTokens,
+							[topic, ...t.split(".")],
+							toFigmaToken(type, defaultValue),
+						);
+						if (defaultValue !== darkValue) {
+							setTo(
+								darkTokens,
+								[topic, ...t.split(".")],
+								toFigmaToken(type, darkValue),
+							);
+						}
+					} else {
+						setTo(
+							seedTokens,
+							[topic, ...t.split(".")],
+							toFigmaToken(type, ts.get(t, "_default")),
+						);
+					}
+				}
+			};
 
-          if (t.startsWith("sys.")) {
-            const defaultValue = ts.get(t, "_default");
-            const darkValue = ts.get(t, "_dark");
+			switch (topic) {
+				case "color":
+					collect("color");
+					break;
+				case "rounded":
+					collect("borderRadius");
+					break;
+				case "shadow":
+					collect("boxShadow");
+					break;
+				case "font":
+					collect("fontFamily");
+					break;
+				case "fontWeight":
+					collect("fontWeight");
+					break;
+			}
+		}
 
-            recordTo(
-              baseTokens,
-              [topic, ...t.split(".")],
-              toFigmaToken(type, defaultValue),
-            );
-            if (defaultValue != darkValue) {
-              recordTo(
-                darkTokens,
-                [topic, ...t.split(".")],
-                toFigmaToken(type, darkValue),
-              );
-            }
-          } else {
-            recordTo(
-              seedTokens,
-              [topic, ...t.split(".")],
-              toFigmaToken(type, ts.get(t, "_default")),
-            );
-          }
-        });
+		for (const topic in this.mixins) {
+			const mixin = this.mixins[topic];
 
-      switch (topic) {
-        case "color":
-          collect("color");
-          break;
-        case "rounded":
-          collect("borderRadius");
-          break;
-        case "shadow":
-          collect("boxShadow");
-          break;
-        case "font":
-          collect("fontFamily");
-          break;
-        case "fontWeight":
-          collect("fontWeight");
-          break;
-      }
-    }
+			if (!mixin) {
+				continue;
+			}
 
-    for (const topic in this.mixins) {
-      const mixin = this.mixins[topic]!;
+			const collect = (type: string) => {
+				for (const t of mixin.tokens) {
+					const v = mixin.get(t);
 
-      const collect = (type: string) =>
-        mixin.tokens.forEach((t) => {
-          const value = this.unstable_sx(mixin.get(t)!)[0];
+					if (!v) {
+						continue;
+					}
 
-          recordTo(
-            baseTokens,
-            [topic, ...t.split(".")],
-            toFigmaToken(type, value),
-          );
-        });
+					const value = this.unstable_sx(v)[0];
 
-      switch (topic) {
-        case "textStyle":
-          collect("typography");
-          break;
-      }
-    }
+					setTo(
+						baseTokens,
+						[topic, ...t.split(".")],
+						toFigmaToken(type, value),
+					);
+				}
+			};
 
-    return {
-      seed: seedTokens,
-      base: baseTokens,
-      dark: darkTokens,
-    };
-  }
+			switch (topic) {
+				case "textStyle":
+					collect("typography");
+					break;
+			}
+		}
+
+		return {
+			seed: seedTokens,
+			base: baseTokens,
+			dark: darkTokens,
+		};
+	}
 }

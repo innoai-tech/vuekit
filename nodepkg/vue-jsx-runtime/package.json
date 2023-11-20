@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-jsx-runtime",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "monobundle": {
     "exports": {
       "./jsx-runtime": "./src/jsx-runtime.ts",
@@ -8,7 +8,7 @@
     }
   },
   "dependencies": {
-    "vue": "v3.3.8"
+    "vue": "v3.4.8"
   },
   "peerDependencies": {},
   "exports": {
@@ -44,7 +44,7 @@
     "directory": "nodepkg/vue-jsx-runtime"
   },
   "scripts": {
-    "lint": "bunx --bun prettier --write .",
+    "lint": "bunx --bun @biomejs/biome check --apply .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"
   },

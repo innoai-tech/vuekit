@@ -11,5 +11,5 @@ export const defaultTheming = Theming.create(defaultTheme, { varPrefix: "vk" });
 
 // TODO added support custom
 export type SystemStyleObject = Parameters<
-  typeof defaultTheming.unstable_sx
+	typeof defaultTheming.unstable_sx
 >[0];

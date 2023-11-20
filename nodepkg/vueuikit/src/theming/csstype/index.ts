@@ -2,38 +2,38 @@ export * from "./Properties";
 export * from "./Pseudos";
 
 export type { Globals } from "@innoai-tech/csstype";
-import type {
-  PseudoClassAliases,
-  PseudoElementAliases,
-  Pseudos,
-} from "./Pseudos";
 import type { CSSAllProps } from "./Properties";
+import type {
+	PseudoClassAliases,
+	PseudoElementAliases,
+	Pseudos,
+} from "./Pseudos";
 
 export type RecursivePseudo<D> = {
-  [K in
-    | keyof PseudoElementAliases
-    | keyof PseudoClassAliases
-    | keyof Pseudos]?: D;
+	[K in
+		| keyof PseudoElementAliases
+		| keyof PseudoClassAliases
+		| keyof Pseudos]?: D;
 };
 
 type CSSDefinition<D> = D | RecursiveCSSSelector<D>;
 
 interface RecursiveCSSSelector<D> {
-  [selector: string]: CSSDefinition<D>;
+	[selector: string]: CSSDefinition<D>;
 }
 
 export type RecursiveCSSObject<D> = D &
-  (D | RecursivePseudo<D> | RecursiveCSSSelector<D>);
+	(D | RecursivePseudo<D> | RecursiveCSSSelector<D>);
 
 export type CSSObjectWithState<D extends CSSAllProps> = D & {
-  state?: Record<
-    string,
-    CSSDefinition<{ $?: string } & Pick<D, keyof CSSAllProps>>
-  >;
+	state?: Record<
+		string,
+		CSSDefinition<{ $?: string } & Pick<D, keyof CSSAllProps>>
+	>;
 };
 
 export type ExtendableCSSObject<D> = { extends?: ExtendableCSSObject<D>[] } & D;
 
 export type FullCSSObject<D extends CSSAllProps> = ExtendableCSSObject<
-  RecursiveCSSObject<CSSObjectWithState<D>>
+	RecursiveCSSObject<CSSObjectWithState<D>>
 >;

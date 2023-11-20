@@ -3,33 +3,33 @@ import { GlobalStyle } from "./GlobalStyle";
 import { ThemeProvider } from "./ThemeProvider";
 
 export const CSSReset = component(() => {
-  const theme = ThemeProvider.use();
+	const theme = ThemeProvider.use();
 
-  const rootVars = theme.rootCSSVars;
+	const rootVars = theme.rootCSSVars;
 
-  return () => {
-    return (
-      <GlobalStyle
-        styles={{
-          ":host, :root, [data-theme]": rootVars,
+	return () => {
+		return (
+			<GlobalStyle
+				styles={{
+					":host, :root, [data-theme]": rootVars,
 
-          "*, *::after, *::before": {
-            boxSizing: "border-box",
-          },
+					"*, *::after, *::before": {
+						boxSizing: "border-box",
+					},
 
-          html: {
-            fontSize: "10px",
-          },
+					html: {
+						fontSize: "10px",
+					},
 
-          a: {
-            color: "inherit",
-          },
+					a: {
+						color: "inherit",
+					},
 
-          body: {
-            textStyle: "sys.body-medium",
-          },
-        }}
-      />
-    );
-  };
+					body: {
+						textStyle: "sys.body-medium",
+					},
+				}}
+			/>
+		);
+	};
 });
