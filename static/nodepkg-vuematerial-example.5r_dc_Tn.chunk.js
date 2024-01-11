@@ -1,7 +1,7 @@
-import { c as n, j as a, i as e, D as s, E as c, F as t } from "./lib-nodepkg-vuekit.Cz_QR0I8.chunk.js";
-import { d as l } from "./webapp-vuekit-layout.VC44meto.chunk.js";
-import { I as o, b as i, F as p } from "./index.9qiuLA0f.entry.js";
-import { B as r } from "./lib-nodepkg-vueuikit.gwY3YMh0.chunk.js";
+import { a as n, j as a, k as e, D as s, E as c, F as t } from "./lib-nodepkg-vuekit.YjJGCx9f.chunk.js";
+import { c as l } from "./node_modules-@mdi-js.pWuFxqs_.chunk.js";
+import { I as o, a as i, F as p } from "./index.m9XzTHpE.entry.js";
+import { B as r } from "./lib-nodepkg-vueuikit.evI34-rO.chunk.js";
 let d = /* @__PURE__ */ n(() => () => /* @__PURE__ */ a(o, { path: l })), m = /* @__PURE__ */ Object.assign(d, { displayName: "IconsMdCodeBlockd4735E3ADefault" }), u = /* @__PURE__ */ n(() => () => /* @__PURE__ */ e(r, { sx: { display: "flex", gap: 8 }, children: [/* @__PURE__ */ a(i, { active: true, onClick: () => console.log(1), children: /* @__PURE__ */ a(o, { path: l }) }), /* @__PURE__ */ e(p, { active: false, children: ["Send", /* @__PURE__ */ a(o, { path: l, placement: "end" })] })] })), k = /* @__PURE__ */ Object.assign(u, { displayName: "IconsMdCodeBlocke7F6C011Default" });
 function h(n2) {
   let s2 = { a: "a", code: "code", codeblockd4735e3a: "codeblockd4735e3a", codeblocke7f6c011: "codeblocke7f6c011", div: "div", h3: "h3", p: "p", pre: "pre", span: "span", ...n2.components };
