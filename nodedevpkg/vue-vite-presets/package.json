@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.7.2",
+  "version": "0.7.5",
   "monobundle": {
     "pipeline": {
       "test": false

@@ -1,6 +1,6 @@
 import { readFileSync } from "fs";
 import { dirname, join, relative, resolve } from "path";
-import { forEach, get, isUndefined } from "@innoai-tech/lodash";
+import { forEach, get } from "@innoai-tech/lodash";
 import {
 	type ManualChunkMeta,
 	type OutputOptions,
@@ -36,16 +36,15 @@ export const viteChunkSplit = (
 
 			c.build.rollupOptions = c.build.rollupOptions ?? {};
 
-			(c.build.rollupOptions as any).output =
+			c.build.rollupOptions.output =
 				c.build.rollupOptions.output ?? ({} as OutputOptions);
-
 			const chunkFileNames = get(
 				c.build.rollupOptions.output,
 				["chunkFileNames"],
 				`${assetsDir}/[name].[hash].chunk.js`,
 			);
 
-			c.build.rollupOptions.output = {
+			(c.build.rollupOptions.output as any) = {
 				...c.build.rollupOptions.output,
 				chunkFileNames: (chunkInfo: PreRenderedChunk) => {
 					if (
@@ -57,7 +56,7 @@ export const viteChunkSplit = (
 					}
 
 					const name = cs
-						.extractName(chunkInfo.moduleIds[0] ?? "")
+						.extractName(chunkInfo.moduleIds[0]!)
 						.replaceAll(/[\[\]]/g, "_")
 						.replaceAll("/", "-");
 					return `${assetsDir}/${name}.[hash].chunk.js`;
@@ -65,9 +64,9 @@ export const viteChunkSplit = (
 			};
 		},
 		outputOptions(o) {
-			o.manualChunks = ((id: string, meta: ManualChunkMeta) => {
+			o.manualChunks = (id: string, meta: ManualChunkMeta) => {
 				return cs.chunkName(id, meta)?.replaceAll("/", "-").replaceAll("@", "");
-			}) as any;
+			};
 		},
 	};
 };
@@ -89,10 +88,8 @@ class ChunkSplit {
 	private _pkgRelegation?: ReturnType<typeof this.resolvePkgRelations>;
 
 	pkgRelegation(meta: ManualChunkMeta, pkgName: string) {
-		if (isUndefined(this._pkgRelegation)) {
-			this._pkgRelegation = this.resolvePkgRelations(meta);
-		}
-		return this._pkgRelegation[pkgName];
+		return (this._pkgRelegation =
+			this._pkgRelegation ?? this.resolvePkgRelations(meta))[pkgName];
 	}
 
 	chunkName(id: string, meta: ManualChunkMeta): string | undefined {
@@ -124,39 +121,30 @@ class ChunkSplit {
 			const pkgName = this.extractPkgName(modID) || modID;
 
 			const markImported = (dep: string) => {
-				let currentModuleFederation = moduleFederations[pkgName];
-				let moduleFederation = moduleFederations[dep];
-
-				if (isUndefined(currentModuleFederation)) {
-					currentModuleFederation = moduleFederations[pkgName] =
-						new ModuleFederation(pkgName);
-				}
-
-				if (isUndefined(moduleFederation)) {
-					moduleFederation = moduleFederations[dep] = new ModuleFederation(dep);
-				}
+				const currentModuleFederation = (moduleFederations[pkgName] =
+					moduleFederations[pkgName] ?? new ModuleFederation(pkgName));
+				const moduleFederation = (moduleFederations[dep] =
+					moduleFederations[dep] ?? new ModuleFederation(dep));
 
 				moduleFederation.importedBy(currentModuleFederation);
 			};
 
-			const m = getModuleInfo(modID);
+			const m = getModuleInfo(modID)!;
 
-			if (!m) {
-				throw new Error(`missing mod ${modID}`);
-			}
-
-			for (const dep of m.importedIds
+			m.importedIds
 				.map((id) => this.extractPkgName(id))
-				.filter((v) => v !== pkgName)) {
-				directImports[dep] = true;
-				markImported(dep);
-			}
+				.filter((v) => v !== pkgName)
+				.forEach((dep) => {
+					directImports[dep] = true;
+					markImported(dep);
+				});
 
-			for (const dep of m.dynamicallyImportedIds
+			m.dynamicallyImportedIds
 				.map((id) => this.extractPkgName(id))
-				.filter((v) => v !== pkgName)) {
-				markImported(dep);
-			}
+				.filter((v) => v !== pkgName)
+				.forEach((dep) => {
+					markImported(dep);
+				});
 		});
 
 		for (const pkgName in directImports) {
@@ -207,24 +195,24 @@ class ChunkSplit {
 					return "@internal";
 				}
 				if (id[0] !== "/") {
-					return id.split("/")[0] ?? "";
+					return id.split("/")[0]!;
 				}
 			}
 
-			if (id.startsWith(`${this.root}/`)) {
+			if (id.startsWith(this.root + "/")) {
 				return `@${id.slice(this.root.length + 1).replaceAll(/[.\[\]]/g, "_")}`;
 			}
 
 			return id;
 		}
 
-		const dirPaths = parts[parts.length - 1]?.split("/") ?? [];
+		const dirPaths = parts[parts.length - 1]!.split("/");
 
-		if (dirPaths[0]?.[0] === "@") {
+		if (dirPaths[0]![0] === "@") {
 			return `vendor-${dirPaths[0]}/${dirPaths[1]}`;
 		}
 
-		return `vendor-${dirPaths[0]}`;
+		return `vendor-${dirPaths[0]!}`;
 	}
 
 	private isDirectVendor(pkgName: string) {
@@ -278,7 +266,7 @@ const markPkgRelegation = (
 		while (!visited[federation] && !directs[federation]) {
 			visited[federation] = true;
 
-			const pkgRelation = moduleFederations[federation];
+			const pkgRelation = moduleFederations[federation]!;
 
 			if (pkgRelation) {
 				const names = pkgRelation.namesOfImported();
@@ -290,7 +278,7 @@ const markPkgRelegation = (
 						: 1;
 				});
 
-				federation = names[0] ?? "";
+				federation = names[0]!;
 				continue;
 			}
 			break;
@@ -317,29 +305,21 @@ export const d2Graph = (
 	};
 
 	const r = (pkgName: string) => {
-		const m = moduleFederations[pkgName];
-
-		if (m) {
-			const federation = m.federation;
-
-			if (pkgName === federation) {
+		if (moduleFederations[pkgName]) {
+			const federation = moduleFederations[pkgName]!.federation;
+			if (pkgName == federation) {
 				return pkgId(pkgName);
 			}
-
 			return `${pkgId(federation)}.${pkgId(pkgName)}`;
 		}
-
 		return `${pkgId(pkgName)}`;
 	};
 
 	for (const pkgName in moduleFederations) {
-		const pkgRelation = moduleFederations[pkgName];
-
-		if (pkgRelation) {
-			for (const d of pkgRelation.namesOfImported()) {
-				g += `${r(pkgName)} -> ${r(d)}      
+		const pkgRelation = moduleFederations[pkgName]!;
+		for (const d of pkgRelation.namesOfImported()) {
+			g += `${r(pkgName)} -> ${r(d)}      
 `;
-			}
 		}
 	}
 

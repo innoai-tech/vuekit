@@ -11,8 +11,8 @@ import {
 	some,
 } from "@innoai-tech/lodash";
 import { type AnyType, t } from "../core";
-import type { JSONSchema } from "./JSONSchemaEncoder";
 import { literal } from "../core/t.ts";
+import type { JSONSchema } from "./JSONSchemaEncoder";
 
 export const refName = (ref: string) => {
 	return last(ref.split("/")) ?? "";

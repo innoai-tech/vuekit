@@ -1,9 +1,4 @@
-import {
-	has,
-	isPlainObject,
-	isString,
-	mapValues,
-} from "@innoai-tech/lodash";
+import { has, isPlainObject, isString, mapValues } from "@innoai-tech/lodash";
 import { DesignToken } from "./DesignToken";
 import { setTo } from "./util.ts";
 
