@@ -12,6 +12,7 @@ import {
 } from "@innoai-tech/lodash";
 import { type AnyType, t } from "../core";
 import type { JSONSchema } from "./JSONSchemaEncoder";
+import { literal } from "../core/t.ts";
 
 export const refName = (ref: string) => {
 	return last(ref.split("/")) ?? "";
@@ -79,15 +80,44 @@ export class JSONSchemaDecoder {
 			return e;
 		}
 
-		if (schema["oneOf"]) {
-			if (schema["discriminator"]) {
-				const discriminatorPropertyName = schema["discriminator"][
-					"propertyName"
-				] as string;
+		if (schema["discriminator"]) {
+			const discriminatorPropertyName = schema["discriminator"][
+				"propertyName"
+			] as string;
 
-				if (discriminatorPropertyName) {
-					const mapping: Record<string, any> = {};
+			if (discriminatorPropertyName) {
+				const mapping: Record<string, any> = {};
 
+				if (schema["discriminator"]["mapping"]) {
+					const discriminatorMapping = schema["discriminator"][
+						"mapping"
+					] as Record<string, any>;
+
+					for (const k in discriminatorMapping) {
+						const tt = this.decode(discriminatorMapping[k]);
+						const objectSchema: Record<string, any> = {};
+
+						for (const [propName, _, p] of tt.entries(
+							{},
+							{ path: [], branch: [] },
+						)) {
+							if (p.type === "never") {
+								continue;
+							}
+
+							if (propName === discriminatorPropertyName) {
+								objectSchema[propName] = literal(k);
+								continue;
+							}
+
+							objectSchema[propName] = p;
+						}
+
+						mapping[k] = isEmpty(objectSchema)
+							? t.object()
+							: t.object(objectSchema);
+					}
+				} else {
 					for (const o of schema["oneOf"]) {
 						const tt = this.decode(o);
 
@@ -125,11 +155,13 @@ export class JSONSchemaDecoder {
 							}
 						}
 					}
-
-					return t.discriminatorMapping(discriminatorPropertyName, mapping);
 				}
-			}
 
+				return t.discriminatorMapping(discriminatorPropertyName, mapping);
+			}
+		}
+
+		if (schema["oneOf"]) {
 			const oneOf = map(schema["oneOf"], (s) => this.decode(s));
 
 			if (oneOf.length === 1) {

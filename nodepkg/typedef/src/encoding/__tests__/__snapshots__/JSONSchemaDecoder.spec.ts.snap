@@ -64,6 +64,52 @@ exports[`JSONSchemaDecoder decode complex 1`] = `
       "required": [],
       "type": "object",
     },
+    "TaggedUnion": {
+      "discriminator": {
+        "propertyName": "type",
+      },
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "a": {
+              "$ref": "#/definitions/A",
+            },
+            "b": {
+              "$ref": "#/definitions/B",
+            },
+            "type": {
+              "enum": [
+                "A",
+              ],
+            },
+          },
+          "required": [
+            "type",
+            "a",
+          ],
+          "type": "object",
+        },
+        {
+          "additionalProperties": false,
+          "properties": {
+            "b": {
+              "$ref": "#/definitions/B",
+            },
+            "type": {
+              "enum": [
+                "B",
+              ],
+            },
+          },
+          "required": [
+            "type",
+            "b",
+          ],
+          "type": "object",
+        },
+      ],
+    },
     "Union": {
       "discriminator": {
         "propertyName": "type",
@@ -120,6 +166,9 @@ exports[`JSONSchemaDecoder decode complex 1`] = `
     },
     "obj": {
       "$ref": "#/definitions/Obj",
+    },
+    "tagged": {
+      "$ref": "#/definitions/TaggedUnion",
     },
     "union": {
       "$ref": "#/definitions/Union",

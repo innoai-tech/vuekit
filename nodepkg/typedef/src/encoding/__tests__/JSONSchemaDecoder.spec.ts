@@ -64,6 +64,32 @@ describe("JSONSchemaDecoder", () => {
 						},
 					],
 				},
+				TaggedUnionWhenA: {
+					properties: {
+						type: { enum: ["A"] },
+						a: { $ref: "#/definitions/A" },
+						b: { $ref: "#/definitions/B" },
+					},
+					required: ["a"],
+					additionalProperties: false,
+				},
+				TaggedUnion: {
+					type: "object",
+					discriminator: {
+						propertyName: "type",
+						mapping: {
+							A: { $ref: "#/definitions/TaggedUnionWhenA" },
+							B: {
+								properties: {
+									type: { enum: ["B"], type: "string" },
+									b: { $ref: "#/definitions/B" },
+								},
+								required: ["b"],
+								additionalProperties: false,
+							},
+						},
+					},
+				},
 			},
 			type: "object",
 			additionalProperties: false,
@@ -72,6 +98,7 @@ describe("JSONSchemaDecoder", () => {
 				arr: { $ref: "#/definitions/Arr" },
 				map: { $ref: "#/definitions/Map" },
 				union: { $ref: "#/definitions/Union" },
+				tagged: { $ref: "#/definitions/TaggedUnion" },
 			},
 		};
 
