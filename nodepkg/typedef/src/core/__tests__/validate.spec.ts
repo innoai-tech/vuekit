@@ -28,7 +28,7 @@ describe("Meta", () => {
 					continue;
 				}
 
-				fields[k] = [
+				fields[String(k)] = [
 					s.getMeta("description") ?? "",
 					...(s.getSchema("enum") ?? []),
 				].join("|");
@@ -52,7 +52,7 @@ describe("Meta", () => {
 					continue;
 				}
 
-				fields[k] = [
+				fields[String(k)] = [
 					s.getMeta("description") ?? "",
 					...(s.getSchema("enum") ?? []),
 				].join("|");

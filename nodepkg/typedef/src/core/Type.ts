@@ -93,7 +93,7 @@ export class Type<T = unknown, S = unknown> {
 	*entries(
 		_value: unknown,
 		_context: Context = EmptyContext,
-	): Iterable<[string | number, unknown, AnyType | Type<never>]> {}
+	): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {}
 
 	refiner(_value: T, _context: Context): Result {
 		return [];
@@ -262,7 +262,7 @@ export class TypeWrapper<
 	override *entries(
 		value: unknown,
 		context: Context = EmptyContext,
-	): Iterable<[string | number, unknown, AnyType | Type<never>]> {
+	): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
 		yield* this.unwrap.entries(value, {
 			...context,
 			node: TypeNode.create(this, context.node),

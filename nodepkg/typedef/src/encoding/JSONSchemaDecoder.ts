@@ -110,7 +110,7 @@ export class JSONSchemaDecoder {
 								continue;
 							}
 
-							objectSchema[propName] = p;
+							objectSchema[String(propName)] = p;
 						}
 
 						mapping[k] = isEmpty(objectSchema)
@@ -143,7 +143,7 @@ export class JSONSchemaDecoder {
 									continue;
 								}
 
-								objectSchema[propName] = p;
+								objectSchema[String(propName)] = p;
 							}
 
 							if (values.length) {
