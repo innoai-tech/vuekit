@@ -3240,13 +3240,13 @@ function ii(e10, t10) {
         }
       }, validator: (e12) => r11.validate(e12) }
     };
-  }, {}) };
-  return { get name() {
-    var c2;
-    return null !== (c2 = this.displayName) && void 0 !== c2 ? c2 : o10.name;
+  }, {}) }, { name: c2, inheritAttrs: f2, ...p2 } = o10;
+  return { ...p2, get name() {
+    var g2;
+    return null !== (g2 = this.displayName) && void 0 !== g2 ? g2 : c2;
   }, set name(n) {
     o10.name = n;
-  }, setup: (e11, t11) => i10(e11, t11), emits: u2.emits, props: u2.props, inheritAttrs: o10.inheritAttrs, propTypes: l10 };
+  }, setup: (e11, t11) => i10(e11, t11), emits: u2.emits, props: u2.props, inheritAttrs: f2, propTypes: l10 };
 }
 let il = (e10, t10) => new Proxy(e10, { get(e11, r10) {
   var o10;
