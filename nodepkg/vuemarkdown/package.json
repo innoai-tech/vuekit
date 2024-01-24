@@ -13,7 +13,7 @@
     "@innoai-tech/vuekit": "workspace:^",
     "hast-util-to-jsx-runtime": "^2.3.0",
     "remark-parse": "^11.0.0",
-    "remark-rehype": "^11.0.0",
+    "remark-rehype": "^11.1.0",
     "unified": "^11.0.4"
   },
   "peerDependencies": {},
@@ -43,6 +43,7 @@
     "directory": "nodepkg/vuemarkdown"
   },
   "scripts": {
+    "test": "bun test .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build",
     "lint": "bunx --bun @biomejs/biome check --apply ."

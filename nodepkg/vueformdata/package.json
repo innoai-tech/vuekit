@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueformdata",
-  "version": "0.1.8",
+  "version": "0.2.2",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -38,6 +38,7 @@
     "directory": "nodepkg/vueformdata"
   },
   "scripts": {
+    "test": "bun test .",
     "lint": "bunx --bun @biomejs/biome check --apply .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"

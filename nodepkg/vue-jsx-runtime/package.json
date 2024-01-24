@@ -8,7 +8,7 @@
     }
   },
   "dependencies": {
-    "vue": "v3.4.8"
+    "vue": "v3.4.15"
   },
   "peerDependencies": {},
   "exports": {
@@ -44,6 +44,7 @@
     "directory": "nodepkg/vue-jsx-runtime"
   },
   "scripts": {
+    "test": "bun test .",
     "lint": "bunx --bun @biomejs/biome check --apply .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"

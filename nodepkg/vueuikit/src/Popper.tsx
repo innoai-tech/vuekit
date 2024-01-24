@@ -22,13 +22,13 @@ export function createPopperModifier<Options extends Record<string, any>>(
 
 export const Popper = component(
 	{
-		isOpen: Overlay.propTypes.isOpen,
-		onClickOutside: Overlay.propTypes.onClickOutside,
+		isOpen: Overlay.propTypes!.isOpen,
+		onClickOutside: Overlay.propTypes!.onClickOutside,
 
 		placement: t.custom<Placement>().optional(),
 		modifiers: t.custom<Array<Modifier<any, any>>>().optional(),
 
-		$transition: Overlay.propTypes.$transition,
+		$transition: Overlay.propTypes!.$transition,
 		$content: t.custom<VNodeChild>(),
 		$default: t.custom<JSX.Element | null>(),
 	},

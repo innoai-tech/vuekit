@@ -20,7 +20,7 @@ export default component(() => {
 
 可复用组件：
 
-- `props` 和 `emits` 合并声明，基于 [zod](https://zod.dev/)
+- `props` 和 `emits` 合并声明
 
 ```tsx preview
 import { component, t, type VNode, type VNodeChild } from "@innoai-tech/vuekit";

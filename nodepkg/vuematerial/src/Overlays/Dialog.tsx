@@ -65,7 +65,7 @@ const FadeInOutTransition = defineTransition(
 
 export const Dialog = component(
 	{
-		isOpen: Overlay.propTypes.isOpen,
+		isOpen: Overlay.propTypes!.isOpen,
 		onClose: t.custom<() => void>(),
 		$default: t.custom<VNodeChild>().optional(),
 	},

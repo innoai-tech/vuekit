@@ -6,6 +6,7 @@ import {
     type Infer,
     type MetaBuilder,
     createMetaBuilder,
+    type Component,
     rx, SymbolRecordKey,
 } from "@innoai-tech/vuekit";
 import {Observable, Subject, distinctUntilChanged, map} from "rxjs";
@@ -119,19 +120,18 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
 export interface InputComponentProps<T> {
     name: string;
-    value?: T;
-    onValueChange: (v: T) => void;
-    type: string;
     readOnly?: boolean;
     focus?: boolean;
     onBlur?: () => void;
     onFocus?: () => void;
+    value?: T;
+    onValueChange?: (v: T) => void;
 }
 
 export interface FieldMeta {
     label?: string;
     readOnlyWhenInitialExist?: boolean;
-    input?: (props: InputComponentProps<any>) => JSX.Element;
+    input?: Component<InputComponentProps<any>>;
     valueDisplay?: (props: InputComponentProps<any>) => JSX.Element | string;
 }
 
@@ -231,8 +231,8 @@ export class Field extends ImmerBehaviorSubject<FieldState> {
 
     validate(value: any): string[] | undefined {
         const v =
-            this.typedef.type === "array"
-                ? (value ?? []).filter((v: any) => !isUndefined(v))
+            this.typedef.type === "array" && !isUndefined(value)
+                ? value.filter((v: any) => !isUndefined(v))
                 : value;
 
         const [err] = this.typedef.validate(v);

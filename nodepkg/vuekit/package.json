@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuekit",
-  "version": "0.6.7",
+  "version": "0.6.9",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts",
@@ -14,7 +14,7 @@
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
     "immer": "^10.0.3",
     "rxjs": "^7.8.1",
-    "vue": "v3.4.8",
+    "vue": "v3.4.15",
     "vue-router": "^4.2.5"
   },
   "peerDependencies": {},
@@ -58,6 +58,7 @@
     "directory": "nodepkg/vuekit"
   },
   "scripts": {
+    "test": "bun test .",
     "lint": "bunx --bun @biomejs/biome check --apply .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"
