@@ -10,6 +10,9 @@ import {
     type RenderFunction,
     type SlotsType,
     type VNode,
+    type Ref,
+    type UnwrapRef,
+    customRef
 } from "vue";
 
 export type VElementType = string | Component<any>;
@@ -21,7 +24,7 @@ export type VNodeChildAtom =
     | null
     | undefined;
 
-export {shallowRef, ref, watch, inject, provide} from "vue";
+export {shallowRef, watch, inject, provide} from "vue";
 
 export type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
 export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
@@ -48,6 +51,7 @@ export type SetupContext<E extends Emits, S> = {
     emit: EmitFn<E>;
     attrs: Record<string, unknown>;
     slots: S;
+    expose: (exposed?: Record<string, any>) => void;
 };
 
 type EmitFn<
@@ -218,3 +222,25 @@ export type ToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
     : S extends `${infer T}_${infer U}`
         ? `${T}${Capitalize<ToCamelCase<U>>}`
         : S;
+
+export function ref<T>(value: T): Ref<UnwrapRef<T>>;
+export function ref<T = any>(): Ref<T | undefined> {
+    let currentValue: T;
+
+    return customRef<T>((track, trigger) => {
+        return {
+            get() {
+                track();
+                return currentValue
+            },
+            set(value: T) {
+                const newValue = (value as any)?.$$forwardRef ?? value;
+
+                if (newValue !== currentValue) {
+                    currentValue = newValue;
+                    trigger();
+                }
+            },
+        };
+    });
+}

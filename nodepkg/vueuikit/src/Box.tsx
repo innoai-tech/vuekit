@@ -2,7 +2,7 @@ import {
     type OverridableComponent,
     type VElementType,
     component,
-    t,
+    t, ref,
 } from "@innoai-tech/vuekit";
 import {onMounted} from "vue";
 import {CacheProvider} from "./CacheProvider";
@@ -22,7 +22,7 @@ export const Box: OverridableComponent<{
         sx: t.custom<SystemStyleObject>(),
         component: t.custom<VElementType>().optional().default("div"),
     },
-    (props, {slots}) => {
+    (props, {slots, expose}) => {
         const theme = ThemeProvider.use();
         const cache = CacheProvider.use();
 
@@ -41,9 +41,16 @@ export const Box: OverridableComponent<{
             });
         });
 
+
+        const forwardRef = ref(null);
+
+        expose({
+            $$forwardRef: forwardRef,
+        });
+
         return () => {
             const Component: any = props.component ?? "div";
-            return <Component class={className()}>{slots}</Component>;
+            return <Component ref={forwardRef} class={className()}>{slots}</Component>;
         };
     },
 ) as any;
