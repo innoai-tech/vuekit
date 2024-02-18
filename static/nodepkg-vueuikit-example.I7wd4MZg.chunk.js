@@ -1,5 +1,5 @@
-import { c as e, i as n, j as i } from "./lib-nodepkg-vuekit.H7ftM6cZ.chunk.js";
-import { n as o, B as t } from "./lib-nodepkg-vueuikit.YGom7q2x.chunk.js";
+import { c as e, i as n, j as i } from "./lib-nodepkg-vuekit._nCnmCPK.chunk.js";
+import { n as o, B as t } from "./lib-nodepkg-vueuikit.dvJnDD9I.chunk.js";
 let l = /* @__PURE__ */ e(() => {
   let e2 = /* @__PURE__ */ o.use();
   return () => /* @__PURE__ */ n(t, { sx: { display: "flex", gap: 16, flexDirection: "column" }, children: [/* @__PURE__ */ i("div", { children: "点击下载，通过 Figma Tokens 全量导入文件" }), /* @__PURE__ */ i("pre", { onClick: () => {

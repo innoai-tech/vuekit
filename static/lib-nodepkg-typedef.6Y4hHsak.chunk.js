@@ -1770,6 +1770,7 @@ class nE extends TypeError {
 class nz {
   constructor(t10) {
     __publicField(this, "Type");
+    __publicField(this, "Schema");
     this.schema = t10;
   }
   static define() {
@@ -1822,9 +1823,6 @@ class nz {
     for (var t10 = arguments.length, e10 = Array(t10), r10 = 0; r10 < t10; r10++)
       e10[r10] = arguments[r10];
     return e10.reduce((t11, e11) => e11(t11), this);
-  }
-  annotate(t10) {
-    return n$.of(this, { $meta: t10 });
   }
   get unwrap() {
     return this;

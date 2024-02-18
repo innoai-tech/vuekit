@@ -4,10 +4,10 @@ var __publicField = (obj, key, value) => {
   __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
   return value;
 };
-import { l as e, p as t, m as r, n as i, q as a, B as o, w as s, v as l, e as u, j as d, T as c, r as p, u as m, d as h, g as f, i as g, F as v, o as b, b as y, c as _, x, R as w, y as k, z as $, A as S, C } from "./lib-nodepkg-vuekit.H7ftM6cZ.chunk.js";
-import { g as E, j as O, r as R, n as T, m as I, i as z, p as V, k as j, b as P, d as A, a as M, s as D, q as L, l as N, e as W, h as B, f as F, u as H, t as U, c as q, w as G, x as X } from "./lib-nodepkg-typedef.E0gBujd-.chunk.js";
-import { b as Y, c as K, C as Z, e as J, f as Q, g as ee, h as et, i as en, j as er, r as ei, k as ea, B as eo, l as es, m as el, G as eu, n as ed, T as ec, d as ep, P as em } from "./lib-nodepkg-vueuikit.YGom7q2x.chunk.js";
-import { D as eh, m as ef, a as eg, C as ev, b as eb } from "./webapp-vuekit-layout.BxJpQySn.chunk.js";
+import { l as e, p as t, m as r, n as i, q as a, B as o, w as s, v as l, e as u, j as d, T as c, r as p, u as m, d as h, g as f, i as g, F as v, o as b, b as y, c as _, x, R as w, y as k, z as $, A as S, C } from "./lib-nodepkg-vuekit._nCnmCPK.chunk.js";
+import { g as E, j as O, r as R, n as T, m as I, i as z, p as V, k as j, b as A, d as P, a as M, s as D, q as L, l as N, e as W, h as B, f as F, u as H, t as U, c as q, w as G, x as X } from "./lib-nodepkg-typedef.6Y4hHsak.chunk.js";
+import { b as Y, c as K, C as Z, e as J, f as Q, g as ee, h as et, i as en, j as er, r as ei, k as ea, B as eo, l as es, m as el, G as eu, n as ed, T as ec, d as ep, P as em } from "./lib-nodepkg-vueuikit.dvJnDD9I.chunk.js";
+import { D as eh, m as ef, a as eg, C as ev, b as eb } from "./webapp-vuekit-layout.ebXXFugR.chunk.js";
 (function() {
   let e10 = document.createElement("link").relList;
   if (!(e10 && e10.supports && e10.supports("modulepreload"))) {
@@ -50,6 +50,7 @@ class e_ extends TypeError {
 class ex {
   constructor(e10) {
     __publicField(this, "Type");
+    __publicField(this, "Schema");
     this.schema = e10;
   }
   static define() {
@@ -102,9 +103,6 @@ class ex {
     for (var e10 = arguments.length, t10 = Array(e10), r2 = 0; r2 < e10; r2++)
       t10[r2] = arguments[r2];
     return t10.reduce((e11, t11) => t11(e11), this);
-  }
-  annotate(e10) {
-    return ew.of(this, { $meta: e10 });
   }
   get unwrap() {
     return this;
@@ -253,17 +251,28 @@ function* eO(e10, t10) {
       e11.explanation = r2.message, c2 = 1, yield [e11, void 0];
   0 === c2 && (yield [void 0, d2]);
 }
-class eR extends ew {
+class eR extends ex {
+  static create() {
+    return new eR(false);
+  }
+  get type() {
+    return "never";
+  }
+  validator(e10, t10) {
+    return false;
+  }
+}
+class eT extends ew {
   static create(e10, t10) {
-    return new eR({ $unwrap: t10, $ref: e10 });
+    return new eT({ $unwrap: t10, $ref: e10 });
   }
   get isOptional() {
     return false;
   }
 }
-class eT extends ex {
+class eI extends ex {
   static create() {
-    return new eT();
+    return new eI();
   }
   constructor() {
     super({});
@@ -273,17 +282,6 @@ class eT extends ex {
   }
   validator() {
     return true;
-  }
-}
-class eI extends ex {
-  static create() {
-    return new eI(false);
-  }
-  get type() {
-    return "never";
-  }
-  validator(e10, t10) {
-    return false;
   }
 }
 class ez extends ex {
@@ -319,9 +317,9 @@ class ej extends ex {
     return "number" == typeof e10 && !Number.isNaN(e10);
   }
 }
-class eP extends ex {
+class eA extends ex {
   static create() {
-    return new eP({ type: "integer" });
+    return new eA({ type: "integer" });
   }
   get type() {
     return this.schema.type;
@@ -330,9 +328,9 @@ class eP extends ex {
     return "number" == typeof e10 && !Number.isNaN(e10) && Number.isInteger(e10);
   }
 }
-class eA extends ex {
+class eP extends ex {
   static create() {
-    return new eA({ type: "boolean" });
+    return new eP({ type: "boolean" });
   }
   get type() {
     return this.schema.type;
@@ -377,7 +375,7 @@ class eL extends ex {
         let i2 = e10[r2];
         (null == i2 ? void 0 : i2.isOptional) || t10.push(r2);
       }
-    return new eL({ type: "object", properties: e10, required: t10, additionalProperties: /* @__PURE__ */ eI.create() });
+    return new eL({ type: "object", properties: e10, required: t10, additionalProperties: /* @__PURE__ */ eR.create() });
   }
   get type() {
     return this.schema.type;
@@ -461,7 +459,7 @@ class eF extends ex {
       let t11 = /* @__PURE__ */ Math.max(this.schema.items.length, e10.length);
       for (let i2 = 0; i2 < t11; i2++) {
         var r2;
-        yield [i2, e10[i2], null !== (r2 = this.schema.items[i2]) && void 0 !== r2 ? r2 : eI.create()];
+        yield [i2, e10[i2], null !== (r2 = this.schema.items[i2]) && void 0 !== r2 ? r2 : eR.create()];
       }
     }
   }
@@ -579,20 +577,30 @@ class eU extends ex {
     return [`Expected the value to satisfy a union of \`${this.schema.oneOf.map((e11) => e11.type).join(" | ")}\`, but received: ${e10}`, ...r2];
   }
 }
-let eq = eR.create, eG = eT.create, eX = eI.create, eY = ez.create, eK = eV.create, eZ = ej.create, eJ = eP.create, eQ = eA.create, e0 = eM.create, e1 = eD.create, e2 = eD.nativeEnum, e4 = eD.literal, e5 = eL.create, e3 = eW.create, e8 = eB.create, e6 = eF.create, e9 = eH.create, e7 = eU.create, te = eU.discriminatorMapping, tt = ex.define, tn = ew.refine;
-var tr, ti, ta, to = /* @__PURE__ */ Object.freeze({ __proto__: null, any: eG, array: e8, binary: e0, boolean: eQ, custom: tt, discriminatorMapping: te, enums: e1, exclusiveMaximum: function(e10, t10) {
-  return (r2) => ew.refine(r2, (r3) => r3 < e10 || (null != t10 ? t10 : `Expected value less than or equal ${e10}, but received "${r3}"`), { maximum: e10 });
+let eq = eT.create, eG = eI.create, eX = eR.create, eY = ez.create, eK = eV.create, eZ = ej.create, eJ = eA.create, eQ = eP.create, e0 = eM.create, e1 = eD.create, e2 = eD.nativeEnum, e4 = eD.literal, e5 = eL.create, e3 = eW.create, e8 = eF.create, e6 = eB.create, e9 = eH.create, e7 = eU.create, te = eU.discriminatorMapping, tt = ex.define, tn = ew.refine;
+var tr, ti, ta, to = /* @__PURE__ */ Object.freeze({ __proto__: null, annotate: function(e10) {
+  return (t10) => ew.of(t10, { $meta: e10 });
+}, any: eG, array: e6, binary: e0, boolean: eQ, custom: tt, defaults: function(e10) {
+  return (t10) => e$.create(t10, e10);
+}, discriminatorMapping: te, enums: e1, exclusiveMaximum: function(e10, t10) {
+  return (r2) => ew.refine(r2, (r3) => r3 < e10 || (null != t10 ? t10 : `Expected value less than or equal ${e10}, but received "${r3}"`), { exclusiveMaximum: e10 });
 }, exclusiveMinimum: function(e10, t10) {
-  return (r2) => ew.refine(r2, (r3) => r3 > e10 || (null != t10 ? t10 : `Expected value great than ${e10}, but received "${r3}"`), { minimum: e10 });
-}, integer: eJ, intersection: e9, literal: e4, maximum: function(e10, t10) {
+  return (r2) => ew.refine(r2, (r3) => r3 > e10 || (null != t10 ? t10 : `Expected value great than ${e10}, but received "${r3}"`), { exclusiveMinimum: e10 });
+}, integer: eJ, intersection: e9, literal: e4, maxItems: function(e10, t10) {
+  return (r2) => ew.refine(r2, (i2) => !!Array.isArray(r2) && i2.length <= e10 || (null != t10 ? t10 : `Expected array value  ${e10}, but received "${null == i2 ? void 0 : i2.length}"`), { maxItems: e10 });
+}, maximum: function(e10, t10) {
   return (r2) => ew.refine(r2, (r3) => r3 <= e10 || (null != t10 ? t10 : `Expected value less than or equal ${e10}, but received "${r3}"`), { maximum: e10 });
+}, minItems: function(e10, t10) {
+  return (r2) => ew.refine(r2, (i2) => !!Array.isArray(r2) && i2.length >= e10 || (null != t10 ? t10 : `Expected array value at least ${e10}, but received "${null == i2 ? void 0 : i2.length}"`), { minItems: e10 });
 }, minimum: function(e10, t10) {
   return (r2) => ew.refine(r2, (r3) => r3 >= e10 || (null != t10 ? t10 : `Expected value great than or equal ${e10}, but received "${r3}"`), { minimum: e10 });
 }, multipleOf: function(e10, t10) {
   return (r2) => ew.refine(r2, (r3) => r3 % e10 == 0 || (null != t10 ? t10 : `Expected value multiple of ${e10}, but received "${r3}"`), { multipleOf: e10 });
-}, nativeEnum: e2, never: eX, nil: eY, number: eZ, object: e5, pattern: function(e10, t10) {
+}, nativeEnum: e2, never: eX, nil: eY, number: eZ, object: e5, optional: function() {
+  return (e10) => eS.create(e10);
+}, pattern: function(e10, t10) {
   return (r2) => ew.refine(r2, (i2) => !!e10.test(i2) || (null != t10 ? t10 : `Expected a ${r2.type} matching \`/${e10.source}/\` but received "${i2}"`), { pattern: e10 });
-}, record: e3, ref: eq, refine: tn, string: eK, tuple: e6, union: e7 });
+}, record: e3, ref: eq, refine: tn, string: eK, tuple: e8, union: e7 });
 function ts(e10, t10) {
   let r2 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, i2 = null != r2 ? r2 : t10, a2 = null != t10 ? t10 : e10, o2 = z(e10) ? {} : e10, [s2, l2] = V(/* @__PURE__ */ Object.keys(o2), (e11) => /^on[A-Z]/.test(e11)), u2 = { emits: /* @__PURE__ */ s2.map((e11) => j(/* @__PURE__ */ e11.slice(2))), props: /* @__PURE__ */ l2.filter((e11) => !/^[$]/.test(e11)).reduce((e11, t11) => {
     let r3 = o2[t11];
@@ -663,8 +671,8 @@ let tc = (e10, t10) => {
 function th(e10, r2, i2) {
   var a2, o2, s2, u2;
   let d2;
-  let c2 = P(e10) ? e10 : {}, p2 = z(e10) ? e10 : r2, m2 = null !== (a2 = null != i2 ? i2 : r2) && void 0 !== a2 ? a2 : {}, h2 = /* @__PURE__ */ Symbol(null !== (o2 = m2.name) && void 0 !== o2 ? o2 : "");
-  if (A(c2)) {
+  let c2 = A(e10) ? e10 : {}, p2 = z(e10) ? e10 : r2, m2 = null !== (a2 = null != i2 ? i2 : r2) && void 0 !== a2 ? a2 : {}, h2 = /* @__PURE__ */ Symbol(null !== (o2 = m2.name) && void 0 !== o2 ? o2 : "");
+  if (P(c2)) {
     let e11;
     let r3 = () => (void 0 === e11 && (e11 = /* @__PURE__ */ p2({})), e11), i3 = /* @__PURE__ */ ts({ value: /* @__PURE__ */ to.custom().optional(), $default: /* @__PURE__ */ to.custom().optional() }, (e12, i4) => {
       var a3;
@@ -713,7 +721,7 @@ const _tk = class _tk {
         this.process(u2, l2, r3, false), e11[s2] = u2[l2], D(t11, [...a3, l2], `var(${s2})`);
       }), r2.push(e11), r2.push(.../* @__PURE__ */ this.processAll(t11));
     }
-    if (!A(o2)) {
+    if (!P(o2)) {
       let e11 = {};
       this.processTo(e11, o2, t10), r2.push(e11);
     }
@@ -735,7 +743,7 @@ const _tk = class _tk {
       return;
     }
     let u2 = t10;
-    if (P(r2)) {
+    if (A(r2)) {
       e10[u2 = null !== (a2 = /* @__PURE__ */ _tk.convertSelector(u2)) && void 0 !== a2 ? a2 : u2] = null !== (o2 = e10[u2]) && void 0 !== o2 ? o2 : {}, this.processTo(e10[u2], r2);
       return;
     }
@@ -775,7 +783,7 @@ __publicField(_tk, "walkStateValues", function(e10, t10) {
   for (let e11 in a2) {
     var o2;
     let s2 = a2[e11], l2 = null !== (o2 = a2.default) && void 0 !== o2 ? o2 : r2.default, u2 = null != i2 ? i2 : E(l2, [.../* @__PURE__ */ r2.path.slice(1), "$"]), d2 = u2 ? [...r2.selectorPath, u2] : r2.selectorPath, c2 = [...r2.path, e11];
-    if (P(s2)) {
+    if (A(s2)) {
       _tk.walkStateValues(s2, t10, { path: c2, selectorPath: d2, default: l2 });
       continue;
     }
@@ -858,7 +866,7 @@ const _tE = class _tE {
         else
           a3(o3, "");
       };
-      if (D(this._cssVarRefs, [o2], /* @__PURE__ */ t10(o2)), P(i2))
+      if (D(this._cssVarRefs, [o2], /* @__PURE__ */ t10(o2)), A(i2))
         for (let e11 in i2)
           s2(i2[e11], (t11, r3) => {
             D(this._values, [`${o2}${r3 ? `/${r3}` : ""}`, e11], t11);
@@ -891,7 +899,7 @@ __publicField(_tE, "walkValues", function(e10, t10) {
   let r2 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : [];
   for (let i2 in e10) {
     let a2 = e10[i2];
-    if (P(a2)) {
+    if (A(a2)) {
       if (B(a2, "_default")) {
         t10(a2, [...r2, i2]);
         continue;
@@ -922,7 +930,7 @@ __publicField(_tO, "walkValue", function(e10, t10) {
   let r2 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : [];
   for (let i2 in e10) {
     let a2 = e10[i2];
-    if (P(a2)) {
+    if (A(a2)) {
       if (B(a2, "__mixin")) {
         t10(a2, [...r2, i2]);
         continue;
@@ -1060,7 +1068,7 @@ const _tV = class _tV {
 __publicField(_tV, "propsCanPercent", tz([...tS.boxSize({}).on]));
 __publicField(_tV, "propsCanBaseDp", tz([...tS.boxSize({}).on, ...tS.space({}).on, ...tS.fontSize({}).on, ...tS.letterSpacing({}).on, ...tS.lineHeight({}).on, ...tS.rounded({}).on]));
 let tV = _tV;
-let tj = { shadow: /* @__PURE__ */ tS.shadow({ 0: { _default: "0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0)", _dark: "0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(0, 0, 0, 0)" }, 1: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)", _dark: "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 2: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)", _dark: "0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 3: { _default: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)" }, 4: { _default: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)" }, 5: { _default: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)", _dark: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)" } }), elevation: /* @__PURE__ */ tS.customMixin("elevation", { 0: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "0", _hover: { shadow: "1" } }), 1: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "1", _hover: { shadow: "2" } }), 2: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "2", _hover: { shadow: "3" } }), 3: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "3", _hover: { shadow: "4" } }), 4: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "4", _hover: { shadow: "5" } }) }) }, tP = (e10, t10, r2, i2) => Object.assign(/* @__PURE__ */ K(e10, t10, r2, i2), { toString: () => `cubic-bezier(${e10}, ${t10}, ${r2}, ${i2})` }), tA = { duration: { sm1: 50, sm2: 100, sm3: 150, sm4: 200, md1: 250, md2: 300, md3: 350, md4: 400, lg1: 450, lg2: 500, lg3: 550, lg4: 600, xl1: 700, xl2: 800, xl3: 900, xl4: 1e3 }, easing: { linear: /* @__PURE__ */ tP(0, 0, 1, 1), standard: /* @__PURE__ */ Object.assign(/* @__PURE__ */ tP(0.2, 0, 0, 1), { accelerate: /* @__PURE__ */ tP(0.3, 0, 1, 1), decelerate: /* @__PURE__ */ tP(0, 0, 0, 1) }), emphasized: /* @__PURE__ */ Object.assign(/* @__PURE__ */ tP(0.2, 0, 0, 1), { accelerate: /* @__PURE__ */ tP(0.3, 0, 0.8, 0.15), decelerate: /* @__PURE__ */ tP(0.05, 0.7, 0.1, 1) }), legacy: /* @__PURE__ */ Object.assign(/* @__PURE__ */ tP(0.4, 0, 0.2, 1), { decelerate: /* @__PURE__ */ tP(0, 0, 0.2, 1), accelerate: /* @__PURE__ */ tP(0.4, 0, 1, 1) }) } }, tM = (e10, t10) => {
+let tj = { shadow: /* @__PURE__ */ tS.shadow({ 0: { _default: "0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0)", _dark: "0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(0, 0, 0, 0)" }, 1: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)", _dark: "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 2: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)", _dark: "0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 3: { _default: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)" }, 4: { _default: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)" }, 5: { _default: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)", _dark: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)" } }), elevation: /* @__PURE__ */ tS.customMixin("elevation", { 0: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "0", _hover: { shadow: "1" } }), 1: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "1", _hover: { shadow: "2" } }), 2: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "2", _hover: { shadow: "3" } }), 3: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "3", _hover: { shadow: "4" } }), 4: /* @__PURE__ */ tS.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "4", _hover: { shadow: "5" } }) }) }, tA = (e10, t10, r2, i2) => Object.assign(/* @__PURE__ */ K(e10, t10, r2, i2), { toString: () => `cubic-bezier(${e10}, ${t10}, ${r2}, ${i2})` }), tP = { duration: { sm1: 50, sm2: 100, sm3: 150, sm4: 200, md1: 250, md2: 300, md3: 350, md4: 400, lg1: 450, lg2: 500, lg3: 550, lg4: 600, xl1: 700, xl2: 800, xl3: 900, xl4: 1e3 }, easing: { linear: /* @__PURE__ */ tA(0, 0, 1, 1), standard: /* @__PURE__ */ Object.assign(/* @__PURE__ */ tA(0.2, 0, 0, 1), { accelerate: /* @__PURE__ */ tA(0.3, 0, 1, 1), decelerate: /* @__PURE__ */ tA(0, 0, 0, 1) }), emphasized: /* @__PURE__ */ Object.assign(/* @__PURE__ */ tA(0.2, 0, 0, 1), { accelerate: /* @__PURE__ */ tA(0.3, 0, 0.8, 0.15), decelerate: /* @__PURE__ */ tA(0.05, 0.7, 0.1, 1) }), legacy: /* @__PURE__ */ Object.assign(/* @__PURE__ */ tA(0.4, 0, 0.2, 1), { decelerate: /* @__PURE__ */ tA(0, 0, 0.2, 1), accelerate: /* @__PURE__ */ tA(0.4, 0, 1, 1) }) } }, tM = (e10, t10) => {
   let r2 = null != t10 ? t10 : { ...e10, from: { ...e10.to }, to: { ...e10.from } };
   return ts({ onComplete: /* @__PURE__ */ to.custom(), $default: /* @__PURE__ */ to.custom() }, (t11, i2) => {
     let a2, { slots: o2, emit: s2 } = i2, l2 = (t12, r3) => {
@@ -1083,7 +1091,7 @@ let tj = { shadow: /* @__PURE__ */ tS.shadow({ 0: { _default: "0px 0px 0px rgba(
       return /* @__PURE__ */ d(c, { css: false, onEnter: l2, onEnterCancelled: p2, onLeave: u2, onLeaveCancelled: p2, children: null === (e11 = o2.default) || void 0 === e11 ? void 0 : e11.call(o2) });
     };
   }, { name: "Transition" });
-}, tD = { transitionDuration: /* @__PURE__ */ tS.transitionDuration(tA.duration), transitionTimingFunction: /* @__PURE__ */ tS.transitionTimingFunction({ linear: /* @__PURE__ */ tA.easing.linear.toString(), standard: /* @__PURE__ */ tA.easing.standard.toString(), "standard-accelerate": /* @__PURE__ */ tA.easing.standard.accelerate.toString(), "standard-decelerate": /* @__PURE__ */ tA.easing.standard.decelerate.toString(), emphasized: /* @__PURE__ */ tA.easing.emphasized.toString(), "emphasized-decelerate": /* @__PURE__ */ tA.easing.emphasized.decelerate.toString(), "emphasized-accelerate": /* @__PURE__ */ tA.easing.emphasized.accelerate.toString(), legacy: /* @__PURE__ */ tA.easing.legacy.toString(), "legacy-decelerate": /* @__PURE__ */ tA.easing.legacy.decelerate.toString(), "legacy-accelerate": /* @__PURE__ */ tA.easing.legacy.accelerate.toString() }) }, tL = { 0: true, 10: true, 20: true, 30: true, 40: true, 50: true, 60: true, 70: true, 80: true, 90: true, 95: true, 100: true }, tN = (e10) => {
+}, tD = { transitionDuration: /* @__PURE__ */ tS.transitionDuration(tP.duration), transitionTimingFunction: /* @__PURE__ */ tS.transitionTimingFunction({ linear: /* @__PURE__ */ tP.easing.linear.toString(), standard: /* @__PURE__ */ tP.easing.standard.toString(), "standard-accelerate": /* @__PURE__ */ tP.easing.standard.accelerate.toString(), "standard-decelerate": /* @__PURE__ */ tP.easing.standard.decelerate.toString(), emphasized: /* @__PURE__ */ tP.easing.emphasized.toString(), "emphasized-decelerate": /* @__PURE__ */ tP.easing.emphasized.decelerate.toString(), "emphasized-accelerate": /* @__PURE__ */ tP.easing.emphasized.accelerate.toString(), legacy: /* @__PURE__ */ tP.easing.legacy.toString(), "legacy-decelerate": /* @__PURE__ */ tP.easing.legacy.decelerate.toString(), "legacy-accelerate": /* @__PURE__ */ tP.easing.legacy.accelerate.toString() }) }, tL = { 0: true, 10: true, 20: true, 30: true, 40: true, 50: true, 60: true, 70: true, 80: true, 90: true, 95: true, 100: true }, tN = (e10) => {
   let t10 = /* @__PURE__ */ ei(e10);
   return [t10.r, t10.g, t10.b];
 }, tW = (e10) => ({ primary: true, secondary: true, tertiary: true, error: true, warning: true, success: true })[e10];
@@ -1155,7 +1163,7 @@ let tF = /* @__PURE__ */ tS.rounded({ xs: 4, sm: 8, md: 12, lg: 16, xl: 28 }), t
 };
 function tQ(e10, t10, r2) {
   var i2;
-  let a2 = null !== (i2 = z(t10) ? t10 : r2) && void 0 !== i2 ? i2 : tJ, o2 = P(t10) ? t10 : {};
+  let a2 = null !== (i2 = z(t10) ? t10 : r2) && void 0 !== i2 ? i2 : tJ, o2 = A(t10) ? t10 : {};
   return (t11) => {
     let r3 = ts({ ...o2, sx: /* @__PURE__ */ to.custom().optional(), component: /* @__PURE__ */ to.custom().optional() }, (i3, o3) => {
       let s2 = /* @__PURE__ */ tX.use(), l2 = /* @__PURE__ */ tY.use(), u2 = /* @__PURE__ */ tK(l2);
@@ -1267,7 +1275,7 @@ let t5 = /* @__PURE__ */ ts({ isOpen: /* @__PURE__ */ to.boolean().optional(), s
 }, { name: "Popper", inheritAttrs: false }), t8 = /* @__PURE__ */ tQ("button", { hover: /* @__PURE__ */ to.boolean().optional(), focus: /* @__PURE__ */ to.boolean().optional(), active: /* @__PURE__ */ to.boolean().optional(), disabled: /* @__PURE__ */ to.boolean().optional() })({ textStyle: "sys.label-large", display: "inline-flex", alignItems: "center", justifyContent: "center", textDecoration: "none", outline: "none", overflow: "hidden", border: 0, margin: 0, userSelect: "none", cursor: "pointer", _disabled: { cursor: "not-allowed" }, gap: 8, h: 40, px: 24, rounded: 20, transitionDuration: "md4", transitionTimingFunction: "standard-accelerate", bg: "none", pos: "relative", zIndex: 1, _$before: { content: '""', pos: "absolute", top: 0, right: 0, left: 0, bottom: 0, zIndex: -1, transitionDuration: "md1", transitionTimingFunction: "standard-accelerate" }, $data_icon: { boxSize: 18, _data_placement__start: { ml: -8 }, _data_placement__end: { mr: -8 } } }), t6 = /* @__PURE__ */ tQ(t8)({ containerStyle: "sys.primary", shadow: "1", _hover: { shadow: "2", _$before: { bgColor: /* @__PURE__ */ tI("white", /* @__PURE__ */ tR(0.08)) } }, _focus: { shadow: "2", _$before: { bgColor: /* @__PURE__ */ tI("white", /* @__PURE__ */ tR(0.12)) } }, _active: { shadow: "2", _$before: { bgColor: /* @__PURE__ */ tI("white", /* @__PURE__ */ tR(0.12)) } }, _disabled: { shadow: "0", color: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.38)), bgColor: "rgba(0,0,0,0)", _$before: { bgColor: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.12)) } } }), t9 = /* @__PURE__ */ tQ(t8)({ color: "sys.primary", shadow: "1", _$before: { bgColor: "sys.surface-container-low" }, _hover: { shadow: "2", _$before: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.08)) } }, _focus: { shadow: "2", _$before: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) } }, _active: { shadow: "2", _$before: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) } }, _disabled: { shadow: "0", color: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.38)), _$before: { bgColor: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.12)) } } }), t7 = /* @__PURE__ */ tQ(t8)({ extends: [{ px: 16, $data_icon: { _data_placement__start: { ml: -4 }, _data_placement__end: { mr: -4 } } }], color: "sys.primary", _$before: { bgColor: "rgba(0,0,0,0)" }, _hover: { _$before: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.08)) } }, _focus: { _$before: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) } }, _active: { _$before: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) } }, _disabled: { color: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.38)), bgColor: "rgba(0,0,0,0)", _$before: { bgColor: "rgba(0,0,0,0)" } } }), ne = /* @__PURE__ */ tQ(t8)({ containerStyle: "sys.secondary-container", color: "sys.primary", shadow: "0", _hover: { shadow: "1", _$before: { bgColor: /* @__PURE__ */ tI("sys.on-secondary-container", /* @__PURE__ */ tR(0.08)) } }, _focus: { _$before: { bgColor: /* @__PURE__ */ tI("sys.on-secondary-container", /* @__PURE__ */ tR(0.12)) } }, _active: { _$before: { bgColor: /* @__PURE__ */ tI("sys.on-secondary-container", /* @__PURE__ */ tR(0.12)) } }, _disabled: { color: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.38)), bgColor: "rgba(0,0,0,0)", shadow: "0", _$before: { bgColor: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.12)) } } }), nt = /* @__PURE__ */ tQ(t8)({ extends: [{
   // ensure the order to define border before all
   border: "1px solid"
-}], color: "sys.primary", bgColor: "rgba(0,0,0,0)", borderColor: "sys.outline", _hover: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.08)) }, _active: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) }, _focus: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) }, _disabled: { color: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.38)), bgColor: "rgba(0,0,0,0)", borderColor: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.12)) } }), nn = /* @__PURE__ */ tQ(t7, {})({ boxSize: 40, p: 0 }), nr = /* @__PURE__ */ tQ("span", { placement: /* @__PURE__ */ to.enums(["start", "end"]).optional(), path: /* @__PURE__ */ to.string() }, (e10, t10) => (t11) => /* @__PURE__ */ d(t11, { "data-icon": true, "data-placement": e10.placement, children: /* @__PURE__ */ d("svg", { viewBox: "0 0 24 24", children: /* @__PURE__ */ d("path", { d: e10.path }) }) }))({ boxSize: "1.2em" }), ni = /* @__PURE__ */ tM({ from: { opacity: 0 }, to: { opacity: 1 }, duration: tA.duration.md1, easing: tA.easing.standard.accelerate }, { from: { opacity: 1 }, to: { opacity: 0 }, duration: tA.duration.sm4, easing: tA.easing.standard.decelerate }), na = /* @__PURE__ */ tQ("div")({ py: 4, px: 12, rounded: "sm", shadow: "3", containerStyle: "sys.on-surface", pos: "relative", zIndex: 100 }), no = /* @__PURE__ */ ts({ title: /* @__PURE__ */ to.custom(), $default: /* @__PURE__ */ to.custom() }, (e10, t10) => {
+}], color: "sys.primary", bgColor: "rgba(0,0,0,0)", borderColor: "sys.outline", _hover: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.08)) }, _active: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) }, _focus: { bgColor: /* @__PURE__ */ tI("sys.primary", /* @__PURE__ */ tR(0.12)) }, _disabled: { color: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.38)), bgColor: "rgba(0,0,0,0)", borderColor: /* @__PURE__ */ tI("sys.on-surface", /* @__PURE__ */ tR(0.12)) } }), nn = /* @__PURE__ */ tQ(t7, {})({ boxSize: 40, p: 0 }), nr = /* @__PURE__ */ tQ("span", { placement: /* @__PURE__ */ to.enums(["start", "end"]).optional(), path: /* @__PURE__ */ to.string() }, (e10, t10) => (t11) => /* @__PURE__ */ d(t11, { "data-icon": true, "data-placement": e10.placement, children: /* @__PURE__ */ d("svg", { viewBox: "0 0 24 24", children: /* @__PURE__ */ d("path", { d: e10.path }) }) }))({ boxSize: "1.2em" }), ni = /* @__PURE__ */ tM({ from: { opacity: 0 }, to: { opacity: 1 }, duration: tP.duration.md1, easing: tP.easing.standard.accelerate }, { from: { opacity: 1 }, to: { opacity: 0 }, duration: tP.duration.sm4, easing: tP.easing.standard.decelerate }), na = /* @__PURE__ */ tQ("div")({ py: 4, px: 12, rounded: "sm", shadow: "3", containerStyle: "sys.on-surface", pos: "relative", zIndex: 100 }), no = /* @__PURE__ */ ts({ title: /* @__PURE__ */ to.custom(), $default: /* @__PURE__ */ to.custom() }, (e10, t10) => {
   let { slots: r2 } = t10, i2 = /* @__PURE__ */ p(false);
   return () => {
     let t11 = r2.default()[0];
@@ -1291,7 +1299,7 @@ let t5 = /* @__PURE__ */ ts({ isOpen: /* @__PURE__ */ to.boolean().optional(), s
       i2.value = true;
     } }) : null });
   };
-}), nd = /* @__PURE__ */ tQ("div")({ pos: "absolute", top: 0, left: 0, h: "100vh", w: "100vw", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }), nc = /* @__PURE__ */ tQ("div")({ cursor: "pointer", pos: "absolute", top: 0, left: 0, h: "100vh", w: "100vw", zIndex: -1, bgColor: /* @__PURE__ */ tI("sys.scrim", /* @__PURE__ */ tR(0.38)) }), np = /* @__PURE__ */ tQ("div")({ py: 12, rounded: "sm", shadow: "3", minW: "50vw", containerStyle: "sys.surface-container-high" }), nm = /* @__PURE__ */ tM({ from: { opacity: 0 }, to: { opacity: 1 }, duration: tA.duration.md1, easing: tA.easing.standard.accelerate }, { from: { opacity: 1 }, to: { opacity: 0 }, duration: tA.duration.sm4, easing: tA.easing.standard.accelerate }), nh = /* @__PURE__ */ ts({ isOpen: t5.propTypes.isOpen, onClose: /* @__PURE__ */ to.custom(), $default: /* @__PURE__ */ to.custom().optional() }, (e10, t10) => {
+}), nd = /* @__PURE__ */ tQ("div")({ pos: "absolute", top: 0, left: 0, h: "100vh", w: "100vw", zIndex: 100, display: "flex", alignItems: "center", justifyContent: "center" }), nc = /* @__PURE__ */ tQ("div")({ cursor: "pointer", pos: "absolute", top: 0, left: 0, h: "100vh", w: "100vw", zIndex: -1, bgColor: /* @__PURE__ */ tI("sys.scrim", /* @__PURE__ */ tR(0.38)) }), np = /* @__PURE__ */ tQ("div")({ py: 12, rounded: "sm", shadow: "3", minW: "50vw", containerStyle: "sys.surface-container-high" }), nm = /* @__PURE__ */ tM({ from: { opacity: 0 }, to: { opacity: 1 }, duration: tP.duration.md1, easing: tP.easing.standard.accelerate }, { from: { opacity: 1 }, to: { opacity: 0 }, duration: tP.duration.sm4, easing: tP.easing.standard.accelerate }), nh = /* @__PURE__ */ ts({ isOpen: t5.propTypes.isOpen, onClose: /* @__PURE__ */ to.custom(), $default: /* @__PURE__ */ to.custom().optional() }, (e10, t10) => {
   var r2;
   let { slots: i2, emit: a2 } = t10, o2 = /* @__PURE__ */ p(null !== (r2 = e10.isOpen) && void 0 !== r2 && r2), l2 = /* @__PURE__ */ p(false);
   return s(() => e10.isOpen, (e11) => {
@@ -1373,7 +1381,7 @@ let t5 = /* @__PURE__ */ ts({ isOpen: /* @__PURE__ */ to.boolean().optional(), s
     if (t11.payload = e11, window.dispatchEvent(t11), !t11.defaultPrevented)
       throw e11;
   });
-}, nS = /* @__PURE__ */ _(() => () => /* @__PURE__ */ d(eo, { sx: { display: "flex", alignItems: "center", justifyContent: "center", textStyle: "sys.display-large" }, children: "Vuekit" })), nC = /* @__PURE__ */ Object.assign(nS, { displayName: "IndexDefault" }), nE = [{ name: "vuematerial", path: "/vuematerial", component: () => n$(() => import("./nodepkg-vuematerial-example.1waLS7uA.chunk.js"), true ? __vite__mapDeps([0,1,2,3]) : void 0), props: true }, { name: "vuematerial-icons", path: "/vuematerial/icons", component: () => n$(() => import("./nodepkg-vuematerial-example.NNx4jNgz.chunk.js"), true ? __vite__mapDeps([4,1,2,3,5,6]) : void 0), props: true }, { name: "vuematerial-textfields", path: "/vuematerial/textfields", component: () => n$(() => import("./nodepkg-vuematerial-example.bZ4yJjkZ.chunk.js"), true ? __vite__mapDeps([7,1,2,3,6,5]) : void 0), props: true }, { name: "vuematerial-buttons", path: "/vuematerial/buttons", component: () => n$(() => import("./nodepkg-vuematerial-example.T7G3zBAA.chunk.js"), true ? __vite__mapDeps([8,1,2,3,6,5]) : void 0), props: true }, { name: "vuematerial-overlays", path: "/vuematerial/overlays", component: () => n$(() => import("./nodepkg-vuematerial-example.92jofpHW.chunk.js"), true ? __vite__mapDeps([9,1,2,3,6,5]) : void 0), props: true }, { name: "vueuikit-typography", path: "/vueuikit/typography", component: () => n$(() => import("./nodepkg-vueuikit-example.e5odK2RH.chunk.js"), true ? __vite__mapDeps([10,1,2,3,6]) : void 0), props: true }, { name: "vueuikit", path: "/vueuikit", component: () => n$(() => import("./nodepkg-vueuikit-example.EvHBp5ED.chunk.js"), true ? __vite__mapDeps([11,1,2,3,6]) : void 0), props: true }, { name: "vueuikit-color-scheme", path: "/vueuikit/color-scheme", component: () => n$(() => import("./nodepkg-vueuikit-example.5YemKYBb.chunk.js"), true ? __vite__mapDeps([12,1,2,3,6]) : void 0), props: true }, { name: "vueuikit-popper", path: "/vueuikit/popper", component: () => n$(() => import("./nodepkg-vueuikit-example.0P4c74bl.chunk.js"), true ? __vite__mapDeps([13,1,2,3,6]) : void 0), props: true }, { name: "vueuikit-elevation", path: "/vueuikit/elevation", component: () => n$(() => import("./nodepkg-vueuikit-example.MsdBskxA.chunk.js"), true ? __vite__mapDeps([14,1,2,3,6]) : void 0), props: true }, { name: "vueuikit-figma-tokens", path: "/vueuikit/figma-tokens", component: () => n$(() => import("./nodepkg-vueuikit-example.zpWtlM5F.chunk.js"), true ? __vite__mapDeps([15,2,1,3,6]) : void 0), props: true }, { name: "vueuikit-color-palette", path: "/vueuikit/color-palette", component: () => n$(() => import("./node_modules-toggle-selection.qRoXz72k.chunk.js"), true ? __vite__mapDeps([16,1,2,3,6,5]) : void 0), props: true }, { name: "vuekit", path: "/vuekit", component: () => n$(() => import("./nodepkg-vuekit-example.Bif-MX0o.chunk.js"), true ? __vite__mapDeps([17,1,2,3]) : void 0), props: true }, { name: "vuekit-rx-in-vue", path: "/vuekit/rx-in-vue", component: () => n$(() => import("./nodepkg-vuekit-example.AJzUK8Lf.chunk.js"), true ? __vite__mapDeps([18,1,2,3]) : void 0), props: true }, { name: "index", path: "/", component: /* @__PURE__ */ Object.assign(nC, { meta: { name: "Home", icon: () => n$(() => import("./webapp-vuekit-layout.BxJpQySn.chunk.js").then((e10) => e10.i), true ? __vite__mapDeps([5,6,2,1,3]) : void 0) } }), props: true }];
+}, nS = /* @__PURE__ */ _(() => () => /* @__PURE__ */ d(eo, { sx: { display: "flex", alignItems: "center", justifyContent: "center", textStyle: "sys.display-large" }, children: "Vuekit" })), nC = /* @__PURE__ */ Object.assign(nS, { displayName: "IndexDefault" }), nE = [{ name: "vuematerial-overlays", path: "/vuematerial/overlays", component: () => n$(() => import("./nodepkg-vuematerial-example.dlzz7mt9.chunk.js"), true ? __vite__mapDeps([0,1,2,3,4,5]) : void 0), props: true }, { name: "vuematerial-textfields", path: "/vuematerial/textfields", component: () => n$(() => import("./nodepkg-vuematerial-example.8z6MNEs4.chunk.js"), true ? __vite__mapDeps([6,1,2,3,4,5]) : void 0), props: true }, { name: "vuematerial-icons", path: "/vuematerial/icons", component: () => n$(() => import("./nodepkg-vuematerial-example.F4dOy8-_.chunk.js"), true ? __vite__mapDeps([7,1,2,3,5,4]) : void 0), props: true }, { name: "vuematerial", path: "/vuematerial", component: () => n$(() => import("./nodepkg-vuematerial-example.K1_OJbUv.chunk.js"), true ? __vite__mapDeps([8,1,2,3]) : void 0), props: true }, { name: "vuematerial-buttons", path: "/vuematerial/buttons", component: () => n$(() => import("./nodepkg-vuematerial-example.VxgIuEvM.chunk.js"), true ? __vite__mapDeps([9,1,2,3,4,5]) : void 0), props: true }, { name: "vueuikit-popper", path: "/vueuikit/popper", component: () => n$(() => import("./nodepkg-vueuikit-example.ar6Q6E_3.chunk.js"), true ? __vite__mapDeps([10,1,2,3,4]) : void 0), props: true }, { name: "vueuikit-color-palette", path: "/vueuikit/color-palette", component: () => n$(() => import("./node_modules-toggle-selection.yRfc0sC5.chunk.js"), true ? __vite__mapDeps([11,1,2,3,4,5]) : void 0), props: true }, { name: "vueuikit-color-scheme", path: "/vueuikit/color-scheme", component: () => n$(() => import("./nodepkg-vueuikit-example.E7MCObIA.chunk.js"), true ? __vite__mapDeps([12,1,2,3,4]) : void 0), props: true }, { name: "vueuikit-figma-tokens", path: "/vueuikit/figma-tokens", component: () => n$(() => import("./nodepkg-vueuikit-example.I7wd4MZg.chunk.js"), true ? __vite__mapDeps([13,2,1,3,4]) : void 0), props: true }, { name: "vueuikit-typography", path: "/vueuikit/typography", component: () => n$(() => import("./nodepkg-vueuikit-example.rztwzeFy.chunk.js"), true ? __vite__mapDeps([14,1,2,3,4]) : void 0), props: true }, { name: "vueuikit-elevation", path: "/vueuikit/elevation", component: () => n$(() => import("./nodepkg-vueuikit-example.aSYFqIoT.chunk.js"), true ? __vite__mapDeps([15,1,2,3,4]) : void 0), props: true }, { name: "vueuikit", path: "/vueuikit", component: () => n$(() => import("./nodepkg-vueuikit-example.uFfgdFKo.chunk.js"), true ? __vite__mapDeps([16,1,2,3,4]) : void 0), props: true }, { name: "vuekit", path: "/vuekit", component: () => n$(() => import("./nodepkg-vuekit-example.KRvInlni.chunk.js"), true ? __vite__mapDeps([17,1,2,3]) : void 0), props: true }, { name: "vuekit-rx-in-vue", path: "/vuekit/rx-in-vue", component: () => n$(() => import("./nodepkg-vuekit-example.nFFxPMFz.chunk.js"), true ? __vite__mapDeps([18,1,2,3]) : void 0), props: true }, { name: "index", path: "/", component: /* @__PURE__ */ Object.assign(nC, { meta: { name: "Home", icon: () => n$(() => import("./webapp-vuekit-layout.ebXXFugR.chunk.js").then((e10) => e10.i), true ? __vite__mapDeps([5,4,2,1,3]) : void 0) } }), props: true }];
 console.log(nE);
 let nO = new URL(null !== (ta = null === (ti = /* @__PURE__ */ document.querySelector("base")) || void 0 === ti ? void 0 : ti.href) && void 0 !== ta ? ta : "/"), nR = /* @__PURE__ */ $({ history: /* @__PURE__ */ S(nO.pathname), routes: nE });
 C(nw).use(nR).mount("#root");
@@ -1381,20 +1389,20 @@ export {
   nh as D,
   t9 as E,
   t6 as F,
-  nr as I,
+  nn as I,
   nl as L,
   nu as M,
   nt as O,
-  nf as T,
-  nn as a,
-  ne as b,
-  t7 as c,
-  np as d,
-  no as e
+  t7 as T,
+  np as a,
+  nr as b,
+  no as c,
+  nf as d,
+  ne as e
 };
 function __vite__mapDeps(indexes) {
   if (!__vite__mapDeps.viteFileDeps) {
-    __vite__mapDeps.viteFileDeps = ["static/nodepkg-vuematerial-example.1waLS7uA.chunk.js","static/lib-nodepkg-vuekit.H7ftM6cZ.chunk.js","static/vendor-core-js.CpeR9-zu.chunk.js","static/lib-nodepkg-typedef.E0gBujd-.chunk.js","static/nodepkg-vuematerial-example.NNx4jNgz.chunk.js","static/webapp-vuekit-layout.BxJpQySn.chunk.js","static/lib-nodepkg-vueuikit.YGom7q2x.chunk.js","static/nodepkg-vuematerial-example.bZ4yJjkZ.chunk.js","static/nodepkg-vuematerial-example.T7G3zBAA.chunk.js","static/nodepkg-vuematerial-example.92jofpHW.chunk.js","static/nodepkg-vueuikit-example.e5odK2RH.chunk.js","static/nodepkg-vueuikit-example.EvHBp5ED.chunk.js","static/nodepkg-vueuikit-example.5YemKYBb.chunk.js","static/nodepkg-vueuikit-example.0P4c74bl.chunk.js","static/nodepkg-vueuikit-example.MsdBskxA.chunk.js","static/nodepkg-vueuikit-example.zpWtlM5F.chunk.js","static/node_modules-toggle-selection.qRoXz72k.chunk.js","static/nodepkg-vuekit-example.Bif-MX0o.chunk.js","static/nodepkg-vuekit-example.AJzUK8Lf.chunk.js"]
+    __vite__mapDeps.viteFileDeps = ["static/nodepkg-vuematerial-example.dlzz7mt9.chunk.js","static/lib-nodepkg-vuekit._nCnmCPK.chunk.js","static/vendor-core-js.7gV9WBr5.chunk.js","static/lib-nodepkg-typedef.6Y4hHsak.chunk.js","static/lib-nodepkg-vueuikit.dvJnDD9I.chunk.js","static/webapp-vuekit-layout.ebXXFugR.chunk.js","static/nodepkg-vuematerial-example.8z6MNEs4.chunk.js","static/nodepkg-vuematerial-example.F4dOy8-_.chunk.js","static/nodepkg-vuematerial-example.K1_OJbUv.chunk.js","static/nodepkg-vuematerial-example.VxgIuEvM.chunk.js","static/nodepkg-vueuikit-example.ar6Q6E_3.chunk.js","static/node_modules-toggle-selection.yRfc0sC5.chunk.js","static/nodepkg-vueuikit-example.E7MCObIA.chunk.js","static/nodepkg-vueuikit-example.I7wd4MZg.chunk.js","static/nodepkg-vueuikit-example.rztwzeFy.chunk.js","static/nodepkg-vueuikit-example.aSYFqIoT.chunk.js","static/nodepkg-vueuikit-example.uFfgdFKo.chunk.js","static/nodepkg-vuekit-example.KRvInlni.chunk.js","static/nodepkg-vuekit-example.nFFxPMFz.chunk.js"]
   }
   return indexes.map((i) => __vite__mapDeps.viteFileDeps[i])
 }

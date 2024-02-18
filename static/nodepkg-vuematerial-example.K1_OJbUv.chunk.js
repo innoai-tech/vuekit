@@ -1,4 +1,4 @@
-import { D as e, E as n, j as t } from "./lib-nodepkg-vuekit.H7ftM6cZ.chunk.js";
+import { E as e, G as n, j as t } from "./lib-nodepkg-vuekit._nCnmCPK.chunk.js";
 function i(e2) {
   let n2 = { p: "p", ...e2.components };
   return t(n2.p, { children: "这不是一个完整的组件库，只是一个示例，作为 vueuikit 的参考" });
