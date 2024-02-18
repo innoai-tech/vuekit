@@ -15,9 +15,9 @@
     "@innoai-tech/csstype": "workspace:^",
     "@material/material-color-utilities": "^0.2.7",
     "@popperjs/core": "^2.11.8",
-    "polished": "^4.2.2",
+    "polished": "^4.3.1",
     "popmotion": "^11.0.5",
-    "vue": "v3.4.15"
+    "vue": "v3.4.19"
   },
   "peerDependencies": {},
   "exports": {

@@ -11,7 +11,7 @@
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
     "@mdi/js": "^7.4.47",
-    "vue": "v3.4.15"
+    "vue": "v3.4.19"
   },
   "peerDependencies": {},
   "exports": {

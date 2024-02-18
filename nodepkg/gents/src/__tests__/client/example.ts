@@ -217,7 +217,7 @@ export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/t.intersection(t.ref("M
   "metadata": t.ref("MetaV1ObjectMeta", () => MetaV1ObjectMetaSchema).optional(),
   "spec": t.ref("KubepkgV1Alpha1KubePkgSpec", () => KubepkgV1Alpha1KubePkgSpecSchema).optional(),
   "status": t.ref("KubepkgV1Alpha1KubePkgStatus", () => KubepkgV1Alpha1KubePkgStatusSchema).optional(),
-})).annotate({ description: "KubePkg" })
+})).use(t.annotate({ description: "KubePkg" }))
       
 export const MetaV1TypeMetaSchema = /*#__PURE__*/t.object({
   "apiVersion": t.string().optional(),

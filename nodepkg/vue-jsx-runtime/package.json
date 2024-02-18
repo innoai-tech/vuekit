@@ -8,7 +8,7 @@
     }
   },
   "dependencies": {
-    "vue": "v3.4.15"
+    "vue": "v3.4.19"
   },
   "peerDependencies": {},
   "exports": {
