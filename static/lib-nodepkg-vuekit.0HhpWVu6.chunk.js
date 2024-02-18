@@ -5887,11 +5887,10 @@ class sd extends ap {
 }
 function sh() {
   let e10;
-  return tL((t10, r10) => ({ get() {
-    var r11;
-    return t10(), null !== (r11 = null == e10 ? void 0 : e10.$$forwardRef) && void 0 !== r11 ? r11 : e10;
-  }, set(t11) {
-    t11 !== e10 && (e10 = t11, r10());
+  return tL((t10, r10) => ({ get: () => (t10(), e10), set(t11) {
+    var o10;
+    let i10 = null !== (o10 = null == t11 ? void 0 : t11.$$forwardRef) && void 0 !== o10 ? o10 : t11;
+    i10 !== e10 && (e10 = i10, r10());
   } }));
 }
 let sv = (e10) => "function" == typeof e10, sm = (e10) => void 0 === e10, sg = (e10) => e10 === r4, sy = (e10) => !!sg(e10) || "string" == typeof e10 || "object" == typeof e10 && !!e10.__isTeleport, sb = (e10) => !!e10 && "object" == typeof e10 && !!e10.__vInternal, s_ = (e10) => sv(e10) ? e10 : Array.isArray(e10) ? () => e10 : sm(e10) ? e10 : () => e10, sw = (e10, t10) => {
@@ -5970,7 +5969,9 @@ function sP(e10, t10) {
 }
 let sA = (e10) => {
   let t10 = new sd(e10), r10 = /* @__PURE__ */ tL((e11, r11) => ({ get: () => (e11(), t10.value), set(e12) {
-    Object.is(e12, t10.value) || (t10.next(e12), r11());
+    var o10;
+    let i10 = null !== (o10 = null == e12 ? void 0 : e12.$$forwardRef) && void 0 !== o10 ? o10 : e12;
+    Object.is(i10, t10.value) || (t10.next(i10), r11());
   } }));
   return new Proxy(t10, { get(e11, o10) {
     var i10;
