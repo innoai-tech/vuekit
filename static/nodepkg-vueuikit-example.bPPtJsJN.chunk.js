@@ -1,5 +1,5 @@
 import { k as n, j as e, c as a, H as s, I as c, F as t } from "./lib-nodepkg-vuekit.UKtHVftT.chunk.js";
-import { s as l, v as o, a as i, B as r } from "./lib-nodepkg-vueuikit.91A5lMwS.chunk.js";
+import { s as l, v as o, a as i, B as r } from "./lib-nodepkg-vueuikit.wJsX60LQ.chunk.js";
 import { x as p } from "./lib-nodepkg-typedef.WUFlvZVC.chunk.js";
 let d = /* @__PURE__ */ l("button", { disabled: /* @__PURE__ */ p().optional() })({
   bg: "none",
