@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.2.23",
+  "version": "0.2.24",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"

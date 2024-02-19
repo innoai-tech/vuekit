@@ -122,7 +122,7 @@ export const array = TypeArray.create;
 export function minItems(minItems: number, msg?: string) {
     return <T extends any[], S>(type: Type<T, S>) => {
         return TypeWrapper.refine(type, (value) => {
-            if (Array.isArray(type) && value.length >= minItems) {
+            if (Array.isArray(value) && value.length >= minItems) {
                 return true
             }
             return msg ?? `Expected array value at least ${minItems}, but received "${value?.length}"`
@@ -135,7 +135,7 @@ export function minItems(minItems: number, msg?: string) {
 export function maxItems(maxItems: number, msg?: string) {
     return <T extends any[], S>(type: Type<T, S>) => {
         return TypeWrapper.refine(type, (value) => {
-            if (Array.isArray(type) && value.length <= maxItems) {
+            if (Array.isArray(value) && value.length <= maxItems) {
                 return true
             }
             return msg ?? `Expected array value  ${maxItems}, but received "${value?.length}"`
