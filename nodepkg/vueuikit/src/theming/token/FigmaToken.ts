@@ -1,6 +1,7 @@
 import {get, has, isPlainObject, isString, last, mapValues, pickBy, some} from "@innoai-tech/lodash";
 import {DesignToken} from "./DesignToken";
 import {setTo} from "./util.ts";
+import {parseToRgb as polishedParseToRgb} from "polished"
 
 export type FigmaToken = {
     $type: string;
@@ -67,17 +68,23 @@ function processValue(v: any): any {
     }
 
     if (isString(v)) {
-        if (v.includes("* {space.dp}")) {
-            return parseFloat(v.replaceAll("* {space.dp}", ""));
+        if (v.includes("* {seed.space.dp}")) {
+            return parseFloat(v.replaceAll("* {seed.space.dp}", ""));
         }
 
-        if (v.startsWith("rgb")) {
+        if (v.startsWith("rgb") || v.startsWith("#")) {
             return parseToRgb(v);
         }
 
         return v.replace(/\{([^}]+)}/g, (v) => {
-            const scopeAndKey = v.slice(1, v.length - 1);
+            let scopeAndKey = v.slice(1, v.length - 1);
+
+            if (scopeAndKey.startsWith("seed.")) {
+                scopeAndKey = scopeAndKey.slice("seed.".length)
+            }
+
             const [_, ...key] = scopeAndKey.split(".");
+
             if (key.length) {
                 return key.join(".");
             }
@@ -88,14 +95,9 @@ function processValue(v: any): any {
 }
 
 function parseToRgb(color: string) {
-    const m = [...color.matchAll(/rgb\(([0-9]+), ?([0-9]+), ?([0-9]+)\)/g)][0];
-
-    if (!m) {
-        throw new Error(`invalid color: ${color}`);
-    }
-
+    const rgb = polishedParseToRgb(color)
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
-    return [parseInt(m[1]!), parseInt(m[2]!), parseInt(m[3]!)];
+    return [rgb.red, rgb.green, rgb.blue];
 }
 
 function walkFigmaTokens(

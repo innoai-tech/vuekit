@@ -244,10 +244,16 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
                             const k = v.slice("var(".length, v.length - 1);
                             const parts = k.slice(`--${this.varPrefix}-`.length).split("--");
 
-                            return `{${parts[0]
+                            const keyPath = parts[0]
                                 ?.split("__")
                                 .map((p, i) => (i === 0 ? camelCase(p) : p))
-                                .join(".")}}`;
+                                .join(".") ?? ""
+
+                            if (!keyPath.startsWith("sys.")) {
+                                return `{seed.${keyPath}}`;
+                            }
+
+                            return `{${keyPath}}`;
                         })
                         .replace(/calc\(.+\)$/g, (v) =>
                             v.slice("calc(".length, v.length - 1),
