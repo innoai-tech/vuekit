@@ -13,7 +13,7 @@ build.app:
 	cp ./public/vuekit/index.html  ./public/vuekit/404.html
 
 preview:
-	$(VITE) preview
+	$(VITE) preview --host=127.0.0.1
 
 build.pkg:
 	$(TURBO) run build

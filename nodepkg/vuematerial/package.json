@@ -40,8 +40,7 @@
     "directory": "nodepkg/vuematerial"
   },
   "scripts": {
-    "test": "bun test .",
-    "lint": "bunx --bun @biomejs/biome check --apply .",
+    "lint": "bunx --bun prettier --write . ",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"
   },

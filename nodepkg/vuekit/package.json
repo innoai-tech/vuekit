@@ -15,7 +15,7 @@
     "immer": "^10.0.3",
     "rxjs": "^7.8.1",
     "vue": "v3.4.19",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.3.0"
   },
   "peerDependencies": {},
   "exports": {
@@ -58,8 +58,7 @@
     "directory": "nodepkg/vuekit"
   },
   "scripts": {
-    "test": "bun test .",
-    "lint": "bunx --bun @biomejs/biome check --apply .",
+    "lint": "bunx --bun prettier --write . ",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"
   },

@@ -7,25 +7,25 @@ import { type SystemStyleObject } from "./theming";
 import { useInsertStyles } from "./useInsertStyles";
 
 export const GlobalStyle = component(
-	{ styles: t.custom<SystemStyleObject | string>() },
-	({ styles }) => {
-		const theme = ThemeProvider.use();
-		const cache = CacheProvider.use();
+  { styles: t.custom<SystemStyleObject | string>() },
+  ({ styles }) => {
+    const theme = ThemeProvider.use();
+    const cache = CacheProvider.use();
 
-		const insert = useInsertStyles(cache);
+    const insert = useInsertStyles(cache);
 
-		const serialized = theme.unstable_css(
-			cache,
-			isString(styles) ? ({ "&": styles } as any) : styles,
-		);
+    const serialized = theme.unstable_css(
+      cache,
+      isString(styles) ? ({ "&": styles } as any) : styles,
+    );
 
-		onBeforeMount(() => {
-			insert({
-				serialized,
-				withoutScoping: true,
-			});
-		});
+    onBeforeMount(() => {
+      insert({
+        serialized,
+        withoutScoping: true,
+      });
+    });
 
-		return () => null;
-	},
+    return () => null;
+  },
 );

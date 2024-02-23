@@ -1,7 +1,7 @@
 {
-	"extends": "@innoai-tech/vuedevconfig/tsconfig.json",
-	"compilerOptions": {
-		"rootDir": "./src"
-	},
-	"exclude": ["example"]
+  "extends": "@innoai-tech/vuedevconfig/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./src"
+  },
+  "exclude": ["example"]
 }

@@ -4,12 +4,12 @@ import { jsx } from "./jsx-runtime";
 export { Fragment };
 
 export function jsxDEV(
-	type: any,
-	props: any,
-	key: string | undefined,
-	_isStaticChildren: boolean,
-	_source: object,
-	_self: object,
+  type: any,
+  props: any,
+  key: string | undefined,
+  _isStaticChildren: boolean,
+  _source: object,
+  _self: object,
 ) {
-	return jsx(type, props ?? {}, key);
+  return jsx(type, props ?? {}, key);
 }

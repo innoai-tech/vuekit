@@ -6,15 +6,15 @@ import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribe";
 
 export function render<T>(renderFunc: (value: T) => VNodeChild) {
-	return (input$: Observable<T>): JSX.Element => {
-		return (
-			<RxSlot
-				elem$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}
-			>
-				{{}}
-			</RxSlot>
-		);
-	};
+  return (input$: Observable<T>): JSX.Element => {
+    return (
+      <RxSlot
+        elem$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}
+      >
+        {{}}
+      </RxSlot>
+    );
+  };
 }
 
 /**
@@ -22,26 +22,26 @@ export function render<T>(renderFunc: (value: T) => VNodeChild) {
  * <RxSlot elem$={elem$}>{{}}</RxSlot>
  */
 const RxSlot = component(
-	{
-		elem$: t.custom<Observable<RenderFunction>>(),
-		$default: t.custom<{}>(),
-	},
-	(props, _) => {
-		const r = shallowRef<RenderFunction | null>(null);
+  {
+    elem$: t.custom<Observable<RenderFunction>>(),
+    $default: t.custom<{}>(),
+  },
+  (props, _) => {
+    const r = shallowRef<RenderFunction | null>(null);
 
-		rx(
-			props.elem$,
-			tap((renderFunc) => {
-				r.value = renderFunc;
-			}),
-			subscribeUntilUnmount(),
-		);
+    rx(
+      props.elem$,
+      tap((renderFunc) => {
+        r.value = renderFunc;
+      }),
+      subscribeUntilUnmount(),
+    );
 
-		return () => {
-			return r.value?.();
-		};
-	},
-	{
-		name: "RxSlot",
-	},
+    return () => {
+      return r.value?.();
+    };
+  },
+  {
+    name: "RxSlot",
+  },
 );

@@ -1,19 +1,19 @@
-import {Type} from "./Type.ts";
+import { Type } from "./Type.ts";
 
 export class TypeAny extends Type<any, {}> {
-    static create() {
-        return new TypeAny();
-    }
+  static create() {
+    return new TypeAny();
+  }
 
-    constructor() {
-        super({});
-    }
+  constructor() {
+    super({});
+  }
 
-    override get type() {
-        return "any";
-    }
+  override get type() {
+    return "any";
+  }
 
-    override validator() {
-        return true;
-    }
+  override validator() {
+    return true;
+  }
 }

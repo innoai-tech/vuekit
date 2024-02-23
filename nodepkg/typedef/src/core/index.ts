@@ -1,6 +1,5 @@
 export * from "./Meta";
 
-
 export * from "./Type.ts";
 export * from "./TypeRef.ts";
 export * from "./TypeAny.ts";
@@ -19,4 +18,3 @@ export * from "./TypeIntersection.ts";
 export * from "./TypeUnion.ts";
 
 export * as t from "./t";
-
