@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/gents",
-  "version": "0.6.7",
+  "version": "0.6.8",
   "monobundle": {
     "build": {
       "clean": true
@@ -45,6 +45,7 @@
     "directory": "nodepkg/gents"
   },
   "scripts": {
+    "test": "bun test .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build",
     "lint": "bunx --bun prettier --write . "

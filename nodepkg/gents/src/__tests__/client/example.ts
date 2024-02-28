@@ -3,53 +3,6 @@ import { createRequest } from "./client";
 import { t } from "@innoai-tech/typedef";
 
 
-export const uploadBlob =
-/*#__PURE__*/createRequest<{
-  "Content-Type": string,
-  "body": File | Blob,
-}, any>(
-  "example.UploadBlob",
-  ({
-"Content-Type": header_contentType,
-"body": body,
-}) => ({
-"method": "PUT",
-"url": "/api/kubepkg.innoai.tech/v1/blobs",
-"headers": {
-"Content-Type": header_contentType,
-},
-"body": body,
-}),
-)
-
-
-
-export const statBlob =
-/*#__PURE__*/createRequest<{
-  "digest": (string | "sha256"),
-}, any>(
-  "example.StatBlob",
-  ({
-"digest": path_digest,
-}) => ({
-"method": "GET",
-"url": `/api/kubepkg.innoai.tech/v1/blobs/${path_digest}/stat`,
-}),
-)
-
-
-
-export const listKubePkg =
-/*#__PURE__*/createRequest<void, Array<KubepkgV1Alpha1KubePkg>>(
-  "example.ListKubePkg",
-  () => ({
-"method": "GET",
-"url": "/api/kubepkg.innoai.tech/v1/kubepkgs",
-}),
-)
-
-
-
 export const applyKubePkg =
 /*#__PURE__*/createRequest<({
 } & ({
@@ -110,6 +63,53 @@ export const getKubePkg =
 "params": {
 "namespace": query_namespace,
 },
+}),
+)
+
+
+
+export const listKubePkg =
+/*#__PURE__*/createRequest<void, Array<KubepkgV1Alpha1KubePkg>>(
+  "example.ListKubePkg",
+  () => ({
+"method": "GET",
+"url": "/api/kubepkg.innoai.tech/v1/kubepkgs",
+}),
+)
+
+
+
+export const statBlob =
+/*#__PURE__*/createRequest<{
+  "digest": (string | "sha256"),
+}, any>(
+  "example.StatBlob",
+  ({
+"digest": path_digest,
+}) => ({
+"method": "GET",
+"url": `/api/kubepkg.innoai.tech/v1/blobs/${path_digest}/stat`,
+}),
+)
+
+
+
+export const uploadBlob =
+/*#__PURE__*/createRequest<{
+  "Content-Type": string,
+  "body": File | Blob,
+}, any>(
+  "example.UploadBlob",
+  ({
+"Content-Type": header_contentType,
+"body": body,
+}) => ({
+"method": "PUT",
+"url": "/api/kubepkg.innoai.tech/v1/blobs",
+"headers": {
+"Content-Type": header_contentType,
+},
+"body": body,
 }),
 )
 
