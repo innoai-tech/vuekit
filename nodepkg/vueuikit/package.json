@@ -12,26 +12,24 @@
     "@emotion/utils": "^1.2.1",
     "@innoai-tech/lodash": "0.2.1",
     "@innoai-tech/vuekit": "workspace:^",
-    "@innoai-tech/csstype": "workspace:^",
     "@material/material-color-utilities": "^0.2.7",
     "@popperjs/core": "^2.11.8",
     "polished": "^4.3.1",
     "popmotion": "^11.0.5",
-    "vue": "v3.4.19"
+    "vue": "v3.4.21"
   },
   "peerDependencies": {},
   "exports": {
     ".": {
       "bun": "./src/index.ts",
       "import": {
-        "types": "./index.d.ts",
+        "types": "./src/index.ts",
         "default": "./index.mjs"
       }
     }
   },
   "files": [
     "*.mjs",
-    "*.d.ts",
     "src/*",
     "!/**/__tests__"
   ],

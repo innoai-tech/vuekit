@@ -76,7 +76,7 @@ export class JSONSchemaEncoder {
         continue;
       }
 
-      const p = s[n];
+      const p: any = s[n];
 
       if (p instanceof Type) {
         schema[n] = this._encode(p);

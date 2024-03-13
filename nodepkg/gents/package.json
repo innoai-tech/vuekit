@@ -10,7 +10,6 @@
     }
   },
   "dependencies": {
-    "@innoai-tech/config": "0.5.4",
     "@innoai-tech/lodash": "0.2.1",
     "@innoai-tech/typedef": "workspace:^",
     "node-fetch": "^3.3.2"
@@ -23,14 +22,13 @@
     ".": {
       "bun": "./src/index.ts",
       "import": {
-        "types": "./index.d.ts",
+        "types": "./src/index.ts",
         "default": "./index.mjs"
       }
     }
   },
   "files": [
     "*.mjs",
-    "*.d.ts",
     "src/*",
     "!/**/__tests__"
   ],
@@ -45,7 +43,6 @@
     "directory": "nodepkg/gents"
   },
   "scripts": {
-    "test": "bun test .",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build",
     "lint": "bunx --bun prettier --write . "

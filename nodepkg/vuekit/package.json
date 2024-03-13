@@ -12,9 +12,9 @@
     "@innoai-tech/lodash": "^0.2.1",
     "@innoai-tech/typedef": "workspace:^",
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
-    "immer": "^10.0.3",
+    "immer": "^10.0.4",
     "rxjs": "^7.8.1",
-    "vue": "v3.4.19",
+    "vue": "v3.4.21",
     "vue-router": "^4.3.0"
   },
   "peerDependencies": {},
@@ -22,28 +22,27 @@
     ".": {
       "bun": "./src/index.ts",
       "import": {
-        "types": "./index.d.ts",
+        "types": "./src/index.ts",
         "default": "./index.mjs"
       }
     },
     "./jsx-runtime": {
       "bun": "./src/jsx-runtime.ts",
       "import": {
-        "types": "./jsx-runtime.d.ts",
+        "types": "./src/jsx-runtime.ts",
         "default": "./jsx-runtime.mjs"
       }
     },
     "./jsx-dev-runtime": {
       "bun": "./src/jsx-dev-runtime.ts",
       "import": {
-        "types": "./jsx-dev-runtime.d.ts",
+        "types": "./src/jsx-dev-runtime.ts",
         "default": "./jsx-dev-runtime.mjs"
       }
     }
   },
   "files": [
     "*.mjs",
-    "*.d.ts",
     "src/*",
     "!/**/__tests__"
   ],
