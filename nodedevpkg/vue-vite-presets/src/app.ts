@@ -1,9 +1,11 @@
-import { resolve } from "path";
+import { join, resolve } from "path";
 import {
   type PluginOption,
   type UserConfig,
-  searchForWorkspaceRoot
+  searchForWorkspaceRoot,
+  type ESBuildOptions
 } from "vite";
+import { readFile } from "fs/promises";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export interface AppConfig {
@@ -24,7 +26,7 @@ export const app = (
   return [
     {
       name: "vite-presets/app",
-      config(c, { command }) {
+      async config(c, { command }) {
         userConfig = c;
 
         c.base = appConfig.enableBaseHref
@@ -70,10 +72,29 @@ export const app = (
           "default"
         ];
 
-        c.esbuild = {
-          jsxDev: c.mode !== "production",
-          jsx: "automatic"
-        };
+        c.esbuild = c.esbuild ?? {} as ESBuildOptions;
+        (c.esbuild as ESBuildOptions).jsx = "automatic";
+        (c.esbuild as ESBuildOptions).jsxDev = c.mode !== "production";
+
+
+        c.optimizeDeps = c.optimizeDeps ?? {};
+        c.optimizeDeps.esbuildOptions = c.optimizeDeps.esbuildOptions ?? {};
+        c.optimizeDeps.esbuildOptions.jsx = "automatic";
+        c.optimizeDeps.esbuildOptions.jsxDev = c.mode !== "production";
+
+
+        if (!c.optimizeDeps.esbuildOptions.jsxImportSource) {
+
+          try {
+            const tsconfig = JSON.parse(String(await readFile(join(viteConfigRoot, "tsconfig.json"))));
+            (c.esbuild as ESBuildOptions).jsxImportSource = tsconfig.compilerOptions.jsxImportSource;
+            c.optimizeDeps.esbuildOptions.jsxImportSource = tsconfig.compilerOptions.jsxImportSource;
+          } catch (e) {
+            //
+          }
+        }
+
+        return c;
       },
 
       transformIndexHtml(html: string) {
