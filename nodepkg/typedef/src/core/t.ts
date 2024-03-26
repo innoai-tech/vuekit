@@ -5,7 +5,7 @@ import {
   OptionalType,
   Type,
   TypeNever,
-  TypeWrapper,
+  TypeWrapper
 } from "./Type.ts";
 import { TypeNull } from "./TypeNull.ts";
 import { TypeString } from "./TypeString.ts";
@@ -42,8 +42,8 @@ export function pattern(pattern: RegExp, msg?: string) {
         );
       },
       {
-        pattern,
-      },
+        pattern: pattern.source
+      }
     );
   };
 }
@@ -65,8 +65,8 @@ export function minimum<M extends number>(min: M, msg?: string) {
         );
       },
       {
-        minimum: min,
-      },
+        minimum: min
+      }
     );
   };
 }
@@ -84,8 +84,8 @@ export function exclusiveMinimum<M extends number>(min: M, msg?: string) {
         );
       },
       {
-        exclusiveMinimum: min,
-      },
+        exclusiveMinimum: min
+      }
     );
   };
 }
@@ -104,8 +104,8 @@ export function maximum(max: number, msg?: string) {
         );
       },
       {
-        maximum: max,
-      },
+        maximum: max
+      }
     ) as any;
   };
 }
@@ -124,8 +124,8 @@ export function exclusiveMaximum(max: number, msg?: string) {
         );
       },
       {
-        exclusiveMaximum: max,
-      },
+        exclusiveMaximum: max
+      }
     ) as any;
   };
 }
@@ -144,8 +144,8 @@ export function multipleOf(multipleOf: number, msg?: string) {
         );
       },
       {
-        multipleOf: multipleOf,
-      },
+        multipleOf: multipleOf
+      }
     );
   };
 }
@@ -177,8 +177,8 @@ export function minItems(minItems: number, msg?: string) {
         );
       },
       {
-        minItems: minItems,
-      },
+        minItems: minItems
+      }
     );
   };
 }
@@ -197,8 +197,8 @@ export function maxItems(maxItems: number, msg?: string) {
         );
       },
       {
-        maxItems: maxItems,
-      },
+        maxItems: maxItems
+      }
     );
   };
 }
