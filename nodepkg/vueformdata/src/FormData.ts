@@ -1,16 +1,37 @@
-import { get, isFunction, isUndefined, set } from "@innoai-tech/lodash";
+import {
+  get,
+  isFunction,
+  isPlainObject,
+  isUndefined,
+  set,
+  has,
+} from "@innoai-tech/lodash";
 import {
   type AnyType,
   EmptyContext,
   ImmerBehaviorSubject,
   type Infer,
-  type MetaBuilder,
-  createMetaBuilder,
   type Component,
   rx,
   SymbolRecordKey,
+  type ImmerSubject,
 } from "@innoai-tech/vuekit";
+
 import { Observable, Subject, distinctUntilChanged, map } from "rxjs";
+
+export const delegate = <T extends { [k: string]: any }>(
+  target: T,
+  options: Partial<T>,
+): T => {
+  return new Proxy(target, {
+    get(target, p) {
+      if (has(options, p)) {
+        return (options as any)[p];
+      }
+      return (target as any)[p];
+    },
+  });
+};
 
 export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
   static of<T extends AnyType>(
@@ -22,10 +43,6 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
     );
   }
 
-  static label(label: string): MetaBuilder<FieldMeta> {
-    return createMetaBuilder<FieldMeta>({ label });
-  }
-
   public readonly inputs$: ImmerBehaviorSubject<Partial<Infer<T>>>;
 
   constructor(
@@ -33,6 +50,7 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
     initials: () => Partial<Infer<T>>,
   ) {
     super();
+
     this.inputs$ = new ImmerBehaviorSubject<Partial<Infer<T>>>(
       initials() ?? {},
     );
@@ -43,6 +61,10 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
   }
 
   public readonly _fields = new Map<string, Field>();
+
+  field(name: string) {
+    return this._fields.get(name);
+  }
 
   *fields<T extends AnyType>(
     typedef: T,
@@ -61,11 +83,11 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
       const p = [...path, nameOrIdx];
 
-      const name = Field.stringify(p);
+      const name = FieldImpl.stringify(p);
 
       let f = this._fields.get(name);
       if (!f) {
-        f = new Field(this, t, p);
+        f = new FieldImpl(this, t, p);
         this._fields.set(name, f);
       }
 
@@ -84,19 +106,23 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
       const value = f.input;
 
       const err = f.validate(value);
+
       if (err) {
         f.next((state) => {
           state.error = err;
         });
-      }
-
-      if (f.value.error) {
         hasError = true;
         continue;
       }
 
       if (!isUndefined(value)) {
-        set(values, name, value);
+        if (isPlainObject(value)) {
+          set(values, name, {
+            ...value,
+          });
+        } else {
+          set(values, name, value);
+        }
       }
     }
 
@@ -107,32 +133,39 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
     this.next(values);
   };
 
+  reset() {
+    for (let [_, f] of this._fields) {
+      f.reset();
+    }
+  }
+
   setErrors = (errors: Record<string, string[]>) => {
     for (const name in errors) {
-      for (const [_, f] of this._fields) {
-        f.next((state) => {
-          state.error = errors[name];
-        });
+      const error = errors[name]!;
+
+      for (const [fieldName, f] of this._fields) {
+        if (fieldName == name) {
+          f.next((state) => {
+            state.error = error;
+          });
+        }
       }
     }
   };
 }
 
 export interface InputComponentProps<T> {
-  name: string;
   readOnly?: boolean;
-  focus?: boolean;
-  onBlur?: () => void;
-  onFocus?: () => void;
-  value?: T;
-  onValueChange?: (v: T) => void;
+  field$: Field<T>;
 }
 
-export interface FieldMeta {
+export interface FieldMeta<T> {
   label?: string;
+  hint?: string;
   readOnlyWhenInitialExist?: boolean;
   input?: Component<InputComponentProps<any>>;
-  valueDisplay?: (props: InputComponentProps<any>) => JSX.Element | string;
+  valueDisplay?: (value: T, field$: Field<T>) => JSX.Element | string;
+  [K: string]: any;
 }
 
 export interface FieldState {
@@ -144,7 +177,34 @@ export interface FieldState {
   error?: string[] | null;
 }
 
-export class Field extends ImmerBehaviorSubject<FieldState> {
+export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
+  name: string;
+  path: any[];
+  form$: FormData;
+
+  input: T | undefined;
+  input$: Observable<T | null>;
+
+  meta: FieldMeta<T>;
+  optional: boolean;
+
+  state: FieldState;
+  typedef: AnyType;
+
+  blur: () => void;
+  focus: () => void;
+
+  update: (v: T) => void;
+  reset: () => void;
+  destroy: () => void;
+
+  validate(value: any): string[] | undefined;
+}
+
+class FieldImpl<T extends any = any>
+  extends ImmerBehaviorSubject<FieldState>
+  implements Field<T>
+{
   static defaultValue = (def: AnyType) => {
     try {
       return def.create(undefined);
@@ -153,48 +213,68 @@ export class Field extends ImmerBehaviorSubject<FieldState> {
     }
   };
 
+  static stringify(path: Array<string | number>) {
+    let p = "";
+
+    for (const v of path) {
+      if (typeof v === "number") {
+        p += `[${v}]`;
+        continue;
+      }
+
+      p += p ? `.${v}` : v;
+    }
+
+    return p;
+  }
+
   constructor(
     public readonly form$: FormData,
     public readonly typedef: AnyType,
     public readonly path: Array<string | number>,
-    public readonly name = Field.stringify(path),
+    public readonly name = FieldImpl.stringify(path),
   ) {
     super({
-      initial: get(form$.inputs$.value, name, Field.defaultValue(typedef)),
+      initial: get(form$.inputs$.value, name, FieldImpl.defaultValue(typedef)),
     });
   }
 
-  get input() {
-    return get(this.form$.inputs$.value, this.name);
+  get input(): T | undefined {
+    return get(
+      this.form$.inputs$.value,
+      this.name,
+      FieldImpl.defaultValue(this.typedef),
+    );
   }
 
-  get meta(): FieldMeta {
+  get meta(): FieldMeta<T> {
     return this.typedef.meta;
   }
 
-  private _optional?: boolean;
+  #optional?: boolean;
+
+  get state() {
+    return this.value;
+  }
 
   get optional() {
-    if (typeof this._optional === "undefined") {
-      this._optional = !this.validate(undefined);
+    if (typeof this.#optional === "undefined") {
+      this.#optional = !this.validate(undefined);
     }
-    return this._optional;
+    return this.#optional;
   }
 
-  get label() {
-    return this.meta?.label ?? this.name;
-  }
+  #input$?: Observable<T>;
 
-  private _input$?: Observable<any>;
-  get input$(): Observable<any> {
-    if (typeof this._input$ === "undefined") {
-      this._input$ = rx(
+  get input$(): Observable<T> {
+    if (typeof this.#input$ === "undefined") {
+      this.#input$ = rx(
         this.form$.inputs$,
-        map((v) => get(v, this.name)),
+        map((v) => get(v, this.name, FieldImpl.defaultValue(this.typedef))),
         distinctUntilChanged(),
       );
     }
-    return this._input$;
+    return this.#input$;
   }
 
   focus = () => {
@@ -215,10 +295,11 @@ export class Field extends ImmerBehaviorSubject<FieldState> {
     this.form$.inputs$.next((inputs) => {
       set(inputs, this.name, this.value.initial);
     });
+
     this.next({ initial: this.value.initial });
   };
 
-  update = (v: any) => {
+  update = (v: T) => {
     this.form$.inputs$.next((inputs) => {
       set(inputs, this.name, v);
     });
@@ -241,7 +322,10 @@ export class Field extends ImmerBehaviorSubject<FieldState> {
       return;
     }
 
-    const failures = err.failures().filter((v) => v.type !== "never");
+    // ignore sub errors
+    const failures = err
+      .failures()
+      .filter((v) => v.type !== "never" && v.path.length === 0);
 
     if (failures.length === 0) {
       // FIXME
@@ -254,21 +338,6 @@ export class Field extends ImmerBehaviorSubject<FieldState> {
       }
       return f.message;
     });
-  }
-
-  static stringify(path: Array<string | number>) {
-    let p = "";
-
-    for (const v of path) {
-      if (typeof v === "number") {
-        p += `[${v}]`;
-        continue;
-      }
-
-      p += p ? `.${v}` : v;
-    }
-
-    return p;
   }
 
   destroy() {

@@ -20,15 +20,14 @@
   },
   "exports": {
     ".": {
-      "bun": "./src/index.ts",
       "import": {
         "types": "./src/index.ts",
-        "default": "./index.mjs"
+        "default": "./dist/index.mjs"
       }
     }
   },
   "files": [
-    "*.mjs",
+    "dist/*",
     "src/*",
     "!/**/__tests__"
   ],

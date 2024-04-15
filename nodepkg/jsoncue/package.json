@@ -1,0 +1,62 @@
+{
+  "name": "@innoai-tech/jsoncue",
+  "version": "0.1.1",
+  "monobundle": {
+    "build": {
+      "clean": true
+    },
+    "exports": {
+      ".": "./src/index.ts",
+      "./codemirror": "./src/codemirror/index.ts"
+    }
+  },
+  "dependencies": {
+    "@innoai-tech/codemirror": "workspace:^",
+    "@innoai-tech/typedef": "workspace:^",
+    "@lezer/highlight": "^1.2.0",
+    "@lezer/lr": "^1.4.0",
+    "@codemirror/language": "^6.10.1",
+    "@codemirror/autocomplete": "^6.16.0",
+    "@codemirror/state": "^6.4.1"
+  },
+  "peerDependencies": {},
+  "devDependencies": {
+    "@lezer/generator": "^1.7.0"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./src/index.ts",
+        "default": "./dist/index.mjs"
+      }
+    },
+    "./codemirror": {
+      "import": {
+        "types": "./src/codemirror/index.ts",
+        "default": "./dist/codemirror.mjs"
+      }
+    }
+  },
+  "files": [
+    "dist/*",
+    "src/*",
+    "!/**/__tests__"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/jsoncue"
+  },
+  "scripts": {
+    "gen": "bun --bunx lezer-generator src/parser/jsoncue.grammar -o src/parser/parser.ts",
+    "lint": "bunx --bun prettier --write . ",
+    "build": "bunx --bun monobundle",
+    "prepublishOnly": "bun run build"
+  },
+  "type": "module"
+}

@@ -51,7 +51,8 @@ export class ClientGen extends Genfile {
     this.import(this.requestCreator.importPath, this.requestCreator.expose, "");
     this.import("@innoai-tech/typedef", "t", "");
 
-    const operations: Record<string, { method: string, path: string } & any> = {};
+    const operations: Record<string, { method: string; path: string } & any> =
+      {};
 
     for (const path in this.openapi.paths) {
       const ops = this.openapi.paths[path];
@@ -63,10 +64,9 @@ export class ClientGen extends Genfile {
           continue;
         }
 
-        if (op.operationId === "OpenAPI") {
+        if (op.operationId === "OpenAPI" || op.operationId === "OpenAPIView") {
           continue;
         }
-
 
         operations[op.operationId] = {
           ...op,

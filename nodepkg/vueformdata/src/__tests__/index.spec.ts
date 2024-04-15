@@ -1,6 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import { t } from "@innoai-tech/vuekit";
 import { FormData } from "../FormData";
+import { f } from "..";
 
 enum EnvType {
   DEV = "DEV",
@@ -21,19 +22,20 @@ const schema = t.intersection(
           /[a-z][a-z0-9-]+/,
           "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
         ),
-        FormData.label("名称").readOnlyWhenInitialExist(),
+        f.label("名称"),
+        f.readOnlyWhenInitialExist(),
       ),
-    desc: t.string().optional().use(FormData.label("描述")),
-    envType: t.nativeEnum(EnvType).use(FormData.label("环境类型")),
+    desc: t.string().optional().use(f.label("描述")),
+    envType: t.nativeEnum(EnvType).use(f.label("环境类型")),
   }),
   t
     .discriminatorMapping("netType", {
       [NetType.AIRGAP]: t.object({}),
       [NetType.DIRECT]: t.object({
-        endpoint: t.string().use(FormData.label("集群访问地址")),
+        endpoint: t.string().use(f.label("集群访问地址")),
       }),
     })
-    .use(FormData.label("网络类型")),
+    .use(f.label("网络类型")),
 );
 
 describe("FormData", () => {
@@ -48,10 +50,10 @@ describe("FormData", () => {
     const fields = [...fd.fields(fd.typedef)];
 
     fields[0]?.update(undefined);
-    expect(fields[0]?.value.error).toEqual(["字段不能为空"]);
+    expect(fields[0]?.state.error).toEqual(["字段不能为空"]);
 
     fields[0]?.update("1");
-    expect(fields[0]?.value.error).toEqual([
+    expect(fields[0]?.state.error).toEqual([
       "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
     ]);
 

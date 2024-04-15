@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.2.25",
+  "version": "0.2.26",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -12,15 +12,14 @@
   "peerDependencies": {},
   "exports": {
     ".": {
-      "bun": "./src/index.ts",
       "import": {
         "types": "./src/index.ts",
-        "default": "./index.mjs"
+        "default": "./dist/index.mjs"
       }
     }
   },
   "files": [
-    "*.mjs",
+    "dist/*",
     "src/*",
     "!/**/__tests__"
   ],
@@ -35,7 +34,6 @@
     "directory": "nodepkg/typedef"
   },
   "scripts": {
-    "test": "bun test .",
     "lint": "bunx --bun prettier --write . ",
     "build": "bunx --bun monobundle",
     "prepublishOnly": "bun run build"

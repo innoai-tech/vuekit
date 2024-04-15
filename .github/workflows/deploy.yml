@@ -17,8 +17,14 @@ jobs:
         env:
           INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ github.token }}
 
-      - uses: JamesIves/github-pages-deploy-action@v4.4.3
+      - uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
-          branch: gh-pages
           folder: public/vuekit
+          branch: gh-pages
+          clean: true
+
+      - uses: JamesIves/github-pages-deploy-action@v4.6.0
+        with:
+          folder: public/openapi-playground
+          branch: openapi-playground
           clean: true

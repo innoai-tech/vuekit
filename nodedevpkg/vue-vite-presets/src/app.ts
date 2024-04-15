@@ -3,7 +3,7 @@ import {
   type PluginOption,
   type UserConfig,
   searchForWorkspaceRoot,
-  type ESBuildOptions
+  type ESBuildOptions,
 } from "vite";
 import { readFile } from "fs/promises";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -15,7 +15,7 @@ export interface AppConfig {
 
 export const app = (
   appName: string,
-  appConfig: AppConfig = {}
+  appConfig: AppConfig = {},
 ): PluginOption[] => {
   (process.env as any).APP_VERSION = "__VERSION__";
 
@@ -43,13 +43,13 @@ export const app = (
 
         c.build.outDir = resolve(
           viteConfigRoot,
-          c.build.outDir ?? `./public/${appName}`
+          c.build.outDir ?? `./public/${appName}`,
         );
         c.build.emptyOutDir = true;
 
         c.build.rollupOptions = c.build.rollupOptions ?? {};
         c.build.rollupOptions.external = c.build.rollupOptions.external ?? [
-          "csstype"
+          "csstype",
         ];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
@@ -58,7 +58,7 @@ export const app = (
         c.build.rollupOptions.output = {
           assetFileNames: `${c.build.assetsDir}/[name].[hash][extname]`,
           entryFileNames: `${c.build.assetsDir}/[name].[hash].entry.js`,
-          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`
+          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`,
         };
 
         c.resolve = c.resolve ?? {};
@@ -69,26 +69,27 @@ export const app = (
           "import",
           "module",
           "browser",
-          "default"
+          "default",
         ];
 
-        c.esbuild = c.esbuild ?? {} as ESBuildOptions;
+        c.esbuild = c.esbuild ?? ({} as ESBuildOptions);
         (c.esbuild as ESBuildOptions).jsx = "automatic";
         (c.esbuild as ESBuildOptions).jsxDev = c.mode !== "production";
-
 
         c.optimizeDeps = c.optimizeDeps ?? {};
         c.optimizeDeps.esbuildOptions = c.optimizeDeps.esbuildOptions ?? {};
         c.optimizeDeps.esbuildOptions.jsx = "automatic";
         c.optimizeDeps.esbuildOptions.jsxDev = c.mode !== "production";
 
-
         if (!c.optimizeDeps.esbuildOptions.jsxImportSource) {
-
           try {
-            const tsconfig = JSON.parse(String(await readFile(join(viteConfigRoot, "tsconfig.json"))));
-            (c.esbuild as ESBuildOptions).jsxImportSource = tsconfig.compilerOptions.jsxImportSource;
-            c.optimizeDeps.esbuildOptions.jsxImportSource = tsconfig.compilerOptions.jsxImportSource;
+            const tsconfig = JSON.parse(
+              String(await readFile(join(viteConfigRoot, "tsconfig.json"))),
+            );
+            (c.esbuild as ESBuildOptions).jsxImportSource =
+              tsconfig.compilerOptions.jsxImportSource;
+            c.optimizeDeps.esbuildOptions.jsxImportSource =
+              tsconfig.compilerOptions.jsxImportSource;
           } catch (e) {
             //
           }
@@ -104,13 +105,13 @@ export const app = (
             {
               tag: "base",
               attrs: {
-                href: userConfig.base ?? "/"
-              }
-            }
-          ]
+                href: userConfig.base ?? "/",
+              },
+            },
+          ],
         };
-      }
+      },
     },
-    tsconfigPaths({}) as PluginOption
+    tsconfigPaths({}) as PluginOption,
   ];
 };

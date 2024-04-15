@@ -8,7 +8,7 @@ import {
   last,
   map,
   mapValues,
-  some
+  some,
 } from "@innoai-tech/lodash";
 import { type AnyType, t } from "../core";
 import { literal } from "../core/t.ts";
@@ -21,7 +21,7 @@ export const refName = (ref: string) => {
 export class JSONSchemaDecoder {
   static decode(
     type: JSONSchema | false,
-    resolveRef: (ref: string) => [JSONSchema, string]
+    resolveRef: (ref: string) => [JSONSchema, string],
   ): AnyType {
     if (type === false) {
       return t.never() as any;
@@ -31,17 +31,18 @@ export class JSONSchemaDecoder {
 
   def = new Map<string, AnyType>();
 
-  constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {
-  }
+  constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {}
 
-  decode(jsonSchema: JSONSchema): AnyType {
+  decode(jsonSchemaObject: JSONSchema): AnyType {
+    const jsonSchema = structuredClone(jsonSchemaObject);
+
     const tt = this._decode(jsonSchema);
 
     if (jsonSchema?.["description"]) {
       return tt.use(
         t.annotate({
-          description: jsonSchema["description"]
-        })
+          description: jsonSchema["description"],
+        }),
       );
     }
 
@@ -76,8 +77,8 @@ export class JSONSchemaDecoder {
       if (schema["x-enum-labels"]) {
         return e.use(
           t.annotate({
-            enumLabels: schema["x-enum-labels"]
-          })
+            enumLabels: schema["x-enum-labels"],
+          }),
         );
       }
 
@@ -87,7 +88,7 @@ export class JSONSchemaDecoder {
     if (schema["discriminator"]) {
       const discriminatorPropertyName = schema["discriminator"][
         "propertyName"
-        ] as string;
+      ] as string;
 
       if (discriminatorPropertyName) {
         const mapping: Record<string, any> = {};
@@ -95,7 +96,7 @@ export class JSONSchemaDecoder {
         if (schema["discriminator"]["mapping"]) {
           const discriminatorMapping = schema["discriminator"][
             "mapping"
-            ] as Record<string, any>;
+          ] as Record<string, any>;
 
           for (const k in discriminatorMapping) {
             const tt = this.decode(discriminatorMapping[k]);
@@ -103,7 +104,7 @@ export class JSONSchemaDecoder {
 
             for (const [propName, _, p] of tt.entries(
               {},
-              { path: [], branch: [] }
+              { path: [], branch: [] },
             )) {
               if (p.type === "never") {
                 continue;
@@ -131,7 +132,7 @@ export class JSONSchemaDecoder {
 
               for (const [propName, _, p] of tt.entries(
                 {},
-                { path: [], branch: [] }
+                { path: [], branch: [] },
               )) {
                 if (p.type === "never") {
                   continue;
@@ -196,7 +197,7 @@ export class JSONSchemaDecoder {
               return propType;
             }
             return propType.optional();
-          })
+          }),
         );
       }
 
@@ -205,7 +206,7 @@ export class JSONSchemaDecoder {
       if (additionalProperties) {
         return t.record(
           this.decode(schema["propertyNames"] ?? { type: "string" }),
-          this.decode(additionalProperties)
+          this.decode(additionalProperties),
         );
       }
 
@@ -215,7 +216,7 @@ export class JSONSchemaDecoder {
     if (isArrayType(schema)) {
       if (isArray(schema["items"])) {
         return t.tuple(
-          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any
+          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any,
         );
       }
 
@@ -266,7 +267,7 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "dependentSchemas",
 
     "maxProperties",
-    "minProperties"
+    "minProperties",
     // "required",
     // "dependentRequired",
   ],
@@ -280,7 +281,7 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "minItems",
     "uniqueItems",
     "maxContains",
-    "minContains"
+    "minContains",
   ],
   string: [
     "pattern",
@@ -288,15 +289,15 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "contentEncoding",
     "contentSchema",
     "maxLength",
-    "minLength"
+    "minLength",
   ],
   number: [
     "maximum",
     "minimum",
     "multipleOf",
     "exclusiveMaximum",
-    "exclusiveMinimum"
-  ]
+    "exclusiveMinimum",
+  ],
 };
 
 const hasProps = <T>(schema: T, props: Array<keyof T>): boolean =>

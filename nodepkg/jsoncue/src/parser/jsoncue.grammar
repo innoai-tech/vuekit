@@ -1,0 +1,75 @@
+@top Document {
+    Property* |
+    value
+}
+
+Null { n }
+True { t }
+False { f }
+Number { number_lit }
+String { string_lit | multiline_string_lit }
+Bytes { bytes_lit | multiline_bytes_lit }
+Object { "{" (Property*)? "}" }
+Array { "[" (value ("," value)* ","?)? "]" }
+
+value {
+    Object |
+    Array |
+    Null |
+    Number |
+    String |
+    Bytes |
+    True |
+    False
+}
+
+PropertyName { identifier | string_lit }
+
+Property {
+    PropertyName ":" (( PropertyName ":" )*)? value end_of_property?
+}
+
+@skip { whitespace | newline | Comment }
+
+@tokens {
+    whitespace { $[ \t]+ }
+    newline { $[\r\n] }
+    Comment[isolate] { "//" ![\r\n]* }
+
+    end_of_property { "," | newline }
+    @precedence { end_of_property, newline }
+
+    n { "null" }
+    t { "true" }
+    f { "false" }
+    identifier { letter (letter | @digit)* }
+
+    @precedence { n, t, f, identifier }
+
+    multiline_string_lit { '"""' (char | whitespace | newline)* '"""'}
+    string_lit {  '"' char* '"' }
+
+    @precedence { multiline_string_lit, string_lit }
+
+    multiline_bytes_lit { "'''" (char | whitespace | newline)* "'''" }
+    bytes_lit { "'" char* "'" }
+
+    @precedence { multiline_bytes_lit, bytes_lit }
+
+    number_lit {
+        (@digit ("_" | @digit)* ("." ("_" | @digit)*)? | "." @digit ("_" | @digit)*)
+        (("e" | "E") ("+" | "-")? ("_" | @digit)+)?
+    }
+
+    letter {  $[A-Za-z] | $[_$] }
+    char { $[\u{20}\u{21}\u{23}-\u{5b}\u{5d}-\u{10ffff}] | "\\" esc }
+    esc  { $["\\\/bfnrt] | "u" hex hex hex hex }
+    hex  { @digit | $[a-fA-F] }
+
+    "{" "}"
+    "[" "]"
+}
+
+@external propSource jsoncueHighlighting from "./highlight"
+
+@detectDelim

@@ -173,7 +173,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       shadow: ["neutral", 0, 0],
       scrim: ["neutral", 0, 0],
 
-      outline: ["neutralVariant", 60, 50],
+      outline: ["neutralVariant", 60, 87],
       "outline-variant": ["neutralVariant", 30, 80],
 
       surface: ["neutral", 10, 99],

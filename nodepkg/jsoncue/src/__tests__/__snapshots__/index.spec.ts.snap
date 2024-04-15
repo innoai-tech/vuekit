@@ -1,0 +1,27 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`JSONCue should parse 1`] = `
+"mlStr:   """
+  1
+  	22
+  		333
+  """
+str:     "str value"
+bytes:   '{}'
+mlBytes: '''
+  a:
+    b: 1
+  '''
+int:     1
+float:   1.1
+array:   [
+  true,
+  false,
+  null,
+]
+nested:  a: b: {
+  c: 2
+  d: 3
+}
+"
+`;

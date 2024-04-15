@@ -4,24 +4,24 @@ import { forEach, get, last } from "@innoai-tech/lodash";
 import {
   type ManualChunkMeta,
   type OutputOptions,
-  type PreRenderedChunk
+  type PreRenderedChunk,
 } from "rollup";
 import {
   type FilterPattern,
   type PluginOption,
   createFilter,
-  searchForWorkspaceRoot
+  searchForWorkspaceRoot,
 } from "vite";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
   handleModuleFederations?: (
-    pkgRelations: Record<string, ModuleFederation>
+    pkgRelations: Record<string, ModuleFederation>,
   ) => void;
 }
 
 export const viteChunkSplit = (
-  options: ChunkSplitOptions = {}
+  options: ChunkSplitOptions = {},
 ): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   const cs = new ChunkSplit(resolve(viteRoot), options);
@@ -41,7 +41,7 @@ export const viteChunkSplit = (
       const chunkFileNames = get(
         c.build.rollupOptions.output,
         ["chunkFileNames"],
-        `${assetsDir}/[name].[hash].chunk.js`
+        `${assetsDir}/[name].[hash].chunk.js`,
       );
 
       (c.build.rollupOptions.output as any) = {
@@ -60,14 +60,14 @@ export const viteChunkSplit = (
             .replaceAll(/[\[\]]/g, "_")
             .replaceAll("/", "-");
           return `${assetsDir}/${name}.[hash].chunk.js`;
-        }
+        },
       };
     },
     outputOptions(o) {
       o.manualChunks = (id: string, meta: ManualChunkMeta) => {
         return cs.chunkName(id, meta)?.replaceAll("/", "-").replaceAll("@", "");
       };
-    }
+    },
   };
 };
 
@@ -77,7 +77,7 @@ class ChunkSplit {
 
   constructor(
     private root: string,
-    private options: ChunkSplitOptions
+    private options: ChunkSplitOptions,
   ) {
     this.isLib = createFilter(options.lib ?? []);
     this.dependencies =
@@ -109,9 +109,9 @@ class ChunkSplit {
   }
 
   private resolvePkgRelations({
-                                getModuleInfo,
-                                getModuleIds
-                              }: ManualChunkMeta) {
+    getModuleInfo,
+    getModuleIds,
+  }: ManualChunkMeta) {
     const directImports: Record<string, boolean> = {};
     const moduleFederations: Record<string, ModuleFederation> = {};
 
@@ -231,8 +231,7 @@ export class ModuleFederation {
   _rank = 0;
   _imported = new Map<string, ModuleFederation>();
 
-  constructor(public name: string) {
-  }
+  constructor(public name: string) {}
 
   get federation() {
     return this._federation ?? this.name;
@@ -258,7 +257,7 @@ export class ModuleFederation {
 
 const markPkgRelegation = (
   moduleFederations: Record<string, ModuleFederation>,
-  directs: Record<string, boolean>
+  directs: Record<string, boolean>,
 ) => {
   const federations: Record<string, boolean> = {};
 
@@ -276,7 +275,7 @@ const markPkgRelegation = (
 
         names.sort((a, b) => {
           return (moduleFederations[a]?.rank() ?? 0) >
-          (moduleFederations[b]?.rank() ?? 0)
+            (moduleFederations[b]?.rank() ?? 0)
             ? -1
             : 1;
         });
@@ -299,7 +298,7 @@ const markPkgRelegation = (
 };
 
 export const d2Graph = (
-  moduleFederations: Record<string, ModuleFederation>
+  moduleFederations: Record<string, ModuleFederation>,
 ) => {
   let g = "";
 

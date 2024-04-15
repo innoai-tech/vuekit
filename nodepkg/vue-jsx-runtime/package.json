@@ -8,27 +8,25 @@
     }
   },
   "dependencies": {
-    "vue": "v3.4.21"
+    "vue": "v3.4.23"
   },
   "peerDependencies": {},
   "exports": {
     "./jsx-runtime": {
-      "bun": "./src/jsx-runtime.ts",
       "import": {
         "types": "./src/jsx-runtime.ts",
-        "default": "./jsx-runtime.mjs"
+        "default": "./dist/jsx-runtime.mjs"
       }
     },
     "./jsx-dev-runtime": {
-      "bun": "./src/jsx-dev-runtime.ts",
       "import": {
         "types": "./src/jsx-dev-runtime.ts",
-        "default": "./jsx-dev-runtime.mjs"
+        "default": "./dist/jsx-dev-runtime.mjs"
       }
     }
   },
   "files": [
-    "*.mjs",
+    "dist/*",
     "src/*",
     "!/**/__tests__"
   ],
