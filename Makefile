@@ -16,7 +16,7 @@ dev.openapi-playground:
 build.openapi-playground:
 	APP=openapi-playground $(VITE) build --mode production
 	cp ./tool/openapiview/index.go  ./public/openapi-playground/index.go
-	cp go.mod ./public/openapi-playground/go.mod
+	cp ./tool/openapiview/go.mod ./public/openapi-playground/go.mod
 
 dev:
 	$(VITE)

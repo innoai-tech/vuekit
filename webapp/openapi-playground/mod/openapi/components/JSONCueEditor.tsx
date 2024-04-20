@@ -21,7 +21,7 @@ import {
   diagnosticCount,
   autocompletion
 } from "@innoai-tech/codemirror";
-import { jsoncue, jsoncueParseLinter, jsoncueValidateLinter } from "@innoai-tech/jsoncue/codemirror";
+import { jsoncue, jsoncueParserOrValidateLinter } from "@innoai-tech/jsoncue/codemirror";
 import { Box } from "@innoai-tech/vueuikit";
 import { JSONCue } from "@innoai-tech/jsoncue";
 import { keymap } from "@codemirror/view";
@@ -29,6 +29,7 @@ import type { Extension } from "@codemirror/state";
 import { linter } from "@codemirror/lint";
 import { OpenAPIProvider } from "../OpenAPIProvider.tsx";
 import { jsoncueCompletions } from "@innoai-tech/jsoncue/codemirror";
+import { isUndefined } from "../util/typed.ts";
 
 export const JSONCueEditorInput = component$(
   {
@@ -37,10 +38,16 @@ export const JSONCueEditorInput = component$(
   },
   (props, {}) => {
     const openapi$ = OpenAPIProvider.use();
-    const editorContext = createEditorContext(props.field$.input ?? "");
-    const rawSchema = JSONSchemaDecoder.decode(props.field$.meta["rawSchema"] ?? {}, (ref) => {
+
+    const editorContext = createEditorContext(!isUndefined(props.field$.input) ? JSONCue.stringify(props.field$.input) : "");
+
+    let rawSchema = JSONSchemaDecoder.decode(props.field$.meta["rawSchema"] ?? {}, (ref) => {
       return [openapi$.schema(ref) ?? {}, refName(ref)];
     });
+
+    if (props.field$.optional) {
+      rawSchema = rawSchema.optional();
+    }
 
     return () => (
       <Box
@@ -84,17 +91,17 @@ const Editor = component$(
         if (v.focusChanged) {
           forceLinting(v.view);
 
-          if (!diagnosticCount(v.state)) {
-            props.field$.next((s) => {
-              s.error = null;
-            });
-          }
+          props.field$.next((s) => {
+            s.error = diagnosticCount(v.state) == 0 ? null : ["配置有误"];
+          });
+
+          return;
         }
 
         if (v.docChanged) {
           forceLinting(v.view);
 
-          if (diagnosticCount(v.state)) {
+          if (diagnosticCount(v.state) > 0) {
             props.field$.next((s) => {
               s.error = ["配置有误"];
             });
@@ -136,8 +143,7 @@ export function createJSONCueExt(tpe: AnyType): Extension[] {
         shift: startCompletion
       }
     ]),
-    linter(jsoncueParseLinter),
-    linter(jsoncueValidateLinter(tpe)),
+    linter(jsoncueParserOrValidateLinter(tpe)),
     keymap.of([indentWithTab])
   ];
 }

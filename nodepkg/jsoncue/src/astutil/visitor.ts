@@ -57,6 +57,6 @@ export function* visitAll(node: SyntaxNode): Iterable<SyntaxNode> {
     c != null;
     c = c.nextSibling
   ) {
-    yield* visitChildren(c);
+    yield* visitAll(c);
   }
 }

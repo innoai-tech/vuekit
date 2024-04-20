@@ -19,12 +19,14 @@ jobs:
 
       - uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
-          folder: public/vuekit
-          branch: gh-pages
+          folder: public/openapi-playground
+          repository-name: innoai-tech/openapi-playground
+          branch: main
+          ssh-key: ${{ secrets.OPENAPI_PLAYGROUND_DEPLOY_KEY }}
           clean: true
 
       - uses: JamesIves/github-pages-deploy-action@v4.6.0
         with:
-          folder: public/openapi-playground
-          branch: openapi-playground
+          folder: public/vuekit
+          branch: gh-pages
           clean: true

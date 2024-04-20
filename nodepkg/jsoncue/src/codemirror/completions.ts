@@ -6,9 +6,11 @@ import {
   type Completion,
   type CompletionContext,
   type CompletionResult,
-  snippetCompletion,
+  snippetCompletion
 } from "@codemirror/autocomplete";
 import { selectionAt } from "./util.ts";
+import type { SyntaxNode } from "@lezer/common";
+import { NodeType } from "../astutil/index.ts";
 
 function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
   switch (typ.type) {
@@ -33,7 +35,7 @@ function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
 
           return schemaAt(propType, childValue, path.slice(1), {
             path: [...ctx.path, index],
-            branch: [...ctx.branch, childValue],
+            branch: [...ctx.branch, childValue]
           });
         }
       }
@@ -60,7 +62,7 @@ function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
 
           return schemaAt(propType, childValue, path.slice(1), {
             path: [...ctx.path, propName],
-            branch: [...ctx.branch, childValue],
+            branch: [...ctx.branch, childValue]
           });
         }
 
@@ -103,17 +105,27 @@ function asDefaultValue(typ: AnyType): string {
   return "";
 }
 
-function asCompletions(typ: AnyType): Completion[] {
+function asCompletions(typ: AnyType, node: SyntaxNode): Completion[] {
   const completions: Completion[] = [];
 
   switch (typ.type) {
     case "array":
-      const itemsType = typ.getSchema<AnyType>("items")!;
+      if (node.type.is(NodeType.Array)) {
+        const itemsType = typ.getSchema<AnyType>("items")!;
+        completions.push(
+          snippetCompletion(asSnippetHolder(itemsType), {
+            label: asDefaultValue(itemsType)
+          })
+        );
+        break;
+      }
+
       completions.push(
-        snippetCompletion(asSnippetHolder(itemsType), {
-          label: asDefaultValue(itemsType),
-        }),
+        snippetCompletion(asSnippetHolder(typ), {
+          label: asDefaultValue(typ)
+        })
       );
+
       break;
     case "union":
     case "record":
@@ -123,14 +135,14 @@ function asCompletions(typ: AnyType): Completion[] {
 
         const base = {
           label: propName,
-          info: propType.getMeta<string>("description")?.split("\n")?.[0] ?? "",
+          info: propType.getMeta<string>("description")?.split("\n")?.[0] ?? ""
         };
 
         completions.push(
           snippetCompletion(
             `${JSONCue.stringifyPropertyName(propName)}: ${asSnippetHolder(propType)}`,
-            base,
-          ),
+            base
+          )
         );
       }
       break;
@@ -138,19 +150,19 @@ function asCompletions(typ: AnyType): Completion[] {
       completions.push(
         {
           label: "true",
-          apply: "true",
+          apply: "true"
         },
         {
           label: "false",
-          apply: "false",
-        },
+          apply: "false"
+        }
       );
       break;
     case "enums":
       for (const v of typ.getSchema<any[]>("enum") ?? []) {
         completions.push({
           label: `${v}`,
-          apply: JSON.stringify(v),
+          apply: JSON.stringify(v)
         });
       }
       break;
@@ -168,7 +180,7 @@ export function jsoncueCompletions(tpe: AnyType) {
       return [];
     }
 
-    return asCompletions(resolved);
+    return asCompletions(resolved, selectionSet.node);
   };
 
   return (ctx: CompletionContext): CompletionResult | null => {
@@ -181,7 +193,7 @@ export function jsoncueCompletions(tpe: AnyType) {
     return {
       from: before?.text ? before?.from : ctx.pos,
       options: completionsAt(ctx.state, ctx.pos),
-      filter: true,
+      filter: true
     };
   };
 }

@@ -5,15 +5,14 @@ import {
   type VNode,
   type VNodeChild,
   h,
+  isVNode
 } from "vue";
 
 export { Fragment };
 
 const isFunction = (val: any) => typeof val === "function";
 const isUndefined = (val: any) => typeof val === "undefined";
-const isFragment = (val: any) => {
-  return val === Fragment;
-};
+const isFragment = (val: any) => val === Fragment;
 
 const isTagOrInternal = (val: any) => {
   if (isFragment(val)) {
@@ -34,12 +33,7 @@ const isTagOrInternal = (val: any) => {
 };
 
 const isSlots = (children: any) => {
-  if (children && typeof children === "object") {
-    if (children.__vInternal) {
-      return true;
-    }
-  }
-  return false;
+  return children && !Array.isArray(children) && !isVNode(children) && typeof children === "object";
 };
 
 const wrapSlot = (children: any) => {
@@ -54,7 +48,7 @@ const wrapSlot = (children: any) => {
 
 const pickPropsWithoutSlots = (
   rawProps: Record<string, any>,
-  key?: string,
+  key?: string
 ): [any, any] => {
   const { children, ...otherProps } = rawProps;
 
@@ -94,12 +88,15 @@ export const jsxs = (type: any, rawProps: any, key?: string) => {
 export const jsx = (type: any, rawProps: any, key?: string) => {
   const [props, slots] = pickPropsWithoutSlots(rawProps, key);
   if (isTagOrInternal(type)) {
+    const children = slots?.default?.() ?? (isFragment(type) ? [] : undefined);
+
     return h(
       type,
       props,
-      slots?.default?.() ?? (isFragment(type) ? [] : undefined),
+      children
     );
   }
+
   return h(type, props, slots);
 };
 
@@ -124,7 +121,8 @@ declare module "vue" {
 
 declare global {
   namespace JSX {
-    export interface Element extends VNode {}
+    export interface Element extends VNode {
+    }
 
     export interface ElementClass {
       $props: {};
@@ -140,7 +138,8 @@ declare global {
       [name: string]: any;
     }
 
-    export interface IntrinsicAttributes extends ReservedProps {}
+    export interface IntrinsicAttributes extends ReservedProps {
+    }
 
     //  infer children type
     export interface ElementChildrenAttribute {

@@ -26,7 +26,7 @@ export const OpenAPIView = component$(({}, {}) => {
     debounceTime(200),
     tap((v: string) => {
       filters$.next((filters) => {
-        filters.operationId = v;
+        filters.operationId = `*${v ?? ""}`;
       });
     }),
     subscribeUntilUnmount()

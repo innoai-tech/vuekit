@@ -43,8 +43,6 @@ describe("theming", () => {
       },
     });
 
-    console.log(cs);
-
     expect(cs).toEqual([
       {
         borderRadius: "calc(20 * var(--vk-space__dp))",

@@ -108,7 +108,7 @@ class writer {
     }
 
     if (isString(v)) {
-      if (isBase64(v)) {
+      if (isBase64Encoded(v)) {
         const s = atob(v);
 
         if (isMultiline(s)) {
@@ -208,9 +208,26 @@ function* lines(s: string): Iterable<string> {
   }
 }
 
-const reBase64 =
-  /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+/]{3}=)?$/;
+function isBase64Encoded(str: string) {
+  if (str == "" || /^[0-9]+$/.test(str)) {
+    return false;
+  }
 
-function isBase64(v: string) {
-  return reBase64.test(v);
+  return isBase64(str);
+}
+
+// https://github.com/validatorjs/validator.js/blob/master/src/lib/isBase64.js
+const notBase64 = /[^A-Z0-9+\/=]/i;
+
+function isBase64(str: string) {
+  const len = str.length;
+
+  if (len % 4 !== 0 || notBase64.test(str)) {
+    return false;
+  }
+
+  const firstPaddingChar = str.indexOf("=");
+  return firstPaddingChar === -1 ||
+    firstPaddingChar === len - 1 ||
+    (firstPaddingChar === len - 2 && str[len - 1] === "=");
 }

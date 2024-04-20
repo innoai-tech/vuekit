@@ -25,16 +25,20 @@ export const HeadRow = ({ field, value }: {
   </Box>
 );
 
-const HttpFirstLine = ({ method, url }: RequestConfig<any>) => (
-  <Box component={"span"} sx={{ fontWeight: "bold" }}>
-    {method.toUpperCase()}
-    &nbsp;
-    <Box component={"span"} sx={{ fontWeight: "medium" }}>
-      {url}
+const HttpFirstLine = ({ method, url, params }: RequestConfig<any>) => {
+  const queryString = paramsSerializer(params);
+
+  return (
+    <Box component={"span"} sx={{ fontWeight: "bold" }}>
+      {method.toUpperCase()}
+      &nbsp;
+      <Box component={"span"} sx={{ fontWeight: "medium" }}>
+        {url}{queryString ? `?${queryString}` : ""}
+      </Box>
+      &nbsp; HTTP/*
     </Box>
-    &nbsp; HTTP/*
-  </Box>
-);
+  );
+};
 
 const displayMultipart = (boundary: string, data: Record<string, any>) => {
   const getPart = (k: string, v: any): string => {
@@ -188,7 +192,7 @@ export const HTTPResponse = component(
 
       return (
         <CodeView>
-          <span>HTTP/1.1 {response.status}</span>
+          <span>HTTP/* {response.status}</span>
           <br />
           {response.headers && (
             <>

@@ -61,6 +61,7 @@ export const OperationView = component$({
     render((op) => {
       return (
         <RequestBuilder
+          key={op.operationId}
           operation={op}
         >
           <>

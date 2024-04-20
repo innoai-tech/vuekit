@@ -1,4 +1,14 @@
-import { component, component$, render, rx, subscribeUntilUnmount, t, Type, TypeWrapper } from "@innoai-tech/vuekit";
+import {
+  component,
+  component$,
+  render,
+  rx,
+  subscribeUntilUnmount,
+  t,
+  Type,
+  TypeWrapper, useRoute,
+  useRouter
+} from "@innoai-tech/vuekit";
 import type { JSONSchema, Operation } from "./models";
 import { FormData, f, type Field } from "@innoai-tech/vueformdata";
 import { TextField } from "./components/TextField";
@@ -13,7 +23,6 @@ import { JSONCueEditorInput } from "./components/JSONCueEditor.tsx";
 import { onUnmounted } from "vue";
 import { ResponsePreview } from "./ResponsePreview.tsx";
 import { HttpRequest } from "./HTTPViews.tsx";
-
 
 export function rawSchema(rawSchema: JSONSchema) {
   return <T, S>(t: Type<T, S>) => {
@@ -65,21 +74,41 @@ export const RequestBuilder = component$({
     }
   }
 
-  const form$ = FormData.of(t.object(propSchemas), {});
+  const router = useRouter();
+  const route = useRoute();
+
+  const tryParseParams = () => {
+    try {
+      const params = route.query["params"];
+      return JSON.parse(atob((Array.isArray(params) ? params[0] : params) ?? ""));
+    } catch (err) {
+
+    }
+    return {};
+  };
+
+
+  const form$ = FormData.of(t.object(propSchemas), tryParseParams());
 
   rx(
     form$,
     tap((values) => {
       openapi$.request(props.operation.operationId, values);
     }),
+    tap((values) => {
+      void router.replace({
+        query: {
+          "params": btoa(JSON.stringify(values))
+        }
+      });
+    }),
     subscribeUntilUnmount()
   );
+
 
   const $requestPreview = rx(
     form$.inputs$,
     render((inputs) => {
-      console.log(inputs);
-
       const createConfig = openapi$.asRequestConfigCreator(props.operation.operationId);
       if (!createConfig) {
         return null;
@@ -140,11 +169,11 @@ export const RequestBuilder = component$({
             overflow: "hidden"
           }}>
             {$requestPreview}
-            <div>
+            <Box sx={{ px: 8 }}>
               <FilledButton type={"submit"}>
                 发起请求
               </FilledButton>
-            </div>
+            </Box>
             <ResponsePreview operationID={props.operation.operationId} />
             <Box sx={{ flex: 1, overflow: "auto" }}>
               {slots.default?.()}
@@ -168,7 +197,7 @@ const ParameterInput = component$(
     return rx(
       combineLatest([field$, field$.input$]),
       render(([s, value]) => {
-        const rawSchema = field$.meta?.["rawSchema"] as JSONSchema;
+        let rawSchema = field$.meta?.["rawSchema"] as JSONSchema ?? {};
 
         let Input: any = field$.meta?.input ?? TextInput;
 
@@ -182,7 +211,7 @@ const ParameterInput = component$(
             $label={
               <span>
                 {labelOrName(field$)}
-                {field$.optional ? "" : " *"}
+                {field$.optional ? "（非必填）" : ""}
               </span>
             }
             $supporting={

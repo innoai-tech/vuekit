@@ -13,8 +13,6 @@ export default component(() => {
   return () => {
     const pp = Palette.fromColors(p.value.seed);
 
-    console.log(el.value);
-
     return (
       <Box ref={el} sx={{ display: "flex", flexDirection: "column", gap: 24 }}>
         <Box sx={{ display: "flex", gap: 56 }}>

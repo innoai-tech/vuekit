@@ -71,7 +71,7 @@ describe("FormData", () => {
 
     const fields = [...fd.fields(fd.typedef)];
 
-    console.log(fields.map((f) => `${f.name} ${f.meta?.label}`));
+    // console.log(fields.map((f) => `${f.name} ${f.meta?.label}`));
 
     expect(fields.length).toBe(5);
   });

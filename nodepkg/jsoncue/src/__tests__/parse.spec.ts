@@ -1,21 +1,32 @@
 import { describe, expect, it } from "bun:test";
-import { Source, asBytes, toValue, SyntaxError } from "../astutil";
+import { Source, asBytes, toValue } from "../astutil";
 import { testTree } from "@lezer/generator/dist/test";
 
 describe("parse fail", () => {
+  it("should handle parse error ", () => {
+    const source = Source.parse(`[
+  {
+    1
+  }
+]`);
+
+    testTree(source.tree, n.Document(
+      n.Array(n.Object(
+        n.Error
+      ))
+    ));
+  });
+
   it("should handle parse error", () => {
-    try {
-      const source = Source.parse(`
+    const source = Source.parse(`
 a: "1"
 "str
 `);
-
-      toValue(source, source.topNode);
-    } catch (err) {
-      if (err instanceof SyntaxError) {
-        expect(err.node.from).toBe(8);
-      }
-    }
+    testTree(source.tree, n.Document(
+      n.Property(n.PropertyName, n.String),
+      n.Error,
+      n.Property(n.PropertyName, n.Error)
+    ));
   });
 });
 
@@ -71,10 +82,10 @@ describe("happy parse", () => {
 
     testTree(
       source.tree,
-      n.Document(n.Object(n.Property(n.PropertyName, n.Number))),
+      n.Document(n.Object(n.Property(n.PropertyName, n.Number)))
     );
     expect(toValue(source, source.topNode)).toEqual({
-      x: 1,
+      x: 1
     });
   });
 
@@ -88,13 +99,13 @@ describe("happy parse", () => {
       source.tree,
       n.Document(
         n.Property(n.PropertyName, n.Number),
-        n.Property(n.PropertyName, n.True),
-      ),
+        n.Property(n.PropertyName, n.True)
+      )
     );
 
     expect(toValue(source, source.topNode)).toEqual({
       a: 1,
-      b: true,
+      b: true
     });
   });
 
@@ -103,7 +114,7 @@ describe("happy parse", () => {
 
     testTree(
       source.tree,
-      n.Document(n.Property(n.PropertyName, n.PropertyName, n.String)),
+      n.Document(n.Property(n.PropertyName, n.PropertyName, n.String))
     );
   });
 });
@@ -119,15 +130,16 @@ abstract class n {
 
   static Object = (...props: string[]) => {
     return `Object(${[n.StringValue("{"), ...props, n.StringValue("}")].join(
-      ",",
+      ","
     )})`;
   };
 
   static Array = (...items: n[]) => {
     return `Array(${[n.StringValue("["), ...items, n.StringValue("]")].join(
-      ",",
+      ","
     )})`;
   };
+
 
   static Property(...propertyNamesAndValue: string[]) {
     return `Property(${[...propertyNamesAndValue].join(",")})`;
@@ -140,4 +152,5 @@ abstract class n {
   static True = "True";
   static False = "False";
   static Null = "Null";
+  static Error = "⚠";
 }

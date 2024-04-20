@@ -221,7 +221,7 @@ function* operations(openapi: OpenAPIObject, filters: {
 }): Iterable<OperationWithMethodPath> {
   for (const [path, ops] of Object.entries(openapi.paths)) {
     for (const [method, o] of Object.entries(ops)) {
-      if (o.operationId == "OpenAPI") {
+      if (o.operationId == "OpenAPI" || o.operationId == "OpenAPIView") {
         continue;
       }
 
@@ -232,8 +232,14 @@ function* operations(openapi: OpenAPIObject, filters: {
       }
 
       if (filters.operationId) {
-        if (!o.operationId.includes(filters.operationId)) {
-          continue;
+        if (filters.operationId.startsWith("*")) {
+          if (!o.operationId.includes(filters.operationId.slice(1))) {
+            continue;
+          }
+        } else {
+          if (o.operationId != filters.operationId) {
+            continue;
+          }
         }
       }
 

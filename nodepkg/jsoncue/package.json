@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/jsoncue",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "monobundle": {
     "build": {
       "clean": true
@@ -25,12 +25,14 @@
   },
   "exports": {
     ".": {
+      "bun": "./src/index.ts",
       "import": {
         "types": "./src/index.ts",
         "default": "./dist/index.mjs"
       }
     },
     "./codemirror": {
+      "bun": "./src/codemirror/index.ts",
       "import": {
         "types": "./src/codemirror/index.ts",
         "default": "./dist/codemirror.mjs"
