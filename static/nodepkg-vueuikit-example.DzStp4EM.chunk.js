@@ -1,4 +1,4 @@
-import { c as e, s as n, i, j as o, B as t } from "./index.-RbwNzz2.entry.js";
+import { c as e, s as n, i, j as o, B as t } from "./index.CxFCMZJ4.entry.js";
 let l = Object.assign(e(() => {
   let e2 = n.use();
   return () => i(t, { sx: { display: "flex", gap: 16, flexDirection: "column" }, children: [o("div", { children: "点击下载，通过 Figma Tokens 全量导入文件" }), o("pre", { onClick: () => {

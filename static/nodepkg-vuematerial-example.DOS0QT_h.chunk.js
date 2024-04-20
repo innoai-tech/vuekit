@@ -1,4 +1,4 @@
-import { d as e, h as n, j as t } from "./index.-RbwNzz2.entry.js";
+import { d as e, h as n, j as t } from "./index.CxFCMZJ4.entry.js";
 function i(e2) {
   return t({ p: "p", ...e2.components }.p, { children: "这不是一个完整的组件库，只是一个示例，作为 vueuikit 的参考" });
 }
