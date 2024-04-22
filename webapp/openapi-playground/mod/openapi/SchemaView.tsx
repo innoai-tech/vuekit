@@ -5,6 +5,42 @@ import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
 import { isUndefined } from "./util/typed.ts";
 import { Markdown } from "@innoai-tech/vuemarkdown";
 
+export const Token = styled("div")({
+  display: "inline-table",
+  textStyle: "sys.label-small",
+  fontWeight: "bold",
+  fontFamily: "inherit",
+  fontSize: 11,
+  lineHeight: 14
+});
+
+export const PropName = styled("div", {
+  deprecated: t.boolean().optional(),
+  optional: t.boolean().optional(),
+  nullable: t.boolean().optional()
+})({
+  display: "inline-table",
+  textStyle: "sys.label-small",
+  fontWeight: "bold",
+  fontFamily: "inherit",
+  fontSize: 11,
+  lineHeight: 14,
+
+  color: "sys.primary",
+
+  _deprecated: {
+    textDecoration: "line-through"
+  },
+
+  _nullable: {
+    "&:after": { content: `"??"`, color: "sys.error" }
+  },
+
+  _optional: {
+    "&:after": { content: `"?"`, color: "sys.secondary" }
+  }
+});
+
 export const Line = styled(
   "div",
   {
@@ -78,35 +114,6 @@ export const Description = styled(
   lineHeight: 12
 });
 
-const Token = styled("div")({
-  display: "inline-table",
-  textStyle: "sys.label-small",
-  fontWeight: "bold",
-  fontFamily: "inherit",
-  fontSize: 11,
-  lineHeight: 14
-});
-
-const PropName = styled(Token, {
-  deprecated: t.boolean().optional(),
-  optional: t.boolean().optional(),
-  nullable: t.boolean().optional()
-})({
-  color: "sys.primary",
-
-  _deprecated: {
-    textDecoration: "line-through"
-  },
-
-  _nullable: {
-    "&:after": { content: `"??"`, color: "sys.error" }
-  },
-
-  _optional: {
-    "&:after": { content: `"?"`, color: "sys.secondary" }
-  }
-});
-
 
 const Annotation = ({ name, value, extra }: { name: string; value: any, extra?: Record<string, any> }) => {
   if (value == "") {
@@ -153,7 +160,7 @@ const IntentContextProvider = createProvider(
 );
 
 
-const Indent = component(
+export const Indent = component(
   {
     $default: t.custom<VNodeChild>().optional()
   },

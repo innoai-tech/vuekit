@@ -1,8 +1,8 @@
 import {
   component,
-  component$,
+  component$, observableRef,
   render,
-  rx,
+  rx, subscribeOnMountedUntilUnmount,
   subscribeUntilUnmount,
   t,
   Type,
@@ -15,7 +15,7 @@ import { TextField } from "./components/TextField";
 import { isUndefined } from "./util/typed.ts";
 import { type VNodeChild } from "@innoai-tech/vuekit";
 import { combineLatest, tap } from "rxjs";
-import { FilledButton } from "@innoai-tech/vuematerial";
+import { FilledButton, Icon } from "@innoai-tech/vuematerial";
 import { Box } from "@innoai-tech/vueuikit";
 import { Description, Line, SchemaView } from "./SchemaView.tsx";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
@@ -23,6 +23,7 @@ import { JSONCueEditorInput } from "./components/JSONCueEditor.tsx";
 import { onUnmounted } from "vue";
 import { ResponsePreview } from "./ResponsePreview.tsx";
 import { HttpRequest } from "./HTTPViews.tsx";
+import { mdiUploadBox } from "@mdi/js";
 
 export function rawSchema(rawSchema: JSONSchema) {
   return <T, S>(t: Type<T, S>) => {
@@ -68,6 +69,8 @@ export const RequestBuilder = component$({
 
       if (contentType.includes("json")) {
         propSchemas["body"] = x.use(f.inputBy(JSONCueEditorInput));
+      } else if (contentType.includes("octet-stream")) {
+        propSchemas["body"] = x.use(f.inputBy(FileSelectInput));
       } else {
         propSchemas["body"] = x;
       }
@@ -257,6 +260,73 @@ export const TextInput = component(
           onFocus={() => field$.focus()}
           onBlur={() => field$.blur()}
         />
+      );
+    };
+  }
+);
+
+
+export const FileSelectInput = component$(
+  {
+    field$: t.custom<Field<File>>(),
+    readOnly: t.boolean().optional(),
+    accept: t.string().optional()
+  },
+  (props) => {
+    const file$ = observableRef<File | null>(null);
+
+    rx(
+      file$,
+      tap((file) => {
+        if (file) {
+          props.field$.update(file);
+        }
+      }),
+      subscribeOnMountedUntilUnmount()
+    );
+
+    return () => {
+      const { readOnly, accept } = props;
+
+      return (
+        <Box
+          component={"label"}
+          data-input
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+
+            gap: 8,
+
+            $data_file_input: {
+              display: "none"
+            },
+
+            $data_icon: {
+              width: 40,
+              height: 40,
+              my: 40
+            }
+          }}
+        >
+          <input
+            type={"file"}
+            name={props.field$.name}
+            readonly={readOnly}
+            accept={accept}
+            data-file-input
+            onChange={(e) => {
+              const file = (e.target as HTMLInputElement).files?.[0];
+
+              if (file) {
+                file$.value = file;
+              }
+            }}
+          />
+          <Icon path={mdiUploadBox} />
+          <span>{file$.value?.name}</span>
+        </Box>
       );
     };
   }
