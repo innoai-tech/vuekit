@@ -1,5 +1,5 @@
-import { s as e, v as o, a as r, b as s, f as a, g as t } from "./lib--nodepkg-vueuikit.C6JhOhKI.chunk.js";
-import { b as n, m as i } from "./lib--nodepkg-vuekit.DLZfr_ED.chunk.js";
+import { s as e, v as o, a as r, b as s, f as a, g as t } from "./lib--nodepkg-vueuikit.UEJ3QS1S.chunk.js";
+import { a as n, o as i } from "./lib--nodepkg-vuekit.DB5BTWky.chunk.js";
 import { g as l } from "./vendor--mdi-js.et_sAQgv.chunk.js";
 let c = e("div")({ bgColor: "sys.surface-container" }), d = e("div")({ padding: 24, "& [data-example]": { display: "flex", flexDirection: "row-reverse", gap: 8, "& > *": { flex: 1 }, "& [data-example-container]": { display: "flex", alignItems: "center", justifyContent: "center" } }, "& :not(pre) > code": { font: "code", rounded: "xs", px: 4, bgColor: "sys.surface-container-low" }, "& pre": { overflow: "auto", textStyle: "sys.body-small", containerStyle: "sys.surface-container-low", m: 0, rounded: "sm", p: 16, font: "code", "& .comment": { color: o("sys.on-surface", r(0.38)) }, "& .string": { color: "sys.success" }, "& .tag .attr-name": { color: "sys.success" }, "& .function": { color: "sys.warning" }, "& .punctuation": { color: o("sys.on-surface", r(0.38)) }, "& .keyword": { color: "sys.error" } }, "& p,li": { my: "1em" }, overflowY: "auto" });
 Object.assign(c, { displayName: "Unused" });
