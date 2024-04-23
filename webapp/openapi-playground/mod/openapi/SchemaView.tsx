@@ -1,8 +1,13 @@
-import { component, component$, createProvider, render, rx, t, type VNodeChild } from "@innoai-tech/vuekit";
+import {
+  type AnyType,
+  component,
+  component$,
+  createProvider,
+  t,
+  type VNodeChild
+} from "@innoai-tech/vuekit";
+import { isUndefined } from "@innoai-tech/lodash";
 import { styled } from "@innoai-tech/vueuikit";
-import type { JSONSchema } from "./models";
-import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
-import { isUndefined } from "./util/typed.ts";
 import { Markdown } from "@innoai-tech/vuemarkdown";
 
 export const Token = styled("div")({
@@ -69,13 +74,11 @@ export const Line = styled(
 export const Description = styled(
   "div",
   {
-    schema: t.custom<JSONSchema>()
+    schema: t.custom<AnyType>()
   },
   (props, {}) => {
     return (Root) => {
-      const schema = props.schema;
-
-      const description = schema["description"] ?? "";
+      const description = props.schema.getMeta<string>("description") ?? "";
 
       if (description.length == 0) {
         return null;
@@ -181,7 +184,7 @@ export const Indent = component(
 
 const SchemaViewLink = component$(
   {
-    schema: t.custom<JSONSchema>()
+    schema: t.custom<AnyType>()
   }, (props) => {
 
     return () => {
@@ -198,176 +201,157 @@ const SchemaViewLink = component$(
 
 export const SchemaView = component$(
   {
-    schema: t.custom<JSONSchema>()
+    schema: t.custom<AnyType>()
   },
   (props) => {
-    const openapi$ = OpenAPIProvider.use();
-    const schema = props.schema ?? {};
+    const schema = props.schema;
 
-    if (schema["$ref"]) {
-      const ref = schema["$ref"];
-
-      return rx(
-        openapi$.schema$(ref),
-        render((schema) => {
-          if (schema && schema["$id"]) {
-            return (
-              <SchemaViewLink schema={schema} />
-            );
-          }
-          return null;
-        })
+    if (schema.getSchema("$ref")) {
+      return (
+        <SchemaViewLink schema={schema.unwrap} />
       );
-
     }
 
     return () => {
-      if (Array.isArray(schema["oneOf"])) {
-        if (schema["discriminator"]) {
+      switch (schema.type) {
+        case "union":
           return (
             <>
-              {Object.entries(schema["discriminator"]["mapping"] ?? {})
-                .toSorted()
-                .map(([value, mappingSchema]) => {
-                  if (!mappingSchema) {
-                    return null;
-                  }
-
-                  return (
-                    <>
-                      <Line spacing={2}>
-                        &nbsp;
-                      </Line>
-                      <Line>
-                        <PropName sx={{ py: 8 }}>
-                          {"if "}
-                          {schema["discriminator"]?.["propertyName"]} = <SchemaView schema={{ enum: [value] }} />
-                          {":"}
-                        </PropName>
-                      </Line>
-                      <Indent>
-                        <Token>&nbsp;&nbsp;</Token>
-                        <SchemaView schema={mappingSchema} />
-                      </Indent>
-                    </>
-                  );
-                })}
-            </>
-          );
-        }
-
-        return (
-          <>
-            {schema["oneOf"].map((s, i) => {
-              return (
-                <>
-                  {i > 0 && (
-                    <Token>&nbsp;{" | "}&nbsp;</Token>
-                  )}
-                  <Token sx={{ mr: "1em" }}>{":"}</Token>
-                  <SchemaView schema={s} />
-                </>
-              );
-            })}
-          </>
-        );
-      }
-
-      if (Array.isArray(schema["allOf"])) {
-        return (
-          <Token>
-            {schema["allOf"]
-              .filter((s) => !(Object.keys(s).length))
-              .map((s, i) => {
+              {schema.getSchema<AnyType[]>("oneOf")?.map((s, i) => {
                 return (
                   <>
-                    {i > 0 && <Token>&nbsp;{"&"}&nbsp;</Token>}
+                    {i > 0 && (
+                      <Token>&nbsp;{" | "}&nbsp;</Token>
+                    )}
                     <SchemaView schema={s} />
                   </>
                 );
               })}
-          </Token>
-        );
-      }
-
-      if (schema.type == "array") {
-        return (
-          <Token sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}>
-            <Token>{"Array<"}</Token>
-            <SchemaView schema={schema["items"] ?? ({})} />
-            <Token>{">"}</Token>
-          </Token>
-        );
-      }
-
-      if (schema.type == "object") {
-        return (
-          <>
-            {schema["$id"] && <Token id={schema["$id"]}>{schema["$id"]}&nbsp;</Token>}
-            <Token>{"{"}</Token>
-            <Indent>
-              <>
-                {Object.entries((schema["properties"] ?? {}) as Record<string, JSONSchema>).map(([propName, propSchema]) => {
-                  if (!propSchema) {
-                    return null;
-                  }
-
+            </>
+          );
+        case "intersection":
+          return (
+            <Token>
+              {schema.getSchema<AnyType[]>("allOf")
+                ?.filter((s) => !(Object.keys(s).length))
+                .map((s, i) => {
                   return (
                     <>
-                      <Line spacing={2}>
-                        <Description schema={propSchema} />
-                        <Token
-                          sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}
-                        >
-                          <PropName
-                            nullable={propSchema["nullable"]}
-                            deprecated={propSchema["deprecated"]}
-                            optional={!(schema["required"] ?? []).includes(propName)}
-                          >
-                            {propName}
-                          </PropName>
-                          <Token sx={{ mr: "1em" }}>{":"}</Token>
-                          <SchemaView schema={propSchema} />
+                      {i > 0 && (
+                        <Token>
+                          &nbsp;{"&"}&nbsp;
                         </Token>
-                      </Line>
+                      )}
+                      <SchemaView schema={s} />
                     </>
                   );
                 })}
-              </>
-            </Indent>
-            {schema["additionalProperties"] && (
-              <>
-                <Indent>
-                  <Line>
-                    <Token sx={{ mr: 1 }}>{"[K:"}&nbsp;</Token>
-                    <SchemaView
-                      schema={schema["propertyNames"] ?? { type: "string" }}
-                    />
-                    <Token sx={{ mr: 1 }}>{"]:"}&nbsp;</Token>
-                    <SchemaView schema={schema["additionalProperties"]} />
-                  </Line>
-                </Indent>
-              </>
-            )}
-            <Token>{"}"}</Token>
-          </>
-        );
+            </Token>
+          );
+        case "array":
+          return (
+            <Token sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}>
+              <Token>{"Array<"}</Token>
+              <SchemaView schema={schema.getSchema("items") ?? t.any()} />
+              <Token>{">"}</Token>
+            </Token>
+          );
+        case "object":
+          return (
+            <>
+              <Token>{"{"}</Token>
+              <Indent>
+                <>
+                  {Object.entries((schema.getSchema("properties") ?? {}) as Record<string, AnyType>).map(([propName, propSchema]) => {
+                    if (!propSchema) {
+                      return null;
+                    }
+
+                    return (
+                      <>
+                        <Line spacing={2}>
+                          <Description schema={propSchema} />
+                          <Token
+                            sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}
+                          >
+                            <PropName
+                              nullable={propSchema.getSchema("nullable")}
+                              deprecated={propSchema.getSchema("deprecated")}
+                              optional={!(schema.getSchema("required") ?? []).includes(propName)}
+                            >
+                              {propName}
+                            </PropName>
+                            <Token sx={{ mr: "1em" }}>{":"}</Token>
+                            <SchemaView schema={propSchema} />
+                          </Token>
+                        </Line>
+                      </>
+                    );
+                  })}
+                </>
+              </Indent>
+              <Token>{"}"}</Token>
+            </>
+          );
+        case "record":
+          return (
+            <>
+              <Token>{"{"}</Token>
+              {schema.getSchema("additionalProperties") && (
+                <>
+                  <Indent>
+                    <Line>
+                      <Token sx={{ mr: 1 }}>{"[K:"}&nbsp;</Token>
+                      <SchemaView
+                        schema={schema.getSchema("propertyNames") ?? t.string()}
+                      />
+                      <Token sx={{ mr: 1 }}>{"]:"}&nbsp;</Token>
+                      <SchemaView schema={schema.getSchema("additionalProperties") ?? t.any()} />
+                    </Line>
+                  </Indent>
+                </>
+              )}
+              <Token>{"}"}</Token>
+            </>
+          );
+        case "enums": {
+          const enumValues = schema.getSchema<any[]>("enum") ?? [];
+
+          if (enumValues.length == 1) {
+            return <Token>{JSON.stringify(enumValues[0])}</Token>;
+          }
+
+          let type: string = "any";
+
+          if (enumValues.length > 0) {
+            type = typeof enumValues[0];
+          }
+
+          return (
+            <>
+              <Token sx={{ fontWeight: "bold" }}>{type}</Token>
+              <Indent>
+                {enumValues.map((value: any, i) => (
+                  <Annotation
+                    key={value}
+                    name={"enum"}
+                    value={`${value}`}
+                    extra={schema.getMeta<string[]>("enumLabels")?.[i] ? {
+                      "label": JSON.stringify(schema.getMeta<string[]>("enumLabels")![i])
+                    } : {}}
+                  />
+                ))}
+              </Indent>
+            </>
+          );
+        }
       }
 
-      let [type, format, enumValues, defaultValue] = [
-        schema["type"],
-        schema["format"],
-        schema["enum"],
-        schema["default"]
+      let [type, format, defaultValue] = [
+        schema.type,
+        schema.getSchema("format"),
+        schema.getSchema("default")
       ];
-
-      if (enumValues && enumValues.length == 1) {
-        return <Token>{JSON.stringify(enumValues[0])}</Token>;
-      }
-
-      if (!type && (enumValues && enumValues.length > 0)) {
-        type = typeof enumValues[0];
-      }
 
       return (
         <>
@@ -380,20 +364,6 @@ export const SchemaView = component$(
             {!hasValidate(schema) && (
               <Annotation name={"validate"} value={displayValidate(schema)} />
             )}
-            {Array.isArray(enumValues) && (
-              <>
-                {enumValues.map((value: any, i) => (
-                  <Annotation
-                    key={value}
-                    name={"enum"}
-                    value={`${value}`}
-                    extra={schema["x-enum-labels"]?.[i] ? {
-                      "label": JSON.stringify(schema["x-enum-labels"][i])
-                    } : {}}
-                  />
-                ))}
-              </>
-            )}
           </Indent>
         </>
       );
@@ -402,7 +372,7 @@ export const SchemaView = component$(
 );
 
 
-function hasValidate(schema: any) {
+function hasValidate(schema: AnyType) {
   return ([
     "enum",
     "maximum",
@@ -416,7 +386,7 @@ function hasValidate(schema: any) {
     "minItems",
     "maxProperties",
     "minProperties"
-  ] as Array<keyof ValidatedSchemaProps>).some((key) => Object.hasOwn(schema, key));
+  ] as Array<keyof ValidatedSchemaProps>).some((key) => schema.getSchema(key));
 }
 
 
@@ -435,48 +405,48 @@ export interface ValidatedSchemaProps {
   minProperties?: number;
 }
 
-export function getMax(schema: JSONSchema): string {
-  if (schema["maxProperties"]) {
-    return schema["maxProperties"];
+export function getMax(schema: AnyType): string {
+  if (schema.getSchema("maxProperties")) {
+    return schema.getSchema("maxProperties")!;
   }
-  if (schema["maxItems"]) {
-    return schema["maxItems"];
+  if (schema.getSchema("maxItems")) {
+    return schema.getSchema("maxItems")!;
   }
-  if (schema["maximum"]) {
-    return schema["maximum"];
+  if (schema.getSchema("maximum")) {
+    return schema.getSchema("maximum")!;
   }
-  if (schema["maxLength"]) {
-    return schema["maxLength"];
+  if (schema.getSchema("maxLength")) {
+    return schema.getSchema("maxLength")!;
   }
 
-  if (schema.type === "string" && schema["format"] === "uint64") {
+  if (schema.type === "string" && schema.getSchema("format") === "uint64") {
     return "19";
   }
 
   if (
     (schema.type === "number" || schema.type === "integer") &&
-    schema["format"]
+    schema.getSchema("format")
   ) {
     return `${
-      Math.pow(2, Number(schema["format"].replace(/[^0-9]/g, "")) - 1) - 1
+      Math.pow(2, Number(schema.getSchema("format").replace(/[^0-9]/g, "")) - 1) - 1
     }`;
   }
 
   return "+∞";
 }
 
-export function getMin(schema: JSONSchema = {}): string {
-  if (schema["minProperties"]) {
-    return schema["minProperties"];
+export function getMin(schema: AnyType): string {
+  if (schema.getSchema("minProperties")) {
+    return schema.getSchema("minProperties")!;
   }
-  if (schema["minItems"]) {
-    return schema["minItems"];
+  if (schema.getSchema("minItems")) {
+    return schema.getSchema("minItems")!;
   }
-  if (schema["minimum"]) {
-    return schema["minimum"];
+  if (schema.getSchema("minimum")) {
+    return schema.getSchema("minimum")!;
   }
-  if (schema["minLength"]) {
-    return schema["minLength"];
+  if (schema.getSchema("minLength")) {
+    return schema.getSchema("minLength")!;
   }
 
   if (schema.type === "string") {
@@ -484,27 +454,27 @@ export function getMin(schema: JSONSchema = {}): string {
   }
 
   if (
-    (schema.type === "number" || schema.type === "integer") && schema["format"]
+    (schema.type === "number" || schema.type === "integer") && schema.getSchema("format")
   ) {
     return `${
-      Math.pow(2, Number(schema["format"].replace(/[^0-9]/g, "")) - 1) - 1
+      Math.pow(2, Number(schema.getSchema("format").replace(/[^0-9]/g, "")) - 1) - 1
     }`;
   }
   return "-∞";
 }
 
-export function displayValidate(schema: JSONSchema = {}): string {
-  if (schema["x-tag-validate"]) {
-    return schema["x-tag-validate"];
+export function displayValidate(schema: AnyType): string {
+  if (schema.getSchema<string>("x-tag-validate")) {
+    return schema.getSchema<string>("x-tag-validate")!;
   }
 
   if (!hasValidate(schema)) {
     return "";
   }
 
-  if (schema["pattern"]) {
-    return `@r/${String(schema["pattern"])}/`;
+  if (schema.getSchema("pattern")) {
+    return `@r/${String(schema.getSchema("pattern"))}/`;
   }
 
-  return `@${schema["exclusiveMinimum"]} ? "(" : "["}${getMin(schema)},${getMax(schema)}${schema["exclusiveMaximum"] ? ")" : "]"}`;
+  return `@${schema.getSchema("exclusiveMinimum")} ? "(" : "["}${getMin(schema)},${getMax(schema)}${schema.getSchema("exclusiveMaximum") ? ")" : "]"}`;
 }

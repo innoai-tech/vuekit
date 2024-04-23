@@ -6,11 +6,10 @@ import {
   rx, subscribeOnMountedUntilUnmount,
   subscribeUntilUnmount,
   t,
-  Type,
-  TypeWrapper, useRoute,
+  useRoute,
   useRouter
 } from "@innoai-tech/vuekit";
-import type { JSONSchema, Operation } from "./models";
+import type { Operation } from "./models";
 import { FormData, f, type Field } from "@innoai-tech/vueformdata";
 import { TextField } from "./components/TextField";
 import { isUndefined } from "./util/typed.ts";
@@ -26,16 +25,6 @@ import { ResponsePreview } from "./ResponsePreview.tsx";
 import { HttpRequest } from "./HTTPViews.tsx";
 import { mdiUploadBox } from "@mdi/js";
 
-export function rawSchema(rawSchema: JSONSchema) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        rawSchema: rawSchema
-      }
-    });
-  };
-}
-
 export const RequestBuilder = component$({
   operation: t.custom<Operation>(),
   $default: t.custom<VNodeChild>()
@@ -48,8 +37,7 @@ export const RequestBuilder = component$({
     let x: AnyType = JSONSchemaDecoder.decode(p.schema, (ref) => {
       return [openapi$.schema(ref) ?? {}, refName(ref)];
     }).use(
-      f.label(`${p.name}, in=${JSON.stringify(p.in)}`),
-      rawSchema(p.schema),
+      f.label(`${p.name}, in=${JSON.stringify(p.in)}`)
     );
 
     if (!p.required) {
@@ -72,8 +60,7 @@ export const RequestBuilder = component$({
       const x = JSONSchemaDecoder.decode(content.schema ?? {}, (ref) => {
         return [openapi$.schema(ref) ?? {}, refName(ref)];
       }).use(
-        f.label(`body, content-type = ${JSON.stringify(contentType)}`),
-        rawSchema(content.schema),
+        f.label(`body, content-type = ${JSON.stringify(contentType)}`)
       );
 
       if (contentType.includes("json")) {
@@ -209,8 +196,6 @@ const ParameterInput = component$(
     return rx(
       combineLatest([field$, field$.input$]),
       render(([s, value]) => {
-        let rawSchema = field$.meta?.["rawSchema"] as JSONSchema ?? {};
-
         let Input: any = field$.meta?.input ?? TextInput;
 
         const readOnly = (field$.meta?.readOnlyWhenInitialExist ?? false) && !!s.initial;
@@ -228,8 +213,8 @@ const ParameterInput = component$(
             }
             $supporting={
               <Line>
-                <Description schema={rawSchema ?? {}} />
-                <SchemaView schema={rawSchema ?? {}} />
+                <Description schema={field$.typedef} />
+                <SchemaView schema={field$.typedef} />
               </Line>
             }
             $trailing={(Input as any).$trailing}

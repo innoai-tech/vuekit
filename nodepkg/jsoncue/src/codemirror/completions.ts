@@ -1,4 +1,4 @@
-import { type AnyType, EmptyContext, t } from "@innoai-tech/typedef";
+import { type AnyType, EmptyContext, SymbolRecordKey, t } from "@innoai-tech/typedef";
 import { JSONCue } from "../JSONCue.ts";
 import { isArray, isNumber, isObject, isUndefined } from "../astutil/typed.ts";
 import type { EditorState } from "@codemirror/state";
@@ -12,7 +12,7 @@ import { selectionAt } from "./util.ts";
 import type { SyntaxNode } from "@lezer/common";
 import { NodeType } from "../astutil/index.ts";
 
-function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
+export function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
   switch (typ.type) {
     case "array":
       if (path.length === 0) {
@@ -41,8 +41,38 @@ function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
       }
 
       break;
-    case "union":
     case "record":
+      if (path.length === 0) {
+        return typ;
+      }
+
+      if (isUndefined(values)) {
+        values = {};
+      }
+
+      if (!isObject(values)) {
+        return;
+      }
+
+      if (Object.keys(values).length == 0 && path.length > 0) {
+        (values as any)[path[0]] = undefined;
+      }
+
+      for (const [key, _, propType] of typ.entries(values, ctx)) {
+        if (key == SymbolRecordKey) {
+          continue;
+        }
+
+        const childValue = (values as any)[key];
+
+        return schemaAt(propType, childValue, path.slice(1), {
+          path: [...ctx.path, String(key)],
+          branch: [...ctx.branch, childValue]
+        });
+      }
+
+      return typ;
+    case "union":
     case "object":
       if (isUndefined(values)) {
         values = {};
@@ -127,8 +157,9 @@ function asCompletions(typ: AnyType, node: SyntaxNode): Completion[] {
       );
 
       break;
-    case "union":
     case "record":
+      break;
+    case "union":
     case "object":
       for (const [key, _, propType] of typ.entries({}, EmptyContext)) {
         const propName = String(key);

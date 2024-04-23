@@ -307,7 +307,7 @@ const isMetaType = (schema: any): any => {
   return !hasProps(schema, ["type", "$ref", "$id", "oneOf", "anyOf", "allOf"]);
 };
 
-const normalizeSchema = (schema: any): any => {
+const normalizeSchema = (schema: any = {}): any => {
   if (isBoolean(schema)) {
     return {};
   }

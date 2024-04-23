@@ -59,35 +59,41 @@ class writer {
 
       if (entities.length == 1) {
         const [prop, value] = entities[0]!;
-        this.#p.write(stringifyPropertyName(prop));
+        const propName = stringifyPropertyName(prop);
+        this.#p.write(propName);
         this.#p.write(": ");
         this.print(value);
         return;
       }
 
-
       const writeProps = () => {
-        const propNames: Record<string, string> = {};
+        const keyValues: Record<string, string> = {};
 
         let propMaxLength = 0;
 
-        for (const [prop, _] of entities) {
-          propNames[prop] = stringifyPropertyName(prop);
+        for (const [prop, v] of entities) {
+          let propName = `${stringifyPropertyName(prop)}: `;
+          let value = v;
 
-          const n = propNames[prop]!.length;
+          while (isObject(value) && Object.keys(value).length == 1) {
+            const [k, v] = Object.entries(value)[0]!;
+            propName += `${stringifyPropertyName(k)}: `;
+            value = v;
+          }
+
+          keyValues[propName] = value;
+
+          const n = propName.length;
           if (n > propMaxLength) {
             propMaxLength = n;
           }
         }
 
-        for (const [prop, v] of entities) {
-          const fixedProp = propNames[prop]!;
-
+        for (const [propName, propValue] of Object.entries(keyValues)) {
           this.#p.tab();
-          this.#p.write(fixedProp);
-          this.#p.write(": ");
-          this.#p.space(propMaxLength - fixedProp.length);
-          this.print(v);
+          this.#p.write(propName);
+          this.#p.space(propMaxLength - propName.length);
+          this.print(propValue);
           this.#p.break();
         }
       };
@@ -109,18 +115,6 @@ class writer {
     }
 
     if (isString(v)) {
-      if (isBase64Encoded(v)) {
-        const s = atob(v);
-
-        if (isMultiline(s)) {
-          this.#writeMultiline(s, `'''`);
-          return;
-        }
-
-        this.#p.write(quote(s, "'"));
-        return;
-      }
-
       if (isMultiline(v)) {
         this.#writeMultiline(v, `"""`);
         return;
@@ -164,8 +158,8 @@ function isValidJSONValue(v: any) {
   return !(isUndefined(v) || isFunction(v));
 }
 
-function isValidIdentity(v: string) {
-  return /[_$A-Za-z0-9]+/.test(v);
+export function isValidIdentity(v: string) {
+  return /^[A-Za-z$_]([$_A-Za-z0-9]+)?$/.test(v);
 }
 
 function isMultiline(v: string) {
@@ -207,28 +201,4 @@ function* lines(s: string): Iterable<string> {
       start = end + 1;
     }
   }
-}
-
-function isBase64Encoded(str: string) {
-  if (str == "" || /^[0-9]+$/.test(str)) {
-    return false;
-  }
-
-  return isBase64(str);
-}
-
-// https://github.com/validatorjs/validator.js/blob/master/src/lib/isBase64.js
-const notBase64 = /[^A-Z0-9+\/=]/i;
-
-function isBase64(str: string) {
-  const len = str.length;
-
-  if (len % 4 !== 0 || notBase64.test(str)) {
-    return false;
-  }
-
-  const firstPaddingChar = str.indexOf("=");
-  return firstPaddingChar === -1 ||
-    firstPaddingChar === len - 1 ||
-    (firstPaddingChar === len - 2 && str[len - 1] === "=");
 }

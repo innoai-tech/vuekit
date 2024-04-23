@@ -1,8 +1,9 @@
-import { component$, t } from "@innoai-tech/vuekit";
+import { component$, JSONSchemaDecoder, refName, t } from "@innoai-tech/vuekit";
 import type { Response } from "./models";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { Line, PropName, SchemaView, Indent, Token } from "./SchemaView.tsx";
 import { isUndefined } from "./util/typed.ts";
+import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
 
 function isErrorCode(c: number | string) {
   try {
@@ -16,6 +17,8 @@ export const ResponseView = component$({
   code: t.custom<number | string>(),
   response: t.custom<Response>()
 }, (props) => {
+  const openapi$ = OpenAPIProvider.use();
+
   return () => {
     return (
       <ResponseSection>
@@ -63,7 +66,15 @@ export const ResponseView = component$({
             {Object.entries(props.response.content ?? {}).map(([contentType, { schema }]) => (
               <ResponseSchema>
                 <Line spacing={0}>
-                  <SchemaView schema={schema} />
+                  <SchemaView
+                    schema={JSONSchemaDecoder.decode(schema, (ref) => {
+                      return [
+                        openapi$.schema(ref) ?? {},
+                        refName(ref)
+                      ];
+                    })}
+                  />
+
                 </Line>
                 <div data-content-type>
                   {contentType}
