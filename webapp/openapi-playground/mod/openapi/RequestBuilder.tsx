@@ -1,6 +1,7 @@
 import {
+  type AnyType,
   component,
-  component$, observableRef,
+  component$, JSONSchemaDecoder, observableRef, refName,
   render,
   rx, subscribeOnMountedUntilUnmount,
   subscribeUntilUnmount,
@@ -44,10 +45,16 @@ export const RequestBuilder = component$({
   const propSchemas: Record<string, any> = {};
 
   for (const p of props.operation.parameters ?? []) {
-    const x = t.custom().use(
+    let x: AnyType = JSONSchemaDecoder.decode(p.schema, (ref) => {
+      return [openapi$.schema(ref) ?? {}, refName(ref)];
+    }).use(
       f.label(`${p.name}, in=${JSON.stringify(p.in)}`),
-      rawSchema(p.schema)
+      rawSchema(p.schema),
     );
+
+    if (!p.required) {
+      x = x.optional();
+    }
 
     if (["object", "array"].includes(p.schema.type ?? "")) {
       propSchemas[p.name] = x.use(f.inputBy(JSONCueEditorInput));
@@ -62,9 +69,11 @@ export const RequestBuilder = component$({
     if (first) {
       const [contentType, content] = first;
 
-      const x = t.custom().use(
+      const x = JSONSchemaDecoder.decode(content.schema ?? {}, (ref) => {
+        return [openapi$.schema(ref) ?? {}, refName(ref)];
+      }).use(
         f.label(`body, content-type = ${JSON.stringify(contentType)}`),
-        rawSchema(content.schema)
+        rawSchema(content.schema),
       );
 
       if (contentType.includes("json")) {

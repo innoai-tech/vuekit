@@ -1,8 +1,6 @@
 import {
   type AnyType,
   component$,
-  JSONSchemaDecoder,
-  refName,
   rx,
   subscribeUntilUnmount,
   t,
@@ -27,7 +25,6 @@ import { JSONCue } from "@innoai-tech/jsoncue";
 import { keymap } from "@codemirror/view";
 import type { Extension } from "@codemirror/state";
 import { linter } from "@codemirror/lint";
-import { OpenAPIProvider } from "../OpenAPIProvider.tsx";
 import { jsoncueCompletions } from "@innoai-tech/jsoncue/codemirror";
 import { isUndefined } from "../util/typed.ts";
 
@@ -37,17 +34,7 @@ export const JSONCueEditorInput = component$(
     readOnly: t.boolean().optional()
   },
   (props, {}) => {
-    const openapi$ = OpenAPIProvider.use();
-
     const editorContext = createEditorContext(!isUndefined(props.field$.input) ? JSONCue.stringify(props.field$.input) : "");
-
-    let rawSchema = JSONSchemaDecoder.decode(props.field$.meta["rawSchema"] ?? {}, (ref) => {
-      return [openapi$.schema(ref) ?? {}, refName(ref)];
-    });
-
-    if (props.field$.optional) {
-      rawSchema = rawSchema.optional();
-    }
 
     return () => (
       <Box
@@ -64,7 +51,7 @@ export const JSONCueEditorInput = component$(
         >
           <Editor
             field$={props.field$}
-            schema={rawSchema}
+            schema={props.field$.typedef}
           />
         </EditorContextProvider>
       </Box>

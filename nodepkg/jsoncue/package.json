@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/jsoncue",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "monobundle": {
     "build": {
       "clean": true

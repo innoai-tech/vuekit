@@ -54,6 +54,7 @@ class writer {
 
       if (entities.length == 0) {
         this.#p.write("{}");
+        return;
       }
 
       if (entities.length == 1) {
