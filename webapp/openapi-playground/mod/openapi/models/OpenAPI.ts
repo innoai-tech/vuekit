@@ -233,11 +233,11 @@ function* operations(openapi: OpenAPIObject, filters: {
 
       if (filters.operationId) {
         if (filters.operationId.startsWith("*")) {
-          if (!o.operationId.includes(filters.operationId.slice(1))) {
+          if (!o.operationId.toLowerCase().includes(filters.operationId.slice(1).toLowerCase())) {
             continue;
           }
         } else {
-          if (o.operationId != filters.operationId) {
+          if (o.operationId.toLowerCase() != filters.operationId.toLowerCase()) {
             continue;
           }
         }

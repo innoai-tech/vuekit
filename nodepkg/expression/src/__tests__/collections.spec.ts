@@ -5,7 +5,7 @@ describe("expression for array", () => {
   it("build every as validate", () => {
     const validate = defaultExpressionFactory.create<any, boolean>(
       ex.every(
-        ex.key_elem(ex.pipe(ex.len(), ex.gte(3)))
+        ex.elem(ex.pipe(ex.len(), ex.gte(3)))
       )
     )({});
 
@@ -17,7 +17,7 @@ describe("expression for array", () => {
   it("build some as validate", () => {
     const validate = defaultExpressionFactory.create<any, boolean>(
       ex.some(
-        ex.key_elem(ex.pipe(ex.len(), ex.gte(3)))
+        ex.elem(ex.pipe(ex.len(), ex.gte(3)))
       )
     )({});
 
@@ -32,7 +32,7 @@ describe("expression for object", () => {
   it("build as validate", () => {
     const validate = defaultExpressionFactory.create<any, boolean>(
       ex.every(
-        ex.key_elem(ex.pipe(ex.len(), ex.gte(3)))
+        ex.elem(ex.pipe(ex.len(), ex.gte(3)))
       )
     )({});
 
