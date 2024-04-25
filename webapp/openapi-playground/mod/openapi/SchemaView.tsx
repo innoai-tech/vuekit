@@ -2,7 +2,7 @@ import {
   type AnyType,
   component,
   component$,
-  createProvider,
+  createProvider, RouterLink,
   t,
   type VNodeChild
 } from "@innoai-tech/vuekit";
@@ -182,18 +182,56 @@ export const Indent = component(
   }
 );
 
+class Node {
+  constructor(
+    public id: string,
+    public parent?: Node
+  ) {
+  }
+
+  child(id: string): Node {
+    return new Node(id, this);
+  }
+
+  safe(id: string) {
+    let n: Node | undefined = this;
+
+    while (n) {
+      if (n.id == id) {
+        return false;
+      }
+
+      n = n.parent;
+    }
+
+    return true;
+  }
+}
+
+const SchemaRenderProvider = createProvider<Node>(() => new Node(""));
+
 const SchemaViewLink = component$(
   {
     schema: t.custom<AnyType>()
   }, (props) => {
+    const node = SchemaRenderProvider.use();
 
     return () => {
-      const schema = props.schema;
+      const id = props.schema.getSchema("$ref");
+
+      let schema = props.schema;
+
+      while (schema.getSchema("$ref")) {
+        schema = schema.unwrap;
+      }
+
+      const needID = schema.type == "intersection" || schema.type == "object" || schema.type == "union" || schema.type == "record" || schema.type == "array" || schema.type == "union";
 
       return (
-        <>
-          <SchemaView schema={schema} />
-        </>
+        <SchemaRenderProvider value={node.child(id)}>
+          {needID && <RouterLink to={`#${id}`}><Token id={id}>{id}&nbsp;</Token></RouterLink>}
+          {node.safe(id) && <SchemaView schema={schema} />}
+        </SchemaRenderProvider>
       );
     };
   });
@@ -208,7 +246,7 @@ export const SchemaView = component$(
 
     if (schema.getSchema("$ref")) {
       return (
-        <SchemaViewLink schema={schema.unwrap} />
+        <SchemaViewLink schema={schema} />
       );
     }
 
