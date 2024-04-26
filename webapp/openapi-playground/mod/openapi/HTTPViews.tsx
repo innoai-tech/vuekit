@@ -160,8 +160,6 @@ export const HttpRequest = component(
   }
 );
 
-const abToString = (buffer: any) => Buffer.from(buffer).toString("utf8");
-
 const toDataURI = (buffer: any, contentType: string) => {
   const bytes = new Uint8Array(buffer);
   let binary = "";
@@ -205,7 +203,7 @@ export const HTTPResponse = component(
           {response.body
             ? isContentTypeJSON(response.headers)
               ? JSON.stringify(response.body, null, 2)
-              : `${abToString(response.body)}`
+              : `${response.body}`
             : null}
         </CodeView>
       );

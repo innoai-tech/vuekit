@@ -26,7 +26,7 @@ import { keymap } from "@codemirror/view";
 import type { Extension } from "@codemirror/state";
 import { linter } from "@codemirror/lint";
 import { jsoncueCompletions } from "@innoai-tech/jsoncue/codemirror";
-import { isUndefined } from "../util/typed.ts";
+import { isUndefined } from "@innoai-tech/lodash";
 
 export const JSONCueEditorInput = component$(
   {

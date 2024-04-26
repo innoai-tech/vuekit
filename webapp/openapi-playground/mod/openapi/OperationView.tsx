@@ -4,6 +4,7 @@ import { filter, switchMap } from "rxjs";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { ResponseView } from "./ResponseView.tsx";
 import { RequestBuilder } from "./RequestBuilder.tsx";
+import { Markdown } from "@innoai-tech/vuemarkdown";
 
 export const OperationView = component$({
   operationId: t.string()
@@ -52,7 +53,11 @@ export const OperationView = component$({
   const $desc = rx(
     opExists$,
     render((op) => {
-      return <span>{op.description}</span>;
+      return (
+        <Box sx={{ px: 24 }}>
+          <Markdown text={op.description ?? ""} />
+        </Box>
+      );
     })
   );
 
@@ -85,15 +90,14 @@ export const OperationView = component$({
       return (
         <OperationContainer key={op.operationId}>
           {$heading}
+          {$desc}
           <Box sx={{
             flex: 1,
             overflow: "hidden",
-            py: 24,
             display: "flex",
             flexDirection: "column",
             alignItems: "stretch"
           }}>
-            {$desc}
             <Box sx={{
               flex: 1,
               overflow: "auto"

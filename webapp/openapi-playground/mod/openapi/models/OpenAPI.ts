@@ -7,7 +7,7 @@ import {
   paramsSerializer,
   transformRequestBody, type FetcherResponse, type RequestConfig
 } from "@innoai-tech/fetcher";
-import { get, pick } from "../util/object.ts";
+import { get, pick } from "@innoai-tech/lodash";
 
 export interface JSONSchema {
   type?: string;

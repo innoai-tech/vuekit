@@ -2,8 +2,8 @@ import { component$, JSONSchemaDecoder, refName, t } from "@innoai-tech/vuekit";
 import type { Response } from "./models";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { Line, PropName, SchemaView, Indent, Token } from "./SchemaView.tsx";
-import { isUndefined } from "./util/typed.ts";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
+import { isUndefined } from "@innoai-tech/lodash";
 
 function isErrorCode(c: number | string) {
   try {

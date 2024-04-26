@@ -12,7 +12,6 @@ import {
 import type { Operation } from "./models";
 import { FormData, f, type Field } from "@innoai-tech/vueformdata";
 import { TextField } from "./components/TextField";
-import { isUndefined } from "./util/typed.ts";
 import { type VNodeChild } from "@innoai-tech/vuekit";
 import { combineLatest, tap } from "rxjs";
 import { FilledButton, Icon } from "@innoai-tech/vuematerial";
@@ -24,6 +23,7 @@ import { onUnmounted } from "vue";
 import { ResponsePreview } from "./ResponsePreview.tsx";
 import { HttpRequest } from "./HTTPViews.tsx";
 import { mdiUploadBox } from "@mdi/js";
+import { isUndefined } from "@innoai-tech/lodash";
 
 export const RequestBuilder = component$({
   operation: t.custom<Operation>(),
