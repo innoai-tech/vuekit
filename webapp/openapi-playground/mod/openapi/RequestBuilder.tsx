@@ -234,7 +234,7 @@ function labelOrName(field$: Field): string {
 export const TextInput = component(
   {
     readOnly: t.boolean().optional(),
-    field$: t.custom<Field<string>>()
+    field$: t.custom<Field<any>>()
   },
   (props) => {
     return () => {
@@ -249,7 +249,32 @@ export const TextInput = component(
           name={field$.name}
           value={field$.input}
           onChange={(e) => {
-            field$.update((e.target as HTMLInputElement).value);
+            const v = (e.target as HTMLInputElement).value;
+
+            switch (field$.typedef.type) {
+              case "number":
+                try {
+                  field$.update(field$.typedef.create(parseFloat(v)));
+                } catch (e) {
+                }
+                break;
+              case "integer":
+                try {
+                  field$.update(field$.typedef.create(parseInt(v)));
+                } catch (e) {
+
+                }
+                break;
+              case "boolean":
+                try {
+                  field$.update(field$.typedef.create(v !== "false" || !!v));
+                } catch (e) {
+
+                }
+                break;
+              default:
+                field$.update(field$.typedef.create(v));
+            }
           }}
           onFocus={() => field$.focus()}
           onBlur={() => field$.blur()}
