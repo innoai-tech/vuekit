@@ -109,35 +109,29 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
   }
 
   asRequestConfigCreator(operationId: string): ((inputs: Record<string, any>) => RequestConfig<any>) | null {
-    let r$ = this.#requests$.value.get(operationId);
+    const op = this.#operation(operationId);
 
-    if (!r$) {
-      const op = this.#operation(operationId);
-      if (!op) {
-        return null;
-      }
-
-      const contentType = Object.keys(op.requestBody?.content ?? {})[0];
-
-
-      return (inputs: Record<string, any>): RequestConfig<any> => {
-        return {
-          method: op.method,
-          url: this.#baseURL + compilePath(op.path, inputs),
-          params: pick(inputs, op.parameters?.filter((p) => p.in == "query").map(p => p.name) as any[]),
-          headers: {
-            ...pick(inputs, op.parameters?.filter((p) => p.in == "header").map(p => p.name) as any[]),
-            ...(contentType ? ({
-              "Content-Type": contentType
-            }) : {})
-          },
-          body: inputs["body"],
-          inputs
-        };
-      };
+    if (!op) {
+      return null;
     }
 
-    return null;
+    const contentType = Object.keys(op.requestBody?.content ?? {})[0];
+
+    return (inputs: Record<string, any>): RequestConfig<any> => {
+      return {
+        method: op.method,
+        url: this.#baseURL + compilePath(op.path, inputs),
+        params: pick(inputs, op.parameters?.filter((p) => p.in == "query").map(p => p.name) as any[]),
+        headers: {
+          ...pick(inputs, op.parameters?.filter((p) => p.in == "header").map(p => p.name) as any[]),
+          ...(contentType ? ({
+            "Content-Type": contentType
+          }) : {})
+        },
+        body: inputs["body"],
+        inputs
+      };
+    };
   }
 
   request(operationId: string, inputs: Record<string, any>) {
