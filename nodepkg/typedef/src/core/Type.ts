@@ -425,7 +425,10 @@ export class OptionalType<T extends AnyType> extends TypeWrapper<
 }
 
 export type Infer<T extends AnyType> = T["Type"];
+
 export type InferSchema<T extends AnyType> = T["Schema"];
+
+export type Describe<T> = Type<T>
 
 export type MergeSchema<A, B> = Omit<A, keyof B> & B;
 
