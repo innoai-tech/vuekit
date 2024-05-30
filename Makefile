@@ -51,7 +51,7 @@ dep:
 	$(BUN) install
 
 dep.update:
-	$(BUNX) taze -w
+	$(BUNX) taze -w -r
 
 clean:
 	find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;

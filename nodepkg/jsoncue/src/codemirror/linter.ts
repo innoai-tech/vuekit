@@ -6,6 +6,7 @@ import type { AnyType } from "@innoai-tech/typedef";
 import { NodeType, toValue } from "../astutil";
 import type { SyntaxNode } from "@lezer/common";
 import { JSONPointer } from "../JSONPointer.ts";
+import { last, isUndefined } from "@innoai-tech/lodash";
 
 export function jsoncueParserLinter(v: EditorView): Diagnostic[] {
   return convertToDiagnostics([...visitAll(syntaxTree(v.state).topNode)]
@@ -73,20 +74,43 @@ export function jsoncueParserOrValidateLinter(tpe: AnyType) {
       return [];
     }
 
+    const failures = err.failures();
+
     const ret: Diagnostic[] = [];
 
-    for (const f of err.failures()) {
+    for (const f of failures) {
       if (f.type === "never") {
         continue;
       }
 
-      for (const n of nodes[JSONPointer.compile(f.path)] ?? []) {
-        ret.push({
-          severity: "error",
-          from: n.from,
-          to: n.to,
-          message: f.message
-        });
+      const path = JSONPointer.compile(f.path);
+
+      for (const x in nodes) {
+        const list = nodes[x]!;
+
+        if (path == x) {
+          for (const n of list) {
+            ret.push({
+              from: n.from,
+              to: n.to,
+              severity: "error",
+              message: f.message
+            });
+          }
+        }
+
+        if (x != "/" && path.startsWith(`${x}/`)) {
+          if (isUndefined(f.value) && !path.slice(`${x}/`.length).includes("/")) {
+            for (const n of list) {
+              ret.push({
+                from: n.from,
+                to: n.to,
+                severity: "error",
+                message: `missing required field "${last(f.path)}"`
+              });
+            }
+          }
+        }
       }
     }
 
