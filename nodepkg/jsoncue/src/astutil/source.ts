@@ -1,6 +1,6 @@
 import { parser } from "../parser";
 import type { Tree, SyntaxNode } from "@lezer/common";
-import { EditorState } from "@codemirror/state";
+import { EditorState } from "@innoai-tech/codemirror";
 
 export interface SourceProvider {
   sliceDoc(from: number, to?: number): string;

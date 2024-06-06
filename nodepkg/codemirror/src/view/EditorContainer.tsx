@@ -1,8 +1,8 @@
 import { rx, subscribeOnMountedUntilUnmount } from "@innoai-tech/vuekit";
 import { styled, variant, alpha } from "@innoai-tech/vueuikit";
 import { EditorContextProvider, useExtension } from "./EditorContextProvider";
+import { syntaxHighlighting } from "@innoai-tech/codemirror";
 import { classHighlighter } from "@lezer/highlight";
-import { syntaxHighlighting } from "@codemirror/language";
 
 export const EditorContainer = styled("div", () => {
   const ctx = EditorContextProvider.use();
@@ -24,63 +24,63 @@ export const EditorContainer = styled("div", () => {
     height: "100%",
 
     "& .cm-gutterElement": {
-      color: "sys.secondary",
+      color: "sys.secondary"
     },
     "& [aria-readonly=true]": {
-      opacity: 0.7,
+      opacity: 0.7
     },
     "& .cm-activeLineGutter": {
-      backgroundColor: variant("sys.primary", alpha(0.08)),
+      backgroundColor: variant("sys.primary", alpha(0.08))
     },
     "& .cm-activeLine": {
-      backgroundColor: variant("sys.primary", alpha(0.08)),
+      backgroundColor: variant("sys.primary", alpha(0.08))
     },
 
     "& .diffLineGutter": {
-      backgroundColor: variant("sys.error", alpha(0.08)),
+      backgroundColor: variant("sys.error", alpha(0.08))
     },
     "& .diffLine": {
-      backgroundColor: variant("sys.error", alpha(0.08)),
+      backgroundColor: variant("sys.error", alpha(0.08))
     },
 
     "& .cm-tooltip-autocomplete ul li[aria-selected]": {
-      containerStyle: "sys.primary",
+      containerStyle: "sys.primary"
     },
     "& .cm-gutters": {
       border: "none",
-      containerStyle: "sys.surface-container-lowest",
+      containerStyle: "sys.surface-container-lowest"
     },
     "& .cm-tooltip": {
       border: "none",
       boxShadow: "2",
       borderRadius: "xs",
       containerStyle: "sys.surface-container-lowest",
-      fontFamily: "code",
+      fontFamily: "code"
     },
     "& .cm-tooltip-lint": {
-      overflow: "hidden",
+      overflow: "hidden"
     },
     "& .cm-tooltip-hover": {
-      overflow: "hidden",
-    },
+      overflow: "hidden"
+    }
   },
   "& .tok-propertyName": {
-    color: "sys.primary",
+    color: "sys.primary"
   },
   "& .tok-number": {
-    color: "sys.error",
+    color: "sys.error"
   },
   "& .tok-keyword": {
-    color: "sys.error",
+    color: "sys.error"
   },
   "& .tok-string": {
-    color: "sys.tertiary",
+    color: "sys.tertiary"
   },
   "& .cm-lint-marker": {
     width: "0.7em",
-    height: "0.7em",
+    height: "0.7em"
   },
   "& .tok-punctuation": {
-    color: variant("sys.primary", alpha(0.38)),
-  },
+    color: variant("sys.primary", alpha(0.38))
+  }
 });

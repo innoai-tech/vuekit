@@ -1,21 +1,22 @@
 {
   "name": "@innoai-tech/codemirror",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "monobundle": {
     "build": {
       "clean": true
     },
     "exports": {
-      ".": "./src/index.ts"
+      ".": "./src/index.ts",
+      "./view": "./src/view/index.ts"
     }
   },
   "dependencies": {
-    "@codemirror/autocomplete": "^6.16.1",
-    "@codemirror/commands": "^6.5.0",
-    "@codemirror/language": "^6.10.1",
+    "@codemirror/autocomplete": "^6.16.2",
+    "@codemirror/commands": "^6.6.0",
+    "@codemirror/language": "^6.10.2",
     "@codemirror/lint": "^6.8.0",
     "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.26.3",
+    "@codemirror/view": "^6.27.0",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
     "@lezer/highlight": "^1.2.0"
@@ -27,6 +28,13 @@
       "import": {
         "types": "./src/index.ts",
         "default": "./dist/index.mjs"
+      }
+    },
+    "./view": {
+      "bun": "./src/view/index.ts",
+      "import": {
+        "types": "./src/view/index.ts",
+        "default": "./dist/view.mjs"
       }
     }
   },

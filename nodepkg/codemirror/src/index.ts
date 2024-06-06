@@ -1,6 +1,3 @@
-export * from "./EditorContainer.tsx";
-export * from "./EditorContextProvider.tsx";
-
 export * from "@codemirror/view";
 export * from "@codemirror/state";
 export * from "@codemirror/lint";

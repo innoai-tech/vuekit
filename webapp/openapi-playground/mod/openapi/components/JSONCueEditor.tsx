@@ -8,17 +8,19 @@ import {
 } from "@innoai-tech/vuekit";
 import type { Field } from "@innoai-tech/vueformdata";
 import {
-  useExtension,
-  EditorView,
   startCompletion,
-  EditorContainer,
-  createEditorContext,
-  EditorContextProvider,
+  EditorView,
   indentWithTab,
   forceLinting,
   diagnosticCount,
   autocompletion
 } from "@innoai-tech/codemirror";
+import {
+  useExtension,
+  EditorContainer,
+  createEditorContext,
+  EditorContextProvider
+} from "@innoai-tech/codemirror/view";
 import { jsoncue, jsoncueParserOrValidateLinter } from "@innoai-tech/jsoncue/codemirror";
 import { Box } from "@innoai-tech/vueuikit";
 import { JSONCue } from "@innoai-tech/jsoncue";

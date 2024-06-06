@@ -5,7 +5,7 @@ import {
   indentNodeProp,
   LanguageSupport,
   LRLanguage,
-} from "@codemirror/language";
+} from "@innoai-tech/codemirror";
 import { parser } from "../parser";
 
 const jsoncueLanguage = LRLanguage.define({

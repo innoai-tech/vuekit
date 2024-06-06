@@ -1,23 +1,24 @@
 import { combineLatest, map, merge, of, switchMap } from "rxjs";
-import { EditorState, type Extension } from "@codemirror/state";
-import { lintGutter, lintKeymap } from "@codemirror/lint";
+
+import { EditorState, type Extension } from "@innoai-tech/codemirror";
+import { lintGutter, lintKeymap } from "@innoai-tech/codemirror";
 import {
   EditorView,
   highlightActiveLine,
   highlightActiveLineGutter,
   highlightSpecialChars,
   keymap,
-  lineNumbers,
-} from "@codemirror/view";
-import { bracketMatching, foldGutter, foldKeymap } from "@codemirror/language";
-import { closeBrackets, closeBracketsKeymap } from "@codemirror/autocomplete";
-import { defaultKeymap, history, historyKeymap } from "@codemirror/commands";
+  lineNumbers
+} from "@innoai-tech/codemirror";
+import { bracketMatching, foldGutter, foldKeymap } from "@innoai-tech/codemirror";
+import { closeBrackets, closeBracketsKeymap } from "@innoai-tech/codemirror";
+import { defaultKeymap, history, historyKeymap } from "@innoai-tech/codemirror";
 import {
   createProvider,
   tapEffect,
   observableRef,
   rx,
-  subscribeUntilUnmount,
+  subscribeUntilUnmount
 } from "@innoai-tech/vuekit";
 
 export const createEditorContext = (initialValue?: string) => {
@@ -30,7 +31,7 @@ export const createEditorContext = (initialValue?: string) => {
     // fold
     foldGutter({
       openText: String.fromCharCode(0x25be),
-      closedText: String.fromCharCode(0x25b8),
+      closedText: String.fromCharCode(0x25b8)
     }),
 
     keymap.of(foldKeymap),
@@ -47,7 +48,7 @@ export const createEditorContext = (initialValue?: string) => {
 
     history(),
     keymap.of(historyKeymap),
-    keymap.of(defaultKeymap),
+    keymap.of(defaultKeymap)
   ];
 
   const extension$ = observableRef<Array<() => Extension>>([]);
@@ -59,9 +60,9 @@ export const createEditorContext = (initialValue?: string) => {
     map(([doc, extensions]) =>
       EditorState.create({
         doc,
-        extensions: [...extensions, base].map((e) => e()),
-      }),
-    ),
+        extensions: [...extensions, base].map((e) => e())
+      })
+    )
   );
 
   return {
@@ -88,24 +89,24 @@ export const createEditorContext = (initialValue?: string) => {
             return of(
               new EditorView({
                 parent: container,
-                state: state,
-              }),
+                state: state
+              })
             );
           }),
           tapEffect((view) => {
             view$.next(view);
             return () => view?.destroy();
-          }),
-        ),
-      ),
+          })
+        )
+      )
   };
 };
 
 export const EditorContextProvider = createProvider(
   () => createEditorContext(),
   {
-    name: "EditorContext",
-  },
+    name: "EditorContext"
+  }
 );
 
 export const useExtension = (create: () => Extension | Extension[]) => {
@@ -114,6 +115,6 @@ export const useExtension = (create: () => Extension | Extension[]) => {
   rx(
     ctx.dom$,
     tapEffect(() => ctx.use(() => create())),
-    subscribeUntilUnmount(),
+    subscribeUntilUnmount()
   );
 };

@@ -1,13 +1,13 @@
 import { type AnyType, EmptyContext, SymbolRecordKey, t } from "@innoai-tech/typedef";
 import { JSONCue } from "../JSONCue.ts";
 import { isArray, isNumber, isObject, isUndefined } from "../astutil/typed.ts";
-import type { EditorState } from "@codemirror/state";
 import {
+  type EditorState,
   type Completion,
   type CompletionContext,
   type CompletionResult,
   snippetCompletion
-} from "@codemirror/autocomplete";
+} from "@innoai-tech/codemirror";
 import { selectionAt } from "./util.ts";
 import type { SyntaxNode } from "@lezer/common";
 import { NodeType } from "../astutil/index.ts";

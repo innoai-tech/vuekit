@@ -1,5 +1,4 @@
-import type { EditorView } from "@codemirror/view";
-import type { Diagnostic } from "@codemirror/lint";
+import type { EditorView, Diagnostic } from "@innoai-tech/codemirror";
 import { visitAll } from "../astutil/visitor.ts";
 import { syntaxTree } from "@innoai-tech/codemirror";
 import type { AnyType } from "@innoai-tech/typedef";

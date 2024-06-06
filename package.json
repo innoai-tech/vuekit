@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
+  "packageManager": "bun@1.1.12",
   "workspaces": [
     "nodepkg/*",
     "nodedevpkg/*"
@@ -39,15 +40,15 @@
     "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.37.1",
     "normalize.css": "^8.0.1",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.1",
     "rxjs": "^7.8.1",
-    "turbo": "^1.13.3",
+    "turbo": "^2.0.1",
     "typescript": "^5.4.5",
     "vite": "^5.2.12",
     "vue": "^3.4.27"
   },
   "resolutions": {
     "vite": "^5.2.12",
-    "vue": "3.4.23"
+    "vue": "3.4.27"
   }
 }

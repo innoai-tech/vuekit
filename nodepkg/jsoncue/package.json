@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/jsoncue",
-  "version": "0.1.10",
+  "version": "0.2.0",
   "monobundle": {
     "build": {
       "clean": true
@@ -11,13 +11,10 @@
     }
   },
   "dependencies": {
-    "@codemirror/autocomplete": "^6.16.1",
-    "@codemirror/language": "^6.10.1",
-    "@codemirror/state": "^6.4.1",
     "@innoai-tech/codemirror": "workspace:^",
     "@innoai-tech/typedef": "workspace:^",
     "@lezer/highlight": "^1.2.0",
-    "@lezer/lr": "^1.4.0"
+    "@lezer/lr": "^1.4.1"
   },
   "peerDependencies": {},
   "devDependencies": {

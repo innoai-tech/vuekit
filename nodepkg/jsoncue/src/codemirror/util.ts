@@ -1,4 +1,4 @@
-import type { EditorState } from "@codemirror/state";
+import type { EditorState } from "@innoai-tech/codemirror";
 import { syntaxTree } from "@innoai-tech/codemirror";
 import type { SyntaxNode } from "@lezer/common";
 import { NodeType } from "../parser";
