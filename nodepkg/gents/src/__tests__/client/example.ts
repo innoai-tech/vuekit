@@ -7,11 +7,11 @@ export const applyKubePkg =
 /*#__PURE__*/createRequest<({
 } & ({
   "Content-Type": "application/json",
-  "body": KubepkgV1Alpha1KubePkg,
+  "body": /* @type:intersection */ KubepkgV1Alpha1KubePkg,
 } | {
   "Content-Type": "application/octet-stream",
   "body": File | Blob,
-})), KubepkgV1Alpha1KubePkg>(
+})), /* @type:intersection */ KubepkgV1Alpha1KubePkg>(
   "example.ApplyKubePkg",
   ({
 "body": body,
@@ -52,7 +52,7 @@ export const getKubePkg =
 /*#__PURE__*/createRequest<{
   "name": string,
   "namespace"?: string,
-}, KubepkgV1Alpha1KubePkg>(
+}, /* @type:intersection */ KubepkgV1Alpha1KubePkg>(
   "example.GetKubePkg",
   ({
 "name": path_name,
@@ -69,7 +69,7 @@ export const getKubePkg =
 
 
 export const listKubePkg =
-/*#__PURE__*/createRequest<void, Array<KubepkgV1Alpha1KubePkg>>(
+/*#__PURE__*/createRequest<void, Array</* @type:intersection */ KubepkgV1Alpha1KubePkg>>(
   "example.ListKubePkg",
   () => ({
 "method": "GET",
@@ -116,10 +116,10 @@ export const uploadBlob =
 
 
       
-export type KubepkgV1Alpha1KubePkg = (MetaV1TypeMeta & {
-  "metadata"?: MetaV1ObjectMeta,
-  "spec"?: KubepkgV1Alpha1KubePkgSpec,
-  "status"?: KubepkgV1Alpha1KubePkgStatus,
+export type KubepkgV1Alpha1KubePkg = (/* @type:object */ MetaV1TypeMeta & {
+  "metadata"?: /* @type:object */ MetaV1ObjectMeta,
+  "spec"?: /* @type:object */ KubepkgV1Alpha1KubePkgSpec,
+  "status"?: /* @type:object */ KubepkgV1Alpha1KubePkgStatus,
 })
       
 export type MetaV1TypeMeta = {
@@ -130,20 +130,20 @@ export type MetaV1TypeMeta = {
 export type MetaV1ObjectMeta = {
   "annotations"?: { [k: string]: string },
   "clusterName"?: string,
-  "creationTimestamp"?: MetaV1Time,
+  "creationTimestamp"?: /* @type:string */ MetaV1Time,
   "deletionGracePeriodSeconds"?: number,
-  "deletionTimestamp"?: MetaV1Time,
+  "deletionTimestamp"?: /* @type:string */ MetaV1Time,
   "finalizers"?: Array<string>,
   "generateName"?: string,
   "generation"?: number,
   "labels"?: { [k: string]: string },
-  "managedFields"?: Array<MetaV1ManagedFieldsEntry>,
+  "managedFields"?: Array</* @type:object */ MetaV1ManagedFieldsEntry>,
   "name"?: string,
   "namespace"?: string,
-  "ownerReferences"?: Array<MetaV1OwnerReference>,
+  "ownerReferences"?: Array</* @type:object */ MetaV1OwnerReference>,
   "resourceVersion"?: string,
   "selfLink"?: string,
-  "uid"?: TypesUid,
+  "uid"?: /* @type:string */ TypesUid,
 }
       
 export type MetaV1Time = string
@@ -151,11 +151,11 @@ export type MetaV1Time = string
 export type MetaV1ManagedFieldsEntry = {
   "apiVersion"?: string,
   "fieldsType"?: string,
-  "fieldsV1"?: MetaV1FieldsV1,
+  "fieldsV1"?: /* @type:record */ MetaV1FieldsV1,
   "manager"?: string,
-  "operation"?: MetaV1ManagedFieldsOperationType,
+  "operation"?: /* @type:string */ MetaV1ManagedFieldsOperationType,
   "subresource"?: string,
-  "time"?: MetaV1Time,
+  "time"?: /* @type:string */ MetaV1Time,
 }
       
 export type MetaV1FieldsV1 = { [k: string]: any }
@@ -168,31 +168,31 @@ export type MetaV1OwnerReference = {
   "controller"?: boolean,
   "kind": string,
   "name": string,
-  "uid": TypesUid,
+  "uid": /* @type:string */ TypesUid,
 }
       
 export type TypesUid = string
       
 export type KubepkgV1Alpha1KubePkgSpec = {
   "images"?: { [k: string]: string },
-  "manifests"?: KubepkgV1Alpha1Manifests,
+  "manifests"?: /* @type:record */ KubepkgV1Alpha1Manifests,
   "version": string,
 }
       
 export type KubepkgV1Alpha1Manifests = { [k: string]: any }
       
 export type KubepkgV1Alpha1KubePkgStatus = {
-  "digests"?: Array<KubepkgV1Alpha1DigestMeta>,
-  "statuses"?: KubepkgV1Alpha1Statuses,
+  "digests"?: Array</* @type:object */ KubepkgV1Alpha1DigestMeta>,
+  "statuses"?: /* @type:record */ KubepkgV1Alpha1Statuses,
 }
       
 export type KubepkgV1Alpha1DigestMeta = {
   "digest": string,
   "name": string,
   "platform"?: string,
-  "size": KubepkgV1Alpha1FileSize,
+  "size": /* @type:integer */ KubepkgV1Alpha1FileSize,
   "tag"?: string,
-  "type": KubepkgV1Alpha1DigestMetaType,
+  "type": /* @type:enums */ KubepkgV1Alpha1DigestMetaType,
 }
       
 export type KubepkgV1Alpha1FileSize = number
@@ -213,10 +213,10 @@ export type KubepkgV1Alpha1Statuses = { [k: string]: any }
 
 
       
-export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/t.intersection(t.ref("MetaV1TypeMeta", () => MetaV1TypeMetaSchema), t.object({
-  "metadata": t.ref("MetaV1ObjectMeta", () => MetaV1ObjectMetaSchema).optional(),
-  "spec": t.ref("KubepkgV1Alpha1KubePkgSpec", () => KubepkgV1Alpha1KubePkgSpecSchema).optional(),
-  "status": t.ref("KubepkgV1Alpha1KubePkgStatus", () => KubepkgV1Alpha1KubePkgStatusSchema).optional(),
+export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/t.intersection(t.ref<typeof MetaV1TypeMetaSchema>("MetaV1TypeMeta", () => MetaV1TypeMetaSchema), t.object({
+  "metadata": t.ref<typeof MetaV1ObjectMetaSchema>("MetaV1ObjectMeta", () => MetaV1ObjectMetaSchema).optional(),
+  "spec": t.ref<typeof KubepkgV1Alpha1KubePkgSpecSchema>("KubepkgV1Alpha1KubePkgSpec", () => KubepkgV1Alpha1KubePkgSpecSchema).optional(),
+  "status": t.ref<typeof KubepkgV1Alpha1KubePkgStatusSchema>("KubepkgV1Alpha1KubePkgStatus", () => KubepkgV1Alpha1KubePkgStatusSchema).optional(),
 })).use(t.annotate({ description: "KubePkg" }))
       
 export const MetaV1TypeMetaSchema = /*#__PURE__*/t.object({
@@ -227,20 +227,20 @@ export const MetaV1TypeMetaSchema = /*#__PURE__*/t.object({
 export const MetaV1ObjectMetaSchema = /*#__PURE__*/t.object({
   "annotations": t.record(t.string(), t.string()).optional(),
   "clusterName": t.string().optional(),
-  "creationTimestamp": t.ref("MetaV1Time", () => MetaV1TimeSchema).optional(),
+  "creationTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional(),
   "deletionGracePeriodSeconds": t.integer().optional(),
-  "deletionTimestamp": t.ref("MetaV1Time", () => MetaV1TimeSchema).optional(),
+  "deletionTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional(),
   "finalizers": t.array(t.string()).optional(),
   "generateName": t.string().optional(),
   "generation": t.integer().optional(),
   "labels": t.record(t.string(), t.string()).optional(),
-  "managedFields": t.array(t.ref("MetaV1ManagedFieldsEntry", () => MetaV1ManagedFieldsEntrySchema)).optional(),
+  "managedFields": t.array(t.ref<typeof MetaV1ManagedFieldsEntrySchema>("MetaV1ManagedFieldsEntry", () => MetaV1ManagedFieldsEntrySchema)).optional(),
   "name": t.string().optional(),
   "namespace": t.string().optional(),
-  "ownerReferences": t.array(t.ref("MetaV1OwnerReference", () => MetaV1OwnerReferenceSchema)).optional(),
+  "ownerReferences": t.array(t.ref<typeof MetaV1OwnerReferenceSchema>("MetaV1OwnerReference", () => MetaV1OwnerReferenceSchema)).optional(),
   "resourceVersion": t.string().optional(),
   "selfLink": t.string().optional(),
-  "uid": t.ref("TypesUid", () => TypesUidSchema).optional(),
+  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema).optional(),
 })
       
 export const MetaV1TimeSchema = /*#__PURE__*/t.string()
@@ -248,11 +248,11 @@ export const MetaV1TimeSchema = /*#__PURE__*/t.string()
 export const MetaV1ManagedFieldsEntrySchema = /*#__PURE__*/t.object({
   "apiVersion": t.string().optional(),
   "fieldsType": t.string().optional(),
-  "fieldsV1": t.ref("MetaV1FieldsV1", () => MetaV1FieldsV1Schema).optional(),
+  "fieldsV1": t.ref<typeof MetaV1FieldsV1Schema>("MetaV1FieldsV1", () => MetaV1FieldsV1Schema).optional(),
   "manager": t.string().optional(),
-  "operation": t.ref("MetaV1ManagedFieldsOperationType", () => MetaV1ManagedFieldsOperationTypeSchema).optional(),
+  "operation": t.ref<typeof MetaV1ManagedFieldsOperationTypeSchema>("MetaV1ManagedFieldsOperationType", () => MetaV1ManagedFieldsOperationTypeSchema).optional(),
   "subresource": t.string().optional(),
-  "time": t.ref("MetaV1Time", () => MetaV1TimeSchema).optional(),
+  "time": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional(),
 })
       
 export const MetaV1FieldsV1Schema = /*#__PURE__*/t.record(t.string(), t.any())
@@ -265,31 +265,31 @@ export const MetaV1OwnerReferenceSchema = /*#__PURE__*/t.object({
   "controller": t.boolean().optional(),
   "kind": t.string(),
   "name": t.string(),
-  "uid": t.ref("TypesUid", () => TypesUidSchema),
+  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema),
 })
       
 export const TypesUidSchema = /*#__PURE__*/t.string()
       
 export const KubepkgV1Alpha1KubePkgSpecSchema = /*#__PURE__*/t.object({
   "images": t.record(t.string(), t.string()).optional(),
-  "manifests": t.ref("KubepkgV1Alpha1Manifests", () => KubepkgV1Alpha1ManifestsSchema).optional(),
+  "manifests": t.ref<typeof KubepkgV1Alpha1ManifestsSchema>("KubepkgV1Alpha1Manifests", () => KubepkgV1Alpha1ManifestsSchema).optional(),
   "version": t.string(),
 })
       
 export const KubepkgV1Alpha1ManifestsSchema = /*#__PURE__*/t.record(t.string(), t.any())
       
 export const KubepkgV1Alpha1KubePkgStatusSchema = /*#__PURE__*/t.object({
-  "digests": t.array(t.ref("KubepkgV1Alpha1DigestMeta", () => KubepkgV1Alpha1DigestMetaSchema)).optional(),
-  "statuses": t.ref("KubepkgV1Alpha1Statuses", () => KubepkgV1Alpha1StatusesSchema).optional(),
+  "digests": t.array(t.ref<typeof KubepkgV1Alpha1DigestMetaSchema>("KubepkgV1Alpha1DigestMeta", () => KubepkgV1Alpha1DigestMetaSchema)).optional(),
+  "statuses": t.ref<typeof KubepkgV1Alpha1StatusesSchema>("KubepkgV1Alpha1Statuses", () => KubepkgV1Alpha1StatusesSchema).optional(),
 })
       
 export const KubepkgV1Alpha1DigestMetaSchema = /*#__PURE__*/t.object({
   "digest": t.string(),
   "name": t.string(),
   "platform": t.string().optional(),
-  "size": t.ref("KubepkgV1Alpha1FileSize", () => KubepkgV1Alpha1FileSizeSchema),
+  "size": t.ref<typeof KubepkgV1Alpha1FileSizeSchema>("KubepkgV1Alpha1FileSize", () => KubepkgV1Alpha1FileSizeSchema),
   "tag": t.string().optional(),
-  "type": t.ref("KubepkgV1Alpha1DigestMetaType", () => KubepkgV1Alpha1DigestMetaTypeSchema),
+  "type": t.ref<typeof KubepkgV1Alpha1DigestMetaTypeSchema>("KubepkgV1Alpha1DigestMetaType", () => KubepkgV1Alpha1DigestMetaTypeSchema),
 })
       
 export const KubepkgV1Alpha1FileSizeSchema = /*#__PURE__*/t.integer()
