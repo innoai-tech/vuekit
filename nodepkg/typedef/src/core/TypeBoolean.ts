@@ -12,4 +12,12 @@ export class TypeBoolean extends Type<boolean, { type: "boolean" }> {
   override validator(value: unknown, _: Context) {
     return typeof value === "boolean";
   }
+
+  override coercer(value: unknown, _: Context) {
+    try {
+      return value ? Boolean(String(value)) : undefined;
+    } catch (err) {
+      return undefined;
+    }
+  }
 }

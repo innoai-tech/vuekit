@@ -12,4 +12,12 @@ export class TypeNumber extends Type<number, { type: "number" }> {
   override validator(value: unknown, _: Context) {
     return typeof value === "number" && !Number.isNaN(value);
   }
+
+  override coercer(value: unknown, _: Context) {
+    try {
+      return value ? parseFloat(String(value)) : undefined;
+    } catch (err) {
+      return undefined;
+    }
+  }
 }

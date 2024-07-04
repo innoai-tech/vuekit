@@ -16,4 +16,12 @@ export class TypeInteger extends Type<number, { type: "integer" }> {
       Number.isInteger(value)
     );
   }
+
+  override coercer(value: unknown, _: Context) {
+    try {
+      return value ? parseInt(String(value)) : undefined;
+    } catch (err) {
+      return undefined;
+    }
+  }
 }
