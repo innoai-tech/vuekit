@@ -1,2 +1,3 @@
 export * from "./pageMetaResolver";
-export * from "./componentPatcher";
+export * from "./componentHMR";
+export * from "./componentCompleter";

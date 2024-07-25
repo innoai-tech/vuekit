@@ -3,7 +3,7 @@ import {
   chunkCleanup, d2Graph,
   viteChunkSplit,
   viteVue
-} from "@innoai-tech/vue-vite-presets";
+} from "./nodedevpkg/vue-vite-presets/src";
 import { injectWebAppConfig } from "@innoai-tech/config/vite-plugin-inject-config";
 import { defineConfig } from "vite";
 import * as process from "node:process";

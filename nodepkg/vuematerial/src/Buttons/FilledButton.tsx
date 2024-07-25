@@ -9,22 +9,22 @@ export const FilledButton = styled(ButtonBase)({
   _hover: {
     shadow: "2",
     _$before: {
-      bgColor: variant("white", alpha(0.08)),
-    },
+      bgColor: variant("white", alpha(0.08))
+    }
   },
 
   _focus: {
     shadow: "2",
     _$before: {
-      bgColor: variant("white", alpha(0.12)),
-    },
+      bgColor: variant("white", alpha(0.12))
+    }
   },
 
   _active: {
     shadow: "2",
     _$before: {
-      bgColor: variant("white", alpha(0.12)),
-    },
+      bgColor: variant("white", alpha(0.12))
+    }
   },
 
   _disabled: {
@@ -33,7 +33,7 @@ export const FilledButton = styled(ButtonBase)({
     bgColor: "rgba(0,0,0,0)",
 
     _$before: {
-      bgColor: variant("sys.on-surface", alpha(0.12)),
-    },
-  },
+      bgColor: variant("sys.on-surface", alpha(0.12))
+    }
+  }
 });

@@ -5,7 +5,7 @@ import {
   defineTransition,
   styled,
   transition,
-  variant,
+  variant
 } from "@innoai-tech/vueuikit";
 import { ref, watch } from "vue";
 
@@ -18,7 +18,7 @@ const Container = styled("div")({
   zIndex: 100,
   display: "flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "center"
 });
 
 export const DialogBackdrop = styled("div")({
@@ -29,7 +29,7 @@ export const DialogBackdrop = styled("div")({
   h: "100vh",
   w: "100vw",
   zIndex: -1,
-  bgColor: variant("sys.scrim", alpha(0.38)),
+  bgColor: variant("sys.scrim", alpha(0.38))
 });
 
 export const DialogContainer = styled("div")({
@@ -37,37 +37,37 @@ export const DialogContainer = styled("div")({
   rounded: "sm",
   shadow: "3",
   minW: "50vw",
-  containerStyle: "sys.surface-container-high",
+  containerStyle: "sys.surface-container-high"
 });
 
 const FadeInOutTransition = defineTransition(
   {
     from: {
-      opacity: 0,
+      opacity: 0
     },
     to: {
-      opacity: 1,
+      opacity: 1
     },
     duration: transition.duration.md1,
-    easing: transition.easing.standard.accelerate,
+    easing: transition.easing.standard.accelerate
   },
   {
     from: {
-      opacity: 1,
+      opacity: 1
     },
     to: {
-      opacity: 0,
+      opacity: 0
     },
     duration: transition.duration.sm4,
-    easing: transition.easing.standard.accelerate,
-  },
+    easing: transition.easing.standard.accelerate
+  }
 );
 
 export const Dialog = component(
   {
-    isOpen: Overlay.propTypes!.isOpen,
+    isOpen: t.boolean().optional(),
     onClose: t.custom<() => void>(),
-    $default: t.custom<VNodeChild>().optional(),
+    $default: t.custom<VNodeChild>().optional()
   },
   (props, { slots, emit }) => {
     const mount = ref(props.isOpen ?? false);
@@ -83,7 +83,7 @@ export const Dialog = component(
           // animate leave first，then unmount
           animateEnterOrLeave.value = false;
         }
-      },
+      }
     );
 
     return () => {
@@ -119,5 +119,5 @@ export const Dialog = component(
         </Overlay>
       );
     };
-  },
+  }
 );

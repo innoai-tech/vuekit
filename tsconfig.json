@@ -9,6 +9,9 @@
     "paths": {
       "@webapp/vuekit/*": [
         "./webapp/vuekit/*"
+      ],
+      "@innoai-tech/*": [
+        "./nodepkg/*/src/index.ts"
       ]
     },
     "jsxImportSource": "@innoai-tech/vuekit"

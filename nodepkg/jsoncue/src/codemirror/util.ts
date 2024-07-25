@@ -16,7 +16,7 @@ export const selectionAt = (state: EditorState, pos: number) => {
 
   const resolvePath = (
     node: SyntaxNode,
-    parent: any[] = []
+    parent: any[] = [],
   ): { node: SyntaxNode; path: any[] } => {
     switch (node.type.id) {
       case NodeType.Document:
@@ -50,7 +50,7 @@ export const selectionAt = (state: EditorState, pos: number) => {
 
               return {
                 path: keyPath,
-                node: c
+                node: c,
               };
             }
 
@@ -90,7 +90,7 @@ export const selectionAt = (state: EditorState, pos: number) => {
 
               return {
                 path: keyPath,
-                node: c
+                node: c,
               };
             }
           }
@@ -111,13 +111,13 @@ export const selectionAt = (state: EditorState, pos: number) => {
 
     return {
       node,
-      path: parent
+      path: parent,
     };
   };
 
   return {
     ...resolvePath(node),
     root: node,
-    values: toValue(state, node, { invalidValueAsUndefined: true })
+    values: toValue(state, node, { invalidValueAsUndefined: true }),
   };
 };

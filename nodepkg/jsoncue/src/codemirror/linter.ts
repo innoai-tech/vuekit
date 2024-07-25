@@ -8,8 +8,9 @@ import { JSONPointer } from "../JSONPointer.ts";
 import { last, isUndefined } from "@innoai-tech/lodash";
 
 export function jsoncueParserLinter(v: EditorView): Diagnostic[] {
-  return convertToDiagnostics([...visitAll(syntaxTree(v.state).topNode)]
-    .filter((n) => n.type.isError));
+  return convertToDiagnostics(
+    [...visitAll(syntaxTree(v.state).topNode)].filter((n) => n.type.isError),
+  );
 }
 
 function convertToDiagnostics(nodes: SyntaxNode[]): Diagnostic[] {
@@ -17,7 +18,7 @@ function convertToDiagnostics(nodes: SyntaxNode[]): Diagnostic[] {
     severity: "error",
     from: n.from,
     to: n.to,
-    message: errorMsg(n)
+    message: errorMsg(n),
   }));
 }
 
@@ -46,12 +47,13 @@ function errorMsg(node: SyntaxNode) {
   return "Syntax Error";
 }
 
-
 export function jsoncueParserOrValidateLinter(tpe: AnyType) {
   return (v: EditorView): Diagnostic[] => {
     const node = syntaxTree(v.state).topNode;
 
-    const parseErrors = [...visitAll(syntaxTree(v.state).topNode)].filter((n) => n.type.isError);
+    const parseErrors = [...visitAll(syntaxTree(v.state).topNode)].filter(
+      (n) => n.type.isError,
+    );
 
     if (parseErrors.length > 0) {
       return convertToDiagnostics(parseErrors);
@@ -64,7 +66,7 @@ export function jsoncueParserOrValidateLinter(tpe: AnyType) {
         const k = JSONPointer.compile(keyPath);
         nodes[k] = [...(nodes[k] ?? []), node];
       },
-      invalidValueAsUndefined: true
+      invalidValueAsUndefined: true,
     });
 
     const [err] = tpe.validate(values);
@@ -93,19 +95,22 @@ export function jsoncueParserOrValidateLinter(tpe: AnyType) {
               from: n.from,
               to: n.to,
               severity: "error",
-              message: f.message
+              message: f.message,
             });
           }
         }
 
         if (x != "/" && path.startsWith(`${x}/`)) {
-          if (isUndefined(f.value) && !path.slice(`${x}/`.length).includes("/")) {
+          if (
+            isUndefined(f.value) &&
+            !path.slice(`${x}/`.length).includes("/")
+          ) {
             for (const n of list) {
               ret.push({
                 from: n.from,
                 to: n.to,
                 severity: "error",
-                message: `missing required field "${last(f.path)}"`
+                message: `missing required field "${last(f.path)}"`,
               });
             }
           }

@@ -3,7 +3,7 @@ import {
   type PluginOption,
   type UserConfig,
   searchForWorkspaceRoot,
-  type ESBuildOptions
+  type ESBuildOptions,
 } from "vite";
 import { readFile } from "fs/promises";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -15,7 +15,7 @@ export interface AppConfig {
 
 export const app = (
   appName: string,
-  appConfig: AppConfig = {}
+  appConfig: AppConfig = {},
 ): PluginOption[] => {
   (process.env as any).APP_VERSION = "__VERSION__";
 
@@ -43,13 +43,13 @@ export const app = (
 
         c.build.outDir = resolve(
           viteConfigRoot,
-          c.build.outDir ?? `./public/${appName}`
+          c.build.outDir ?? `./public/${appName}`,
         );
         c.build.emptyOutDir = true;
 
         c.build.rollupOptions = c.build.rollupOptions ?? {};
         c.build.rollupOptions.external = c.build.rollupOptions.external ?? [
-          "csstype"
+          "csstype",
         ];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
@@ -58,7 +58,7 @@ export const app = (
         c.build.rollupOptions.output = {
           assetFileNames: `${c.build.assetsDir}/[name].[hash][extname]`,
           entryFileNames: `${c.build.assetsDir}/[name].[hash].entry.js`,
-          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`
+          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`,
         };
 
         c.resolve = c.resolve ?? {};
@@ -76,7 +76,7 @@ export const app = (
         if (!c.optimizeDeps.esbuildOptions.jsxImportSource) {
           try {
             const tsconfig = JSON.parse(
-              String(await readFile(join(viteConfigRoot, "tsconfig.json")))
+              String(await readFile(join(viteConfigRoot, "tsconfig.json"))),
             );
             (c.esbuild as ESBuildOptions).jsxImportSource =
               tsconfig.compilerOptions.jsxImportSource;
@@ -97,13 +97,13 @@ export const app = (
             {
               tag: "base",
               attrs: {
-                href: userConfig.base ?? "/"
-              }
-            }
-          ]
+                href: userConfig.base ?? "/",
+              },
+            },
+          ],
         };
-      }
+      },
     },
-    tsconfigPaths({}) as PluginOption
+    tsconfigPaths({}) as PluginOption,
   ];
 };

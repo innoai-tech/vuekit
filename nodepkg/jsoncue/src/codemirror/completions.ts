@@ -1,4 +1,9 @@
-import { type AnyType, EmptyContext, SymbolRecordKey, t } from "@innoai-tech/typedef";
+import {
+  type AnyType,
+  EmptyContext,
+  SymbolRecordKey,
+  t,
+} from "@innoai-tech/typedef";
 import { JSONCue } from "../JSONCue.ts";
 import { isArray, isNumber, isObject, isUndefined } from "../astutil/typed.ts";
 import {
@@ -6,13 +11,18 @@ import {
   type Completion,
   type CompletionContext,
   type CompletionResult,
-  snippetCompletion
+  snippetCompletion,
 } from "@innoai-tech/codemirror";
 import { selectionAt } from "./util.ts";
 import type { SyntaxNode } from "@lezer/common";
 import { NodeType } from "../astutil/index.ts";
 
-export function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyContext) {
+export function schemaAt(
+  typ: AnyType,
+  values: any,
+  path: any[],
+  ctx = EmptyContext,
+) {
   switch (typ.type) {
     case "array":
       if (path.length === 0) {
@@ -35,7 +45,7 @@ export function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyCont
 
           return schemaAt(propType, childValue, path.slice(1), {
             path: [...ctx.path, index],
-            branch: [...ctx.branch, childValue]
+            branch: [...ctx.branch, childValue],
           });
         }
       }
@@ -67,7 +77,7 @@ export function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyCont
 
         return schemaAt(propType, childValue, path.slice(1), {
           path: [...ctx.path, String(key)],
-          branch: [...ctx.branch, childValue]
+          branch: [...ctx.branch, childValue],
         });
       }
 
@@ -92,7 +102,7 @@ export function schemaAt(typ: AnyType, values: any, path: any[], ctx = EmptyCont
 
           return schemaAt(propType, childValue, path.slice(1), {
             path: [...ctx.path, propName],
-            branch: [...ctx.branch, childValue]
+            branch: [...ctx.branch, childValue],
           });
         }
 
@@ -144,16 +154,16 @@ function asCompletions(typ: AnyType, node: SyntaxNode): Completion[] {
         const itemsType = typ.getSchema<AnyType>("items")!;
         completions.push(
           snippetCompletion(asSnippetHolder(itemsType), {
-            label: asDefaultValue(itemsType)
-          })
+            label: asDefaultValue(itemsType),
+          }),
         );
         break;
       }
 
       completions.push(
         snippetCompletion(asSnippetHolder(typ), {
-          label: asDefaultValue(typ)
-        })
+          label: asDefaultValue(typ),
+        }),
       );
 
       break;
@@ -166,14 +176,14 @@ function asCompletions(typ: AnyType, node: SyntaxNode): Completion[] {
 
         const base = {
           label: propName,
-          info: propType.getMeta<string>("description")?.split("\n")?.[0] ?? ""
+          info: propType.getMeta<string>("description")?.split("\n")?.[0] ?? "",
         };
 
         completions.push(
           snippetCompletion(
             `${JSONCue.stringifyPropertyName(propName)}: ${asSnippetHolder(propType)}`,
-            base
-          )
+            base,
+          ),
         );
       }
       break;
@@ -181,19 +191,19 @@ function asCompletions(typ: AnyType, node: SyntaxNode): Completion[] {
       completions.push(
         {
           label: "true",
-          apply: "true"
+          apply: "true",
         },
         {
           label: "false",
-          apply: "false"
-        }
+          apply: "false",
+        },
       );
       break;
     case "enums":
       for (const v of typ.getSchema<any[]>("enum") ?? []) {
         completions.push({
           label: `${v}`,
-          apply: JSON.stringify(v)
+          apply: JSON.stringify(v),
         });
       }
       break;
@@ -224,7 +234,7 @@ export function jsoncueCompletions(tpe: AnyType) {
     return {
       from: before?.text ? before?.from : ctx.pos,
       options: completionsAt(ctx.state, ctx.pos),
-      filter: true
+      filter: true,
     };
   };
 }

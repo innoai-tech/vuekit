@@ -1,10 +1,14 @@
-import { defineExpression, type ExpressionBuildFunc, isValidBuildExprFn } from "../Expression.ts";
+import {
+  defineExpression,
+  type ExpressionBuildFunc,
+  isValidBuildExprFn,
+} from "../Expression.ts";
 import { isArray, isPlainObject } from "@innoai-tech/lodash";
 import { Entity } from "../iter";
 
 export const some = defineExpression(
   "some",
-  <TTarget extends (any[] | Record<string, any>)>(
+  <TTarget extends any[] | Record<string, any>>(
     ...buildExprFns: ExpressionBuildFunc<TTarget, boolean>[]
   ) =>
     (ctx) => {
@@ -34,5 +38,5 @@ export const some = defineExpression(
         .join("; ")}`;
 
       return fn;
-    }
+    },
 );

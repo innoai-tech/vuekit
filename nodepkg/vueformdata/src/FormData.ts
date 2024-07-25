@@ -4,7 +4,7 @@ import {
   isPlainObject,
   isUndefined,
   set,
-  has
+  has,
 } from "@innoai-tech/lodash";
 import {
   type AnyType,
@@ -14,14 +14,14 @@ import {
   type Component,
   rx,
   SymbolRecordKey,
-  type ImmerSubject
+  type ImmerSubject,
 } from "@innoai-tech/vuekit";
 
 import { Observable, Subject, distinctUntilChanged, map } from "rxjs";
 
 export const delegate = <T extends { [k: string]: any }>(
   target: T,
-  options: Partial<T>
+  options: Partial<T>,
 ): T => {
   return new Proxy(target, {
     get(target, p) {
@@ -29,17 +29,17 @@ export const delegate = <T extends { [k: string]: any }>(
         return (options as any)[p];
       }
       return (target as any)[p];
-    }
+    },
   });
 };
 
 export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
   static of<T extends AnyType>(
     schema: T,
-    initials: Partial<Infer<T>> | (() => Partial<Infer<T>>)
+    initials: Partial<Infer<T>> | (() => Partial<Infer<T>>),
   ) {
     return new FormData(schema, () =>
-      isFunction(initials) ? initials() : initials
+      isFunction(initials) ? initials() : initials,
     );
   }
 
@@ -47,12 +47,12 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
   constructor(
     public typedef: T,
-    initials: () => Partial<Infer<T>>
+    initials: () => Partial<Infer<T>>,
   ) {
     super();
 
     this.inputs$ = new ImmerBehaviorSubject<Partial<Infer<T>>>(
-      initials() ?? {}
+      initials() ?? {},
     );
   }
 
@@ -66,10 +66,10 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
     return this._fields.get(name);
   }
 
-  * fields<T extends AnyType>(
+  *fields<T extends AnyType>(
     typedef: T,
     value = this.inputs$.value,
-    path: any[] = []
+    path: any[] = [],
   ): Iterable<Field> {
     for (const [nameOrIdx, _, t] of typedef.entries(value, EmptyContext)) {
       // skip symbol
@@ -123,7 +123,7 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
       if (!isUndefined(value)) {
         if (isPlainObject(value)) {
           set(values, name, {
-            ...value
+            ...value,
           });
         } else {
           set(values, name, value);
@@ -209,7 +209,8 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
 
 class FieldImpl<T extends any = any>
   extends ImmerBehaviorSubject<FieldState>
-  implements Field<T> {
+  implements Field<T>
+{
   static defaultValue = (def: AnyType) => {
     try {
       return def.create(undefined);
@@ -237,10 +238,10 @@ class FieldImpl<T extends any = any>
     public readonly form$: FormData,
     public readonly typedef: AnyType,
     public readonly path: Array<string | number>,
-    public readonly name = FieldImpl.stringify(path)
+    public readonly name = FieldImpl.stringify(path),
   ) {
     super({
-      initial: get(form$.inputs$.value, name, FieldImpl.defaultValue(typedef))
+      initial: get(form$.inputs$.value, name, FieldImpl.defaultValue(typedef)),
     });
   }
 
@@ -248,7 +249,7 @@ class FieldImpl<T extends any = any>
     return get(
       this.form$.inputs$.value,
       this.name,
-      FieldImpl.defaultValue(this.typedef)
+      FieldImpl.defaultValue(this.typedef),
     );
   }
 
@@ -276,7 +277,7 @@ class FieldImpl<T extends any = any>
       this.#input$ = rx(
         this.form$.inputs$,
         map((v) => get(v, this.name, FieldImpl.defaultValue(this.typedef))),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
     }
     return this.#input$;

@@ -1,4 +1,4 @@
-import { isFunction } from "@innoai-tech/lodash";
+import { isFunction, isUndefined } from "@innoai-tech/lodash";
 import { type AnyType } from "@innoai-tech/typedef";
 import type { RenderFunction } from "vue";
 import { type ComponentOptions, component } from "../component";
@@ -8,7 +8,7 @@ import {
   type InternalPropsOf,
   type InternalSlotsOf,
   type PublicPropsOf,
-  type SetupContext,
+  type SetupContext
 } from "../vue";
 import { render } from "./RxSlot";
 import { type Observables, toObservables } from "./toObservable";
@@ -16,36 +16,43 @@ import { type Observables, toObservables } from "./toObservable";
 export { render };
 
 export type ObservablesAndProps<Props extends Record<string, any>> =
-  Observables<Props> & Omit<Props, keyof Observables<Props>>;
+  Observables<Props>
+  & Omit<Props, keyof Observables<Props>>;
 
-export type ObservableSetupFunction<PropTypes extends Record<string, AnyType>> =
+export type ObservableSetupFunction<Props extends Record<string, any>> =
   (
-    P: ObservablesAndProps<InternalPropsOf<PropTypes>>,
-    ctx: SetupContext<
-      InternalEmitsOf<PropTypes>,
-      InternalSlotsOf<PropTypes>
-    > & { render: typeof render },
+    props: ObservablesAndProps<InternalPropsOf<Props>>,
+    ctx: SetupContext<InternalEmitsOf<Props>, InternalSlotsOf<Props>> & {
+      render: typeof render
+    }
   ) => RenderFunction | JSX.Element | null;
 
-export function component$(
-  setup: ObservableSetupFunction<{}>,
-  options?: ComponentOptions,
-): Component<{}>;
+export function component$<Props extends Record<string, any>>(
+  setup: ObservableSetupFunction<Props>,
+  options?: ComponentOptions
+): Component<Props>;
 export function component$<PropTypes extends Record<string, AnyType>>(
   propTypes: PropTypes,
-  setup: ObservableSetupFunction<PropTypes>,
-  options?: ComponentOptions,
+  setup: ObservableSetupFunction<PublicPropsOf<PropTypes>>,
+  options?: ComponentOptions
 ): Component<PublicPropsOf<PropTypes>>;
-export function component$<PropTypes extends Record<string, AnyType>>(
-  propTypesOrSetup: PropTypes | ObservableSetupFunction<PropTypes>,
-  setupOrOptions?: ObservableSetupFunction<PropTypes> | ComponentOptions,
-  options: ComponentOptions = {},
-): Component<PublicPropsOf<PropTypes>> {
-  const finalOptions = (options ?? setupOrOptions) as ComponentOptions;
-  const finalSetup = (setupOrOptions ??
-    propTypesOrSetup) as ObservableSetupFunction<PropTypes>;
+export function component$<Props extends Record<string, any>>(...args: any[]): Component<Props> {
+  let finalPropTypes: Record<string, AnyType> = {};
+  let finalSetup: any = undefined;
+  let finalOptions: Record<string, any> = {};
 
-  const finalPropTypes = (propTypesOrSetup ?? {}) as PropTypes;
+  for (const arg of args) {
+    if (isFunction(arg)) {
+      finalSetup = arg;
+      continue;
+    }
+
+    if (isUndefined(finalSetup)) {
+      finalPropTypes = arg;
+    } else {
+      finalOptions = arg;
+    }
+  }
 
   return component(
     finalPropTypes,
@@ -57,8 +64,8 @@ export function component$<PropTypes extends Record<string, AnyType>>(
         {
           get(_, key: string) {
             return (props as any)[key] ?? (props$ as any)[key];
-          },
-        },
+          }
+        }
       ) as any;
 
       const c = new Proxy(
@@ -69,8 +76,8 @@ export function component$<PropTypes extends Record<string, AnyType>>(
               return render;
             }
             return (ctx as any)[key];
-          },
-        },
+          }
+        }
       ) as any;
 
       const renderFuncOrVNode = finalSetup(p, c);
@@ -81,6 +88,6 @@ export function component$<PropTypes extends Record<string, AnyType>>(
 
       return () => renderFuncOrVNode;
     },
-    finalOptions,
+    finalOptions
   ) as any;
 }

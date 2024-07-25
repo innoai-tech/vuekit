@@ -5,7 +5,7 @@ export class Printer {
 
   get written() {
     return this.#parts.length > 0;
-  };
+  }
 
   withIdent(action: () => void) {
     this.#identNum++;

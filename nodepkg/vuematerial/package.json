@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuematerial",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"

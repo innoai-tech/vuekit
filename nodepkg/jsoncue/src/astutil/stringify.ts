@@ -3,7 +3,7 @@ import {
   isFunction,
   isObject,
   isString,
-  isUndefined
+  isUndefined,
 } from "./typed.ts";
 import { Printer } from "./printer.ts";
 
@@ -49,7 +49,7 @@ class writer {
 
     if (isObject(v)) {
       const entities = Object.entries(v).filter(([_, v]) =>
-        isValidJSONValue(v)
+        isValidJSONValue(v),
       );
 
       if (entities.length == 0) {

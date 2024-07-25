@@ -4,24 +4,24 @@ import { get, last, sum } from "@innoai-tech/lodash";
 import {
   type ManualChunkMeta,
   type OutputOptions,
-  type PreRenderedChunk
+  type PreRenderedChunk,
 } from "rollup";
 import {
   type FilterPattern,
   type PluginOption,
   createFilter,
-  searchForWorkspaceRoot
+  searchForWorkspaceRoot,
 } from "vite";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
   handleModuleFederations?: (
-    pkgRelations: Record<string, ModuleFederation>
+    pkgRelations: Record<string, ModuleFederation>,
   ) => void;
 }
 
 export const viteChunkSplit = (
-  options: ChunkSplitOptions = {}
+  options: ChunkSplitOptions = {},
 ): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   const cs = new ChunkSplit(resolve(viteRoot), options);
@@ -42,7 +42,7 @@ export const viteChunkSplit = (
       const chunkFileNames = get(
         c.build.rollupOptions.output,
         ["chunkFileNames"],
-        `${assetsDir}/[name].[hash].chunk.js`
+        `${assetsDir}/[name].[hash].chunk.js`,
       );
 
       (c.build.rollupOptions.output as any) = {
@@ -58,14 +58,14 @@ export const viteChunkSplit = (
 
           const name = cs.extractName(chunkInfo.moduleIds[0]!);
           return `${assetsDir}/${name}.[hash].chunk.js`;
-        }
+        },
       };
     },
     outputOptions(o) {
       o.manualChunks = (id: string, meta: ManualChunkMeta) => {
         return cs.chunkName(id, meta);
       };
-    }
+    },
   };
 };
 
@@ -75,7 +75,7 @@ class ChunkSplit {
 
   constructor(
     private root: string,
-    private options: ChunkSplitOptions
+    private options: ChunkSplitOptions,
   ) {
     this.isLib = createFilter(options.lib ?? []);
 
@@ -110,12 +110,7 @@ class ChunkSplit {
     return this.pkgRelegation(meta, this.normalizePkgName(id))?.federation;
   }
 
-  #resolvePkgRelations(
-    {
-      getModuleInfo,
-      getModuleIds
-    }: ManualChunkMeta
-  ) {
+  #resolvePkgRelations({ getModuleInfo, getModuleIds }: ManualChunkMeta) {
     const directImports: Record<string, boolean> = {};
     const moduleFederations: Record<string, ModuleFederation> = {};
 
@@ -125,8 +120,10 @@ class ChunkSplit {
       const pkgName = this.normalizePkgName(modID);
 
       const markImported = (dep: string) => {
-        const currentModuleFederation = (moduleFederations[pkgName] ??= new ModuleFederation(pkgName));
-        const moduleFederation = (moduleFederations[dep] ??= new ModuleFederation(dep));
+        const currentModuleFederation = (moduleFederations[pkgName] ??=
+          new ModuleFederation(pkgName));
+        const moduleFederation = (moduleFederations[dep] ??=
+          new ModuleFederation(dep));
 
         moduleFederation.importedBy(currentModuleFederation);
       };
@@ -257,8 +254,7 @@ export class ModuleFederation {
 
   #imported = new Map<string, ModuleFederation>();
 
-  constructor(public name: string) {
-  }
+  constructor(public name: string) {}
 
   get federation() {
     return this.#federation ?? this.name;
@@ -271,7 +267,6 @@ export class ModuleFederation {
 
     this.#imported.set(moduleFederation.name, moduleFederation);
   }
-
 
   imported(name: string): boolean {
     if (name == this.name) {
@@ -290,11 +285,15 @@ export class ModuleFederation {
   #rank?: number;
 
   get rank(): number {
-    return this.#rank ??= (this.#imported.size + sum([...this.#imported.entries()].map(([_, mf]) => mf.rank)));
+    return (this.#rank ??=
+      this.#imported.size +
+      sum([...this.#imported.entries()].map(([_, mf]) => mf.rank)));
   }
 
   sortedImported() {
-    return [...this.#imported.entries()].toSorted(([_a, a], [_b, b]) => a.rank > b.rank ? -1 : 1);
+    return [...this.#imported.entries()].toSorted(([_a, a], [_b, b]) =>
+      a.rank > b.rank ? -1 : 1,
+    );
   }
 
   namesOfImported() {
@@ -308,11 +307,14 @@ export class ModuleFederation {
 
 const markPkgRelegation = (
   moduleFederations: Record<string, ModuleFederation>,
-  directs: Record<string, boolean>
+  directs: Record<string, boolean>,
 ) => {
   const federations: Record<string, boolean> = {};
 
-  const walkToNearestDirectFederationFrom = (pkg: string, visited: Map<string, boolean>): string => {
+  const walkToNearestDirectFederationFrom = (
+    pkg: string,
+    visited: Map<string, boolean>,
+  ): string => {
     // cycle avoid
     if (visited.has(pkg)) {
       return pkg;
@@ -349,7 +351,7 @@ const markPkgRelegation = (
 };
 
 export const d2Graph = (
-  moduleFederations: Record<string, ModuleFederation>
+  moduleFederations: Record<string, ModuleFederation>,
 ) => {
   let g = "";
 

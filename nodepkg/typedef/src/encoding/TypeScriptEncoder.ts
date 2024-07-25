@@ -80,7 +80,7 @@ export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
             "enum",
             `{
 ${type.schema.enum.map((v: any) => `${v} = ${JSON.stringify(v)}`).join(",\n")}         
-}`
+}`,
           ]);
 
           const enumLabels = rawType.getMeta("enumLabels") as any[];
@@ -91,10 +91,10 @@ ${type.schema.enum.map((v: any) => `${v} = ${JSON.stringify(v)}`).join(",\n")}
               `(v: ${declName}) => {
   return ({
 ${type.schema.enum
-                .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
-                .join(",\n")}   
+  .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
+  .join(",\n")}   
   })[v] ?? v      
-}`
+}`,
             ]);
           }
 
@@ -105,7 +105,6 @@ ${type.schema.enum
       }
 
       case "record": {
-
         const keyType = this._encode(type.schema.propertyNames);
 
         if (keyType.startsWith("/* @type:enums */")) {

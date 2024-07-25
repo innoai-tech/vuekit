@@ -19,7 +19,7 @@ export class TypeInteger extends Type<number, { type: "integer" }> {
 
   override coercer(value: unknown, _: Context) {
     try {
-      return value ? parseInt(String(value)) : undefined;
+      return (value != undefined) ? parseInt(String(value)) : undefined;
     } catch (err) {
       return undefined;
     }

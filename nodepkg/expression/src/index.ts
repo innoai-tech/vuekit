@@ -25,5 +25,5 @@ export const defaultExpressionFactory = ExpressionFactory.create({
   get: ex.get,
   len: ex.len,
   elem: ex.elem,
-  key: ex.key
+  key: ex.key,
 });

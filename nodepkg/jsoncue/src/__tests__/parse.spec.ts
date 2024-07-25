@@ -10,11 +10,7 @@ describe("parse fail", () => {
   }
 ]`);
 
-    testTree(source.tree, n.Document(
-      n.Array(n.Object(
-        n.Error
-      ))
-    ));
+    testTree(source.tree, n.Document(n.Array(n.Object(n.Error))));
   });
 
   it("should handle parse error", () => {
@@ -22,11 +18,14 @@ describe("parse fail", () => {
 a: "1"
 "str
 `);
-    testTree(source.tree, n.Document(
-      n.Property(n.PropertyName, n.String),
-      n.Error,
-      n.Property(n.PropertyName, n.Error)
-    ));
+    testTree(
+      source.tree,
+      n.Document(
+        n.Property(n.PropertyName, n.String),
+        n.Error,
+        n.Property(n.PropertyName, n.Error),
+      ),
+    );
   });
 });
 
@@ -82,10 +81,10 @@ describe("happy parse", () => {
 
     testTree(
       source.tree,
-      n.Document(n.Object(n.Property(n.PropertyName, n.Number)))
+      n.Document(n.Object(n.Property(n.PropertyName, n.Number))),
     );
     expect(toValue(source, source.topNode)).toEqual({
-      x: 1
+      x: 1,
     });
   });
 
@@ -99,13 +98,13 @@ describe("happy parse", () => {
       source.tree,
       n.Document(
         n.Property(n.PropertyName, n.Number),
-        n.Property(n.PropertyName, n.True)
-      )
+        n.Property(n.PropertyName, n.True),
+      ),
     );
 
     expect(toValue(source, source.topNode)).toEqual({
       a: 1,
-      b: true
+      b: true,
     });
   });
 
@@ -114,7 +113,7 @@ describe("happy parse", () => {
 
     testTree(
       source.tree,
-      n.Document(n.Property(n.PropertyName, n.PropertyName, n.String))
+      n.Document(n.Property(n.PropertyName, n.PropertyName, n.String)),
     );
   });
 });
@@ -130,16 +129,15 @@ abstract class n {
 
   static Object = (...props: string[]) => {
     return `Object(${[n.StringValue("{"), ...props, n.StringValue("}")].join(
-      ","
+      ",",
     )})`;
   };
 
   static Array = (...items: n[]) => {
     return `Array(${[n.StringValue("["), ...items, n.StringValue("]")].join(
-      ","
+      ",",
     )})`;
   };
-
 
   static Property(...propertyNamesAndValue: string[]) {
     return `Property(${[...propertyNamesAndValue].join(",")})`;

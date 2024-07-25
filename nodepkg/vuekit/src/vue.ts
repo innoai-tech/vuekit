@@ -1,9 +1,8 @@
 import {
   type AnyType,
-  type DefaultedType,
   type Infer,
   type Simplify,
-  t,
+  t
 } from "@innoai-tech/typedef";
 import {
   type ObjectEmitsOptions,
@@ -12,7 +11,7 @@ import {
   type VNode,
   type Ref,
   type UnwrapRef,
-  customRef,
+  customRef
 } from "vue";
 
 export type VElementType = string | Component<any>;
@@ -24,8 +23,6 @@ export type VNodeChildAtom =
   | null
   | undefined;
 
-export { shallowRef, watch, inject, provide } from "vue";
-
 export type VNodeArrayChildren = Array<VNodeArrayChildren | VNodeChildAtom>;
 export type VNodeChild = VNodeChildAtom | VNodeArrayChildren;
 
@@ -33,10 +30,10 @@ export { type RenderFunction, type VNode };
 
 export type Emits = Record<string, (...args: any[]) => any>;
 
-export type Component<P extends {}> = {
+export type Component<P extends Record<string, any>> = {
   (props: P): JSX.Element | null;
   slots?: SlotsType<ToVueSlotsType<PickSlotProps<P>>>;
-  propTypes?: PropTypesOf<P>;
+  propTypes?: any;
 };
 
 type ToVueSlotsType<O extends Record<string, any>> = {
@@ -60,95 +57,33 @@ type EmitFn<
 > = UnionToIntersection<
   {
     [Key in Event]: E[Key] extends (...args: infer Args) => any
-      ? (event: Key, ...args: Args) => void
-      : (event: Key) => void;
+    ? (event: Key, ...args: Args) => void
+    : (event: Key) => void;
   }[Event]
 >;
 
 type UnionToIntersection<U> = (
   U extends any ? (arg: U) => any : never
-) extends (arg: infer I) => void
+  ) extends (arg: infer I) => void
   ? I
   : never;
 
-type PickRequired<T extends Record<string, any>> = {
-  [K in keyof T as K extends string
-    ? T[K] extends NonNullable<T[K]>
-      ? K
-      : never
-    : never]: T[K];
-};
-
-export type PropTypesOf<
-  Props extends Record<string, any>,
-  RequiredProps = Pick<Props, keyof PickRequired<Props>>,
-  OptionalProps = Omit<Props, keyof RequiredProps>,
-> = {
-  [K in keyof RequiredProps]: ReturnType<typeof t.custom<RequiredProps[K]>>;
-} & {
-  [K in keyof OptionalProps]-?: ReturnType<
-    typeof t.custom<NonNullable<OptionalProps[K]> | undefined>
-  >;
-};
-
-export type SetupFunction<PropTypes extends Record<string, AnyType>> = (
-  props: InternalPropsOf<PropTypes>,
-  ctx: SetupContext<InternalEmitsOf<PropTypes>, InternalSlotsOf<PropTypes>>,
-) => RenderFunction;
-
 export type PublicPropsOf<
   PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfPublic<PropTypes>,
+  P extends Record<string, any> = Infer<ReturnType<typeof t.object<PropTypes>>>,
 > = Simplify<PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>>;
 
-export type InternalPropsOf<
-  PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfInternal<PropTypes>,
-> = Simplify<PickProps<P>>;
+export type SetupFunction<Props extends Record<string, any>> = (
+  props: InternalPropsOf<Props>,
+  ctx: SetupContext<InternalEmitsOf<Props>, InternalSlotsOf<Props>>
+) => RenderFunction;
 
-export type InternalSlotsOf<
-  PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfInternal<PropTypes>,
-> = Simplify<ToInternalSlots<PickSlotProps<P>>>;
 
-export type InternalEmitsOf<
-  PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = TypeOfInternal<PropTypes>,
-> = ToInternalEmits<Simplify<PickEmitProps<P>>>;
+export type InternalPropsOf<Props extends Record<string, any>> = Simplify<PickProps<Props>>;
 
-type TypeOfPublic<O extends Record<string, AnyType>> = Infer<
-  ReturnType<typeof t.object<O>>
->;
+export type InternalSlotsOf<Props extends Record<string, any>> = Simplify<ToInternalSlots<PickSlotProps<Props>>>;
 
-// optional with default as InternalRequired
-type PickInternalNonOptional<T extends Record<string, AnyType>> = {
-  [K in keyof T as K extends string
-    ? Infer<T[K]> extends NonNullable<Infer<T[K]>>
-      ? K
-      : T[K] extends DefaultedType<any>
-        ? K
-        : never
-    : never]: T[K];
-};
-
-export type InferNonNullable<T extends AnyType> =
-  Infer<T> extends NonNullable<Infer<T>> ? Infer<T> : NonNullable<Infer<T>>;
-
-export type TypeOfInternal<
-  PropTypes extends Record<string, AnyType>,
-  RequiredProps extends Record<string, AnyType> = Pick<
-    PropTypes,
-    keyof PickInternalNonOptional<PropTypes>
-  >,
-  OptionalProps extends Record<string, AnyType> = Omit<
-    PropTypes,
-    keyof RequiredProps
-  >,
-> = {
-  [K in keyof RequiredProps]: InferNonNullable<RequiredProps[K]>;
-} & {
-  [K in keyof OptionalProps]?: Infer<OptionalProps[K]>;
-};
+export type InternalEmitsOf<Props extends Record<string, any>> = ToInternalEmits<Simplify<PickEmitProps<Props>>>;
 
 export type PickProps<O extends Record<string, any>> = {
   [K in keyof O as K extends string ? NormalProp<K> : never]: O[K];
@@ -219,6 +154,8 @@ export type ToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
     ? `${T}${Capitalize<ToCamelCase<U>>}`
     : S;
 
+export { shallowRef, watch, inject, provide } from "vue";
+
 export function ref<T>(value: T): Ref<UnwrapRef<T>>;
 export function ref<T = any>(): Ref<T | undefined> {
   let currentValue: T;
@@ -236,7 +173,7 @@ export function ref<T = any>(): Ref<T | undefined> {
           currentValue = newValue;
           trigger();
         }
-      },
+      }
     };
   });
 }

@@ -5,7 +5,7 @@ import {
   keys,
   lowerFirst,
   set,
-  values
+  values,
 } from "@innoai-tech/lodash";
 import {
   type AnyType,
@@ -13,7 +13,7 @@ import {
   TypeScriptEncoder,
   TypedefEncoder,
   refName,
-  t
+  t,
 } from "@innoai-tech/typedef";
 import { Genfile, dumpObj } from "./Genfile";
 
@@ -26,7 +26,7 @@ export class ClientGen extends Genfile {
   constructor(
     private clientID: string,
     private openapi: any,
-    private requestCreator: RequestCreator
+    private requestCreator: RequestCreator,
   ) {
     super();
   }
@@ -34,7 +34,7 @@ export class ClientGen extends Genfile {
   typedef = new JSONSchemaDecoder((ref) => {
     return [
       get(this.openapi, (ref.split("#/")[1] ?? "").split("/")),
-      refName(ref)
+      refName(ref),
     ];
   });
 
@@ -71,7 +71,7 @@ export class ClientGen extends Genfile {
         operations[op.operationId] = {
           ...op,
           method: method,
-          path: path
+          path: path,
         };
       }
     }
@@ -86,7 +86,7 @@ export class ClientGen extends Genfile {
   scanOperation(method: string, path: string, op: any) {
     const requestObject = {
       method: method.toUpperCase(),
-      url: path
+      url: path,
     };
 
     const requestParameterSchema: Record<string, AnyType> = {};
@@ -111,7 +111,7 @@ export class ClientGen extends Genfile {
           hasParamInPath = true;
           requestObject.url = requestObject.url.replace(
             `{${p.name}}`,
-            `\${${p.in}_${lowerCamelCase(p.name)}}`
+            `\${${p.in}_${lowerCamelCase(p.name)}}`,
           );
         }
 
@@ -119,7 +119,7 @@ export class ClientGen extends Genfile {
           set(
             requestObject,
             ["headers", p.name],
-            Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`)
+            Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`),
           );
         }
 
@@ -127,14 +127,14 @@ export class ClientGen extends Genfile {
           set(
             requestObject,
             ["params", p.name],
-            Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`)
+            Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`),
           );
         }
 
         set(
           requestUsed,
           p.name,
-          Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`)
+          Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`),
         );
 
         if (p.required) {
@@ -143,7 +143,7 @@ export class ClientGen extends Genfile {
           set(
             requestParameterSchema,
             p.name,
-            this.typedef.decode(p.schema).optional()
+            this.typedef.decode(p.schema).optional(),
           );
         }
       }
@@ -177,20 +177,20 @@ export class ClientGen extends Genfile {
         set(
           requestUsed,
           "Content-Type",
-          Genfile.id(`${lowerCamelCase("Content-Type")}`)
+          Genfile.id(`${lowerCamelCase("Content-Type")}`),
         );
 
         set(
           requestObject,
           ["headers", "Content-Type"],
-          Genfile.id(`${lowerCamelCase("Content-Type")}`)
+          Genfile.id(`${lowerCamelCase("Content-Type")}`),
         );
 
         bodyTypes.push(
           t.object({
             "Content-Type": t.literal(ct),
-            body: this.typedef.decode(schema)
-          })
+            body: this.typedef.decode(schema),
+          }),
         );
       }
     }
@@ -202,16 +202,16 @@ export class ClientGen extends Genfile {
     const requestType = isRequestTypeEmpty
       ? "void"
       : this.decodeAsTypeScript(
-        bodyTypes.length > 0
-          ? t.intersection(
-            t.object(requestParameterSchema),
-            t.union(...bodyTypes)
-          )
-          : t.object(requestParameterSchema)
-      );
+          bodyTypes.length > 0
+            ? t.intersection(
+                t.object(requestParameterSchema),
+                t.union(...bodyTypes),
+              )
+            : t.object(requestParameterSchema),
+        );
 
     const responseType = this.decodeAsTypeScript(
-      this.typedef.decode(getRespBodySchema(op.responses))
+      this.typedef.decode(getRespBodySchema(op.responses)),
     );
 
     this.decl(`
@@ -219,8 +219,8 @@ export const ${lowerCamelCase(op.operationId)} =
 /*#__PURE__*/${this.requestCreator.expose}<${requestType}, ${responseType}>(
   "${this.clientID}.${op.operationId}",
   (${isRequestTypeEmpty ? "" : dumpObj(requestUsed)}) => (${dumpObj(
-      requestObject
-    )}),
+    requestObject,
+  )}),
 )
 `);
   }

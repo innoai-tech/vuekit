@@ -5,7 +5,7 @@ import {
   type VNode,
   type VNodeChild,
   h,
-  isVNode
+  isVNode,
 } from "vue";
 
 export { Fragment };
@@ -33,7 +33,12 @@ const isTagOrInternal = (val: any) => {
 };
 
 const isSlots = (children: any) => {
-  return children && !Array.isArray(children) && !isVNode(children) && typeof children === "object";
+  return (
+    children &&
+    !Array.isArray(children) &&
+    !isVNode(children) &&
+    typeof children === "object"
+  );
 };
 
 const wrapSlot = (children: any) => {
@@ -48,7 +53,7 @@ const wrapSlot = (children: any) => {
 
 const pickPropsWithoutSlots = (
   rawProps: Record<string, any>,
-  key?: string
+  key?: string,
 ): [any, any] => {
   const { children, ...otherProps } = rawProps;
 
@@ -90,11 +95,7 @@ export const jsx = (type: any, rawProps: any, key?: string) => {
   if (isTagOrInternal(type)) {
     const children = slots?.default?.() ?? (isFragment(type) ? [] : undefined);
 
-    return h(
-      type,
-      props,
-      children
-    );
+    return h(type, props, children);
   }
 
   return h(type, props, slots);
@@ -121,8 +122,7 @@ declare module "vue" {
 
 declare global {
   namespace JSX {
-    export interface Element extends VNode {
-    }
+    export interface Element extends VNode {}
 
     export interface ElementClass {
       $props: {};
@@ -138,8 +138,7 @@ declare global {
       [name: string]: any;
     }
 
-    export interface IntrinsicAttributes extends ReservedProps {
-    }
+    export interface IntrinsicAttributes extends ReservedProps {}
 
     //  infer children type
     export interface ElementChildrenAttribute {
