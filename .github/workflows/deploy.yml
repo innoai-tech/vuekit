@@ -17,7 +17,7 @@ jobs:
         env:
           INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ github.token }}
 
-      - uses: JamesIves/github-pages-deploy-action@v4.6.0
+      - uses: JamesIves/github-pages-deploy-action@v4.6.3
         with:
           folder: public/openapi-playground
           repository-name: innoai-tech/openapi-playground
