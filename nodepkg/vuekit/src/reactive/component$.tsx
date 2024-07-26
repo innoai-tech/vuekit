@@ -27,6 +27,10 @@ export type ObservableSetupFunction<Props extends Record<string, any>> =
     }
   ) => RenderFunction | JSX.Element | null;
 
+export function component$(
+  setup: ObservableSetupFunction<{}>,
+  options?: ComponentOptions
+): Component<{}>;
 export function component$<Props extends Record<string, any>>(
   setup: ObservableSetupFunction<Props>,
   options?: ComponentOptions

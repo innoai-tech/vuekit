@@ -1,7 +1,7 @@
 import { t } from "@innoai-tech/typedef";
 import { Observable, map, tap } from "rxjs";
 import { component } from "../component";
-import { type RenderFunction, type VNodeChild, shallowRef } from "../index.ts";
+import { type RenderFunction, type VNodeChild, shallowRef } from "../vue.ts";
 import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribe";
 

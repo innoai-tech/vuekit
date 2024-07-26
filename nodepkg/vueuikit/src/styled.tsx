@@ -21,6 +21,15 @@ import { type SystemStyleObject } from "./theming";
 import { useInsertStyles } from "./useInsertStyles";
 
 
+export function styled<
+  DefaultComponent extends VElementType
+>(
+  defaultComponent: DefaultComponent,
+  setup?: StyledSetupFunction<{}, DefaultComponent>
+): (presetSx: SystemStyleObject) => OverridableComponent<{
+  props: Partial<SxProps>;
+  defaultComponent: DefaultComponent;
+}>;
 // have to keep decl the DefaultComponent
 // https://github.com/microsoft/TypeScript/pull/26349
 export function styled<

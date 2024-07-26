@@ -29,6 +29,10 @@ export const isPropTypes = (o: any): o is Record<string, AnyType> => {
   return isPlainObject(o) && Object.values(o)[0] instanceof Type;
 };
 
+export function component(
+  setup: SetupFunction<{}>,
+  options?: ComponentOptions
+): Component<{}>;
 export function component<Props extends {}>(
   setup: SetupFunction<Props>,
   options?: ComponentOptions
