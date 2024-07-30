@@ -1,4 +1,5 @@
 import { type AnyType, Type, TypeRef } from "../core";
+import { isNumber, isString } from "@innoai-tech/lodash";
 
 export class TypeScriptEncoder {
   static encode(type: AnyType): string {
@@ -74,13 +75,25 @@ export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
         return JSON.stringify(type.schema.enum[0]);
       }
 
+
       case "enums": {
         if (declName) {
+          const isPrefixDigit = (v: any) => {
+            if (isNumber(v)) {
+              return true;
+            }
+            if (isString(v) && v.length > 0) {
+              const c = v[0]!;
+              return c >= "0" && c <= "9";
+            }
+            return false;
+          };
+
           this.def.set(declName, [
             "enum",
             `{
-${type.schema.enum.map((v: any) => `${v} = ${JSON.stringify(v)}`).join(",\n")}         
-}`,
+${type.schema.enum.map((v: any) => `${isPrefixDigit(v) ? `_${v}` : v} = ${JSON.stringify(v)}`).join(",\n")}         
+}`
           ]);
 
           const enumLabels = rawType.getMeta("enumLabels") as any[];
@@ -91,10 +104,10 @@ ${type.schema.enum.map((v: any) => `${v} = ${JSON.stringify(v)}`).join(",\n")}
               `(v: ${declName}) => {
   return ({
 ${type.schema.enum
-  .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
-  .join(",\n")}   
+                .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
+                .join(",\n")}   
   })[v] ?? v      
-}`,
+}`
             ]);
           }
 
