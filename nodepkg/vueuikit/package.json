@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueuikit",
-  "version": "0.12.3",
+  "version": "0.13.2",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"

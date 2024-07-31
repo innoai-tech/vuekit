@@ -24,7 +24,7 @@ export default component(() => {
                     flex: 1,
                     display: "flex",
                     alignItems: "center",
-                    gap: 16,
+                    gap: 16
                   }}
                 >
                   <Box sx={{ flex: 1 }}>{name}</Box>
@@ -43,7 +43,7 @@ export default component(() => {
             })}
           </Box>
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-            {map(p.value.rules, ([base, onDark, onLight], role) => {
+            {map(p.value.rules, ([base, tone], role) => {
               return (
                 <Box
                   sx={{ display: "flex", alignItems: "center", width: "30%" }}
@@ -57,57 +57,33 @@ export default component(() => {
                       "& input": {
                         width: "40%",
                         border: "1px solid",
-                        borderColor: "sys.outline",
-                      },
+                        borderColor: "sys.outline"
+                      }
                     }}
                   >
                     <input
                       type="number"
-                      value={onDark}
+                      value={tone}
                       max={100}
                       min={0}
                       style={{
                         backgroundColor: Palette.toHEX(
-                          pp.seeds[base].tone(onDark),
+                          pp.seeds[base].tone(tone)
                         ),
-                        color: onDark > 50 ? "black" : "white",
+                        color: tone > 50 ? "black" : "white"
                       }}
-                      data-color={Palette.toHEX(pp.seeds[base].tone(onDark))}
+                      data-color={Palette.toHEX(pp.seeds[base].tone(tone))}
                       data-theme={"dark"}
                       onChange={(evt) => {
                         try {
                           const v = parseInt(
-                            (evt.target as HTMLInputElement).value,
+                            (evt.target as HTMLInputElement).value
                           );
                           p.next((x) => {
-                            (x.rules as any)[role] = [base, v, onLight];
+                            (x.rules as any)[role] = [base, v, tone];
                           });
-                        } catch (_) {}
-                      }}
-                    />
-                    <input
-                      type="number"
-                      max={100}
-                      min={0}
-                      value={onLight}
-                      style={{
-                        backgroundColor: Palette.toHEX(
-                          pp.seeds[base].tone(onLight),
-                        ),
-                        color: onLight > 50 ? "black" : "white",
-                      }}
-                      data-color={Palette.toHEX(pp.seeds[base].tone(onLight))}
-                      data-theme={"light"}
-                      onChange={(evt) => {
-                        try {
-                          const v = parseInt(
-                            (evt.target as HTMLInputElement).value,
-                          );
-
-                          p.next((x) => {
-                            (x.rules as any)[role] = [base, onDark, v];
-                          });
-                        } catch (_) {}
+                        } catch (_) {
+                        }
                       }}
                     />
                   </Box>

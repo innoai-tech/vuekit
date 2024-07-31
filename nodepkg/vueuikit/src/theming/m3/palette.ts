@@ -1,15 +1,14 @@
 import {
   type Dictionary,
-  get,
   isNumber,
   mapValues,
-  padStart,
+  padStart
 } from "@innoai-tech/lodash";
 import {
   CorePalette,
   TonalPalette,
   argbFromHex,
-  rgbaFromArgb,
+  rgbaFromArgb
 } from "@material/material-color-utilities";
 import { DesignToken, type WithMixin } from "../token";
 
@@ -25,7 +24,7 @@ const tones = {
   "80": true,
   "90": true,
   "95": true,
-  "100": true,
+  "100": true
 } as const;
 
 export type ColorTonalPalette<Color = [number, number, number]> = {
@@ -93,8 +92,17 @@ export interface SeedColors {
   success: string;
 }
 
+export type RoleColorSource<Seeds extends {}> = {
+  [K in keyof Seeds]: (tone: number) => [K, number]
+}
+
+export type RoleColorRuleBuilder<Seeds extends SeedColors, RuleKeys extends string = keyof ColorPalettes<Seeds>> = {
+  rule<K extends RuleKeys>(role: K, rule: [string, number]): RoleColorRuleBuilder<Seeds, Exclude<RuleKeys, K>>
+  build(): RoleColorRules<Seeds>
+}
+
 export type RoleColorRules<Seeds extends {}> = {
-  [k in keyof ColorPalettes<Seeds>]: [keyof Seeds, number, number];
+  [k in keyof ColorPalettes<Seeds>]: [keyof Seeds, number]
 };
 
 const rgbFromArgb = (argb: number): [number, number, number] => {
@@ -109,7 +117,7 @@ const isKeyColor = (k: string) => {
     tertiary: true,
     error: true,
     warning: true,
-    success: true,
+    success: true
   }[k];
 };
 
@@ -120,8 +128,36 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       .join("")}`;
   };
 
+  static createRoleColorRuleBuilder<Colors extends SeedColors = SeedColors>(mode?: string): RoleColorRuleBuilder<Colors> {
+    const rules: any = {};
+
+    const x = new Proxy({}, {
+      get(_, prop: string) {
+        if (prop == "build") {
+          return () => rules;
+        }
+
+        return (role: string, rule: [string: number]) => {
+          rules[`${role}${mode ? `:${mode}` : ""}`] = rule;
+
+          return x;
+        };
+      }
+    });
+
+    return x as any;
+  }
+
+  static createRoleColorSourcePicker<Colors extends SeedColors = SeedColors>(): RoleColorSource<Colors> {
+    return new Proxy({}, {
+      get(_, prop: string) {
+        return (tone: number) => [prop, tone];
+      }
+    }) as any;
+  }
+
   static fromColors = <Colors extends SeedColors = SeedColors>(
-    colors: Partial<Colors> & { primary: string },
+    colors: Partial<Colors> & { primary: string }
   ) => {
     const {
       primary,
@@ -137,7 +173,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       primary: argbFromHex(primary),
       secondary: secondary ? argbFromHex(secondary) : undefined,
       tertiary: tertiary ? argbFromHex(tertiary) : undefined,
-      error: error ? argbFromHex(error) : undefined,
+      error: error ? argbFromHex(error) : undefined
     });
 
     if (neutral) {
@@ -147,7 +183,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
     if (neutralVariant) {
       palette.n2 = TonalPalette.fromHueAndChroma(
         argbFromHex(neutralVariant),
-        8,
+        8
       );
     }
 
@@ -159,42 +195,57 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       neutralVariant: palette.n2,
       error: palette.error,
       ...(mapValues(otherColors as Dictionary<string>, (v) =>
-        TonalPalette.fromInt(argbFromHex(v)),
-      ) as any),
+        TonalPalette.fromInt(argbFromHex(v))
+      ) as any)
     });
   };
 
-  constructor(public seeds: { [K in keyof Colors]: TonalPalette }) {}
+  constructor(public seeds: { [K in keyof Colors]: TonalPalette }) {
+  }
 
-  normalizeRoleRules(
-    rules: Partial<RoleColorRules<Colors>> = {},
-  ): RoleColorRules<Colors> {
-    const roleRules: { [K: string]: [keyof Colors, number, number] } = {
-      shadow: ["neutral", 0, 0],
-      scrim: ["neutral", 0, 0],
+  normalizeRoleRules(rules: Partial<RoleColorRules<Colors>> = {}): RoleColorRules<Colors> {
+    const seed = Palette.createRoleColorSourcePicker<Colors>();
 
-      outline: ["neutralVariant", 60, 87],
-      "outline-variant": ["neutralVariant", 30, 80],
+    let defaultRoleRules = Palette.createRoleColorRuleBuilder<Colors>()
+      .rule("shadow", seed.neutral(0))
+      .rule("scrim", seed.neutral(0))
+      .rule("outline", seed.neutralVariant(87))
+      .rule("outline-variant", seed.neutralVariant(80))
+      .rule("surface", seed.neutral(99))
+      .rule("on-surface", seed.neutral(10))
+      .rule("surface-variant", seed.neutralVariant(90))
+      .rule("on-surface-variant", seed.neutralVariant(30))
+      .rule("surface-dim", seed.neutral(87))
+      .rule("surface-bright", seed.neutral(98))
+      .rule("surface-container-lowest", seed.neutral(100))
+      .rule("surface-container-low", seed.neutral(96))
+      .rule("surface-container", seed.neutral(94))
+      .rule("surface-container-high", seed.neutral(92))
+      .rule("surface-container-highest", seed.neutral(90))
+      .rule("inverse-surface", seed.neutral(20))
+      .rule("inverse-on-surface", seed.neutral(95))
+      .rule("inverse-primary", seed.primary(80));
 
-      surface: ["neutral", 10, 99],
-      "on-surface": ["neutral", 90, 10],
+    let darkRoleRules = Palette.createRoleColorRuleBuilder<Colors>("dark")
+      .rule("shadow", seed.neutral(0))
+      .rule("scrim", seed.neutral(0))
+      .rule("outline", seed.neutralVariant(60))
+      .rule("outline-variant", seed.neutralVariant(30))
+      .rule("surface", seed.neutral(10))
+      .rule("on-surface", seed.neutral(90))
+      .rule("surface-variant", seed.neutralVariant(30))
+      .rule("on-surface-variant", seed.neutralVariant(80))
+      .rule("surface-dim", seed.neutral(6))
+      .rule("surface-bright", seed.neutral(24))
+      .rule("surface-container-lowest", seed.neutral(4))
+      .rule("surface-container-low", seed.neutral(10))
+      .rule("surface-container", seed.neutral(12))
+      .rule("surface-container-high", seed.neutral(17))
+      .rule("surface-container-highest", seed.neutral(22))
+      .rule("inverse-surface", seed.neutral(90))
+      .rule("inverse-on-surface", seed.neutral(20))
+      .rule("inverse-primary", seed.primary(40));
 
-      "surface-variant": ["neutralVariant", 30, 90],
-      "on-surface-variant": ["neutralVariant", 80, 30],
-
-      "surface-dim": ["neutral", 6, 87],
-      "surface-bright": ["neutral", 24, 98],
-
-      "surface-container-lowest": ["neutral", 4, 100],
-      "surface-container-low": ["neutral", 10, 96],
-      "surface-container": ["neutral", 12, 94],
-      "surface-container-high": ["neutral", 17, 92],
-      "surface-container-highest": ["neutral", 22, 90],
-
-      "inverse-surface": ["neutral", 90, 20],
-      "inverse-on-surface": ["neutral", 20, 95],
-      "inverse-primary": ["primary", 40, 80],
-    };
 
     for (const name in this.seeds) {
       if (name.startsWith("neutral")) {
@@ -202,15 +253,24 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       }
 
       // https://m3.material.io/styles/color/the-color-system/custom-colors
-      roleRules[name] = [name as keyof Colors, 80, 40];
-      roleRules[`on-${name}`] = [name as keyof Colors, 20, 100];
-      roleRules[`${name}-container`] = [name as keyof Colors, 30, 90];
-      roleRules[`on-${name}-container`] = [name as keyof Colors, 90, 10];
+      defaultRoleRules = defaultRoleRules
+        .rule(name as any, seed[name](40))
+        .rule(`on-${name}` as any, seed[name](100))
+        .rule(`${name}-container` as any, seed[name](90))
+        .rule(`on-${name}-container` as any, seed[name](10));
+
+
+      darkRoleRules = darkRoleRules
+        .rule(name as any, seed[name](80))
+        .rule(`on-${name}` as any, seed[name](20))
+        .rule(`${name}-container` as any, seed[name](30))
+        .rule(`on-${name}-container` as any, seed[name](90));
     }
 
     return {
-      ...roleRules,
-      ...rules,
+      ...defaultRoleRules.build(),
+      ...darkRoleRules.build(),
+      ...rules
     } as RoleColorRules<Colors>;
   }
 
@@ -218,16 +278,20 @@ export class Palette<Colors extends SeedColors = SeedColors> {
     const themeColors: { [K: string]: number } = {};
     const darkThemeColors: { [K: string]: number } = {};
 
-    for (const role in roleRules) {
-      const [base, toneOnDark, toneOnLight] = get(roleRules, [role], []);
-
+    for (const [role, [base, tone]] of Object.entries(roleRules)) {
       if ((this.seeds as any)[base]) {
-        darkThemeColors[role] = (tones as any)[toneOnDark]
-          ? `${base}.${toneOnDark}`
-          : (this.seeds as any)[base]?.tone(toneOnDark);
-        themeColors[role] = (tones as any)[toneOnLight]
-          ? `${base}.${toneOnLight}`
-          : (this.seeds as any)[base]?.tone(toneOnLight);
+        if (role.endsWith(":dark")) {
+          let r = role.split(":")[0]!;
+
+          darkThemeColors[r] = (tones as any)[tone]
+            ? `${String(base)}.${tone}`
+            : (this.seeds as any)[base]?.tone(tone);
+          continue;
+        }
+
+        themeColors[role] = (tones as any)[tone]
+          ? `${String(base)}.${tone}`
+          : (this.seeds as any)[base]?.tone(tone);
       }
     }
 
@@ -235,13 +299,15 @@ export class Palette<Colors extends SeedColors = SeedColors> {
   }
 
   toDesignTokens(rules: Partial<RoleColorRules<Colors>> = {}) {
-    const [themeColors, dartThemeColors] = this.getThemeRoleColors(
-      this.normalizeRoleRules(rules),
-    );
+    const finalRules = this.normalizeRoleRules(rules);
+
+    const [themeColors, dartThemeColors] = this.getThemeRoleColors(finalRules);
 
     const sysColors: Record<string, ConditionColors> = {};
-    const containerStyles: Record<string, { color: string; bgColor: string }> =
-      {};
+    const containerStyles: Record<string, {
+      color: string;
+      bgColor: string,
+    }> = {};
 
     for (const role in themeColors) {
       sysColors[`${role}`] = {
@@ -250,18 +316,18 @@ export class Palette<Colors extends SeedColors = SeedColors> {
           : (themeColors as any)[role],
         _dark: isNumber((dartThemeColors as any)[role])
           ? rgbFromArgb((dartThemeColors as any)[role])
-          : (dartThemeColors as any)[role],
+          : (dartThemeColors as any)[role]
       };
 
       if (isKeyColor(role)) {
         containerStyles[`${role}`] = DesignToken.mixin({
           bgColor: `sys.${role}`,
-          color: `sys.on-${role}`,
+          color: `sys.on-${role}`
         });
 
         containerStyles[`${role}-container`] = DesignToken.mixin({
           bgColor: `sys.${role}-container`,
-          color: `sys.on-${role}-container`,
+          color: `sys.on-${role}-container`
         });
       }
 
@@ -269,19 +335,19 @@ export class Palette<Colors extends SeedColors = SeedColors> {
         if (role.includes("container")) {
           containerStyles[`${role}`] = DesignToken.mixin({
             bgColor: `sys.${role}`,
-            color: "sys.on-surface",
+            color: "sys.on-surface"
           });
           continue;
         }
 
         containerStyles[`${role}`] = DesignToken.mixin({
           bgColor: `sys.${role}`,
-          color: "sys.on-surface",
+          color: "sys.on-surface"
         });
 
         containerStyles[`on-${role}`] = DesignToken.mixin({
           bgColor: `sys.on-${role}`,
-          color: "sys.inverse-on-surface",
+          color: "sys.inverse-on-surface"
         });
       }
     }
@@ -290,30 +356,30 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       return Object.keys(tones).reduce(
         (ret, tone) =>
           Object.assign(ret, {
-            [tone]: rgbFromArgb(t.tone(parseInt(tone))),
+            [tone]: rgbFromArgb(t.tone(parseInt(tone)))
           }),
-        {},
+        {}
       ) as any;
     };
 
     const color = DesignToken.color({
       ...mapValues(this.seeds as { [K in keyof Colors]: TonalPalette }, (tp) =>
-        toTonalPalette(tp),
+        toTonalPalette(tp)
       ),
       white: [255, 255, 255],
       black: [0, 0, 0],
-      sys: sysColors as unknown as ColorPalettes<Colors>,
+      sys: sysColors as unknown as ColorPalettes<Colors>
     });
 
     const containerStyle = DesignToken.customMixin("containerStyle", {
       sys: containerStyles as ContainerStyles<
         Omit<Colors, "neutral" | "neutralVariant">
-      >,
+      >
     });
 
     return {
       color,
-      containerStyle,
+      containerStyle
     };
   }
 }
