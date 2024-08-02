@@ -24,9 +24,9 @@ import {
 import { jsoncue, jsoncueParserOrValidateLinter } from "@innoai-tech/jsoncue/codemirror";
 import { Box } from "@innoai-tech/vueuikit";
 import { JSONCue } from "@innoai-tech/jsoncue";
-import { keymap } from "@codemirror/view";
-import type { Extension } from "@codemirror/state";
-import { linter } from "@codemirror/lint";
+import { keymap } from "@innoai-tech/codemirror";
+import type { Extension } from "@innoai-tech/codemirror";
+import { linter } from "@innoai-tech/codemirror";
 import { jsoncueCompletions } from "@innoai-tech/jsoncue/codemirror";
 import { isUndefined } from "@innoai-tech/lodash";
 

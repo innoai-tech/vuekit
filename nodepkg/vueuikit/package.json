@@ -16,7 +16,7 @@
     "@popperjs/core": "^2.11.8",
     "polished": "^4.3.1",
     "popmotion": "^11.0.5",
-    "vue": "^3.4.34"
+    "vue": "^3.4.35"
   },
   "peerDependencies": {},
   "exports": {

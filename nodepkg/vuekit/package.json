@@ -14,8 +14,8 @@
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
     "immer": "^10.1.1",
     "rxjs": "^7.8.1",
-    "vue": "^3.4.34",
-    "vue-router": "^4.4.0"
+    "vue": "^3.4.35",
+    "vue-router": "^4.4.2"
   },
   "peerDependencies": {},
   "exports": {

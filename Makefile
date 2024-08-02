@@ -18,6 +18,9 @@ build.openapi-playground:
 	cp ./tool/openapiview/index.go  ./public/openapi-playground/index.go
 	cp ./tool/openapiview/go.mod ./public/openapi-playground/go.mod
 
+preview.openapi-playground:
+	APP=openapi-playground $(VITE) preview --host=127.0.0.1
+
 dev:
 	$(VITE)
 

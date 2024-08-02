@@ -1,5 +1,6 @@
 import { transform, usePlugin } from "@innoai-tech/purebundle";
 import { type Plugin, createFilter } from "vite";
+import { isUndefined } from "@innoai-tech/lodash";
 
 export const chunkCleanup = (
   opt: {
@@ -30,7 +31,7 @@ export const chunkCleanup = (
     config(c) {
       c.build = c.build ?? {};
 
-      if (opt.minify) {
+      if (!isUndefined(opt.minify)) {
         // when minify set, disable default esbuild minify
         c.build.minify = false;
       }
