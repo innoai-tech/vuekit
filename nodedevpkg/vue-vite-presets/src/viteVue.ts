@@ -2,10 +2,14 @@ import vue from "@vitejs/plugin-vue";
 import type { PluginOption } from "vite";
 import vitePages, {
   type PageResolver,
-  type PageOptions
+  type PageOptions,
 } from "vite-plugin-pages";
 import { mdx } from "./mdx";
-import { createPageMetaResolver, viteVueComponentCompleter, viteVueComponentHMR } from "./vue";
+import {
+  createPageMetaResolver,
+  viteVueComponentCompleter,
+  viteVueComponentHMR,
+} from "./vue";
 
 export interface ViteReactOptions {
   pagesDirs?: string | (string | PageOptions)[];
@@ -27,8 +31,8 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
       onRoutesGenerated: r.onRoutesGenerated,
       resolver: {
         ...r.pagesResolver,
-        ...options.pagesResolver
-      }
-    }) as PluginOption
+        ...options.pagesResolver,
+      },
+    }) as PluginOption,
   ];
 };

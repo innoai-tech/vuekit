@@ -2,8 +2,9 @@ import {
   type AnyType,
   component,
   component$,
-  createProvider, RouterLink,
+  createProvider,
   t,
+  RouterLink,
   type VNodeChild
 } from "@innoai-tech/vuekit";
 import { isUndefined } from "@innoai-tech/lodash";
@@ -19,11 +20,11 @@ export const Token = styled("div")({
   lineHeight: 14
 });
 
-export const PropName = styled("div", {
-  deprecated: t.boolean().optional(),
-  optional: t.boolean().optional(),
-  nullable: t.boolean().optional()
-})({
+export const PropName = styled<{
+  deprecated?: boolean,
+  optional?: boolean,
+  nullable?: boolean,
+}, "div">("div")({
   display: "inline-table",
   textStyle: "sys.label-small",
   fontWeight: "bold",
@@ -46,37 +47,30 @@ export const PropName = styled("div", {
   }
 });
 
-export const Line = styled(
-  "div",
-  {
-    spacing: t.number().optional().default(0),
-    $default: t.custom<VNodeChild>().optional()
-  },
-  (props, { slots }) => {
-    const i = IntentContextProvider.use();
+export const Line = styled<{
+  spacing?: number,
+  $default?: VNodeChild
+}, "div">("div", (props, { slots }) => {
+  const i = IntentContextProvider.use();
 
-    return (Root) => (
-      <Root
-        style={{
-          paddingLeft: `${i.indent}em`,
-          marginTop: props.spacing * 0.5
-        }}
-      >
-        {slots.default?.()}
-      </Root>
-    );
-  }
-)({
+  return (Root) => (
+    <Root
+      style={{
+        paddingLeft: `${i.indent}em`,
+        marginTop: (props.spacing ?? 0) * 0.5
+      }}
+    >
+      {slots.default?.()}
+    </Root>
+  );
+})({
   position: "relative",
   display: "block"
 });
 
-export const Description = styled(
-  "div",
-  {
-    schema: t.custom<AnyType>()
-  },
-  (props, {}) => {
+export const Description = styled<{
+  schema: AnyType
+}, "div">("div", (props, {}) => {
     return (Root) => {
       const description = props.schema.getMeta<string>("description") ?? "";
 
@@ -107,6 +101,7 @@ export const Description = styled(
     whiteSpace: "nowrap",
     opacity: 0.7
   },
+
   "& code": {
     wordBreak: "keep-all",
     whiteSpace: "nowrap"
@@ -163,11 +158,9 @@ const IntentContextProvider = createProvider(
 );
 
 
-export const Indent = component(
-  {
-    $default: t.custom<VNodeChild>().optional()
-  },
-  ({}, { slots }) => {
+export const Indent = component<{
+  $default?: VNodeChild,
+}>(({}, { slots }) => {
     const i = IntentContextProvider.use();
 
     return () => (
@@ -210,38 +203,35 @@ class Node {
 
 const SchemaRenderProvider = createProvider<Node>(() => new Node(""));
 
-const SchemaViewLink = component$(
-  {
-    schema: t.custom<AnyType>()
-  }, (props) => {
-    const node = SchemaRenderProvider.use();
+const SchemaViewLink = component$<{
+  schema: AnyType,
+}>((props) => {
+  const node = SchemaRenderProvider.use();
 
-    return () => {
-      const id = props.schema.getSchema("$ref");
+  return () => {
+    const id = props.schema.getSchema("$ref");
 
-      let schema = props.schema;
+    let schema = props.schema;
 
-      while (schema.getSchema("$ref")) {
-        schema = schema.unwrap;
-      }
+    while (schema.getSchema("$ref")) {
+      schema = schema.unwrap;
+    }
 
-      const needID = schema.type == "intersection" || schema.type == "object" || schema.type == "union" || schema.type == "record" || schema.type == "array" || schema.type == "union";
+    const needID = schema.type == "intersection" || schema.type == "object" || schema.type == "union" || schema.type == "record" || schema.type == "array" || schema.type == "union";
 
-      return (
-        <SchemaRenderProvider value={node.child(id)}>
-          {needID && <RouterLink to={`#${id}`}><Token id={id}>{id}&nbsp;</Token></RouterLink>}
-          {node.safe(id) && <SchemaView schema={schema} />}
-        </SchemaRenderProvider>
-      );
-    };
-  });
+    return (
+      <SchemaRenderProvider value={node.child(id)}>
+        {needID && <RouterLink to={`#${id}`}><Token id={id}>{id}&nbsp;</Token></RouterLink>}
+        {node.safe(id) && <SchemaView schema={schema} />}
+      </SchemaRenderProvider>
+    );
+  };
+});
 
 
-export const SchemaView = component$(
-  {
-    schema: t.custom<AnyType>()
-  },
-  (props) => {
+export const SchemaView = component$<{
+  schema: AnyType,
+}>((props) => {
     const schema = props.schema;
 
     if (schema.getSchema("$ref")) {
@@ -426,7 +416,6 @@ function hasValidate(schema: AnyType) {
     "minProperties"
   ] as Array<keyof ValidatedSchemaProps>).some((key) => schema.getSchema(key));
 }
-
 
 export interface ValidatedSchemaProps {
   maximum?: number;

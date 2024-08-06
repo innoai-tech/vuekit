@@ -1,9 +1,12 @@
 import { styled } from "@innoai-tech/vueuikit";
 
-export const Icon = styled<{
-  path: string,
-  placement?: "start" | "end",
-}, "span">("span", (props, _) => {
+export const Icon = styled<
+  {
+    path: string;
+    placement?: "start" | "end";
+  },
+  "span"
+>("span", (props, _) => {
   return (Wrapper) => (
     <Wrapper data-icon={true} data-placement={props.placement}>
       <svg viewBox="0 0 24 24">
@@ -12,6 +15,5 @@ export const Icon = styled<{
     </Wrapper>
   );
 })({
-  boxSize: "1.2em"
+  boxSize: "1.2em",
 });
-

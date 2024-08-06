@@ -204,8 +204,8 @@ manifest = "manifest"
       
 export const displayKubepkgV1Alpha1DigestMetaType = (v: KubepkgV1Alpha1DigestMetaType) => {
   return ({
-blob: "Blob",
-manifest: "Manifest"   
+"blob": "Blob",
+"manifest": "Manifest"   
   })[v] ?? v      
 }
       

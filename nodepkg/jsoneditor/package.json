@@ -1,0 +1,51 @@
+{
+  "name": "@innoai-tech/jsoneditor",
+  "version": "0.1.4",
+  "monobundle": {
+    "build": {
+      "clean": true
+    },
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  },
+  "dependencies": {
+    "@innoai-tech/vuekit": "workspace:^",
+    "@innoai-tech/vuemarkdown": "workspace:^",
+    "@innoai-tech/vuematerial": "workspace:^",
+    "@innoai-tech/vueuikit": "workspace:^",
+    "@mdi/js": "^7.4.47",
+    "copy-to-clipboard": "^3.3.3"
+  },
+  "peerDependencies": {},
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "import": {
+        "types": "./src/index.ts",
+        "default": "./dist/index.mjs"
+      }
+    }
+  },
+  "files": [
+    "dist/*",
+    "src/*",
+    "!/**/__tests__"
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/jsoneditor"
+  },
+  "scripts": {
+    "lint": "bunx --bun prettier --write . ",
+    "build": "bunx --bun monobundle",
+    "prepublishOnly": "bun run build"
+  },
+  "type": "module"
+}

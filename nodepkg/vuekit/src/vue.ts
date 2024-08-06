@@ -2,7 +2,7 @@ import {
   type AnyType,
   type Infer,
   type Simplify,
-  t
+  t,
 } from "@innoai-tech/typedef";
 import {
   type ObjectEmitsOptions,
@@ -11,7 +11,7 @@ import {
   type VNode,
   type Ref,
   type UnwrapRef,
-  customRef
+  customRef,
 } from "vue";
 
 export type VElementType = string | Component<any>;
@@ -57,14 +57,14 @@ type EmitFn<
 > = UnionToIntersection<
   {
     [Key in Event]: E[Key] extends (...args: infer Args) => any
-    ? (event: Key, ...args: Args) => void
-    : (event: Key) => void;
+      ? (event: Key, ...args: Args) => void
+      : (event: Key) => void;
   }[Event]
 >;
 
 type UnionToIntersection<U> = (
   U extends any ? (arg: U) => any : never
-  ) extends (arg: infer I) => void
+) extends (arg: infer I) => void
   ? I
   : never;
 
@@ -75,15 +75,19 @@ export type PublicPropsOf<
 
 export type SetupFunction<Props extends Record<string, any>> = (
   props: InternalPropsOf<Props>,
-  ctx: SetupContext<InternalEmitsOf<Props>, InternalSlotsOf<Props>>
+  ctx: SetupContext<InternalEmitsOf<Props>, InternalSlotsOf<Props>>,
 ) => RenderFunction;
 
+export type InternalPropsOf<Props extends Record<string, any>> = Simplify<
+  PickProps<Props>
+>;
 
-export type InternalPropsOf<Props extends Record<string, any>> = Simplify<PickProps<Props>>;
+export type InternalSlotsOf<Props extends Record<string, any>> = Simplify<
+  ToInternalSlots<PickSlotProps<Props>>
+>;
 
-export type InternalSlotsOf<Props extends Record<string, any>> = Simplify<ToInternalSlots<PickSlotProps<Props>>>;
-
-export type InternalEmitsOf<Props extends Record<string, any>> = ToInternalEmits<Simplify<PickEmitProps<Props>>>;
+export type InternalEmitsOf<Props extends Record<string, any>> =
+  ToInternalEmits<Simplify<PickEmitProps<Props>>>;
 
 export type PickProps<O extends Record<string, any>> = {
   [K in keyof O as K extends string ? NormalProp<K> : never]: O[K];
@@ -173,7 +177,7 @@ export function ref<T = any>(): Ref<T | undefined> {
           currentValue = newValue;
           trigger();
         }
-      }
+      },
     };
   });
 }

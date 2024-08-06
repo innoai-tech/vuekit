@@ -7,9 +7,9 @@ export interface Index {
 
 export const ManifestProvider = createProvider<Index>(
   () => ({
-    name: "undefined",
+    name: "undefined"
   }),
   {
-    name: "Manifest",
-  },
+    name: "Manifest"
+  }
 );

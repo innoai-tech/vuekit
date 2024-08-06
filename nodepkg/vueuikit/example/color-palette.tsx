@@ -24,7 +24,7 @@ export default component(() => {
                     flex: 1,
                     display: "flex",
                     alignItems: "center",
-                    gap: 16
+                    gap: 16,
                   }}
                 >
                   <Box sx={{ flex: 1 }}>{name}</Box>
@@ -57,8 +57,8 @@ export default component(() => {
                       "& input": {
                         width: "40%",
                         border: "1px solid",
-                        borderColor: "sys.outline"
-                      }
+                        borderColor: "sys.outline",
+                      },
                     }}
                   >
                     <input
@@ -68,22 +68,21 @@ export default component(() => {
                       min={0}
                       style={{
                         backgroundColor: Palette.toHEX(
-                          pp.seeds[base].tone(tone)
+                          pp.seeds[base].tone(tone),
                         ),
-                        color: tone > 50 ? "black" : "white"
+                        color: tone > 50 ? "black" : "white",
                       }}
                       data-color={Palette.toHEX(pp.seeds[base].tone(tone))}
                       data-theme={"dark"}
                       onChange={(evt) => {
                         try {
                           const v = parseInt(
-                            (evt.target as HTMLInputElement).value
+                            (evt.target as HTMLInputElement).value,
                           );
                           p.next((x) => {
                             (x.rules as any)[role] = [base, v, tone];
                           });
-                        } catch (_) {
-                        }
+                        } catch (_) {}
                       }}
                     />
                   </Box>

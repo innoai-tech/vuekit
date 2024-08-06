@@ -25,7 +25,7 @@ const RxSlot = component(
   {
     elem$: t.custom<Observable<RenderFunction>>(),
 
-    $default: t.custom<{}>()
+    $default: t.custom<{}>(),
   },
   (props, _) => {
     const r = shallowRef<RenderFunction | null>(null);
@@ -35,7 +35,7 @@ const RxSlot = component(
       tap((renderFunc) => {
         r.value = renderFunc;
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return () => {
@@ -43,6 +43,6 @@ const RxSlot = component(
     };
   },
   {
-    name: "RxSlot"
-  }
+    name: "RxSlot",
+  },
 );

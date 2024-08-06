@@ -50,6 +50,8 @@
     "vue": "^3.4.35"
   },
   "resolutions": {
+    "@codemirror/state": "^6.4.1",
+    "@codemirror/view": "^6.29.1",
     "vite": "5.3.5",
     "vue": "3.4.35"
   }

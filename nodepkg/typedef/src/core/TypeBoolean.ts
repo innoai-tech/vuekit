@@ -15,7 +15,7 @@ export class TypeBoolean extends Type<boolean, { type: "boolean" }> {
 
   override coercer(value: unknown, _: Context) {
     try {
-      return (value != undefined) ? String(value) === "true" : undefined;
+      return value != undefined ? String(value) === "true" : undefined;
     } catch (err) {
       return undefined;
     }

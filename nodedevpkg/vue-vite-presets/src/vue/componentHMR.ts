@@ -18,12 +18,10 @@ export interface Module {
   exports: Map<string, ModuleExport>;
 }
 
-export const viteVueComponentHMR = (
-  options: VueJsxHmrOptions = {}
-): Plugin => {
+export const viteVueComponentHMR = (options: VueJsxHmrOptions = {}): Plugin => {
   const filter = createFilter(
     options.include || [/\.tsx$/, /\.mdx?$/],
-    options.exclude
+    options.exclude,
   );
 
   let hmrEnabled = false;
@@ -50,7 +48,7 @@ export const viteVueComponentHMR = (
       }
 
       return null;
-    }
+    },
   };
 };
 
@@ -80,7 +78,6 @@ ${callbackBlock}
   return code;
 }
 
-
 export const exportScanner = (id: string, filename = id) => {
   const re =
     /export (const (?<name>\w+) =|default) (?<defStart>(styled|component\$?)\()/;
@@ -89,7 +86,7 @@ export const exportScanner = (id: string, filename = id) => {
     scan(code: string): Module {
       const ret = {
         code: "",
-        exports: new Map<string, ModuleExport>()
+        exports: new Map<string, ModuleExport>(),
       };
       let src = code;
       let m: RegExpMatchArray | null = null;
@@ -108,11 +105,13 @@ export const exportScanner = (id: string, filename = id) => {
         const local =
           exported !== "default"
             ? exported
-            : upperFirst(camelCase(`${basename(filename, extname(filename))}Default`));
+            : upperFirst(
+                camelCase(`${basename(filename, extname(filename))}Default`),
+              );
 
         const range = {
           start: m.index ?? 0,
-          length: m[0].length
+          length: m[0].length,
         };
 
         ret.exports.set(local, { exported, id: getHash(`${id}#${exported}`) });
@@ -143,6 +142,6 @@ export { ${nonDefaultExports.join(", ")} }
       }
 
       return ret;
-    }
+    },
   };
 };

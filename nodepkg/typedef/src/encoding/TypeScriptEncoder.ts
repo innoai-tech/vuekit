@@ -75,7 +75,6 @@ export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
         return JSON.stringify(type.schema.enum[0]);
       }
 
-
       case "enums": {
         if (declName) {
           const isPrefixDigit = (v: any) => {
@@ -93,7 +92,7 @@ export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
             "enum",
             `{
 ${type.schema.enum.map((v: any) => `${isPrefixDigit(v) ? `_${v}` : v} = ${JSON.stringify(v)}`).join(",\n")}         
-}`
+}`,
           ]);
 
           const enumLabels = rawType.getMeta("enumLabels") as any[];
@@ -104,10 +103,13 @@ ${type.schema.enum.map((v: any) => `${isPrefixDigit(v) ? `_${v}` : v} = ${JSON.s
               `(v: ${declName}) => {
   return ({
 ${type.schema.enum
-                .map((v: any, i: number) => `${v}: ${JSON.stringify(enumLabels[i])}`)
-                .join(",\n")}   
+  .map(
+    (v: any, i: number) =>
+      `${JSON.stringify(v)}: ${JSON.stringify(enumLabels[i])}`,
+  )
+  .join(",\n")}   
   })[v] ?? v      
-}`
+}`,
             ]);
           }
 

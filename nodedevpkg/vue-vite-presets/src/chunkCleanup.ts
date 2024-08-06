@@ -13,14 +13,14 @@ export const chunkCleanup = (
       exclude?: string[];
       include?: string[];
     };
-  } = {}
+  } = {},
 ): Plugin => {
   const isJSOrLike = createFilter([
     /\.vue$/,
     /\.mdx$/,
     /\.tsx?$/,
     /\.mjs$/,
-    /\.jsx?$/
+    /\.jsx?$/,
   ]);
 
   return {
@@ -50,13 +50,13 @@ export const chunkCleanup = (
       const result = await transform(code, {
         filename: id,
         env: opt.env ?? { targets: "defaults" },
-        minify: false
+        minify: false,
       });
 
       return (
         result.code && {
           code: result.code,
-          map: result.map || null
+          map: result.map || null,
         }
       );
     },
@@ -65,11 +65,9 @@ export const chunkCleanup = (
       return (
         await transform(code, {
           minify: opt.minify ?? false,
-          plugins: [
-            usePlugin({})
-          ]
+          plugins: [usePlugin({})],
         })
       ).code;
-    }
+    },
   };
 };

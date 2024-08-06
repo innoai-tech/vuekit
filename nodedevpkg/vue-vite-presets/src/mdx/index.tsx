@@ -43,31 +43,31 @@ export const mdx = (): PluginOption => {
               const rawCode = children[0].value;
 
               const exportName = `CodeBlock${getHash(
-                `${metadata["filename"] ?? pos}`
+                `${metadata["filename"] ?? pos}`,
               )}`;
 
               const id = vc.store(`${mdxFile}~${exportName}.tsx`, rawCode);
 
               additionalImports.set(mdxFile, {
                 ...(additionalImports.get(mdxFile) ?? {}),
-                [id]: exportName
+                [id]: exportName,
               });
 
               tree.children[pos] = h(
                 "div",
                 {
-                  "data-example": ""
+                  "data-example": "",
                 },
                 [
                   h(
                     "div",
                     {
-                      "data-example-container": ""
+                      "data-example-container": "",
                     },
-                    h(exportName)
+                    h(exportName),
                   ),
-                  pre
-                ]
+                  pre,
+                ],
               );
             }
           }
@@ -80,7 +80,7 @@ export const mdx = (): PluginOption => {
     include: [/\.mdx?$/],
     jsxRuntime: "automatic",
     jsxImportSource: "@innoai-tech/vuekit",
-    rehypePlugins: [rehypeRenderCodeBlock, rehypePrism]
+    rehypePlugins: [rehypeRenderCodeBlock, rehypePrism],
   });
 
   return {
@@ -114,36 +114,36 @@ export const mdx = (): PluginOption => {
           ...ret,
           code: `
 ${Object.keys(codeBlockImports)
-            .map(
-              (importPath) => `
-import ${codeBlockImports[importPath]} from ${JSON.stringify(importPath)}`
-            )
-            .join(";\n")}
+  .map(
+    (importPath) => `
+import ${codeBlockImports[importPath]} from ${JSON.stringify(importPath)}`,
+  )
+  .join(";\n")}
             
 import { defineComponent, h } from "vue"              
 
 ${ret.code.replace(
-            "export default function MDXContent(",
-            "function MDXContent("
-          )}
+  "export default function MDXContent(",
+  "function MDXContent(",
+)}
 
 export default defineComponent(() => {
   return () => h(MDXContent, {
     components: {
 ${Object.keys(codeBlockImports)
-            .map(
-              (importPath) =>
-                `${codeBlockImports[importPath]?.toLowerCase()}: ${
-                  codeBlockImports[importPath]
-                }`
-            )
-            .join(",\n")}
+  .map(
+    (importPath) =>
+      `${codeBlockImports[importPath]?.toLowerCase()}: ${
+        codeBlockImports[importPath]
+      }`,
+  )
+  .join(",\n")}
     }
   })
 })
-`
+`,
         };
       }
-    }
+    },
   };
 };

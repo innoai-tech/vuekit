@@ -18,7 +18,7 @@ import { FilledButton, Icon } from "@innoai-tech/vuematerial";
 import { Box } from "@innoai-tech/vueuikit";
 import { Description, Line, SchemaView } from "./SchemaView.tsx";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
-import { JSONCueEditorInput } from "./components/JSONCueEditor.tsx";
+import { JSONEditorInput } from "./components/JSONEditor.tsx";
 import { onUnmounted } from "vue";
 import { ResponsePreview } from "./ResponsePreview.tsx";
 import { HttpRequest } from "./HTTPViews.tsx";
@@ -45,7 +45,7 @@ export const RequestBuilder = component$({
     }
 
     if (["object", "array"].includes(p.schema.type ?? "")) {
-      propSchemas[p.name] = x.use(f.inputBy(JSONCueEditorInput));
+      propSchemas[p.name] = x.use(f.inputBy(JSONEditorInput));
     } else {
       propSchemas[p.name] = x;
     }
@@ -64,7 +64,7 @@ export const RequestBuilder = component$({
       );
 
       if (contentType.includes("json")) {
-        propSchemas["body"] = x.use(f.inputBy(JSONCueEditorInput));
+        propSchemas["body"] = x.use(f.inputBy(JSONEditorInput));
       } else if (contentType.includes("octet-stream")) {
         propSchemas["body"] = x.use(f.inputBy(FileSelectInput));
       } else {

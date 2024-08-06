@@ -48,18 +48,16 @@ describe("Provider", () => {
     });
 
     test("could inject custom value", async () => {
-      const With = component(
-        {
-          context: t.string().optional().default("injected"),
-        },
-        (props, _) => {
-          const r = ref({ context: props.context });
+      const With = component<{
+        context?: string,
+      }>((props, _) => {
+          const r = ref({ context: props.context ?? "injected" });
 
           watch(
             () => props.context,
             (context) => {
-              r.value = { context: context };
-            },
+              r.value = { context: context ?? "injected" };
+            }
           );
 
           return () => (
@@ -68,12 +66,15 @@ describe("Provider", () => {
             </P>
           );
         },
+        {
+          props: ["context"]
+        }
       );
 
       const wrapper = mount(With, {});
       expect(wrapper.text()).toContain("injected");
       await wrapper.setProps({
-        context: "injected2",
+        context: "injected2"
       });
       expect(wrapper.text()).toContain("injected2");
 
@@ -84,9 +85,11 @@ describe("Provider", () => {
   describe("factory", () => {
     const P = createProvider(
       {
-        input: t.string().default("default"),
+        input: t.string().default("default")
       },
-      (props) => ({ context: `${props.input}` }),
+      (props) => ({ context: `${props.input}` }), {
+        name: "Factory"
+      }
     );
 
     const C = component((_, _1) => {
@@ -117,26 +120,21 @@ describe("Provider", () => {
   });
 
   describe("reactive factory", () => {
-    const P = createProvider(
-      {
-        input: t.string().default("default"),
-      },
-      (props) => {
-        const r = ref(props.input);
+    const P = createProvider<{ value: string }, { input: string }>((props) => {
+      const r = ref(props.input ?? "default");
 
-        watch(
-          () => props.input,
-          (input) => {
-            r.value = input;
-          },
-        );
+      watch(() => props.input, (input) => {
+        r.value = input;
+      });
 
-        return r;
-      },
-    );
+      return r;
+    }, {
+      props: ["input"]
+    });
 
     const C = component((_, _1) => {
       const p = P.use();
+
       return () => <div>{p.value}</div>;
     });
 
@@ -147,26 +145,27 @@ describe("Provider", () => {
     });
 
     test("could inject custom value", async () => {
-      const With = component(
-        {
-          input: t.string().optional().default("injected"),
-        },
-        (props, _) => {
-          return () => (
-            <P input={props.input}>
-              <C />
-            </P>
-          );
-        },
-      );
+      const With = component<{
+        input?: string,
+      }>((props, _) => {
+
+        return () => (
+          <P input={props.input ?? "injected"}>
+            <C />
+          </P>
+        );
+      }, {
+        props: ["input"]
+      });
 
       const wrapper = mount(With, {});
       expect(wrapper.text()).toContain("injected");
 
       for (let i = 0; i < 2; i++) {
         await wrapper.setProps({
-          input: "injected2",
+          input: "injected2"
         });
+
         expect(wrapper.text()).toContain("injected2");
       }
 

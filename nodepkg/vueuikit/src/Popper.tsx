@@ -1,38 +1,40 @@
-import { type VNode, type VNodeChild, component, t } from "@innoai-tech/vuekit";
+import { type VNode, type VNodeChild, component } from "@innoai-tech/vuekit";
 import {
   type Modifier,
   type Placement,
   createPopperLite,
-  flip,
+  flip
 } from "@popperjs/core";
 import type { ModifierArguments, State } from "@popperjs/core";
-import { cloneVNode, ref, watch } from "vue";
+import { cloneVNode, type CSSProperties, type Ref, ref, watch } from "vue";
 import { Overlay } from "./Overlay";
 
 export function createPopperModifier<Options extends Record<string, any>>(
   fn: (o: ModifierArguments<Options>) => State | undefined,
-  options: Omit<Modifier<string | Symbol, Options>, "fn" | "enabled">,
+  options: Omit<Modifier<string | Symbol, Options>, "fn" | "enabled">
 ): Modifier<string | Symbol, Options> {
   return {
     fn,
     enabled: true,
-    ...options,
+    ...options
   };
 }
 
-export const Popper = component(
-  {
-    isOpen: Overlay.propTypes!.isOpen,
-    onClickOutside: Overlay.propTypes!.onClickOutside,
+export const Popper = component<{
+  isOpen?: boolean,
+  style?: CSSProperties,
+  contentRef?: Ref<HTMLDivElement | null>,
+  triggerRef?: Ref<HTMLElement | null>,
+  onClickOutside?: (e: Event) => void,
+  onEscKeydown?: (e: Event) => void,
+  onContentBeforeMount?: () => void,
+  $transition?: (ctx: { content: JSX.Element | null }) => VNodeChild,
+  $default?: JSX.Element | null,
+  $content?: VNodeChild,
 
-    placement: t.custom<Placement>().optional(),
-    modifiers: t.custom<Array<Modifier<any, any>>>().optional(),
-
-    $transition: Overlay.propTypes!.$transition,
-    $content: t.custom<VNodeChild>(),
-    $default: t.custom<JSX.Element | null>(),
-  },
-  (props, { slots, emit, attrs }) => {
+  placement?: Placement,
+  modifiers?: Array<Modifier<any, any>>
+}>((props, { slots, emit, attrs }) => {
     const triggerRef = ref<HTMLElement | null>(null);
     const contentRef = ref<HTMLDivElement | null>(null);
 
@@ -42,10 +44,10 @@ export const Popper = component(
         if (contentEl && triggerRef.value) {
           createPopperLite(triggerRef.value, contentEl, {
             placement: props.placement ?? "bottom",
-            modifiers: [...(props.modifiers ?? []), flip],
+            modifiers: [...(props.modifiers ?? []), flip]
           });
         }
-      },
+      }
     );
 
     return () => {
@@ -61,7 +63,7 @@ export const Popper = component(
             ...attrs,
             onVnodeMounted: (n) => {
               triggerRef.value = resolveElement(n.el);
-            },
+            }
           })}
           <Overlay
             triggerRef={triggerRef}
@@ -79,8 +81,8 @@ export const Popper = component(
   },
   {
     name: "Popper",
-    inheritAttrs: false,
-  },
+    inheritAttrs: false
+  }
 );
 
 function resolveElement(el: VNode["el"]): HTMLElement | null {

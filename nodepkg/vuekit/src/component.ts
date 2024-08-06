@@ -1,4 +1,10 @@
-import { isFunction, isPlainObject, isUndefined, kebabCase, partition } from "@innoai-tech/lodash";
+import {
+  isFunction,
+  isPlainObject,
+  isUndefined,
+  kebabCase,
+  partition
+} from "@innoai-tech/lodash";
 import { Fragment as OriginFragment } from "vue";
 import type {
   Component,
@@ -79,10 +85,11 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
         return {
           ...ret,
           [prop]: {
-            default: () => {
+            default() {
               try {
                 return d.create(undefined);
               } catch (e) {
+                console.log(e);
               }
               return;
             },
@@ -96,7 +103,7 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
       return {
         ...ret,
         [prop]: {
-          default: () => {
+          default() {
             return undefined;
           }
         }
@@ -104,10 +111,16 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
     }, {})
   };
 
+  if (emitsAndProps.props.input) {
+    console.log(finalOptions["name"], emitsAndProps.props.input?.default());
+  }
+
   return {
     ...finalOptions,
     get name() {
-      return this.displayName ?? finalOptions["displayName"] ?? finalOptions["name"];
+      return (
+        this.displayName ?? finalOptions["displayName"] ?? finalOptions["name"]
+      );
     },
     set name(n: string) {
       finalOptions["name"] = n;
@@ -116,7 +129,6 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
     emits: emitsAndProps.emits,
     props: emitsAndProps.props,
     inheritAttrs: finalOptions["inheritAttrs"],
-    propTypes: finalPropTypes,
     __component
   } as any;
 }

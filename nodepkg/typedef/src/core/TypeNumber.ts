@@ -15,7 +15,7 @@ export class TypeNumber extends Type<number, { type: "number" }> {
 
   override coercer(value: unknown, _: Context) {
     try {
-      return (value != undefined) ? parseFloat(String(value)) : undefined;
+      return value != undefined ? parseFloat(String(value)) : undefined;
     } catch (err) {
       return undefined;
     }

@@ -2,18 +2,17 @@ import { type Plugin, createFilter } from "vite";
 import { usePlugin } from "@innoai-tech/vuecomponentcompleter";
 import { transform } from "@swc/core";
 
-
 export interface ComponentCompleterOptions {
   include?: string[];
   exclude?: string[];
 }
 
 export const viteVueComponentCompleter = (
-  options: ComponentCompleterOptions = {}
+  options: ComponentCompleterOptions = {},
 ): Plugin => {
   const filter = createFilter(
     options.include || [/\.tsx$/, /\.mdx?$/],
-    options.exclude
+    options.exclude,
   );
 
   return {
@@ -34,24 +33,24 @@ export const viteVueComponentCompleter = (
             externalHelpers: false,
             parser: {
               syntax: "typescript",
-              tsx: true
+              tsx: true,
             },
             experimental: {
               disableBuiltinTransformsForInternalTesting: true,
-              plugins: [usePlugin({})]
-            }
-          }
+              plugins: [usePlugin({})],
+            },
+          },
         });
 
         return (
           result.code && {
             code: result.code,
-            map: result.map || null
+            map: result.map || null,
           }
         );
       }
 
       return null;
-    }
+    },
   };
 };
