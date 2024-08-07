@@ -3231,31 +3231,32 @@ if (cI.constructor !== cM) {
 let cN = uo, c$ = Symbol("component"), cU = (e11) => w(e11) && e11.__component === c$, cB = (e11) => w(e11) && Object.values(e11)[0] instanceof u;
 function cV() {
   let e11;
-  for (var t10, r10, l10 = arguments.length, o10 = Array(l10), i10 = 0; i10 < l10; i10++) o10[i10] = arguments[i10];
-  let a10 = {}, u10 = {};
-  for (let t11 of o10) {
+  for (var t10, r10, l10, o10 = arguments.length, i10 = Array(o10), a10 = 0; a10 < o10; a10++) i10[a10] = arguments[a10];
+  let u10 = {}, s10 = {};
+  for (let t11 of i10) {
     if (m(t11)) {
       e11 = t11;
       continue;
     }
-    E(e11) ? a10 = t11 : u10 = t11;
+    E(e11) ? u10 = t11 : s10 = t11;
   }
-  let [s10, c10] = b(Object.keys(a10), (e12) => /^on[A-Z]/.test(e12)), f10 = { emits: [...s10.map((e12) => _(e12.slice(2))), ...null !== (t10 = u10.emits) && void 0 !== t10 ? t10 : []], props: [...c10.filter((e12) => !/^[$]/.test(e12)), ...null !== (r10 = u10.props) && void 0 !== r10 ? r10 : []].reduce((e12, t11) => {
-    let r11 = a10[t11];
-    return r11 ? { ...e12, [t11]: { default: () => {
+  let [c10, f10] = b(Object.keys(u10), (e12) => /^on[A-Z]/.test(e12)), p10 = { emits: [...c10.map((e12) => _(e12.slice(2))), ...null !== (t10 = s10.emits) && void 0 !== t10 ? t10 : []], props: [...f10.filter((e12) => !/^[$]/.test(e12)), ...null !== (r10 = s10.props) && void 0 !== r10 ? r10 : []].reduce((e12, t11) => {
+    let r11 = u10[t11];
+    return r11 ? { ...e12, [t11]: { default() {
       try {
         return r11.create(void 0);
       } catch (e13) {
+        console.log(e13);
       }
-    }, validator: (e13) => r11.validate(e13) } } : { ...e12, [t11]: { default: () => {
+    }, validator: (e13) => r11.validate(e13) } } : { ...e12, [t11]: { default() {
     } } };
   }, {}) };
-  return { ...u10, get name() {
-    var p10, d2;
-    return null !== (d2 = null !== (p10 = this.displayName) && void 0 !== p10 ? p10 : u10.displayName) && void 0 !== d2 ? d2 : u10.name;
+  return p10.props.input && console.log(s10.name, null === (l10 = p10.props.input) || void 0 === l10 ? void 0 : l10.default()), { ...s10, get name() {
+    var d2, h2;
+    return null !== (h2 = null !== (d2 = this.displayName) && void 0 !== d2 ? d2 : s10.displayName) && void 0 !== h2 ? h2 : s10.name;
   }, set name(n) {
-    u10.name = n;
-  }, setup: (t11, r11) => e11(t11, r11), emits: f10.emits, props: f10.props, inheritAttrs: u10.inheritAttrs, propTypes: a10, __component: c$ };
+    s10.name = n;
+  }, setup: (t11, r11) => e11(t11, r11), emits: p10.emits, props: p10.props, inheritAttrs: s10.inheritAttrs, __component: c$ };
 }
 let cz = (e11, t10) => new Proxy(e11, { get(e12, r10) {
   var l10;
@@ -4384,30 +4385,38 @@ let pY = (e11) => {
     null == t10 || t10();
   } });
 };
-function pZ(e11, t10, r10) {
-  var l10, o10, i10;
-  let a10;
-  let u10 = w(e11) ? e11 : {}, f10 = m(e11) ? e11 : t10, p10 = null != t10 ? t10 : {}, d2 = Symbol(null !== (l10 = p10.name) && void 0 !== l10 ? l10 : "");
-  if (A(u10)) {
+function pZ() {
+  let e11, t10;
+  for (var r10, l10, o10, i10 = arguments.length, a10 = Array(i10), u10 = 0; u10 < i10; u10++) a10[u10] = arguments[u10];
+  let f10 = {}, p10 = {};
+  for (let e12 of a10) {
+    if (m(e12)) {
+      t10 = e12;
+      continue;
+    }
+    E(t10) ? f10 = e12 : p10 = e12;
+  }
+  let d2 = Symbol(null !== (r10 = null == p10 ? void 0 : p10.name) && void 0 !== r10 ? r10 : "");
+  if (A(f10) && A(p10.props)) {
     let e12;
-    let t11 = () => (void 0 === e12 && (e12 = f10({})), e12);
-    return cz(cV({ value: s().optional(), $default: s().optional() }, (e13, r11) => {
+    let r11 = () => null != e12 ? e12 : e12 = t10({});
+    return cz(cV({ value: s().optional(), $default: s().optional() }, (e13, t11) => {
       var l11;
-      let { slots: o11 } = r11;
-      return a_(d2, null !== (l11 = e13.value) && void 0 !== l11 ? l11 : t11()), () => {
+      let { slots: o11 } = t11;
+      return a_(d2, null !== (l11 = e13.value) && void 0 !== l11 ? l11 : r11()), () => {
         var e14;
         return null === (e14 = o11.default) || void 0 === e14 ? void 0 : e14.call(o11);
       };
-    }, { ...p10, name: `Provide(${null !== (o10 = p10.name) && void 0 !== o10 ? o10 : ""})` }, { displayName: "Provider" }), { use: () => aw(d2, t11, true) });
+    }, { ...p10, name: `Provide(${null !== (l10 = null == p10 ? void 0 : p10.name) && void 0 !== l10 ? l10 : ""})` }, { displayName: "Provider" }), { use: () => aw(d2, r11, true) });
   }
-  let h2 = c(u10), g2 = () => h2.create({}), y2 = () => (void 0 === a10 && (a10 = f10(g2())), a10);
-  return cz(cV({ ...u10, $default: s().optional() }, (e12, t11) => {
-    let { slots: r11 } = t11;
-    return a_(d2, f10(e12)), () => {
-      var e13;
-      return null === (e13 = r11.default) || void 0 === e13 ? void 0 : e13.call(r11);
+  let h2 = c(f10), g2 = () => h2.create({});
+  return cz(cV({ ...f10, $default: s().optional() }, (r11, l11) => {
+    let { slots: o11 } = l11;
+    return a_(d2, e11 = t10(r11)), () => {
+      var e12;
+      return null === (e12 = o11.default) || void 0 === e12 ? void 0 : e12.call(o11);
     };
-  }, { ...p10, name: `Provide(${null !== (i10 = p10.name) && void 0 !== i10 ? i10 : ""})` }, { displayName: "Provider" }), { use: () => aw(d2, y2, true) });
+  }, { ...p10, name: `Provide(${null !== (o10 = null == p10 ? void 0 : p10.name) && void 0 !== o10 ? o10 : ""})` }, { displayName: "Provider" }), { use: () => aw(d2, () => null != e11 ? e11 : e11 = t10(g2()), true) });
 }
 var pJ = e3("match"), p0 = Math.floor, p1 = ey("".charAt), p2 = ey("".replace), p3 = ey("".slice), p4 = /\$([$&'`]|\d{1,2}|<[^>]*>)/g, p6 = /\$([$&'`]|\d{1,2})/g, p8 = function(e11) {
   var t10;
