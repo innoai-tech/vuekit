@@ -1,6 +1,6 @@
 import { createRequest } from "./client";
 
-import { t } from "@innoai-tech/typedef";
+import { t, type OptionalType } from "@innoai-tech/typedef";
 
 
 export const applyKubePkg =
@@ -214,10 +214,10 @@ export type KubepkgV1Alpha1Statuses = { [k: string]: any }
 
       
 export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/t.intersection(t.ref<typeof MetaV1TypeMetaSchema>("MetaV1TypeMeta", () => MetaV1TypeMetaSchema), t.object({
-  "metadata": t.ref<typeof MetaV1ObjectMetaSchema>("MetaV1ObjectMeta", () => MetaV1ObjectMetaSchema).optional(),
-  "spec": t.ref<typeof KubepkgV1Alpha1KubePkgSpecSchema>("KubepkgV1Alpha1KubePkgSpec", () => KubepkgV1Alpha1KubePkgSpecSchema).optional(),
-  "status": t.ref<typeof KubepkgV1Alpha1KubePkgStatusSchema>("KubepkgV1Alpha1KubePkgStatus", () => KubepkgV1Alpha1KubePkgStatusSchema).optional(),
-})).use(t.annotate({ description: "KubePkg" }))
+  "metadata": t.ref<typeof MetaV1ObjectMetaSchema>("MetaV1ObjectMeta", () => MetaV1ObjectMetaSchema).optional() as unknown as OptionalType<typeof MetaV1ObjectMetaSchema>,
+  "spec": t.ref<typeof KubepkgV1Alpha1KubePkgSpecSchema>("KubepkgV1Alpha1KubePkgSpec", () => KubepkgV1Alpha1KubePkgSpecSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1KubePkgSpecSchema>,
+  "status": t.ref<typeof KubepkgV1Alpha1KubePkgStatusSchema>("KubepkgV1Alpha1KubePkgStatus", () => KubepkgV1Alpha1KubePkgStatusSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1KubePkgStatusSchema>,
+})).annotate({ description: "KubePkg" })
       
 export const MetaV1TypeMetaSchema = /*#__PURE__*/t.object({
   "apiVersion": t.string().optional(),
@@ -227,9 +227,9 @@ export const MetaV1TypeMetaSchema = /*#__PURE__*/t.object({
 export const MetaV1ObjectMetaSchema = /*#__PURE__*/t.object({
   "annotations": t.record(t.string(), t.string()).optional(),
   "clusterName": t.string().optional(),
-  "creationTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional(),
+  "creationTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional() as unknown as OptionalType<typeof MetaV1TimeSchema>,
   "deletionGracePeriodSeconds": t.integer().optional(),
-  "deletionTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional(),
+  "deletionTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional() as unknown as OptionalType<typeof MetaV1TimeSchema>,
   "finalizers": t.array(t.string()).optional(),
   "generateName": t.string().optional(),
   "generation": t.integer().optional(),
@@ -240,7 +240,7 @@ export const MetaV1ObjectMetaSchema = /*#__PURE__*/t.object({
   "ownerReferences": t.array(t.ref<typeof MetaV1OwnerReferenceSchema>("MetaV1OwnerReference", () => MetaV1OwnerReferenceSchema)).optional(),
   "resourceVersion": t.string().optional(),
   "selfLink": t.string().optional(),
-  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema).optional(),
+  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema).optional() as unknown as OptionalType<typeof TypesUidSchema>,
 })
       
 export const MetaV1TimeSchema = /*#__PURE__*/t.string()
@@ -248,11 +248,11 @@ export const MetaV1TimeSchema = /*#__PURE__*/t.string()
 export const MetaV1ManagedFieldsEntrySchema = /*#__PURE__*/t.object({
   "apiVersion": t.string().optional(),
   "fieldsType": t.string().optional(),
-  "fieldsV1": t.ref<typeof MetaV1FieldsV1Schema>("MetaV1FieldsV1", () => MetaV1FieldsV1Schema).optional(),
+  "fieldsV1": t.ref<typeof MetaV1FieldsV1Schema>("MetaV1FieldsV1", () => MetaV1FieldsV1Schema).optional() as unknown as OptionalType<typeof MetaV1FieldsV1Schema>,
   "manager": t.string().optional(),
-  "operation": t.ref<typeof MetaV1ManagedFieldsOperationTypeSchema>("MetaV1ManagedFieldsOperationType", () => MetaV1ManagedFieldsOperationTypeSchema).optional(),
+  "operation": t.ref<typeof MetaV1ManagedFieldsOperationTypeSchema>("MetaV1ManagedFieldsOperationType", () => MetaV1ManagedFieldsOperationTypeSchema).optional() as unknown as OptionalType<typeof MetaV1ManagedFieldsOperationTypeSchema>,
   "subresource": t.string().optional(),
-  "time": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional(),
+  "time": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional() as unknown as OptionalType<typeof MetaV1TimeSchema>,
 })
       
 export const MetaV1FieldsV1Schema = /*#__PURE__*/t.record(t.string(), t.any())
@@ -265,14 +265,14 @@ export const MetaV1OwnerReferenceSchema = /*#__PURE__*/t.object({
   "controller": t.boolean().optional(),
   "kind": t.string(),
   "name": t.string(),
-  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema),
+  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema) as unknown as typeof TypesUidSchema,
 })
       
 export const TypesUidSchema = /*#__PURE__*/t.string()
       
 export const KubepkgV1Alpha1KubePkgSpecSchema = /*#__PURE__*/t.object({
   "images": t.record(t.string(), t.string()).optional(),
-  "manifests": t.ref<typeof KubepkgV1Alpha1ManifestsSchema>("KubepkgV1Alpha1Manifests", () => KubepkgV1Alpha1ManifestsSchema).optional(),
+  "manifests": t.ref<typeof KubepkgV1Alpha1ManifestsSchema>("KubepkgV1Alpha1Manifests", () => KubepkgV1Alpha1ManifestsSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1ManifestsSchema>,
   "version": t.string(),
 })
       
@@ -280,16 +280,16 @@ export const KubepkgV1Alpha1ManifestsSchema = /*#__PURE__*/t.record(t.string(), 
       
 export const KubepkgV1Alpha1KubePkgStatusSchema = /*#__PURE__*/t.object({
   "digests": t.array(t.ref<typeof KubepkgV1Alpha1DigestMetaSchema>("KubepkgV1Alpha1DigestMeta", () => KubepkgV1Alpha1DigestMetaSchema)).optional(),
-  "statuses": t.ref<typeof KubepkgV1Alpha1StatusesSchema>("KubepkgV1Alpha1Statuses", () => KubepkgV1Alpha1StatusesSchema).optional(),
+  "statuses": t.ref<typeof KubepkgV1Alpha1StatusesSchema>("KubepkgV1Alpha1Statuses", () => KubepkgV1Alpha1StatusesSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1StatusesSchema>,
 })
       
 export const KubepkgV1Alpha1DigestMetaSchema = /*#__PURE__*/t.object({
   "digest": t.string(),
   "name": t.string(),
   "platform": t.string().optional(),
-  "size": t.ref<typeof KubepkgV1Alpha1FileSizeSchema>("KubepkgV1Alpha1FileSize", () => KubepkgV1Alpha1FileSizeSchema),
+  "size": t.ref<typeof KubepkgV1Alpha1FileSizeSchema>("KubepkgV1Alpha1FileSize", () => KubepkgV1Alpha1FileSizeSchema) as unknown as typeof KubepkgV1Alpha1FileSizeSchema,
   "tag": t.string().optional(),
-  "type": t.ref<typeof KubepkgV1Alpha1DigestMetaTypeSchema>("KubepkgV1Alpha1DigestMetaType", () => KubepkgV1Alpha1DigestMetaTypeSchema),
+  "type": t.ref<typeof KubepkgV1Alpha1DigestMetaTypeSchema>("KubepkgV1Alpha1DigestMetaType", () => KubepkgV1Alpha1DigestMetaTypeSchema) as unknown as typeof KubepkgV1Alpha1DigestMetaTypeSchema,
 })
       
 export const KubepkgV1Alpha1FileSizeSchema = /*#__PURE__*/t.integer()

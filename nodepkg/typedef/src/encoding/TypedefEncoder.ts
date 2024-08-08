@@ -30,9 +30,7 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
   private _encode(type: AnyType, declName = ""): string {
     return `${this._encodeCode(type, declName)}${
       type.meta["description"]
-        ? `.use(t.annotate({ description: ${JSON.stringify(
-            type.meta["description"],
-          )} }))`
+        ? `.annotate({ description: ${JSON.stringify(type.meta["description"])} })`
         : ""
     }`;
   }
@@ -75,7 +73,7 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
       case "union": {
         const discriminatorPropertyName = get(type.schema, [
           "discriminator",
-          "propertyName",
+          "propertyName"
         ]);
 
         if (discriminatorPropertyName) {
@@ -86,7 +84,7 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
 
             const props = omit(
               sub.schema.properties,
-              discriminatorPropertyName,
+              discriminatorPropertyName
             );
 
             if (e) {
@@ -100,8 +98,8 @@ export const ${name}Schema = /*#__PURE__*/${decl}`;
 
           return `t.discriminatorMapping("${discriminatorPropertyName}", {
 ${Object.keys(mapping)
-  .map((k) => `${JSON.stringify(k)}: ${mapping[k]}`)
-  .join(",\n")}
+            .map((k) => `${JSON.stringify(k)}: ${mapping[k]}`)
+            .join(",\n")}
           })`;
         }
 
@@ -135,12 +133,29 @@ ${Object.keys(mapping)
         for (const p in type.schema.properties) {
           const propSchema = type.schema.properties[p] as Type;
 
-          ts += `  ${JSON.stringify(p)}`;
-          ts += `: ${this._encode(propSchema)}`;
+          let tpe = this._encode(propSchema);
 
           if (propSchema.isOptional) {
-            ts += ".optional()";
+            tpe += ".optional()";
           }
+
+          const re = /^t.ref<([^>]+)>.+/;
+
+          if (re.test(tpe)) {
+            tpe += " as unknown";
+
+            const tt = tpe.match(re)?.[1];
+
+            if (propSchema.isOptional) {
+              tpe += ` as OptionalType<${tt}>`;
+            } else {
+              tpe += ` as ${tt}`;
+            }
+          }
+
+          ts += `  ${JSON.stringify(p)}`;
+          ts += `: ${tpe}`;
+
 
           ts += `,
 `;

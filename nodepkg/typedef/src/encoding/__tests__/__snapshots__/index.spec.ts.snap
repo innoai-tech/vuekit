@@ -4,9 +4,9 @@ exports[`Encoding Typedef encode 1`] = `
 "
       
 export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).use(t.annotate({ description: "StrOrInt" })),
+  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
   "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional(),
+  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
   "keyValues": t.record(t.string(), t.any()).optional(),
   "array": t.array(t.boolean()),
   "point": t.tuple([t.number(), t.number()]),

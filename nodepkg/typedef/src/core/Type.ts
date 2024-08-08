@@ -13,7 +13,7 @@ export type Context = {
 
 export const EmptyContext: Context = {
   path: [],
-  branch: [],
+  branch: []
 };
 
 export type Failure = {
@@ -71,7 +71,7 @@ export type AnyType = Type<any, any>;
 
 export class Type<T = unknown, Schema = unknown> {
   static define<T>(
-    validator: (value: unknown, ctx: Context) => Result = () => true,
+    validator: (value: unknown, ctx: Context) => Result = () => true
   ) {
     class CustomType<T> extends Type<T, null> {
       override validator(value: unknown, ctx: Context): Result {
@@ -82,7 +82,8 @@ export class Type<T = unknown, Schema = unknown> {
     return new CustomType<T>(null);
   }
 
-  constructor(public readonly schema: Schema) {}
+  constructor(public readonly schema: Schema) {
+  }
 
   readonly Type!: T;
   readonly Schema!: Schema;
@@ -91,10 +92,11 @@ export class Type<T = unknown, Schema = unknown> {
     return (this.schema || ({} as any)).type ?? "unknown";
   }
 
-  *entries(
+  * entries(
     _value: unknown,
-    _context: Context = EmptyContext,
-  ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {}
+    _context: Context = EmptyContext
+  ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
+  }
 
   refiner(_value: T, _context: Context): Result {
     return [];
@@ -113,7 +115,7 @@ export class Type<T = unknown, Schema = unknown> {
     options: {
       coerce?: boolean;
       message?: string;
-    } = {},
+    } = {}
   ): [TypedError, undefined] | [undefined, T] {
     return validate(value, this, options);
   }
@@ -144,29 +146,33 @@ export class Type<T = unknown, Schema = unknown> {
     return OptionalType.create(this);
   }
 
+  annotate<M extends {}>(meta: M): Type<T, Schema & M> {
+    return TypeWrapper.of(this, { $meta: meta }) as unknown as Type<T, Schema & M>;
+  }
+
   use<S extends Type<T, Schema>, A>(op1: UnaryFunction<S, A>): A;
   use<S extends Type<T, Schema>, A>(op1: UnaryFunction<S, A>): A;
   use<S extends Type<T, Schema>, A, B>(
     op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
+    op2: UnaryFunction<A, B>
   ): B;
   use<S extends Type<T, Schema>, A, B, C>(
     op1: UnaryFunction<S, A>,
     op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
+    op3: UnaryFunction<B, C>
   ): C;
   use<S extends Type<T, Schema>, A, B, C, D>(
     op1: UnaryFunction<S, A>,
     op2: UnaryFunction<A, B>,
     op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
+    op4: UnaryFunction<C, D>
   ): D;
   use<S extends Type<T, Schema>, A, B, C, D, E>(
     op1: UnaryFunction<S, A>,
     op2: UnaryFunction<A, B>,
     op3: UnaryFunction<B, C>,
     op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>,
+    op5: UnaryFunction<D, E>
   ): E;
   use<S extends Type<T, Schema>, A, B, C, D, E, F>(
     op1: UnaryFunction<S, A>,
@@ -174,7 +180,7 @@ export class Type<T = unknown, Schema = unknown> {
     op3: UnaryFunction<B, C>,
     op4: UnaryFunction<C, D>,
     op5: UnaryFunction<D, E>,
-    op6: UnaryFunction<E, F>,
+    op6: UnaryFunction<E, F>
   ): F;
   use<S extends Type<T, Schema>, A, B, C, D, E, F, G>(
     op1: UnaryFunction<S, A>,
@@ -183,7 +189,7 @@ export class Type<T = unknown, Schema = unknown> {
     op4: UnaryFunction<C, D>,
     op5: UnaryFunction<D, E>,
     op6: UnaryFunction<E, F>,
-    op7: UnaryFunction<F, G>,
+    op7: UnaryFunction<F, G>
   ): G;
   use<S extends Type<T, Schema>, A, B, C, D, E, F, G, H>(
     op1: UnaryFunction<S, A>,
@@ -193,7 +199,7 @@ export class Type<T = unknown, Schema = unknown> {
     op5: UnaryFunction<D, E>,
     op6: UnaryFunction<E, F>,
     op7: UnaryFunction<F, G>,
-    op8: UnaryFunction<G, H>,
+    op8: UnaryFunction<G, H>
   ): H;
   use<S extends Type<T, Schema>, A, B, C, D, E, F, G, H, I>(
     op1: UnaryFunction<S, A>,
@@ -204,7 +210,7 @@ export class Type<T = unknown, Schema = unknown> {
     op6: UnaryFunction<E, F>,
     op7: UnaryFunction<F, G>,
     op8: UnaryFunction<G, H>,
-    op9: UnaryFunction<H, I>,
+    op9: UnaryFunction<H, I>
   ): I;
   use<S extends Type<T, Schema>, A, B, C, D, E, F, G, H, I>(
     op1: UnaryFunction<S, A>,
@@ -221,7 +227,7 @@ export class Type<T = unknown, Schema = unknown> {
   use(...modifiers: UnaryFunction<T, Schema>[]): Type<T, Schema> {
     return modifiers.reduce(
       (t, r) => (r as any)(t),
-      this as Type<T, Schema>,
+      this as Type<T, Schema>
     ) as any;
   }
 
@@ -262,24 +268,24 @@ export class TypeWrapper<
 > extends Type<T, Schema & { $unwrap: U | (() => U) }> {
   static of<U extends AnyType, ExtraSchema extends Record<string, any>>(
     t: U,
-    extra: ExtraSchema,
+    extra: ExtraSchema
   ): Type<Infer<U>, MergeSchema<InferSchema<U>, ExtraSchema>> {
     return new TypeWrapper<Infer<U>, U, ExtraSchema>({
       ...extra,
-      $unwrap: t,
+      $unwrap: t
     });
   }
 
   static refine<U extends AnyType, S extends Record<string, any>>(
     t: U,
     refiner: (v: Infer<U>, ctx: Context) => Result,
-    schema: S,
+    schema: S
   ): Type<Infer<U>, MergeSchema<InferSchema<U>, S>> {
     class Refiner<
       U extends AnyType,
       S extends Record<string, any>,
     > extends TypeWrapper<Infer<U>, U, S> {
-      override *refiner(value: Infer<U>, ctx: Context): Result {
+      override* refiner(value: Infer<U>, ctx: Context): Result {
         yield* this.unwrap.refiner(value, ctx);
         const result = refiner(value, ctx);
         const failures = toFailures(result, ctx, t, value);
@@ -292,7 +298,7 @@ export class TypeWrapper<
 
     return new Refiner<U, S>({
       ...schema,
-      $unwrap: t,
+      $unwrap: t
     });
   }
 
@@ -313,7 +319,7 @@ export class TypeWrapper<
   override get meta(): Record<string, any> {
     return {
       ...this.unwrap.meta,
-      ...get(this.schema, ["$meta"], {}),
+      ...get(this.schema, ["$meta"], {})
     };
   }
 
@@ -331,13 +337,13 @@ export class TypeWrapper<
     return undefined;
   }
 
-  override *entries(
+  override* entries(
     value: unknown,
-    context: Context = EmptyContext,
+    context: Context = EmptyContext
   ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
     yield* this.unwrap.entries(value, {
       ...context,
-      node: TypeNode.create(this, context.node),
+      node: TypeNode.create(this, context.node)
     });
   }
 
@@ -346,7 +352,7 @@ export class TypeWrapper<
       this.unwrap.validator(value, context),
       context,
       this,
-      value,
+      value
     );
   }
 
@@ -355,7 +361,7 @@ export class TypeWrapper<
       this.unwrap.refiner(value, context),
       context,
       this,
-      value,
+      value
     );
   }
 
@@ -372,11 +378,11 @@ export class TypeNode<U extends AnyType, P extends AnyType> extends TypeWrapper<
 > {
   static create<U extends AnyType, P extends AnyType>(
     t: U,
-    p: P | undefined | null,
+    p: P | undefined | null
   ) {
     return new TypeNode<U, P>({
       $unwrap: t,
-      $parent: p ? p : null,
+      $parent: p ? p : null
     });
   }
 }
@@ -389,7 +395,7 @@ export class DefaultedType<T extends AnyType> extends TypeWrapper<
   static create<U extends AnyType>(t: U, defaultValue: Infer<U>) {
     return new DefaultedType<U>({
       $unwrap: t,
-      default: defaultValue,
+      default: defaultValue
     });
   }
 
@@ -407,7 +413,7 @@ export class OptionalType<T extends AnyType> extends TypeWrapper<
 > {
   static create<T extends AnyType>(t: T) {
     return new OptionalType<T>({
-      $unwrap: t,
+      $unwrap: t
     });
   }
 
@@ -481,7 +487,7 @@ export function toFailure<T, S>(
   ret: string | boolean | Partial<Failure>,
   context: Context,
   t: Type<T, S>,
-  value: any,
+  value: any
 ): Failure | undefined {
   if (ret === true) {
     return;
@@ -504,7 +510,7 @@ export function toFailure<T, S>(
     refinement,
     message = `Expected a value of type \`${type}\`${
       refinement ? ` with refinement \`${refinement}\`` : ""
-    }, but received: \`${value}\``,
+    }, but received: \`${value}\``
   } = result;
 
   return {
@@ -516,7 +522,7 @@ export function toFailure<T, S>(
     branch,
     node,
     ...result,
-    message,
+    message
   };
 }
 
@@ -524,7 +530,7 @@ export function* toFailures<T, S>(
   ret: Result,
   context: Context,
   t: Type<T, S>,
-  value: any,
+  value: any
 ): IterableIterator<Failure> {
   let result = ret;
 
@@ -548,7 +554,7 @@ export function validate<T, S>(
     coerce?: boolean;
     mask?: boolean;
     message?: string;
-  } = {},
+  } = {}
 ): [TypedError, undefined] | [undefined, T] {
   const tuples = run(value, typed, options);
   // biome-ignore lint/style/noNonNullAssertion: <explanation>
@@ -576,14 +582,14 @@ export function* run<T, S>(
     coerce?: boolean;
     mask?: boolean;
     message?: string;
-  } = {},
+  } = {}
 ): IterableIterator<[Failure, undefined] | [undefined, T]> {
   const {
     path = [],
     branch = [v],
     node = TypeNode.create(t, null),
     coerce = false,
-    mask = false,
+    mask = false
   } = options;
 
   const ctx: Context = { mask, path, branch, node };
@@ -608,7 +614,7 @@ export function* run<T, S>(
       node: k === undefined ? node : TypeNode.create(st, node),
       coerce,
       mask,
-      message: options.message,
+      message: options.message
     });
 
     for (const t of ts) {
@@ -639,7 +645,7 @@ export function* run<T, S>(
       t.refiner(value as T, ctx),
       ctx,
       t,
-      value,
+      value
     )) {
       failure.explanation = options.message;
       status = Status.not_refined;
