@@ -68,6 +68,9 @@ class i {
   optional() {
     return u.create(this);
   }
+  annotate(e2) {
+    return a.of(this, { $meta: e2 });
+  }
   use() {
     for (var e2 = arguments.length, t2 = Array(e2), r2 = 0; r2 < e2; r2++) t2[r2] = arguments[r2];
     return t2.reduce((e3, t3) => t3(e3), this);
