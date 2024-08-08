@@ -15,11 +15,11 @@
     "@innoai-tech/vuecomponentcompleter": "^0.1.2",
     "@mapbox/rehype-prism": "^0.9.0",
     "@mdx-js/rollup": "^3.0.1",
-    "@swc/core": "^1.7.4",
+    "@swc/core": "^1.7.6",
     "@vitejs/plugin-vue": "^5.1.2",
     "hastscript": "^9.0.0",
     "unist-util-visit": "^5.0.0",
-    "vite": "^5.3.5",
+    "vite": "^5.4.0",
     "vite-plugin-pages": "^0.32.3",
     "vite-tsconfig-paths": "^4.3.2"
   },

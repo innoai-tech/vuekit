@@ -3,7 +3,7 @@ import {
   component$,
   type Context,
   ImmerBehaviorSubject,
-  rx,
+  rx
 } from "@innoai-tech/vuekit";
 import { ValueView } from "./TokenView.tsx";
 import { Popover, PopupStatus } from "./Menu.tsx";
@@ -40,15 +40,17 @@ export const NumberInput = component$<{
             />
           }
         >
-          <ValueView
-            value={value}
-            onClick={() => {
-              open$.show();
-            }}
-          />
+          <div>
+            <ValueView
+              value={value}
+              onClick={() => {
+                open$.show();
+              }}
+            />
+          </div>
         </Popover>
       );
-    }),
+    })
   );
 });
 
@@ -66,7 +68,8 @@ const NumberForm = component$<{
   const submit = () => {
     try {
       emit("submit", input$.value);
-    } catch (e) {}
+    } catch (e) {
+    }
   };
 
   const handleUserKeyPress = (e: KeyboardEvent) => {
@@ -98,7 +101,8 @@ const NumberForm = component$<{
             onInput={(evt) => {
               try {
                 input$.next(parseFloat((evt.target as HTMLInputElement).value));
-              } catch (evt) {}
+              } catch (evt) {
+              }
             }}
             onKeypress={handleUserKeyPress}
           />
@@ -117,6 +121,6 @@ const NumberForm = component$<{
           </FormControls>
         </FormContainerAsRow>
       );
-    }),
+    })
   );
 });

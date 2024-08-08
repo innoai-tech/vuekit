@@ -2,7 +2,7 @@ import {
   type AnyType,
   component$,
   type Context,
-  rx,
+  rx
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider } from "../models";
 import { set } from "@innoai-tech/lodash";
@@ -40,9 +40,11 @@ export const BooleanInput = component$<{
             </>
           }
         >
-          <ValueView value={value} onClick={() => open$.show()} />
+          <div>
+            <ValueView value={value} onClick={() => open$.show()} />
+          </div>
         </Menu>
       );
-    }),
+    })
   );
 });

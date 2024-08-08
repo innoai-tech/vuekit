@@ -3,7 +3,7 @@ import {
   component$,
   type Context,
   ImmerBehaviorSubject,
-  rx,
+  rx
 } from "@innoai-tech/vuekit";
 import { ValueView } from "./TokenView.tsx";
 import { Popover, PopupStatus } from "./Menu.tsx";
@@ -40,15 +40,17 @@ export const StringInput = component$<{
             />
           }
         >
-          <ValueView
-            value={value}
-            onClick={() => {
-              open$.show();
-            }}
-          />
+          <div>
+            <ValueView
+              value={value}
+              onClick={() => {
+                open$.show();
+              }}
+            />
+          </div>
         </Popover>
       );
-    }),
+    })
   );
 });
 
@@ -94,7 +96,9 @@ const TextareaForm = component$<{
           <FormControls>
             <IconButton
               type="button"
-              onClick={() => {
+              onClick={(e) => {
+                e.preventDefault();
+
                 emit("submit", props.value);
               }}
             >
@@ -106,6 +110,6 @@ const TextareaForm = component$<{
           </FormControls>
         </FormContainer>
       );
-    }),
+    })
   );
 });

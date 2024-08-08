@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "packageManager": "bun@1.1.21",
+  "packageManager": "bun@1.1.22",
   "workspaces": [
     "nodepkg/*",
     "nodedevpkg/*"
@@ -21,38 +21,38 @@
   },
   "prettier": {},
   "dependencies": {
-    "@lezer/lr": "^1.4.2",
     "@innoai-tech/codemirror": "workspace:*",
-    "@innoai-tech/vuekit": "workspace:*",
-    "@innoai-tech/jsoncue": "workspace:*",
     "@innoai-tech/fetcher": "^0.5.5",
+    "@innoai-tech/jsoncue": "workspace:*",
     "@innoai-tech/lodash": "^0.2.5",
-    "rxjs": "^7.8.1",
-    "@innoai-tech/vueuikit": "workspace:*"
+    "@innoai-tech/vuekit": "workspace:*",
+    "@innoai-tech/vueuikit": "workspace:*",
+    "@lezer/lr": "^1.4.2",
+    "rxjs": "^7.8.1"
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^14.12.3",
     "@innoai-tech/config": "^0.5.5",
     "@innoai-tech/devconfig": "^0.5.0",
-    "@innoai-tech/monobundle": "^0.14.1",
+    "@innoai-tech/monobundle": "^0.14.2",
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
     "@vue/test-utils": "^2.4.6",
     "bun-types": "latest",
     "copy-to-clipboard": "^3.3.3",
-    "core-js": "^3.37.1",
+    "core-js": "^3.38.0",
     "normalize.css": "^8.0.1",
     "prettier": "^3.3.3",
-    "turbo": "^2.0.11",
+    "turbo": "^2.0.12",
     "typescript": "^5.5.4",
-    "vite": "^5.3.5",
-    "vue": "^3.4.35"
+    "vite": "^5.4.0",
+    "vue": "^3.4.36"
   },
   "resolutions": {
     "@codemirror/state": "^6.4.1",
-    "@codemirror/view": "^6.29.1",
-    "vite": "5.3.5",
-    "vue": "3.4.35"
+    "@codemirror/view": "^6.30.0",
+    "vite": "5.4.0",
+    "vue": "3.4.36"
   }
 }
