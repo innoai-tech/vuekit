@@ -651,7 +651,7 @@ var lv = RangeError, lg = TypeError, ly = function(e11, t10, r10, l10) {
 }());
 var lE = X.f, lS = e6("toStringTag");
 /**
-* @vue/shared v3.4.35
+* @vue/shared v3.4.36
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -2781,7 +2781,7 @@ let st = Symbol("_vei"), sr = /(?:Once|Passive|Capture)$/, sn = 0, sl = Promise.
     return { render: Y2, hydrate: r11, createApp: function(e13) {
       let t12 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : null;
       lN(e13) || (e13 = lP({}, e13)), null == t12 || lB(t12) || (t12 = null);
-      let l12 = aw(), o10 = /* @__PURE__ */ new WeakSet(), i12 = false, a11 = l12.app = { _uid: aE++, _component: e13, _props: t12, _container: null, _context: l12, _instance: null, version: "3.4.35", get config() {
+      let l12 = aw(), o10 = /* @__PURE__ */ new WeakSet(), i12 = false, a11 = l12.app = { _uid: aE++, _component: e13, _props: t12, _container: null, _context: l12, _instance: null, version: "3.4.36", get config() {
         return l12.config;
       }, set config(v) {
       }, use(e14) {
