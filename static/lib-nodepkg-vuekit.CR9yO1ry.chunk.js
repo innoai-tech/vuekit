@@ -651,7 +651,7 @@ var lv = RangeError, lg = TypeError, ly = function(e11, t10, r10, l10) {
 }());
 var lE = X.f, lS = e6("toStringTag");
 /**
-* @vue/shared v3.4.36
+* @vue/shared v3.4.38
 * (c) 2018-present Yuxi (Evan) You and Vue contributors
 * @license MIT
 **/
@@ -1532,7 +1532,7 @@ function aA(e11, t10) {
 function aO(e11, t10) {
   let r10 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], l10 = ux || iD;
   if (l10 || aS) {
-    let o10 = l10 ? null == l10.parent ? l10.vnode.appContext && l10.vnode.appContext.provides : l10.parent.provides : aS._context.provides;
+    let o10 = aS ? aS._context.provides : l10 ? null == l10.parent ? l10.vnode.appContext && l10.vnode.appContext.provides : l10.parent.provides : void 0;
     if (o10 && e11 in o10) return o10[e11];
     if (arguments.length > 1) return r10 && lN(t10) ? t10.call(l10 && l10.proxy) : t10;
   }
@@ -2776,12 +2776,12 @@ let st = Symbol("_vei"), sr = /(?:Once|Passive|Capture)$/, sn = 0, sl = Promise.
       let t12 = g2(e13.anchor || e13.el), r12 = t12 && t12[aV];
       return r12 ? g2(r12) : t12;
     }, K2 = false, Y2 = (e13, t12, r12) => {
-      null == e13 ? t12._vnode && V2(t12._vnode, null, null, true) : b2(t12._vnode || null, e13, t12, null, null, null, r12), K2 || (K2 = true, ij(), iM(), K2 = false), t12._vnode = e13;
+      null == e13 ? t12._vnode && V2(t12._vnode, null, null, true) : b2(t12._vnode || null, e13, t12, null, null, null, r12), t12._vnode = e13, K2 || (K2 = true, ij(), iM(), K2 = false);
     }, Q2 = { p: b2, um: V2, m: B2, r: z2, mt: I2, mc: C2, pc: N2, pbc: T2, n: G2, o: e12 };
     return { render: Y2, hydrate: r11, createApp: function(e13) {
       let t12 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : null;
       lN(e13) || (e13 = lP({}, e13)), null == t12 || lB(t12) || (t12 = null);
-      let l12 = aw(), o10 = /* @__PURE__ */ new WeakSet(), i12 = false, a11 = l12.app = { _uid: aE++, _component: e13, _props: t12, _container: null, _context: l12, _instance: null, version: "3.4.36", get config() {
+      let l12 = aw(), o10 = /* @__PURE__ */ new WeakSet(), i12 = false, a11 = l12.app = { _uid: aE++, _component: e13, _props: t12, _container: null, _context: l12, _instance: null, version: "3.4.38", get config() {
         return l12.config;
       }, set config(v) {
       }, use(e14) {
