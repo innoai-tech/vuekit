@@ -13,7 +13,7 @@
   "dependencies": {
     "@innoai-tech/codemirror": "workspace:^",
     "@innoai-tech/typedef": "workspace:^",
-    "@lezer/highlight": "^1.2.0",
+    "@lezer/highlight": "^1.2.1",
     "@lezer/lr": "^1.4.2"
   },
   "peerDependencies": {},

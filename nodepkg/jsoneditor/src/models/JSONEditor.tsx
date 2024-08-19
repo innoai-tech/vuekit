@@ -5,7 +5,7 @@ import {
   ImmerBehaviorSubject,
   type Infer,
   t,
-  Type,
+  Type
 } from "@innoai-tech/vuekit";
 import { get, isPlainObject, isUndefined } from "@innoai-tech/lodash";
 
@@ -13,13 +13,13 @@ export class JSONEditor<T extends Type> extends ImmerBehaviorSubject<Infer<T>> {
   static of<T extends Type>(typedef: T, initials?: Partial<Infer<T>>) {
     return new JSONEditor(
       typedef,
-      initials ?? (typedef.type == "array" ? [] : {}),
+      initials ?? (typedef.type == "array" ? [] : {})
     );
   }
 
   constructor(
     public typedef: T,
-    protected initials: Infer<T>,
+    protected initials: Infer<T>
   ) {
     super(initials);
   }
@@ -35,12 +35,11 @@ export class JSONEditor<T extends Type> extends ImmerBehaviorSubject<Infer<T>> {
 }
 
 export const JSONEditorProvider = createProvider(
-  () => new JSONEditor<AnyType>(t.object(), {}),
+  () => new JSONEditor<AnyType>(t.object(), {})
 );
 
 export const JSONEditorSlotsProvider = createProvider(() => {
-  return {
-    render: (_t: AnyType, _value: any, _ctx: Context): JSX.Element | null =>
-      null,
+  return {} as {
+    $value?: (_t: AnyType, _value: any, _ctx: Context) => JSX.Element | null | undefined,
   };
 });

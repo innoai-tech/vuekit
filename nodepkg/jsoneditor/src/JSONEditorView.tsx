@@ -3,7 +3,7 @@ import {
   component$,
   type Context,
   EmptyContext,
-  rx,
+  rx
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider, JSONEditorSlotsProvider } from "./models";
 import {
@@ -15,59 +15,62 @@ import {
   BooleanInput,
   StringInput,
   LayoutContextProvider,
-  Line,
+  Line
 } from "./views";
 import { styled } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
 
+export const defaultValueRender = (typedef: AnyType, value: any, ctx: Context) => {
+  if (
+    typedef.type == "object" ||
+    typedef.type == "intersection" ||
+    typedef.type == "union"
+  ) {
+    return <ObjectInput typedef={typedef} value={value ?? {}} ctx={ctx} />;
+  }
+
+  if (typedef.type == "record") {
+    return <RecordInput typedef={typedef} value={value} ctx={ctx} />;
+  }
+
+  if (typedef.type == "array") {
+    return <ArrayInput typedef={typedef} value={value} ctx={ctx} />;
+  }
+
+  if (typedef.type == "enums") {
+    return <EnumInput typedef={typedef} value={value} ctx={ctx} />;
+  }
+
+  if (typedef.type == "string") {
+    return <StringInput typedef={typedef} value={value} ctx={ctx} />;
+  }
+
+  if (typedef.type == "number" || typedef.type == "integer") {
+    return <NumberInput typedef={typedef} value={value} ctx={ctx} />;
+  }
+
+  if (typedef.type == "boolean") {
+    return <BooleanInput typedef={typedef} value={value} ctx={ctx} />;
+  }
+
+  return undefined;
+};
+
 export const JSONEditorView = component$(({}, { render }) => {
   const editor$ = JSONEditorProvider.use();
-
-  const renderValues = (typedef: AnyType, value: any, ctx: Context) => {
-    if (
-      typedef.type == "object" ||
-      typedef.type == "intersection" ||
-      typedef.type == "union"
-    ) {
-      return <ObjectInput typedef={typedef} value={value ?? {}} ctx={ctx} />;
-    }
-
-    if (typedef.type == "record") {
-      return <RecordInput typedef={typedef} value={value} ctx={ctx} />;
-    }
-
-    if (typedef.type == "array") {
-      return <ArrayInput typedef={typedef} value={value} ctx={ctx} />;
-    }
-
-    if (typedef.type == "enums") {
-      return <EnumInput typedef={typedef} value={value} ctx={ctx} />;
-    }
-
-    if (typedef.type == "string") {
-      return <StringInput typedef={typedef} value={value} ctx={ctx} />;
-    }
-
-    if (typedef.type == "number" || typedef.type == "integer") {
-      return <NumberInput typedef={typedef} value={value} ctx={ctx} />;
-    }
-
-    if (typedef.type == "boolean") {
-      return <BooleanInput typedef={typedef} value={value} ctx={ctx} />;
-    }
-
-    return null;
-  };
+  const slots = JSONEditorSlotsProvider.use();
 
   const $container = ref<HTMLDivElement | null>(null);
 
   return rx(
     editor$,
     render((root: any) => {
+      const valueRender = slots.$value ?? defaultValueRender;
+
       return (
         <JSONEditorSlotsProvider
           value={{
-            render: renderValues,
+            $value: slots.$value ?? defaultValueRender
           }}
         >
           <JSONEditorContainer>
@@ -76,16 +79,16 @@ export const JSONEditorView = component$(({}, { render }) => {
               <LayoutContextProvider
                 value={{
                   indent: 0,
-                  $container: $container,
+                  $container: $container
                 }}
               >
-                <Line>{renderValues(editor$.typedef, root, EmptyContext)}</Line>
+                <Line>{valueRender(editor$.typedef, root, EmptyContext)}</Line>
               </LayoutContextProvider>
             )}
           </JSONEditorContainer>
         </JSONEditorSlotsProvider>
       );
-    }),
+    })
   );
 });
 
@@ -97,6 +100,6 @@ const JSONEditorContainer = styled("div")({
   section: {
     display: "flex",
     flexDirection: "column",
-    minWidth: "max-content",
-  },
+    minWidth: "max-content"
+  }
 });

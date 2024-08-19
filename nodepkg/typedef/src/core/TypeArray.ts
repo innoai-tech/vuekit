@@ -1,4 +1,4 @@
-import type { AnyType, Infer } from "./Type.ts";
+import type { AnyType, Context, Infer } from "./Type.ts";
 import { Type } from "./Type.ts";
 
 export class TypeArray<T, S extends AnyType> extends Type<
@@ -11,7 +11,7 @@ export class TypeArray<T, S extends AnyType> extends Type<
   static create<Items extends AnyType>(items: Items) {
     return new TypeArray<Infer<Items>, Items>({
       type: "array",
-      items: items,
+      items: items
     });
   }
 
@@ -19,14 +19,13 @@ export class TypeArray<T, S extends AnyType> extends Type<
     return this.schema.type;
   }
 
-  override *entries(
+  override* entries(
     value: unknown,
+    _ctx: Context
   ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
-    if (this.schema.items.type !== "any") {
-      if (Array.isArray(value)) {
-        for (const [i, v] of value.entries()) {
-          yield [i, v, this.schema.items];
-        }
+    if (Array.isArray(value)) {
+      for (const [i, v] of value.entries()) {
+        yield [i, v, this.schema.items];
       }
     }
   }

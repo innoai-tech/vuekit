@@ -17,7 +17,7 @@ import { Tooltip } from "./Tooltip.tsx";
 
 export const ArrayInput = component$<{
   ctx: Context;
-  value: [];
+  value: any[];
   typedef: AnyType;
 }>((props, { render }) => {
   const editor$ = JSONEditorProvider.use();
@@ -25,7 +25,7 @@ export const ArrayInput = component$<{
 
   return rx(
     props.value$,
-    render((obj) => {
+    render((value) => {
       return (
         <Block
           openToken={"["}
@@ -41,7 +41,7 @@ export const ArrayInput = component$<{
                   });
                 }}
               />
-              <CopyAsJSONIconBtn value={obj} />
+              <CopyAsJSONIconBtn value={value} />
               <InputFromJSONRawIconBtn
                 onInput={(updated) => {
                   editor$.next((values: any) => {
@@ -56,7 +56,7 @@ export const ArrayInput = component$<{
             </Actions>
           }
         >
-          {[...props.typedef.entries(obj, props.ctx)].map(
+          {[...props.typedef.entries(value, props.ctx)].map(
             ([idx, itemValue, propSchema]) => {
               const path = [...props.ctx.path, idx];
 
@@ -84,7 +84,7 @@ export const ArrayInput = component$<{
                   >
                     {String(idx)}
                   </PropName>
-                  {slots.render(propSchema, itemValue, {
+                  {slots.$value?.(propSchema, itemValue, {
                     ...props.ctx,
                     path: path,
                     branch: [...props.ctx.branch, itemValue]

@@ -102,7 +102,7 @@ export const ObjectInput = component$<{
                     {String(propName)}
                   </PropName>
                   <Token>{":"}&nbsp;</Token>
-                  {slots.render(propSchema, propValue, {
+                  {slots.$value?.(propSchema, propValue, {
                     ...props.ctx,
                     path: path,
                     branch: [...props.ctx.branch, propValue]
