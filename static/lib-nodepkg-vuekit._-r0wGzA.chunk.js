@@ -99,7 +99,7 @@ var ex = j, eR = et.String, eC = !!Object.getOwnPropertySymbols && !Z(function()
   }
   return t10;
 }, eV = "__core-js_shared__", ez = e$.exports = et[eV] || eB(eV, {});
-(ez.versions || (ez.versions = [])).push({ version: "3.38.0", mode: "global", copyright: "© 2014-2024 Denis Pushkarev (zloirock.ru)", license: "https://github.com/zloirock/core-js/blob/v3.38.0/LICENSE", source: "https://github.com/zloirock/core-js" });
+(ez.versions || (ez.versions = [])).push({ version: "3.38.1", mode: "global", copyright: "© 2014-2024 Denis Pushkarev (zloirock.ru)", license: "https://github.com/zloirock/core-js/blob/v3.38.1/LICENSE", source: "https://github.com/zloirock/core-js" });
 var eW = e$.exports, eq = function(e11, t10) {
   return eW[e11] || (eW[e11] = t10 || {});
 }, eH = TypeError, eG = function(e11) {
