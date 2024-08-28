@@ -9,7 +9,8 @@ export const FormControls = styled("form")({
 });
 
 export const FormContainer = styled("div")({
-  display: "block",
+  display: "flex",
+  flexDirection: "column",
   pos: "relative",
 
   textarea: {

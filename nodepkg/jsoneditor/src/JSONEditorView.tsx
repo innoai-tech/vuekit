@@ -14,19 +14,25 @@ import {
   NumberInput,
   BooleanInput,
   StringInput,
+  RawInput,
   LayoutContextProvider,
   Line
 } from "./views";
 import { styled } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
+import { isUndefined } from "@innoai-tech/lodash";
 
 export const defaultValueRender = (typedef: AnyType, value: any, ctx: Context) => {
   if (
     typedef.type == "object" ||
     typedef.type == "intersection" ||
-    typedef.type == "union"
+    (typedef.type == "union" && typedef.getSchema("discriminator"))
   ) {
     return <ObjectInput typedef={typedef} value={value ?? {}} ctx={ctx} />;
+  }
+
+  if (typedef.type == "union" && isUndefined(typedef.getSchema("discriminator"))) {
+    return <RawInput typedef={typedef} value={value} ctx={ctx} />;
   }
 
   if (typedef.type == "record") {
