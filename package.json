@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "packageManager": "bun@1.1.26",
+  "packageManager": "bun@1.1.27",
   "workspaces": [
     "nodepkg/*",
     "nodedevpkg/*"
@@ -44,13 +44,13 @@
     "core-js": "^3.38.1",
     "normalize.css": "^8.0.1",
     "prettier": "^3.3.3",
-    "turbo": "^2.1.0",
+    "turbo": "^2.1.1",
     "typescript": "^5.5.4",
-    "vite": "^5.4.2",
-    "vue": "^3.4.38"
+    "vite": "^5.4.3",
+    "vue": "^3.5.3"
   },
   "resolutions": {
-    "vite": "5.4.2",
-    "vue": "3.4.38"
+    "vite": "5.4.3",
+    "vue": "3.5.3"
   }
 }

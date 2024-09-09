@@ -45,7 +45,7 @@ export const PropName = styled<
         data-optional={props.optional}
         data-nullable={props.nullable}
       >
-        {slots.leading && <PropLeading>{slots.leading?.()}</PropLeading>}
+        {slots.leading && <PropLeading data-visible-on-hover>{slots.leading?.()}</PropLeading>}
         {slots.default?.()}
       </Root>
     );
@@ -178,7 +178,11 @@ export const LineRow = styled("div")({
   alignItems: "end",
 
   _hover: {
-    containerStyle: "sys.surface-container"
+    containerStyle: "sys.surface-container",
+
+    "& [data-visible-on-hover]": {
+      visibility: "visible"
+    }
   },
 
   _dirty: {

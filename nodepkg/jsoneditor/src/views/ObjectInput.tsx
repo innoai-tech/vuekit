@@ -60,13 +60,13 @@ export const ObjectInput = component$<{
               <CopyAsJSONIconBtn value={obj} />
               <InputFromJSONRawIconBtn
                 onInput={(updated) => {
-                  editor$.next((values: any) => {
-                    if (props.ctx.path.length) {
+                  if (props.ctx.path.length) {
+                    editor$.next((values: any) => {
                       set(values, props.ctx.path, updated);
-                    } else {
-                      Object.assign(values, updated);
-                    }
-                  });
+                    });
+                  } else {
+                    editor$.next(updated);
+                  }
                 }}
               />
             </Actions>
