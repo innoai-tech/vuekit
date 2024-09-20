@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueuikit",
-  "version": "0.13.4",
+  "version": "0.14.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -13,10 +13,10 @@
     "@innoai-tech/lodash": "^0.2.5",
     "@innoai-tech/vuekit": "workspace:^",
     "@material/material-color-utilities": "^0.2.7",
-    "@popperjs/core": "^2.11.8",
+    "@floating-ui/dom": "^1.6.11",
     "polished": "^4.3.1",
     "popmotion": "^11.0.5",
-    "vue": "^3.5.3"
+    "vue": "^3.5.6"
   },
   "peerDependencies": {},
   "exports": {

@@ -41,8 +41,7 @@ export class TypedError extends TypeError {
 
     const { message, explanation, ...rest } = failure;
     const { path } = failure;
-    const msg =
-      path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
+    const msg = path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
 
     super(explanation ?? msg);
 

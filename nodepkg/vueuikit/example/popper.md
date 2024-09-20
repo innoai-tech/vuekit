@@ -2,29 +2,27 @@
 
 ```tsx preview
 import { component } from "@innoai-tech/vuekit";
-import { Box, Popper, createPopperModifier } from "@innoai-tech/vueuikit";
+import { Box, Popper } from "@innoai-tech/vueuikit";
+import { size } from "@floating-ui/dom";
 import { ref } from "vue";
 
 export default component(() => {
   const isOpen = ref(false);
 
-  const modifier = createPopperModifier(
-    ({ state }) => {
-      state.styles.popper.width = `${state.rects.reference.width}px`;
-    },
-    {
-      name: "sameWidth",
-      phase: "beforeWrite",
-      requires: ["computeStyles"],
-    },
-  );
+  const sameWidth = size({
+    apply({ elements, rects }) {
+      Object.assign(elements.floating.style, {
+        width: `${rects.reference.width}px`
+      });
+    }
+  });
 
   return () => (
     <Popper
       isOpen={isOpen.value}
       onClickOutside={() => (isOpen.value = false)}
       placement={"bottom-start"}
-      modifiers={[modifier]}
+      modifiers={[sameWidth]}
       $content={
         <Box sx={{ containerStyle: "sys.on-surface" }}>
           Popper {`${isOpen.value}`}!

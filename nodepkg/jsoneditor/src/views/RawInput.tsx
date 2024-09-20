@@ -61,7 +61,7 @@ const TextareaForm = component$<{
 }>((props, { emit, render }) => {
   const $input = ref<HTMLTextAreaElement | null>(null);
 
-  const input$ = new ImmerBehaviorSubject(props.value);
+  const input$ = new ImmerBehaviorSubject(!isUndefined(props.value) ? JSON.stringify(props.value) : "");
   const error$ = new ImmerBehaviorSubject("");
 
   const submit = () => {
@@ -108,7 +108,7 @@ const TextareaForm = component$<{
             ref={$input}
             name={"value"}
             rows="10"
-            value={!isUndefined(input) ? JSON.stringify(input) : ""}
+            value={!isUndefined(input) ? input : ""}
             onInput={(e) => {
               input$.next((e.target as HTMLTextAreaElement).value);
             }}
@@ -141,7 +141,7 @@ const TextareaForm = component$<{
 
 
 const Info = styled("small")({
-  px: 16,
+  px: 16
 });
 
 const Error = styled(Info)({

@@ -1,6 +1,7 @@
-import { component, t } from "@innoai-tech/vuekit";
+import { component } from "@innoai-tech/vuekit";
 import { Popper, alpha, styled, variant } from "@innoai-tech/vueuikit";
 import { type VNode, cloneVNode, ref } from "vue";
+import type { Placement } from "@floating-ui/core";
 
 export const MenuContainer = styled("div")({
   py: 8,
@@ -9,13 +10,13 @@ export const MenuContainer = styled("div")({
   minW: 120,
   containerStyle: "sys.surface-container",
   pos: "relative",
-  zIndex: 100,
+  zIndex: 100
 });
 
 export const ListItem = styled("div")({
   "& + &": {
     borderTop: "1px solid",
-    borderColor: "sys.outline-variant",
+    borderColor: "sys.outline-variant"
   },
   py: 8,
   px: 16,
@@ -25,40 +26,37 @@ export const ListItem = styled("div")({
 
   _hover: {
     cursor: "pointer",
-    bgColor: variant("sys.on-surface", alpha(0.08)),
-  },
+    bgColor: variant("sys.on-surface", alpha(0.08))
+  }
 });
 
-export const Menu = component(
-  {
-    placement: t.custom<import("@popperjs/core").Placement>().optional(),
-    $menu: t.custom<VNode>(),
-    $default: t.custom<JSX.Element>(),
-  },
-  (props, { slots }) => {
-    const isOpen = ref(false);
+export const Menu = component<{
+  placement: Placement,
+  $menu: VNode,
+  $default: JSX.Element,
+}>((props, { slots }) => {
+  const isOpen = ref(false);
 
-    return () => {
-      const trigger = slots.default ? slots.default()[0] : undefined;
+  return () => {
+    const trigger = slots.default ? slots.default()[0] : undefined;
 
-      return (
-        <Popper
-          isOpen={isOpen.value}
-          placement={props.placement}
-          onClickOutside={() => {
-            isOpen.value = false;
-          }}
-          $content={<MenuContainer>{slots.menu?.()}</MenuContainer>}
-        >
-          {trigger
-            ? cloneVNode(trigger, {
-                onClick: () => {
-                  isOpen.value = true;
-                },
-              })
-            : null}
-        </Popper>
-      );
-    };
-  },
-);
+    return (
+      <Popper
+        isOpen={isOpen.value}
+        placement={props.placement}
+        onClickOutside={() => {
+          isOpen.value = false;
+        }}
+        $content={<MenuContainer>{slots.menu?.()}</MenuContainer>}
+      >
+        {trigger
+          ? cloneVNode(trigger, {
+            onClick: () => {
+              isOpen.value = true;
+            }
+          })
+          : null}
+      </Popper>
+    );
+  };
+});

@@ -111,10 +111,6 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
     }, {})
   };
 
-  if (emitsAndProps.props.input) {
-    console.log(finalOptions["name"], emitsAndProps.props.input?.default());
-  }
-
   return {
     ...finalOptions,
     get name() {

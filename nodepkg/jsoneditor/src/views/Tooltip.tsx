@@ -5,7 +5,7 @@ import {
 } from "@innoai-tech/vueuikit";
 import { cloneVNode } from "vue";
 import { FadeInOutTransition, PopupStatus } from "./Menu.tsx";
-import type { Placement } from "@popperjs/core";
+import type { Placement } from "@floating-ui/core";
 
 export const Tooltip = component$<{
   $title: VNodeChild

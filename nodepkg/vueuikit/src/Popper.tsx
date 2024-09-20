@@ -1,24 +1,23 @@
-import { type VNode, type VNodeChild, component } from "@innoai-tech/vuekit";
 import {
-  type Modifier,
+  type VNode,
+  type VNodeChild,
+  component,
+  observableRef,
+  rx,
+  subscribeUntilUnmount,
+  tapEffect
+} from "@innoai-tech/vuekit";
+import {
+  type Middleware,
   type Placement,
-  createPopperLite,
-  flip
-} from "@popperjs/core";
-import type { ModifierArguments, State } from "@popperjs/core";
-import { cloneVNode, type CSSProperties, type Ref, ref, watch } from "vue";
+  computePosition,
+  autoUpdate,
+  flip,
+  shift
+} from "@floating-ui/dom";
+import { cloneVNode, type CSSProperties, type Ref } from "vue";
 import { Overlay } from "./Overlay";
-
-export function createPopperModifier<Options extends Record<string, any>>(
-  fn: (o: ModifierArguments<Options>) => State | undefined,
-  options: Omit<Modifier<string | Symbol, Options>, "fn" | "enabled">
-): Modifier<string | Symbol, Options> {
-  return {
-    fn,
-    enabled: true,
-    ...options
-  };
-}
+import { combineLatest } from "rxjs";
 
 export const Popper = component<{
   isOpen?: boolean,
@@ -33,21 +32,49 @@ export const Popper = component<{
   $content?: VNodeChild,
 
   placement?: Placement,
-  modifiers?: Array<Modifier<any, any>>
-}>((props, { slots, emit, attrs }) => {
-    const triggerRef = ref<HTMLElement | null>(null);
-    const contentRef = ref<HTMLDivElement | null>(null);
+  middleware?: Middleware[]
 
-    watch(
-      () => contentRef.value,
-      (contentEl) => {
-        if (contentEl && triggerRef.value) {
-          createPopperLite(triggerRef.value, contentEl, {
-            placement: props.placement ?? "bottom",
-            modifiers: [...(props.modifiers ?? []), flip]
-          });
+  // deprecated use middleware instead
+  modifiers?: Middleware[]
+}>((props, { slots, emit, attrs }) => {
+    const triggerRef = observableRef<HTMLElement | null>(null);
+    const contentRef = observableRef<HTMLDivElement | null>(null);
+
+    rx(
+      combineLatest([triggerRef, contentRef]),
+      tapEffect(([triggerEf, contentEl]) => {
+        if (contentEl && triggerEf) {
+
+          const updatePosition = async () => {
+            contentEl.style.position = "absolute";
+
+            const { x, y } = await computePosition(triggerEf, contentEl, {
+              placement: props.placement ?? "bottom",
+              middleware: [
+                ...(props.modifiers ?? []),
+                ...(props.middleware ?? []),
+                flip(),
+                shift()
+              ]
+            });
+
+            Object.assign(contentEl.style, {
+              left: `${x}px`,
+              top: `${y}px`
+            });
+          };
+
+          const clean = autoUpdate(triggerEf, contentEl, updatePosition);
+
+          return () => {
+            clean();
+          };
         }
-      }
+
+        return () => {
+        };
+      }),
+      subscribeUntilUnmount()
     );
 
     return () => {
