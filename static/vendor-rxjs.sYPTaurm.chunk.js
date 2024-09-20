@@ -329,7 +329,7 @@ var j = function() {
     }
   }, t2.prototype.forEach = function(t3, r2) {
     var e2 = this;
-    return new (r2 = T(r2))(function(r3, n2) {
+    return new (r2 = k(r2))(function(r3, n2) {
       var o2 = new S({ next: function(r4) {
         try {
           t3(r4);
@@ -349,7 +349,7 @@ var j = function() {
     return A(t3)(this);
   }, t2.prototype.toPromise = function(t3) {
     var r2 = this;
-    return new (t3 = T(t3))(function(t4, e2) {
+    return new (t3 = k(t3))(function(t4, e2) {
       var n2;
       r2.subscribe(function(t5) {
         return n2 = t5;
@@ -363,11 +363,11 @@ var j = function() {
     return new t2(r2);
   }, t2;
 }();
-function T(t2) {
+function k(t2) {
   var r2;
   return null !== (r2 = null != t2 ? t2 : v.Promise) && void 0 !== r2 ? r2 : Promise;
 }
-function k(t2) {
+function T(t2) {
   return function(r2) {
     if (c(null == r2 ? void 0 : r2.lift)) return r2.lift(function(r3) {
       try {
@@ -538,7 +538,7 @@ var z = function(t2) {
 }, clearInterval: function(t2) {
   var r2 = B.delegate;
   return ((null == r2 ? void 0 : r2.clearInterval) || clearInterval)(t2);
-}, delegate: void 0 }, M = function(t2) {
+}, delegate: void 0 }, L = function(t2) {
   function e2(r2, e3) {
     var n2 = t2.call(this, r2, e3) || this;
     return n2.scheduler = r2, n2.work = e3, n2.pending = false, n2;
@@ -573,16 +573,16 @@ var z = function(t2) {
       this.work = this.state = this.scheduler = null, this.pending = false, a(n2, this), null != r2 && (this.id = this.recycleAsyncId(e3, r2, null)), this.delay = null, t2.prototype.unsubscribe.call(this);
     }
   }, e2;
-}(q), N = function() {
+}(q), M = function() {
   function t2(r2, e2) {
     void 0 === e2 && (e2 = t2.now), this.schedulerActionCtor = r2, this.now = e2;
   }
   return t2.prototype.schedule = function(t3, r2, e2) {
     return void 0 === r2 && (r2 = 0), new this.schedulerActionCtor(this, t3).schedule(e2, r2);
   }, t2.now = R, t2;
-}(), V = new (function(t2) {
+}(), N = new (function(t2) {
   function e2(r2, e3) {
-    void 0 === e3 && (e3 = N.now);
+    void 0 === e3 && (e3 = M.now);
     var n2 = t2.call(this, r2, e3) || this;
     return n2.actions = [], n2._active = false, n2;
   }
@@ -601,23 +601,27 @@ var z = function(t2) {
       throw r2;
     }
   }, e2;
-}(N))(M), G = function(t2) {
+}(M))(L);
+function V(t2) {
+  return t2[t2.length - 1];
+}
+var G = function(t2) {
   return t2 && "number" == typeof t2.length && "function" != typeof t2;
 };
-function L(t2) {
+function H(t2) {
   return c(null == t2 ? void 0 : t2.then);
 }
-function H(t2) {
+function J(t2) {
   return Symbol.asyncIterator && c(null == t2 ? void 0 : t2[Symbol.asyncIterator]);
 }
-function J(t2) {
+function K(t2) {
   return TypeError("You provided " + (null !== t2 && "object" == typeof t2 ? "an invalid object" : "'" + t2 + "'") + " where a stream was expected. You can provide an Observable, Promise, ReadableStream, Array, AsyncIterable, or Iterable.");
 }
-var K = "function" == typeof Symbol && Symbol.iterator ? Symbol.iterator : "@@iterator";
-function Q(t2) {
-  return c(null == t2 ? void 0 : t2[K]);
-}
+var Q = "function" == typeof Symbol && Symbol.iterator ? Symbol.iterator : "@@iterator";
 function W(t2) {
+  return c(null == t2 ? void 0 : t2[Q]);
+}
+function X(t2) {
   return function(t3, r2, e2) {
     if (!Symbol.asyncIterator) throw TypeError("Symbol.asyncIterator is not defined.");
     var n2, o2 = e2.apply(t3, r2 || []), i2 = [];
@@ -683,10 +687,10 @@ function W(t2) {
     });
   });
 }
-function X(t2) {
+function Z(t2) {
   return c(null == t2 ? void 0 : t2.getReader);
 }
-function Z(t2) {
+function $(t2) {
   if (t2 instanceof j) return t2;
   if (null != t2) {
     if (c(t2[I])) return new j(function(r2) {
@@ -698,15 +702,15 @@ function Z(t2) {
       for (var e2 = 0; e2 < t2.length && !r2.closed; e2++) r2.next(t2[e2]);
       r2.complete();
     });
-    if (L(t2)) return new j(function(r2) {
+    if (H(t2)) return new j(function(r2) {
       t2.then(function(t3) {
         r2.closed || (r2.next(t3), r2.complete());
       }, function(t3) {
         return r2.error(t3);
       }).then(null, b);
     });
-    if (H(t2)) return $(t2);
-    if (Q(t2)) return new j(function(r2) {
+    if (J(t2)) return tt(t2);
+    if (W(t2)) return new j(function(r2) {
       var e2, o2;
       try {
         for (var i2 = n(t2), u2 = i2.next(); !u2.done; u2 = i2.next()) {
@@ -724,11 +728,11 @@ function Z(t2) {
       }
       r2.complete();
     });
-    if (X(t2)) return $(W(t2));
+    if (Z(t2)) return tt(X(t2));
   }
-  throw J(t2);
+  throw K(t2);
 }
-function $(t2) {
+function tt(t2) {
   return new j(function(r2) {
     (function(t3, r3) {
       var o2, i2, u2, c2, s2, l2, a2, f2;
@@ -811,43 +815,43 @@ function $(t2) {
     });
   });
 }
-function tt(t2, r2, e2, n2, o2) {
+function tr(t2, r2, e2, n2, o2) {
   void 0 === n2 && (n2 = 0), void 0 === o2 && (o2 = false);
   var i2 = r2.schedule(function() {
     e2(), o2 ? t2.add(this.schedule(null, n2)) : this.unsubscribe();
   }, n2);
   if (t2.add(i2), !o2) return i2;
 }
-function tr(t2, r2) {
-  return void 0 === r2 && (r2 = 0), k(function(e2, n2) {
+function te(t2, r2) {
+  return void 0 === r2 && (r2 = 0), T(function(e2, n2) {
     e2.subscribe(C(n2, function(e3) {
-      return tt(n2, t2, function() {
+      return tr(n2, t2, function() {
         return n2.next(e3);
       }, r2);
     }, function() {
-      return tt(n2, t2, function() {
+      return tr(n2, t2, function() {
         return n2.complete();
       }, r2);
     }, function(e3) {
-      return tt(n2, t2, function() {
+      return tr(n2, t2, function() {
         return n2.error(e3);
       }, r2);
     }));
   });
 }
-function te(t2, r2) {
-  return void 0 === r2 && (r2 = 0), k(function(e2, n2) {
+function tn(t2, r2) {
+  return void 0 === r2 && (r2 = 0), T(function(e2, n2) {
     n2.add(t2.schedule(function() {
       return e2.subscribe(n2);
     }, r2));
   });
 }
-function tn(t2, r2) {
+function to(t2, r2) {
   if (!t2) throw Error("Iterable cannot be null");
   return new j(function(e2) {
-    tt(e2, r2, function() {
+    tr(e2, r2, function() {
       var n2 = t2[Symbol.asyncIterator]();
-      tt(e2, r2, function() {
+      tr(e2, r2, function() {
         n2.next().then(function(t3) {
           t3.done ? e2.complete() : e2.next(t3.value);
         });
@@ -855,22 +859,22 @@ function tn(t2, r2) {
     });
   });
 }
-function to(t2, r2) {
+function ti(t2, r2) {
   return r2 ? function(t3, r3) {
     if (null != t3) {
-      if (c(t3[I])) return Z(t3).pipe(te(r3), tr(r3));
+      if (c(t3[I])) return $(t3).pipe(tn(r3), te(r3));
       if (G(t3)) return new j(function(e2) {
         var n2 = 0;
         return r3.schedule(function() {
           n2 === t3.length ? e2.complete() : (e2.next(t3[n2++]), e2.closed || this.schedule());
         });
       });
-      if (L(t3)) return Z(t3).pipe(te(r3), tr(r3));
-      if (H(t3)) return tn(t3, r3);
-      if (Q(t3)) return new j(function(e2) {
+      if (H(t3)) return $(t3).pipe(tn(r3), te(r3));
+      if (J(t3)) return to(t3, r3);
+      if (W(t3)) return new j(function(e2) {
         var n2;
-        return tt(e2, r3, function() {
-          n2 = t3[K](), tt(e2, r3, function() {
+        return tr(e2, r3, function() {
+          n2 = t3[Q](), tr(e2, r3, function() {
             var t4, r4, o2;
             try {
               r4 = (t4 = n2.next()).value, o2 = t4.done;
@@ -884,24 +888,65 @@ function to(t2, r2) {
           return c(null == n2 ? void 0 : n2.return) && n2.return();
         };
       });
-      if (X(t3)) return tn(W(t3), r3);
+      if (Z(t3)) return to(X(t3), r3);
     }
-    throw J(t3);
-  }(t2, r2) : Z(t2);
+    throw K(t3);
+  }(t2, r2) : $(t2);
 }
-function ti(t2) {
+function tu(t2) {
   return !!t2 && (t2 instanceof j || c(t2.lift) && c(t2.subscribe));
 }
-function tu(t2, r2) {
-  return k(function(e2, n2) {
+function tc(t2, r2) {
+  return T(function(e2, n2) {
     var o2 = 0;
     e2.subscribe(C(n2, function(e3) {
       n2.next(t2.call(r2, e3, o2++));
     }));
   });
 }
-function tc(t2, r2) {
-  return void 0 === r2 && (r2 = V), k(function(e2, n2) {
+var ts = Array.isArray, tl = Array.isArray, ta = Object.getPrototypeOf, tf = Object.prototype, th = Object.keys;
+function tp() {
+  for (var t2, r2, e2 = [], n2 = 0; n2 < arguments.length; n2++) e2[n2] = arguments[n2];
+  var u2 = (r2 = V(e2)) && c(r2.schedule) ? e2.pop() : void 0, s2 = c(V(e2)) ? e2.pop() : void 0, l2 = function(t3) {
+    if (1 === t3.length) {
+      var r3 = t3[0];
+      if (tl(r3)) return { args: r3, keys: null };
+      if (r3 && "object" == typeof r3 && ta(r3) === tf) {
+        var e3 = th(r3);
+        return { args: e3.map(function(t4) {
+          return r3[t4];
+        }), keys: e3 };
+      }
+    }
+    return { args: t3, keys: null };
+  }(e2), a2 = l2.args, f2 = l2.keys;
+  if (0 === a2.length) return ti([], u2);
+  var h2 = new j((void 0 === (t2 = f2 ? function(t3) {
+    return f2.reduce(function(r3, e3, n3) {
+      return r3[e3] = t3[n3], r3;
+    }, {});
+  } : E) && (t2 = E), function(r3) {
+    var e3, n3, o2;
+    e3 = u2, n3 = function() {
+      for (var e4 = a2.length, n4 = Array(e4), o3 = e4, i2 = e4, c2 = function(e5) {
+        var c3, s4, l3;
+        c3 = u2, s4 = function() {
+          var c4 = ti(a2[e5], u2), s5 = false;
+          c4.subscribe(C(r3, function(o4) {
+            n4[e5] = o4, !s5 && (s5 = true, i2--), i2 || r3.next(t2(n4.slice()));
+          }, function() {
+            --o3 || r3.complete();
+          }));
+        }, l3 = r3, c3 ? tr(l3, c3, s4) : s4();
+      }, s3 = 0; s3 < e4; s3++) c2(s3);
+    }, o2 = r3, e3 ? tr(o2, e3, n3) : n3();
+  }));
+  return s2 ? h2.pipe(tc(function(t3) {
+    return ts(t3) ? s2.apply(void 0, i([], o(t3))) : s2(t3);
+  })) : h2;
+}
+function td(t2, r2) {
+  return void 0 === r2 && (r2 = N), T(function(e2, n2) {
     var o2 = null, i2 = null, u2 = null, c2 = function() {
       if (o2) {
         o2.unsubscribe(), o2 = null;
@@ -926,9 +971,9 @@ function tc(t2, r2) {
     }));
   });
 }
-function ts(t2, r2, e2) {
+function tv(t2, r2, e2) {
   var n2 = c(t2) || r2 || e2 ? { next: t2, error: r2, complete: e2 } : t2;
-  return n2 ? k(function(t3, r3) {
+  return n2 ? T(function(t3, r3) {
     null === (e3 = n2.subscribe) || void 0 === e3 || e3.call(n2);
     var e3, o2 = true;
     t3.subscribe(C(r3, function(t4) {
@@ -946,7 +991,7 @@ function ts(t2, r2, e2) {
     }));
   }) : E;
 }
-function tl(t2, r2) {
+function ty(t2, r2) {
   var e2 = {};
   for (var n2 in t2) Object.prototype.hasOwnProperty.call(t2, n2) && 0 > r2.indexOf(n2) && (e2[n2] = t2[n2]);
   if (null != t2 && "function" == typeof Object.getOwnPropertySymbols) for (var o2 = 0, n2 = Object.getOwnPropertySymbols(t2); o2 < n2.length; o2++) 0 > r2.indexOf(n2[o2]) && Object.prototype.propertyIsEnumerable.call(t2, n2[o2]) && (e2[n2[o2]] = t2[n2[o2]]);
@@ -954,11 +999,12 @@ function tl(t2, r2) {
 }
 export {
   D as B,
-  tl as _,
-  tc as d,
-  to as f,
-  ti as i,
-  tu as m,
+  ty as _,
+  tp as c,
+  td as d,
+  ti as f,
+  tu as i,
+  tc as m,
   P as p,
-  ts as t
+  tv as t
 };
