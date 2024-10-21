@@ -10,6 +10,9 @@
       "inputs": [
         "src/*",
         "package.json"
+      ],
+      "outputs": [
+        "dist/*"
       ]
     },
     "dev": {

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "packageManager": "bun@1.1.28",
+  "packageManager": "bun@1.1.31",
   "workspaces": [
     "nodepkg/*",
     "nodedevpkg/*"
@@ -34,7 +34,7 @@
     "@happy-dom/global-registrator": "^14.12.3",
     "@innoai-tech/config": "^0.5.7",
     "@innoai-tech/devconfig": "^0.5.0",
-    "@innoai-tech/monobundle": "^0.14.2",
+    "@innoai-tech/monobundle": "^0.14.4",
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
@@ -44,13 +44,13 @@
     "core-js": "^3.38.1",
     "normalize.css": "^8.0.1",
     "prettier": "^3.3.3",
-    "turbo": "^2.1.2",
-    "typescript": "^5.6.2",
-    "vite": "^5.4.6",
-    "vue": "^3.5.6"
+    "turbo": "^2.2.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.9",
+    "vue": "^3.5.12"
   },
   "resolutions": {
-    "vite": "5.4.6",
-    "vue": "3.5.6"
+    "vite": "5.4.9",
+    "vue": "3.5.12"
   }
 }

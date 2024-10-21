@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@innoai-tech/vuekit": "workspace:^",
-    "hast-util-to-jsx-runtime": "^2.3.0",
+    "hast-util-to-jsx-runtime": "^2.3.2",
     "mdast-util-directive": "^3.0.0",
     "mdast-util-from-markdown": "^2.0.1",
     "mdast-util-gfm": "^3.0.0",
