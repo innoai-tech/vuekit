@@ -1,10 +1,10 @@
 import { c as n, p as e, j as a, r as s, b as t, w as c, R as l, q as o, _ as i, v as r, x as p, y as d, z as u, A as m, F as h, B as k, C as N, e as g, D as y, n as f, k as v, s as x, E as b } from "./lib-nodepkg-vuekit.BJ5kHDzH.chunk.js";
 import { c as w, b as _, s as S, e as C } from "./lib-nodepkg-typedef.BsExPB8Y.chunk.js";
-import { I as j, a as O, T as I, b as E, D as T, c as D, M as P, L as $, E as R, F as z, d as V, O as B, e as M } from "./lib-nodepkg-vuematerial.DV2eB4zh.chunk.js";
-import { m as A, a as L, C as F, D as U, b as H, c as W, d as J, e as X, f as q } from "./webapp-vuekit-layout.gsaOB75Q.chunk.js";
-import { B as G, C as Y, b as Z, G as K, T as Q, c as nn, e as ne, f as na, s as ns, v as nt, a as nc, P as nl, g as no, d as ni, t as nr } from "./lib-nodepkg-vueuikit.fDlD6Ee8.chunk.js";
+import { I as j, a as O, T as I, b as E, D as T, c as D, M as P, L as $, E as R, F as z, d as V, O as B, e as M } from "./lib-nodepkg-vuematerial.iO5EDvdE.chunk.js";
+import { m as A, a as L, C as F, D as U, b as H, c as W, d as J, e as X, f as q } from "./webapp-vuekit-layout.cqvbfNjf.chunk.js";
+import { B as G, C as Y, b as Z, G as K, T as Q, c as nn, e as ne, f as na, s as ns, v as nt, a as nc, P as nl, g as no, d as ni, t as nr } from "./lib-nodepkg-vueuikit.BtJHT3_e.chunk.js";
 import { v as np, w as nd, p as nu, l as nm, x as nh } from "./vendor-innoai-tech-lodash.PTir9V15.chunk.js";
-import { I as nk, _ as nN } from "./webapp-vuekit-page.Cy8weaLD.chunk.js";
+import { I as nk, _ as nN } from "./webapp-vuekit-page.Cshb-Q9V.chunk.js";
 import { d as ng } from "./vendor-rxjs.COSCgXoB.chunk.js";
 let ny = /* @__PURE__ */ n(() => {
   let n10 = /* @__PURE__ */ np(/* @__PURE__ */ e().options.routes.filter((n11) => "/" !== n11.path), (n11) => n11.path.split("/")[1]);
