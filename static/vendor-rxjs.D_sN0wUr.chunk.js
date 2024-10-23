@@ -536,9 +536,8 @@ var z = /* @__PURE__ */ function(t2) {
   for (var e2 = [], n2 = 2; n2 < arguments.length; n2++) e2[n2 - 2] = arguments[n2];
   return setInterval.apply(void 0, /* @__PURE__ */ i([t2, r2], /* @__PURE__ */ o(e2)));
 }, clearInterval: function(t2) {
-  var r2 = B.delegate;
-  return ((null == r2 ? void 0 : r2.clearInterval) || clearInterval)(t2);
-}, delegate: void 0 }, L = /* @__PURE__ */ function(t2) {
+  return clearInterval(t2);
+} }, L = /* @__PURE__ */ function(t2) {
   function e2(r2, e3) {
     var n2 = t2.call(this, r2, e3) || this;
     return n2.scheduler = r2, n2.work = e3, n2.pending = false, n2;
