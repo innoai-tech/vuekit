@@ -22,6 +22,7 @@ export const applyKubePkg =
 "body": body,
 "headers": {
 "Content-Type": contentType,
+"Accept": "application/json",
 },
 }),
 )
@@ -63,6 +64,9 @@ export const getKubePkg =
 "params": {
 "namespace": query_namespace,
 },
+"headers": {
+"Accept": "application/json",
+},
 }),
 )
 
@@ -74,6 +78,9 @@ export const listKubePkg =
   () => ({
 "method": "GET",
 "url": "/api/kubepkg.innoai.tech/v1/kubepkgs",
+"headers": {
+"Accept": "application/json",
+},
 }),
 )
 

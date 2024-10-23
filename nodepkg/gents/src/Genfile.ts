@@ -2,7 +2,8 @@ import { isFunction, isObject, isString, map } from "@innoai-tech/lodash";
 import { writeFile } from "fs/promises";
 
 export class ID {
-  constructor(private id: string) {}
+  constructor(private id: string) {
+  }
 
   toString(): string {
     return this.id;
@@ -30,25 +31,25 @@ export const dumpValue = (value: any) => {
 export const dumpObj = (obj: { [k: string]: any }): string => {
   return `{
 ${map(obj, (v, k) => {
-  if (!v) {
-    return null;
-  }
-
-  let key = `"${k}"`;
-
-  switch (k[0]) {
-    case "?": {
-      key = `"${k.slice(1)}"?`;
-      break;
+    if (!v) {
+      return null;
     }
-    case "+":
-      key = `[${k.slice(1)}]`;
-  }
 
-  return `${key}: ${dumpValue(v)},`;
-})
-  .filter((v) => !!v)
-  .join("\n")}
+    let key = `"${k}"`;
+
+    switch (k[0]) {
+      case "?": {
+        key = `"${k.slice(1)}"?`;
+        break;
+      }
+      case "+":
+        key = `[${k.slice(1)}]`;
+    }
+
+    return `${key}: ${dumpValue(v)},`;
+  })
+    .filter((v) => !!v)
+    .join("\n")}
 }`;
 };
 
@@ -64,7 +65,7 @@ export class Genfile {
     const exposes = this.imports.get(path) ?? {};
     this.imports.set(path, {
       ...exposes,
-      [expose]: alias,
+      [expose]: alias
     });
   }
 
@@ -79,12 +80,12 @@ export class Genfile {
         [
           ...map([...this.imports.entries()], ([path, nameAndAlias]) => {
             return `import { ${map(nameAndAlias, (alias, name) =>
-              alias ? `${name} as ${alias}` : name,
+              alias ? `${name} as ${alias}` : name
             ).join(", ")} } from "${path}";`;
           }),
-          ...this.decls,
-        ].join("\n\n"),
-      ),
+          ...this.decls
+        ].join("\n\n")
+      ).toString()
     );
 
     return;

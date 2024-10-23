@@ -1,11 +1,9 @@
 import {
   camelCase,
-  first,
   get,
   keys,
   lowerFirst,
-  set,
-  values
+  set
 } from "@innoai-tech/lodash";
 import {
   type AnyType,
@@ -211,8 +209,14 @@ export class ClientGen extends Genfile {
           : t.object(requestParameterSchema)
       );
 
+    const [accept, respSchema] = getRespBodySchema(op.responses);
+
+    if (!!accept) {
+      set(requestObject, ["headers", "Accept"], accept);
+    }
+
     const responseType = this.decodeAsTypeScript(
-      this.typedef.decode(getRespBodySchema(op.responses))
+      this.typedef.decode(respSchema)
     );
 
     this.decl(`
@@ -236,7 +240,7 @@ export const ${lowerCamelCase(op.operationId)} =
 
 const lowerCamelCase = (id: string) => lowerFirst(camelCase(id));
 
-const getRespBodySchema = (responses: any) => {
+const getRespBodySchema = (responses: any): [string, Object] => {
   let bodySchema = { type: "null" };
 
   for (const codeOrDefault in responses) {
@@ -245,13 +249,13 @@ const getRespBodySchema = (responses: any) => {
     const code = Number(codeOrDefault);
 
     if (code >= 200 && code < 300 && resp.content) {
-      const mediaType = first(values(resp.content));
-      if (mediaType && !!mediaType.schema) {
-        bodySchema = mediaType.schema;
-        break;
+      for (const [contentType, mediaType] of Object.entries(resp.content as Record<string, { schema?: Object }>)) {
+        if (mediaType && !!mediaType.schema) {
+          return [contentType, mediaType.schema];
+        }
       }
     }
   }
 
-  return bodySchema;
+  return ["", bodySchema];
 };
