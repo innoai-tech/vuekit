@@ -4,7 +4,7 @@ import { I as j, a as O, T as I, b as E, D as T, c as D, M as P, L as $, E as R,
 import { m as A, a as L, C as F, D as U, b as H, c as W, d as J, e as X, f as q } from "./webapp-vuekit-layout.Dt4kLalz.chunk.js";
 import { B as G, C as Y, b as Z, G as K, T as Q, c as nn, e as ne, f as na, s as ns, v as nt, a as nc, P as nl, g as no, d as ni, t as nr } from "./lib-nodepkg-vueuikit.Dtzoi3E0.chunk.js";
 import { v as np, w as nd, p as nu, l as nm, x as nh } from "./vendor-innoai-tech-lodash.PTir9V15.chunk.js";
-import { I as nk, _ as nN } from "./webapp-vuekit-page.BN38SSEY.chunk.js";
+import { c as nk, _ as nN } from "./webapp-vuekit-page.ClK2TXrV.chunk.js";
 import { d as ng } from "./vendor-rxjs.D_sN0wUr.chunk.js";
 let ny = /* @__PURE__ */ n(() => {
   let n10 = /* @__PURE__ */ np(/* @__PURE__ */ l().options.routes.filter((n11) => "/" !== n11.path), (n11) => n11.path.split("/")[1]);
