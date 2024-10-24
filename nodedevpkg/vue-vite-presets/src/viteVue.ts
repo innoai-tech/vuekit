@@ -30,13 +30,28 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
       dirs: options.pagesDirs ?? "./page", // base from UserConfig.root
       onRoutesGenerated: r.onRoutesGenerated,
       extendRoute(r) {
-        // replace number prefix holders
         if (r.name) {
           r.name = r.name.replace(/[0-9]+_/g, "");
         }
         if (r.path) {
           r.path = r.path.replace(/[0-9]+_/g, "");
         }
+
+        if (r.children) {
+          r.children = (r.children as any[]).toSorted((a, b) => {
+            if (a.component.endsWith("/index.tsx") || b.component.endsWith("/index.tsx")) {
+              if (a.component.endsWith("index.tsx")) {
+                return -1;
+              }
+              return 0;
+            }
+            if (a.component < b.component) {
+              return -1;
+            }
+            return 0;
+          });
+        }
+
         return r;
       },
       resolver: {

@@ -96,9 +96,7 @@ export const createPageMetaResolver = () => {
           const q = new URLSearchParams(search ?? "");
 
           if (q.has("exportAsDefault")) {
-            return `export { ${q.get(
-              "exportAsDefault"
-            )} as default } from "${filepath}";`;
+            return `export { ${q.get("exportAsDefault")} as default } from "${filepath}";`;
           }
 
           if (m) {
