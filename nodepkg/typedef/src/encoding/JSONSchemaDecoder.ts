@@ -1,55 +1,73 @@
-import {
-  assign,
-  filter,
-  has,
-  isArray,
-  isBoolean,
-  isEmpty,
-  last,
-  map,
-  mapValues,
-  some,
-} from "@innoai-tech/lodash";
-import { type AnyType, t } from "../core";
-import { literal } from "../core/t.ts";
+import { Schema, t, type Type } from "../core";
 import type { JSONSchema } from "./JSONSchemaEncoder";
+import { isArray, isBoolean, isUndefined } from "../core/util.ts";
 
 export const refName = (ref: string) => {
-  return last(ref.split("/")) ?? "";
+  return ref.split("/")?.findLast(() => true) ?? "";
 };
 
 export class JSONSchemaDecoder {
   static decode(
     type: JSONSchema | false,
-    resolveRef: (ref: string) => [JSONSchema, string],
-  ): AnyType {
+    resolveRef: (ref: string) => [JSONSchema, string]
+  ): Type {
     if (type === false) {
       return t.never() as any;
     }
     return new JSONSchemaDecoder(resolveRef).decode(type);
   }
 
-  def = new Map<string, AnyType>();
+  def = new Map<string, Type>();
 
-  constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {}
+  constructor(private resolveRef: (ref: string) => [JSONSchema, string]) {
+  }
 
-  decode(jsonSchemaObject: JSONSchema): AnyType {
+  decode(jsonSchemaObject: JSONSchema): Type {
     const jsonSchema = structuredClone(jsonSchemaObject);
 
-    const tt = this._decode(jsonSchema);
+    let tt = this._decode(jsonSchema);
+
+
+    let hasTitle = false;
+
+    if (jsonSchema?.["title"]) {
+      tt = tt.use(t.annotate({ title: jsonSchema?.["title"] }));
+      hasTitle = true;
+    }
 
     if (jsonSchema?.["description"]) {
-      return tt.use(
-        t.annotate({
-          description: jsonSchema["description"],
-        }),
-      );
+      if (hasTitle) {
+        tt = tt.use(
+          t.annotate({
+            description: jsonSchema?.["description"]
+          })
+        );
+      } else {
+        const [title, ...others] = jsonSchema?.["description"].split("\n");
+
+        tt = tt.use(
+          t.annotate({
+            title: title,
+            description: others ? others.join("\n").trim() : undefined
+          })
+        );
+      }
+    }
+
+    if (jsonSchema) {
+      for (const rule of validationRules) {
+        if (rule in jsonSchema) {
+          const ruleFn = (t as any)[rule];
+
+          tt = tt.use(ruleFn(jsonSchema[rule]));
+        }
+      }
     }
 
     return tt;
   }
 
-  private ref = (refName: string): AnyType => {
+  private ref = (refName: string): Type => {
     const t = this.def.get(refName);
     if (t) {
       return t;
@@ -57,7 +75,7 @@ export class JSONSchemaDecoder {
     throw new Error(`undefined type ${refName}`);
   };
 
-  private _decode(s: JSONSchema): AnyType {
+  private _decode(s: JSONSchema): Type {
     const schema = normalizeSchema(s);
 
     if (schema["$ref"]) {
@@ -77,8 +95,8 @@ export class JSONSchemaDecoder {
       if (schema["x-enum-labels"]) {
         return e.use(
           t.annotate({
-            enumLabels: schema["x-enum-labels"],
-          }),
+            enumLabels: schema["x-enum-labels"]
+          })
         );
       }
 
@@ -88,7 +106,7 @@ export class JSONSchemaDecoder {
     if (schema["discriminator"]) {
       const discriminatorPropertyName = schema["discriminator"][
         "propertyName"
-      ] as string;
+        ] as string;
 
       if (discriminatorPropertyName) {
         const mapping: Record<string, any> = {};
@@ -96,67 +114,32 @@ export class JSONSchemaDecoder {
         if (schema["discriminator"]["mapping"]) {
           const discriminatorMapping = schema["discriminator"][
             "mapping"
-          ] as Record<string, any>;
+            ] as Record<string, any>;
 
-          for (const k in discriminatorMapping) {
-            const tt = this.decode(discriminatorMapping[k]);
-            const objectSchema: Record<string, any> = {};
-
-            for (const [propName, _, p] of tt.entries(
-              {},
-              { path: [], branch: [] },
-            )) {
-              if (p.type === "never") {
-                continue;
-              }
-
-              if (propName === discriminatorPropertyName) {
-                objectSchema[propName] = literal(k);
-                continue;
-              }
-
-              objectSchema[String(propName)] = p;
+          if (discriminatorMapping) {
+            for (const [k, sub] of Object.entries(discriminatorMapping)) {
+              mapping[k] = this.decode(sub);
             }
-
-            mapping[k] = isEmpty(objectSchema)
-              ? t.object()
-              : t.object(objectSchema);
           }
-        } else {
+        }
+
+        if (schema["oneOf"]) {
           for (const o of schema["oneOf"]) {
-            const tt = this.decode(o);
+            const sub = this.decode(o);
 
-            if (tt) {
-              const objectSchema: Record<string, any> = {};
-              const values: any[] = [];
+            const discriminatorPropertyType = Schema.schemaProp(
+              sub,
+              "properties"
+            )[discriminatorPropertyName];
 
-              for (const [propName, _, p] of tt.entries(
-                {},
-                { path: [], branch: [] },
-              )) {
-                if (p.type === "never") {
-                  continue;
-                }
+            if (discriminatorPropertyType) {
+              const discriminatorPropertyValue = Schema.schemaProp(
+                discriminatorPropertyType,
+                "enum"
+              )[0];
 
-                if (propName === discriminatorPropertyName) {
-                  switch (p.type) {
-                    case "literal":
-                    case "enums": {
-                      values.push(...p.getSchema("enum"));
-                    }
-                  }
-                  continue;
-                }
-
-                objectSchema[String(propName)] = p;
-              }
-
-              if (values.length) {
-                for (const value of values) {
-                  mapping[value] = isEmpty(objectSchema)
-                    ? t.object()
-                    : t.object(objectSchema);
-                }
+              if (!isUndefined(discriminatorPropertyValue)) {
+                mapping[`${discriminatorPropertyValue}`] = sub;
               }
             }
           }
@@ -167,20 +150,20 @@ export class JSONSchemaDecoder {
     }
 
     if (schema["oneOf"]) {
-      const oneOf = map(schema["oneOf"], (s) => this.decode(s));
+      const oneOf = schema["oneOf"].map((s: JSONSchema) => this.decode(s));
 
       if (oneOf.length === 1) {
-        return oneOf[0] as AnyType;
+        return oneOf[0] as Type;
       }
 
       return t.union(...oneOf);
     }
 
     if (schema["allOf"]) {
-      const allOf = map(schema["allOf"], (s) => this.decode(s));
+      const allOf = schema["allOf"].map((s: JSONSchema) => this.decode(s));
 
       if (allOf.length === 1) {
-        return allOf[0] as AnyType;
+        return allOf[0] as Type;
       }
 
       return t.intersection(...allOf);
@@ -190,23 +173,27 @@ export class JSONSchemaDecoder {
       if (schema["properties"]) {
         const required = schema["required"] ?? [];
 
-        return t.object(
-          mapValues(schema["properties"], (s, n) => {
-            const propType = this.decode(s);
-            if (required.includes(n) && !s["nullable"]) {
-              return propType;
-            }
-            return propType.optional();
-          }),
-        );
+        const props: Record<string, Type> = {};
+
+        for (const [prop, s] of Object.entries(schema["properties"])) {
+          let propType = this.decode(s as JSONSchema);
+          if (!required.includes(prop)) {
+            propType = propType.optional();
+          }
+          props[prop] = propType;
+        }
+
+        return t.object(props);
       }
 
       const additionalProperties = schema["additionalProperties"] ?? {};
 
       if (additionalProperties) {
         return t.record(
-          this.decode(schema["propertyNames"] ?? { type: "string" }),
-          this.decode(additionalProperties),
+          this.decode(
+            schema["propertyNames"] ?? { type: "string" }
+          ) as Type<string>,
+          this.decode(additionalProperties)
         );
       }
 
@@ -216,7 +203,7 @@ export class JSONSchemaDecoder {
     if (isArrayType(schema)) {
       if (isArray(schema["items"])) {
         return t.tuple(
-          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any,
+          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any
         );
       }
 
@@ -267,7 +254,8 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "dependentSchemas",
 
     "maxProperties",
-    "minProperties",
+    "minProperties"
+
     // "required",
     // "dependentRequired",
   ],
@@ -281,7 +269,7 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "minItems",
     "uniqueItems",
     "maxContains",
-    "minContains",
+    "minContains"
   ],
   string: [
     "pattern",
@@ -289,19 +277,42 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "contentEncoding",
     "contentSchema",
     "maxLength",
-    "minLength",
+    "minLength"
   ],
   number: [
     "maximum",
     "minimum",
     "multipleOf",
     "exclusiveMaximum",
-    "exclusiveMinimum",
-  ],
+    "exclusiveMinimum"
+  ]
 };
 
-const hasProps = <T>(schema: T, props: Array<keyof T>): boolean =>
-  some(props, (prop: string) => has(schema, prop));
+export const validationRules = [
+  "maxProperties",
+  "minProperties",
+
+  "maxItems",
+  "minItems",
+  "uniqueItems",
+
+  "pattern",
+  "maxLength",
+  "minLength",
+
+  "maximum",
+  "minimum",
+  "multipleOf",
+  "exclusiveMaximum",
+  "exclusiveMinimum"
+];
+
+const hasProps = <T extends object>(
+  schema: T,
+  props: Array<keyof T>
+): boolean => {
+  return props.some((prop) => Object.hasOwn(schema, prop));
+};
 
 const isMetaType = (schema: any): any => {
   return !hasProps(schema, ["type", "$ref", "$id", "oneOf", "anyOf", "allOf"]);
@@ -328,12 +339,12 @@ const normalizeSchema = (schema: any = {}): any => {
 
   const mayNormalizeMeta = (key: "allOf" | "anyOf" | "oneOf") => {
     if (schema[key]) {
-      schema[key] = filter(schema[key], (s) => {
+      schema[key] = (schema[key] as JSONSchema[]).filter((s) => {
         const ns = normalizeSchema(s);
         if (isMetaType(ns)) {
           if (key === "allOf") {
             // only allOf will merge meta
-            assign(schema, ns);
+            Object.assign(schema, ns);
           }
           return false;
         }

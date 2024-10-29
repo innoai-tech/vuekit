@@ -1,32 +1,35 @@
-import { type Context, Type } from "./Type.ts";
+import { defineType, type Context } from "./Type.ts";
+import { TypeUnknown } from "./TypeUnknown.ts";
 
 export type NativeEnumLike = {
   [k: string]: string | number;
   [nu: number]: string;
 };
 
-export class TypeEnum<U> extends Type<U, { enum: U[] }> {
-  static create<U extends number, T extends readonly U[]>(
+export class TypeEnum<U, S extends any[]> extends TypeUnknown<U, { enum: S }> {
+  static create = defineType(TypeEnum.createEnum);
+
+  static createEnum<U extends number, T extends readonly U[]>(
     values: T,
-  ): TypeEnum<T[number]>;
-  static create<U extends string, T extends readonly U[]>(
+  ): TypeEnum<T[number], U[]>;
+  static createEnum<U extends string, T extends readonly U[]>(
     values: T,
-  ): TypeEnum<T[number]>;
-  static create<U extends string | number, T extends readonly U[]>(
+  ): TypeEnum<T[number], U[]>;
+  static createEnum<U extends string | number, T extends readonly U[]>(
     values: U[],
-  ): TypeEnum<T[number]> {
-    return new TypeEnum<T[number]>({ enum: values });
+  ): TypeEnum<T[number], U[]> {
+    return new TypeEnum<T[number], U[]>({ enum: values });
   }
 
-  static literal<T>(constant: T) {
-    return new TypeEnum<T>({ enum: [constant] });
-  }
+  static literal = defineType(<T>(constant: T) => {
+    return new TypeEnum<T, [T]>({ enum: [constant] });
+  });
 
-  static nativeEnum<U extends NativeEnumLike>(nativeEnum: U) {
-    return new TypeEnum<U[keyof U]>({
+  static nativeEnum = defineType(<U extends NativeEnumLike>(nativeEnum: U) => {
+    return new TypeEnum<keyof U, Array<keyof U>>({
       enum: Object.values(nativeEnum) as any[],
     });
-  }
+  });
 
   override get type() {
     return "enums";

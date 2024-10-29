@@ -1,16 +1,66 @@
 import {
   component$,
   ImmerBehaviorSubject,
+  type ObservableRef,
   rx,
-  type VNodeChild
+  subscribeUntilUnmount,
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
-import {
-  defineTransition,
-  Popper,
-  styled,
-  transition
-} from "@innoai-tech/vueuikit";
+import { Popper, styled } from "@innoai-tech/vueuikit";
 import { isUndefined } from "@innoai-tech/lodash";
+import { size } from "@floating-ui/dom";
+import { delay, EMPTY, fromEvent, merge, switchMap, tap } from "rxjs";
+
+export class PopupStatus extends ImmerBehaviorSubject<boolean> {
+  static from<T extends HTMLElement | null>(el$: ObservableRef<T>) {
+    const status$ = new PopupStatus(false);
+
+    rx(
+      el$,
+      switchMap((inputEl) => {
+        if (inputEl) {
+          return merge(
+            rx(
+              fromEvent<FocusEvent>(inputEl, "focus"),
+              tap(() => {
+                status$.show();
+              }),
+            ),
+            rx(
+              fromEvent<FocusEvent>(inputEl, "blur"),
+              // delay to avoid break other actions
+              delay(1),
+              tap(() => {
+                status$.hide();
+              }),
+            ),
+          );
+        }
+
+        return EMPTY;
+      }),
+      subscribeUntilUnmount(),
+    );
+
+    return status$;
+  }
+
+  show() {
+    this.next(true);
+  }
+
+  hide() {
+    this.next(false);
+  }
+}
+
+const sameWidth = size({
+  apply({ elements, rects }) {
+    Object.assign(elements.floating.style, {
+      width: `${rects.reference.width}px`,
+    });
+  },
+});
 
 export const Menu = component$<{
   open$?: PopupStatus;
@@ -30,6 +80,7 @@ export const Menu = component$<{
 
       if (!isUndefined(selected)) {
         emit("selected", selected);
+
         open$.hide();
       }
     }
@@ -42,10 +93,9 @@ export const Menu = component$<{
         <Popper
           isOpen={isOpen}
           onClickOutside={() => open$.hide()}
-          $transition={(ctx: any) => (
-            <FadeInOutTransition>{ctx.content}</FadeInOutTransition>
-          )}
+          onEscKeydown={() => open$.hide()}
           placement={"bottom-start"}
+          middleware={[sameWidth]}
           $content={
             <PopoverContainer onClick={handleSelected}>
               {slots.content?.()}
@@ -55,7 +105,7 @@ export const Menu = component$<{
           {slots.default?.()?.[0] ?? null}
         </Popper>
       );
-    })
+    }),
   );
 });
 
@@ -73,75 +123,40 @@ export const Popover = component$<{
         <Popper
           isOpen={isOpen}
           onClickOutside={() => open$.hide()}
-          $transition={(ctx: any) => (
-            <FadeInOutTransition>{ctx.content}</FadeInOutTransition>
-          )}
           placement={"bottom-start"}
           $content={<PopoverContainer>{slots.content?.()}</PopoverContainer>}
         >
           {slots.default?.()?.[0] ?? null}
         </Popper>
       );
-    })
+    }),
   );
 });
 
-export class PopupStatus extends ImmerBehaviorSubject<boolean> {
-  show() {
-    this.next(true);
-  }
-
-  hide() {
-    this.next(false);
-  }
-}
-
 export const PopoverContainer = styled("div")({
-  py: 4,
-  rounded: "sm",
-  shadow: "1",
-  containerStyle: "sys.surface",
+  roundedBottom: "sm",
   textStyle: "sys.body-small",
   pos: "relative",
-  maxW: "30vw"
+  containerStyle: "sys.surface-container-lowest",
 });
 
 export const MenuItem = styled("div")({
-  px: 12,
-  py: 8,
-  gap: 23,
+  px: 8,
+  py: 2,
+  gap: 8,
   display: "flex",
-  alignItems: "start",
+  alignItems: "center",
   justifyContent: "space-between",
   textAlign: "right",
   textStyle: "sys.body-small",
-
   cursor: "pointer",
 
   _hover: {
-    containerStyle: "sys.surface-container"
-  }
-});
-
-export const FadeInOutTransition = defineTransition(
-  {
-    from: {
-      opacity: 0
-    },
-    to: {
-      opacity: 1
-    },
-    duration: transition.duration.md1,
-    easing: transition.easing.standard.accelerate
+    containerStyle: "sys.surface-container",
   },
-  {
-    from: {
-      opacity: 1
-    },
-    to: {
-      opacity: 0
-    },
-    duration: transition.duration.sm4,
-    easing: transition.easing.standard.decelerate
-  }
-);
+
+  _focus: {
+    containerStyle: "sys.surface-container",
+    outline: 0,
+  },
+});

@@ -1,34 +1,35 @@
 import {
-  type AnyType,
+  type Type,
   type InferTuple,
   type Context,
-  Type,
-  TypeNever,
+  defineType,
+  type Entity,
+  type Result,
 } from "./Type.ts";
+import { TypeUnknown } from "./TypeUnknown.ts";
+import { TypeNever } from "./TypeNever.ts";
+import { isArray } from "./util.ts";
 
-export class TypeTuple<T, S extends AnyType[]> extends Type<
+export class TypeTuple<T, S extends Type[]> extends TypeUnknown<
   T,
   {
     type: "array";
     items: S;
   }
 > {
-  static create<Values extends AnyType[]>(values: [...Values]) {
+  static create = defineType(<Values extends Type[]>(values: [...Values]) => {
     return new TypeTuple<InferTuple<Values>, Values>({
       type: "array",
       items: values,
     });
-  }
+  });
 
   override get type() {
     return "tuple";
   }
 
-  override *entries(
-    value: unknown,
-    _context: Context,
-  ): Iterable<[string | number, unknown, AnyType | Type<never>]> {
-    if (Array.isArray(value)) {
+  override *entries(value: unknown, _context: Context): Iterable<Entity> {
+    if (isArray(value)) {
       const length = Math.max(this.schema.items.length, value.length);
 
       for (let i = 0; i < length; i++) {
@@ -37,11 +38,11 @@ export class TypeTuple<T, S extends AnyType[]> extends Type<
     }
   }
 
-  override validator(value: unknown) {
-    return Array.isArray(value);
+  override validator(value: unknown): Result {
+    return isArray(value) && value.length === this.schema.items.length;
   }
 
-  override coercer(value: unknown) {
-    return Array.isArray(value) ? value.slice() : value;
+  override coercer(value: unknown): T | undefined {
+    return (isArray(value) ? value.slice() : value) as T;
   }
 }

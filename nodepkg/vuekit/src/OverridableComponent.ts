@@ -1,4 +1,5 @@
 import type { Component, VElementType } from "./vue";
+import type { Simplify } from "@innoai-tech/typedef";
 
 export interface OverridableTypeMap {
   props: {};
@@ -28,7 +29,7 @@ export type ComponentProps<T extends VElementType> =
 
 export interface OverridableComponent<
   M extends OverridableTypeMap,
-  P extends Record<string, any> = DefaultComponentProps<M>,
+  P extends Record<string, any> = Simplify<DefaultComponentProps<M>>,
 > extends Component<P> {
   <C extends VElementType>(
     props: { component: C } & OverrideProps<M, C>,

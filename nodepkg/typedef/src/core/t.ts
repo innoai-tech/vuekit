@@ -1,11 +1,10 @@
 import { TypeRef } from "./TypeRef.ts";
 import { TypeAny } from "./TypeAny.ts";
 import {
-  DefaultedType,
-  OptionalType,
-  Type,
-  TypeNever,
-  TypeWrapper,
+  type Type,
+  defineModifier,
+  type Infer,
+  type InferSchema,
 } from "./Type.ts";
 import { TypeNull } from "./TypeNull.ts";
 import { TypeString } from "./TypeString.ts";
@@ -20,6 +19,15 @@ import { TypeArray } from "./TypeArray.ts";
 import { TypeTuple } from "./TypeTuple.ts";
 import { TypeIntersection } from "./TypeIntersection.ts";
 import { TypeUnion } from "./TypeUnion.ts";
+import {
+  DefaultedType,
+  OptionalType,
+  TypeUnknown,
+  TypeWrapper,
+} from "./TypeUnknown.ts";
+import { TypeNever } from "./TypeNever.ts";
+import { Schema } from "./Schema.ts";
+import { isArray } from "./util.ts";
 
 export const ref = TypeRef.create;
 export const any = TypeAny.create;
@@ -28,8 +36,48 @@ export const nil = TypeNull.create;
 
 export const string = TypeString.create;
 
-export function pattern(pattern: RegExp, msg?: string) {
-  return <T extends string, S>(type: Type<T, S>) => {
+export const minLength = defineModifier(
+  <T extends string>(type: Type<T>, min: number, msg?: string) => {
+    return TypeWrapper.refine(
+      type,
+      (value) => {
+        if (value && value.length >= min) {
+          return true;
+        }
+        return (
+          msg ??
+          `Expected string value length great than or equal ${min}, but received "${value}"`
+        );
+      },
+      {
+        minLength: min,
+      },
+    );
+  },
+);
+
+export const maxLength = defineModifier(
+  <T extends Type<string>>(type: T, max: number, msg?: string) => {
+    return TypeWrapper.refine(
+      type,
+      (value) => {
+        if (value && value.length <= max) {
+          return true;
+        }
+        return (
+          msg ??
+          `Expected string value length less than or equal ${max}, but received "${value}"`
+        );
+      },
+      {
+        maxLength: max,
+      },
+    );
+  },
+);
+
+export const pattern = defineModifier(
+  <T extends Type<string>>(type: T, pattern: RegExp, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
@@ -45,14 +93,14 @@ export function pattern(pattern: RegExp, msg?: string) {
         pattern: pattern.source,
       },
     );
-  };
-}
+  },
+);
 
 export const number = TypeNumber.create;
 export const integer = TypeInteger.create;
 
-export function minimum<M extends number>(min: M, msg?: string) {
-  return <T extends number, S>(type: Type<T, S>) => {
+export const minimum = defineModifier(
+  <T extends Type<number>>(type: T, min: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
@@ -68,11 +116,11 @@ export function minimum<M extends number>(min: M, msg?: string) {
         minimum: min,
       },
     );
-  };
-}
+  },
+);
 
-export function exclusiveMinimum<M extends number>(min: M, msg?: string) {
-  return <T extends number, S>(type: Type<T, S>) => {
+export const exclusiveMinimum = defineModifier(
+  <T extends Type<number>>(type: T, min: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
@@ -87,11 +135,11 @@ export function exclusiveMinimum<M extends number>(min: M, msg?: string) {
         exclusiveMinimum: min,
       },
     );
-  };
-}
+  },
+);
 
-export function maximum(max: number, msg?: string) {
-  return <T extends number, S>(type: Type<T, S>) => {
+export const maximum = defineModifier(
+  <T extends Type<number>>(type: T, max: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
@@ -107,11 +155,11 @@ export function maximum(max: number, msg?: string) {
         maximum: max,
       },
     ) as any;
-  };
-}
+  },
+);
 
-export function exclusiveMaximum(max: number, msg?: string) {
-  return <T extends number, S>(type: Type<T, S>) => {
+export const exclusiveMaximum = defineModifier(
+  <T extends Type<number>>(type: T, max: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
@@ -127,11 +175,11 @@ export function exclusiveMaximum(max: number, msg?: string) {
         exclusiveMaximum: max,
       },
     ) as any;
-  };
-}
+  },
+);
 
-export function multipleOf(multipleOf: number, msg?: string) {
-  return <T extends number, S>(type: Type<T, S>) => {
+export const multipleOf = defineModifier(
+  <T extends Type<number>>(type: T, multipleOf: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
@@ -147,8 +195,8 @@ export function multipleOf(multipleOf: number, msg?: string) {
         multipleOf: multipleOf,
       },
     );
-  };
-}
+  },
+);
 
 export const boolean = TypeBoolean.create;
 export const binary = TypeBinary.create;
@@ -163,12 +211,12 @@ export const record = TypeRecord.create;
 export const tuple = TypeTuple.create;
 export const array = TypeArray.create;
 
-export function minItems(minItems: number, msg?: string) {
-  return <T extends any[], S>(type: Type<T, S>) => {
+export const minItems = defineModifier(
+  <T extends Type<any[]>>(type: T, minItems: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
-        if (Array.isArray(value) && value.length >= minItems) {
+        if (isArray(value) && value.length >= minItems) {
           return true;
         }
         return (
@@ -180,15 +228,15 @@ export function minItems(minItems: number, msg?: string) {
         minItems: minItems,
       },
     );
-  };
-}
+  },
+);
 
-export function maxItems(maxItems: number, msg?: string) {
-  return <T extends any[], S>(type: Type<T, S>) => {
+export const maxItems = defineModifier(
+  <T extends Type<any[]>>(type: T, maxItems: number, msg?: string) => {
     return TypeWrapper.refine(
       type,
       (value) => {
-        if (Array.isArray(value) && value.length <= maxItems) {
+        if (isArray(value) && value.length <= maxItems) {
           return true;
         }
         return (
@@ -200,30 +248,33 @@ export function maxItems(maxItems: number, msg?: string) {
         maxItems: maxItems,
       },
     );
-  };
-}
+  },
+);
 
 export const intersection = TypeIntersection.create;
 export const union = TypeUnion.create;
 export const discriminatorMapping = TypeUnion.discriminatorMapping;
 
-export const custom = Type.define;
+export const custom = TypeUnknown.define;
 export const refine = TypeWrapper.refine;
 
-export function defaults<T>(v: T) {
-  return <U extends Type<T, any>>(type: U): U => {
+export const defaults = defineModifier(
+  <T extends any, U extends Type<T, any>>(
+    type: U,
+    v: T,
+  ): Type<Infer<U> | undefined, InferSchema<U>> => {
     return DefaultedType.create(type, v) as unknown as U;
-  };
-}
+  },
+);
 
-export function optional() {
-  return <T, S>(type: Type<T, S>): Type<T | undefined, S> => {
+export const optional = defineModifier(
+  <T extends Type>(type: T): Type<Infer<T> | undefined, InferSchema<T>> => {
     return OptionalType.create(type) as unknown as any;
-  };
-}
+  },
+);
 
-export function annotate<M extends Record<string, any>>(meta: M) {
-  return <T, S>(type: Type<T, S>): Type<T, S & M> => {
-    return TypeWrapper.of(type, { $meta: meta }) as unknown as Type<T, S & M>;
-  };
-}
+export const annotate = defineModifier(
+  <T extends Type, M extends Record<string, any>>(type: T, meta: M): T => {
+    return TypeWrapper.of(type, { [Schema.meta]: meta }) as unknown as any;
+  },
+);

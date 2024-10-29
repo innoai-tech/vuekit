@@ -1,7 +1,8 @@
 import { isFunction } from "@innoai-tech/lodash";
 import { produce } from "immer";
-import { type Ref, customRef } from "vue";
+import { customRef, type Ref } from "vue";
 import { ImmerBehaviorSubject, type ImmerSubject } from "./Immer";
+import { SymbolForwardRef } from "../vue.ts";
 
 export type ObservableRef<T> = Ref<T> & ImmerSubject<T>;
 
@@ -15,10 +16,11 @@ export const observableRef = <T>(value: T): ObservableRef<T> => {
         return store$.value;
       },
       set(value: T) {
-        const newValue = (value as any)?.$$forwardRef ?? value;
+        const newValue = (value as any)?.[SymbolForwardRef] ?? value;
 
         if (!Object.is(newValue, store$.value)) {
           store$.next(newValue);
+
           trigger();
         }
       },

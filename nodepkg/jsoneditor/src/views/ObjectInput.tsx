@@ -1,27 +1,49 @@
 import {
-  type AnyType,
   component,
   component$,
   type Context,
-  EmptyContext,
+  ImmerBehaviorSubject,
+  observableRef,
   rx,
-  type VNodeChild
+  Schema,
+  subscribeUntilUnmount,
+  type Type,
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
-import { get, set } from "@innoai-tech/lodash";
-import { styled } from "@innoai-tech/vueuikit";
+import { Popper, styled } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
-import { mdiMinusBoxOutline, mdiPlusBoxOutline } from "@mdi/js";
-import { Description, Block, Line, PropName, Token } from "./TokenView.tsx";
+import { mdiCancel, mdiCheckBold, mdiMinusBoxOutline } from "@mdi/js";
+import { Block, Description, Line, PropName, Token } from "./TokenView.tsx";
 import { JSONEditorProvider, JSONEditorSlotsProvider } from "../models";
 import { Menu, MenuItem, PopupStatus } from "./Menu.tsx";
 import { ActionBtn, Actions } from "./Actions.tsx";
-import { CopyAsJSONIconBtn, InputFromJSONRawIconBtn } from "./JSONRaw.tsx";
+import { CopyAsJSONIconBtn } from "./JSONRaw.tsx";
 import { Tooltip } from "./Tooltip.tsx";
+import {
+  InputActionSubject,
+  InputText,
+  ValueContainer,
+  ValueInputActions,
+} from "./ValueInput.tsx";
+import { combineLatest, tap } from "rxjs";
+
+export const RemovePropIconBtn = component$<{
+  $default?: VNodeChild;
+  onRemove?: () => void;
+}>(({}, { emit }) => {
+  return () => (
+    <Tooltip $title={"删除属性"}>
+      <ActionBtn onClick={() => emit("remove")}>
+        <Icon path={mdiMinusBoxOutline} />
+      </ActionBtn>
+    </Tooltip>
+  );
+});
 
 export const ObjectInput = component$<{
+  typedef: Type;
   ctx: Context;
   value: {};
-  typedef: AnyType;
 }>((props, { render }) => {
   const editor$ = JSONEditorProvider.use();
   const slots = JSONEditorSlotsProvider.use();
@@ -35,41 +57,27 @@ export const ObjectInput = component$<{
           closeToken={"}"}
           $leading={
             <Actions>
-              <AddPropIconBtn
-                onAddProp={(propName) => {
-                  editor$.next((values: any) => {
-                    const p = [...props.ctx.path, propName];
-                    set(values, p, get(values, p));
-                  });
-                }}
-              >
-                {[...props.typedef.entries(obj, EmptyContext)].map(
-                  ([propName, _propValue, propSchema]) => {
-                    if (!Object.hasOwn(obj, propName)) {
-                      return (
-                        <AddPropMenuItem
-                          propName={String(propName)}
-                          typedef={propSchema}
-                        />
-                      );
-                    }
-                    return null;
-                  }
-                )}
-              </AddPropIconBtn>
               <CopyAsJSONIconBtn value={obj} />
-              <InputFromJSONRawIconBtn
-                onInput={(updated) => {
-                  if (props.ctx.path.length) {
-                    editor$.next((values: any) => {
-                      set(values, props.ctx.path, updated);
-                    });
-                  } else {
-                    editor$.next(updated);
-                  }
-                }}
-              />
             </Actions>
+          }
+          $trailing={
+            <PropValueInput
+              key={"prop-input"}
+              ctx={props.ctx}
+              onAdd={(prop) => {
+                editor$.update([...props.ctx.path, prop], undefined);
+              }}
+              options={[...props.typedef.entries(obj, props.ctx)]
+                .filter(([propName]) => {
+                  return !Object.hasOwn(obj, propName);
+                })
+                .map(([propName, _propValue, propSchema]) => {
+                  return {
+                    propName: String(propName),
+                    typedef: propSchema,
+                  };
+                })}
+            />
           }
         >
           {[...props.typedef.entries(obj, props.ctx)].map(
@@ -81,20 +89,18 @@ export const ObjectInput = component$<{
               const path = [...props.ctx.path, propName];
 
               return (
-                <Line dirty={editor$.isDirty(propValue, path)}>
+                <Line
+                  path={path}
+                  dirty={editor$.isDirty(propValue, path)}
+                  title={Schema.metaProp(propSchema, "title")}
+                  description={Schema.metaProp(propSchema, "description")}
+                >
                   <PropName
-                    deprecated={propSchema.getSchema("deprecated")}
-                    description={propSchema.getMeta("description")}
+                    deprecated={Schema.schemaProp(propSchema, "deprecated")}
                     $leading={
-                      <RemotePropIconBtn
+                      <RemovePropIconBtn
                         onRemove={() => {
-                          editor$.next((values: any) => {
-                            let v = values;
-                            for (const k of props.ctx.path) {
-                              v = v[k];
-                            }
-                            delete v[propName];
-                          });
+                          editor$.delete(path);
                         }}
                       />
                     }
@@ -105,70 +111,201 @@ export const ObjectInput = component$<{
                   {slots.$value?.(propSchema, propValue, {
                     ...props.ctx,
                     path: path,
-                    branch: [...props.ctx.branch, propValue]
+                    branch: [...props.ctx.branch, propValue],
                   })}
                 </Line>
               );
-            }
+            },
           )}
         </Block>
       );
-    })
+    }),
   );
 });
 
-const RemotePropIconBtn = component$<{
-  $default?: VNodeChild;
-  onRemove?: () => void;
-}>(({}, { emit }) => {
-  return () => (
-    <Tooltip $title={"移除节点"}>
-      <ActionBtn onClick={() => emit("remove")}>
-        <Icon path={mdiMinusBoxOutline} />
-      </ActionBtn>
-    </Tooltip>
-  );
-});
+export const PropValueInput = component$<{
+  ctx: Context;
+  options?: Array<{
+    propName: string;
+    typedef: Type;
+  }>;
+  onAdd: (prop: string) => void;
+}>((props, { emit, render }) => {
+  const inputEl$ = observableRef<HTMLInputElement | null>(null);
 
-const AddPropIconBtn = component$<{
-  $default?: VNodeChild;
-  onAddProp?: (prop: string) => void;
-}>(({}, { slots, emit }) => {
-  const open$ = new PopupStatus(false);
+  const inputAction$ = InputActionSubject.from(inputEl$);
+  const inputText$ = InputText.from(inputEl$);
+  const open$ = PopupStatus.from(inputEl$);
 
-  return () => {
-    const children = slots.default?.().filter(n => n.type == AddPropMenuItem) ?? [];
+  const editor$ = JSONEditorProvider.use();
 
-    return children?.length > 0 ? (
-      <Menu
-        open$={open$}
-        onSelected={(value) => {
-          emit("add-prop", value);
-        }}
-        $content={children}
-      >
-        <Tooltip $title={"添加属性"}>
-          <ActionBtn onClick={() => open$.show()}>
-            <Icon path={mdiPlusBoxOutline} />
-          </ActionBtn>
-        </Tooltip>
-      </Menu>
-    ) : null;
+  const selectFocus$ = new ImmerBehaviorSubject({
+    index: 0,
+  });
+
+  const reset = () => {
+    open$.hide();
+
+    inputText$.next("");
+
+    if (inputEl$.value) {
+      inputEl$.value.value = "";
+      inputEl$.value.blur();
+    }
+
+    selectFocus$.next({
+      index: 0,
+    });
   };
+
+  rx(
+    inputText$,
+    tap((input) => {
+      if (input.trim().startsWith("{")) {
+        try {
+          const v = JSON.parse(input);
+          editor$.update(props.ctx.path, v);
+          reset();
+        } catch (err) {
+          editor$.setError(props.ctx.path, "无效的 JSON 字符串");
+        }
+      }
+    }),
+    subscribeUntilUnmount(),
+  );
+
+  const commit = (prop?: string) => {
+    if (props.options) {
+      prop ??=
+        props.options[selectFocus$.value.index % props.options.length]
+          ?.propName;
+    } else {
+      prop ??= inputText$.value;
+    }
+
+    if (prop) {
+      emit("add", prop);
+      reset();
+    } else {
+      editor$.setError([...props.ctx.path, Schema.RecordKey], "无效的属性值");
+    }
+  };
+
+  rx(
+    inputAction$,
+    tap((action) => {
+      switch (action.type) {
+        case "SELECT":
+          selectFocus$.next((value) => {
+            value.index += action.direction;
+          });
+          break;
+        case "COMMIT":
+          commit();
+          break;
+        case "CANCEL":
+          reset();
+          break;
+      }
+    }),
+    subscribeUntilUnmount(),
+  );
+
+  const $inputForProp = rx(
+    open$,
+    render((isOpen) => {
+      return (
+        <input
+          ref={inputEl$}
+          type="text"
+          placeholder={"添加属性 (可粘贴 JSON 字符串)"}
+          data-options={isOpen}
+        />
+      );
+    }),
+  );
+
+  return rx(
+    combineLatest([inputText$, open$, selectFocus$, props.options$]),
+    render(([input, open, focus, options]) => {
+      if (options) {
+        return options.length > 0 ? (
+          <Line path={props.ctx.path}>
+            <ValueContainer sx={{ mx: -4 }}>
+              <Menu
+                onSelected={(prop) => {
+                  commit(prop);
+                }}
+                open$={open$}
+                $content={options.map((opt, i) => {
+                  if (input) {
+                    if (!opt.propName.includes(input)) {
+                      return null;
+                    }
+                  }
+
+                  return (
+                    <PropMenuItem
+                      propName={opt.propName}
+                      typedef={opt.typedef}
+                      data-focus={i === focus.index % options.length}
+                    />
+                  );
+                })}
+              >
+                {$inputForProp}
+              </Menu>
+            </ValueContainer>
+          </Line>
+        ) : null;
+      }
+
+      return (
+        <Line path={[...props.ctx.path, Schema.RecordKey]}>
+          <ValueContainer sx={{ mx: -4 }}>
+            <Popper
+              isOpen={open}
+              placement={"right-start"}
+              $content={
+                <ValueInputActions>
+                  <ActionBtn
+                    onClick={() => inputAction$.next({ type: "CANCEL" })}
+                  >
+                    <Icon path={mdiCancel} />
+                  </ActionBtn>
+                  <ActionBtn
+                    onClick={() => inputAction$.next({ type: "COMMIT" })}
+                  >
+                    <Icon path={mdiCheckBold} />
+                  </ActionBtn>
+                </ValueInputActions>
+              }
+            >
+              <input
+                ref={inputEl$}
+                type="text"
+                placeholder={"添加属性 (可粘贴 JSON 字符串)"}
+              />
+            </Popper>
+          </ValueContainer>
+        </Line>
+      );
+    }),
+  );
 });
 
-const AddPropMenuItem = component<{
+const PropMenuItem = component<{
   propName: string;
-  typedef: AnyType;
+  typedef: Type;
 }>((props) => {
   return () => {
     return (
-      <AddPropMenuItemContainer data-value={props.propName}>
-        <PropName optional={props.typedef.isOptional}>
+      <AddPropMenuItemContainer data-value={props.propName} tabindex={0}>
+        <PropName optional={Schema.schemaProp(props.typedef, Schema.optional)}>
           {props.propName}
         </PropName>
         <Description>
-          {props.typedef.getMeta<string>("description")?.split("\n")?.[0] ?? ""}
+          {Schema.metaProp<string>(props.typedef, "title")}
         </Description>
       </AddPropMenuItemContainer>
     );
@@ -176,10 +313,7 @@ const AddPropMenuItem = component<{
 });
 
 const AddPropMenuItemContainer = styled(MenuItem)({
-  width: 400,
-
   [`& ${PropName}`]: {
-    width: "30%",
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 });

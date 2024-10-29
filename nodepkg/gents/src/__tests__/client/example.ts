@@ -1,6 +1,6 @@
 import { createRequest } from "./client";
 
-import { t, type OptionalType } from "@innoai-tech/typedef";
+import { t } from "@innoai-tech/typedef";
 
 
 export const applyKubePkg =
@@ -220,87 +220,201 @@ export type KubepkgV1Alpha1Statuses = { [k: string]: any }
 
 
       
-export const KubepkgV1Alpha1KubePkgSchema = /*#__PURE__*/t.intersection(t.ref<typeof MetaV1TypeMetaSchema>("MetaV1TypeMeta", () => MetaV1TypeMetaSchema), t.object({
-  "metadata": t.ref<typeof MetaV1ObjectMetaSchema>("MetaV1ObjectMeta", () => MetaV1ObjectMetaSchema).optional() as unknown as OptionalType<typeof MetaV1ObjectMetaSchema>,
-  "spec": t.ref<typeof KubepkgV1Alpha1KubePkgSpecSchema>("KubepkgV1Alpha1KubePkgSpec", () => KubepkgV1Alpha1KubePkgSpecSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1KubePkgSpecSchema>,
-  "status": t.ref<typeof KubepkgV1Alpha1KubePkgStatusSchema>("KubepkgV1Alpha1KubePkgStatus", () => KubepkgV1Alpha1KubePkgStatusSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1KubePkgStatusSchema>,
-})).annotate({ description: "KubePkg" })
+export class MetaV1ManagedFieldsEntrySchema {
+
+@t.string()
+@t.optional()
+"apiVersion"?: string
+
+@t.string()
+@t.optional()
+"fieldsType"?: string
+
+@t.record(t.string(), t.any())
+@t.optional()
+"fieldsV1"?: /* @type:record */ MetaV1FieldsV1
+
+@t.string()
+@t.optional()
+"manager"?: string
+
+@t.string()
+@t.optional()
+"operation"?: /* @type:string */ MetaV1ManagedFieldsOperationType
+
+@t.string()
+@t.optional()
+"subresource"?: string
+
+@t.string()
+@t.optional()
+"time"?: /* @type:string */ MetaV1Time
+
+}
       
-export const MetaV1TypeMetaSchema = /*#__PURE__*/t.object({
-  "apiVersion": t.string().optional(),
-  "kind": t.string().optional(),
-})
+export class MetaV1OwnerReferenceSchema {
+
+@t.string()
+"apiVersion"!: string
+
+@t.boolean()
+@t.optional()
+"blockOwnerDeletion"?: boolean
+
+@t.boolean()
+@t.optional()
+"controller"?: boolean
+
+@t.string()
+"kind"!: string
+
+@t.string()
+"name"!: string
+
+@t.string()
+"uid"!: /* @type:string */ TypesUid
+
+}
       
-export const MetaV1ObjectMetaSchema = /*#__PURE__*/t.object({
-  "annotations": t.record(t.string(), t.string()).optional(),
-  "clusterName": t.string().optional(),
-  "creationTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional() as unknown as OptionalType<typeof MetaV1TimeSchema>,
-  "deletionGracePeriodSeconds": t.integer().optional(),
-  "deletionTimestamp": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional() as unknown as OptionalType<typeof MetaV1TimeSchema>,
-  "finalizers": t.array(t.string()).optional(),
-  "generateName": t.string().optional(),
-  "generation": t.integer().optional(),
-  "labels": t.record(t.string(), t.string()).optional(),
-  "managedFields": t.array(t.ref<typeof MetaV1ManagedFieldsEntrySchema>("MetaV1ManagedFieldsEntry", () => MetaV1ManagedFieldsEntrySchema)).optional(),
-  "name": t.string().optional(),
-  "namespace": t.string().optional(),
-  "ownerReferences": t.array(t.ref<typeof MetaV1OwnerReferenceSchema>("MetaV1OwnerReference", () => MetaV1OwnerReferenceSchema)).optional(),
-  "resourceVersion": t.string().optional(),
-  "selfLink": t.string().optional(),
-  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema).optional() as unknown as OptionalType<typeof TypesUidSchema>,
-})
+export class MetaV1ObjectMetaSchema {
+
+@t.record(t.string(), t.string())
+@t.optional()
+"annotations"?: { [k: string]: string }
+
+@t.string()
+@t.optional()
+"clusterName"?: string
+
+@t.string()
+@t.optional()
+"creationTimestamp"?: /* @type:string */ MetaV1Time
+
+@t.integer()
+@t.optional()
+"deletionGracePeriodSeconds"?: number
+
+@t.string()
+@t.optional()
+"deletionTimestamp"?: /* @type:string */ MetaV1Time
+
+@t.array(t.string())
+@t.optional()
+"finalizers"?: Array<string>
+
+@t.string()
+@t.optional()
+"generateName"?: string
+
+@t.integer()
+@t.optional()
+"generation"?: number
+
+@t.record(t.string(), t.string())
+@t.optional()
+"labels"?: { [k: string]: string }
+
+@t.array(t.object(MetaV1ManagedFieldsEntrySchema))
+@t.optional()
+"managedFields"?: Array</* @type:object */ MetaV1ManagedFieldsEntry>
+
+@t.string()
+@t.optional()
+"name"?: string
+
+@t.string()
+@t.optional()
+"namespace"?: string
+
+@t.array(t.object(MetaV1OwnerReferenceSchema))
+@t.optional()
+"ownerReferences"?: Array</* @type:object */ MetaV1OwnerReference>
+
+@t.string()
+@t.optional()
+"resourceVersion"?: string
+
+@t.string()
+@t.optional()
+"selfLink"?: string
+
+@t.string()
+@t.optional()
+"uid"?: /* @type:string */ TypesUid
+
+}
       
-export const MetaV1TimeSchema = /*#__PURE__*/t.string()
+export class KubepkgV1Alpha1KubePkgSpecSchema {
+
+@t.record(t.string(), t.string())
+@t.optional()
+"images"?: { [k: string]: string }
+
+@t.record(t.string(), t.any())
+@t.optional()
+"manifests"?: /* @type:record */ KubepkgV1Alpha1Manifests
+
+@t.string()
+"version"!: string
+
+}
       
-export const MetaV1ManagedFieldsEntrySchema = /*#__PURE__*/t.object({
-  "apiVersion": t.string().optional(),
-  "fieldsType": t.string().optional(),
-  "fieldsV1": t.ref<typeof MetaV1FieldsV1Schema>("MetaV1FieldsV1", () => MetaV1FieldsV1Schema).optional() as unknown as OptionalType<typeof MetaV1FieldsV1Schema>,
-  "manager": t.string().optional(),
-  "operation": t.ref<typeof MetaV1ManagedFieldsOperationTypeSchema>("MetaV1ManagedFieldsOperationType", () => MetaV1ManagedFieldsOperationTypeSchema).optional() as unknown as OptionalType<typeof MetaV1ManagedFieldsOperationTypeSchema>,
-  "subresource": t.string().optional(),
-  "time": t.ref<typeof MetaV1TimeSchema>("MetaV1Time", () => MetaV1TimeSchema).optional() as unknown as OptionalType<typeof MetaV1TimeSchema>,
-})
+export class KubepkgV1Alpha1DigestMetaSchema {
+
+@t.string()
+"digest"!: string
+
+@t.string()
+"name"!: string
+
+@t.string()
+@t.optional()
+"platform"?: string
+
+@t.integer()
+"size"!: /* @type:integer */ KubepkgV1Alpha1FileSize
+
+@t.string()
+@t.optional()
+"tag"?: string
+
+@t.nativeEnum(KubepkgV1Alpha1DigestMetaType)
+"type"!: /* @type:enums */ KubepkgV1Alpha1DigestMetaType
+
+}
       
-export const MetaV1FieldsV1Schema = /*#__PURE__*/t.record(t.string(), t.any())
+export class KubepkgV1Alpha1KubePkgStatusSchema {
+
+@t.array(t.object(KubepkgV1Alpha1DigestMetaSchema))
+@t.optional()
+"digests"?: Array</* @type:object */ KubepkgV1Alpha1DigestMeta>
+
+@t.record(t.string(), t.any())
+@t.optional()
+"statuses"?: /* @type:record */ KubepkgV1Alpha1Statuses
+
+}
       
-export const MetaV1ManagedFieldsOperationTypeSchema = /*#__PURE__*/t.string()
-      
-export const MetaV1OwnerReferenceSchema = /*#__PURE__*/t.object({
-  "apiVersion": t.string(),
-  "blockOwnerDeletion": t.boolean().optional(),
-  "controller": t.boolean().optional(),
-  "kind": t.string(),
-  "name": t.string(),
-  "uid": t.ref<typeof TypesUidSchema>("TypesUid", () => TypesUidSchema) as unknown as typeof TypesUidSchema,
-})
-      
-export const TypesUidSchema = /*#__PURE__*/t.string()
-      
-export const KubepkgV1Alpha1KubePkgSpecSchema = /*#__PURE__*/t.object({
-  "images": t.record(t.string(), t.string()).optional(),
-  "manifests": t.ref<typeof KubepkgV1Alpha1ManifestsSchema>("KubepkgV1Alpha1Manifests", () => KubepkgV1Alpha1ManifestsSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1ManifestsSchema>,
-  "version": t.string(),
-})
-      
-export const KubepkgV1Alpha1ManifestsSchema = /*#__PURE__*/t.record(t.string(), t.any())
-      
-export const KubepkgV1Alpha1KubePkgStatusSchema = /*#__PURE__*/t.object({
-  "digests": t.array(t.ref<typeof KubepkgV1Alpha1DigestMetaSchema>("KubepkgV1Alpha1DigestMeta", () => KubepkgV1Alpha1DigestMetaSchema)).optional(),
-  "statuses": t.ref<typeof KubepkgV1Alpha1StatusesSchema>("KubepkgV1Alpha1Statuses", () => KubepkgV1Alpha1StatusesSchema).optional() as unknown as OptionalType<typeof KubepkgV1Alpha1StatusesSchema>,
-})
-      
-export const KubepkgV1Alpha1DigestMetaSchema = /*#__PURE__*/t.object({
-  "digest": t.string(),
-  "name": t.string(),
-  "platform": t.string().optional(),
-  "size": t.ref<typeof KubepkgV1Alpha1FileSizeSchema>("KubepkgV1Alpha1FileSize", () => KubepkgV1Alpha1FileSizeSchema) as unknown as typeof KubepkgV1Alpha1FileSizeSchema,
-  "tag": t.string().optional(),
-  "type": t.ref<typeof KubepkgV1Alpha1DigestMetaTypeSchema>("KubepkgV1Alpha1DigestMetaType", () => KubepkgV1Alpha1DigestMetaTypeSchema) as unknown as typeof KubepkgV1Alpha1DigestMetaTypeSchema,
-})
-      
-export const KubepkgV1Alpha1FileSizeSchema = /*#__PURE__*/t.integer()
-      
-export const KubepkgV1Alpha1DigestMetaTypeSchema = /*#__PURE__*/t.nativeEnum(KubepkgV1Alpha1DigestMetaType)
-      
-export const KubepkgV1Alpha1StatusesSchema = /*#__PURE__*/t.record(t.string(), t.any())
+export class KubepkgV1Alpha1KubePkgSchema {
+
+@t.string()
+@t.optional()
+"apiVersion"?: string
+
+@t.string()
+@t.optional()
+"kind"?: string
+
+@t.object(MetaV1ObjectMetaSchema)
+@t.optional()
+"metadata"?: /* @type:object */ MetaV1ObjectMeta
+
+@t.object(KubepkgV1Alpha1KubePkgSpecSchema)
+@t.optional()
+"spec"?: /* @type:object */ KubepkgV1Alpha1KubePkgSpec
+
+@t.object(KubepkgV1Alpha1KubePkgStatusSchema)
+@t.optional()
+"status"?: /* @type:object */ KubepkgV1Alpha1KubePkgStatus
+
+}

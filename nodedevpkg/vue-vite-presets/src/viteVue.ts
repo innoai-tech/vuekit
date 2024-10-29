@@ -2,13 +2,13 @@ import vue from "@vitejs/plugin-vue";
 import type { PluginOption } from "vite";
 import vitePages, {
   type PageResolver,
-  type PageOptions
+  type PageOptions,
 } from "vite-plugin-pages";
 import { mdx } from "./mdx";
 import {
   createPageMetaResolver,
   viteVueComponentCompleter,
-  viteVueComponentHMR
+  viteVueComponentHMR,
 } from "./vue";
 
 export interface ViteReactOptions {
@@ -39,7 +39,10 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
 
         if (r.children) {
           r.children = (r.children as any[]).toSorted((a, b) => {
-            if (a.component.endsWith("/index.tsx") || b.component.endsWith("/index.tsx")) {
+            if (
+              a.component.endsWith("/index.tsx") ||
+              b.component.endsWith("/index.tsx")
+            ) {
               if (a.component.endsWith("index.tsx")) {
                 return -1;
               }
@@ -56,8 +59,8 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
       },
       resolver: {
         ...r.pagesResolver,
-        ...options.pagesResolver
-      }
-    }) as PluginOption
+        ...options.pagesResolver,
+      },
+    }) as PluginOption,
   ];
 };

@@ -1,16 +1,18 @@
-import { type Context, Type } from "./Type.ts";
+import { defineType, type Context } from "./Type.ts";
+import { TypeUnknown } from "./TypeUnknown.ts";
+import { isBoolean } from "./util.ts";
 
-export class TypeBoolean extends Type<boolean, { type: "boolean" }> {
-  static create() {
+export class TypeBoolean extends TypeUnknown<boolean, { type: "boolean" }> {
+  static create = defineType(() => {
     return new TypeBoolean({ type: "boolean" });
-  }
+  });
 
   override get type() {
     return this.schema.type;
   }
 
   override validator(value: unknown, _: Context) {
-    return typeof value === "boolean";
+    return isBoolean(value);
   }
 
   override coercer(value: unknown, _: Context) {

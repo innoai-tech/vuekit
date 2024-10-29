@@ -1,41 +1,108 @@
-import type { AnyType, Context, Infer, ObjectType } from "./Type.ts";
-import { isObject } from "@innoai-tech/lodash";
-import { Type, TypeNever } from "./Type.ts";
+import {
+  type Context,
+  defineType,
+  EmptyContext,
+  type Infer,
+  type Type,
+} from "./Type.ts";
+import { TypeUnknown } from "./TypeUnknown.ts";
+import { TypeNever } from "./TypeNever.ts";
+import { type Constructor, Schema, type Simplify } from "./Schema.ts";
+import { isClass, isObjectLike } from "./util.ts";
+import { TypeEnum } from "./TypeEnum.ts";
+import { TypeRef } from "./TypeRef.ts";
+import { Metadata } from "./Metadata.ts";
 
 export class TypeObject<
   T extends Record<string, any>,
-  Props extends Record<string, AnyType>,
-> extends Type<
-  ObjectType<Props>,
+  Props extends Record<string, Type>,
+> extends TypeUnknown<
+  T,
   {
     type: "object";
     properties?: Props;
     required: Array<keyof T>;
-    additionalProperties: AnyType | Type<never>;
+    additionalProperties: Type | Type<never>;
   }
 > {
-  static create(): TypeObject<{}, {}>;
-  static create<Props extends Record<string, AnyType>>(
+  static create(): Type<{}, {}> & PropertyDecorator;
+  static create<C extends Constructor>(
+    c: C,
+  ): Type<Simplify<InstanceType<C>>, {}> & PropertyDecorator;
+  static create<Props extends Record<string, Type>>(
     props: Props,
-  ): TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>;
-  static create<Props extends Record<string, AnyType>>(props?: Props) {
-    const required: string[] = [];
+  ): Type<{ [K in keyof Props]: Infer<Props[K]> }, Props> & PropertyDecorator;
+  static create<Props extends Record<string, Type>>(props?: Props) {
+    const pickRequired = (props: Record<string, Type> = {}) => {
+      const required: string[] = [];
 
-    if (props) {
-      for (const propName in props) {
-        const p = props[propName];
-        if (!p?.isOptional) {
+      for (const [propName, propType] of Object.entries(props)) {
+        const p = Schema.schemaProp(propType, Schema.optional);
+        if (!p) {
           required.push(propName);
         }
       }
-    }
 
-    return new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>({
-      type: "object",
-      properties: props,
-      required: required,
-      additionalProperties: TypeNever.create(),
-    });
+      return required;
+    };
+
+    return defineType(() => {
+      if (props) {
+        if (isClass(props)) {
+          const t = new props();
+
+          const properties: any = {};
+
+          for (const [k, v] of Object.entries(t)) {
+            properties[k] = TypeEnum.literal(v);
+          }
+
+          for (const propName of Metadata.getOwnPropertyNames(t)) {
+            const typeObject = Metadata.get(t, propName);
+
+            if (typeObject) {
+              const propType = TypeUnknown.fromTypeObject(
+                typeObject,
+                properties[propName],
+              );
+
+              if (propName in properties) {
+                properties[propName] = propType.default(
+                  properties[propName].schema?.enum?.[0],
+                );
+              } else {
+                properties[propName] = propType;
+              }
+            }
+          }
+
+          return TypeRef.create(
+            props.name,
+            () =>
+              new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>({
+                type: "object",
+                properties: properties,
+                required: pickRequired(properties),
+                additionalProperties: TypeNever.create(),
+              }),
+          );
+        }
+
+        return new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>({
+          type: "object",
+          properties: props,
+          required: pickRequired(props),
+          additionalProperties: TypeNever.create(),
+        });
+      }
+
+      return new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>({
+        type: "object",
+        properties: props,
+        required: [],
+        additionalProperties: TypeNever.create(),
+      });
+    })();
   }
 
   override get type() {
@@ -44,9 +111,9 @@ export class TypeObject<
 
   override *entries(
     value: unknown,
-    ctx: Context,
-  ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
-    if (isObject(value)) {
+    ctx: Context = EmptyContext,
+  ): Iterable<[string | number | symbol, unknown, Type | Type<never>]> {
+    if (isObjectLike(value)) {
       const propNames = new Set(Object.keys(value));
 
       if (this.schema.properties) {
@@ -60,7 +127,7 @@ export class TypeObject<
         }
       }
 
-      if (ctx.node?.type !== "intersection") {
+      if (ctx.node?.current.type !== "intersection") {
         for (const key of propNames) {
           yield [key, (value as any)[key], this.schema.additionalProperties];
         }
@@ -69,16 +136,15 @@ export class TypeObject<
   }
 
   override validator(value: unknown, _ctx: Context) {
-    return isObject(value);
+    return isObjectLike(value);
   }
 
-  override coercer(value: unknown, ctx: Context) {
-    if (isObject(value)) {
+  override coercer(value: unknown, ctx: Context): T | undefined {
+    if (isObjectLike(value)) {
       const v: { [k: string]: any } = { ...value };
 
       if (ctx.mask) {
         // FIXME: support object with additionalProperties
-
         const properties = this.schema.properties;
 
         if (properties) {
@@ -90,9 +156,9 @@ export class TypeObject<
         }
       }
 
-      return v;
+      return v as T;
     }
 
-    return value;
+    return super.coercer(value, ctx);
   }
 }

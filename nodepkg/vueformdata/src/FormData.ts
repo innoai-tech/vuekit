@@ -7,13 +7,13 @@ import {
   has,
 } from "@innoai-tech/lodash";
 import {
-  type AnyType,
+  type Type,
   EmptyContext,
   ImmerBehaviorSubject,
   type Infer,
   type Component,
   rx,
-  SymbolRecordKey,
+  Schema,
   type ImmerSubject,
 } from "@innoai-tech/vuekit";
 
@@ -33,8 +33,8 @@ export const delegate = <T extends { [k: string]: any }>(
   });
 };
 
-export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
-  static of<T extends AnyType>(
+export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
+  static of<T extends Type>(
     schema: T,
     initials: Partial<Infer<T>> | (() => Partial<Infer<T>>),
   ) {
@@ -66,14 +66,14 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
     return this._fields.get(name);
   }
 
-  *fields<T extends AnyType>(
+  *fields<T extends Type>(
     typedef: T,
     value = this.inputs$.value,
     path: any[] = [],
   ): Iterable<Field> {
     for (const [nameOrIdx, _, t] of typedef.entries(value, EmptyContext)) {
-      // skip symbol
-      if (nameOrIdx === SymbolRecordKey) {
+      // skip RecordKey
+      if (nameOrIdx === Schema.RecordKey) {
         continue;
       }
 
@@ -195,7 +195,7 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
   optional: boolean;
 
   state: FieldState;
-  typedef: AnyType;
+  typedef: Type;
 
   blur: () => void;
   focus: () => void;
@@ -211,7 +211,7 @@ class FieldImpl<T extends any = any>
   extends ImmerBehaviorSubject<FieldState>
   implements Field<T>
 {
-  static defaultValue = (def: AnyType) => {
+  static defaultValue = (def: Type) => {
     try {
       return def.create(undefined);
     } catch (e) {
@@ -236,7 +236,7 @@ class FieldImpl<T extends any = any>
 
   constructor(
     public readonly form$: FormData,
-    public readonly typedef: AnyType,
+    public readonly typedef: Type,
     public readonly path: Array<string | number>,
     public readonly name = FieldImpl.stringify(path),
   ) {
@@ -250,7 +250,7 @@ class FieldImpl<T extends any = any>
       this.form$.inputs$.value,
       this.name,
       FieldImpl.defaultValue(this.typedef),
-    );
+    ) as any;
   }
 
   get meta(): FieldMeta<T> {
@@ -276,7 +276,9 @@ class FieldImpl<T extends any = any>
     if (typeof this.#input$ === "undefined") {
       this.#input$ = rx(
         this.form$.inputs$,
-        map((v) => get(v, this.name, FieldImpl.defaultValue(this.typedef))),
+        map(
+          (v) => get(v, this.name, FieldImpl.defaultValue(this.typedef)) as any,
+        ),
         distinctUntilChanged(),
       );
     }

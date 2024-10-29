@@ -1,28 +1,29 @@
 import { describe, expect, it } from "bun:test";
 import { get } from "@innoai-tech/lodash";
-import { JSONSchemaDecoder, JSONSchemaEncoder, refName } from "..";
+import { JSONSchemaDecoder, refName } from "../JSONSchemaDecoder.ts";
+import { JSONSchemaEncoder } from "../JSONSchemaEncoder.ts";
 
 describe("JSONSchemaDecoder", () => {
   it("decode complex", () => {
     const schema = {
-      definitions: {
+      $defs: {
         A: { type: "string" },
         B: { type: "integer" },
         C: { type: "string", enum: ["X", "Y", "Z"] },
         ObjC: {
           type: "object",
           properties: {
-            c: { $ref: "#/definitions/C" },
+            c: { $ref: "#/$defs/C" },
           },
         },
         Obj: {
           allOf: [
-            { $ref: "#/definitions/ObjC" },
+            { $ref: "#/$defs/ObjC" },
             {
               type: "object",
               properties: {
-                a: { $ref: "#/definitions/A" },
-                nested: { $ref: "#/definitions/ObjC" },
+                a: { $ref: "#/$defs/A" },
+                nested: { $ref: "#/$defs/ObjC" },
               },
               required: ["a"],
             },
@@ -48,18 +49,18 @@ describe("JSONSchemaDecoder", () => {
             {
               properties: {
                 type: { enum: ["A"] },
-                a: { $ref: "#/definitions/A" },
-                b: { $ref: "#/definitions/B" },
+                a: { $ref: "#/$defs/A" },
+                b: { $ref: "#/$defs/B" },
               },
-              required: ["a"],
+              required: ["type", "a"],
               additionalProperties: false,
             },
             {
               properties: {
                 type: { enum: ["B"], type: "string" },
-                b: { $ref: "#/definitions/B" },
+                b: { $ref: "#/$defs/B" },
               },
-              required: ["b"],
+              required: ["type", "b"],
               additionalProperties: false,
             },
           ],
@@ -67,10 +68,10 @@ describe("JSONSchemaDecoder", () => {
         TaggedUnionWhenA: {
           properties: {
             type: { enum: ["A"] },
-            a: { $ref: "#/definitions/A" },
-            b: { $ref: "#/definitions/B" },
+            a: { $ref: "#/$defs/A" },
+            b: { $ref: "#/$defs/B" },
           },
-          required: ["a"],
+          required: ["type", "a"],
           additionalProperties: false,
         },
         TaggedUnion: {
@@ -78,13 +79,13 @@ describe("JSONSchemaDecoder", () => {
           discriminator: {
             propertyName: "type",
             mapping: {
-              A: { $ref: "#/definitions/TaggedUnionWhenA" },
+              A: { $ref: "#/$defs/TaggedUnionWhenA" },
               B: {
                 properties: {
                   type: { enum: ["B"], type: "string" },
-                  b: { $ref: "#/definitions/B" },
+                  b: { $ref: "#/$defs/B" },
                 },
-                required: ["b"],
+                required: ["type", "b"],
                 additionalProperties: false,
               },
             },
@@ -94,11 +95,11 @@ describe("JSONSchemaDecoder", () => {
       type: "object",
       additionalProperties: false,
       properties: {
-        obj: { $ref: "#/definitions/Obj" },
-        arr: { $ref: "#/definitions/Arr" },
-        map: { $ref: "#/definitions/Map" },
-        union: { $ref: "#/definitions/Union" },
-        tagged: { $ref: "#/definitions/TaggedUnion" },
+        obj: { $ref: "#/$defs/Obj" },
+        arr: { $ref: "#/$defs/Arr" },
+        map: { $ref: "#/$defs/Map" },
+        union: { $ref: "#/$defs/Union" },
+        tagged: { $ref: "#/$defs/TaggedUnion" },
       },
     };
 

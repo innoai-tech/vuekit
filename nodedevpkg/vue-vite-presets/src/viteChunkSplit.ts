@@ -4,24 +4,24 @@ import { get, last, sum } from "@innoai-tech/lodash";
 import {
   type ManualChunkMeta,
   type OutputOptions,
-  type PreRenderedChunk
+  type PreRenderedChunk,
 } from "rollup";
 import {
   type FilterPattern,
   type PluginOption,
   createFilter,
-  searchForWorkspaceRoot
+  searchForWorkspaceRoot,
 } from "vite";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
   handleModuleFederations?: (
-    pkgRelations: Record<string, ModuleFederation>
+    pkgRelations: Record<string, ModuleFederation>,
   ) => void;
 }
 
 export const viteChunkSplit = (
-  options: ChunkSplitOptions = {}
+  options: ChunkSplitOptions = {},
 ): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   const cs = new ChunkSplit(resolve(viteRoot), options);
@@ -42,7 +42,7 @@ export const viteChunkSplit = (
       const chunkFileNames = get(
         c.build.rollupOptions.output,
         ["chunkFileNames"],
-        `${assetsDir}/[name].[hash].chunk.js`
+        `${assetsDir}/[name].[hash].chunk.js`,
       );
 
       (c.build.rollupOptions.output as any) = {
@@ -58,14 +58,14 @@ export const viteChunkSplit = (
 
           const name = cs.extractName(chunkInfo.moduleIds[0]!);
           return `${assetsDir}/${name}.[hash].chunk.js`;
-        }
+        },
       };
     },
     outputOptions(o) {
       o.manualChunks = (id: string, meta: ManualChunkMeta) => {
         return cs.chunkName(id, meta);
       };
-    }
+    },
   };
 };
 
@@ -75,7 +75,7 @@ class ChunkSplit {
 
   constructor(
     private root: string,
-    private options: ChunkSplitOptions
+    private options: ChunkSplitOptions,
   ) {
     this.isLib = createFilter(options.lib ?? []);
 
@@ -254,8 +254,7 @@ export class ModuleFederation {
 
   #imported = new Map<string, ModuleFederation>();
 
-  constructor(public name: string) {
-  }
+  constructor(public name: string) {}
 
   get federation() {
     return this.#federation ?? this.name;
@@ -293,7 +292,7 @@ export class ModuleFederation {
 
   sortedImported() {
     return [...this.#imported.entries()].toSorted(([_a, a], [_b, b]) =>
-      a.rank > b.rank ? -1 : 1
+      a.rank > b.rank ? -1 : 1,
     );
   }
 
@@ -308,13 +307,13 @@ export class ModuleFederation {
 
 const markPkgRelegation = (
   moduleFederations: Record<string, ModuleFederation>,
-  directs: Record<string, boolean>
+  directs: Record<string, boolean>,
 ) => {
   const federations: Record<string, boolean> = {};
 
   const walkToNearestDirectFederationFrom = (
     pkg: string,
-    visited: Map<string, boolean>
+    visited: Map<string, boolean>,
   ): string => {
     // cycle avoid
     if (visited.has(pkg)) {
@@ -352,7 +351,7 @@ const markPkgRelegation = (
 };
 
 export const d2Graph = (
-  moduleFederations: Record<string, ModuleFederation>
+  moduleFederations: Record<string, ModuleFederation>,
 ) => {
   let g = "";
 

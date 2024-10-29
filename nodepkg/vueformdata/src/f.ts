@@ -1,56 +1,80 @@
-import { type Component, Type, TypeWrapper } from "@innoai-tech/vuekit";
-import type { Field, InputComponentProps, FieldMeta } from "./FormData";
+import {
+  type Component,
+  defineModifier,
+  type Infer,
+  type InferSchema,
+  t,
+  type Type,
+} from "@innoai-tech/vuekit";
+import type { Field, InputComponentProps } from "./FormData";
 
-export function label(label: string) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        label: label,
-      },
-    });
-  };
-}
+export const label = defineModifier(
+  <T extends Type>(type: T, label: string): T => {
+    return t
+      .annotate<
+        T,
+        {
+          label: typeof label;
+        }
+      >({ label })
+      .modify(type);
+  },
+);
 
-export function hint(hint: string) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        hint: hint,
-      },
-    });
-  };
-}
+export const hint = defineModifier(
+  <T extends Type>(type: T, hint: string): T => {
+    return t
+      .annotate<
+        T,
+        {
+          hint: typeof hint;
+        }
+      >({ hint })
+      .modify(type);
+  },
+);
 
-export function valueDisplay<V>(
-  display: (value: V, field$: Field<V>) => JSX.Element | string,
-) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        valueDisplay: display,
-      },
-    });
-  };
-}
+export const valueDisplay = defineModifier(
+  <V extends any, T extends Type<V> = Type<V>>(
+    type: T,
+    valueDisplay: (value: V, field$: Field<V>) => JSX.Element | string,
+  ) => {
+    return t
+      .annotate<
+        T,
+        {
+          valueDisplay: typeof valueDisplay;
+        }
+      >({ valueDisplay })
+      .modify(type);
+  },
+);
 
-export function inputBy<T>(component: Component<InputComponentProps<T>>) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        input: component,
-      } as FieldMeta<T>,
-    });
-  };
-}
+export const inputBy = defineModifier(
+  <V extends any, T extends Type<V> = Type<V>>(
+    type: T,
+    inputBy: Component<InputComponentProps<V>>,
+  ): Type<Infer<T>, InferSchema<T>> => {
+    return t
+      .annotate<
+        T,
+        {
+          inputBy: typeof inputBy;
+        }
+      >({ inputBy })
+      .modify(type);
+  },
+);
 
-export function readOnlyWhenInitialExist(
-  readOnlyWhenInitialExist: boolean = true,
-) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        readOnlyWhenInitialExist: readOnlyWhenInitialExist,
-      },
-    });
-  };
-}
+export const readOnlyWhenInitialExist = defineModifier(
+  <T extends Type>(type: T, readOnlyWhenInitialExist: boolean = true) => {
+    return t
+      .annotate<
+        T,
+        {
+          readOnlyWhenInitialExist: typeof readOnlyWhenInitialExist;
+        }
+      >({ readOnlyWhenInitialExist })
+      .modify(type);
+  },
+);

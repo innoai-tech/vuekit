@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { type Infer, t } from "../index";
+import { type Infer, Schema, t } from "../index";
 
 enum InputType {
   text = "text",
@@ -17,6 +17,7 @@ describe("Type", () => {
       const s = t.object({
         str: t.string().default("default"),
       });
+
       expect(s.create({})).toEqual({
         str: "default",
       });
@@ -37,7 +38,7 @@ describe("Type", () => {
     });
 
     test("schema should collect required", () => {
-      expect(s.schema.required).toEqual(["a"]);
+      expect(Schema.schemaProp(s, "required") as string[]).toEqual(["a"]);
     });
 
     test("should validate incorrect type", () => {

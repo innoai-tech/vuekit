@@ -1,9 +1,4 @@
-import {
-  app,
-  chunkCleanup, d2Graph,
-  viteChunkSplit,
-  viteVue
-} from "./nodedevpkg/vue-vite-presets/src";
+import { app, chunkCleanup, d2Graph, viteChunkSplit, viteVue } from "./nodedevpkg/vue-vite-presets/src";
 import { injectWebAppConfig } from "@innoai-tech/config/vite-plugin-inject-config";
 import { defineConfig } from "vite";
 import * as process from "node:process";
@@ -36,7 +31,8 @@ export default defineConfig({
             { baseRoute: "", dir: "page" },
             { baseRoute: "vuekit", dir: "../../nodepkg/vuekit/example" },
             { baseRoute: "vueuikit", dir: "../../nodepkg/vueuikit/example" },
-            { baseRoute: "vuematerial", dir: "../../nodepkg/vuematerial/example" }
+            { baseRoute: "vuematerial", dir: "../../nodepkg/vuematerial/example" },
+            { baseRoute: "jsoneditor", dir: "../../nodepkg/jsoneditor/example" }
           ]
         }) : {}
       )

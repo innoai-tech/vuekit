@@ -12,9 +12,9 @@ export default component(() => {
   const sameWidth = size({
     apply({ elements, rects }) {
       Object.assign(elements.floating.style, {
-        width: `${rects.reference.width}px`
+        width: `${rects.reference.width}px`,
       });
-    }
+    },
   });
 
   return () => (

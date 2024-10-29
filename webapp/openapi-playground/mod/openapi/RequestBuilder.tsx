@@ -1,18 +1,23 @@
 import {
   type AnyType,
   component,
-  component$, JSONSchemaDecoder, observableRef, refName,
+  component$,
+  JSONSchemaDecoder,
+  observableRef,
+  refName,
   render,
-  rx, subscribeOnMountedUntilUnmount,
+  rx,
+  Schema,
+  subscribeOnMountedUntilUnmount,
   subscribeUntilUnmount,
   t,
   useRoute,
-  useRouter
+  useRouter,
+  type VNodeChild
 } from "@innoai-tech/vuekit";
 import type { Operation } from "./models";
-import { FormData, f, type Field } from "@innoai-tech/vueformdata";
+import { f, type Field, FormData } from "@innoai-tech/vueformdata";
 import { TextField } from "./components/TextField";
-import { type VNodeChild } from "@innoai-tech/vuekit";
 import { combineLatest, tap } from "rxjs";
 import { FilledButton, Icon } from "@innoai-tech/vuematerial";
 import { Box } from "@innoai-tech/vueuikit";
@@ -25,10 +30,10 @@ import { HttpRequest } from "./HTTPViews.tsx";
 import { mdiUploadBox } from "@mdi/js";
 import { isUndefined } from "@innoai-tech/lodash";
 
-export const RequestBuilder = component$({
-  operation: t.custom<Operation>(),
-  $default: t.custom<VNodeChild>()
-}, (props, { slots }) => {
+export const RequestBuilder = component$<{
+  operation: Operation,
+  $default: VNodeChild,
+}>((props, { slots }) => {
   const openapi$ = OpenAPIProvider.use();
 
   const propSchemas: Record<string, any> = {};
@@ -185,11 +190,9 @@ export const RequestBuilder = component$({
   };
 });
 
-const ParameterInput = component$(
-  {
-    field$: t.custom<Field>()
-  },
-  ({ field$ }, { render }) => {
+const ParameterInput = component$<{
+  field$: Field
+}>(({ field$ }, { render }) => {
     onUnmounted(() => {
       field$.destroy();
     });
@@ -197,9 +200,9 @@ const ParameterInput = component$(
     return rx(
       combineLatest([field$, field$.input$]),
       render(([s, value]) => {
-        let Input: any = field$.meta?.input ?? TextInput;
+        let Input: any = Schema.metaProp(field$.typedef, "inputBy") ?? TextInput;
 
-        const readOnly = (field$.meta?.readOnlyWhenInitialExist ?? false) && !!s.initial;
+        const readOnly = (Schema.metaProp(field$.typedef, "readOnlyWhenInitialExist") ?? false) && !!s.initial;
 
         return (
           <TextField
@@ -286,68 +289,65 @@ export const TextInput = component(
 );
 
 
-export const FileSelectInput = component$(
-  {
-    field$: t.custom<Field<File>>(),
-    readOnly: t.boolean().optional(),
-    accept: t.string().optional()
-  },
-  (props) => {
-    const file$ = observableRef<File | null>(null);
+export const FileSelectInput = component$<{
+  field$: Field<File>,
+  readOnly?: boolean,
+  accept?: string,
+}>((props) => {
+  const file$ = observableRef<File | null>(null);
 
-    rx(
-      file$,
-      tap((file) => {
-        if (file) {
-          props.field$.update(file);
-        }
-      }),
-      subscribeOnMountedUntilUnmount()
-    );
+  rx(
+    file$,
+    tap((file) => {
+      if (file) {
+        props.field$.update(file);
+      }
+    }),
+    subscribeOnMountedUntilUnmount()
+  );
 
-    return () => {
-      const { readOnly, accept } = props;
+  return () => {
+    const { readOnly, accept } = props;
 
-      return (
-        <Box
-          component={"label"}
-          data-input
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+    return (
+      <Box
+        component={"label"}
+        data-input
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
 
-            gap: 8,
+          gap: 8,
 
-            $data_file_input: {
-              display: "none"
-            },
+          $data_file_input: {
+            display: "none"
+          },
 
-            $data_icon: {
-              width: 40,
-              height: 40,
-              my: 40
+          $data_icon: {
+            width: 40,
+            height: 40,
+            my: 40
+          }
+        }}
+      >
+        <input
+          type={"file"}
+          name={props.field$.name}
+          readonly={readOnly}
+          accept={accept}
+          data-file-input
+          onChange={(e) => {
+            const file = (e.target as HTMLInputElement).files?.[0];
+
+            if (file) {
+              file$.value = file;
             }
           }}
-        >
-          <input
-            type={"file"}
-            name={props.field$.name}
-            readonly={readOnly}
-            accept={accept}
-            data-file-input
-            onChange={(e) => {
-              const file = (e.target as HTMLInputElement).files?.[0];
-
-              if (file) {
-                file$.value = file;
-              }
-            }}
-          />
-          <Icon path={mdiUploadBox} />
-          <span>{file$.value?.name}</span>
-        </Box>
-      );
-    };
-  }
-);
+        />
+        <Icon path={mdiUploadBox} />
+        <span>{file$.value?.name}</span>
+      </Box>
+    );
+  };
+});

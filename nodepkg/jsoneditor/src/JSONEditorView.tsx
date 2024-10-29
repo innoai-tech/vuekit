@@ -1,38 +1,39 @@
 import {
-  type AnyType,
   component$,
   type Context,
   EmptyContext,
-  rx
+  rx,
+  Schema,
+  type Type,
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider, JSONEditorSlotsProvider } from "./models";
 import {
-  ObjectInput,
   ArrayInput,
-  RecordInput,
-  EnumInput,
-  NumberInput,
-  BooleanInput,
-  StringInput,
-  RawInput,
   LayoutContextProvider,
-  Line
+  Line,
+  ObjectInput,
+  OneEditingProvider,
+  RecordInput,
+  ValueInput,
 } from "./views";
 import { styled } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
 import { isUndefined } from "@innoai-tech/lodash";
 
-export const defaultValueRender = (typedef: AnyType, value: any, ctx: Context) => {
+export const defaultValueRender = (typedef: Type, value: any, ctx: Context) => {
   if (
     typedef.type == "object" ||
     typedef.type == "intersection" ||
-    (typedef.type == "union" && typedef.getSchema("discriminator"))
+    (typedef.type == "union" && Schema.schemaProp(typedef, "discriminator"))
   ) {
     return <ObjectInput typedef={typedef} value={value ?? {}} ctx={ctx} />;
   }
 
-  if (typedef.type == "union" && isUndefined(typedef.getSchema("discriminator"))) {
-    return <RawInput typedef={typedef} value={value} ctx={ctx} />;
+  if (
+    typedef.type == "union" &&
+    isUndefined(Schema.schemaProp(typedef, "discriminator"))
+  ) {
+    return <ValueInput typedef={typedef} value={value} ctx={ctx} />;
   }
 
   if (typedef.type == "record") {
@@ -43,23 +44,7 @@ export const defaultValueRender = (typedef: AnyType, value: any, ctx: Context) =
     return <ArrayInput typedef={typedef} value={value} ctx={ctx} />;
   }
 
-  if (typedef.type == "enums") {
-    return <EnumInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
-  if (typedef.type == "string") {
-    return <StringInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
-  if (typedef.type == "number" || typedef.type == "integer") {
-    return <NumberInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
-  if (typedef.type == "boolean") {
-    return <BooleanInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
-  return undefined;
+  return <ValueInput typedef={typedef} value={value} ctx={ctx} />;
 };
 
 export const JSONEditorView = component$(({}, { render }) => {
@@ -74,27 +59,31 @@ export const JSONEditorView = component$(({}, { render }) => {
       const valueRender = slots.$value ?? defaultValueRender;
 
       return (
-        <JSONEditorSlotsProvider
-          value={{
-            $value: slots.$value ?? defaultValueRender
-          }}
-        >
-          <JSONEditorContainer>
-            <section ref={$container} />
-            {$container.value && (
-              <LayoutContextProvider
-                value={{
-                  indent: 0,
-                  $container: $container
-                }}
-              >
-                <Line>{valueRender(editor$.typedef, root, EmptyContext)}</Line>
-              </LayoutContextProvider>
-            )}
-          </JSONEditorContainer>
-        </JSONEditorSlotsProvider>
+        <OneEditingProvider>
+          <JSONEditorSlotsProvider
+            value={{
+              $value: slots.$value ?? defaultValueRender,
+            }}
+          >
+            <JSONEditorContainer>
+              <section ref={$container} />
+              {$container.value && (
+                <LayoutContextProvider
+                  value={{
+                    indent: 0,
+                    $container: $container,
+                  }}
+                >
+                  <Line path={[]} viewOnly>
+                    {valueRender(editor$.typedef, root, EmptyContext)}
+                  </Line>
+                </LayoutContextProvider>
+              )}
+            </JSONEditorContainer>
+          </JSONEditorSlotsProvider>
+        </OneEditingProvider>
       );
-    })
+    }),
   );
 });
 
@@ -106,6 +95,6 @@ const JSONEditorContainer = styled("div")({
   section: {
     display: "flex",
     flexDirection: "column",
-    minWidth: "max-content"
-  }
+    minWidth: "max-content",
+  },
 });

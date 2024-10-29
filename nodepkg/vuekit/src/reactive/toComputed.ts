@@ -23,6 +23,7 @@ export function toComputed<T>(debugOptions?: DebuggerOptions) {
     initialValue?: T,
   ): ComputedRef<T | undefined> {
     const ref = shallowRef((ob$ as any).value ?? initialValue);
+
     rx(
       ob$,
       subscribeUntilUnmount((v) => {
