@@ -1,7 +1,7 @@
-import { isObject } from "@innoai-tech/lodash";
-import { type Infer, type AnyType, Type } from "./Type.ts";
-
-export const SymbolRecordKey = Symbol("$_key");
+import { defineType, type Entity, type Infer, type Type } from "./Type.ts";
+import { TypeUnknown } from "./TypeUnknown.ts";
+import { isObjectLike } from "./util.ts";
+import { Schema } from "./Schema.ts";
 
 export class TypeRecord<
   K extends string,
@@ -10,45 +10,43 @@ export class TypeRecord<
     propertyNames: Type<K>;
     additionalProperties: Type<V>;
   },
-> extends Type<
+> extends TypeUnknown<
   Record<K, V>,
   {
     type: "object";
   } & S
 > {
-  static create<K extends AnyType, V extends AnyType>(k: K, v: V) {
-    return new TypeRecord<
-      Infer<K>,
-      Infer<V>,
-      {
-        propertyNames: K;
-        additionalProperties: V;
-      }
-    >({
-      propertyNames: k,
-      additionalProperties: v,
-      type: "object",
-    });
-  }
+  static create = defineType(
+    <K extends Type<string>, V extends Type>(k: K, v: V) => {
+      return new TypeRecord<
+        Infer<K>,
+        Infer<V>,
+        {
+          propertyNames: K;
+          additionalProperties: V;
+        }
+      >({
+        type: "object",
+        propertyNames: k,
+        additionalProperties: v,
+      });
+    },
+  );
 
   override get type() {
     return "record";
   }
 
-  override *entries(
-    value: unknown,
-  ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
-    if (isObject(value)) {
-      for (const k in value) {
-        const v = (value as any)[k];
-
-        yield [SymbolRecordKey, k, this.schema.propertyNames];
+  override *entries(value: unknown): Iterable<Entity> {
+    if (isObjectLike(value)) {
+      for (const [k, v] of Object.entries(value)) {
+        yield [Schema.RecordKey, k, this.schema.propertyNames];
         yield [k, v, this.schema.additionalProperties];
       }
     }
   }
 
   override validator(value: unknown) {
-    return isObject(value);
+    return isObjectLike(value);
   }
 }

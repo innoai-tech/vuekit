@@ -1,8 +1,62 @@
 import { describe, expect, test } from "bun:test";
-import { t, Type, TypeWrapper } from "../index";
+import { defineModifier, t, type Type } from "../index";
+
+const label = defineModifier(
+  <T extends Type<string>>(type: T, label: string) => {
+    return t.annotate({ label: label }).modify(type);
+  },
+);
+
+const readOnly = defineModifier(
+  <T extends Type<string>>(type: T, readOnly?: boolean) => {
+    return t.annotate({ readOnly: readOnly }).modify(type);
+  },
+);
+
+enum EnvType {
+  DEV = "DEV",
+  ONLINE = "ONLINE",
+}
+
+enum NetType {
+  AIRGAP = "AIRGAP",
+  DIRECT = "DIRECT",
+}
+
+class MetaSchema {
+  @label("名称")
+  @t.pattern(
+    /[a-z][a-z0-9-]+/,
+    "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
+  )
+  @t.string()
+  name!: string;
+}
+
+class ObjectSchema extends MetaSchema {
+  @label("描述")
+  @readOnly()
+  desc!: string;
+
+  @label("环境类型")
+  @t.optional()
+  @t.nativeEnum(EnvType)
+  envType?: EnvType;
+}
+
+const taggedUnion = t
+  .discriminatorMapping("netType", {
+    [NetType.AIRGAP]: t.object({}),
+    [NetType.DIRECT]: t.object({
+      endpoint: t.string().use(label("访问地址")),
+    }),
+  })
+  .use(label("网络类型"));
 
 describe("Meta", () => {
   describe("iter desc", () => {
+    const schema = t.intersection(t.object(ObjectSchema), taggedUnion);
+
     test("when as array", () => {
       const fields: { [k: string]: string } = {};
 
@@ -11,7 +65,7 @@ describe("Meta", () => {
           continue;
         }
 
-        fields[k] = "";
+        fields[k as string] = "";
       }
 
       expect(fields).toEqual({
@@ -29,8 +83,8 @@ describe("Meta", () => {
         }
 
         fields[String(k)] = [
-          s.getMeta("description") ?? "",
-          ...(s.getSchema("enum") ?? []),
+          s.meta?.["label"],
+          ...((s.schema as any)?.["enum"] ?? []),
         ].join("|");
       }
 
@@ -53,8 +107,8 @@ describe("Meta", () => {
         }
 
         fields[String(k)] = [
-          s.getMeta("description") ?? "",
-          ...(s.getSchema("enum") ?? []),
+          s.meta["label"] ?? "",
+          ...((s.schema as any)?.["enum"] ?? []),
         ].join("|");
       }
 
@@ -72,9 +126,12 @@ describe("Meta", () => {
 describe("Validate", () => {
   describe("simple object", () => {
     test("should", () => {
+      const objectSchema = t.object(ObjectSchema);
+
       const [err] = objectSchema.validate({
         name: "1",
       });
+
       const errors = err?.failures();
 
       expect(errors?.[0]).toHaveProperty("key", "name");
@@ -91,10 +148,7 @@ describe("Validate", () => {
       const errors = err?.failures();
 
       expect(errors?.[0]).toHaveProperty("key", "netType");
-      expect(errors?.[0]).toHaveProperty(
-        "message",
-        "Expected a value of type `enums`, but received: `undefined`",
-      );
+      expect(errors?.[0]).toHaveProperty("message", "Required");
     });
 
     test("validate branch left", () => {
@@ -112,65 +166,7 @@ describe("Validate", () => {
       const errors = err?.failures();
 
       expect(errors?.[0]).toHaveProperty("key", "endpoint");
-      expect(errors?.[0]).toHaveProperty(
-        "message",
-        "Expected a value of type `string`, but received: `undefined`",
-      );
+      expect(errors?.[0]).toHaveProperty("message", "Required");
     });
   });
 });
-
-enum EnvType {
-  DEV = "DEV",
-  ONLINE = "ONLINE",
-}
-
-enum NetType {
-  AIRGAP = "AIRGAP",
-  DIRECT = "DIRECT",
-}
-
-const objectSchema = t.object({
-  name: t
-    .string()
-    .use(
-      desc("名称"),
-      t.pattern(
-        /[a-z][a-z0-9-]+/,
-        "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
-      ),
-    ),
-  desc: t.string().use(desc("描述"), readOnly()),
-  envType: t.nativeEnum(EnvType).use(desc("环境类型"), t.optional()),
-});
-
-const taggedUnion = t
-  .discriminatorMapping("netType", {
-    [NetType.AIRGAP]: t.object({}),
-    [NetType.DIRECT]: t.object({
-      endpoint: t.string().use(desc("访问地址")),
-    }),
-  })
-  .use(desc("网络类型"));
-
-export const schema = t.intersection(objectSchema, taggedUnion);
-
-function desc(description: string) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        description: description,
-      },
-    });
-  };
-}
-
-function readOnly(readOnly?: boolean) {
-  return <T, S>(t: Type<T, S>) => {
-    return TypeWrapper.of(t, {
-      $meta: {
-        readOnly: readOnly,
-      },
-    });
-  };
-}

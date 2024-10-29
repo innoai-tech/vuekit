@@ -1,42 +1,43 @@
 import {
-  type VNode,
-  type VNodeChild,
   component,
   observableRef,
   rx,
   subscribeUntilUnmount,
-  tapEffect
+  tapEffect,
+  type VNode,
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import {
+  autoUpdate,
+  computePosition,
+  flip,
   type Middleware,
   type Placement,
-  computePosition,
-  autoUpdate,
-  flip,
-  shift
+  shift,
 } from "@floating-ui/dom";
 import { cloneVNode, type CSSProperties, type Ref } from "vue";
 import { Overlay } from "./Overlay";
 import { combineLatest } from "rxjs";
 
 export const Popper = component<{
-  isOpen?: boolean,
-  style?: CSSProperties,
-  contentRef?: Ref<HTMLDivElement | null>,
-  triggerRef?: Ref<HTMLElement | null>,
-  onClickOutside?: (e: Event) => void,
-  onEscKeydown?: (e: Event) => void,
-  onContentBeforeMount?: () => void,
-  $transition?: (ctx: { content: JSX.Element | null }) => VNodeChild,
-  $default?: JSX.Element | null,
-  $content?: VNodeChild,
+  isOpen?: boolean;
+  style?: CSSProperties;
+  contentRef?: Ref<HTMLDivElement | null>;
+  triggerRef?: Ref<HTMLElement | null>;
+  onClickOutside?: (e: Event) => void;
+  onEscKeydown?: (e: Event) => void;
+  onContentBeforeMount?: () => void;
+  $transition?: (ctx: { content: JSX.Element | null }) => VNodeChild;
+  $default?: JSX.Element | null;
+  $content?: VNodeChild;
 
-  placement?: Placement,
-  middleware?: Middleware[]
+  placement?: Placement;
+  middleware?: Middleware[];
 
   // deprecated use middleware instead
-  modifiers?: Middleware[]
-}>((props, { slots, emit, attrs }) => {
+  modifiers?: Middleware[];
+}>(
+  (props, { slots, emit, attrs }) => {
     const triggerRef = observableRef<HTMLElement | null>(null);
     const contentRef = observableRef<HTMLDivElement | null>(null);
 
@@ -44,7 +45,6 @@ export const Popper = component<{
       combineLatest([triggerRef, contentRef]),
       tapEffect(([triggerEf, contentEl]) => {
         if (contentEl && triggerEf) {
-
           const updatePosition = async () => {
             contentEl.style.position = "absolute";
 
@@ -54,13 +54,13 @@ export const Popper = component<{
                 ...(props.modifiers ?? []),
                 ...(props.middleware ?? []),
                 flip(),
-                shift()
-              ]
+                shift(),
+              ],
             });
 
             Object.assign(contentEl.style, {
               left: `${x}px`,
-              top: `${y}px`
+              top: `${y}px`,
             });
           };
 
@@ -71,10 +71,9 @@ export const Popper = component<{
           };
         }
 
-        return () => {
-        };
+        return () => {};
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return () => {
@@ -90,7 +89,7 @@ export const Popper = component<{
             ...attrs,
             onVnodeMounted: (n) => {
               triggerRef.value = resolveElement(n.el);
-            }
+            },
           })}
           <Overlay
             triggerRef={triggerRef}
@@ -108,8 +107,8 @@ export const Popper = component<{
   },
   {
     name: "Popper",
-    inheritAttrs: false
-  }
+    inheritAttrs: false,
+  },
 );
 
 function resolveElement(el: VNode["el"]): HTMLElement | null {

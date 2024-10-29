@@ -1,13 +1,13 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.2.38",
+  "version": "0.3.4",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
-    "@innoai-tech/lodash": "^0.2.5"
+    "immer": "^10.1.1"
   },
   "peerDependencies": {},
   "exports": {

@@ -3,17 +3,17 @@ import {
   isPlainObject,
   isUndefined,
   kebabCase,
-  partition
+  partition,
 } from "@innoai-tech/lodash";
 import { Fragment as OriginFragment } from "vue";
 import type {
   Component,
   PublicPropsOf,
   SetupFunction,
-  WithDefaultSlot
+  WithDefaultSlot,
 } from "./vue";
 
-import { type AnyType, Type } from "@innoai-tech/typedef";
+import { type Type, isType } from "@innoai-tech/typedef";
 
 export interface ComponentOptions {
   displayName?: string;
@@ -28,28 +28,28 @@ export const Fragment: Component<WithDefaultSlot> = OriginFragment as any;
 const __component = Symbol("component");
 
 export const isComponent = (o: any): o is Component<{}> => {
-  return isPlainObject(o) && o["__component"] === __component;
+  return isPlainObject(o) && o[__component] === __component;
 };
 
-export const isPropTypes = (o: any): o is Record<string, AnyType> => {
-  return isPlainObject(o) && Object.values(o)[0] instanceof Type;
+export const isPropTypes = (o: any): o is Record<string, Type> => {
+  return isType(Object.values(o)[0]);
 };
 
 export function component(
   setup: SetupFunction<{}>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<{}>;
 export function component<Props extends {}>(
   setup: SetupFunction<Props>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<Props>;
-export function component<PropTypes extends Record<string, AnyType>>(
+export function component<PropTypes extends Record<string, Type>>(
   propTypes: PropTypes,
   setup: SetupFunction<PublicPropsOf<PropTypes>>,
-  options?: ComponentOptions
+  options?: ComponentOptions,
 ): Component<PublicPropsOf<PropTypes>>;
 export function component<Props extends {}>(...args: any[]): Component<Props> {
-  let finalPropTypes: Record<string, AnyType> = {};
+  let finalPropTypes: Record<string, Type> = {};
   let finalSetup: any = undefined;
   let finalOptions: Record<string, any> = {};
 
@@ -67,17 +67,17 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
   }
 
   const [emits, props] = partition(Object.keys(finalPropTypes), (v: string) =>
-    /^on[A-Z]/.test(v)
+    /^on[A-Z]/.test(v),
   );
 
   const emitsAndProps = {
     emits: [
       ...emits.map((v) => kebabCase(v.slice("on".length))),
-      ...(finalOptions["emits"] ?? [])
+      ...(finalOptions["emits"] ?? []),
     ],
     props: [
       ...props.filter((p) => !/^[$]/.test(p)),
-      ...(finalOptions["props"] ?? [])
+      ...(finalOptions["props"] ?? []),
     ].reduce((ret, prop) => {
       const d = finalPropTypes[prop]!;
 
@@ -95,8 +95,8 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
             },
             validator: (value: any) => {
               return d.validate(value);
-            }
-          }
+            },
+          },
         };
       }
 
@@ -105,10 +105,10 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
         [prop]: {
           default() {
             return undefined;
-          }
-        }
+          },
+        },
       };
-    }, {})
+    }, {}),
   };
 
   return {
@@ -125,6 +125,6 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
     emits: emitsAndProps.emits,
     props: emitsAndProps.props,
     inheritAttrs: finalOptions["inheritAttrs"],
-    __component
+    [__component]: __component,
   } as any;
 }

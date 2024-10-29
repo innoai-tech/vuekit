@@ -20,22 +20,22 @@ const schema = t.intersection(
       .use(
         t.pattern(
           /[a-z][a-z0-9-]+/,
-          "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
+          "只能包含小写字符，数字与短横 -， 且必须由小写字符开头"
         ),
         f.label("名称"),
-        f.readOnlyWhenInitialExist(),
+        f.readOnlyWhenInitialExist()
       ),
     desc: t.string().optional().use(f.label("描述")),
-    envType: t.nativeEnum(EnvType).use(f.label("环境类型")),
+    envType: t.nativeEnum(EnvType).use(f.label("环境类型"))
   }),
   t
     .discriminatorMapping("netType", {
       [NetType.AIRGAP]: t.object({}),
       [NetType.DIRECT]: t.object({
-        endpoint: t.string().use(f.label("集群访问地址")),
-      }),
+        endpoint: t.string().use(f.label("集群访问地址"))
+      })
     })
-    .use(f.label("网络类型")),
+    .use(f.label("网络类型"))
 );
 
 describe("FormData", () => {
@@ -54,17 +54,17 @@ describe("FormData", () => {
 
     fields[0]?.update("1");
     expect(fields[0]?.state.error).toEqual([
-      "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
+      "只能包含小写字符，数字与短横 -， 且必须由小写字符开头"
     ]);
 
     fields[0]?.update("test");
 
-    expect(fd.inputs).toEqual({ name: "test" });
+    expect(fd.inputs).toEqual({ "name": "test" });
   });
 
   it("should render condition field", () => {
     for (const field of fd.fields(fd.typedef)) {
-      if (field.name === "netType") {
+      if (field.name === "/netType") {
         field.update(NetType.DIRECT);
       }
     }

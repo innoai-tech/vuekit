@@ -1,13 +1,16 @@
-import { get, isObject } from "@innoai-tech/lodash";
+import { isIterable, isObjectLike, isString, isUndefined } from "./util.ts";
+import type { Optionalize } from "./Schema.ts";
+import { Metadata } from "./Metadata.ts";
 
-export interface UnaryFunction<T, R> {
-  (source: T): R;
-}
+export type TypeNode = {
+  current: Type;
+  parent?: TypeNode;
+};
 
 export type Context = {
   branch: Array<any>;
   path: Array<any>;
-  node?: TypeNode<AnyType, AnyType>;
+  node?: TypeNode;
   mask?: boolean;
 };
 
@@ -41,7 +44,9 @@ export class TypedError extends TypeError {
 
     const { message, explanation, ...rest } = failure;
     const { path } = failure;
-    const msg = path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
+
+    const msg =
+      path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
 
     super(explanation ?? msg);
 
@@ -54,7 +59,6 @@ export class TypedError extends TypeError {
     this.name = this.constructor.name;
 
     this.failures = () => {
-      // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
       return (cached ??= [failure, ...failures()]);
     };
   }
@@ -66,379 +70,136 @@ export type Result =
   | Partial<Failure>
   | Iterable<boolean | string | Partial<Failure>>;
 
-export type AnyType = Type<any, any>;
+export interface TypeModifier<T, R> {
+  modify(source: T): R;
+}
 
-export class Type<T = unknown, Schema = unknown> {
-  static define<T>(
-    validator: (value: unknown, ctx: Context) => Result = () => true
-  ) {
-    class CustomType<T> extends Type<T, null> {
-      override validator(value: unknown, ctx: Context): Result {
-        return validator(value, ctx);
-      }
-    }
+export type AnyType = Type<any>;
 
-    return new CustomType<T>(null);
-  }
+export type Entity = [
+    string | number | symbol,
+  unknown,
+    Type<any> | Type<never>,
+];
 
-  constructor(public readonly schema: Schema) {
-  }
+export const isType = (t: unknown): t is Type => {
+  return !!t && (t as any)[SymbolType] == SymbolType;
+};
 
-  readonly Type!: T;
-  readonly Schema!: Schema;
+export const SymbolType = Symbol("Type");
 
-  get type() {
-    return (this.schema || ({} as any)).type ?? "unknown";
-  }
+export interface Type<T extends any = unknown, Schema = unknown> {
+  [SymbolType]: T;
 
-  * entries(
-    _value: unknown,
-    _context: Context = EmptyContext
-  ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
-  }
+  type: string;
+  schema: Schema;
+  meta: Record<string, any>;
 
-  refiner(_value: T, _context: Context): Result {
-    return [];
-  }
+  coercer(value: unknown, context: Context): T | undefined;
 
-  validator(_value: unknown, _context: Context): Result {
-    return [];
-  }
+  refiner(value: unknown, context: Context): Result;
 
-  coercer(value: unknown, _context: Context): unknown {
-    return value;
-  }
+  validator(value: unknown, context: Context): Result;
 
-  public validate(
+  entries(value: unknown, context?: Context): Iterable<Entity>;
+
+  validate(
     value: unknown,
-    options: {
-      coerce?: boolean;
-      message?: string;
-    } = {}
-  ): [TypedError, undefined] | [undefined, T] {
-    return validate(value, this, options);
-  }
+    options?: { coerce?: boolean; message?: string }
+  ): [TypedError, undefined] | [undefined, T];
 
-  public create(value: unknown): T {
-    const result = validate(value, this, { coerce: true });
+  create(value: unknown): T | undefined;
 
-    if (result[0]) {
-      throw result[0];
-    }
+  mask(value: unknown): T | undefined;
 
-    return result[1];
-  }
+  optional(): Type<T | undefined, Schema>;
 
-  public mask(value: unknown): T {
-    const result = validate(value, this, { coerce: true, mask: true });
-    if (result[0]) {
-      throw result[0];
-    }
-    return result[1];
-  }
+  default(v: T): Type<T | undefined, Schema>;
 
-  default(v: T): DefaultedType<Type<T, Schema>> {
-    return DefaultedType.create(this, v);
-  }
+  use<A>(op1: TypeModifier<Type<T, Schema>, A>): A;
 
-  optional(): OptionalType<Type<T, Schema>> {
-    return OptionalType.create(this);
-  }
+  use<A, B>(op1: TypeModifier<Type<T, Schema>, A>, op2: TypeModifier<A, B>): B;
 
-  annotate<M extends {}>(meta: M): Type<T, Schema & M> {
-    return TypeWrapper.of(this, { $meta: meta }) as unknown as Type<T, Schema & M>;
-  }
-
-  use<S extends Type<T, Schema>, A>(op1: UnaryFunction<S, A>): A;
-  use<S extends Type<T, Schema>, A>(op1: UnaryFunction<S, A>): A;
-  use<S extends Type<T, Schema>, A, B>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>
-  ): B;
-  use<S extends Type<T, Schema>, A, B, C>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>
+  use<A, B, C>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>
   ): C;
-  use<S extends Type<T, Schema>, A, B, C, D>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>
+
+  use<A, B, C, D>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>,
+    op4: TypeModifier<C, D>
   ): D;
-  use<S extends Type<T, Schema>, A, B, C, D, E>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>
+
+  use<A, B, C, D, E>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>,
+    op4: TypeModifier<C, D>,
+    op5: TypeModifier<D, E>
   ): E;
-  use<S extends Type<T, Schema>, A, B, C, D, E, F>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>,
-    op6: UnaryFunction<E, F>
+
+  use<A, B, C, D, E, F>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>,
+    op4: TypeModifier<C, D>,
+    op5: TypeModifier<D, E>,
+    op6: TypeModifier<E, F>
   ): F;
-  use<S extends Type<T, Schema>, A, B, C, D, E, F, G>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>,
-    op6: UnaryFunction<E, F>,
-    op7: UnaryFunction<F, G>
+
+  use<A, B, C, D, E, F, G>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>,
+    op4: TypeModifier<C, D>,
+    op5: TypeModifier<D, E>,
+    op6: TypeModifier<E, F>,
+    op7: TypeModifier<F, G>
   ): G;
-  use<S extends Type<T, Schema>, A, B, C, D, E, F, G, H>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>,
-    op6: UnaryFunction<E, F>,
-    op7: UnaryFunction<F, G>,
-    op8: UnaryFunction<G, H>
+
+  use<A, B, C, D, E, F, G, H>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>,
+    op4: TypeModifier<C, D>,
+    op5: TypeModifier<D, E>,
+    op6: TypeModifier<E, F>,
+    op7: TypeModifier<F, G>,
+    op8: TypeModifier<G, H>
   ): H;
-  use<S extends Type<T, Schema>, A, B, C, D, E, F, G, H, I>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>,
-    op6: UnaryFunction<E, F>,
-    op7: UnaryFunction<F, G>,
-    op8: UnaryFunction<G, H>,
-    op9: UnaryFunction<H, I>
+
+  use<A, B, C, D, E, F, G, H, I>(
+    op1: TypeModifier<Type<T, Schema>, A>,
+    op2: TypeModifier<A, B>,
+    op3: TypeModifier<B, C>,
+    op4: TypeModifier<C, D>,
+    op5: TypeModifier<D, E>,
+    op6: TypeModifier<E, F>,
+    op7: TypeModifier<F, G>,
+    op8: TypeModifier<G, H>,
+    op9: TypeModifier<H, I>
   ): I;
-  use<S extends Type<T, Schema>, A, B, C, D, E, F, G, H, I>(
-    op1: UnaryFunction<S, A>,
-    op2: UnaryFunction<A, B>,
-    op3: UnaryFunction<B, C>,
-    op4: UnaryFunction<C, D>,
-    op5: UnaryFunction<D, E>,
-    op6: UnaryFunction<E, F>,
-    op7: UnaryFunction<F, G>,
-    op8: UnaryFunction<G, H>,
-    op9: UnaryFunction<H, I>,
-    ...operations: UnaryFunction<T, Schema>[]
-  ): Type<unknown, unknown>;
-  use(...modifiers: UnaryFunction<T, Schema>[]): Type<T, Schema> {
-    return modifiers.reduce(
-      (t, r) => (r as any)(t),
-      this as Type<T, Schema>
-    ) as any;
-  }
 
-  get unwrap(): Type<T, Schema> {
-    return this;
-  }
-
-  get meta(): Record<string, any> {
-    if (this.schema) {
-      return get(this.schema, ["$meta"]) ?? {};
-    }
-    return {};
-  }
-
-  getMeta<T>(key: string): T | undefined {
-    if (this.schema) {
-      return get(this.schema, ["$meta", key]);
-    }
-    return undefined;
-  }
-
-  getSchema<T = any>(key: string): T | undefined {
-    if (key && this.schema) {
-      return get(this.schema, [key]);
-    }
-    return undefined;
-  }
-
-  get isOptional(): boolean {
-    return false;
-  }
+  use(
+    ...ops: TypeModifier<Type<T, Schema>, Type<T, Schema>>[]
+  ): Type<T, Schema>;
 }
 
-export class TypeWrapper<
-  T,
-  U extends AnyType,
-  Schema extends Record<string, any>,
-> extends Type<T, Schema & { $unwrap: U | (() => U) }> {
-  static of<U extends AnyType, ExtraSchema extends Record<string, any>>(
-    t: U,
-    extra: ExtraSchema
-  ): Type<Infer<U>, MergeSchema<InferSchema<U>, ExtraSchema>> {
-    return new TypeWrapper<Infer<U>, U, ExtraSchema>({
-      ...extra,
-      $unwrap: t
-    });
-  }
+export type Infer<T extends Type> = T[typeof SymbolType];
 
-  static refine<U extends AnyType, S extends Record<string, any>>(
-    t: U,
-    refiner: (v: Infer<U>, ctx: Context) => Result,
-    schema: S
-  ): Type<Infer<U>, MergeSchema<InferSchema<U>, S>> {
-    class Refiner<
-      U extends AnyType,
-      S extends Record<string, any>,
-    > extends TypeWrapper<Infer<U>, U, S> {
-      override* refiner(value: Infer<U>, ctx: Context): Result {
-        yield* this.unwrap.refiner(value, ctx);
-        const result = refiner(value, ctx);
-        const failures = toFailures(result, ctx, t, value);
+export type InferPropTypes<T extends Record<string, Type>> = Optionalize<{
+  [K in keyof T]: Infer<T[K]>;
+}>;
 
-        for (const failure of failures) {
-          yield { ...failure, refinement: Object.keys(schema).join(",") };
-        }
-      }
-    }
-
-    return new Refiner<U, S>({
-      ...schema,
-      $unwrap: t
-    });
-  }
-
-  override get type() {
-    return this.unwrap.type;
-  }
-
-  override get unwrap() {
-    return typeof this.schema.$unwrap === "function"
-      ? this.schema.$unwrap()
-      : this.schema.$unwrap;
-  }
-
-  override get isOptional(): boolean {
-    return this.unwrap.isOptional;
-  }
-
-  override get meta(): Record<string, any> {
-    return {
-      ...this.unwrap.meta,
-      ...get(this.schema, ["$meta"], {})
-    };
-  }
-
-  override getMeta<T = any>(key: string): T | undefined {
-    if (this.schema) {
-      return get(this.schema, ["$meta", key]) ?? this.unwrap.getMeta(key);
-    }
-    return undefined;
-  }
-
-  override getSchema<T = any>(key?: string): T | undefined {
-    if (key) {
-      return get(this.schema, [key]) ?? this.unwrap.getSchema<T>(key);
-    }
-    return undefined;
-  }
-
-  override* entries(
-    value: unknown,
-    context: Context = EmptyContext
-  ): Iterable<[string | number | symbol, unknown, AnyType | Type<never>]> {
-    yield* this.unwrap.entries(value, {
-      ...context,
-      node: TypeNode.create(this, context.node)
-    });
-  }
-
-  override validator(value: unknown, context: Context): Result {
-    return toFailures(
-      this.unwrap.validator(value, context),
-      context,
-      this,
-      value
-    );
-  }
-
-  override refiner(value: T, context: Context): Result {
-    return toFailures(
-      this.unwrap.refiner(value, context),
-      context,
-      this,
-      value
-    );
-  }
-
-  override coercer(value: unknown, context: Context) {
-    return this.unwrap.coercer(value, context);
-  }
-}
-
-// biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
-export class TypeNode<U extends AnyType, P extends AnyType> extends TypeWrapper<
-  Infer<U>,
-  U,
-  { $parent: P | null }
-> {
-  static create<U extends AnyType, P extends AnyType>(
-    t: U,
-    p: P | undefined | null
-  ) {
-    return new TypeNode<U, P>({
-      $unwrap: t,
-      $parent: p ? p : null
-    });
-  }
-}
-
-export class DefaultedType<T extends AnyType> extends TypeWrapper<
-  Infer<T>,
-  T,
-  { default: Infer<T> }
-> {
-  static create<U extends AnyType>(t: U, defaultValue: Infer<U>) {
-    return new DefaultedType<U>({
-      $unwrap: t,
-      default: defaultValue
-    });
-  }
-
-  override coercer(value: unknown, context: Context): unknown {
-    return typeof value === "undefined"
-      ? this.schema.default
-      : super.unwrap.coercer(value, context);
-  }
-}
-
-export class OptionalType<T extends AnyType> extends TypeWrapper<
-  Infer<T> | undefined,
-  T,
-  {}
-> {
-  static create<T extends AnyType>(t: T) {
-    return new OptionalType<T>({
-      $unwrap: t
-    });
-  }
-
-  override get isOptional(): boolean {
-    return true;
-  }
-
-  override refiner(value: T | undefined, context: Context): Result {
-    return value === undefined || super.unwrap.refiner(value, context);
-  }
-
-  override validator(value: unknown, context: Context): Result {
-    return value === undefined || super.unwrap.validator(value, context);
-  }
-}
-
-export type Infer<T extends AnyType> = T["Type"];
-
-export type InferSchema<T extends AnyType> = T["Schema"];
-
-export type Describe<T> = Type<T>;
+export type InferSchema<T extends Type> = T["schema"];
 
 export type MergeSchema<A, B> = Omit<A, keyof B> & B;
 
 export type InferTuple<
-  Tuple extends Type<any>[],
+  Tuple extends Type[],
   Length extends number = Tuple["length"],
 > = Length extends Length
   ? number extends Length
@@ -446,15 +207,13 @@ export type InferTuple<
     : _InferTuple<Tuple, Length, []>
   : never;
 type _InferTuple<
-  Tuple extends Type<any>[],
+  Tuple extends Type[],
   Length extends number,
   Accumulated extends unknown[],
   Index extends number = Accumulated["length"],
 > = Index extends Length
   ? Accumulated
   : _InferTuple<Tuple, Length, [...Accumulated, Infer<Tuple[Index]>]>;
-
-export type Simplify<T> = T extends any[] ? T : { [K in keyof T]: T[K] } & {};
 
 export type OmitBy<T, V> = Omit<
   T,
@@ -466,27 +225,16 @@ export type PickBy<T, V> = Pick<
   { [K in keyof T]: V extends Extract<T[K], V> ? K : never }[keyof T]
 >;
 
-export type Optionalize<S extends object> = OmitBy<S, undefined> &
-  Partial<PickBy<S, undefined>>;
-
-export type ObjectType<S extends Record<string, AnyType>> = Simplify<
-  Optionalize<{ [K in keyof S]: Infer<S[K]> }>
->;
-
 export function shiftIterator<T>(input: Iterator<T>): T | undefined {
   const { done, value } = input.next();
   return done ? undefined : value;
-}
-
-function isIterable<T>(x: unknown): x is Iterable<T> {
-  return isObject(x) && typeof (x as any)[Symbol.iterator] === "function";
 }
 
 export function toFailure<T, S>(
   ret: string | boolean | Partial<Failure>,
   context: Context,
   t: Type<T, S>,
-  value: any
+  inputValue: any
 ): Failure | undefined {
   if (ret === true) {
     return;
@@ -496,7 +244,7 @@ export function toFailure<T, S>(
 
   if (ret === false) {
     result = {};
-  } else if (typeof ret === "string") {
+  } else if (isString(ret)) {
     result = { message: ret };
   } else {
     result = ret;
@@ -507,20 +255,20 @@ export function toFailure<T, S>(
 
   const {
     refinement,
-    message = `Expected a value of type \`${type}\`${
-      refinement ? ` with refinement \`${refinement}\`` : ""
-    }, but received: \`${value}\``
+    message = isUndefined(inputValue)
+      ? "Required"
+      : `Expected a value of type \`${type}\`${refinement ? ` with refinement \`${refinement}\`` : ""}, but received: \`${inputValue}\``
   } = result;
 
   return {
-    value,
+    ...result,
+    value: inputValue,
     type,
     refinement,
     key: path[path.length - 1],
     path,
     branch,
     node,
-    ...result,
     message
   };
 }
@@ -529,7 +277,7 @@ export function* toFailures<T, S>(
   ret: Result,
   context: Context,
   t: Type<T, S>,
-  value: any
+  inputValue: any
 ): IterableIterator<Failure> {
   let result = ret;
 
@@ -538,7 +286,7 @@ export function* toFailures<T, S>(
   }
 
   for (const r of result) {
-    const failure = toFailure(r, context, t, value);
+    const failure = toFailure(r, context, t, inputValue);
 
     if (failure) {
       yield failure;
@@ -556,7 +304,6 @@ export function validate<T, S>(
   } = {}
 ): [TypedError, undefined] | [undefined, T] {
   const tuples = run(value, typed, options);
-  // biome-ignore lint/style/noNonNullAssertion: <explanation>
   const tuple = shiftIterator(tuples)!;
 
   if (tuple[0]) {
@@ -567,15 +314,17 @@ export function validate<T, S>(
         }
       }
     });
+
     return [error, undefined];
   }
 
   const v = tuple[1];
+
   return [undefined, v];
 }
 
 export function* run<T, S>(
-  v: any,
+  inputValue: any,
   t: Type<T, S>,
   options: Partial<Context> & {
     coerce?: boolean;
@@ -585,22 +334,31 @@ export function* run<T, S>(
 ): IterableIterator<[Failure, undefined] | [undefined, T]> {
   const {
     path = [],
-    branch = [v],
-    node = TypeNode.create(t, null),
+    branch = [inputValue],
+    node = { current: t } as TypeNode,
     coerce = false,
     mask = false
   } = options;
 
   const ctx: Context = { mask, path, branch, node };
 
-  let value = v;
+  let value = inputValue;
+
   if (coerce) {
-    value = t.coercer(value, ctx);
+    const v = t.coercer(inputValue, ctx);
+    if (v != undefined) {
+      value = v;
+    }
   }
 
   let status: Status = Status.valid;
 
-  for (const failure of toFailures(t.validator(value, ctx), ctx, t, value)) {
+  for (const failure of toFailures(
+    t.validator(value, ctx),
+    ctx,
+    t,
+    inputValue
+  )) {
     failure.explanation = options.message;
     status = Status.not_valid;
     yield [failure, undefined];
@@ -610,7 +368,8 @@ export function* run<T, S>(
     const ts = run(v, st as Type, {
       path: k === undefined ? path : [...path, k],
       branch: k === undefined ? branch : [...branch, v],
-      node: k === undefined ? node : TypeNode.create(st, node),
+      node:
+        k === undefined ? node : ({ current: st, parent: node } as TypeNode),
       coerce,
       mask,
       message: options.message
@@ -630,10 +389,8 @@ export function* run<T, S>(
           value.set(k, v);
         } else if (value instanceof Set) {
           value.add(v);
-        } else if (isObject(value)) {
-          if (v !== undefined || k in value) {
-            (value as any)[k] = v;
-          }
+        } else if (isObjectLike(value)) {
+          (value as any)[k] = v;
         }
       }
     }
@@ -644,7 +401,7 @@ export function* run<T, S>(
       t.refiner(value as T, ctx),
       ctx,
       t,
-      value
+      inputValue
     )) {
       failure.explanation = options.message;
       status = Status.not_refined;
@@ -663,16 +420,74 @@ enum Status {
   not_valid = 2,
 }
 
-export class TypeNever extends Type<never, false> {
-  static create() {
-    return new TypeNever(false);
-  }
+export const defineType = <Args extends any[], T extends Type>(
+  create: (...args: Args) => T
+): ((...args: Args) => Type<Infer<T>, InferSchema<T>> & PropertyDecorator) => {
+  return (...args: Args) => {
+    const type = create(...args);
 
-  override get type() {
-    return "never";
-  }
+    const propertyDecorator = (
+      target: Object,
+      propertyKey: string | symbol
+    ) => {
+      const current =
+        Metadata.get<TypeDefineObject>(target, propertyKey) ??
+        ({} as TypeDefineObject);
 
-  override validator(_value: unknown, _context: Context): Result {
-    return false;
-  }
-}
+      Metadata.define(target, propertyKey, { ...current, type });
+    };
+
+    propertyDecorator.toString = () => `@type:${type.type}`;
+
+    return new Proxy(propertyDecorator, {
+      ownKeys(): ArrayLike<string | symbol> {
+        return [
+          ...Object.getOwnPropertyNames(type),
+          ...Object.getOwnPropertySymbols(type)
+        ];
+      },
+      get(_: any, p: string | symbol): any {
+        return (type as any)[p];
+      }
+    });
+  };
+};
+
+export type TypeDefineObject = {
+  type?: Type;
+  modifies?: TypeModifier<Type, Type>[];
+};
+
+export const defineModifier = <
+  I extends Type,
+  O extends Type,
+  Args extends any[],
+>(
+  create: (i: I, ...args: Args) => O
+): ((...args: Args) => PropertyDecorator & TypeModifier<I, O>) => {
+  return (...args: Args) => {
+    const modifierFunc = (t: I) => create(t, ...args);
+
+    const propertyDecorator = (target: Object, prop: string | symbol) => {
+      Metadata.define<TypeDefineObject>(
+        target,
+        prop,
+        (m) => {
+          (m.modifies ??= []).push({
+            modify: modifierFunc
+          });
+        },
+        {}
+      );
+    };
+
+    return new Proxy(propertyDecorator, {
+      get(_: any, p: string | symbol): any {
+        if (p == "modify") {
+          return modifierFunc;
+        }
+        return;
+      }
+    });
+  };
+};

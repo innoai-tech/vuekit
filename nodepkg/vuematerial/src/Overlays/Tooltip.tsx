@@ -1,11 +1,11 @@
-import { component, t } from "@innoai-tech/vuekit";
+import { component } from "@innoai-tech/vuekit";
 import {
-  Popper,
   defineTransition,
+  Popper,
   styled,
   transition,
 } from "@innoai-tech/vueuikit";
-import { type VNode, cloneVNode, ref } from "vue";
+import { cloneVNode, ref, type VNode } from "vue";
 
 const FadeInOutTransition = defineTransition(
   {
@@ -40,37 +40,34 @@ const TooltipContainer = styled("div")({
   zIndex: 100,
 });
 
-export const Tooltip = component(
-  {
-    title: t.custom<string | VNode>(),
-    $default: t.custom<JSX.Element>(),
-  },
-  (props, { slots }) => {
-    const isOpen = ref(false);
+export const Tooltip = component<{
+  title: string | VNode;
+  $default: JSX.Element;
+}>((props, { slots }) => {
+  const isOpen = ref(false);
 
-    return () => {
-      const child = slots.default()[0];
+  return () => {
+    const child = slots.default()[0];
 
-      return (
-        <Popper
-          isOpen={isOpen.value}
-          $content={<TooltipContainer>{props.title}</TooltipContainer>}
-          $transition={({ content }) => (
-            <FadeInOutTransition>{content}</FadeInOutTransition>
-          )}
-        >
-          {child
-            ? cloneVNode(child, {
-                onMouseover: () => {
-                  isOpen.value = true;
-                },
-                onMouseout: () => {
-                  isOpen.value = false;
-                },
-              })
-            : null}
-        </Popper>
-      );
-    };
-  },
-);
+    return (
+      <Popper
+        isOpen={isOpen.value}
+        $content={<TooltipContainer>{props.title}</TooltipContainer>}
+        $transition={({ content }) => (
+          <FadeInOutTransition>{content}</FadeInOutTransition>
+        )}
+      >
+        {child
+          ? cloneVNode(child, {
+              onMouseover: () => {
+                isOpen.value = true;
+              },
+              onMouseout: () => {
+                isOpen.value = false;
+              },
+            })
+          : null}
+      </Popper>
+    );
+  };
+});

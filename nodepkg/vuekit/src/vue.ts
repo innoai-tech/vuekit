@@ -1,17 +1,16 @@
 import {
-  type AnyType,
-  type Infer,
+  type InferPropTypes,
   type Simplify,
-  t,
+  type Type,
 } from "@innoai-tech/typedef";
 import {
+  customRef,
   type ObjectEmitsOptions,
+  type Ref,
   type RenderFunction,
   type SlotsType,
-  type VNode,
-  type Ref,
   type UnwrapRef,
-  customRef,
+  type VNode,
 } from "vue";
 
 export type VElementType = string | Component<any>;
@@ -69,8 +68,8 @@ type UnionToIntersection<U> = (
   : never;
 
 export type PublicPropsOf<
-  PropTypes extends Record<string, AnyType>,
-  P extends Record<string, any> = Infer<ReturnType<typeof t.object<PropTypes>>>,
+  PropTypes extends Record<string, Type>,
+  P extends Record<string, any> = InferPropTypes<PropTypes>,
 > = Simplify<PickProps<P> & PickSlotProps<P> & Partial<PickEmitProps<P>>>;
 
 export type SetupFunction<Props extends Record<string, any>> = (
@@ -158,11 +157,23 @@ export type ToCamelCase<S extends string> = S extends `${infer T}-${infer U}`
     ? `${T}${Capitalize<ToCamelCase<U>>}`
     : S;
 
-export { shallowRef, watch, inject, provide } from "vue";
+export {
+  shallowRef,
+  watch,
+  inject,
+  provide,
+  cloneVNode,
+  onBeforeMount,
+  onMounted,
+  Teleport,
+} from "vue";
+
+export const SymbolForwardRef = Symbol("forwardRef");
 
 export function ref<T>(value: T): Ref<UnwrapRef<T>>;
-export function ref<T = any>(): Ref<T | undefined> {
-  let currentValue: T;
+export function ref<T = any>(): Ref<T | undefined>;
+export function ref<T = any>(defaultValue?: T): Ref<T | undefined> {
+  let currentValue: T = defaultValue as any;
 
   return customRef<T>((track, trigger) => {
     return {
@@ -171,7 +182,7 @@ export function ref<T = any>(): Ref<T | undefined> {
         return currentValue;
       },
       set(value: T) {
-        const newValue = (value as any)?.$$forwardRef ?? value;
+        const newValue = (value as any)?.[SymbolForwardRef] ?? value;
 
         if (newValue !== currentValue) {
           currentValue = newValue;

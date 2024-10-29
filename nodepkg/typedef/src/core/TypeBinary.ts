@@ -1,12 +1,13 @@
-import { type Context, Type } from "./Type.ts";
+import { defineType, type Context } from "./Type.ts";
+import { TypeUnknown } from "./TypeUnknown.ts";
 
-export class TypeBinary extends Type<
+export class TypeBinary extends TypeUnknown<
   File | Blob,
   { type: "string"; format: "binary" }
 > {
-  static create() {
+  static create = defineType(() => {
     return new TypeBinary({ type: "string", format: "binary" });
-  }
+  });
 
   override get type() {
     return "binary";

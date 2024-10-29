@@ -1,4 +1,4 @@
-import { type Plugin, createFilter } from "vite";
+import { createFilter, type Plugin } from "vite";
 import { usePlugin } from "@innoai-tech/vuecomponentcompleter";
 import { transform } from "@swc/core";
 
@@ -34,6 +34,7 @@ export const viteVueComponentCompleter = (
             parser: {
               syntax: "typescript",
               tsx: true,
+              decorators: true,
             },
             experimental: {
               disableBuiltinTransformsForInternalTesting: true,

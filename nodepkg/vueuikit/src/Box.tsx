@@ -1,9 +1,10 @@
 import {
-  type OverridableComponent,
-  type VElementType,
   component,
-  t,
+  type OverridableComponent,
   ref,
+  SymbolForwardRef,
+  t,
+  type VElementType,
 } from "@innoai-tech/vuekit";
 import { onMounted } from "vue";
 import { CacheProvider } from "./CacheProvider";
@@ -45,11 +46,12 @@ export const Box: OverridableComponent<{
     const forwardRef = ref(null);
 
     expose({
-      $$forwardRef: forwardRef,
+      [SymbolForwardRef]: forwardRef,
     });
 
     return () => {
       const Component: any = props.component ?? "div";
+
       return (
         <Component ref={forwardRef} class={className()}>
           {slots}

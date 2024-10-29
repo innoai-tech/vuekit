@@ -1,5 +1,5 @@
-import { isArray, isPlainObject } from "@innoai-tech/lodash";
-import { type AnyType, Type } from "../core";
+import { isType, Schema, type Type } from "../core";
+import { isArray, isObjectLike } from "../core/util.ts";
 
 export type JSONSchema = {
   type?: string;
@@ -7,61 +7,72 @@ export type JSONSchema = {
 };
 
 export class JSONSchemaEncoder {
-  static encode<T extends AnyType>(type: T): JSONSchema | false {
+  static encode<T extends Type>(type: T): JSONSchema | false {
     return new JSONSchemaEncoder().encode(type);
   }
 
   def = new Map<string, JSONSchema | false>();
 
-  encode<T extends AnyType>(type: T): JSONSchema | false {
+  encode<T extends Type>(type: T): JSONSchema | false {
     const s = this._encode(type);
 
-    const definitions: Record<string, any> = {};
+    const $defs: Record<string, any> = {};
 
     for (const [name, d] of this.def) {
-      definitions[name] = d;
+      $defs[name] = d;
     }
 
     return Object.assign(s, {
-      definitions: definitions,
+      $defs: $defs
     });
   }
 
-  private _encode<T extends AnyType>(type: T): JSONSchema | false {
-    const jsonSchema = this._encodeCore(type);
+  private _encode<T extends Type>(type: T): JSONSchema | false {
+    let schema = this._encodeSchema(type);
 
-    if (type.meta["description"]) {
-      return Object.assign(jsonSchema, {
-        description: type.meta["description"],
-      });
+
+    if (Schema.metaProp(type, "title")) {
+      schema = {
+        ...schema,
+        title: Schema.metaProp(type, "title")
+      };
     }
 
-    return jsonSchema;
+    if (Schema.metaProp(type, "description")) {
+      schema = {
+        ...schema,
+        description: Schema.metaProp(type, "description")
+      };
+    }
+
+    return schema;
   }
 
-  private _encodeCore<T extends AnyType>(type: T): JSONSchema | false {
-    if (type.schema?.["$unwrap"]) {
-      const refName = type.schema["$ref"];
+  private _encodeSchema<T extends Type>(type: T): JSONSchema | false {
+    if (Schema.schemaProp(type, "$ref")) {
+      const refName = Schema.schemaProp(type, "$ref");
 
       if (refName) {
         if (!this.def.has(refName)) {
           // set to lock to avoid loop
           this.def.set(refName, {});
-          this.def.set(refName, this._encode(type.schema["$unwrap"]()));
+
+          const unwrap = (type as any).schema[Schema.unwrap];
+          this.def.set(refName, this._encode(unwrap()));
         }
 
         return {
-          $ref: `#/definitions/${refName}`,
+          $ref: `#/$defs/${refName}`
         };
       }
 
-      return this._encode(type.schema["$unwrap"]);
+      return this._encode(type);
     }
 
-    return this._encodeFromSchema(type.schema);
+    return this._normalizeSchema(type.schema!);
   }
 
-  private _encodeFromSchema(s: Record<string, any> | null): JSONSchema | false {
+  private _normalizeSchema(s: Record<string, any> | null): JSONSchema | false {
     if (!s) {
       if (s === false) {
         return false;
@@ -71,26 +82,22 @@ export class JSONSchemaEncoder {
 
     const schema: Record<string, any> = {};
 
-    for (const n in s) {
-      if (n.startsWith("$")) {
-        continue;
-      }
+    for (const k of Object.getOwnPropertyNames(s)) {
+      const v = s[k];
 
-      const p: any = s[n];
-
-      if (p instanceof Type) {
-        schema[n] = this._encode(p);
-      } else if (isArray(p)) {
-        schema[n] = p.map((item) => {
-          if (item instanceof Type) {
+      if (isType(v)) {
+        schema[k] = this._encode(v);
+      } else if (isArray(v)) {
+        schema[k] = v.map((item) => {
+          if (isType(item)) {
             return this._encode(item);
           }
           return item;
         });
-      } else if (isPlainObject(p)) {
-        schema[n] = this._encodeFromSchema(p);
+      } else if (isObjectLike(v)) {
+        schema[k] = this._normalizeSchema(v);
       } else {
-        schema[n] = s[n];
+        schema[k] = v;
       }
     }
 

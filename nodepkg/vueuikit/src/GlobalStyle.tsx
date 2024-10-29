@@ -7,7 +7,7 @@ import { type SystemStyleObject } from "./theming";
 import { useInsertStyles } from "./useInsertStyles";
 
 export const GlobalStyle = component<{
-  styles: SystemStyleObject | string
+  styles: SystemStyleObject | string;
 }>(({ styles }) => {
   const theme = ThemeProvider.use();
   const cache = CacheProvider.use();
@@ -16,13 +16,13 @@ export const GlobalStyle = component<{
 
   const serialized = theme.unstable_css(
     cache,
-    isString(styles) ? ({ "&": styles } as any) : styles
+    isString(styles) ? ({ "&": styles } as any) : styles,
   );
 
   onBeforeMount(() => {
     insert({
       serialized,
-      withoutScoping: true
+      withoutScoping: true,
     });
   });
 

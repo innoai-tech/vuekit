@@ -1,12 +1,14 @@
 import { styled } from "@innoai-tech/vueuikit";
-import type { VNodeChild } from "@innoai-tech/vuekit";
+import { type VNodeChild } from "@innoai-tech/vuekit";
+import { Icon, IconButton } from "@innoai-tech/vuematerial";
 
-const ActionToolbar = styled("span")({
+export const ActionToolbar = styled("span")({
+  px: 2,
   pos: "relative",
-  px: 8,
   display: "flex",
   alignItems: "center",
-  gap: 8
+  gap: 8,
+  visibility: "hidden"
 });
 
 export const Actions = styled<
@@ -17,40 +19,23 @@ export const Actions = styled<
 >("span", ({}, { slots }) => {
   return (Root) => (
     <Root>
-      <ActionToolbar>{slots.default?.()}</ActionToolbar>
+      <ActionToolbar data-visible-on-hover>{slots.default?.()}</ActionToolbar>
     </Root>
   );
 })({
-  flex: 1,
-  lineHeight: 18,
-
-  wordBreak: "keep-all",
-  whiteSpace: "nowrap",
-  display: "inline-flex",
-  alignItems: "center",
-
-  [`& ${ActionToolbar}`]: {
-    visibility: "hidden"
-  },
-
-  _hover: {
-    [`& ${ActionToolbar}`]: {
-      visibility: "visible"
-    }
-  }
+  display: "flex"
 });
 
-export const ActionBtn = styled("span")({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  height: 16,
-  width: 16,
-  opacity: 0.5,
-  cursor: "pointer",
-  textStyle: "sys.label-small",
+export const ActionBtn = styled(IconButton)({
+  transition: "none",
+  width: 24,
+  height: 24,
+  rounded: 12,
 
-  _hover: {
-    opacity: 0.8
+  [`& ${Icon}`]: {
+    svg: {
+      width: 18,
+      height: 18
+    }
   }
 });

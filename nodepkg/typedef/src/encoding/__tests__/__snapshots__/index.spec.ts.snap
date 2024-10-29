@@ -3,49 +3,79 @@
 exports[`Encoding Typedef encode 1`] = `
 "
       
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
+export class InputTextSchema {
+
+@t.enums(["text"])
+"type"!: "text"
+
+}
       
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
+export class OptionSchema {
+
+@t.string()
+"label"!: string
+
+@t.string()
+"value"!: string
+
+}
       
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
+export class InputSelectSchema {
+
+@t.enums(["select"])
+"type"!: "select"
+
+@t.array(t.ref("OptionSchema", () => t.object(OptionSchema)))
+"options"!: Array</* @type:object */ Option>
+
+}
+      
+export class TypeSchema {
+
+@t.annotate({"title":"Test"})
+@t.union(t.integer(), t.string())
+"intOrStr"!: /* @type:union */ IntOrStr
+
+@t.enums(["leading", "trailing"])
+"placement"!: "leading" | "trailing"
+
+@t.nativeEnum(InputType)
+@t.optional()
+"inputType"?: /* @type:enums */ InputType
+
+@t.record(t.string(), t.any())
+@t.optional()
+"keyValues"?: { [k: string]: any }
+
+@t.array(t.boolean())
+"array"!: Array<boolean>
+
+@t.tuple([t.number(), t.number()])
+"point"!: [number, number]
+
+@t.discriminatorMapping("type", InputTextSchema, InputSelectSchema)
+"input"!: /* @type:union */ Input
+
+}"
 `;
 
 exports[`Encoding TypeScript encode 1`] = `
 "
       
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
+export type Type = (/* @type:object */ Base & {
+  "input": /* @type:union */ Input,
+})
+      
+export type Base = {
+  "intOrStr": /* @type:union */ IntOrStr,
   "placement": "leading" | "trailing",
   "inputType"?: /* @type:enums */ InputType,
   "keyValues"?: { [k: string]: any },
   "array": Array<boolean>,
   "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
+}
       
-export type StrOrInt = (string | number)
+export type IntOrStr = (number | string)
       
 export enum InputType {
 text = "text",
@@ -59,13 +89,29 @@ export const displayInputType = (v: InputType) => {
 "number": "数字",
 "select": "选项"   
   })[v] ?? v      
+}
+      
+export type Input = (/* @type:object */ InputText | /* @type:object */ InputSelect)
+      
+export type InputText = {
+  "type": "text",
+}
+      
+export type InputSelect = {
+  "type": "select",
+  "options": Array</* @type:object */ Option>,
+}
+      
+export type Option = {
+  "label": string,
+  "value": string,
 }"
 `;
 
 exports[`Encoding JSONSchema encode 1`] = `
 {
-  "allOf": [
-    {
+  "$defs": {
+    "Base": {
       "additionalProperties": false,
       "properties": {
         "array": {
@@ -75,7 +121,12 @@ exports[`Encoding JSONSchema encode 1`] = `
           "type": "array",
         },
         "inputType": {
-          "$ref": "#/definitions/InputType",
+          "$ref": "#/$defs/InputType",
+        },
+        "intOrStr": {
+          "$ref": "#/$defs/IntOrStr",
+          "description": "test",
+          "title": "Test",
         },
         "keyValues": {
           "additionalProperties": {},
@@ -101,76 +152,63 @@ exports[`Encoding JSONSchema encode 1`] = `
           ],
           "type": "array",
         },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
       },
       "required": [
-        "strOrInt",
+        "intOrStr",
         "placement",
         "array",
         "point",
       ],
       "type": "object",
     },
-    {
+    "Input": {
       "discriminator": {
         "propertyName": "type",
       },
       "oneOf": [
         {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
+          "$ref": "#/$defs/InputText",
         },
         {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
+          "$ref": "#/$defs/InputSelect",
         },
       ],
     },
-  ],
-  "definitions": {
+    "InputSelect": {
+      "additionalProperties": false,
+      "properties": {
+        "options": {
+          "items": {
+            "$ref": "#/$defs/Option",
+          },
+          "type": "array",
+        },
+        "type": {
+          "enum": [
+            "select",
+          ],
+        },
+      },
+      "required": [
+        "type",
+        "options",
+      ],
+      "type": "object",
+    },
+    "InputText": {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "text",
+          ],
+        },
+      },
+      "required": [
+        "type",
+      ],
+      "type": "object",
+    },
     "InputType": {
       "enum": [
         "text",
@@ -178,1552 +216,49 @@ exports[`Encoding JSONSchema encode 1`] = `
         "select",
       ],
     },
-    "StrOrInt": {
+    "IntOrStr": {
       "oneOf": [
-        {
-          "type": "string",
-        },
         {
           "type": "integer",
         },
+        {
+          "type": "string",
+        },
       ],
     },
+    "Option": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "type": "string",
+        },
+        "value": {
+          "type": "string",
+        },
+      },
+      "required": [
+        "label",
+        "value",
+      ],
+      "type": "object",
+    },
   },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
   "allOf": [
+    {
+      "$ref": "#/$defs/Base",
+    },
     {
       "additionalProperties": false,
       "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
+        "input": {
+          "$ref": "#/$defs/Input",
         },
       },
       "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
+        "input",
       ],
       "type": "object",
     },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
   ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
-}
-`;
-
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export const TypeSchema = /*#__PURE__*/t.intersection(t.object({
-  "strOrInt": t.ref<typeof StrOrIntSchema>("StrOrInt", () => StrOrIntSchema).annotate({ description: "StrOrInt" }) as unknown as typeof StrOrIntSchema,
-  "placement": t.enums(["leading", "trailing"]),
-  "inputType": t.ref<typeof InputTypeSchema>("InputType", () => InputTypeSchema).optional() as unknown as OptionalType<typeof InputTypeSchema>,
-  "keyValues": t.record(t.string(), t.any()).optional(),
-  "array": t.array(t.boolean()),
-  "point": t.tuple([t.number(), t.number()]),
-}), t.discriminatorMapping("type", {
-"text": t.object(),
-"select": t.object({
-  "options": t.array(t.object({
-  "label": t.string(),
-  "value": t.string(),
-})),
-})
-          }))
-      
-export const StrOrIntSchema = /*#__PURE__*/t.union(t.string(), t.integer())
-      
-export const InputTypeSchema = /*#__PURE__*/t.nativeEnum(InputType)"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = ({
-  "strOrInt": /* @type:union */ StrOrInt,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-} & ({
-  "type": "text",
-} | {
-  "type": "select",
-  "options": Array<{
-  "label": string,
-  "value": string,
-}>,
-}))
-      
-export type StrOrInt = (string | number)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
-{
-  "allOf": [
-    {
-      "additionalProperties": false,
-      "properties": {
-        "array": {
-          "items": {
-            "type": "boolean",
-          },
-          "type": "array",
-        },
-        "inputType": {
-          "$ref": "#/definitions/InputType",
-        },
-        "keyValues": {
-          "additionalProperties": {},
-          "propertyNames": {
-            "type": "string",
-          },
-          "type": "object",
-        },
-        "placement": {
-          "enum": [
-            "leading",
-            "trailing",
-          ],
-        },
-        "point": {
-          "items": [
-            {
-              "type": "number",
-            },
-            {
-              "type": "number",
-            },
-          ],
-          "type": "array",
-        },
-        "strOrInt": {
-          "$ref": "#/definitions/StrOrInt",
-          "description": "StrOrInt",
-        },
-      },
-      "required": [
-        "strOrInt",
-        "placement",
-        "array",
-        "point",
-      ],
-      "type": "object",
-    },
-    {
-      "discriminator": {
-        "propertyName": "type",
-      },
-      "oneOf": [
-        {
-          "additionalProperties": false,
-          "properties": {
-            "type": {
-              "enum": [
-                "text",
-              ],
-            },
-          },
-          "required": [
-            "type",
-          ],
-          "type": "object",
-        },
-        {
-          "additionalProperties": false,
-          "properties": {
-            "options": {
-              "items": {
-                "additionalProperties": false,
-                "properties": {
-                  "label": {
-                    "type": "string",
-                  },
-                  "value": {
-                    "type": "string",
-                  },
-                },
-                "required": [
-                  "label",
-                  "value",
-                ],
-                "type": "object",
-              },
-              "type": "array",
-            },
-            "type": {
-              "enum": [
-                "select",
-              ],
-            },
-          },
-          "required": [
-            "type",
-            "options",
-          ],
-          "type": "object",
-        },
-      ],
-    },
-  ],
-  "definitions": {
-    "InputType": {
-      "enum": [
-        "text",
-        "number",
-        "select",
-      ],
-    },
-    "StrOrInt": {
-      "oneOf": [
-        {
-          "type": "string",
-        },
-        {
-          "type": "integer",
-        },
-      ],
-    },
-  },
 }
 `;

@@ -1,0 +1,225 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`define type any 1`] = `{}`;
+
+exports[`define type never 1`] = `false`;
+
+exports[`define type null 1`] = `
+{
+  "type": "null",
+}
+`;
+
+exports[`define type binary 1`] = `
+{
+  "format": "binary",
+  "type": "string",
+}
+`;
+
+exports[`define type boolean 1`] = `
+{
+  "type": "boolean",
+}
+`;
+
+exports[`define type integer 1`] = `
+{
+  "type": "integer",
+}
+`;
+
+exports[`define type number 1`] = `
+{
+  "type": "number",
+}
+`;
+
+exports[`define type enums 1`] = `
+{
+  "enum": [
+    "1",
+    "2",
+    "3",
+  ],
+}
+`;
+
+exports[`define type enums 2`] = `
+{
+  "enum": [
+    "MALE",
+    "FEMALE",
+  ],
+}
+`;
+
+exports[`define type record 1`] = `
+{
+  "additionalProperties": {
+    "type": "number",
+  },
+  "propertyNames": {
+    "type": "string",
+  },
+  "type": "object",
+}
+`;
+
+exports[`define type array 1`] = `
+{
+  "items": {
+    "type": "string",
+  },
+  "type": "array",
+}
+`;
+
+exports[`define type tuple 1`] = `
+{
+  "items": [
+    {
+      "type": "number",
+    },
+    {
+      "type": "number",
+    },
+  ],
+  "type": "array",
+}
+`;
+
+exports[`define type intersection 1`] = `
+{
+  "allOf": [
+    {
+      "$ref": "X",
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "age": {
+          "type": "integer",
+        },
+      },
+      "required": [],
+      "type": "object",
+    },
+  ],
+}
+`;
+
+exports[`define type object 1`] = `
+{
+  "additionalProperties": false,
+  "properties": {
+    "age": {
+      "type": "integer",
+    },
+    "name": {
+      "type": "string",
+    },
+  },
+  "required": [
+    "name",
+  ],
+  "type": "object",
+}
+`;
+
+exports[`define type union 1`] = `
+{
+  "oneOf": [
+    {
+      "type": "integer",
+    },
+    {
+      "type": "string",
+    },
+  ],
+}
+`;
+
+exports[`define type union 2`] = `
+{
+  "discriminator": {
+    "propertyName": "type",
+  },
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "a",
+          ],
+        },
+      },
+      "required": [
+        "type",
+      ],
+      "type": "object",
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+        },
+        "type": {
+          "enum": [
+            "b",
+          ],
+        },
+      },
+      "required": [
+        "type",
+        "name",
+      ],
+      "type": "object",
+    },
+  ],
+}
+`;
+
+exports[`define type union 3`] = `
+{
+  "discriminator": {
+    "propertyName": "type",
+  },
+  "oneOf": [
+    {
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "a",
+          ],
+        },
+      },
+      "required": [
+        "type",
+      ],
+      "type": "object",
+    },
+    {
+      "additionalProperties": false,
+      "properties": {
+        "name": {
+          "type": "string",
+        },
+        "type": {
+          "enum": [
+            "b",
+          ],
+        },
+      },
+      "required": [
+        "type",
+        "name",
+      ],
+      "type": "object",
+    },
+  ],
+}
+`;

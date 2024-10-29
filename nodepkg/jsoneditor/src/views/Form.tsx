@@ -5,7 +5,7 @@ export const FormControls = styled("form")({
   pos: "absolute",
   right: 0,
   bottom: 0,
-  px: 8
+  px: 8,
 });
 
 export const FormContainer = styled("div")({
@@ -19,8 +19,8 @@ export const FormContainer = styled("div")({
     border: "none",
     bg: "none",
     py: 8,
-    px: 12
-  }
+    px: 12,
+  },
 });
 
 export const FormContainerAsRow = styled("div")({
@@ -36,11 +36,11 @@ export const FormContainerAsRow = styled("div")({
     bg: "none",
     minWidth: "10vw",
     py: 8,
-    px: 12
+    px: 12,
   },
 
   [`& ${FormControls}`]: {
     pos: "relative",
-    px: 0
-  }
+    px: 0,
+  },
 });

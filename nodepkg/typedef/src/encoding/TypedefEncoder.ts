@@ -1,176 +1,164 @@
-import { get, isEmpty, omit } from "@innoai-tech/lodash";
-import { type AnyType, Type, TypeRef, t } from "../core";
+import { Schema, t, type Type } from "../core";
+import { TypeScriptEncoder } from "./TypeScriptEncoder.ts";
+import { validationRules } from "./JSONSchemaDecoder.ts";
+import { isUndefined } from "../core/util.ts";
 
 export class TypedefEncoder {
-  static encode<T extends AnyType>(type: T): string {
+  static encode<T extends Type>(type: T): string {
     return new TypedefEncoder().encode(type);
   }
 
-  def = new Map<string, string>();
+  def = new Map<string, [string, string]>();
+  visited = new Map<string, boolean>();
 
-  encode(type: AnyType, all = true): string {
+  encode(type: Type, all = true): string {
     const d = this._encode(type);
     if (all) {
-      return (type instanceof TypeRef ? "" : d) + this.decls();
+      return (Schema.schemaProp(type, "$ref") ? "" : d) + this.decls();
     }
     return d;
   }
 
   decls() {
     let decls = "";
-    for (const [name, decl] of this.def) {
+    for (const [name, [type, decl]] of this.def) {
       decls += `
       
-export const ${name}Schema = /*#__PURE__*/${decl}`;
+export ${type} ${name} ${decl}`;
     }
-
     return decls;
   }
 
-  private _encode(type: AnyType, declName = ""): string {
-    return `${this._encodeCode(type, declName)}${
-      type.meta["description"]
-        ? `.annotate({ description: ${JSON.stringify(type.meta["description"])} })`
-        : ""
-    }`;
-  }
+  private _encode(rawType: Type): string {
+    let type = rawType;
 
-  private _encodeCode(typ: AnyType, declName = ""): string {
-    let type = typ;
+    if (Schema.schemaProp(type, "$ref")) {
+      const refName = Schema.schemaProp(type, "$ref");
 
-    while (true) {
-      if (type instanceof TypeRef) {
-        break;
-      }
-      const unwrapped = type.unwrap;
-      if (unwrapped === type) {
-        break;
-      }
-      type = unwrapped as AnyType;
-    }
+      if (type.type == "object" || type.type == "intersection") {
+        const schemaClass = `${refName}Schema`;
 
-    if (type instanceof TypeRef) {
-      const refName = type.schema.$ref;
+        if (!this.visited.get(schemaClass)) {
+          this.visited.set(schemaClass, true);
 
-      if (!this.def.has(refName)) {
-        // set to lock to avoid loop
-        this.def.set(refName, "");
-        this.def.set(refName, this._encode(type.unwrap, refName));
-      }
+          let decl = this._encode(Schema.schemaProp(type, Schema.unwrap)());
 
-      const refSchemaName = `${refName}Schema`;
-
-      return `t.ref<typeof ${refSchemaName}>("${refName}", () => ${refSchemaName})`;
-    }
-
-    switch (type.type) {
-      case "intersection": {
-        return `t.intersection(${type.schema.allOf
-          .map((t: AnyType) => this._encode(t))
-          .join(", ")})`;
-      }
-
-      case "union": {
-        const discriminatorPropertyName = get(type.schema, [
-          "discriminator",
-          "propertyName"
-        ]);
-
-        if (discriminatorPropertyName) {
-          const mapping: Record<string, string> = {};
-
-          for (const sub of type.schema.oneOf) {
-            const e = get(sub.schema.properties, discriminatorPropertyName);
-
-            const props = omit(
-              sub.schema.properties,
-              discriminatorPropertyName
-            );
-
-            if (e) {
-              if (e.type === "enums") {
-                for (const enumValue of e.schema.enum) {
-                  mapping[`${enumValue}`] = this._encode(t.object(props));
-                }
+          if (decl) {
+            if (decl) {
+              if (decl.endsWith("Schema")) {
+                decl = ` extends ${decl} {}`;
               }
-            }
-          }
 
-          return `t.discriminatorMapping("${discriminatorPropertyName}", {
-${Object.keys(mapping)
-            .map((k) => `${JSON.stringify(k)}: ${mapping[k]}`)
-            .join(",\n")}
-          })`;
+              this.def.set(schemaClass, ["class", decl]);
+            }
+
+            this.def.set(schemaClass, ["class", decl]);
+          }
         }
 
-        return `t.union(${type.schema.oneOf
-          .map((t: AnyType) => this._encode(t))
+        return schemaClass;
+      }
+
+      if (type.type == "enums") {
+        return `/* @type:${type.type} */ ${refName}`;
+      }
+
+      return type.type;
+    }
+
+    if (type.type == "intersection" || type.type == "object") {
+      let d = `{
+`;
+
+      for (const [k, _, pt] of type.entries({})) {
+        d += `
+`;
+
+        const title = Schema.metaProp(pt, "title");
+        if (title) {
+          d += `@t.annotate(${JSON.stringify({ title })})
+`;
+
+        }
+
+        const typedef = this._typedef(pt);
+
+        if (typedef) {
+          d += `@${typedef}
+`;
+        }
+
+        for (const rule of validationRules) {
+          if ((t as any)[rule] && !isUndefined(Schema.schemaProp(pt, rule))) {
+            d += `@t.${rule}(${JSON.stringify(Schema.schemaProp(pt, rule))})
+`;
+          }
+        }
+
+
+        const optional = Schema.schemaProp(pt, Schema.optional);
+        if (optional) {
+          d += `@t.optional()
+`;
+        }
+
+        d += `${JSON.stringify(k)}${optional ? "?" : "!"}: ${TypeScriptEncoder.encode(pt, false)}
+`;
+      }
+      d += `
+}`;
+
+      return d;
+    }
+
+    return this._typedef(type);
+  }
+
+  private _typedef(type: Type): string {
+    switch (type.type) {
+      case "union": {
+        if (Schema.schemaProp(type, "discriminator")) {
+          const propName = Schema.schemaProp(type, "discriminator")["propertyName"];
+
+          return `t.discriminatorMapping(${JSON.stringify(propName)}, ${Schema.schemaProp(type, "oneOf")
+            .map((t: Type) => {
+              return this._encode(t);
+            })
+            .join(", ")})`;
+        }
+
+        return `t.union(${Schema.schemaProp(type, "oneOf")
+          .map((t: Type) => this._typedef(t))
           .join(", ")})`;
       }
 
       case "enums": {
-        if (declName) {
-          return `t.nativeEnum(${declName})`;
+        if (Schema.schemaProp(type, "$ref")) {
+          return `t.nativeEnum(${Schema.schemaProp(type, "$ref")})`;
         }
 
-        return `t.enums([${type.schema.enum
+        return `t.enums([${Schema.schemaProp(type, "enum")
           .map((v: any) => JSON.stringify(v))
           .join(", ")}])`;
       }
 
       case "record": {
-        return `t.record(${this._encode(type.schema.propertyNames)}, ${this._encode(type.schema.additionalProperties)})`;
+        return `t.record(${this._typedef(
+          Schema.schemaProp(type, "propertyNames") ?? t.string()
+        )}, ${this._typedef(
+          Schema.schemaProp(type, "additionalProperties") ?? t.any()
+        )})`;
       }
-
       case "object": {
-        if (isEmpty(type.schema.properties)) {
-          return "t.object()";
-        }
-
-        let ts = `{
-`;
-
-        for (const p in type.schema.properties) {
-          const propSchema = type.schema.properties[p] as Type;
-
-          let tpe = this._encode(propSchema);
-
-          if (propSchema.isOptional) {
-            tpe += ".optional()";
-          }
-
-          const re = /^t.ref<([^>]+)>.+/;
-
-          if (re.test(tpe)) {
-            tpe += " as unknown";
-
-            const tt = tpe.match(re)?.[1];
-
-            if (propSchema.isOptional) {
-              tpe += ` as OptionalType<${tt}>`;
-            } else {
-              tpe += ` as ${tt}`;
-            }
-          }
-
-          ts += `  ${JSON.stringify(p)}`;
-          ts += `: ${tpe}`;
-
-
-          ts += `,
-`;
-        }
-
-        ts += "}";
-
-        return `t.object(${ts})`;
+        const ref = this._encode(type);
+        return `t.ref(${JSON.stringify(ref)}, () => t.object(${ref}))`;
       }
       case "tuple":
-        return `t.tuple([${type.schema.items
-          .map((t: AnyType) => this._encode(t))
+        return `t.tuple([${Schema.schemaProp(type, "items")
+          .map((t: Type) => this._typedef(t))
           .join(", ")}])`;
       case "array":
-        return `t.array(${this._encode(type.schema.items)})`;
+        return `t.array(${this._typedef(Schema.schemaProp(type, "items") ?? t.any())})`;
       case "string":
         return "t.string()";
       case "binary":
@@ -184,7 +172,6 @@ ${Object.keys(mapping)
       case "nil":
         return "t.nil()";
     }
-
     return "t.any()";
   }
 }

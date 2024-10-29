@@ -13,7 +13,7 @@
     "@innoai-tech/vuekit": "workspace:^",
     "hast-util-to-jsx-runtime": "^2.3.2",
     "mdast-util-directive": "^3.0.0",
-    "mdast-util-from-markdown": "^2.0.1",
+    "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-gfm": "^3.0.0",
     "mdast-util-to-hast": "^13.2.0",
     "micromark-extension-directive": "^3.0.2",

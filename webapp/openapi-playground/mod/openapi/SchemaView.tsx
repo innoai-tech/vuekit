@@ -1,11 +1,11 @@
 import {
-  type AnyType,
   component,
   component$,
   createProvider,
   t,
   RouterLink,
-  type VNodeChild
+  type VNodeChild,
+  type Type, Schema
 } from "@innoai-tech/vuekit";
 import { isUndefined } from "@innoai-tech/lodash";
 import { styled } from "@innoai-tech/vueuikit";
@@ -69,10 +69,10 @@ export const Line = styled<{
 });
 
 export const Description = styled<{
-  schema: AnyType
+  schema: Type
 }, "div">("div", (props, {}) => {
     return (Root) => {
-      const description = props.schema.getMeta<string>("description") ?? "";
+      const description = Schema.metaProp(props.schema, "description") ?? "";
 
       if (description.length == 0) {
         return null;
@@ -204,18 +204,16 @@ class Node {
 const SchemaRenderProvider = createProvider<Node>(() => new Node(""));
 
 const SchemaViewLink = component$<{
-  schema: AnyType,
+  schema: Type,
 }>((props) => {
   const node = SchemaRenderProvider.use();
 
   return () => {
-    const id = props.schema.getSchema("$ref");
-
     let schema = props.schema;
 
-    while (schema.getSchema("$ref")) {
-      schema = schema.unwrap;
-    }
+    const id = Schema.schemaProp(props.schema, "$ref");
+
+    schema = Schema.schemaProp(props.schema, Schema.unwrap)();
 
     const needID = schema.type == "intersection" || schema.type == "object" || schema.type == "union" || schema.type == "record" || schema.type == "array" || schema.type == "union";
 
@@ -230,11 +228,11 @@ const SchemaViewLink = component$<{
 
 
 export const SchemaView = component$<{
-  schema: AnyType,
+  schema: Type,
 }>((props) => {
     const schema = props.schema;
 
-    if (schema.getSchema("$ref")) {
+    if (Schema.schemaProp(schema, "$ref")) {
       return (
         <SchemaViewLink schema={schema} />
       );
@@ -245,7 +243,7 @@ export const SchemaView = component$<{
         case "union":
           return (
             <>
-              {schema.getSchema<AnyType[]>("oneOf")?.map((s, i) => {
+              {Schema.schemaProp<Type[]>(schema, "oneOf")?.map((s, i) => {
                 return (
                   <>
                     {i > 0 && (
@@ -260,7 +258,7 @@ export const SchemaView = component$<{
         case "intersection":
           return (
             <Token>
-              {schema.getSchema<AnyType[]>("allOf")
+              {Schema.schemaProp<Type[]>(schema, "allOf")
                 ?.filter((s) => !(Object.keys(s).length))
                 .map((s, i) => {
                   return (
@@ -280,7 +278,7 @@ export const SchemaView = component$<{
           return (
             <Token sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}>
               <Token>{"Array<"}</Token>
-              <SchemaView schema={schema.getSchema("items") ?? t.any()} />
+              <SchemaView schema={Schema.schemaProp(schema, "items") ?? t.any()} />
               <Token>{">"}</Token>
             </Token>
           );
@@ -290,7 +288,7 @@ export const SchemaView = component$<{
               <Token>{"{"}</Token>
               <Indent>
                 <>
-                  {Object.entries((schema.getSchema("properties") ?? {}) as Record<string, AnyType>).map(([propName, propSchema]) => {
+                  {Object.entries((Schema.schemaProp(schema, "properties") ?? {}) as Record<string, Type>).map(([propName, propSchema]) => {
                     if (!propSchema) {
                       return null;
                     }
@@ -303,9 +301,9 @@ export const SchemaView = component$<{
                             sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}
                           >
                             <PropName
-                              nullable={propSchema.getSchema("nullable")}
-                              deprecated={propSchema.getSchema("deprecated")}
-                              optional={!(schema.getSchema("required") ?? []).includes(propName)}
+                              nullable={Schema.schemaProp(schema, "nullable")}
+                              deprecated={Schema.schemaProp(schema, "deprecated")}
+                              optional={!(Schema.schemaProp(schema, "required") ?? []).includes(propName)}
                             >
                               {propName}
                             </PropName>
@@ -325,16 +323,16 @@ export const SchemaView = component$<{
           return (
             <>
               <Token>{"{"}</Token>
-              {schema.getSchema("additionalProperties") && (
+              {Schema.schemaProp(schema, "additionalProperties") && (
                 <>
                   <Indent>
                     <Line>
                       <Token sx={{ mr: 1 }}>{"[K:"}&nbsp;</Token>
                       <SchemaView
-                        schema={schema.getSchema("propertyNames") ?? t.string()}
+                        schema={Schema.schemaProp(schema, "propertyNames") ?? t.string()}
                       />
                       <Token sx={{ mr: 1 }}>{"]:"}&nbsp;</Token>
-                      <SchemaView schema={schema.getSchema("additionalProperties") ?? t.any()} />
+                      <SchemaView schema={Schema.schemaProp(schema, "additionalProperties") ?? t.any()} />
                     </Line>
                   </Indent>
                 </>
@@ -343,7 +341,7 @@ export const SchemaView = component$<{
             </>
           );
         case "enums": {
-          const enumValues = schema.getSchema<any[]>("enum") ?? [];
+          const enumValues = Schema.schemaProp<any[]>(schema, "enum") ?? [];
 
           if (enumValues.length == 1) {
             return <Token>{JSON.stringify(enumValues[0])}</Token>;
@@ -364,8 +362,8 @@ export const SchemaView = component$<{
                     key={value}
                     name={"enum"}
                     value={`${value}`}
-                    extra={schema.getMeta<string[]>("enumLabels")?.[i] ? {
-                      "label": JSON.stringify(schema.getMeta<string[]>("enumLabels")![i])
+                    extra={Schema.metaProp<string[]>(schema, "enumLabels")?.[i] ? {
+                      "label": JSON.stringify(Schema.metaProp<string[]>(schema, "enumLabels")![i])
                     } : {}}
                   />
                 ))}
@@ -377,8 +375,8 @@ export const SchemaView = component$<{
 
       let [type, format, defaultValue] = [
         schema.type,
-        schema.getSchema("format"),
-        schema.getSchema("default")
+        Schema.schemaProp(schema, "format"),
+        Schema.schemaProp(schema, "default")
       ];
 
       return (
@@ -400,7 +398,7 @@ export const SchemaView = component$<{
 );
 
 
-function hasValidate(schema: AnyType) {
+function hasValidate(schema: Type) {
   return ([
     "enum",
     "maximum",
@@ -414,7 +412,7 @@ function hasValidate(schema: AnyType) {
     "minItems",
     "maxProperties",
     "minProperties"
-  ] as Array<keyof ValidatedSchemaProps>).some((key) => schema.getSchema(key));
+  ] as Array<keyof ValidatedSchemaProps>).some((key) => Schema.schemaProp(schema, key));
 }
 
 export interface ValidatedSchemaProps {
@@ -432,48 +430,48 @@ export interface ValidatedSchemaProps {
   minProperties?: number;
 }
 
-export function getMax(schema: AnyType): string {
-  if (schema.getSchema("maxProperties")) {
-    return schema.getSchema("maxProperties")!;
+export function getMax(schema: Type): string {
+  if (Schema.schemaProp(schema, "maxProperties")) {
+    return Schema.schemaProp(schema, "maxProperties")!;
   }
-  if (schema.getSchema("maxItems")) {
-    return schema.getSchema("maxItems")!;
+  if (Schema.schemaProp(schema, "maxItems")) {
+    return Schema.schemaProp(schema, "maxItems")!;
   }
-  if (schema.getSchema("maximum")) {
-    return schema.getSchema("maximum")!;
+  if (Schema.schemaProp(schema, "maximum")) {
+    return Schema.schemaProp(schema, "maximum")!;
   }
-  if (schema.getSchema("maxLength")) {
-    return schema.getSchema("maxLength")!;
+  if (Schema.schemaProp(schema, "maxLength")) {
+    return Schema.schemaProp(schema, "maxLength")!;
   }
 
-  if (schema.type === "string" && schema.getSchema("format") === "uint64") {
+  if (schema.type === "string" && Schema.schemaProp(schema, "format") === "uint64") {
     return "19";
   }
 
   if (
     (schema.type === "number" || schema.type === "integer") &&
-    schema.getSchema("format")
+    Schema.schemaProp(schema, "format")
   ) {
     return `${
-      Math.pow(2, Number(schema.getSchema("format").replace(/[^0-9]/g, "")) - 1) - 1
+      Math.pow(2, Number(Schema.schemaProp(schema, "format").replace(/[^0-9]/g, "")) - 1) - 1
     }`;
   }
 
   return "+∞";
 }
 
-export function getMin(schema: AnyType): string {
-  if (schema.getSchema("minProperties")) {
-    return schema.getSchema("minProperties")!;
+export function getMin(schema: Type): string {
+  if (Schema.schemaProp(schema, "minProperties")) {
+    return Schema.schemaProp(schema, "minProperties")!;
   }
-  if (schema.getSchema("minItems")) {
-    return schema.getSchema("minItems")!;
+  if (Schema.schemaProp(schema, "minItems")) {
+    return Schema.schemaProp(schema, "minItems")!;
   }
-  if (schema.getSchema("minimum")) {
-    return schema.getSchema("minimum")!;
+  if (Schema.schemaProp(schema, "minimum")) {
+    return Schema.schemaProp(schema, "minimum")!;
   }
-  if (schema.getSchema("minLength")) {
-    return schema.getSchema("minLength")!;
+  if (Schema.schemaProp(schema, "minLength")) {
+    return Schema.schemaProp(schema, "minLength")!;
   }
 
   if (schema.type === "string") {
@@ -481,27 +479,23 @@ export function getMin(schema: AnyType): string {
   }
 
   if (
-    (schema.type === "number" || schema.type === "integer") && schema.getSchema("format")
+    (schema.type === "number" || schema.type === "integer") && Schema.schemaProp(schema, "format")
   ) {
     return `${
-      Math.pow(2, Number(schema.getSchema("format").replace(/[^0-9]/g, "")) - 1) - 1
+      Math.pow(2, Number(Schema.schemaProp(schema, "format").replace(/[^0-9]/g, "")) - 1) - 1
     }`;
   }
   return "-∞";
 }
 
-export function displayValidate(schema: AnyType): string {
-  if (schema.getSchema<string>("x-tag-validate")) {
-    return schema.getSchema<string>("x-tag-validate")!;
-  }
-
+export function displayValidate(schema: Type): string {
   if (!hasValidate(schema)) {
     return "";
   }
 
-  if (schema.getSchema("pattern")) {
-    return `@r/${String(schema.getSchema("pattern"))}/`;
+  if (Schema.schemaProp(schema, "pattern")) {
+    return `@r/${String(Schema.schemaProp(schema, "pattern"))}/`;
   }
 
-  return `@${schema.getSchema("exclusiveMinimum")} ? "(" : "["}${getMin(schema)},${getMax(schema)}${schema.getSchema("exclusiveMaximum") ? ")" : "]"}`;
+  return `@${Schema.schemaProp(schema, "exclusiveMinimum")} ? "(" : "["}${getMin(schema)},${getMax(schema)}${Schema.schemaProp(schema, "exclusiveMaximum") ? ")" : "]"}`;
 }

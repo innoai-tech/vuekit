@@ -1,45 +1,24 @@
+import { get, isFunction, isPlainObject, isUndefined, set } from "@innoai-tech/lodash";
 import {
-  get,
-  isFunction,
-  isPlainObject,
-  isUndefined,
-  set,
-  has,
-} from "@innoai-tech/lodash";
-import {
-  type AnyType,
+  type Component,
   EmptyContext,
   ImmerBehaviorSubject,
-  type Infer,
-  type Component,
-  rx,
-  SymbolRecordKey,
   type ImmerSubject,
+  type Infer,
+  JSONPointer,
+  rx,
+  Schema,
+  type Type
 } from "@innoai-tech/vuekit";
+import { distinctUntilChanged, map, Observable, Subject } from "rxjs";
 
-import { Observable, Subject, distinctUntilChanged, map } from "rxjs";
-
-export const delegate = <T extends { [k: string]: any }>(
-  target: T,
-  options: Partial<T>,
-): T => {
-  return new Proxy(target, {
-    get(target, p) {
-      if (has(options, p)) {
-        return (options as any)[p];
-      }
-      return (target as any)[p];
-    },
-  });
-};
-
-export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
-  static of<T extends AnyType>(
+export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
+  static of<T extends Type>(
     schema: T,
-    initials: Partial<Infer<T>> | (() => Partial<Infer<T>>),
+    initials: Partial<Infer<T>> | (() => Partial<Infer<T>>)
   ) {
     return new FormData(schema, () =>
-      isFunction(initials) ? initials() : initials,
+      isFunction(initials) ? initials() : initials
     );
   }
 
@@ -47,12 +26,12 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
   constructor(
     public typedef: T,
-    initials: () => Partial<Infer<T>>,
+    initials: () => Partial<Infer<T>>
   ) {
     super();
 
     this.inputs$ = new ImmerBehaviorSubject<Partial<Infer<T>>>(
-      initials() ?? {},
+      initials() ?? {}
     );
   }
 
@@ -66,14 +45,14 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
     return this._fields.get(name);
   }
 
-  *fields<T extends AnyType>(
+  * fields<T extends Type>(
     typedef: T,
     value = this.inputs$.value,
-    path: any[] = [],
+    path: any[] = []
   ): Iterable<Field> {
     for (const [nameOrIdx, _, t] of typedef.entries(value, EmptyContext)) {
-      // skip symbol
-      if (nameOrIdx === SymbolRecordKey) {
+      // skip RecordKey
+      if (nameOrIdx === Schema.RecordKey) {
         continue;
       }
 
@@ -83,7 +62,7 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
       const p = [...path, nameOrIdx];
 
-      const name = FieldImpl.stringify(p);
+      const name = JSONPointer.create(p);
 
       let f = this._fields.get(name);
       if (!f) {
@@ -122,9 +101,7 @@ export class FormData<T extends AnyType = AnyType> extends Subject<Infer<T>> {
 
       if (!isUndefined(value)) {
         if (isPlainObject(value)) {
-          set(values, name, {
-            ...value,
-          });
+          set(values, name, { ...value });
         } else {
           set(values, name, value);
         }
@@ -195,7 +172,7 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
   optional: boolean;
 
   state: FieldState;
-  typedef: AnyType;
+  typedef: Type;
 
   blur: () => void;
   focus: () => void;
@@ -209,9 +186,8 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
 
 class FieldImpl<T extends any = any>
   extends ImmerBehaviorSubject<FieldState>
-  implements Field<T>
-{
-  static defaultValue = (def: AnyType) => {
+  implements Field<T> {
+  static defaultValue = (def: Type) => {
     try {
       return def.create(undefined);
     } catch (e) {
@@ -219,38 +195,19 @@ class FieldImpl<T extends any = any>
     }
   };
 
-  static stringify(path: Array<string | number>) {
-    let p = "";
-
-    for (const v of path) {
-      if (typeof v === "number") {
-        p += `[${v}]`;
-        continue;
-      }
-
-      p += p ? `.${v}` : v;
-    }
-
-    return p;
-  }
-
   constructor(
     public readonly form$: FormData,
-    public readonly typedef: AnyType,
+    public readonly typedef: Type,
     public readonly path: Array<string | number>,
-    public readonly name = FieldImpl.stringify(path),
+    public readonly name = JSONPointer.create(path)
   ) {
     super({
-      initial: get(form$.inputs$.value, name, FieldImpl.defaultValue(typedef)),
+      initial: get(form$.inputs$.value, path, FieldImpl.defaultValue(typedef))
     });
   }
 
   get input(): T | undefined {
-    return get(
-      this.form$.inputs$.value,
-      this.name,
-      FieldImpl.defaultValue(this.typedef),
-    );
+    return get(this.form$.inputs$.value, this.path, FieldImpl.defaultValue(this.typedef)) as any;
   }
 
   get meta(): FieldMeta<T> {
@@ -276,8 +233,10 @@ class FieldImpl<T extends any = any>
     if (typeof this.#input$ === "undefined") {
       this.#input$ = rx(
         this.form$.inputs$,
-        map((v) => get(v, this.name, FieldImpl.defaultValue(this.typedef))),
-        distinctUntilChanged(),
+        map(
+          (v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any
+        ),
+        distinctUntilChanged()
       );
     }
     return this.#input$;
@@ -299,7 +258,7 @@ class FieldImpl<T extends any = any>
 
   reset = () => {
     this.form$.inputs$.next((inputs) => {
-      set(inputs, this.name, this.value.initial);
+      set(inputs, this.path, this.value.initial);
     });
 
     this.next({ initial: this.value.initial });
@@ -307,7 +266,7 @@ class FieldImpl<T extends any = any>
 
   update = (v: T) => {
     this.form$.inputs$.next((inputs) => {
-      set(inputs, this.name, v);
+      set(inputs, this.path, v);
     });
 
     this.next((state) => {

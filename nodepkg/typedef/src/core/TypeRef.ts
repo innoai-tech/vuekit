@@ -1,18 +1,15 @@
-import { type AnyType, type Infer, TypeWrapper } from "./Type";
+import { defineType, type Infer, type Type } from "./Type";
+import { TypeWrapper } from "./TypeUnknown.ts";
+import { Schema } from "./Schema.ts";
 
-export class TypeRef<U extends AnyType> extends TypeWrapper<
+export class TypeRef<U extends Type> extends TypeWrapper<
   Infer<U>,
-  U,
   { $ref: string }
 > {
-  static create<U extends AnyType>(name: string, t: () => U) {
+  static create = defineType(<U extends Type>(name: string, ref: () => U): Type<Infer<U>, { $ref: string }> => {
     return new TypeRef<U>({
-      $unwrap: t,
       $ref: name,
+      [Schema.unwrap]: ref
     });
-  }
-
-  override get isOptional(): boolean {
-    return false;
-  }
+  });
 }

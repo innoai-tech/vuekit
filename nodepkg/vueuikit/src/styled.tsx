@@ -1,6 +1,6 @@
 import { isFunction, isString, isUndefined } from "@innoai-tech/lodash";
 import {
-  type AnyType,
+  type Type,
   type InternalEmitsOf,
   type InternalPropsOf,
   type InternalSlotsOf,
@@ -12,9 +12,13 @@ import {
   isComponent,
   t,
   isPropTypes,
+  SymbolForwardRef,
+  ref,
+  type VNode,
+  cloneVNode,
+  onBeforeMount,
+  onMounted,
 } from "@innoai-tech/vuekit";
-import type { VNode } from "vue";
-import { cloneVNode, onBeforeMount, onMounted, ref } from "vue";
 import { Box, type SxProps } from "./Box";
 import { CacheProvider } from "./CacheProvider";
 import { ThemeProvider } from "./ThemeProvider";
@@ -48,7 +52,7 @@ export function styled<DefaultComponent extends VElementType>(
   defaultComponent: DefaultComponent;
 }>;
 export function styled<
-  PropTypes extends Record<string, AnyType>,
+  PropTypes extends Record<string, Type>,
   DefaultComponent extends VElementType,
 >(
   defaultComponent: DefaultComponent,
@@ -68,7 +72,7 @@ export function styled<
   defaultComponent: DefaultComponent;
 }> {
   let defaultComponent: VElementType = "div";
-  let finalPropTypes: Record<string, AnyType> = {};
+  let finalPropTypes: Record<string, Type> = {};
   let finalSetup: any = undefined;
   let finalOptions: Record<string, any> = {};
 
@@ -120,20 +124,23 @@ export function styled<
           const cache = CacheProvider.use();
           const insertCSS = useInsertStyles(cache);
 
-          const sxClassName = ref("");
+          const sxClassNameRef = ref("");
 
           const presetSxSerialized = theme.unstable_css(cache, presetSx);
 
-          const className = (): string =>
-            (presetSxSerialized.name !== "0"
-              ? `${cache.key}-${presetSxSerialized.name}${sxClassName.value}`
-              : `${sxClassName.value}`) + (c.name ? ` ${c.name}` : "");
+          const className = (): string => {
+            return (
+              (presetSxSerialized.name !== "0"
+                ? `${cache.key}-${presetSxSerialized.name}${sxClassNameRef.value}`
+                : `${sxClassNameRef.value}`) + (c.name ? ` ${c.name}` : "")
+            );
+          };
 
           if ((defaultComponent as any).__styled) {
             const serialized = theme.unstable_css(cache, props.sx ?? {});
 
             if (serialized.name !== "0") {
-              sxClassName.value = ` ${cache.key}-${serialized.name}`;
+              sxClassNameRef.value = ` ${cache.key}-${serialized.name}`;
             }
 
             onMounted(() => {
@@ -158,6 +165,12 @@ export function styled<
 
           const render = finalSetup(props as any, ctx as any);
 
+          const forwardRef = ref(null);
+
+          ctx.expose({
+            [SymbolForwardRef]: forwardRef,
+          });
+
           return () => {
             if ((defaultComponent as any).__styled) {
               const ret = render(defaultComponent);
@@ -165,6 +178,7 @@ export function styled<
               if (ret) {
                 return cloneVNode(ret, {
                   component: (props as any).component,
+                  ref: forwardRef,
                   class: className(),
                 });
               }
@@ -178,6 +192,7 @@ export function styled<
               return cloneVNode(ret, {
                 component: (props as any).component || defaultComponent,
                 sx: (props as any).sx,
+                ref: forwardRef,
                 class: className(),
               });
             }

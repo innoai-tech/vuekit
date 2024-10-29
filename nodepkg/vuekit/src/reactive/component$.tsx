@@ -1,5 +1,5 @@
 import { isFunction, isUndefined } from "@innoai-tech/lodash";
-import { type AnyType } from "@innoai-tech/typedef";
+import { type Type } from "@innoai-tech/typedef";
 import type { RenderFunction } from "vue";
 import { type ComponentOptions, component } from "../component";
 import {
@@ -33,7 +33,7 @@ export function component$<Props extends Record<string, any>>(
   setup: ObservableSetupFunction<Props>,
   options?: ComponentOptions,
 ): Component<Props>;
-export function component$<PropTypes extends Record<string, AnyType>>(
+export function component$<PropTypes extends Record<string, Type>>(
   propTypes: PropTypes,
   setup: ObservableSetupFunction<PublicPropsOf<PropTypes>>,
   options?: ComponentOptions,
@@ -41,7 +41,7 @@ export function component$<PropTypes extends Record<string, AnyType>>(
 export function component$<Props extends Record<string, any>>(
   ...args: any[]
 ): Component<Props> {
-  let finalPropTypes: Record<string, AnyType> = {};
+  let finalPropTypes: Record<string, Type> = {};
   let finalSetup: any = undefined;
   let finalOptions: Record<string, any> = {};
 

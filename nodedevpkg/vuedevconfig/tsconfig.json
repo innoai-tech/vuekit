@@ -20,7 +20,6 @@
     "allowUnusedLabels": false,
     "allowUnreachableCode": false,
     "exactOptionalPropertyTypes": false,
-    "experimentalDecorators": true,
     "noFallthroughCasesInSwitch": true,
     "noImplicitOverride": true,
     "noImplicitReturns": true,
@@ -32,6 +31,8 @@
     "checkJs": false,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
     "jsx": "react-jsx",
     "jsxImportSource": "@innoai-tech/vuekit"
   }

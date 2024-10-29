@@ -1,68 +1,68 @@
 import { get } from "@innoai-tech/lodash";
-import { type VNodeChild, t } from "@innoai-tech/vuekit";
+import { type VNodeChild } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 import { cloneVNode } from "vue";
 
-export const TextField = styled(
-  "label",
+export const TextField = styled<
   {
-    valued: t.boolean().optional(),
-    focus: t.boolean().optional(),
-    invalid: t.boolean().optional(),
-    disabled: t.boolean().optional(),
-
-    $label: t.custom<VNodeChild>().optional(),
-    $supporting: t.custom<VNodeChild>().optional(),
-    $leading: t.custom<VNodeChild>().optional(),
-    $trailing: t.custom<VNodeChild>().optional(),
-    $default: t.custom<VNodeChild>(),
+    valued?: boolean;
+    focus: boolean;
+    invalid: boolean;
+    disabled: boolean;
+    $label?: VNodeChild;
+    $supporting?: VNodeChild;
+    $leading?: VNodeChild;
+    $trailing?: VNodeChild;
+    $default?: VNodeChild;
   },
-  (props, { slots }) => {
-    return (Wrap) => {
-      let valued = props.valued;
-      const invalid = props.invalid;
-      let disabled = props.disabled;
+  "label"
+>("label", (props, { slots }) => {
+  return (Wrap) => {
+    let valued = props.valued;
+    const invalid = props.invalid;
+    let disabled = props.disabled;
 
-      const children = (slots.default?.() ?? []).map((c) => {
-        if (c.type === "input") {
-          valued = !!get(
-            c.props,
-            ["value"],
-            get(c.props, ["placeholder"], valued),
-          );
+    const children = (slots.default?.() ?? []).map((c) => {
+      if (c.type === "input") {
+        valued = !!get(
+          c.props,
+          ["value"],
+          get(c.props, ["placeholder"], valued),
+        );
 
-          disabled = get(c.props, ["disabled"], disabled);
+        disabled = get(c.props, ["disabled"], disabled);
 
-          return cloneVNode(c, {
-            disabled: disabled,
-          });
-        }
-        return cloneVNode(c);
-      });
+        return cloneVNode(c, {
+          disabled: disabled,
+        });
+      }
+      return cloneVNode(c);
+    });
 
-      return (
-        <Wrap
-          data-valued={valued}
-          data-invalid={invalid}
-          data-disabled={disabled}
-          data-focus-within={props.focus}
-          data-has-leading={!!slots.leading}
-          data-has-trailing={!!slots.trailing}
-        >
-          <div data-input-container="">
-            {slots.leading && <Maker>{slots.leading()}</Maker>}
-            <div data-input-label="">{slots.label?.()}</div>
-            {children}
-            {slots.trailing && <Maker>{slots.trailing()}</Maker>}
-          </div>
-          {slots.supporting && (
-            <div data-input-supporting="">{slots.supporting?.()}</div>
+    return (
+      <Wrap
+        data-valued={valued}
+        data-invalid={invalid}
+        data-disabled={disabled}
+        data-focus-within={props.focus}
+        data-has-leading={!!slots.leading}
+        data-has-trailing={!!slots.trailing}
+      >
+        <div data-input-container="">
+          {slots.leading && <Maker role={"leading"}>{slots.leading()}</Maker>}
+          <div data-input-label="">{slots.label?.()}</div>
+          {children}
+          {slots.trailing && (
+            <Maker role={"trailing"}>{slots.trailing()}</Maker>
           )}
-        </Wrap>
-      );
-    };
-  },
-)({
+        </div>
+        {slots.supporting && (
+          <div data-input-supporting="">{slots.supporting?.()}</div>
+        )}
+      </Wrap>
+    );
+  };
+})({
   display: "block",
   pos: "relative",
   textStyle: "sys.body-large",
@@ -191,9 +191,12 @@ export const TextField = styled(
   },
 });
 
-const Maker = styled("div", {
-  role: t.enums(["leading", "trailing"]).optional().default("leading"),
-})({
+const Maker = styled<
+  {
+    role?: "leading" | "trailing";
+  },
+  "div"
+>("div")({
   pos: "absolute",
   top: 4,
   bottom: 4,

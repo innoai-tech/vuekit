@@ -1,102 +1,131 @@
 import { alpha, styled, variant } from "@innoai-tech/vueuikit";
 import {
   component,
+  component$,
   createProvider,
+  JSONPointer,
+  ref,
+  rx,
+  Teleport,
   type VNodeChild
 } from "@innoai-tech/vuekit";
-import { isBoolean, isNull, isString, isUndefined } from "@innoai-tech/lodash";
-import { ref, Teleport } from "vue";
-import { Tooltip } from "./Tooltip.tsx";
-import { Markdown } from "@innoai-tech/vuemarkdown";
+import { JSONEditorProvider } from "../models";
+import { Actions, ActionToolbar } from "./Actions.tsx";
 
 export const Token = styled("span")({
   textStyle: "sys.label-small",
   fontWeight: "bold",
   fontFamily: "inherit",
-  fontSize: 11,
-  lineHeight: 18,
+  fontSize: 12,
+  lineHeight: 24,
   wordBreak: "keep-all",
   whiteSpace: "nowrap",
   font: "code",
   opacity: 0.3
 });
 
-const PropLeading = styled("span")({
-  display: "inline-table",
-  lineHeight: 18,
-  ml: -18
-});
-
-export const PropName = styled<
-  {
-    deprecated?: boolean;
-    optional?: boolean;
-    nullable?: boolean;
-    description?: string;
-    $leading?: VNodeChild;
-    $default?: VNodeChild;
-  },
-  "span"
->("span", (props, { slots }) => {
-  return (Root) => {
-    const $el = (
-      <Root
+export const PropName = component$<{
+  deprecated?: boolean;
+  optional?: boolean;
+  nullable?: boolean;
+  $leading?: VNodeChild;
+  $default?: VNodeChild;
+}>((props, { slots }) => {
+  return () => {
+    return (
+      <PropNameView
         data-deprecated={props.deprecated}
         data-optional={props.optional}
         data-nullable={props.nullable}
       >
-        {slots.leading && <PropLeading data-visible-on-hover>{slots.leading?.()}</PropLeading>}
+        {slots.leading && (
+          <PropLeading data-visible-on-hover>{slots.leading()}</PropLeading>
+        )}
         {slots.default?.()}
-      </Root>
-    );
-
-    if (props.description) {
-      return (
-        <Tooltip
-          placement={"right"}
-          $title={(
-            <Description sx={{ minWidth: 200 }}>
-              <Markdown text={props.description} />
-            </Description>
-          )}
-        >
-          {$el}
-        </Tooltip>
-      );
-    }
-
-    return (
-      $el
+      </PropNameView>
     );
   };
-})({
-  display: "inline-flex",
+});
+
+const PropLeading = styled(ActionToolbar)({
+  position: "absolute",
+  ml: -28
+});
+
+const PropNameView = styled("div")({
+  position: "relative",
+  display: "flex",
   alignItems: "center",
   textStyle: "sys.label-small",
   fontWeight: "bold",
   fontFamily: "inherit",
-  fontSize: 11,
-  lineHeight: 18,
+  wordBreak: "keep-all",
+  whiteSpace: "nowrap",
+  fontSize: 12,
+  lineHeight: 24,
 
   _deprecated: {
     textDecoration: "line-through"
   },
 
-  _nullable: {
-    "&:after": { content: `"??"`, color: "sys.error" }
-  },
-
   _optional: {
-    "&:after": { content: `"?"`, color: "sys.secondary" }
-  },
+    "&:after": { content: `"?"`, color: "sys.secondary", opacity: 0.58 }
+  }
+});
 
-  [`& ${PropLeading}`]: {
-    visibility: "hidden"
-  },
+export const LineTitle = styled("div")({
+  position: "absolute",
+  left: 0,
+  display: "block",
+  opacity: 0.58,
+  fontSize: 10,
+  lineHeight: 10,
+  top: 0,
+
+  "&::before": {
+    content: `"// "`,
+    font: "code"
+  }
+});
+
+export const LineError = styled("div")({
+  display: "block",
+  fontSize: 10,
+  lineHeight: 14,
+  color: "sys.error"
+});
+
+export const LineContainer = styled("div")({
+  position: "relative",
+  py: 4,
 
   _hover: {
-    [`& ${PropLeading}`]: {
+    containerStyle: "sys.surface-container",
+
+    "& [data-visible-on-hover]": {
       visibility: "visible"
+    }
+  },
+
+  "&:focus-within": {
+    containerStyle: "sys.surface-container"
+  },
+
+  _dirty: {
+    bgColor: variant("sys.warning-container", alpha(0.38))
+  },
+
+  _error: {
+    bgColor: "sys.error-container"
+  },
+
+  [`&:has(${Actions})`]: {
+    [`& > ${LineError}`]: {
+      display: "none"
+    },
+
+    _error: {
+      bgColor: "inherit"
     }
   }
 });
@@ -117,21 +146,37 @@ export const Block = component<{
   openToken: string;
   closeToken: string;
   $leading?: VNodeChild;
+  $trailing?: VNodeChild;
   $default?: VNodeChild;
 }>((props, { slots }) => {
   const ctx = LayoutContextProvider.use();
+
   const $container = ref<HTMLDivElement | null>(null);
+  const $trailing = ref<HTMLDivElement | null>(null);
 
   return () => (
     <>
       <Token>{props.openToken}</Token>
       {slots.leading?.()}
-
       <Teleport to={ctx.$container.value}>
-        <section ref={$container} />
+        <LineSection data-indent={ctx.indent}>
+          <Lines ref={$container} />
+          <LinesTrailing ref={$trailing} />
+          {$trailing.value && (
+            <LayoutContextProvider
+              value={{
+                $container: $trailing,
+                indent: 1 + (ctx.indent ?? 0)
+              }}
+            >
+              {slots.trailing?.()}
+            </LayoutContextProvider>
+          )}
+        </LineSection>
         <LineRow
           style={{
-            paddingLeft: `${ctx.indent * 18}px`
+            paddingLeft: `${ctx.indent * 32}px`,
+            display: "flex"
           }}
         >
           <Token>{props.closeToken}</Token>
@@ -151,123 +196,62 @@ export const Block = component<{
   );
 });
 
-export const Line = component<{
+export const Line = component$<{
+  path: any[];
   dirty?: boolean;
+  viewOnly?: boolean;
+  title?: string;
+  description?: string;
   $default?: VNodeChild;
-}>((props, { slots }) => {
+}>((props, { slots, render }) => {
   const ctx = LayoutContextProvider.use();
+  const editor$ = JSONEditorProvider.use();
 
-  return () => {
-    return (
-      <Teleport to={ctx.$container.value}>
-        <LineRow
+  const $line = rx(
+    editor$.error$,
+    render((errors) => {
+      const pointer = JSONPointer.create(props.path);
+      const hasError = !props.viewOnly && !!errors[pointer];
+
+      return (
+        <LineContainer
+          data-error={hasError}
           data-dirty={props.dirty}
           style={{
-            paddingLeft: `${ctx.indent * 18}px`
+            paddingLeft: `${ctx.indent * 32}px`
           }}
         >
-          {slots.default?.()}
-        </LineRow>
-      </Teleport>
-    );
-  };
+          {props.title && (
+            <LineTitle
+              style={{
+                paddingLeft: `${ctx.indent * 32}px`
+              }}
+            >
+              {props.title}
+            </LineTitle>
+          )}
+          <LineRow>{slots.default?.()}</LineRow>
+          {hasError && <LineError>{`${errors[pointer]}`}</LineError>}
+        </LineContainer>
+      );
+    })
+  );
+
+  return () => <Teleport to={ctx.$container.value}>{$line}</Teleport>;
 });
+
+const Lines = styled("div")({});
+
+const LineSection = styled("section")({});
+
+const LinesTrailing = styled("div")({});
 
 export const LineRow = styled("div")({
   display: "flex",
-  alignItems: "end",
-
-  _hover: {
-    containerStyle: "sys.surface-container",
-
-    "& [data-visible-on-hover]": {
-      visibility: "visible"
-    }
-  },
-
-  _dirty: {
-    bgColor: variant("sys.warning-container", alpha(0.38))
-  }
+  alignItems: "start",
+  pr: 10
 });
 
 export const Description = styled("span")({
-  display: "inline-block",
-  maxWidth: "20vw",
-
-  "& p": {
-    my: "0.5em"
-  }
-});
-
-export const ValueView = component<{
-  value: any;
-  onClick?: () => void;
-}>((props, { emit }) => {
-  return () => {
-    if (isUndefined(props.value) || isNull(props.value)) {
-      return (
-        <UndefinedValue onClick={() => emit("click")}>
-          {"undefined"}
-        </UndefinedValue>
-      );
-    }
-
-    if (isString(props.value)) {
-      return (
-        <StringValue onClick={() => emit("click")}>
-          {JSON.stringify(props.value)}
-        </StringValue>
-      );
-    }
-
-    if (isBoolean(props.value)) {
-      return (
-        <BooleanValue onClick={() => emit("click")}>
-          {String(props.value)}
-        </BooleanValue>
-      );
-    }
-
-    return (
-      <NumberValue onClick={() => emit("click")}>
-        {String(props.value)}
-      </NumberValue>
-    );
-  };
-});
-
-const StringValue = styled(Token)({
-  display: "inline-block",
-  color: "sys.primary",
-  font: "code",
-
-  opacity: 1,
-  cursor: "pointer"
-});
-
-const BooleanValue = styled(Token)({
-  display: "inline-block",
-  color: "sys.warning",
-  font: "code",
-
-  opacity: 1,
-  cursor: "pointer"
-});
-
-const NumberValue = styled(Token)({
-  display: "inline-block",
-  color: "sys.success",
-  font: "code",
-
-  opacity: 1,
-  cursor: "pointer"
-});
-
-const UndefinedValue = styled(Token)({
-  display: "inline-block",
-  color: "sys.error",
-  font: "code",
-
-  opacity: 1,
-  cursor: "pointer"
+  display: "block"
 });

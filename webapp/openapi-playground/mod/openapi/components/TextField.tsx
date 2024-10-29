@@ -2,22 +2,18 @@ import { t, type VNodeChild } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 import { cloneVNode } from "vue";
 
-export const TextField = styled(
-  "div",
-  {
-    valued: t.boolean().optional(),
-    focus: t.boolean().optional(),
-    invalid: t.boolean().optional(),
-    disabled: t.boolean().optional(),
-
-    $label: t.custom<VNodeChild>().optional(),
-    $hint: t.custom<VNodeChild>().optional(),
-    $supporting: t.custom<VNodeChild>().optional(),
-    $leading: t.custom<VNodeChild>().optional(),
-    $trailing: t.custom<VNodeChild>().optional(),
-    $default: t.custom<VNodeChild>()
-  },
-  (props, { slots }) => {
+export const TextField = styled<{
+  valued?: boolean,
+  focus?: boolean,
+  invalid?: boolean,
+  disabled?: boolean,
+  $label?: VNodeChild,
+  $hint?: VNodeChild,
+  $supporting?: VNodeChild,
+  $leading?: VNodeChild,
+  $trailing?: VNodeChild,
+  $default?: VNodeChild,
+}, "div">("div", (props, { slots }) => {
     return (Wrap) => {
       let valued = props.valued;
       let invalid = props.invalid;
