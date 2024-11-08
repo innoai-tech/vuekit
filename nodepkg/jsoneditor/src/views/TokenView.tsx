@@ -61,6 +61,9 @@ const PropNameView = styled("div")({
   fontFamily: "inherit",
   wordBreak: "keep-all",
   whiteSpace: "nowrap",
+
+  border: "1px solid",
+  borderColor: "rgba(0,0,0,0)",
   fontSize: 12,
   lineHeight: 24,
 

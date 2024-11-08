@@ -25,7 +25,7 @@ import {
   switchMap,
   tap
 } from "rxjs";
-import { Popper, styled } from "@innoai-tech/vueuikit";
+import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold } from "@mdi/js";
 import { ActionBtn } from "./Actions.tsx";
@@ -489,11 +489,15 @@ export const ValueInput = component$<{
 });
 
 export const ValueInputActions = styled("div")({
+  borderRight: "1px solid",
+  borderTop: "1px solid",
+  borderBottom: "1px solid",
+  borderColor: variant("sys.outline-variant", alpha(0.38)),
   containerStyle: "sys.surface-container-lowest",
   roundedRight: "sm",
   display: "flex",
   px: 2,
-  ml: -2
+  ml: -4
 });
 
 export const ValueContainer = styled("div")({
@@ -510,6 +514,8 @@ export const ValueContainer = styled("div")({
   gap: 8,
 
   "& [data-value]": {
+    border: "1px solid",
+    borderColor: "rgba(0,0,0,0)",
     maxWidth: "40vw",
     width: "100%",
     overflow: "hidden",
@@ -523,12 +529,13 @@ export const ValueContainer = styled("div")({
   },
 
   "& textarea,input": {
+    border: "1px solid",
+    borderColor: variant("sys.outline-variant", alpha(0.38)),
     flex: 1,
     rounded: "xs",
     containerStyle: "sys.surface-container-lowest",
     width: "100%",
     maxWidth: "40vw",
-    border: "none",
     outline: "none",
     px: 8,
     py: 0,
@@ -537,7 +544,11 @@ export const ValueContainer = styled("div")({
     color: "inherit",
     lineHeight: "inherit",
     overflow: "hidden",
-    resize: "none"
+    resize: "none",
+
+    "&[data-options]:focus": {
+      roundedBottom: 0
+    }
   },
 
   _type__string: {
