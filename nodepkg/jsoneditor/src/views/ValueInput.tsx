@@ -10,7 +10,7 @@ import {
   Schema,
   subscribeUntilUnmount,
   tapEffect,
-  type Type
+  type Type,
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider } from "../models";
 import {
@@ -23,7 +23,7 @@ import {
   Observable,
   Subject,
   switchMap,
-  tap
+  tap,
 } from "rxjs";
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
@@ -48,10 +48,10 @@ export class InputText extends BehaviorSubject<string> {
           fromEvent<InputEvent>(inputEl, "input"),
           tap((e) => {
             input$.next((e.target as HTMLInputElement).value.trim());
-          })
+          }),
         );
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return input$;
@@ -60,15 +60,15 @@ export class InputText extends BehaviorSubject<string> {
 
 export type InputAction =
   | {
-  type: "COMMIT";
-}
+      type: "COMMIT";
+    }
   | {
-  type: "CANCEL";
-}
+      type: "CANCEL";
+    }
   | {
-  type: "SELECT";
-  direction: number;
-};
+      type: "SELECT";
+      direction: number;
+    };
 
 export class InputActionSubject extends Subject<InputAction> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
@@ -89,7 +89,7 @@ export class InputActionSubject extends Subject<InputAction> {
                 e.preventDefault();
                 inputAction$.next({ type: "COMMIT" });
               }
-            })
+            }),
           ),
           rx(
             fromEvent<KeyboardEvent>(inputEl, "keydown"),
@@ -110,7 +110,7 @@ export class InputActionSubject extends Subject<InputAction> {
                   inputAction$.next({ type: "SELECT", direction: -1 });
                   break;
               }
-            })
+            }),
           ),
           rx(
             fromEvent<KeyboardEvent>(inputEl, "keyup"),
@@ -118,11 +118,11 @@ export class InputActionSubject extends Subject<InputAction> {
               if (e.key === "Escape") {
                 inputAction$.next({ type: "CANCEL" });
               }
-            })
-          )
+            }),
+          ),
         );
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return inputAction$;
@@ -136,7 +136,7 @@ class OneEditing extends Observable<string | null> {
       value$: Observable<any>;
       editing$: PopupStatus;
       path: () => Array<any>;
-    }
+    },
   ) {
     return rx(
       merge(
@@ -146,7 +146,7 @@ class OneEditing extends Observable<string | null> {
             if (p && p == JSONPointer.create(opt.path())) {
               opt.editing$.show();
             }
-          })
+          }),
         ),
 
         rx(
@@ -156,7 +156,7 @@ class OneEditing extends Observable<string | null> {
             if (!editing) {
               oneEditing$.disable(opt.path());
             }
-          })
+          }),
         ),
 
         rx(
@@ -166,10 +166,10 @@ class OneEditing extends Observable<string | null> {
             if (isUndefined(value) && !anyEditing) {
               oneEditing$.enable(opt.path());
             }
-          })
-        )
+          }),
+        ),
       ),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
   }
 
@@ -213,11 +213,10 @@ export const ValueInput = component$<{
   const editing$ = PopupStatus.from(inputEl$);
   const editor$ = JSONEditorProvider.use();
 
-
   OneEditing.sync(oneEditing$, {
     editing$,
     value$: props.value$,
-    path: () => props.ctx.path
+    path: () => props.ctx.path,
   });
 
   const selectedIndex = () => {
@@ -234,7 +233,7 @@ export const ValueInput = component$<{
   };
 
   const selectFocus$ = new ImmerBehaviorSubject({
-    index: selectedIndex()
+    index: selectedIndex(),
   });
 
   const cancel = () => {
@@ -289,7 +288,7 @@ export const ValueInput = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   let containerHeight: number | undefined;
@@ -315,9 +314,8 @@ export const ValueInput = component$<{
             };
           }
 
-          return () => {
-          };
-        })
+          return () => {};
+        }),
       ),
 
       rx(
@@ -332,7 +330,7 @@ export const ValueInput = component$<{
               inputEl.selectionEnd = inputEl.value.length;
             }
           }
-        })
+        }),
       ),
 
       rx(
@@ -356,7 +354,7 @@ export const ValueInput = component$<{
                   if (e.relatedTarget) {
                     if (
                       containerEl$.value?.contains(
-                        e.relatedTarget as HTMLElement
+                        e.relatedTarget as HTMLElement,
                       ) ||
                       actionsEl$.value?.contains(e.relatedTarget as HTMLElement)
                     ) {
@@ -366,22 +364,22 @@ export const ValueInput = component$<{
 
                   e.preventDefault();
                   commit(inputEl.value);
-                })
+                }),
               ),
               rx(
                 fromEvent<InputEvent>(inputEl, "input"),
                 tap((e) => {
                   updateHeight(e.target as HTMLTextAreaElement);
-                })
-              )
+                }),
+              ),
             );
           }
 
           return EMPTY;
-        })
-      )
+        }),
+      ),
     ),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   if (props.typedef.type == "enums") {
@@ -433,7 +431,7 @@ export const ValueInput = component$<{
             )}
           </ValueContainer>
         );
-      })
+      }),
     );
   }
 
@@ -484,7 +482,7 @@ export const ValueInput = component$<{
           )}
         </ValueContainer>
       );
-    })
+    }),
   );
 });
 
@@ -497,7 +495,7 @@ export const ValueInputActions = styled("div")({
   roundedRight: "sm",
   display: "flex",
   px: 2,
-  ml: -4
+  ml: -4,
 });
 
 export const ValueContainer = styled("div")({
@@ -524,8 +522,8 @@ export const ValueContainer = styled("div")({
     _hover: {
       textOverflow: "clip",
       whiteSpace: "normal",
-      wordBreak: "break-all"
-    }
+      wordBreak: "break-all",
+    },
   },
 
   "& textarea,input": {
@@ -547,31 +545,31 @@ export const ValueContainer = styled("div")({
     resize: "none",
 
     "&[data-options]:focus": {
-      roundedBottom: 0
-    }
+      roundedBottom: 0,
+    },
   },
 
   _type__string: {
-    color: "sys.primary"
+    color: "sys.primary",
   },
 
   _type__number: {
-    color: "sys.primary"
+    color: "sys.primary",
   },
 
   _type__boolean: {
-    color: "sys.warning"
+    color: "sys.warning",
   },
 
   _type__undefined: {
-    color: "sys.error"
-  }
+    color: "sys.error",
+  },
 });
 
 const EnumMenuItemContainer = styled(MenuItem)({
   [`& ${PropName}`]: {
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 });
 
 const EnumMenuItem = component<{

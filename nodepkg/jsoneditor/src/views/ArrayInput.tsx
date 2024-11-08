@@ -6,7 +6,7 @@ import {
   Schema,
   subscribeUntilUnmount,
   type Type,
-  type VNodeChild
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold, mdiMinusBoxOutline } from "@mdi/js";
@@ -16,7 +16,12 @@ import { ActionBtn, Actions } from "./Actions.tsx";
 import { CopyAsJSONIconBtn } from "./JSONRaw.tsx";
 import { Tooltip } from "./Tooltip.tsx";
 import { Box, Popper } from "@innoai-tech/vueuikit";
-import { InputActionSubject, InputText, ValueContainer, ValueInputActions } from "./ValueInput.tsx";
+import {
+  InputActionSubject,
+  InputText,
+  ValueContainer,
+  ValueInputActions,
+} from "./ValueInput.tsx";
 import { tap } from "rxjs";
 import { PopupStatus } from "./Menu.tsx";
 
@@ -50,7 +55,7 @@ export const ArrayInput = component$<{
                   (values: any) => {
                     values.push(value);
                   },
-                  []
+                  [],
                 );
               }}
             />
@@ -76,15 +81,15 @@ export const ArrayInput = component$<{
                   {slots.$value?.(propSchema, itemValue, {
                     ...props.ctx,
                     path: path,
-                    branch: [...props.ctx.branch, itemValue]
+                    branch: [...props.ctx.branch, itemValue],
                   })}
                 </Line>
               );
-            }
+            },
           )}
         </Block>
       );
-    })
+    }),
   );
 });
 
@@ -142,7 +147,7 @@ const AddItemIconBtn = component$<{
         }
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   rx(
@@ -157,7 +162,7 @@ const AddItemIconBtn = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   const $input = rx(
@@ -169,10 +174,16 @@ const AddItemIconBtn = component$<{
           placement={"right-start"}
           $content={
             <ValueInputActions>
-              <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "CANCEL" })}>
+              <ActionBtn
+                type={"button"}
+                onClick={() => inputAction$.next({ type: "CANCEL" })}
+              >
                 <Icon path={mdiCancel} />
               </ActionBtn>
-              <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "COMMIT" })}>
+              <ActionBtn
+                type={"button"}
+                onClick={() => inputAction$.next({ type: "COMMIT" })}
+              >
                 <Icon path={mdiCheckBold} />
               </ActionBtn>
             </ValueInputActions>
@@ -185,7 +196,7 @@ const AddItemIconBtn = component$<{
           />
         </Popper>
       );
-    })
+    }),
   );
 
   return () => (

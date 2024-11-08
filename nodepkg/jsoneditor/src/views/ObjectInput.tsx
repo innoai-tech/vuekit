@@ -8,7 +8,7 @@ import {
   Schema,
   subscribeUntilUnmount,
   type Type,
-  type VNodeChild
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import { Popper, styled } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
@@ -19,7 +19,12 @@ import { Menu, MenuItem, PopupStatus } from "./Menu.tsx";
 import { ActionBtn, Actions } from "./Actions.tsx";
 import { CopyAsJSONIconBtn } from "./JSONRaw.tsx";
 import { Tooltip } from "./Tooltip.tsx";
-import { InputActionSubject, InputText, ValueContainer, ValueInputActions } from "./ValueInput.tsx";
+import {
+  InputActionSubject,
+  InputText,
+  ValueContainer,
+  ValueInputActions,
+} from "./ValueInput.tsx";
 import { combineLatest, tap } from "rxjs";
 
 export const RemovePropIconBtn = component$<{
@@ -69,7 +74,7 @@ export const ObjectInput = component$<{
                 .map(([propName, _propValue, propSchema]) => {
                   return {
                     propName: String(propName),
-                    typedef: propSchema
+                    typedef: propSchema,
                   };
                 })}
             />
@@ -106,15 +111,15 @@ export const ObjectInput = component$<{
                   {slots.$value?.(propSchema, propValue, {
                     ...props.ctx,
                     path: path,
-                    branch: [...props.ctx.branch, propValue]
+                    branch: [...props.ctx.branch, propValue],
                   })}
                 </Line>
               );
-            }
+            },
           )}
         </Block>
       );
-    })
+    }),
   );
 });
 
@@ -135,7 +140,7 @@ export const PropValueInput = component$<{
   const editor$ = JSONEditorProvider.use();
 
   const selectFocus$ = new ImmerBehaviorSubject({
-    index: 0
+    index: 0,
   });
 
   const reset = () => {
@@ -149,7 +154,7 @@ export const PropValueInput = component$<{
     }
 
     selectFocus$.next({
-      index: 0
+      index: 0,
     });
   };
 
@@ -166,7 +171,7 @@ export const PropValueInput = component$<{
         }
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   const commit = (prop?: string) => {
@@ -203,7 +208,7 @@ export const PropValueInput = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   const $inputForProp = rx(
@@ -217,7 +222,7 @@ export const PropValueInput = component$<{
           data-options={isOpen}
         />
       );
-    })
+    }),
   );
 
   return rx(
@@ -291,7 +296,7 @@ export const PropValueInput = component$<{
           </ValueContainer>
         </Line>
       );
-    })
+    }),
   );
 });
 
@@ -315,6 +320,6 @@ const PropMenuItem = component<{
 
 const AddPropMenuItemContainer = styled(MenuItem)({
   [`& ${PropName}`]: {
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 });

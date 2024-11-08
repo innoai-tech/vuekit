@@ -11,7 +11,7 @@ export type PropertyNames<O extends {}> = {
 };
 
 export type Constructor = {
-  new(...args: any[]): any;
+  new (...args: any[]): any;
 };
 
 export class Schema {
@@ -31,100 +31,106 @@ export class Schema {
   };
 
   static create<S extends {}>(
-    schema: S
+    schema: S,
   ): Simplify<
     PropertyNames<S> & {
-    metadata: Record<string, any>;
-  }
+      metadata: Record<string, any>;
+    }
   >;
   static create<S extends {}, E extends {}>(
     schema: S,
-    origin: E
+    origin: E,
   ): Simplify<PropertyNames<S> & PropertyNames<E>>;
   static create<S extends {}, E extends {}>(
     schema: S,
     origin: E,
-    scope?: symbol
+    scope?: symbol,
   ): Simplify<PropertyNames<S> & PropertyNames<E>>;
   static create<S extends {}, E extends {}>(
     base: S,
     origin?: E,
-    scope?: symbol
+    scope?: symbol,
   ): Simplify<PropertyNames<S> & PropertyNames<E>> {
     const parent = origin ?? (base as any)[Schema.underlying]?.["schema"] ?? {};
 
     let meta: Schema | undefined;
 
-    return new Proxy({}, {
-      ownKeys(_: {}): ArrayLike<string | symbol> {
-        const m = new Map<string, string>();
+    return new Proxy(
+      {},
+      {
+        ownKeys(_: {}): ArrayLike<string | symbol> {
+          const m = new Map<string, string>();
 
-        if (scope) {
-          if ((base as any)[scope]) {
-            for (const x of Object.getOwnPropertyNames((base as any)[scope])) {
+          if (scope) {
+            if ((base as any)[scope]) {
+              for (const x of Object.getOwnPropertyNames(
+                (base as any)[scope],
+              )) {
+                m.set(x, x);
+              }
+            }
+
+            if (parent) {
+              if ((parent as any)[scope]) {
+                for (const x of Object.getOwnPropertyNames(
+                  (parent as any)[scope],
+                )) {
+                  m.set(x, x);
+                }
+              }
+            }
+          } else {
+            for (const x of Object.getOwnPropertyNames(base)) {
               m.set(x, x);
             }
-          }
 
-          if (parent) {
-            if ((parent as any)[scope]) {
-              for (const x of Object.getOwnPropertyNames((parent as any)[scope])) {
+            if (parent) {
+              for (const x of Object.getOwnPropertyNames(parent)) {
                 m.set(x, x);
               }
             }
           }
-        } else {
-          for (const x of Object.getOwnPropertyNames(base)) {
-            m.set(x, x);
+
+          return [...m.keys()];
+        },
+        get(_: {}, p: string | symbol): any {
+          if (p === Schema.meta) {
+            return (meta ??= Schema.create(base, parent, Schema.meta) as any);
           }
 
-          if (parent) {
-            for (const x of Object.getOwnPropertyNames(parent)) {
-              m.set(x, x);
+          if (scope) {
+            if (isObject(base)) {
+              const v = (base as any)?.[scope]?.[p];
+              if (!isUndefined(v)) {
+                return v;
+              }
             }
+            return parent ? (parent as any)?.[scope]?.[p] : undefined;
           }
-        }
 
-        return [...m.keys()];
-      },
-      get(_: {}, p: string | symbol): any {
-
-        if (p === Schema.meta) {
-          return meta ??= Schema.create(base, parent, Schema.meta) as any;
-        }
-
-        if (scope) {
           if (isObject(base)) {
-            const v = (base as any)?.[scope]?.[p];
+            const v = (base as any)?.[p];
             if (!isUndefined(v)) {
               return v;
             }
           }
-          return (parent ? (parent as any)?.[scope]?.[p] : undefined);
-        }
 
-        if (isObject(base)) {
-          const v = (base as any)?.[p];
-          if (!isUndefined(v)) {
-            return v;
-          }
-        }
-
-        return (parent ? (parent as any)[p] : undefined);
-      }
-    }) as any;
+          return parent ? (parent as any)[p] : undefined;
+        },
+      },
+    ) as any;
   }
 
   static schemaProp<T = any>(
     withSchema: { schema: any },
-    key: string | symbol
+    key: string | symbol,
   ): T | undefined {
     return getSchema(withSchema.schema, key);
   }
 
   static metaProp<T = any>(
     withSchema: { schema: any },
-    key: string | symbol
+    key: string | symbol,
   ): T | undefined {
     return getMeta(withSchema.schema, key);
   }
@@ -134,20 +140,28 @@ const getSchema = (schema: any, key: any): any => {
   if (!isObject(schema)) {
     return undefined;
   }
-  return (schema as any)[key] ?? ((schema as any)[Schema.unwrap] ? getSchema((schema as any)[Schema.unwrap]().schema, key) : undefined);
+  return (
+    (schema as any)[key] ??
+    ((schema as any)[Schema.unwrap]
+      ? getSchema((schema as any)[Schema.unwrap]().schema, key)
+      : undefined)
+  );
 };
 
 const getMeta = (schema: any, metaKey: any): any => {
   if (!isObject(schema)) {
     return undefined;
   }
-  return (schema as any)[Schema.meta]?.[metaKey] ?? ((schema as any)[Schema.unwrap] ? getMeta((schema as any)[Schema.unwrap]().schema, metaKey) : undefined);
+  return (
+    (schema as any)[Schema.meta]?.[metaKey] ??
+    ((schema as any)[Schema.unwrap]
+      ? getMeta((schema as any)[Schema.unwrap]().schema, metaKey)
+      : undefined)
+  );
 };
 
-
 class Collector {
-  constructor(private deref: boolean = false) {
-  }
+  constructor(private deref: boolean = false) {}
 
   toValue(v: any): any {
     if (v) {
@@ -172,7 +186,6 @@ class Collector {
 
     return v;
   }
-
 
   toObject(s: any): any {
     const x: Record<string, any> = {};

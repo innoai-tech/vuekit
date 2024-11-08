@@ -1,6 +1,12 @@
 import { describe, expect, test } from "bun:test";
 import { get } from "@innoai-tech/lodash";
-import { JSONSchemaDecoder, JSONSchemaEncoder, refName, TypedefEncoder, TypeScriptEncoder } from "../";
+import {
+  JSONSchemaDecoder,
+  JSONSchemaEncoder,
+  refName,
+  TypedefEncoder,
+  TypeScriptEncoder,
+} from "../";
 import { t } from "../../core";
 
 describe("Encoding", () => {
@@ -15,8 +21,8 @@ describe("Encoding", () => {
   const schemaTaggedUnion = t.discriminatorMapping("type", {
     [InputType.text]: t.ref("InputText", () =>
       t.object({
-        type: t.literal(InputType.text)
-      })
+        type: t.literal(InputType.text),
+      }),
     ),
     [InputType.select]: t.ref("InputSelect", () =>
       t.object({
@@ -25,12 +31,12 @@ describe("Encoding", () => {
           t.ref("Option", () =>
             t.object({
               label: t.string(),
-              value: t.string()
-            })
-          )
-        )
-      })
-    )
+              value: t.string(),
+            }),
+          ),
+        ),
+      }),
+    ),
   });
 
   const base = t.object({
@@ -39,29 +45,29 @@ describe("Encoding", () => {
       .use(
         t.annotate({
           title: "Test",
-          description: "test"
-        })
+          description: "test",
+        }),
       ),
     placement: t.enums(["leading", "trailing"]),
     inputType: t
       .ref("InputType", () =>
         t.nativeEnum(InputType).use(
           t.annotate({
-            enumLabels: ["文本", "数字", "选项"]
-          })
-        )
+            enumLabels: ["文本", "数字", "选项"],
+          }),
+        ),
       )
       .optional(),
     keyValues: t.record(t.string(), t.any()).optional(),
     array: t.array(t.boolean()),
-    point: t.tuple([t.number(), t.number()])
+    point: t.tuple([t.number(), t.number()]),
   });
 
   const schema = t.intersection(
     t.ref("Base", () => base),
     t.object({
-      input: t.ref("Input", () => schemaTaggedUnion)
-    })
+      input: t.ref("Input", () => schemaTaggedUnion),
+    }),
   );
 
   test("JSONSchema decode", () => {
@@ -70,7 +76,7 @@ describe("Encoding", () => {
     const schema2 = JSONSchemaDecoder.decode(jsonSchema, (ref) => {
       return [
         get(jsonSchema, ref.split("#/")[1]?.split("/") ?? ""),
-        refName(ref)
+        refName(ref),
       ];
     });
 

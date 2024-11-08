@@ -23,25 +23,24 @@ export class JSONSchemaEncoder {
     }
 
     return Object.assign(s, {
-      $defs: $defs
+      $defs: $defs,
     });
   }
 
   private _encode<T extends Type>(type: T): JSONSchema | false {
     let schema = this._encodeSchema(type);
 
-
     if (Schema.metaProp(type, "title")) {
       schema = {
         ...schema,
-        title: Schema.metaProp(type, "title")
+        title: Schema.metaProp(type, "title"),
       };
     }
 
     if (Schema.metaProp(type, "description")) {
       schema = {
         ...schema,
-        description: Schema.metaProp(type, "description")
+        description: Schema.metaProp(type, "description"),
       };
     }
 
@@ -62,7 +61,7 @@ export class JSONSchemaEncoder {
         }
 
         return {
-          $ref: `#/$defs/${refName}`
+          $ref: `#/$defs/${refName}`,
         };
       }
 

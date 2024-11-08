@@ -16,7 +16,7 @@ export type Context = {
 
 export const EmptyContext: Context = {
   path: [],
-  branch: []
+  branch: [],
 };
 
 export type Failure = {
@@ -77,9 +77,9 @@ export interface TypeModifier<T, R> {
 export type AnyType = Type<any>;
 
 export type Entity = [
-    string | number | symbol,
+  string | number | symbol,
   unknown,
-    Type<any> | Type<never>,
+  Type<any> | Type<never>,
 ];
 
 export const isType = (t: unknown): t is Type => {
@@ -105,7 +105,7 @@ export interface Type<T extends any = unknown, Schema = unknown> {
 
   validate(
     value: unknown,
-    options?: { coerce?: boolean; message?: string }
+    options?: { coerce?: boolean; message?: string },
   ): [TypedError, undefined] | [undefined, T];
 
   create(value: unknown): T | undefined;
@@ -123,14 +123,14 @@ export interface Type<T extends any = unknown, Schema = unknown> {
   use<A, B, C>(
     op1: TypeModifier<Type<T, Schema>, A>,
     op2: TypeModifier<A, B>,
-    op3: TypeModifier<B, C>
+    op3: TypeModifier<B, C>,
   ): C;
 
   use<A, B, C, D>(
     op1: TypeModifier<Type<T, Schema>, A>,
     op2: TypeModifier<A, B>,
     op3: TypeModifier<B, C>,
-    op4: TypeModifier<C, D>
+    op4: TypeModifier<C, D>,
   ): D;
 
   use<A, B, C, D, E>(
@@ -138,7 +138,7 @@ export interface Type<T extends any = unknown, Schema = unknown> {
     op2: TypeModifier<A, B>,
     op3: TypeModifier<B, C>,
     op4: TypeModifier<C, D>,
-    op5: TypeModifier<D, E>
+    op5: TypeModifier<D, E>,
   ): E;
 
   use<A, B, C, D, E, F>(
@@ -147,7 +147,7 @@ export interface Type<T extends any = unknown, Schema = unknown> {
     op3: TypeModifier<B, C>,
     op4: TypeModifier<C, D>,
     op5: TypeModifier<D, E>,
-    op6: TypeModifier<E, F>
+    op6: TypeModifier<E, F>,
   ): F;
 
   use<A, B, C, D, E, F, G>(
@@ -157,7 +157,7 @@ export interface Type<T extends any = unknown, Schema = unknown> {
     op4: TypeModifier<C, D>,
     op5: TypeModifier<D, E>,
     op6: TypeModifier<E, F>,
-    op7: TypeModifier<F, G>
+    op7: TypeModifier<F, G>,
   ): G;
 
   use<A, B, C, D, E, F, G, H>(
@@ -168,7 +168,7 @@ export interface Type<T extends any = unknown, Schema = unknown> {
     op5: TypeModifier<D, E>,
     op6: TypeModifier<E, F>,
     op7: TypeModifier<F, G>,
-    op8: TypeModifier<G, H>
+    op8: TypeModifier<G, H>,
   ): H;
 
   use<A, B, C, D, E, F, G, H, I>(
@@ -180,7 +180,7 @@ export interface Type<T extends any = unknown, Schema = unknown> {
     op6: TypeModifier<E, F>,
     op7: TypeModifier<F, G>,
     op8: TypeModifier<G, H>,
-    op9: TypeModifier<H, I>
+    op9: TypeModifier<H, I>,
   ): I;
 
   use(
@@ -234,7 +234,7 @@ export function toFailure<T, S>(
   ret: string | boolean | Partial<Failure>,
   context: Context,
   t: Type<T, S>,
-  inputValue: any
+  inputValue: any,
 ): Failure | undefined {
   if (ret === true) {
     return;
@@ -257,7 +257,7 @@ export function toFailure<T, S>(
     refinement,
     message = isUndefined(inputValue)
       ? "Required"
-      : `Expected a value of type \`${type}\`${refinement ? ` with refinement \`${refinement}\`` : ""}, but received: \`${inputValue}\``
+      : `Expected a value of type \`${type}\`${refinement ? ` with refinement \`${refinement}\`` : ""}, but received: \`${inputValue}\``,
   } = result;
 
   return {
@@ -269,7 +269,7 @@ export function toFailure<T, S>(
     path,
     branch,
     node,
-    message
+    message,
   };
 }
 
@@ -277,7 +277,7 @@ export function* toFailures<T, S>(
   ret: Result,
   context: Context,
   t: Type<T, S>,
-  inputValue: any
+  inputValue: any,
 ): IterableIterator<Failure> {
   let result = ret;
 
@@ -301,7 +301,7 @@ export function validate<T, S>(
     coerce?: boolean;
     mask?: boolean;
     message?: string;
-  } = {}
+  } = {},
 ): [TypedError, undefined] | [undefined, T] {
   const tuples = run(value, typed, options);
   const tuple = shiftIterator(tuples)!;
@@ -330,14 +330,14 @@ export function* run<T, S>(
     coerce?: boolean;
     mask?: boolean;
     message?: string;
-  } = {}
+  } = {},
 ): IterableIterator<[Failure, undefined] | [undefined, T]> {
   const {
     path = [],
     branch = [inputValue],
     node = { current: t } as TypeNode,
     coerce = false,
-    mask = false
+    mask = false,
   } = options;
 
   const ctx: Context = { mask, path, branch, node };
@@ -357,7 +357,7 @@ export function* run<T, S>(
     t.validator(value, ctx),
     ctx,
     t,
-    inputValue
+    inputValue,
   )) {
     failure.explanation = options.message;
     status = Status.not_valid;
@@ -372,7 +372,7 @@ export function* run<T, S>(
         k === undefined ? node : ({ current: st, parent: node } as TypeNode),
       coerce,
       mask,
-      message: options.message
+      message: options.message,
     });
 
     for (const t of ts) {
@@ -401,7 +401,7 @@ export function* run<T, S>(
       t.refiner(value as T, ctx),
       ctx,
       t,
-      inputValue
+      inputValue,
     )) {
       failure.explanation = options.message;
       status = Status.not_refined;
@@ -421,14 +421,14 @@ enum Status {
 }
 
 export const defineType = <Args extends any[], T extends Type>(
-  create: (...args: Args) => T
+  create: (...args: Args) => T,
 ): ((...args: Args) => Type<Infer<T>, InferSchema<T>> & PropertyDecorator) => {
   return (...args: Args) => {
     const type = create(...args);
 
     const propertyDecorator = (
       target: Object,
-      propertyKey: string | symbol
+      propertyKey: string | symbol,
     ) => {
       const current =
         Metadata.get<TypeDefineObject>(target, propertyKey) ??
@@ -443,12 +443,12 @@ export const defineType = <Args extends any[], T extends Type>(
       ownKeys(): ArrayLike<string | symbol> {
         return [
           ...Object.getOwnPropertyNames(type),
-          ...Object.getOwnPropertySymbols(type)
+          ...Object.getOwnPropertySymbols(type),
         ];
       },
       get(_: any, p: string | symbol): any {
         return (type as any)[p];
-      }
+      },
     });
   };
 };
@@ -463,7 +463,7 @@ export const defineModifier = <
   O extends Type,
   Args extends any[],
 >(
-  create: (i: I, ...args: Args) => O
+  create: (i: I, ...args: Args) => O,
 ): ((...args: Args) => PropertyDecorator & TypeModifier<I, O>) => {
   return (...args: Args) => {
     const modifierFunc = (t: I) => create(t, ...args);
@@ -474,10 +474,10 @@ export const defineModifier = <
         prop,
         (m) => {
           (m.modifies ??= []).push({
-            modify: modifierFunc
+            modify: modifierFunc,
           });
         },
-        {}
+        {},
       );
     };
 
@@ -487,7 +487,7 @@ export const defineModifier = <
           return modifierFunc;
         }
         return;
-      }
+      },
     });
   };
 };

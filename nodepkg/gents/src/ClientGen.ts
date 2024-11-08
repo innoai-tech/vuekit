@@ -1,13 +1,13 @@
 import { camelCase, get, keys, lowerFirst, set } from "@innoai-tech/lodash";
 import {
-  type Type,
   JSONSchemaDecoder,
-  TypeScriptEncoder,
-  TypedefEncoder,
   refName,
   t,
+  type Type,
+  TypedefEncoder,
+  TypeScriptEncoder,
 } from "@innoai-tech/typedef";
-import { Genfile, dumpObj } from "./Genfile";
+import { dumpObj, Genfile } from "./Genfile";
 
 export interface RequestCreator {
   importPath: string;
@@ -83,9 +83,9 @@ export class ClientGen extends Genfile {
 
     const requestParameterSchema: Record<string, Type> = {};
 
-    const requestUsed = {};
     let hasParamInPath = false;
     let isRequestTypeEmpty = true;
+    let hasAccpetHeader = false;
 
     if (op.parameters) {
       for (const p of op.parameters) {
@@ -103,15 +103,19 @@ export class ClientGen extends Genfile {
           hasParamInPath = true;
           requestObject.url = requestObject.url.replace(
             `{${p.name}}`,
-            `\${${p.in}_${lowerCamelCase(p.name)}}`,
+            `\${x[${JSON.stringify(p.name)}]}`,
           );
         }
 
         if (p.in === "header") {
+          if (p.name === "Accept") {
+            hasAccpetHeader = true;
+          }
+
           set(
             requestObject,
             ["headers", p.name],
-            Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`),
+            Genfile.id(`x[${JSON.stringify(p.name)}]`),
           );
         }
 
@@ -119,15 +123,9 @@ export class ClientGen extends Genfile {
           set(
             requestObject,
             ["params", p.name],
-            Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`),
+            Genfile.id(`x[${JSON.stringify(p.name)}]`),
           );
         }
-
-        set(
-          requestUsed,
-          p.name,
-          Genfile.id(`${p.in}_${lowerCamelCase(p.name)}`),
-        );
 
         if (p.required) {
           set(requestParameterSchema, p.name, this.typedef.decode(p.schema));
@@ -155,8 +153,7 @@ export class ClientGen extends Genfile {
           schema = { type: "string", format: "binary" };
         }
 
-        set(requestObject, "body", Genfile.id("body"));
-        set(requestUsed, "body", Genfile.id("body"));
+        set(requestObject, "body", Genfile.id("x.body"));
 
         if (contentTypes.length === 1) {
           if (!get(requestObject, ["headers", "Content-Type"])) {
@@ -167,15 +164,9 @@ export class ClientGen extends Genfile {
         }
 
         set(
-          requestUsed,
-          "Content-Type",
-          Genfile.id(`${lowerCamelCase("Content-Type")}`),
-        );
-
-        set(
           requestObject,
           ["headers", "Content-Type"],
-          Genfile.id(`${lowerCamelCase("Content-Type")}`),
+          Genfile.id(`x[${JSON.stringify("Content-Type")}]`),
         );
 
         bodyTypes.push(
@@ -205,7 +196,15 @@ export class ClientGen extends Genfile {
     const [accept, respSchema] = getRespBodySchema(op.responses);
 
     if (!!accept) {
-      set(requestObject, ["headers", "Accept"], accept);
+      if (hasAccpetHeader) {
+        set(
+          requestObject,
+          ["headers", "Accept"],
+          Genfile.id(`x.Accept ?? ${JSON.stringify(accept)}`),
+        );
+      } else {
+        set(requestObject, ["headers", "Accept"], accept);
+      }
     }
 
     const responseType = this.decodeAsTypeScript(
@@ -213,12 +212,9 @@ export class ClientGen extends Genfile {
     );
 
     this.decl(`
-export const ${lowerCamelCase(op.operationId)} =
-/*#__PURE__*/${this.requestCreator.expose}<${requestType}, ${responseType}>(
+export const ${lowerCamelCase(op.operationId)} = /*#__PURE__*/${this.requestCreator.expose}<${requestType}, ${responseType}>(
   "${this.clientID}.${op.operationId}",
-  (${isRequestTypeEmpty ? "" : dumpObj(requestUsed)}) => (${dumpObj(
-    requestObject,
-  )}),
+  (${isRequestTypeEmpty ? "" : "x"}) => (${dumpObj(requestObject)}),
 )
 `);
   }

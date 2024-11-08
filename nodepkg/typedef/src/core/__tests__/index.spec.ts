@@ -15,11 +15,11 @@ describe("Type", () => {
 
     test("object", () => {
       const s = t.object({
-        str: t.string().default("default")
+        str: t.string().default("default"),
       });
 
       expect(s.create({})).toEqual({
-        str: "default"
+        str: "default",
       });
     });
   });
@@ -34,7 +34,7 @@ describe("Type", () => {
   describe("TypeObject", () => {
     const s = t.object({
       a: t.string(),
-      o: t.number().optional()
+      o: t.number().optional(),
     });
 
     test("schema should collect required", () => {
@@ -43,7 +43,7 @@ describe("Type", () => {
 
     test("should validate incorrect type", () => {
       const [err, _] = s.validate({
-        a: 1
+        a: 1,
       });
       expect(err).not.toBeUndefined();
     });
@@ -51,7 +51,7 @@ describe("Type", () => {
     test("should validate prop not allowed", () => {
       const [err, _] = s.validate({
         a: "1",
-        x: 1
+        x: 1,
       });
       expect(err).not.toBeUndefined();
     });
@@ -71,7 +71,7 @@ describe("Type", () => {
       str: t.string(),
       arr: t.array(t.string()),
       tuple: t.tuple([t.string(), t.number()]),
-      record: t.record(t.string(), t.any())
+      record: t.record(t.string(), t.any()),
     });
 
     test("should validate", () => {
@@ -95,8 +95,8 @@ describe("Type", () => {
       arr: ["1"],
       tuple: ["x", 1],
       record: {
-        a: 1
-      }
+        a: 1,
+      },
     };
 
     test("should create", () => {
@@ -107,8 +107,8 @@ describe("Type", () => {
       expect(
         s.mask({
           ...expected,
-          fieldToDrop: "-"
-        })
+          fieldToDrop: "-",
+        }),
       ).toEqual(expected);
     });
   });
@@ -133,14 +133,14 @@ describe("Type", () => {
           options: t.array(
             t.object({
               label: t.string(),
-              value: t.any()
-            })
-          )
-        })
+              value: t.any(),
+            }),
+          ),
+        }),
       });
 
       const v1: Infer<typeof taggedUnion> = {
-        type: "text"
+        type: "text",
       };
 
       const v2: Infer<typeof taggedUnion> = {
@@ -148,9 +148,9 @@ describe("Type", () => {
         options: [
           {
             label: "1",
-            value: 1
-          }
-        ]
+            value: 1,
+          },
+        ],
       };
 
       test("should validate pass branch 1", () => {
@@ -166,7 +166,7 @@ describe("Type", () => {
       test("should validate not pass", () => {
         const [err, _] = taggedUnion.validate({
           type: "text",
-          options: []
+          options: [],
         });
 
         expect(err).not.toBeUndefined();
@@ -175,14 +175,14 @@ describe("Type", () => {
       describe("with intersection", () => {
         const combined = t.intersection(
           t.object({
-            x: t.string()
+            x: t.string(),
           }),
-          taggedUnion
+          taggedUnion,
         );
 
         const v1: Infer<typeof combined> = {
           x: "x",
-          type: "text"
+          type: "text",
         };
 
         const v2: Infer<typeof combined> = {
@@ -191,9 +191,9 @@ describe("Type", () => {
           options: [
             {
               label: "1",
-              value: 1
-            }
-          ]
+              value: 1,
+            },
+          ],
         };
 
         test("should validate pass branch 1", () => {

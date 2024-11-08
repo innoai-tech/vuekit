@@ -3,81 +3,11 @@ import { createRequest } from "./client";
 import { t } from "@innoai-tech/typedef";
 
 
-export const applyKubePkg =
-/*#__PURE__*/createRequest<({
-} & ({
-  "Content-Type": "application/json",
-  "body": /* @type:intersection */ KubepkgV1Alpha1KubePkg,
-} | {
-  "Content-Type": "application/octet-stream",
-  "body": File | Blob,
-})), /* @type:intersection */ KubepkgV1Alpha1KubePkg>(
-  "example.ApplyKubePkg",
-  ({
-"body": body,
-"Content-Type": contentType,
-}) => ({
-"method": "PUT",
-"url": "/api/kubepkg.innoai.tech/v1/kubepkgs",
-"body": body,
-"headers": {
-"Content-Type": contentType,
-"Accept": "application/json",
-},
-}),
-)
-
-
-
-export const delKubePkg =
-/*#__PURE__*/createRequest<{
-  "name": string,
-  "namespace"?: string,
-}, any>(
-  "example.DelKubePkg",
-  ({
-"name": path_name,
-"namespace": query_namespace,
-}) => ({
-"method": "DELETE",
-"url": `/api/kubepkg.innoai.tech/v1/kubepkgs/${path_name}`,
-"params": {
-"namespace": query_namespace,
-},
-}),
-)
-
-
-
-export const getKubePkg =
-/*#__PURE__*/createRequest<{
-  "name": string,
-  "namespace"?: string,
-}, /* @type:intersection */ KubepkgV1Alpha1KubePkg>(
-  "example.GetKubePkg",
-  ({
-"name": path_name,
-"namespace": query_namespace,
-}) => ({
-"method": "GET",
-"url": `/api/kubepkg.innoai.tech/v1/kubepkgs/${path_name}`,
-"params": {
-"namespace": query_namespace,
-},
-"headers": {
-"Accept": "application/json",
-},
-}),
-)
-
-
-
-export const listKubePkg =
-/*#__PURE__*/createRequest<void, Array</* @type:intersection */ KubepkgV1Alpha1KubePkg>>(
-  "example.ListKubePkg",
+export const baseUrl = /*#__PURE__*/createRequest<void, { [k: string]: string }>(
+  "example.BaseURL",
   () => ({
 "method": "GET",
-"url": "/api/kubepkg.innoai.tech/v1/kubepkgs",
+"url": "/v2",
 "headers": {
 "Accept": "application/json",
 },
@@ -86,335 +16,487 @@ export const listKubePkg =
 
 
 
-export const statBlob =
-/*#__PURE__*/createRequest<{
-  "digest": (string | "sha256"),
+export const cancelUploadBlob = /*#__PURE__*/createRequest<{
+  "id": string,
+  "name": /* @type:string */ ContentName,
 }, any>(
-  "example.StatBlob",
-  ({
-"digest": path_digest,
-}) => ({
-"method": "GET",
-"url": `/api/kubepkg.innoai.tech/v1/blobs/${path_digest}/stat`,
+  "example.CancelUploadBlob",
+  (x) => ({
+"method": "DELETE",
+"url": `/v2/${x["name"]}/blobs/uploads/${x["id"]}`,
 }),
 )
 
 
 
-export const uploadBlob =
-/*#__PURE__*/createRequest<{
-  "Content-Type": string,
+export const deleteBlob = /*#__PURE__*/createRequest<{
+  "digest": /* @type:string */ ContentDigest,
+  "name": /* @type:string */ ContentName,
+}, any>(
+  "example.DeleteBlob",
+  (x) => ({
+"method": "DELETE",
+"url": `/v2/${x["name"]}/blobs/${x["digest"]}`,
+}),
+)
+
+
+
+export const deleteManifest = /*#__PURE__*/createRequest<{
+  "reference": /* @type:string */ ContentReference,
+  "name": /* @type:string */ ContentName,
+}, any>(
+  "example.DeleteManifest",
+  (x) => ({
+"method": "DELETE",
+"url": `/v2/${x["name"]}/manifests/${x["reference"]}`,
+}),
+)
+
+
+
+export const getBlob = /*#__PURE__*/createRequest<{
+  "digest": /* @type:string */ ContentDigest,
+  "name": /* @type:string */ ContentName,
+}, /* @type:binary */ IoReadCloser>(
+  "example.GetBlob",
+  (x) => ({
+"method": "GET",
+"url": `/v2/${x["name"]}/blobs/${x["digest"]}`,
+"headers": {
+"Accept": "application/json",
+},
+}),
+)
+
+
+
+export const getManifest = /*#__PURE__*/createRequest<{
+  "Accept"?: string,
+  "reference": /* @type:string */ ContentReference,
+  "name": /* @type:string */ ContentName,
+}, /* @type:union */ ManifestV1Payload>(
+  "example.GetManifest",
+  (x) => ({
+"method": "GET",
+"url": `/v2/${x["name"]}/manifests/${x["reference"]}`,
+"headers": {
+"Accept": x.Accept ?? "application/json",
+},
+}),
+)
+
+
+
+export const headBlob = /*#__PURE__*/createRequest<{
+  "digest": /* @type:string */ ContentDigest,
+  "name": /* @type:string */ ContentName,
+}, any>(
+  "example.HeadBlob",
+  (x) => ({
+"method": "HEAD",
+"url": `/v2/${x["name"]}/blobs/${x["digest"]}`,
+"headers": {
+"Accept": "application/json",
+},
+}),
+)
+
+
+
+export const headManifest = /*#__PURE__*/createRequest<{
+  "Accept"?: string,
+  "reference": /* @type:string */ ContentReference,
+  "name": /* @type:string */ ContentName,
+}, any>(
+  "example.HeadManifest",
+  (x) => ({
+"method": "HEAD",
+"url": `/v2/${x["name"]}/manifests/${x["reference"]}`,
+"headers": {
+"Accept": x.Accept ?? "application/json",
+},
+}),
+)
+
+
+
+export const listTag = /*#__PURE__*/createRequest<{
+  "name": /* @type:string */ ContentName,
+}, /* @type:object */ ContentTagList>(
+  "example.ListTag",
+  (x) => ({
+"method": "GET",
+"url": `/v2/${x["name"]}/tags/list`,
+"headers": {
+"Accept": "application/json",
+},
+}),
+)
+
+
+
+export const putManifest = /*#__PURE__*/createRequest<{
+  "reference": /* @type:string */ ContentReference,
+  "name": /* @type:string */ ContentName,
+  "body": /* @type:union */ ManifestV1Payload,
+}, any>(
+  "example.PutManifest",
+  (x) => ({
+"method": "PUT",
+"url": `/v2/${x["name"]}/manifests/${x["reference"]}`,
+"body": x.body,
+"headers": {
+"Content-Type": "application/json",
+"Accept": "application/json",
+},
+}),
+)
+
+
+
+export const uploadBlob = /*#__PURE__*/createRequest<{
+  "Content-Length"?: number,
+  "Content-Type"?: string,
+  "digest"?: /* @type:string */ ContentDigest,
+  "name": /* @type:string */ ContentName,
   "body": File | Blob,
 }, any>(
   "example.UploadBlob",
-  ({
-"Content-Type": header_contentType,
-"body": body,
-}) => ({
-"method": "PUT",
-"url": "/api/kubepkg.innoai.tech/v1/blobs",
+  (x) => ({
+"method": "POST",
+"url": `/v2/${x["name"]}/blobs/uploads`,
 "headers": {
-"Content-Type": header_contentType,
+"Content-Length": x["Content-Length"],
+"Content-Type": x["Content-Type"],
+"Accept": "application/json",
 },
-"body": body,
+"params": {
+"digest": x["digest"],
+},
+"body": x.body,
+}),
+)
+
+
+
+export const uploadPatchBlob = /*#__PURE__*/createRequest<{
+  "id": string,
+  "name": /* @type:string */ ContentName,
+  "body": File | Blob,
+}, any>(
+  "example.UploadPatchBlob",
+  (x) => ({
+"method": "PATCH",
+"url": `/v2/${x["name"]}/blobs/uploads/${x["id"]}`,
+"body": x.body,
+"headers": {
+"Content-Type": "application/octet-stream",
+"Accept": "application/json",
+},
+}),
+)
+
+
+
+export const uploadPutBlob = /*#__PURE__*/createRequest<{
+  "id": string,
+  "Content-Length"?: number,
+  "digest": /* @type:string */ ContentDigest,
+  "name": /* @type:string */ ContentName,
+  "body": File | Blob,
+}, any>(
+  "example.UploadPutBlob",
+  (x) => ({
+"method": "PUT",
+"url": `/v2/${x["name"]}/blobs/uploads/${x["id"]}`,
+"headers": {
+"Content-Length": x["Content-Length"],
+"Content-Type": "application/octet-stream",
+"Accept": "application/json",
+},
+"params": {
+"digest": x["digest"],
+},
+"body": x.body,
 }),
 )
 
 
 
       
-export type KubepkgV1Alpha1KubePkg = (/* @type:object */ MetaV1TypeMeta & {
-  "metadata"?: /* @type:object */ MetaV1ObjectMeta,
-  "spec"?: /* @type:object */ KubepkgV1Alpha1KubePkgSpec,
-  "status"?: /* @type:object */ KubepkgV1Alpha1KubePkgStatus,
-})
+export type ContentName = string
       
-export type MetaV1TypeMeta = {
-  "apiVersion"?: string,
-  "kind"?: string,
-}
+export type ContentDigest = string
       
-export type MetaV1ObjectMeta = {
+export type ContentReference = string
+      
+export type IoReadCloser = File | Blob
+      
+export type ManifestV1Payload = (/* @type:object */ ManifestV1OciIndex | /* @type:object */ ManifestV1OciManifest | /* @type:object */ ManifestV1DockerManifestList | /* @type:object */ ManifestV1DockerManifest)
+      
+export type ManifestV1OciIndex = {
   "annotations"?: { [k: string]: string },
-  "clusterName"?: string,
-  "creationTimestamp"?: /* @type:string */ MetaV1Time,
-  "deletionGracePeriodSeconds"?: number,
-  "deletionTimestamp"?: /* @type:string */ MetaV1Time,
-  "finalizers"?: Array<string>,
-  "generateName"?: string,
-  "generation"?: number,
-  "labels"?: { [k: string]: string },
-  "managedFields"?: Array</* @type:object */ MetaV1ManagedFieldsEntry>,
-  "name"?: string,
-  "namespace"?: string,
-  "ownerReferences"?: Array</* @type:object */ MetaV1OwnerReference>,
-  "resourceVersion"?: string,
-  "selfLink"?: string,
-  "uid"?: /* @type:string */ TypesUid,
+  "artifactType"?: string,
+  "manifests": Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>,
+  "mediaType"?: string,
+  "schemaVersion": number,
+  "subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
 }
       
-export type MetaV1Time = string
-      
-export type MetaV1ManagedFieldsEntry = {
-  "apiVersion"?: string,
-  "fieldsType"?: string,
-  "fieldsV1"?: /* @type:record */ MetaV1FieldsV1,
-  "manager"?: string,
-  "operation"?: /* @type:string */ MetaV1ManagedFieldsOperationType,
-  "subresource"?: string,
-  "time"?: /* @type:string */ MetaV1Time,
+export type OpencontainersImageSpecSpecsGoV1Descriptor = {
+  "annotations"?: { [k: string]: string },
+  "artifactType"?: string,
+  "data"?: string,
+  "digest": /* @type:string */ OpencontainersGoDigestDigest,
+  "mediaType": string,
+  "platform"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Platform,
+  "size": number,
+  "urls"?: Array<string>,
 }
       
-export type MetaV1FieldsV1 = { [k: string]: any }
+export type OpencontainersGoDigestDigest = string
       
-export type MetaV1ManagedFieldsOperationType = string
+export type OpencontainersImageSpecSpecsGoV1Platform = {
+  "architecture": string,
+  "os": string,
+  "os.features"?: Array<string>,
+  "os.version"?: string,
+  "variant"?: string,
+}
       
-export type MetaV1OwnerReference = {
-  "apiVersion": string,
-  "blockOwnerDeletion"?: boolean,
-  "controller"?: boolean,
-  "kind": string,
+export type ManifestV1OciManifest = {
+  "annotations"?: { [k: string]: string },
+  "artifactType"?: string,
+  "config": /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
+  "layers": Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>,
+  "mediaType"?: string,
+  "schemaVersion": number,
+  "subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
+}
+      
+export type ManifestV1DockerManifestList = {
+  "annotations"?: { [k: string]: string },
+  "artifactType"?: string,
+  "manifests": Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>,
+  "mediaType"?: string,
+  "schemaVersion": number,
+  "subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
+}
+      
+export type ManifestV1DockerManifest = {
+  "annotations"?: { [k: string]: string },
+  "artifactType"?: string,
+  "config": /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
+  "layers": Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>,
+  "mediaType"?: string,
+  "schemaVersion": number,
+  "subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
+}
+      
+export type ContentTagList = {
   "name": string,
-  "uid": /* @type:string */ TypesUid,
+  "tags": Array<string>,
 }
-      
-export type TypesUid = string
-      
-export type KubepkgV1Alpha1KubePkgSpec = {
-  "images"?: { [k: string]: string },
-  "manifests"?: /* @type:record */ KubepkgV1Alpha1Manifests,
-  "version": string,
-}
-      
-export type KubepkgV1Alpha1Manifests = { [k: string]: any }
-      
-export type KubepkgV1Alpha1KubePkgStatus = {
-  "digests"?: Array</* @type:object */ KubepkgV1Alpha1DigestMeta>,
-  "statuses"?: /* @type:record */ KubepkgV1Alpha1Statuses,
-}
-      
-export type KubepkgV1Alpha1DigestMeta = {
-  "digest": string,
-  "name": string,
-  "platform"?: string,
-  "size": /* @type:integer */ KubepkgV1Alpha1FileSize,
-  "tag"?: string,
-  "type": /* @type:enums */ KubepkgV1Alpha1DigestMetaType,
-}
-      
-export type KubepkgV1Alpha1FileSize = number
-      
-export enum KubepkgV1Alpha1DigestMetaType {
-blob = "blob",
-manifest = "manifest"         
-}
-      
-export const displayKubepkgV1Alpha1DigestMetaType = (v: KubepkgV1Alpha1DigestMetaType) => {
-  return ({
-"blob": "Blob",
-"manifest": "Manifest"   
-  })[v] ?? v      
-}
-      
-export type KubepkgV1Alpha1Statuses = { [k: string]: any }
 
 
       
-export class MetaV1ManagedFieldsEntrySchema {
-
-@t.string()
-@t.optional()
-"apiVersion"?: string
-
-@t.string()
-@t.optional()
-"fieldsType"?: string
-
-@t.record(t.string(), t.any())
-@t.optional()
-"fieldsV1"?: /* @type:record */ MetaV1FieldsV1
-
-@t.string()
-@t.optional()
-"manager"?: string
-
-@t.string()
-@t.optional()
-"operation"?: /* @type:string */ MetaV1ManagedFieldsOperationType
-
-@t.string()
-@t.optional()
-"subresource"?: string
-
-@t.string()
-@t.optional()
-"time"?: /* @type:string */ MetaV1Time
-
-}
-      
-export class MetaV1OwnerReferenceSchema {
-
-@t.string()
-"apiVersion"!: string
-
-@t.boolean()
-@t.optional()
-"blockOwnerDeletion"?: boolean
-
-@t.boolean()
-@t.optional()
-"controller"?: boolean
-
-@t.string()
-"kind"!: string
+export class ContentTagListSchema {
 
 @t.string()
 "name"!: string
 
-@t.string()
-"uid"!: /* @type:string */ TypesUid
+@t.array(t.string())
+"tags"!: Array<string>
 
 }
       
-export class MetaV1ObjectMetaSchema {
+export class OpencontainersImageSpecSpecsGoV1PlatformSchema {
 
+@t.string()
+"architecture"!: string
+
+@t.string()
+"os"!: string
+
+@t.array(t.string())
+@t.optional()
+"os.features"?: Array<string>
+
+@t.string()
+@t.optional()
+"os.version"?: string
+
+@t.string()
+@t.optional()
+"variant"?: string
+
+}
+      
+export class OpencontainersImageSpecSpecsGoV1DescriptorSchema {
+
+@t.annotate({"title":"Annotations contains arbitrary metadata for the image index"})
 @t.record(t.string(), t.string())
 @t.optional()
 "annotations"?: { [k: string]: string }
 
+@t.annotate({"title":"ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact"})
 @t.string()
 @t.optional()
-"clusterName"?: string
+"artifactType"?: string
 
 @t.string()
 @t.optional()
-"creationTimestamp"?: /* @type:string */ MetaV1Time
+"data"?: string
+
+@t.string()
+"digest"!: /* @type:string */ OpencontainersGoDigestDigest
+
+@t.annotate({"title":"MediaType specifies the type of this document data structure e"})
+@t.string()
+"mediaType"!: string
+
+@t.ref("OpencontainersImageSpecSpecsGoV1PlatformSchema", () => t.object(OpencontainersImageSpecSpecsGoV1PlatformSchema))
+@t.optional()
+"platform"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Platform
 
 @t.integer()
-@t.optional()
-"deletionGracePeriodSeconds"?: number
-
-@t.string()
-@t.optional()
-"deletionTimestamp"?: /* @type:string */ MetaV1Time
+"size"!: number
 
 @t.array(t.string())
 @t.optional()
-"finalizers"?: Array<string>
+"urls"?: Array<string>
 
-@t.string()
-@t.optional()
-"generateName"?: string
+}
+      
+export class ManifestV1OciIndexSchema {
 
-@t.integer()
-@t.optional()
-"generation"?: number
-
+@t.annotate({"title":"Annotations contains arbitrary metadata for the image index"})
 @t.record(t.string(), t.string())
 @t.optional()
-"labels"?: { [k: string]: string }
+"annotations"?: { [k: string]: string }
 
-@t.array(t.ref("MetaV1ManagedFieldsEntrySchema", () => t.object(MetaV1ManagedFieldsEntrySchema)))
-@t.optional()
-"managedFields"?: Array</* @type:object */ MetaV1ManagedFieldsEntry>
-
+@t.annotate({"title":"ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact"})
 @t.string()
 @t.optional()
-"name"?: string
+"artifactType"?: string
 
+@t.annotate({"title":"Manifests references platform specific manifests"})
+@t.array(t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema)))
+"manifests"!: Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>
+
+@t.annotate({"title":"MediaType specifies the type of this document data structure e"})
 @t.string()
 @t.optional()
-"namespace"?: string
-
-@t.array(t.ref("MetaV1OwnerReferenceSchema", () => t.object(MetaV1OwnerReferenceSchema)))
-@t.optional()
-"ownerReferences"?: Array</* @type:object */ MetaV1OwnerReference>
-
-@t.string()
-@t.optional()
-"resourceVersion"?: string
-
-@t.string()
-@t.optional()
-"selfLink"?: string
-
-@t.string()
-@t.optional()
-"uid"?: /* @type:string */ TypesUid
-
-}
-      
-export class KubepkgV1Alpha1KubePkgSpecSchema {
-
-@t.record(t.string(), t.string())
-@t.optional()
-"images"?: { [k: string]: string }
-
-@t.record(t.string(), t.any())
-@t.optional()
-"manifests"?: /* @type:record */ KubepkgV1Alpha1Manifests
-
-@t.string()
-"version"!: string
-
-}
-      
-export class KubepkgV1Alpha1DigestMetaSchema {
-
-@t.string()
-"digest"!: string
-
-@t.string()
-"name"!: string
-
-@t.string()
-@t.optional()
-"platform"?: string
+"mediaType"?: string
 
 @t.integer()
-"size"!: /* @type:integer */ KubepkgV1Alpha1FileSize
+"schemaVersion"!: number
 
-@t.string()
+@t.annotate({"title":"Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest"})
+@t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema))
 @t.optional()
-"tag"?: string
-
-@t.nativeEnum(KubepkgV1Alpha1DigestMetaType)
-"type"!: /* @type:enums */ KubepkgV1Alpha1DigestMetaType
+"subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor
 
 }
       
-export class KubepkgV1Alpha1KubePkgStatusSchema {
+export class ManifestV1OciManifestSchema {
 
-@t.array(t.ref("KubepkgV1Alpha1DigestMetaSchema", () => t.object(KubepkgV1Alpha1DigestMetaSchema)))
+@t.annotate({"title":"Annotations contains arbitrary metadata for the image manifest"})
+@t.record(t.string(), t.string())
 @t.optional()
-"digests"?: Array</* @type:object */ KubepkgV1Alpha1DigestMeta>
+"annotations"?: { [k: string]: string }
 
-@t.record(t.string(), t.any())
+@t.annotate({"title":"ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact"})
+@t.string()
 @t.optional()
-"statuses"?: /* @type:record */ KubepkgV1Alpha1Statuses
+"artifactType"?: string
+
+@t.annotate({"title":"Config references a configuration object for a container, by digest"})
+@t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema))
+"config"!: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor
+
+@t.annotate({"title":"Layers is an indexed list of layers referenced by the manifest"})
+@t.array(t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema)))
+"layers"!: Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>
+
+@t.annotate({"title":"MediaType specifies the type of this document data structure e"})
+@t.string()
+@t.optional()
+"mediaType"?: string
+
+@t.integer()
+"schemaVersion"!: number
+
+@t.annotate({"title":"Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest"})
+@t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema))
+@t.optional()
+"subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor
 
 }
       
-export class KubepkgV1Alpha1KubePkgSchema {
+export class ManifestV1DockerManifestListSchema {
 
+@t.annotate({"title":"Annotations contains arbitrary metadata for the image index"})
+@t.record(t.string(), t.string())
+@t.optional()
+"annotations"?: { [k: string]: string }
+
+@t.annotate({"title":"ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact"})
 @t.string()
 @t.optional()
-"apiVersion"?: string
+"artifactType"?: string
 
+@t.annotate({"title":"Manifests references platform specific manifests"})
+@t.array(t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema)))
+"manifests"!: Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>
+
+@t.annotate({"title":"MediaType specifies the type of this document data structure e"})
 @t.string()
 @t.optional()
-"kind"?: string
+"mediaType"?: string
 
-@t.ref("MetaV1ObjectMetaSchema", () => t.object(MetaV1ObjectMetaSchema))
-@t.optional()
-"metadata"?: /* @type:object */ MetaV1ObjectMeta
+@t.integer()
+"schemaVersion"!: number
 
-@t.ref("KubepkgV1Alpha1KubePkgSpecSchema", () => t.object(KubepkgV1Alpha1KubePkgSpecSchema))
+@t.annotate({"title":"Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest"})
+@t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema))
 @t.optional()
-"spec"?: /* @type:object */ KubepkgV1Alpha1KubePkgSpec
+"subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor
 
-@t.ref("KubepkgV1Alpha1KubePkgStatusSchema", () => t.object(KubepkgV1Alpha1KubePkgStatusSchema))
+}
+      
+export class ManifestV1DockerManifestSchema {
+
+@t.annotate({"title":"Annotations contains arbitrary metadata for the image manifest"})
+@t.record(t.string(), t.string())
 @t.optional()
-"status"?: /* @type:object */ KubepkgV1Alpha1KubePkgStatus
+"annotations"?: { [k: string]: string }
+
+@t.annotate({"title":"ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact"})
+@t.string()
+@t.optional()
+"artifactType"?: string
+
+@t.annotate({"title":"Config references a configuration object for a container, by digest"})
+@t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema))
+"config"!: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor
+
+@t.annotate({"title":"Layers is an indexed list of layers referenced by the manifest"})
+@t.array(t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema)))
+"layers"!: Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>
+
+@t.annotate({"title":"MediaType specifies the type of this document data structure e"})
+@t.string()
+@t.optional()
+"mediaType"?: string
+
+@t.integer()
+"schemaVersion"!: number
+
+@t.annotate({"title":"Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest"})
+@t.ref("OpencontainersImageSpecSpecsGoV1DescriptorSchema", () => t.object(OpencontainersImageSpecSpecsGoV1DescriptorSchema))
+@t.optional()
+"subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor
 
 }

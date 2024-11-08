@@ -8,7 +8,7 @@ export const ActionToolbar = styled("span")({
   display: "flex",
   alignItems: "center",
   gap: 8,
-  visibility: "hidden"
+  visibility: "hidden",
 });
 
 export const Actions = styled<
@@ -23,7 +23,7 @@ export const Actions = styled<
     </Root>
   );
 })({
-  display: "flex"
+  display: "flex",
 });
 
 export const ActionBtn = styled(IconButton)({
@@ -35,7 +35,7 @@ export const ActionBtn = styled(IconButton)({
   [`& ${Icon}`]: {
     svg: {
       width: 18,
-      height: 18
-    }
-  }
+      height: 18,
+    },
+  },
 });

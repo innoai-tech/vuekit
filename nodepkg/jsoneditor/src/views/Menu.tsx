@@ -4,7 +4,7 @@ import {
   type ObservableRef,
   rx,
   subscribeUntilUnmount,
-  type VNodeChild
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { isUndefined } from "@innoai-tech/lodash";
@@ -24,7 +24,7 @@ export class PopupStatus extends ImmerBehaviorSubject<boolean> {
               fromEvent<FocusEvent>(inputEl, "focus"),
               tap(() => {
                 status$.show();
-              })
+              }),
             ),
             rx(
               fromEvent<FocusEvent>(inputEl, "blur"),
@@ -32,14 +32,14 @@ export class PopupStatus extends ImmerBehaviorSubject<boolean> {
               delay(10),
               tap(() => {
                 status$.hide();
-              })
-            )
+              }),
+            ),
           );
         }
 
         return EMPTY;
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return status$;
@@ -57,9 +57,9 @@ export class PopupStatus extends ImmerBehaviorSubject<boolean> {
 const sameWidth = size({
   apply({ elements, rects }) {
     Object.assign(elements.floating.style, {
-      width: `${rects.reference.width}px`
+      width: `${rects.reference.width}px`,
     });
-  }
+  },
 });
 
 export const Menu = component$<{
@@ -105,7 +105,7 @@ export const Menu = component$<{
           {slots.default?.()?.[0] ?? null}
         </Popper>
       );
-    })
+    }),
   );
 });
 
@@ -129,7 +129,7 @@ export const Popover = component$<{
           {slots.default?.()?.[0] ?? null}
         </Popper>
       );
-    })
+    }),
   );
 });
 
@@ -141,7 +141,7 @@ export const PopoverContainer = styled("div")({
   borderBottom: "1px solid",
   borderRight: "1px solid",
   borderLeft: "1px solid",
-  borderColor: variant("sys.outline-variant", alpha(0.38))
+  borderColor: variant("sys.outline-variant", alpha(0.38)),
 });
 
 export const MenuItem = styled("div")({
@@ -156,11 +156,11 @@ export const MenuItem = styled("div")({
   cursor: "pointer",
 
   _hover: {
-    containerStyle: "sys.surface-container"
+    containerStyle: "sys.surface-container",
   },
 
   _focus: {
     containerStyle: "sys.surface-container",
-    outline: 0
-  }
+    outline: 0,
+  },
 });

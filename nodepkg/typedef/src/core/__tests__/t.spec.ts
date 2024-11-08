@@ -8,12 +8,11 @@ enum Gender {
 }
 
 describe("define type", () => {
-
   test("should combine metadata", () => {
-    const s = t.string().use(
-      t.annotate({ label: "label" }),
-      t.annotate({ title: "title" })
-    ).optional();
+    const s = t
+      .string()
+      .use(t.annotate({ label: "label" }), t.annotate({ title: "title" }))
+      .optional();
 
     expect(s.schema.type).toEqual("string");
     expect(s.meta["label"]).toEqual("label");
@@ -31,7 +30,7 @@ describe("define type", () => {
 
     test("should validate", () => {
       expect(Schema.extractSchema(s)).toEqual({
-        type: "string"
+        type: "string",
       });
 
       expect(s.validate(1)[0]).not.toBeNil();
@@ -48,7 +47,7 @@ describe("define type", () => {
       const s2 = s.optional();
 
       expect(Schema.extractSchema(s2)).toEqual({
-        type: "string"
+        type: "string",
       });
 
       expect(s2.validate(undefined)[0]).toBeNil();
@@ -62,7 +61,7 @@ describe("define type", () => {
       expect(Schema.extractSchema(s2.schema)).toEqual({
         type: "string",
         minLength: 1,
-        maxLength: 10
+        maxLength: 10,
       });
 
       expect(s2.validate("")[0]).not.toBeNil();
@@ -96,25 +95,25 @@ describe("define type", () => {
     t.intersection(
       t.ref("X", () => {
         return t.object({
-          name: t.string()
+          name: t.string(),
         });
       }),
       t.object({
-        age: t.integer().optional()
-      })
+        age: t.integer().optional(),
+      }),
     ),
     t.object({
       name: t.string(),
-      age: t.integer().optional()
+      age: t.integer().optional(),
     }),
     t.union(t.integer(), t.string()),
     t.discriminatorMapping("type", {
       a: t.object(),
       b: t.object({
-        name: t.string()
-      })
+        name: t.string(),
+      }),
     }),
-    t.discriminatorMapping("type", A, B)
+    t.discriminatorMapping("type", A, B),
   ];
 
   for (const s of types) {
@@ -148,17 +147,17 @@ describe("define type with metadata", () => {
       type: "object",
       properties: {
         name: {
-          type: "string"
+          type: "string",
         },
         gender: {
-          enum: ["MALE", "FEMALE"]
+          enum: ["MALE", "FEMALE"],
         },
         age: {
-          type: "integer"
-        }
+          type: "integer",
+        },
       },
       required: ["name", "age"],
-      additionalProperties: false
+      additionalProperties: false,
     });
 
     const metadata: Record<string, any> = {};
@@ -173,14 +172,14 @@ describe("define type with metadata", () => {
     expect(metadata).toEqual({
       name: {
         label: "姓名",
-        readOnlyWhenExists: true
+        readOnlyWhenExists: true,
       },
       gender: {
-        label: "性别"
+        label: "性别",
       },
       age: {
-        label: "年龄"
-      }
+        label: "年龄",
+      },
     });
   });
 
@@ -210,8 +209,8 @@ describe("define type with metadata", () => {
 
       expect(metadata).toEqual({
         type: {
-          label: "类型"
-        }
+          label: "类型",
+        },
       });
     });
 
@@ -219,15 +218,15 @@ describe("define type with metadata", () => {
       const metadata: Record<string, any> = {};
 
       for (const [k, _, prop] of s.entries({
-        type: "a"
+        type: "a",
       })) {
         metadata[k as string] = Schema.extractSchema(prop.meta);
       }
 
       expect(metadata).toEqual({
         type: {
-          label: "类型"
-        }
+          label: "类型",
+        },
       });
     });
 
@@ -240,11 +239,11 @@ describe("define type with metadata", () => {
 
       expect(metadata).toEqual({
         type: {
-          label: "类型"
+          label: "类型",
         },
         name: {
-          label: "姓名"
-        }
+          label: "姓名",
+        },
       });
     });
   });

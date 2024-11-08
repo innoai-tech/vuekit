@@ -6,10 +6,15 @@ export class TypeRef<U extends Type> extends TypeWrapper<
   Infer<U>,
   { $ref: string }
 > {
-  static create = defineType(<U extends Type>(name: string, ref: () => U): Type<Infer<U>, { $ref: string }> => {
-    return new TypeRef<U>({
-      $ref: name,
-      [Schema.unwrap]: ref
-    });
-  });
+  static create = defineType(
+    <U extends Type>(
+      name: string,
+      ref: () => U,
+    ): Type<Infer<U>, { $ref: string }> => {
+      return new TypeRef<U>({
+        $ref: name,
+        [Schema.unwrap]: ref,
+      });
+    },
+  );
 }

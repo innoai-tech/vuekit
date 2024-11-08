@@ -6,15 +6,15 @@ describe("#Schema", () => {
     const s = Schema.create({
       type: "object",
       properties: {
-        name: { type: "string" }
-      }
+        name: { type: "string" },
+      },
     });
 
     expect(Schema.extractSchema(s)).toEqual({
       type: "object",
       properties: {
-        name: { type: "string" }
-      }
+        name: { type: "string" },
+      },
     });
   });
 
@@ -22,8 +22,8 @@ describe("#Schema", () => {
     const base = Schema.create({
       type: "object",
       properties: {
-        name: { type: "string" }
-      }
+        name: { type: "string" },
+      },
     });
 
     const merged = Schema.create(
@@ -31,36 +31,36 @@ describe("#Schema", () => {
         nullable: true,
 
         [Schema.meta]: {
-          label: "label"
-        }
+          label: "label",
+        },
       },
-      base
+      base,
     );
 
     expect(Schema.extractSchema(merged)).toEqual({
       type: "object",
       properties: {
-        name: { type: "string" }
+        name: { type: "string" },
       },
-      nullable: true
+      nullable: true,
     });
 
     expect(Schema.extractMeta(merged)).toEqual({
-      label: "label"
+      label: "label",
     });
 
     const merged2 = Schema.create({
       [Schema.underlying]: {
-        schema: merged
+        schema: merged,
       },
       [Schema.meta]: {
-        description: "description"
-      }
+        description: "description",
+      },
     });
 
     expect(Schema.extractMeta(merged2)).toEqual({
       label: "label",
-      description: "description"
+      description: "description",
     });
   });
 });

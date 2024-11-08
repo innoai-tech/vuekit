@@ -78,7 +78,6 @@ export ${type} ${name} ${decl}`;
         if (title) {
           d += `@t.annotate(${JSON.stringify({ title })})
 `;
-
         }
 
         const typedef = this._typedef(pt);
@@ -94,7 +93,6 @@ export ${type} ${name} ${decl}`;
 `;
           }
         }
-
 
         const optional = Schema.schemaProp(pt, Schema.optional);
         if (optional) {
@@ -118,9 +116,14 @@ export ${type} ${name} ${decl}`;
     switch (type.type) {
       case "union": {
         if (Schema.schemaProp(type, "discriminator")) {
-          const propName = Schema.schemaProp(type, "discriminator")["propertyName"];
+          const propName = Schema.schemaProp(type, "discriminator")[
+            "propertyName"
+          ];
 
-          return `t.discriminatorMapping(${JSON.stringify(propName)}, ${Schema.schemaProp(type, "oneOf")
+          return `t.discriminatorMapping(${JSON.stringify(propName)}, ${Schema.schemaProp(
+            type,
+            "oneOf",
+          )
             .map((t: Type) => {
               return this._encode(t);
             })
@@ -144,9 +147,9 @@ export ${type} ${name} ${decl}`;
 
       case "record": {
         return `t.record(${this._typedef(
-          Schema.schemaProp(type, "propertyNames") ?? t.string()
+          Schema.schemaProp(type, "propertyNames") ?? t.string(),
         )}, ${this._typedef(
-          Schema.schemaProp(type, "additionalProperties") ?? t.any()
+          Schema.schemaProp(type, "additionalProperties") ?? t.any(),
         )})`;
       }
       case "object": {
