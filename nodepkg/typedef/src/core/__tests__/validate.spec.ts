@@ -4,13 +4,13 @@ import { defineModifier, t, type Type } from "../index";
 const label = defineModifier(
   <T extends Type<string>>(type: T, label: string) => {
     return t.annotate({ label: label }).modify(type);
-  },
+  }
 );
 
 const readOnly = defineModifier(
   <T extends Type<string>>(type: T, readOnly?: boolean) => {
     return t.annotate({ readOnly: readOnly }).modify(type);
-  },
+  }
 );
 
 enum EnvType {
@@ -27,11 +27,12 @@ class MetaSchema {
   @label("名称")
   @t.pattern(
     /[a-z][a-z0-9-]+/,
-    "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
+    "只能包含小写字符，数字与短横 -， 且必须由小写字符开头"
   )
   @t.string()
   name!: string;
 }
+
 
 class ObjectSchema extends MetaSchema {
   @label("描述")
@@ -44,16 +45,27 @@ class ObjectSchema extends MetaSchema {
   envType?: EnvType;
 }
 
+
+class ObjectV2Schema extends MetaSchema {
+  @label("自定义字段")
+  @readOnly()
+  custom!: string;
+}
+
 const taggedUnion = t
   .discriminatorMapping("netType", {
     [NetType.AIRGAP]: t.object({}),
     [NetType.DIRECT]: t.object({
-      endpoint: t.string().use(label("访问地址")),
-    }),
+      endpoint: t.string().use(label("访问地址"))
+    })
   })
   .use(label("网络类型"));
 
 describe("Meta", () => {
+  const x = new ObjectV2Schema();
+
+  console.log(x);
+
   describe("iter desc", () => {
     const schema = t.intersection(t.object(ObjectSchema), taggedUnion);
 
@@ -70,7 +82,7 @@ describe("Meta", () => {
 
       expect(fields).toEqual({
         "0": "",
-        "1": "",
+        "1": ""
       });
     });
 
@@ -84,7 +96,7 @@ describe("Meta", () => {
 
         fields[String(k)] = [
           s.meta?.["label"],
-          ...((s.schema as any)?.["enum"] ?? []),
+          ...((s.schema as any)?.["enum"] ?? [])
         ].join("|");
       }
 
@@ -92,7 +104,7 @@ describe("Meta", () => {
         name: "名称",
         desc: "描述",
         envType: "环境类型|DEV|ONLINE",
-        netType: "网络类型|AIRGAP|DIRECT",
+        netType: "网络类型|AIRGAP|DIRECT"
       });
     });
 
@@ -100,7 +112,7 @@ describe("Meta", () => {
       const fields: { [k: string]: string } = {};
 
       for (const [k, _, s] of schema.entries({
-        netType: "DIRECT",
+        netType: "DIRECT"
       })) {
         if (s.type === "never") {
           continue;
@@ -108,7 +120,7 @@ describe("Meta", () => {
 
         fields[String(k)] = [
           s.meta["label"] ?? "",
-          ...((s.schema as any)?.["enum"] ?? []),
+          ...((s.schema as any)?.["enum"] ?? [])
         ].join("|");
       }
 
@@ -117,7 +129,7 @@ describe("Meta", () => {
         desc: "描述",
         envType: "环境类型|DEV|ONLINE",
         netType: "网络类型|AIRGAP|DIRECT",
-        endpoint: "访问地址",
+        endpoint: "访问地址"
       });
     });
   });
@@ -129,7 +141,7 @@ describe("Validate", () => {
       const objectSchema = t.object(ObjectSchema);
 
       const [err] = objectSchema.validate({
-        name: "1",
+        name: "1"
       });
 
       const errors = err?.failures();
@@ -137,7 +149,7 @@ describe("Validate", () => {
       expect(errors?.[0]).toHaveProperty("key", "name");
       expect(errors?.[0]).toHaveProperty(
         "message",
-        "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
+        "只能包含小写字符，数字与短横 -， 且必须由小写字符开头"
       );
     });
   });
@@ -153,7 +165,7 @@ describe("Validate", () => {
 
     test("validate branch left", () => {
       const [err] = taggedUnion.validate({
-        netType: NetType.AIRGAP,
+        netType: NetType.AIRGAP
       });
       const errors = err?.failures();
       expect(errors).toBeUndefined();
@@ -161,7 +173,7 @@ describe("Validate", () => {
 
     test("validate branch right", () => {
       const [err] = taggedUnion.validate({
-        netType: NetType.DIRECT,
+        netType: NetType.DIRECT
       });
       const errors = err?.failures();
 

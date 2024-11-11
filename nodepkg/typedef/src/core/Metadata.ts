@@ -1,25 +1,14 @@
-import { isFunction, isString } from "./util.ts";
+import { isFunction } from "./util.ts";
 import { produce } from "immer";
+import "reflect-metadata/lite";
 
 export class Metadata {
-  static metadata = Symbol("metadata");
-
   static getOwnPropertyNames(target: Object): string[] {
-    if (target && target.constructor && target.constructor != Object) {
-      return (
-        (target.constructor as any)[Metadata.metadata]
-          ?.keys()
-          .filter((v: any) => isString(v)) ?? []
-      );
-    }
-    return [];
+    return Reflect.getMetadataKeys(target);
   }
 
   static get<T>(target: Object, propertyKey: PropertyKey): T | undefined {
-    if (target && target.constructor && target.constructor != Object) {
-      return (target.constructor as any)[Metadata.metadata]?.get(propertyKey);
-    }
-    return undefined;
+    return Reflect.getMetadata(propertyKey, target);
   }
 
   static define<T>(target: Object, propertyKey: PropertyKey, value: T): void;
@@ -27,27 +16,27 @@ export class Metadata {
     target: Object,
     propertyKey: PropertyKey,
     mut: (m: T) => void,
-    defaults: T,
+    defaults: T
   ): void;
   static define(
     target: Object,
     propertyKey: PropertyKey,
     valueOrFunc: any,
-    defaults?: any,
+    defaults?: any
   ): void {
     if (target && target.constructor && target.constructor != Object) {
-      const meta = ((target.constructor as any)[Metadata.metadata] ??=
-        new Map());
-
       if (isFunction(valueOrFunc)) {
-        meta.set(
+
+        Reflect.defineMetadata(
           propertyKey,
-          produce(meta.get(propertyKey) ?? defaults ?? {}, valueOrFunc),
+          produce(Reflect.getMetadata(propertyKey, target) ?? defaults ?? {}, valueOrFunc),
+          target
         );
+
         return;
       }
 
-      meta.set(propertyKey, valueOrFunc);
+      Reflect.defineMetadata(propertyKey, valueOrFunc, target);
     }
   }
 }
