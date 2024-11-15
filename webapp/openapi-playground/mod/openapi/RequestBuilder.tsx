@@ -49,6 +49,10 @@ export const RequestBuilder = component$<{
       x = x.optional();
     }
 
+    x.use(
+      f.hint(p.schema["title"])
+    );
+
     if (["object", "array"].includes(p.schema.type ?? "")) {
       propSchemas[p.name] = x.use(f.inputBy(JSONEditorInput));
     } else {
@@ -147,11 +151,10 @@ export const RequestBuilder = component$<{
           py: 24,
           display: "flex",
           flexDirection: "column",
-          gap: 16,
+          gap: 32,
           height: "100%",
           overflow: "auto"
         }}>
-
           {[...form$.fields(form$.typedef)].map((f) => {
             return (
               <ParameterInput field$={f} />

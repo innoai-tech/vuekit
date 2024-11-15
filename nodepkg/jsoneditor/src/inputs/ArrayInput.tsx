@@ -6,24 +6,16 @@ import {
   Schema,
   subscribeUntilUnmount,
   type Type,
-  type VNodeChild,
+  type VNodeChild
 } from "@innoai-tech/vuekit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold, mdiMinusBoxOutline } from "@mdi/js";
-import { Block, Line, PropName } from "./TokenView.tsx";
 import { JSONEditorProvider, JSONEditorSlotsProvider } from "../models";
-import { ActionBtn, Actions } from "./Actions.tsx";
-import { CopyAsJSONIconBtn } from "./JSONRaw.tsx";
-import { Tooltip } from "./Tooltip.tsx";
 import { Box, Popper } from "@innoai-tech/vueuikit";
-import {
-  InputActionSubject,
-  InputText,
-  ValueContainer,
-  ValueInputActions,
-} from "./ValueInput.tsx";
+import { InputActionSubject, InputText, ValueContainer, ValueInputActions } from "./ValueInput.tsx";
 import { tap } from "rxjs";
-import { PopupStatus } from "./Menu.tsx";
+import { CopyAsJSONIconBtn } from "../actions";
+import { ActionBtn, Actions, Block, Line, PopupStatus, PropName, Tooltip } from "../views";
 
 export const ArrayInput = component$<{
   ctx: Context;
@@ -55,7 +47,7 @@ export const ArrayInput = component$<{
                   (values: any) => {
                     values.push(value);
                   },
-                  [],
+                  []
                 );
               }}
             />
@@ -81,15 +73,15 @@ export const ArrayInput = component$<{
                   {slots.$value?.(propSchema, itemValue, {
                     ...props.ctx,
                     path: path,
-                    branch: [...props.ctx.branch, itemValue],
+                    branch: [...props.ctx.branch, itemValue]
                   })}
                 </Line>
               );
-            },
+            }
           )}
         </Block>
       );
-    }),
+    })
   );
 });
 
@@ -121,12 +113,10 @@ const AddItemIconBtn = component$<{
       const items = Schema.schemaProp(props.typedef, "items") as Type;
 
       const [err, value] = items.validate(inputValue, { coerce: true });
-
       if (!!err) {
         editor$.setError(props.ctx.path, err);
         return;
       }
-
       emit("add", value);
     } else {
       emit("add", undefined);
@@ -137,17 +127,27 @@ const AddItemIconBtn = component$<{
   rx(
     inputText$,
     tap((input) => {
-      if (input.trim().startsWith("[")) {
+      const raw = input.trim();
+
+      if (raw.startsWith("[") && raw.endsWith("]")) {
         try {
-          const v = JSON.parse(input);
+          const v = JSON.parse(raw);
           editor$.update(props.ctx.path, v);
           reset();
         } catch (err) {
           editor$.setError(props.ctx.path, "无效的 JSON 字符串");
         }
       }
+
+      if (raw.startsWith("{") && raw.endsWith("}")) {
+        try {
+          commit(JSON.parse(raw));
+        } catch (err) {
+          editor$.setError(props.ctx.path, "无效的 JSON 字符串");
+        }
+      }
     }),
-    subscribeUntilUnmount(),
+    subscribeUntilUnmount()
   );
 
   rx(
@@ -162,7 +162,7 @@ const AddItemIconBtn = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount(),
+    subscribeUntilUnmount()
   );
 
   const $input = rx(
@@ -196,7 +196,7 @@ const AddItemIconBtn = component$<{
           />
         </Popper>
       );
-    }),
+    })
   );
 
   return () => (

@@ -2,14 +2,17 @@ import {
   component,
   component$,
   createProvider,
-  t,
   RouterLink,
-  type VNodeChild,
-  type Type, Schema
+  Schema,
+  t,
+  type Type,
+  type VNodeChild
 } from "@innoai-tech/vuekit";
 import { isUndefined } from "@innoai-tech/lodash";
 import { styled } from "@innoai-tech/vueuikit";
 import { Markdown } from "@innoai-tech/vuemarkdown";
+import { Icon, Tooltip } from "@innoai-tech/vuematerial";
+import { mdiHelpBox } from "@mdi/js";
 
 export const Token = styled("div")({
   display: "inline-table",
@@ -72,30 +75,56 @@ export const Description = styled<{
   schema: Type
 }, "div">("div", (props, {}) => {
     return (Root) => {
+      const title = Schema.metaProp(props.schema, "title") ?? "";
       const description = Schema.metaProp(props.schema, "description") ?? "";
 
-      if (description.length == 0) {
+      if (!(title || description)) {
         return null;
       }
 
       return (
         <Root>
-          <Markdown text={description} />
+          {title} {description ? (
+          <Tooltip title={
+            <MarkdownContainer>
+              <Markdown text={description} />
+            </MarkdownContainer>
+          }>
+            <Icon path={mdiHelpBox} />
+          </Tooltip>
+        ) : null}
         </Root>
       );
     };
   }
 )({
   position: "relative",
-  pt: 4,
+  pt: 8,
+  display: "flex",
+  alignItems: "center",
+  gap: 4,
+
+  "&::before": {
+    content: `"// "`,
+    fontFamily: "code"
+  },
+
+  textStyle: "sys.body-small",
+  fontSize: 10,
+  lineHeight: 12,
+
+  [`${Icon}`]: {
+    width: 12,
+    height: 12,
+    overflow: "hidden"
+  }
+});
+
+const MarkdownContainer = styled("div")({
+  textStyle: "sys.body-small",
 
   "& p": {
     my: 1,
-
-    "&::before": {
-      content: `"// "`,
-      fontFamily: "code"
-    },
 
     wordBreak: "keep-all",
     whiteSpace: "nowrap",
@@ -105,11 +134,7 @@ export const Description = styled<{
   "& code": {
     wordBreak: "keep-all",
     whiteSpace: "nowrap"
-  },
-
-  textStyle: "sys.body-small",
-  fontSize: 10,
-  lineHeight: 12
+  }
 });
 
 

@@ -23,7 +23,7 @@ class JSONSchema {
   @t.nativeEnum(Kind)
   kind!: Kind;
 
-  @t.annotate({ title: "名称" })
+  @t.annotate({ title: "名称", description: "详细描述" })
   @t.string()
   name!: string;
 
@@ -44,17 +44,25 @@ class JSONSchema {
   @t.annotate({ title: "端口" })
   @t.array(t.object(Port))
   ports!: Port[];
+
+  @t.annotate({ title: "其他配置" })
+  @t.record(t.string(), t.any())
+  @t.optional()
+  manifests!: Record<string, any>;
 }
 
 export default component(() => {
   const x = t.object(JSONSchema);
 
   const editor$ = JSONEditor.of(x, {
+    name: "name",
     annotations: {
-      text: "name",
-      longtext: new Array(100).fill("longtext").join(""),
+      longtext: new Array(100).fill("longtext").join("")
     },
     ports: [],
+    manifests: {
+      "x": {}
+    }
   });
 
   rx(
@@ -68,7 +76,7 @@ export default component(() => {
       }
       console.log(JSON.stringify(v, null, 2));
     }),
-    subscribeUntilUnmount(),
+    subscribeUntilUnmount()
   );
 
   return () => (

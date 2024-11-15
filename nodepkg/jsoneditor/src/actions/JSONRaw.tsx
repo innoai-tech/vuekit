@@ -1,9 +1,8 @@
 import { component$ } from "@innoai-tech/vuekit";
 import { Icon } from "@innoai-tech/vuematerial";
-import { ActionBtn } from "./Actions.tsx";
 import copyToClipboard from "copy-to-clipboard";
 import { mdiContentCopy } from "@mdi/js";
-import { Tooltip } from "./Tooltip.tsx";
+import { ActionBtn, Tooltip } from "../views";
 
 export const CopyAsJSONIconBtn = component$<{
   value?: any;
