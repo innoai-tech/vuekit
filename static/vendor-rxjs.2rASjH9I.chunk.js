@@ -159,8 +159,8 @@ var f = /* @__PURE__ */ function() {
       if (d2) {
         this._finalizers = null;
         try {
-          for (var y2 = /* @__PURE__ */ e(d2), b2 = /* @__PURE__ */ y2.next(); !b2.done; b2 = /* @__PURE__ */ y2.next()) {
-            var m2 = b2.value;
+          for (var b2 = /* @__PURE__ */ e(d2), y2 = /* @__PURE__ */ b2.next(); !y2.done; y2 = /* @__PURE__ */ b2.next()) {
+            var m2 = y2.value;
             try {
               v(m2);
             } catch (t4) {
@@ -171,7 +171,7 @@ var f = /* @__PURE__ */ function() {
           n2 = { error: t4 };
         } finally {
           try {
-            b2 && !b2.done && (u2 = y2.return) && u2.call(y2);
+            y2 && !y2.done && (u2 = b2.return) && u2.call(b2);
           } finally {
             if (n2) throw n2.error;
           }
@@ -211,15 +211,15 @@ function p(t2) {
 function v(t2) {
   c(t2) ? t2() : t2.unsubscribe();
 }
-var d = { Promise: void 0, useDeprecatedNextContext: false }, y = { setTimeout: function(t2, r2) {
+var d = { Promise: void 0, useDeprecatedNextContext: false }, b = { setTimeout: function(t2, r2) {
   for (var n2 = [], e2 = 2; e2 < arguments.length; e2++) n2[e2 - 2] = arguments[e2];
   return setTimeout.apply(void 0, /* @__PURE__ */ i([t2, r2], /* @__PURE__ */ o(n2)));
 }, clearTimeout: function(t2) {
-  var r2 = y.delegate;
+  var r2 = b.delegate;
   return ((null == r2 ? void 0 : r2.clearTimeout) || clearTimeout)(t2);
 }, delegate: void 0 };
-function b(t2) {
-  y.setTimeout(function() {
+function y(t2) {
+  b.setTimeout(function() {
     throw t2;
   });
 }
@@ -268,22 +268,22 @@ var g = /* @__PURE__ */ function() {
     if (r2.next) try {
       r2.next(t3);
     } catch (t4) {
-      b(t4);
+      y(t4);
     }
   }, t2.prototype.error = function(t3) {
     var r2 = this.partialObserver;
     if (r2.error) try {
       r2.error(t3);
     } catch (t4) {
-      b(t4);
+      y(t4);
     }
-    else b(t3);
+    else y(t3);
   }, t2.prototype.complete = function() {
     var t3 = this.partialObserver;
     if (t3.complete) try {
       t3.complete();
     } catch (t4) {
-      b(t4);
+      y(t4);
     }
   }, t2;
 }(), S = /* @__PURE__ */ function(t2) {
@@ -714,7 +714,7 @@ function tn(t2) {
         r2.closed || (r2.next(t3), r2.complete());
       }, function(t3) {
         return r2.error(t3);
-      }).then(null, b);
+      }).then(null, y);
     });
     if (W(t2)) return te(t2);
     if ($(t2)) return new j(function(r2) {
@@ -917,15 +917,15 @@ function th(t2) {
     return tf(r2) ? t2.apply(void 0, /* @__PURE__ */ i([], /* @__PURE__ */ o(r2))) : t2(r2);
   });
 }
-var tp = Array.isArray, tv = Object.getPrototypeOf, td = Object.prototype, ty = Object.keys;
-function tb() {
+var tp = Array.isArray, tv = Object.getPrototypeOf, td = Object.prototype, tb = Object.keys;
+function ty() {
   for (var t2, r2 = [], n2 = 0; n2 < arguments.length; n2++) r2[n2] = arguments[n2];
   var e2 = /* @__PURE__ */ J(r2), o2 = c(/* @__PURE__ */ H(r2)) ? r2.pop() : void 0, i2 = /* @__PURE__ */ function(t3) {
     if (1 === t3.length) {
       var r3 = t3[0];
       if (tp(r3)) return { args: r3, keys: null };
       if (r3 && "object" == typeof r3 && tv(r3) === td) {
-        var n3 = /* @__PURE__ */ ty(r3);
+        var n3 = /* @__PURE__ */ tb(r3);
         return { args: /* @__PURE__ */ n3.map(function(t4) {
           return r3[t4];
         }), keys: n3 };
@@ -1075,6 +1075,18 @@ function tI(t2, r2) {
   });
 }
 function tA(t2, r2) {
+  return void 0 === r2 && (r2 = I), t2 = null != t2 ? t2 : tP, k(function(n2, e2) {
+    var o2, i2 = true;
+    n2.subscribe(/* @__PURE__ */ C(e2, function(n3) {
+      var u2 = /* @__PURE__ */ r2(n3);
+      (i2 || !t2(o2, u2)) && (i2 = false, o2 = u2, e2.next(n3));
+    }));
+  });
+}
+function tP(t2, r2) {
+  return t2 === r2;
+}
+function tj(t2, r2) {
   return k(function(n2, e2) {
     var o2 = null, i2 = 0, u2 = false, c2 = function() {
       return u2 && !o2 && e2.complete();
@@ -1092,7 +1104,7 @@ function tA(t2, r2) {
     }));
   });
 }
-function tP(t2, r2, n2) {
+function tT(t2, r2, n2) {
   var e2 = c(t2) || r2 || n2 ? { next: t2, error: r2, complete: n2 } : t2;
   return e2 ? k(function(t3, r3) {
     null === (n3 = e2.subscribe) || void 0 === n3 || n3.call(e2);
@@ -1112,7 +1124,7 @@ function tP(t2, r2, n2) {
     }));
   }) : I;
 }
-function tj(t2, r2) {
+function tk(t2, r2) {
   var n2 = {};
   for (var e2 in t2) Object.prototype.hasOwnProperty.call(t2, e2) && 0 > r2.indexOf(e2) && (n2[e2] = t2[e2]);
   if (null != t2 && "function" == typeof Object.getOwnPropertySymbols) for (var o2 = 0, e2 = /* @__PURE__ */ Object.getOwnPropertySymbols(t2); o2 < e2.length; o2++) 0 > r2.indexOf(e2[o2]) && Object.prototype.propertyIsEnumerable.call(t2, e2[o2]) && (n2[e2[o2]] = t2[e2[o2]]);
@@ -1123,16 +1135,17 @@ export {
   V as E,
   j as O,
   U as S,
-  tj as _,
+  tk as _,
   ts as a,
   tl as b,
-  tb as c,
+  ty as c,
   tI as d,
-  tE as e,
+  tA as e,
   tg as f,
+  tE as g,
   ta as i,
   tO as m,
   A as p,
-  tA as s,
-  tP as t
+  tj as s,
+  tT as t
 };

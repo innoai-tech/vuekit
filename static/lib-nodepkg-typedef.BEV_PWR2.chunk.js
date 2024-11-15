@@ -2,7 +2,7 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a;
-import { i as e } from "./lib-nodepkg-vuekit.hhdOaADt.chunk.js";
+import { i as e } from "./lib-nodepkg-vuekit.Dm-i5ZAp.chunk.js";
 let t = (e2) => void 0 === e2, r = (e2) => !!e2 && "object" == typeof e2, n = (e2) => !!e2 && e2.constructor == Object, i = (e2) => Array.isArray(e2), a = (e2) => "number" == typeof e2 && !Number.isNaN(e2) && Number.isInteger(e2), o = (e2) => "boolean" == typeof e2, s = (e2) => "string" == typeof e2, c = (e2) => "object" == typeof e2 && "function" == typeof e2[Symbol.iterator], l = (e2) => "function" == typeof e2 && `${e2}`.startsWith("class"), u = (e2) => !!(e2 && e2.constructor && e2.call && e2.apply);
 var f, d, p, h = /* @__PURE__ */ Symbol.for("immer-nothing"), y = /* @__PURE__ */ Symbol.for("immer-draftable"), v = /* @__PURE__ */ Symbol.for("immer-state");
 function m(e2) {
@@ -950,6 +950,19 @@ const _eg = class _eg extends ev {
 __publicField(_eg, "create", ec((e2) => new _eg({ [eu.underlying]: e2, [eu.optional]: e2 })));
 let eg = _eg;
 const _eb = class _eb extends ey {
+  constructor() {
+    super({});
+  }
+  get type() {
+    return "any";
+  }
+  validator() {
+    return true;
+  }
+};
+__publicField(_eb, "create", ec(() => new _eb()));
+let eb = _eb;
+const _ew = class _ew extends ey {
   get type() {
     return this.schema.type;
   }
@@ -957,9 +970,9 @@ const _eb = class _eb extends ey {
     return s(e2);
   }
 };
-__publicField(_eb, "create", ec(() => new _eb({ type: "string" })));
-let eb = _eb;
-const _ew = class _ew extends ey {
+__publicField(_ew, "create", ec(() => new _ew({ type: "string" })));
+let ew = _ew;
+const _e_ = class _e_ extends ey {
   get type() {
     return this.schema.type;
   }
@@ -975,9 +988,9 @@ const _ew = class _ew extends ey {
     }
   }
 };
-__publicField(_ew, "create", ec(() => new _ew({ type: "integer" })));
-let ew = _ew;
-const _e_ = class _e_ extends ey {
+__publicField(_e_, "create", ec(() => new _e_({ type: "integer" })));
+let e_ = _e_;
+const _eO = class _eO extends ey {
   get type() {
     return this.schema.type;
   }
@@ -992,11 +1005,11 @@ const _e_ = class _e_ extends ey {
     }
   }
 };
-__publicField(_e_, "create", ec(() => new _e_({ type: "boolean" })));
-let e_ = _e_;
-const _eO = class _eO extends ey {
+__publicField(_eO, "create", ec(() => new _eO({ type: "boolean" })));
+let eO = _eO;
+const _eP = class _eP extends ey {
   static createEnum(e2) {
-    return new _eO({ enum: e2 });
+    return new _eP({ enum: e2 });
   }
   get type() {
     return "enums";
@@ -1005,11 +1018,11 @@ const _eO = class _eO extends ey {
     return this.schema.enum.includes(e2);
   }
 };
-__publicField(_eO, "create", ec(_eO.createEnum));
-__publicField(_eO, "literal", ec((e2) => new _eO({ enum: [e2] })));
-__publicField(_eO, "nativeEnum", ec((e2) => new _eO({ enum: /* @__PURE__ */ Object.values(e2) })));
-let eO = _eO;
-const _eP = class _eP extends ey {
+__publicField(_eP, "create", ec(_eP.createEnum));
+__publicField(_eP, "literal", ec((e2) => new _eP({ enum: [e2] })));
+__publicField(_eP, "nativeEnum", ec((e2) => new _eP({ enum: /* @__PURE__ */ Object.values(e2) })));
+let eP = _eP;
+const _ej = class _ej extends ey {
   get type() {
     return "never";
   }
@@ -1017,9 +1030,9 @@ const _eP = class _eP extends ey {
     return false;
   }
 };
-__publicField(_eP, "create", ec(() => new _eP(false)));
-let eP = _eP;
-class ej extends ey {
+__publicField(_ej, "create", ec(() => new _ej(false)));
+let ej = _ej;
+class eM extends ey {
   static create(e2) {
     let t2 = function() {
       let e3 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t3 = [];
@@ -1030,7 +1043,7 @@ class ej extends ey {
       if (e2) {
         if (l(e2)) {
           let i2 = new e2(), a2 = {};
-          for (let [e3, t3] of Object.entries(i2)) a2[e3] = /* @__PURE__ */ eO.literal(t3);
+          for (let [e3, t3] of Object.entries(i2)) a2[e3] = /* @__PURE__ */ eP.literal(t3);
           for (let e3 of ee.getOwnPropertyNames(i2)) {
             let t3 = /* @__PURE__ */ ee.get(i2, e3);
             if (t3) {
@@ -1041,11 +1054,11 @@ class ej extends ey {
               } else a2[e3] = i3;
             }
           }
-          return new ej({ type: "object", properties: a2, required: /* @__PURE__ */ t2(a2), additionalProperties: /* @__PURE__ */ eP.create() });
+          return new eM({ type: "object", properties: a2, required: /* @__PURE__ */ t2(a2), additionalProperties: /* @__PURE__ */ ej.create() });
         }
-        return new ej({ type: "object", properties: e2, required: /* @__PURE__ */ t2(e2), additionalProperties: /* @__PURE__ */ eP.create() });
+        return new eM({ type: "object", properties: e2, required: /* @__PURE__ */ t2(e2), additionalProperties: /* @__PURE__ */ ej.create() });
       }
-      return new ej({ type: "object", properties: {}, required: [], additionalProperties: /* @__PURE__ */ eP.create() });
+      return new eM({ type: "object", properties: {}, required: [], additionalProperties: /* @__PURE__ */ ej.create() });
     })();
   }
   get type() {
@@ -1075,7 +1088,7 @@ class ej extends ey {
     return super.coercer(e2, t2);
   }
 }
-const _eM = class _eM extends ey {
+const _eS = class _eS extends ey {
   get type() {
     return "record";
   }
@@ -1086,9 +1099,9 @@ const _eM = class _eM extends ey {
     return r(e2);
   }
 };
-__publicField(_eM, "create", ec((e2, t2) => new _eM({ type: "object", propertyNames: e2, additionalProperties: t2 })));
-let eM = _eM;
-const _eS = class _eS extends ey {
+__publicField(_eS, "create", ec((e2, t2) => new _eS({ type: "object", propertyNames: e2, additionalProperties: t2 })));
+let eS = _eS;
+const _eE = class _eE extends ey {
   get type() {
     return this.schema.type;
   }
@@ -1102,9 +1115,9 @@ const _eS = class _eS extends ey {
     return i(e2) ? e2.slice() : e2;
   }
 };
-__publicField(_eS, "create", ec((e2) => new _eS({ type: "array", items: e2 })));
-let eS = _eS;
-const _eE = class _eE extends ey {
+__publicField(_eE, "create", ec((e2) => new _eE({ type: "array", items: e2 })));
+let eE = _eE;
+const _eA = class _eA extends ey {
   constructor() {
     super(...arguments);
     __publicField(this, "_discriminatorPropName");
@@ -1116,12 +1129,12 @@ const _eE = class _eE extends ey {
       let t3 = [];
       if (1 == r2.length && r2[0].constructor == Object) for (let [n3, i2] of Object.entries(r2[0])) if (eu.schemaProp(i2, "$ref")) t3.push(i2);
       else {
-        let r3 = { [e2]: /* @__PURE__ */ eO.literal(n3) };
+        let r3 = { [e2]: /* @__PURE__ */ eP.literal(n3) };
         for (let [e3, t4, n4] of i2.entries({}, et)) r3[String(e3)] = n4;
-        t3.push(/* @__PURE__ */ ej.create(r3));
+        t3.push(/* @__PURE__ */ eM.create(r3));
       }
-      else for (let e3 of r2) l(e3) && t3.push(/* @__PURE__ */ ej.create(e3));
-      return new _eE({ oneOf: t3, discriminator: { propertyName: e2 } });
+      else for (let e3 of r2) l(e3) && t3.push(/* @__PURE__ */ eM.create(e3));
+      return new _eA({ oneOf: t3, discriminator: { propertyName: e2 } });
     })();
   }
   discriminatorPropType(e2) {
@@ -1135,7 +1148,7 @@ const _eE = class _eE extends ey {
         let r3 = t4.schema.enum;
         r3 && o2.push(...r3), s2.push(t4.meta);
       }
-      return ev.of(/* @__PURE__ */ eO.create(o2), { [eu.meta]: /* @__PURE__ */ eu.create(s2[0], null !== (i2 = null === (r2 = e2.node) || void 0 === r2 ? void 0 : r2.current.meta) && void 0 !== i2 ? i2 : {}) });
+      return ev.of(/* @__PURE__ */ eP.create(o2), { [eu.meta]: /* @__PURE__ */ eu.create(s2[0], null !== (i2 = null === (r2 = e2.node) || void 0 === r2 ? void 0 : r2.current.meta) && void 0 !== i2 ? i2 : {}) });
     })();
   }
   discriminatorMapping(e2, t2, r2) {
@@ -1164,7 +1177,7 @@ const _eE = class _eE extends ey {
   *entries(e2) {
     let t2 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : et;
     if (this.schema.discriminator) {
-      let r2 = this.schema.discriminator.propertyName, n2 = null == e2 ? void 0 : e2[r2], i2 = /* @__PURE__ */ ej.create({ [r2]: /* @__PURE__ */ this.discriminatorPropType(t2), ...this.discriminatorMapping(r2, n2, t2) });
+      let r2 = this.schema.discriminator.propertyName, n2 = null == e2 ? void 0 : e2[r2], i2 = /* @__PURE__ */ eM.create({ [r2]: /* @__PURE__ */ this.discriminatorPropType(t2), ...this.discriminatorMapping(r2, n2, t2) });
       yield* i2.entries(e2, t2);
     }
   }
@@ -1181,7 +1194,7 @@ const _eE = class _eE extends ey {
   validator(e2, t2) {
     if (this.schema.discriminator) {
       let r3 = this.schema.discriminator.propertyName, n2 = null == e2 ? void 0 : e2[r3];
-      return ej.create({ [r3]: /* @__PURE__ */ this.discriminatorPropType(t2), ...this.discriminatorMapping(r3, n2, t2) }).validator(e2, t2);
+      return eM.create({ [r3]: /* @__PURE__ */ this.discriminatorPropType(t2), ...this.discriminatorMapping(r3, n2, t2) }).validator(e2, t2);
     }
     let r2 = [];
     for (let n2 of this.schema.oneOf) {
@@ -1192,28 +1205,29 @@ const _eE = class _eE extends ey {
     return [`Expected the value to satisfy a union of \`${this.schema.oneOf.map((e3) => e3.type).join(" | ")}\`, but received: ${e2}`, ...r2];
   }
 };
-__publicField(_eE, "create", ec(function() {
+__publicField(_eA, "create", ec(function() {
   for (var e2 = arguments.length, t2 = Array(e2), r2 = 0; r2 < e2; r2++) t2[r2] = arguments[r2];
-  return new _eE({ oneOf: t2 });
+  return new _eA({ oneOf: t2 });
 }));
-let eE = _eE;
-let eA = eb.create, ex = ew.create, eR = e_.create, eT = eO.create, eN = eO.nativeEnum, ez = ej.create, ek = eM.create, eF = eS.create, eK = eE.create, eD = ey.define, eW = /* @__PURE__ */ el((e2) => eg.create(e2)), e$ = /* @__PURE__ */ el((e2, t2) => ev.of(e2, { [eu.meta]: t2 }));
+let eA = _eA;
+let ex = eb.create, eR = ew.create, eT = e_.create, eN = eO.create, ez = eP.create, ek = eP.nativeEnum, eF = eM.create, eK = eS.create, eD = eE.create, eW = eA.create, e$ = ey.define, eC = /* @__PURE__ */ el((e2) => eg.create(e2)), eI = /* @__PURE__ */ el((e2, t2) => ev.of(e2, { [eu.meta]: t2 }));
 export {
   et as E,
   eh as J,
   eu as S,
-  e$ as a,
-  ex as b,
-  eD as c,
-  eW as d,
-  eF as e,
-  eR as f,
-  eT as g,
+  ex as a,
+  eI as b,
+  e$ as c,
+  eT as d,
+  eC as e,
+  eD as f,
+  eN as g,
+  ez as h,
   en as i,
-  eN as n,
-  ez as o,
+  ek as n,
+  eF as o,
   Z as p,
-  ek as r,
-  eA as s,
-  eK as u
+  eK as r,
+  eR as s,
+  eW as u
 };
