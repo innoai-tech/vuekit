@@ -5,14 +5,14 @@ var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot
 var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
 var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
 var _e, _t, _n;
-import { c as e, I as t, j as n, a as l, r as a, s as i, b as r, d as o, e as d, f as s, T as p, F as c, g as u, o as h, t as y, h as v } from "./lib-nodepkg-vuekit.Dm-i5ZAp.chunk.js";
-import { o as m, J as f, S as x, a as b, r as g, s as w, E as N } from "./lib-nodepkg-typedef.BEV_PWR2.chunk.js";
-import { s as C, v as k, a as $, P as S, b as O, B as E } from "./lib-nodepkg-vueuikit.BA8_i_he.chunk.js";
-import { I as T, a as I } from "./lib-nodepkg-vuematerial.CwD81C3d.chunk.js";
-import { m as A, a as D, b as R, c as L, d as J } from "./webapp-vuekit-layout.CKzywcdo.chunk.js";
+import { c as e, I as t, j as n, a as l, r as a, s as i, b as r, d as o, e as d, f as s, T as p, F as c, g as u, o as h, t as y, h as v } from "./lib-nodepkg-vuekit.BsFhVfPD.chunk.js";
+import { o as m, J as f, S as x, a as b, r as g, s as w, E as N } from "./lib-nodepkg-typedef.C_oxVmDJ.chunk.js";
+import { s as C, v as $, a as k, P as S, b as O, B as E } from "./lib-nodepkg-vueuikit.EYOUuE-L.chunk.js";
+import { I, a as T } from "./lib-nodepkg-vuematerial.CSoX36wn.chunk.js";
+import { m as A, a as D, b as R, c as J, d as L } from "./webapp-vuekit-layout.WoncVGai.chunk.js";
 import { O as P, s as M, m as B, f as _, d as W, t as j, E as z, c as H, B as F, S as U } from "./vendor-rxjs.2rASjH9I.chunk.js";
 import { i as V, g as K, a as X, b as q, s as G, l as Q, c as Y, d as Z, e as ee } from "./vendor-innoai-tech-lodash.BEztC5WG.chunk.js";
-import { M as et } from "./lib-nodepkg-vuemarkdown.FvZSoPHQ.chunk.js";
+import { M as et } from "./lib-nodepkg-vuemarkdown.CPwoRRDk.chunk.js";
 const _en = class _en extends P {
   constructor(e3, t2) {
     super((e4) => {
@@ -80,14 +80,14 @@ let el = /* @__PURE__ */ e(() => new en(m(), {})), ea = /* @__PURE__ */ e(() => 
     var t3;
     return /* @__PURE__ */ n(e4, { children: /* @__PURE__ */ n(ei, { "data-visible-on-hover": true, children: null === (t3 = l2.default) || void 0 === t3 ? void 0 : t3.call(l2) }) });
   };
-}, { displayName: "Actions" })({ display: "flex" }), eo = /* @__PURE__ */ C(T, { displayName: "ActionBtn" })({ transition: "none", width: 24, height: 24, rounded: 12, [`& ${I}`]: { svg: { width: 18, height: 18 } } });
+}, { displayName: "Actions" })({ display: "flex" }), eo = /* @__PURE__ */ C(I, { displayName: "ActionBtn" })({ transition: "none", width: 24, height: 24, rounded: 12, [`& ${T}`]: { svg: { width: 18, height: 18 } } });
 class ed extends t {
   static from(e3) {
     let t2 = new ed(false);
     return a(e3, /* @__PURE__ */ M((e4) => e4 ? B(/* @__PURE__ */ a(/* @__PURE__ */ _(e4, "focus"), /* @__PURE__ */ j(() => {
       t2.show();
-    })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "blur"), /* @__PURE__ */ W(10), /* @__PURE__ */ j(() => {
-      t2.hide();
+    })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "blur"), /* @__PURE__ */ W(50), /* @__PURE__ */ j(() => {
+      t2.value && t2.hide();
     }))) : z), /* @__PURE__ */ i()), t2;
   }
   show() {
@@ -125,7 +125,7 @@ l((e3, t2) => {
     return /* @__PURE__ */ n(S, { isOpen: e4, onClickOutside: () => o2.hide(), placement: "bottom-start", $content: /* @__PURE__ */ n(ec, { children: null === (t3 = i2.content) || void 0 === t3 ? void 0 : t3.call(i2) }), children: null !== (r3 = null === (a2 = i2.default) || void 0 === a2 ? void 0 : null === (l3 = /* @__PURE__ */ a2.call(i2)) || void 0 === l3 ? void 0 : l3[0]) && void 0 !== r3 ? r3 : null });
   }));
 }, { displayName: "Popover", props: ["open$"] });
-let ec = /* @__PURE__ */ C("div", { displayName: "PopoverContainer" })({ textStyle: "sys.body-small", pos: "relative", roundedBottom: "sm", containerStyle: "sys.surface-container-lowest", borderBottom: "1px solid", borderRight: "1px solid", borderLeft: "1px solid", borderColor: /* @__PURE__ */ k("sys.outline-variant", /* @__PURE__ */ $(0.38)) }), eu = /* @__PURE__ */ C("div", { displayName: "MenuItem" })({ px: 8, py: 2, gap: 8, display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "right", textStyle: "sys.body-small", cursor: "pointer", _hover: { containerStyle: "sys.surface-container" }, _focus: { containerStyle: "sys.surface-container", outline: 0 } }), eh = /* @__PURE__ */ l((e3, t2) => {
+let ec = /* @__PURE__ */ C("div", { displayName: "PopoverContainer" })({ textStyle: "sys.body-small", pos: "relative", roundedBottom: "sm", containerStyle: "sys.surface-container-lowest", borderBottom: "1px solid", borderRight: "1px solid", borderLeft: "1px solid", borderColor: /* @__PURE__ */ $("sys.outline-variant", /* @__PURE__ */ k(0.38)) }), eu = /* @__PURE__ */ C("div", { displayName: "MenuItem" })({ px: 8, py: 2, gap: 8, display: "flex", alignItems: "center", justifyContent: "space-between", textAlign: "right", textStyle: "sys.body-small", cursor: "pointer", _hover: { containerStyle: "sys.surface-container" }, _focus: { containerStyle: "sys.surface-container", outline: 0 } }), eh = /* @__PURE__ */ l((e3, t2) => {
   let { slots: l2, render: i2 } = t2, o2 = new ed(false);
   return a(o2, /* @__PURE__ */ i2((t3) => {
     var a2, i3;
@@ -142,20 +142,20 @@ let ec = /* @__PURE__ */ C("div", { displayName: "PopoverContainer" })({ textSty
     var t3;
     return /* @__PURE__ */ s(eb, { "data-deprecated": e3.deprecated, "data-optional": e3.optional, "data-nullable": e3.nullable, children: [l2.leading && /* @__PURE__ */ n(ex, { "data-visible-on-hover": true, children: /* @__PURE__ */ l2.leading() }), null === (t3 = l2.default) || void 0 === t3 ? void 0 : t3.call(l2)] });
   };
-}, { displayName: "PropName", props: ["deprecated", "optional", "nullable"] }), ex = /* @__PURE__ */ C(ei, { displayName: "PropLeading" })({ position: "absolute", ml: -28 }), eb = /* @__PURE__ */ C("div", { displayName: "PropNameView" })({ position: "relative", display: "flex", alignItems: "center", textStyle: "sys.label-small", fontWeight: "bold", fontFamily: "inherit", wordBreak: "keep-all", whiteSpace: "nowrap", border: "1px solid", borderColor: "rgba(0,0,0,0)", fontSize: 12, lineHeight: 24, _deprecated: { textDecoration: "line-through" }, _optional: { "&:after": { content: '"?"', color: "sys.secondary", opacity: 0.58 } } }), eg = /* @__PURE__ */ C("div", { displayName: "LineTitle" })({ position: "absolute", zIndex: 1, left: 0, opacity: 0.58, fontSize: 10, lineHeight: 10, top: 0, "& > *": { display: "flex", alignItems: "center", gap: 4, "&::before": { content: '"// "', font: "code" } } }), ew = /* @__PURE__ */ C("div", { displayName: "LineError" })({ display: "block", fontSize: 10, lineHeight: 14, color: "sys.error" }), eN = /* @__PURE__ */ C("div", { displayName: "LineContainer" })({ position: "relative", py: 4, _hover: { containerStyle: "sys.surface-container", "& [data-visible-on-hover]": { visibility: "visible" } }, "&:focus-within": { containerStyle: "sys.surface-container" }, _dirty: { bgColor: /* @__PURE__ */ k("sys.warning-container", /* @__PURE__ */ $(0.38)) }, _error: { bgColor: "sys.error-container" }, [`&:has(${er})`]: { [`& > ${ew}`]: { display: "none" }, _error: { bgColor: "inherit" } } }), eC = /* @__PURE__ */ e(() => ({ indent: 0, $container: /* @__PURE__ */ o(null) }), { name: "IntentContext" }), ek = /* @__PURE__ */ d((e3, t2) => {
+}, { displayName: "PropName", props: ["deprecated", "optional", "nullable"] }), ex = /* @__PURE__ */ C(ei, { displayName: "PropLeading" })({ position: "absolute", ml: -28 }), eb = /* @__PURE__ */ C("div", { displayName: "PropNameView" })({ position: "relative", display: "flex", alignItems: "center", textStyle: "sys.label-small", fontWeight: "bold", fontFamily: "inherit", wordBreak: "keep-all", whiteSpace: "nowrap", border: "1px solid", borderColor: "rgba(0,0,0,0)", fontSize: 12, lineHeight: 24, _deprecated: { textDecoration: "line-through" }, _optional: { "&:after": { content: '"?"', color: "sys.secondary", opacity: 0.58 } } }), eg = /* @__PURE__ */ C("div", { displayName: "LineTitle" })({ position: "absolute", zIndex: 1, left: 0, opacity: 0.58, fontSize: 10, lineHeight: 10, top: 0, "& > *": { display: "flex", alignItems: "center", gap: 4, "&::before": { content: '"// "', font: "code" } } }), ew = /* @__PURE__ */ C("div", { displayName: "LineError" })({ display: "block", fontSize: 10, lineHeight: 14, color: "sys.error" }), eN = /* @__PURE__ */ C("div", { displayName: "LineContainer" })({ position: "relative", py: 4, _hover: { containerStyle: "sys.surface-container", "& [data-visible-on-hover]": { visibility: "visible" } }, "&:focus-within": { containerStyle: "sys.surface-container" }, _dirty: { bgColor: /* @__PURE__ */ $("sys.warning-container", /* @__PURE__ */ k(0.38)) }, _error: { bgColor: "sys.error-container" }, [`&:has(${er})`]: { [`& > ${ew}`]: { display: "none" }, _error: { bgColor: "inherit" } } }), eC = /* @__PURE__ */ e(() => ({ indent: 0, $container: /* @__PURE__ */ o(null) }), { name: "IntentContext" }), e$ = /* @__PURE__ */ d((e3, t2) => {
   let { slots: l2 } = t2, a2 = /* @__PURE__ */ eC.use(), i2 = /* @__PURE__ */ o(null), r2 = /* @__PURE__ */ o(null);
   return () => {
     var t3, o2, d2, u2, h2;
-    return /* @__PURE__ */ s(c, { children: [/* @__PURE__ */ n(em, { children: e3.openToken }), null === (t3 = l2.leading) || void 0 === t3 ? void 0 : t3.call(l2), /* @__PURE__ */ s(p, { to: a2.$container.value, children: [/* @__PURE__ */ s(eO, { "data-indent": a2.indent, children: [/* @__PURE__ */ n(eS, { ref: i2 }), /* @__PURE__ */ n(eE, { ref: r2 }), r2.value && /* @__PURE__ */ n(eC, { value: { $container: r2, indent: 1 + (null !== (u2 = a2.indent) && void 0 !== u2 ? u2 : 0) }, children: null === (o2 = l2.trailing) || void 0 === o2 ? void 0 : o2.call(l2) })] }), /* @__PURE__ */ n(eT, { style: { paddingLeft: `${32 * a2.indent}px`, display: "flex" }, children: /* @__PURE__ */ n(em, { children: e3.closeToken }) })] }), i2.value && /* @__PURE__ */ n(eC, { value: { $container: i2, indent: 1 + (null !== (h2 = a2.indent) && void 0 !== h2 ? h2 : 0) }, children: null === (d2 = l2.default) || void 0 === d2 ? void 0 : d2.call(l2) })] });
+    return /* @__PURE__ */ s(c, { children: [/* @__PURE__ */ n(em, { children: e3.openToken }), null === (t3 = l2.leading) || void 0 === t3 ? void 0 : t3.call(l2), /* @__PURE__ */ s(p, { to: a2.$container.value, children: [/* @__PURE__ */ s(eO, { "data-indent": a2.indent, children: [/* @__PURE__ */ n(eS, { ref: i2 }), /* @__PURE__ */ n(eE, { ref: r2 }), r2.value && /* @__PURE__ */ n(eC, { value: { $container: r2, indent: 1 + (null !== (u2 = a2.indent) && void 0 !== u2 ? u2 : 0) }, children: null === (o2 = l2.trailing) || void 0 === o2 ? void 0 : o2.call(l2) })] }), /* @__PURE__ */ n(eI, { style: { paddingLeft: `${32 * a2.indent}px`, display: "flex" }, children: /* @__PURE__ */ n(em, { children: e3.closeToken }) })] }), i2.value && /* @__PURE__ */ n(eC, { value: { $container: i2, indent: 1 + (null !== (h2 = a2.indent) && void 0 !== h2 ? h2 : 0) }, children: null === (d2 = l2.default) || void 0 === d2 ? void 0 : d2.call(l2) })] });
   };
-}, { displayName: "Block", props: ["openToken", "closeToken"] }), e$ = /* @__PURE__ */ l((e3, t2) => {
+}, { displayName: "Block", props: ["openToken", "closeToken"] }), ek = /* @__PURE__ */ l((e3, t2) => {
   let { slots: l2, render: i2 } = t2, r2 = /* @__PURE__ */ eC.use(), o2 = /* @__PURE__ */ a(el.use().error$, /* @__PURE__ */ i2((t3) => {
     var a2;
     let i3 = /* @__PURE__ */ f.create(e3.path), o3 = !e3.viewOnly && !!t3[i3];
-    return /* @__PURE__ */ s(eN, { "data-error": o3, "data-dirty": e3.dirty, style: { paddingLeft: `${32 * r2.indent}px` }, children: [(e3.title || e3.description) && /* @__PURE__ */ n(eg, { style: { paddingLeft: `${32 * r2.indent}px` }, children: e3.description ? /* @__PURE__ */ n(eh, { $title: /* @__PURE__ */ n(eI, { children: /* @__PURE__ */ n(et, { text: e3.description }) }), children: /* @__PURE__ */ s("div", { children: [e3.title, " ", /* @__PURE__ */ n(I, { path: A })] }) }) : /* @__PURE__ */ n("span", { children: e3.title }) }), /* @__PURE__ */ n(eT, { children: null === (a2 = l2.default) || void 0 === a2 ? void 0 : a2.call(l2) }), o3 && /* @__PURE__ */ n(ew, { children: `${t3[i3]}` })] });
+    return /* @__PURE__ */ s(eN, { "data-error": o3, "data-dirty": e3.dirty, style: { paddingLeft: `${32 * r2.indent}px` }, children: [(e3.title || e3.description) && /* @__PURE__ */ n(eg, { style: { paddingLeft: `${32 * r2.indent}px` }, children: e3.description ? /* @__PURE__ */ n(eh, { $title: /* @__PURE__ */ n(eT, { children: /* @__PURE__ */ n(et, { text: e3.description }) }), children: /* @__PURE__ */ s("div", { children: [e3.title, " ", /* @__PURE__ */ n(T, { path: A })] }) }) : /* @__PURE__ */ n("span", { children: e3.title }) }), /* @__PURE__ */ n(eI, { children: null === (a2 = l2.default) || void 0 === a2 ? void 0 : a2.call(l2) }), o3 && /* @__PURE__ */ n(ew, { children: `${t3[i3]}` })] });
   }));
   return () => /* @__PURE__ */ n(p, { to: r2.$container.value, children: o2 });
-}, { displayName: "Line", props: ["path", "dirty", "viewOnly", "title", "description"] }), eS = /* @__PURE__ */ C("div", { displayName: "Lines" })({}), eO = /* @__PURE__ */ C("section", { displayName: "LineSection" })({}), eE = /* @__PURE__ */ C("div", { displayName: "LinesTrailing" })({}), eT = /* @__PURE__ */ C("div", { displayName: "LineRow" })({ display: "flex", alignItems: "start", pr: 10 }), eI = /* @__PURE__ */ C("span", { displayName: "Description" })({ display: "block", textStyle: "sys.body-small", "& p": { my: 1, wordBreak: "keep-all", whiteSpace: "nowrap", opacity: 0.7 }, "& code": { wordBreak: "keep-all", whiteSpace: "nowrap" } }), eA = /* @__PURE__ */ C("form", { displayName: "FormControls" })({ display: "flex", pos: "absolute", right: 0, bottom: 0, px: 8 });
+}, { displayName: "Line", props: ["path", "dirty", "viewOnly", "title", "description"] }), eS = /* @__PURE__ */ C("div", { displayName: "Lines" })({}), eO = /* @__PURE__ */ C("section", { displayName: "LineSection" })({}), eE = /* @__PURE__ */ C("div", { displayName: "LinesTrailing" })({}), eI = /* @__PURE__ */ C("div", { displayName: "LineRow" })({ display: "flex", alignItems: "start", pr: 10 }), eT = /* @__PURE__ */ C("span", { displayName: "Description" })({ display: "block", textStyle: "sys.body-small", "& p": { my: 1, wordBreak: "keep-all", whiteSpace: "nowrap", opacity: 0.7 }, "& code": { wordBreak: "keep-all", whiteSpace: "nowrap" } }), eA = /* @__PURE__ */ C("form", { displayName: "FormControls" })({ display: "flex", pos: "absolute", right: 0, bottom: 0, px: 8 });
 C("div", { displayName: "FormContainer" })({ display: "flex", flexDirection: "column", pos: "relative", textarea: { minW: 400, outline: "none", border: "none", bg: "none", py: 8, px: 12 } }), C("div", { displayName: "FormContainerAsRow" })({ display: "flex", alignItems: "center", gap: 8, pos: "relative", px: 8, input: { outline: "none", border: "none", bg: "none", minWidth: "10vw", py: 8, px: 12 }, [`& ${eA}`]: { pos: "relative", px: 0 } });
 var eD = function() {
   var e3 = /* @__PURE__ */ document.getSelection();
@@ -176,7 +176,7 @@ var eD = function() {
     }), t2 && t2.focus();
   };
 }, eR = { "text/plain": "Text", "text/html": "Url", default: "Text" };
-let eL = /* @__PURE__ */ u(function(e3, t2) {
+let eJ = /* @__PURE__ */ u(function(e3, t2) {
   var n2, l2, a2, i2, r2, o2, d2, s2, p2 = false;
   t2 || (t2 = {}), a2 = t2.debug || false;
   try {
@@ -202,9 +202,9 @@ let eL = /* @__PURE__ */ u(function(e3, t2) {
     d2 && ("function" == typeof d2.removeRange ? d2.removeRange(o2) : d2.removeAllRanges()), s2 && document.body.removeChild(s2), r2();
   }
   return p2;
-}), eJ = /* @__PURE__ */ l((e3, t2) => {
+}), eL = /* @__PURE__ */ l((e3, t2) => {
   let {} = t2;
-  return () => /* @__PURE__ */ n(eh, { $title: "复制当前节点为 JSON 字符串", children: /* @__PURE__ */ n(eo, { type: "button", onClick: () => eL(/* @__PURE__ */ JSON.stringify(e3.value, null, 2)), children: /* @__PURE__ */ n(I, { path: D }) }) });
+  return () => /* @__PURE__ */ n(eh, { $title: "复制当前节点为 JSON 字符串", children: /* @__PURE__ */ n(eo, { type: "button", onClick: () => eJ(/* @__PURE__ */ JSON.stringify(e3.value, null, 2)), children: /* @__PURE__ */ n(T, { path: D }) }) });
 }, { displayName: "CopyAsJSONIconBtn", props: ["value"] });
 class eP extends F {
   static from(e3) {
@@ -222,13 +222,11 @@ class eM extends U {
     })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "keydown"), /* @__PURE__ */ j((e5) => {
       switch (e5.key) {
         case "Tab":
+        case "ArrowDown":
           e5.target.getAttribute("data-options") && (e5.preventDefault(), t2.next({ type: "SELECT", direction: 1 }));
           break;
-        case "ArrowDown":
-          e5.preventDefault(), t2.next({ type: "SELECT", direction: 1 });
-          break;
         case "ArrowUp":
-          e5.preventDefault(), t2.next({ type: "SELECT", direction: -1 });
+          e5.target.getAttribute("data-options") && (e5.preventDefault(), t2.next({ type: "SELECT", direction: -1 }));
       }
     })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "keyup"), /* @__PURE__ */ j((e5) => {
       "Escape" === e5.key && t2.next({ type: "CANCEL" });
@@ -275,7 +273,7 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
     v2.next(""), f2.hide();
   }, C2 = () => {
     N2(), w2.next({ index: /* @__PURE__ */ g2() }), X(e3.value) && b2.delete(e3.ctx.path);
-  }, k2 = (t2) => {
+  }, $2 = (t2) => {
     var n2, l3, a2;
     if ("enums" === e3.typedef.type) {
       let l4 = null !== (n2 = /* @__PURE__ */ x.schemaProp(e3.typedef, "enum")) && void 0 !== n2 ? n2 : [];
@@ -308,7 +306,7 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
         });
         break;
       case "COMMIT":
-        k2();
+        $2();
         break;
       case "CANCEL":
         C2();
@@ -339,7 +337,7 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
           var n3, l3;
           if ((null === (n3 = p2.value) || void 0 === n3 ? void 0 : n3.contains(t3.relatedTarget)) || (null === (l3 = d2.value) || void 0 === l3 ? void 0 : l3.contains(t3.relatedTarget))) return;
         }
-        t3.preventDefault(), k2(e4.value);
+        t3.preventDefault(), $2(e4.value);
       })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "input"), /* @__PURE__ */ j((e5) => {
         n2(e5.target), v2.next(e5.target.value);
       })));
@@ -351,8 +349,8 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
     return /* @__PURE__ */ n(ez, { ref: p2, onClick: () => {
       f2.show();
     }, "data-type": typeof r3, tabindex: 0, children: o3 ? /* @__PURE__ */ n(ep, { onSelected: (e4) => {
-      k2(e4);
-    }, open$: f2, $content: /* @__PURE__ */ n("div", { ref: d2, children: /* @__PURE__ */ u3.map((e4, t3) => /* @__PURE__ */ n(eF, { "data-focus": s2 % u3.length === t3, value: e4, label: h2[t3] })) }), children: /* @__PURE__ */ n("input", { value: void 0 == r3 ? "" : `${r3}`, ref: c2, "data-options": true }) }) : /* @__PURE__ */ n("span", { children: null !== (i2 = /* @__PURE__ */ JSON.stringify(r3)) && void 0 !== i2 ? i2 : "undefined" }) });
+      $2(e4);
+    }, open$: f2, $content: /* @__PURE__ */ n("div", { ref: d2, children: /* @__PURE__ */ u3.map((e4, t3) => /* @__PURE__ */ n(eF, { "data-focus": s2 % u3.length === t3, value: e4, label: h2[t3] })) }), children: /* @__PURE__ */ n("div", { "data-input-wrapper": true, children: /* @__PURE__ */ n("input", { value: void 0 == r3 ? "" : `${r3}`, ref: c2, "data-options": true }) }) }) : /* @__PURE__ */ n("span", { children: null !== (i2 = /* @__PURE__ */ JSON.stringify(r3)) && void 0 !== i2 ? i2 : "undefined" }) });
   })) : a(/* @__PURE__ */ H([e3.value$, f2]), /* @__PURE__ */ o2((e4) => {
     var t2;
     let [l3, a2] = e4;
@@ -360,14 +358,14 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
       f2.show();
     }, "data-type": typeof l3, tabindex: 0, onFocus: () => {
       f2.show();
-    }, children: a2 ? /* @__PURE__ */ n(S, { isOpen: true, placement: "right-start", $content: /* @__PURE__ */ s(ej, { ref: d2, children: [/* @__PURE__ */ n(eo, { type: "button", onClick: () => u2.next({ type: "CANCEL" }), children: /* @__PURE__ */ n(I, { path: R }) }), /* @__PURE__ */ n(eo, { type: "button", onClick: () => u2.next({ type: "COMMIT" }), children: /* @__PURE__ */ n(I, { path: L }) })] }), children: /* @__PURE__ */ n("textarea", { ref: c2, rows: 1, value: void 0 == l3 ? "" : `${l3}` }) }) : /* @__PURE__ */ n("span", { "data-value": true, children: null !== (t2 = /* @__PURE__ */ JSON.stringify(l3)) && void 0 !== t2 ? t2 : "undefined" }) });
+    }, children: a2 ? /* @__PURE__ */ n(S, { isOpen: true, placement: "right-start", $content: /* @__PURE__ */ s(ej, { ref: d2, children: [/* @__PURE__ */ n(eo, { type: "button", onClick: () => u2.next({ type: "CANCEL" }), children: /* @__PURE__ */ n(T, { path: R }) }), /* @__PURE__ */ n(eo, { type: "button", onClick: () => u2.next({ type: "COMMIT" }), children: /* @__PURE__ */ n(T, { path: J }) })] }), children: /* @__PURE__ */ n("div", { "data-input-wrapper": true, children: /* @__PURE__ */ n("textarea", { ref: c2, rows: 1, value: void 0 == l3 ? "" : `${l3}` }) }) }) : /* @__PURE__ */ n("span", { "data-value": true, children: null !== (t2 = /* @__PURE__ */ JSON.stringify(l3)) && void 0 !== t2 ? t2 : "undefined" }) });
   }));
-}, { displayName: "ValueInput", props: ["typedef", "ctx", "value", "allowRawJSON"] }), ej = /* @__PURE__ */ C("div", { displayName: "ValueInputActions" })({ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid", borderColor: /* @__PURE__ */ k("sys.outline-variant", /* @__PURE__ */ $(0.38)), containerStyle: "sys.surface-container-lowest", roundedRight: "sm", display: "flex", px: 2, ml: -4 }), ez = /* @__PURE__ */ C("div", { displayName: "ValueContainer" })({ wordBreak: "keep-all", whiteSpace: "nowrap", cursor: "pointer", display: "flex", alignItems: "center", font: "code", width: "100%", textStyle: "sys.label-small", fontSize: 12, lineHeight: 24, gap: 8, "& [data-value]": { border: "1px solid", borderColor: "rgba(0,0,0,0)", maxWidth: "40vw", width: "100%", overflow: "hidden", textOverflow: "ellipsis", _hover: { textOverflow: "clip", whiteSpace: "normal", wordBreak: "break-all" } }, "& textarea,input": { border: "1px solid", borderColor: /* @__PURE__ */ k("sys.outline-variant", /* @__PURE__ */ $(0.38)), flex: 1, rounded: "xs", containerStyle: "sys.surface-container-lowest", width: "100%", maxWidth: "40vw", outline: "none", px: 8, py: 0, m: 0, fontSize: "inherit", color: "inherit", lineHeight: "inherit", overflow: "hidden", resize: "none", "&[data-options]:focus": { roundedBottom: 0 } }, _type__string: { color: "sys.primary" }, _type__number: { color: "sys.primary" }, _type__boolean: { color: "sys.warning" }, _type__undefined: { color: "sys.error" } }), eH = /* @__PURE__ */ C(eu, { displayName: "EnumMenuItemContainer" })({ [`& ${ef}`]: { textAlign: "left" } }), eF = /* @__PURE__ */ d((e3) => () => /* @__PURE__ */ s(eH, { "data-value": e3.value, tabindex: 0, children: [/* @__PURE__ */ n(ef, { children: e3.value }), e3.label && /* @__PURE__ */ n(eI, { children: e3.label })] }), { displayName: "EnumMenuItem", props: ["value", "label"] }), eU = /* @__PURE__ */ l((e3, t2) => {
+}, { displayName: "ValueInput", props: ["typedef", "ctx", "value", "allowRawJSON"] }), ej = /* @__PURE__ */ C("div", { displayName: "ValueInputActions" })({ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid", borderColor: /* @__PURE__ */ $("sys.outline-variant", /* @__PURE__ */ k(0.38)), containerStyle: "sys.surface-container-lowest", roundedRight: "sm", display: "flex", px: 2, ml: -4 }), ez = /* @__PURE__ */ C("div", { displayName: "ValueContainer" })({ wordBreak: "keep-all", whiteSpace: "nowrap", cursor: "pointer", display: "flex", alignItems: "center", font: "code", width: "100%", textStyle: "sys.label-small", fontSize: 12, lineHeight: 24, gap: 8, "& [data-value]": { border: "1px solid", borderColor: "rgba(0,0,0,0)", maxWidth: "40vw", width: "100%", overflow: "hidden", textOverflow: "ellipsis", _hover: { textOverflow: "clip", whiteSpace: "normal", wordBreak: "break-all" } }, "& [data-input-wrapper]": { width: "100%", maxWidth: "40vw", display: "flex", alignItems: "center", border: "1px solid", overflow: "hidden", borderColor: /* @__PURE__ */ $("sys.outline-variant", /* @__PURE__ */ k(0.38)) }, "& textarea,input": { border: "1px solid", borderColor: "rgba(0,0,0,0)", flex: 1, rounded: "xs", containerStyle: "sys.surface-container-lowest", width: "100%", outline: "none", px: 8, py: 0, m: 0, fontSize: "inherit", color: "inherit", lineHeight: "inherit", overflow: "hidden", resize: "none", "&[data-options]:focus": { roundedBottom: 0 } }, _type__string: { color: "sys.primary" }, _type__number: { color: "sys.primary" }, _type__boolean: { color: "sys.warning" }, _type__undefined: { color: "sys.error" } }), eH = /* @__PURE__ */ C(eu, { displayName: "EnumMenuItemContainer" })({ [`& ${ef}`]: { textAlign: "left" } }), eF = /* @__PURE__ */ d((e3) => () => /* @__PURE__ */ s(eH, { "data-value": e3.value, tabindex: 0, children: [/* @__PURE__ */ n(ef, { children: e3.value }), e3.label && /* @__PURE__ */ n(eT, { children: e3.label })] }), { displayName: "EnumMenuItem", props: ["value", "label"] }), eU = /* @__PURE__ */ l((e3, t2) => {
   let {} = e3, { emit: l2 } = t2;
-  return () => /* @__PURE__ */ n(eh, { $title: "删除属性", children: /* @__PURE__ */ n(eo, { type: "button", onClick: () => l2("remove"), children: /* @__PURE__ */ n(I, { path: J }) }) });
+  return () => /* @__PURE__ */ n(eh, { $title: "删除属性", children: /* @__PURE__ */ n(eo, { type: "button", onClick: () => l2("remove"), children: /* @__PURE__ */ n(T, { path: L }) }) });
 }, { displayName: "RemovePropIconBtn", emits: ["remove"] }), eV = /* @__PURE__ */ l((e3, t2) => {
   let { render: l2 } = t2, i2 = /* @__PURE__ */ el.use(), r2 = /* @__PURE__ */ ea.use();
-  return a(e3.value$, /* @__PURE__ */ l2((t3) => /* @__PURE__ */ n(ek, { openToken: "{", closeToken: "}", $leading: /* @__PURE__ */ n(er, { children: /* @__PURE__ */ n(eJ, { value: t3 }) }), $trailing: /* @__PURE__ */ n(eK, { ctx: e3.ctx, onAdd: (t4) => {
+  return a(e3.value$, /* @__PURE__ */ l2((t3) => /* @__PURE__ */ n(e$, { openToken: "{", closeToken: "}", $leading: /* @__PURE__ */ n(er, { children: /* @__PURE__ */ n(eL, { value: t3 }) }), $trailing: /* @__PURE__ */ n(eK, { ctx: e3.ctx, onAdd: (t4) => {
     i2.update([...e3.ctx.path, t4], void 0);
   }, options: /* @__PURE__ */ [.../* @__PURE__ */ e3.typedef.entries(t3, e3.ctx)].filter((e4) => {
     let [n2] = e4;
@@ -380,7 +378,7 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
     let [o2, d2, p2] = l3;
     if (!Object.hasOwn(t3, o2)) return null;
     let c2 = [...e3.ctx.path, o2];
-    return /* @__PURE__ */ s(e$, { path: c2, dirty: /* @__PURE__ */ i2.isDirty(d2, c2), title: /* @__PURE__ */ x.metaProp(p2, "title"), description: /* @__PURE__ */ x.metaProp(p2, "description"), children: [/* @__PURE__ */ n(ef, { deprecated: /* @__PURE__ */ x.schemaProp(p2, "deprecated"), $leading: /* @__PURE__ */ n(eU, { onRemove: () => {
+    return /* @__PURE__ */ s(ek, { path: c2, dirty: /* @__PURE__ */ i2.isDirty(d2, c2), title: /* @__PURE__ */ x.metaProp(p2, "title"), description: /* @__PURE__ */ x.metaProp(p2, "description"), children: [/* @__PURE__ */ n(ef, { deprecated: /* @__PURE__ */ x.schemaProp(p2, "deprecated"), $leading: /* @__PURE__ */ n(eU, { onRemove: () => {
       i2.delete(c2);
     } }), children: /* @__PURE__ */ String(o2) }), /* @__PURE__ */ s(em, { children: [":", " "] }), null === (a2 = r2.$value) || void 0 === a2 ? void 0 : a2.call(r2, p2, d2, { ...e3.ctx, path: c2, branch: [...e3.ctx.branch, d2] })] });
   }) })));
@@ -418,23 +416,23 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
         m2();
     }
   }), /* @__PURE__ */ i());
-  let b2 = /* @__PURE__ */ a(u2, /* @__PURE__ */ o2((e4) => /* @__PURE__ */ n("input", { ref: d2, type: "text", placeholder: "添加属性 (可粘贴 JSON 字符串)", "data-options": e4 })));
+  let b2 = /* @__PURE__ */ a(u2, /* @__PURE__ */ o2((e4) => /* @__PURE__ */ n("div", { "data-input-wrapper": true, children: /* @__PURE__ */ n("input", { ref: d2, type: "text", placeholder: "添加属性 (可粘贴 JSON 字符串)", "data-options": e4 }) })));
   return a(/* @__PURE__ */ H([c2, u2, v2, e3.options$]), /* @__PURE__ */ o2((t2) => {
     let [l3, a2, i2, r3] = t2;
-    return r3 ? r3.length > 0 ? /* @__PURE__ */ n(e$, { path: e3.ctx.path, children: /* @__PURE__ */ n(ez, { sx: { mx: -4 }, children: /* @__PURE__ */ n(ep, { onSelected: (e4) => {
+    return r3 ? r3.length > 0 ? /* @__PURE__ */ n(ek, { path: e3.ctx.path, children: /* @__PURE__ */ n(ez, { sx: { mx: -4 }, children: /* @__PURE__ */ n(ep, { onSelected: (e4) => {
       f2(e4);
-    }, open$: u2, $content: /* @__PURE__ */ n("div", { children: /* @__PURE__ */ r3.map((e4, t3) => l3 && !e4.propName.includes(l3) ? null : /* @__PURE__ */ n(eX, { propName: e4.propName, typedef: e4.typedef, "data-focus": t3 === i2.index % r3.length })) }), children: b2 }) }) }) : null : /* @__PURE__ */ n(e$, { path: [...e3.ctx.path, x.RecordKey], children: /* @__PURE__ */ n(ez, { sx: { mx: -4 }, children: /* @__PURE__ */ n(S, { isOpen: a2, placement: "right-start", $content: /* @__PURE__ */ s(ej, { children: [/* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "CANCEL" }), children: /* @__PURE__ */ n(I, { path: R }) }), /* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "COMMIT" }), children: /* @__PURE__ */ n(I, { path: L }) })] }), children: /* @__PURE__ */ n("input", { ref: d2, type: "text", placeholder: "添加属性 (可粘贴 JSON 字符串)" }) }) }) });
+    }, open$: u2, $content: /* @__PURE__ */ n("div", { children: /* @__PURE__ */ r3.map((e4, t3) => l3 && !e4.propName.includes(l3) ? null : /* @__PURE__ */ n(eX, { propName: e4.propName, typedef: e4.typedef, "data-focus": t3 === i2.index % r3.length })) }), children: b2 }) }) }) : null : /* @__PURE__ */ n(ek, { path: [...e3.ctx.path, x.RecordKey], children: /* @__PURE__ */ n(ez, { sx: { mx: -4 }, children: /* @__PURE__ */ n(S, { isOpen: a2, placement: "right-start", $content: /* @__PURE__ */ s(ej, { children: [/* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "CANCEL" }), children: /* @__PURE__ */ n(T, { path: R }) }), /* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "COMMIT" }), children: /* @__PURE__ */ n(T, { path: J }) })] }), children: /* @__PURE__ */ n("div", { "data-input-wrapper": true, children: /* @__PURE__ */ n("input", { ref: d2, type: "text", placeholder: "添加属性 (可粘贴 JSON 字符串)" }) }) }) }) });
   }));
-}, { displayName: "PropValueInput", props: ["ctx", "options"], emits: ["add"] }), eX = /* @__PURE__ */ d((e3) => () => /* @__PURE__ */ s(eq, { "data-value": e3.propName, tabindex: 0, children: [/* @__PURE__ */ n(ef, { optional: /* @__PURE__ */ x.schemaProp(e3.typedef, x.optional), children: e3.propName }), /* @__PURE__ */ n(eI, { children: /* @__PURE__ */ x.metaProp(e3.typedef, "title") })] }), { displayName: "PropMenuItem", props: ["propName", "typedef"] }), eq = /* @__PURE__ */ C(eu, { displayName: "AddPropMenuItemContainer" })({ [`& ${ef}`]: { textAlign: "left" } }), eG = /* @__PURE__ */ l((e3, t2) => {
+}, { displayName: "PropValueInput", props: ["ctx", "options"], emits: ["add"] }), eX = /* @__PURE__ */ d((e3) => () => /* @__PURE__ */ s(eq, { "data-value": e3.propName, tabindex: 0, children: [/* @__PURE__ */ n(ef, { optional: /* @__PURE__ */ x.schemaProp(e3.typedef, x.optional), children: e3.propName }), /* @__PURE__ */ n(eT, { children: /* @__PURE__ */ x.metaProp(e3.typedef, "title") })] }), { displayName: "PropMenuItem", props: ["propName", "typedef"] }), eq = /* @__PURE__ */ C(eu, { displayName: "AddPropMenuItemContainer" })({ [`& ${ef}`]: { textAlign: "left" } }), eG = /* @__PURE__ */ l((e3, t2) => {
   let { render: l2 } = t2, i2 = /* @__PURE__ */ el.use(), r2 = /* @__PURE__ */ ea.use();
-  return a(e3.value$, /* @__PURE__ */ l2((t3) => /* @__PURE__ */ n(ek, { openToken: "[", closeToken: "]", $leading: /* @__PURE__ */ n(er, { children: /* @__PURE__ */ n(eJ, { value: t3 }) }), $trailing: /* @__PURE__ */ n(eQ, { ctx: e3.ctx, typedef: e3.typedef, onAdd: (t4) => {
+  return a(e3.value$, /* @__PURE__ */ l2((t3) => /* @__PURE__ */ n(e$, { openToken: "[", closeToken: "]", $leading: /* @__PURE__ */ n(er, { children: /* @__PURE__ */ n(eL, { value: t3 }) }), $trailing: /* @__PURE__ */ n(eQ, { ctx: e3.ctx, typedef: e3.typedef, onAdd: (t4) => {
     i2.update(e3.ctx.path, (e4) => {
       e4.push(t4);
     }, []);
   } }), children: /* @__PURE__ */ [.../* @__PURE__ */ e3.typedef.entries(t3, e3.ctx)].map((t4) => {
     var l3;
     let [a2, o2, d2] = t4, p2 = [...e3.ctx.path, a2];
-    return /* @__PURE__ */ s(e$, { path: p2, dirty: /* @__PURE__ */ i2.isDirty(o2, p2), children: [/* @__PURE__ */ n(ef, { $leading: /* @__PURE__ */ n(eY, { onRemove: () => {
+    return /* @__PURE__ */ s(ek, { path: p2, dirty: /* @__PURE__ */ i2.isDirty(o2, p2), children: [/* @__PURE__ */ n(ef, { $leading: /* @__PURE__ */ n(eY, { onRemove: () => {
       i2.delete(p2);
     } }), children: /* @__PURE__ */ n(E, { sx: { opacity: 0.3, mr: "0.5em" }, children: /* @__PURE__ */ String(a2) }) }), null === (l3 = r2.$value) || void 0 === l3 ? void 0 : l3.call(r2, d2, o2, { ...e3.ctx, path: p2, branch: [...e3.ctx.branch, o2] })] });
   }) })));
@@ -474,21 +472,21 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
         y2();
     }
   }), /* @__PURE__ */ i());
-  let m2 = /* @__PURE__ */ a(c2, /* @__PURE__ */ r2((e4) => /* @__PURE__ */ n(S, { isOpen: e4, placement: "right-start", $content: /* @__PURE__ */ s(ej, { children: [/* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "CANCEL" }), children: /* @__PURE__ */ n(I, { path: R }) }), /* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "COMMIT" }), children: /* @__PURE__ */ n(I, { path: L }) })] }), children: /* @__PURE__ */ n("input", { ref: o2, type: "text", placeholder: "添加数组项 (可粘贴 JSON 字符串)" }) })));
-  return () => /* @__PURE__ */ n(e$, { path: e3.ctx.path, children: /* @__PURE__ */ n(ez, { sx: { mx: -4 }, children: m2 }) });
+  let m2 = /* @__PURE__ */ a(c2, /* @__PURE__ */ r2((e4) => /* @__PURE__ */ n(S, { isOpen: e4, placement: "right-start", $content: /* @__PURE__ */ s(ej, { children: [/* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "CANCEL" }), children: /* @__PURE__ */ n(T, { path: R }) }), /* @__PURE__ */ n(eo, { type: "button", onClick: () => p2.next({ type: "COMMIT" }), children: /* @__PURE__ */ n(T, { path: J }) })] }), children: /* @__PURE__ */ n("div", { "data-input-wrapper": true, children: /* @__PURE__ */ n("input", { ref: o2, type: "text", placeholder: "添加数组项 (可粘贴 JSON 字符串)" }) }) })));
+  return () => /* @__PURE__ */ n(ek, { path: e3.ctx.path, children: /* @__PURE__ */ n(ez, { sx: { mx: -4 }, children: m2 }) });
 }, { displayName: "AddItemIconBtn", props: ["ctx", "typedef"], emits: ["add"] }), eY = /* @__PURE__ */ l((e3, t2) => {
   let {} = e3, { emit: l2 } = t2;
-  return () => /* @__PURE__ */ n(eh, { $title: "移除项", children: /* @__PURE__ */ n(eo, { type: "button", onClick: () => l2("remove"), children: /* @__PURE__ */ n(I, { path: J }) }) });
+  return () => /* @__PURE__ */ n(eh, { $title: "移除项", children: /* @__PURE__ */ n(eo, { type: "button", onClick: () => l2("remove"), children: /* @__PURE__ */ n(T, { path: L }) }) });
 }, { displayName: "RemoteItemIconBtn", emits: ["remove"] }), eZ = /* @__PURE__ */ l((e3, t2) => {
   let { render: l2 } = t2, i2 = /* @__PURE__ */ el.use(), r2 = /* @__PURE__ */ ea.use();
-  return a(e3.value$, /* @__PURE__ */ l2((t3) => /* @__PURE__ */ n(ek, { openToken: "{", closeToken: "}", $leading: /* @__PURE__ */ n(er, { children: /* @__PURE__ */ n(eJ, { value: t3 }) }), $trailing: /* @__PURE__ */ n(eK, { ctx: e3.ctx, onAdd: (t4) => {
+  return a(e3.value$, /* @__PURE__ */ l2((t3) => /* @__PURE__ */ n(e$, { openToken: "{", closeToken: "}", $leading: /* @__PURE__ */ n(er, { children: /* @__PURE__ */ n(eL, { value: t3 }) }), $trailing: /* @__PURE__ */ n(eK, { ctx: e3.ctx, onAdd: (t4) => {
     i2.update([...e3.ctx.path, t4], void 0);
   } }, "prop-input"), children: /* @__PURE__ */ [.../* @__PURE__ */ e3.typedef.entries(t3, e3.ctx)].map((l3) => {
     var a2;
     let [o2, d2, p2] = l3;
     if (!Object.hasOwn(t3, o2)) return null;
     let c2 = [...e3.ctx.path, o2];
-    return /* @__PURE__ */ s(e$, { path: c2, dirty: /* @__PURE__ */ i2.isDirty(d2, c2), children: [/* @__PURE__ */ n(ef, { $leading: /* @__PURE__ */ n(eU, { onRemove: () => {
+    return /* @__PURE__ */ s(ek, { path: c2, dirty: /* @__PURE__ */ i2.isDirty(d2, c2), children: [/* @__PURE__ */ n(ef, { $leading: /* @__PURE__ */ n(eU, { onRemove: () => {
       i2.delete(c2);
     } }), children: /* @__PURE__ */ String(o2) }), /* @__PURE__ */ s(em, { children: [":", " "] }), null === (a2 = r2.$value) || void 0 === a2 ? void 0 : a2.call(r2, p2, d2, { ...e3.ctx, path: c2, branch: [...e3.ctx.branch, d2] })] });
   }) })));
@@ -500,12 +498,12 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
   return a(i2, /* @__PURE__ */ l2((e4) => {
     var t3, l3;
     let a2 = null !== (t3 = r2.$value) && void 0 !== t3 ? t3 : e1;
-    return /* @__PURE__ */ n(e_, { children: /* @__PURE__ */ n(ea, { value: { $value: null !== (l3 = r2.$value) && void 0 !== l3 ? l3 : e1 }, children: /* @__PURE__ */ s(e2, { children: [/* @__PURE__ */ n("section", { ref: o2 }), o2.value && /* @__PURE__ */ n(eC, { value: { indent: 0, $container: o2 }, children: /* @__PURE__ */ n(e$, { path: [], viewOnly: true, children: /* @__PURE__ */ a2(i2.typedef, e4, N) }) })] }) }) });
+    return /* @__PURE__ */ n(e_, { children: /* @__PURE__ */ n(ea, { value: { $value: null !== (l3 = r2.$value) && void 0 !== l3 ? l3 : e1 }, children: /* @__PURE__ */ s(e2, { children: [/* @__PURE__ */ n("section", { ref: o2 }), o2.value && /* @__PURE__ */ n(eC, { value: { indent: 0, $container: o2 }, children: /* @__PURE__ */ n(ek, { path: [], viewOnly: true, children: /* @__PURE__ */ a2(i2.typedef, e4, N) }) })] }) }) });
   }));
 }, { displayName: "JSONEditorView" }), e2 = /* @__PURE__ */ C("div", { displayName: "JSONEditorContainer" })({ width: "100%", height: "100%", overflow: "auto", section: { display: "flex", flexDirection: "column", minWidth: "max-content" } });
 export {
   en as J,
   el as a,
   e8 as b,
-  eL as c
+  eJ as c
 };
