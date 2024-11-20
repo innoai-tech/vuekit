@@ -1,13 +1,8 @@
-var __typeError = (msg) => {
-  throw TypeError(msg);
-};
-var __accessCheck = (obj, member, msg) => member.has(obj) || __typeError("Cannot " + msg);
-var __privateGet = (obj, member, getter) => (__accessCheck(obj, member, "read from private field"), getter ? getter.call(obj) : member.get(obj));
-var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot add the same private member more than once") : member instanceof WeakSet ? member.add(obj) : member.set(obj, value);
-var __privateSet = (obj, member, value, setter) => (__accessCheck(obj, member, "write to private field"), setter ? setter.call(obj, value) : member.set(obj, value), value);
-var _e, _t;
+var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 let e, t, r, l, o, i, a, s, u, c, f;
-import { i as p, p as d, c as h, o as g } from "./lib-nodepkg-typedef.C_oxVmDJ.chunk.js";
+import { i as p, p as d, c as h, o as g } from "./lib-nodepkg-typedef.BB0LFIQb.chunk.js";
 import { p as y, a as m, O as b, S as _, t as w, b as E, B as S, i as A } from "./vendor-rxjs.2rASjH9I.chunk.js";
 import { b as x, p as O, k as R, i as k, a as C, d as T, f as j } from "./vendor-innoai-tech-lodash.BEztC5WG.chunk.js";
 (function() {
@@ -4349,33 +4344,30 @@ function pF(e11) {
   for (var t10 = arguments.length, r10 = Array(t10 > 1 ? t10 - 1 : 0), l10 = 1; l10 < t10; l10++) r10[l10 - 1] = arguments[l10];
   return y(...r10)(/* @__PURE__ */ m(e11));
 }
-const _p$ = class _p$ extends b {
+class p$ extends b {
   constructor(e11) {
     super((e12) => {
-      let t10 = /* @__PURE__ */ __privateGet(this, _t).subscribe(e12);
-      return __privateGet(this, _t).next(__privateGet(this, _e)), () => {
+      let t10 = /* @__PURE__ */ this._subject$.subscribe(e12);
+      return this._subject$.next(this._value), () => {
         t10.unsubscribe();
       };
     });
-    __privateAdd(this, _e);
-    __privateAdd(this, _t, new _());
-    __privateSet(this, _e, e11);
+    __publicField(this, "_value");
+    __publicField(this, "_subject$", new _());
+    this._value = e11;
   }
   static seed(e11) {
-    return new _p$(e11);
+    return new p$(e11);
   }
   get value() {
-    return __privateGet(this, _e);
+    return this._value;
   }
   next(e11, t10) {
     var r10;
-    let l10 = x(e11) ? d(null !== (r10 = __privateGet(this, _e)) && void 0 !== r10 ? r10 : t10, e11) : e11;
-    Object.is(l10, __privateGet(this, _e)) || __privateGet(this, _t).next(__privateSet(this, _e, l10));
+    let l10 = x(e11) ? d(null !== (r10 = this._value) && void 0 !== r10 ? r10 : t10, e11) : e11;
+    Object.is(l10, this._value) || this._subject$.next(this._value = l10);
   }
-};
-_e = new WeakMap();
-_t = new WeakMap();
-let p$ = _p$;
+}
 let pU = /* @__PURE__ */ Symbol("forwardRef");
 function pB(e11) {
   let t10 = e11;
