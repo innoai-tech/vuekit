@@ -100,12 +100,16 @@ export class InputActionSubject extends Subject<InputAction> {
                   }
                   break;
                 case "ArrowDown":
-                  e.preventDefault();
-                  inputAction$.next({ type: "SELECT", direction: 1 });
+                  if ((e.target as HTMLElement).getAttribute("data-options")) {
+                    e.preventDefault();
+                    inputAction$.next({ type: "SELECT", direction: 1 });
+                  }
                   break;
                 case "ArrowUp":
-                  e.preventDefault();
-                  inputAction$.next({ type: "SELECT", direction: -1 });
+                  if ((e.target as HTMLElement).getAttribute("data-options")) {
+                    e.preventDefault();
+                    inputAction$.next({ type: "SELECT", direction: -1 });
+                  }
                   break;
               }
             })
@@ -446,11 +450,13 @@ export const ValueInput = component$<{
                   </div>
                 }
               >
-                <input
-                  value={value == undefined ? "" : `${value}`}
-                  ref={inputEl$}
-                  data-options={true}
-                />
+                <div data-input-wrapper>
+                  <input
+                    value={value == undefined ? "" : `${value}`}
+                    ref={inputEl$}
+                    data-options={true}
+                  />
+                </div>
               </Menu>
             ) : (
               <span>{JSON.stringify(value) ?? "undefined"}</span>
@@ -497,11 +503,13 @@ export const ValueInput = component$<{
                 </ValueInputActions>
               }
             >
-              <textarea
-                ref={inputEl$}
-                rows={1}
-                value={value == undefined ? "" : `${value}`}
-              />
+              <div data-input-wrapper>
+                 <textarea
+                   ref={inputEl$}
+                   rows={1}
+                   value={value == undefined ? "" : `${value}`}
+                 />
+              </div>
             </Popper>
           ) : (
             <span data-value>{JSON.stringify(value) ?? "undefined"}</span>
@@ -552,14 +560,23 @@ export const ValueContainer = styled("div")({
     }
   },
 
+  "& [data-input-wrapper]": {
+    width: "100%",
+    maxWidth: "40vw",
+    display: "flex",
+    alignItems: "center",
+    border: "1px solid",
+    overflow: "hidden",
+    borderColor: variant("sys.outline-variant", alpha(0.38))
+  },
+
   "& textarea,input": {
     border: "1px solid",
-    borderColor: variant("sys.outline-variant", alpha(0.38)),
+    borderColor: "rgba(0,0,0,0)",
     flex: 1,
     rounded: "xs",
     containerStyle: "sys.surface-container-lowest",
     width: "100%",
-    maxWidth: "40vw",
     outline: "none",
     px: 8,
     py: 0,

@@ -221,12 +221,14 @@ export const PropValueInput = component$<{
     open$,
     render((isOpen) => {
       return (
-        <input
-          ref={inputEl$}
-          type="text"
-          placeholder={"添加属性 (可粘贴 JSON 字符串)"}
-          data-options={isOpen}
-        />
+        <div data-input-wrapper>
+          <input
+            ref={inputEl$}
+            type="text"
+            placeholder={"添加属性 (可粘贴 JSON 字符串)"}
+            data-options={isOpen}
+          />
+        </div>
       );
     })
   );
@@ -293,11 +295,13 @@ export const PropValueInput = component$<{
                 </ValueInputActions>
               }
             >
-              <input
-                ref={inputEl$}
-                type="text"
-                placeholder={"添加属性 (可粘贴 JSON 字符串)"}
-              />
+              <div data-input-wrapper>
+                <input
+                  ref={inputEl$}
+                  type="text"
+                  placeholder={"添加属性 (可粘贴 JSON 字符串)"}
+                />
+              </div>
             </Popper>
           </ValueContainer>
         </Line>

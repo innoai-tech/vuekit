@@ -57,7 +57,9 @@ export class JSONSchemaDecoder {
         if (rule in jsonSchema) {
           const ruleFn = (t as any)[rule];
 
-          tt = tt.use(ruleFn(jsonSchema[rule]));
+          if (ruleFn) {
+            tt = tt.use(ruleFn(jsonSchema[rule]));
+          }
         }
       }
     }

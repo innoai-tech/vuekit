@@ -92,7 +92,6 @@ const AddItemIconBtn = component$<{
   $default?: VNodeChild;
 }>((props, { emit, render }) => {
   const inputEl$ = observableRef<HTMLInputElement | null>(null);
-
   const inputText$ = InputText.from(inputEl$);
   const inputAction$ = InputActionSubject.from(inputEl$);
   const open$ = PopupStatus.from(inputEl$);
@@ -189,11 +188,13 @@ const AddItemIconBtn = component$<{
             </ValueInputActions>
           }
         >
-          <input
-            ref={inputEl$}
-            type="text"
-            placeholder={"添加数组项 (可粘贴 JSON 字符串)"}
-          />
+          <div data-input-wrapper>
+            <input
+              ref={inputEl$}
+              type="text"
+              placeholder={"添加数组项 (可粘贴 JSON 字符串)"}
+            />
+          </div>
         </Popper>
       );
     })
