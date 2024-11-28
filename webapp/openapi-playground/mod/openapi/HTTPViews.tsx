@@ -1,8 +1,4 @@
-import {
-  paramsSerializer,
-  type RequestConfig,
-  type FetcherResponse
-} from "@innoai-tech/fetcher";
+import { type FetcherResponse, paramsSerializer, type RequestConfig } from "@innoai-tech/fetcher";
 import { Box } from "@innoai-tech/vueuikit";
 import { component, t, type VNodeChild } from "@innoai-tech/vuekit";
 import { isArray, isObject } from "@innoai-tech/lodash";
@@ -25,17 +21,16 @@ export const HeadRow = ({ field, value }: {
   </Box>
 );
 
-const HttpFirstLine = ({ method, url, params }: RequestConfig<any>) => {
+const HTTPFirstLine = ({ method, url, params }: RequestConfig<any>) => {
   const queryString = paramsSerializer(params);
 
   return (
     <Box component={"span"} sx={{ fontWeight: "bold" }}>
-      {method.toUpperCase()}
-      &nbsp;
+      {`${method.toUpperCase()} `}
       <Box component={"span"} sx={{ fontWeight: "medium" }}>
         {url}{queryString ? `?${queryString}` : ""}
       </Box>
-      &nbsp; HTTP/*
+      {` HTTP/*`}
     </Box>
   );
 };
@@ -135,7 +130,7 @@ export const HttpRequest = component(
 
       return (
         <CodeView>
-          <HttpFirstLine {...request} />
+          <HTTPFirstLine {...request} />
           <>
             {Object.entries({
               ...getDefaultHeads(),

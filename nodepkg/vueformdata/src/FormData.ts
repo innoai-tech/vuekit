@@ -1,43 +1,37 @@
-import {
-  get,
-  isFunction,
-  isPlainObject,
-  isUndefined,
-  set,
-} from "@innoai-tech/lodash";
+import { get, isFunction, isPlainObject, isString, isUndefined, set } from "@innoai-tech/lodash";
 import {
   type Component,
   EmptyContext,
   ImmerBehaviorSubject,
   type ImmerSubject,
-  type Infer,
   JSONPointer,
   rx,
   Schema,
-  type Type,
+  type Type
 } from "@innoai-tech/vuekit";
 import { distinctUntilChanged, map, Observable, Subject } from "rxjs";
 
-export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
-  static of<T extends Type>(
-    schema: T,
-    initials: Partial<Infer<T>> | (() => Partial<Infer<T>>),
+
+export class FormData<T extends {}> extends Subject<T> {
+  static of<T extends {}>(
+    schema: Type<T>,
+    initials: Partial<T> | (() => Partial<T>)
   ) {
-    return new FormData(schema, () =>
-      isFunction(initials) ? initials() : initials,
+    return new FormData<T>(schema, () =>
+      isFunction(initials) ? initials() : initials
     );
   }
 
-  public readonly inputs$: ImmerBehaviorSubject<Partial<Infer<T>>>;
+  public readonly inputs$: ImmerBehaviorSubject<Partial<T>>;
 
   constructor(
-    public typedef: T,
-    initials: () => Partial<Infer<T>>,
+    public typedef: Type<T>,
+    initials: () => Partial<T>
   ) {
     super();
 
-    this.inputs$ = new ImmerBehaviorSubject<Partial<Infer<T>>>(
-      initials() ?? {},
+    this.inputs$ = new ImmerBehaviorSubject<Partial<T>>(
+      initials() ?? {}
     );
   }
 
@@ -45,16 +39,20 @@ export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
     return this.inputs$.value;
   }
 
-  public readonly _fields = new Map<string, Field>();
+  #fields = new Map<string, Field>();
 
-  field(name: string) {
-    return this._fields.get(name);
+  field(pointerOrPath: any[] | string) {
+    return this.#fields.get(isString(pointerOrPath) ? pointerOrPath : JSONPointer.create(pointerOrPath));
   }
 
-  *fields<T extends Type>(
+  delete(pointerOrPath: any[] | string) {
+    return this.#fields.delete(isString(pointerOrPath) ? pointerOrPath : JSONPointer.create(pointerOrPath));
+  }
+
+  * fields<T extends Type>(
     typedef: T,
     value = this.inputs$.value,
-    path: any[] = [],
+    path: any[] = []
   ): Iterable<Field> {
     for (const [nameOrIdx, _, t] of typedef.entries(value, EmptyContext)) {
       // skip RecordKey
@@ -70,10 +68,10 @@ export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
 
       const name = JSONPointer.create(p);
 
-      let f = this._fields.get(name);
+      let f = this.#fields.get(name);
       if (!f) {
         f = new FieldImpl(this, t, p);
-        this._fields.set(name, f);
+        this.#fields.set(name, f);
       }
 
       yield f;
@@ -85,7 +83,7 @@ export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
 
     let hasError = false;
 
-    for (const [name, f] of this._fields) {
+    for (const [_, f] of this.#fields) {
       f.blur();
 
       if (f.state.error) {
@@ -107,9 +105,9 @@ export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
 
       if (!isUndefined(value)) {
         if (isPlainObject(value)) {
-          set(values, name, { ...value });
+          set(values, f.path, { ...value });
         } else {
-          set(values, name, value);
+          set(values, f.path, value);
         }
       }
     }
@@ -118,21 +116,19 @@ export class FormData<T extends Type = Type> extends Subject<Infer<T>> {
       return;
     }
 
-    this.next(values);
+    this.next(values as any);
   };
 
   reset() {
-    for (let [_, f] of this._fields) {
+    for (let [_, f] of this.#fields) {
       f.reset();
     }
   }
 
-  setErrors = (errors: Record<string, string[]>) => {
-    for (const name in errors) {
-      const error = errors[name]!;
-
-      for (const [fieldName, f] of this._fields) {
-        if (fieldName == name) {
+  setErrors = (errors: Record<string, string[]> = {}) => {
+    for (const [pointer, error] of Object.entries(errors)) {
+      for (const [instancePath, f] of this.#fields) {
+        if (instancePath == pointer) {
           f.next((state) => {
             state.error = error;
           });
@@ -151,7 +147,8 @@ export interface FieldMeta<T> {
   label?: string;
   hint?: string;
   readOnlyWhenInitialExist?: boolean;
-  input?: Component<InputComponentProps<any>>;
+  hidden?: boolean;
+  inputBy?: Component<InputComponentProps<any>>;
   valueDisplay?: (value: T, field$: Field<T>) => JSX.Element | string;
 
   [K: string]: any;
@@ -169,7 +166,7 @@ export interface FieldState {
 export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
   name: string;
   path: any[];
-  form$: FormData;
+  form$: FormData<{}>;
 
   input: T | undefined;
   input$: Observable<T | null>;
@@ -192,8 +189,7 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
 
 class FieldImpl<T extends any = any>
   extends ImmerBehaviorSubject<FieldState>
-  implements Field<T>
-{
+  implements Field<T> {
   static defaultValue = (def: Type) => {
     try {
       return def.create(undefined);
@@ -203,34 +199,33 @@ class FieldImpl<T extends any = any>
   };
 
   constructor(
-    public readonly form$: FormData,
+    public readonly form$: FormData<any>,
     public readonly typedef: Type,
     public readonly path: Array<string | number>,
-    public readonly name = JSONPointer.create(path),
+    public readonly pointer = JSONPointer.create(path)
   ) {
     super({
-      initial: get(form$.inputs$.value, path, FieldImpl.defaultValue(typedef)),
+      initial: get(form$.inputs$.value, path, FieldImpl.defaultValue(typedef))
     });
   }
 
   get input(): T | undefined {
-    return get(
-      this.form$.inputs$.value,
-      this.path,
-      FieldImpl.defaultValue(this.typedef),
-    ) as any;
+    return get(this.form$.inputs$.value, this.path, FieldImpl.defaultValue(this.typedef)) as any;
   }
 
   get meta(): FieldMeta<T> {
     return this.typedef.meta;
   }
 
-  #optional?: boolean;
-
   get state() {
     return this.value;
   }
 
+  get name() {
+    return this.pointer;
+  }
+
+  #optional?: boolean;
   get optional() {
     if (typeof this.#optional === "undefined") {
       this.#optional = !this.validate(undefined);
@@ -245,9 +240,9 @@ class FieldImpl<T extends any = any>
       this.#input$ = rx(
         this.form$.inputs$,
         map(
-          (v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any,
+          (v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any
         ),
-        distinctUntilChanged(),
+        distinctUntilChanged()
       );
     }
     return this.#input$;
@@ -317,6 +312,6 @@ class FieldImpl<T extends any = any>
   }
 
   destroy() {
-    this.form$._fields.delete(this.name);
+    this.form$.delete(this.name);
   }
 }
