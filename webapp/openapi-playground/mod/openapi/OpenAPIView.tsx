@@ -1,15 +1,17 @@
 import {
   component$,
   ImmerBehaviorSubject,
-  rx,
+  observableRef,
   render,
-  subscribeUntilUnmount,
+  RouterLink,
   RouterView,
-  RouterLink
+  rx,
+  subscribeOnMountedUntilUnmount,
+  subscribeUntilUnmount
 } from "@innoai-tech/vuekit";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
-import { debounceTime, Subject, switchMap, tap } from "rxjs";
+import { debounceTime, EMPTY, Observable, Subject, switchMap, tap } from "rxjs";
 import { ascBy } from "./util/order.ts";
 
 export const OpenAPIView = component$(({}, {}) => {
@@ -32,6 +34,53 @@ export const OpenAPIView = component$(({}, {}) => {
     subscribeUntilUnmount()
   );
 
+  const scrollContainerEl$ = observableRef<HTMLDivElement | null>(null);
+
+  rx(
+    scrollContainerEl$,
+    switchMap((scrollContainerEl) => {
+
+      if (scrollContainerEl) {
+        const scrollTo = (item: HTMLElement | null) => {
+          if (item) {
+            scrollContainerEl.scrollTo({
+              top: item.offsetTop - scrollContainerEl.offsetTop
+            });
+          }
+        };
+
+        return new Observable(() => {
+          const observer = new MutationObserver((mutationList) => {
+            for (const mutation of mutationList) {
+              if (mutation.type === "attributes") {
+                const target = mutation.target as HTMLDivElement;
+
+                if (target.classList.contains("router-link-active")) {
+                  scrollTo(target);
+                }
+              }
+            }
+          });
+
+          observer.observe(scrollContainerEl, { attributes: true, subtree: true });
+
+          // wait all inserted
+          setTimeout(() => {
+            scrollTo(scrollContainerEl.querySelector<HTMLElement>(".router-link-active"));
+          }, 100);
+
+          return () => {
+            observer.disconnect();
+          };
+        });
+      }
+
+
+      return EMPTY;
+    }),
+    subscribeOnMountedUntilUnmount()
+  );
+
   const $nav = rx(
     filters$,
     switchMap((filters) => {
@@ -51,7 +100,7 @@ export const OpenAPIView = component$(({}, {}) => {
               }}
             />
           </NavSearchBox>
-          <Nav sx={{ flex: 1, overflow: "scroll" }}>
+          <Nav sx={{ flex: 1, overflow: "scroll" }} ref={scrollContainerEl$}>
             {Object.entries(grouped)
               .toSorted()
               .map(([group, operations]) => {
