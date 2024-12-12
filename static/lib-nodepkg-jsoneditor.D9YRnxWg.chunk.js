@@ -86,7 +86,7 @@ class ed extends t {
     let t2 = new ed(false);
     return a(e3, /* @__PURE__ */ M((e4) => e4 ? B(/* @__PURE__ */ a(/* @__PURE__ */ _(e4, "focus"), /* @__PURE__ */ j(() => {
       t2.show();
-    })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "blur"), /* @__PURE__ */ W(50), /* @__PURE__ */ j(() => {
+    })), /* @__PURE__ */ a(/* @__PURE__ */ _(e4, "blur"), /* @__PURE__ */ W(200), /* @__PURE__ */ j(() => {
       t2.value && t2.hide();
     }))) : z), /* @__PURE__ */ i()), t2;
   }
@@ -493,17 +493,17 @@ let e_ = /* @__PURE__ */ e(() => new eB()), eW = /* @__PURE__ */ l((e3, l2) => {
 }, { displayName: "RecordInput", props: ["ctx", "value", "typedef"] }), e0 = /* @__PURE__ */ l((e3, t2) => {
   let { render: l2 } = t2;
   return a(e3.value$, /* @__PURE__ */ l2((t3) => Z(t3) ? /* @__PURE__ */ n(eG, { value: t3, typedef: /* @__PURE__ */ b(), ctx: e3.ctx }) : ee(t3) ? /* @__PURE__ */ n(eZ, { value: t3, typedef: /* @__PURE__ */ g(/* @__PURE__ */ w(), /* @__PURE__ */ b()), ctx: e3.ctx }) : /* @__PURE__ */ n(eW, { value: t3, typedef: /* @__PURE__ */ b(), ctx: e3.ctx, allowRawJSON: true })));
-}, { displayName: "AnyInput", props: ["typedef", "ctx", "value"] }), e1 = (e3, t2, l2) => "object" == e3.type || "intersection" == e3.type || "union" == e3.type && x.schemaProp(e3, "discriminator") ? /* @__PURE__ */ n(eV, { typedef: e3, value: null != t2 ? t2 : {}, ctx: l2 }) : "union" == e3.type && X(/* @__PURE__ */ x.schemaProp(e3, "discriminator")) ? /* @__PURE__ */ n(eW, { typedef: e3, value: t2, ctx: l2 }) : "record" == e3.type ? /* @__PURE__ */ n(eZ, { typedef: e3, value: t2, ctx: l2 }) : "array" == e3.type ? /* @__PURE__ */ n(eG, { typedef: e3, value: t2, ctx: l2 }) : "any" == e3.type || "unknown" == e3.type ? /* @__PURE__ */ n(e0, { typedef: e3, value: t2, ctx: l2 }) : /* @__PURE__ */ n(eW, { typedef: e3, value: t2, ctx: l2 }), e8 = /* @__PURE__ */ l((e3, t2) => {
+}, { displayName: "AnyInput", props: ["typedef", "ctx", "value"] }), e1 = (e3, t2, l2) => "object" == e3.type || "intersection" == e3.type || "union" == e3.type && x.schemaProp(e3, "discriminator") ? /* @__PURE__ */ n(eV, { typedef: e3, value: null != t2 ? t2 : {}, ctx: l2 }) : "union" == e3.type && X(/* @__PURE__ */ x.schemaProp(e3, "discriminator")) ? /* @__PURE__ */ n(eW, { typedef: e3, value: t2, ctx: l2 }) : "record" == e3.type ? /* @__PURE__ */ n(eZ, { typedef: e3, value: t2, ctx: l2 }) : "array" == e3.type ? /* @__PURE__ */ n(eG, { typedef: e3, value: t2, ctx: l2 }) : "any" == e3.type || "unknown" == e3.type ? /* @__PURE__ */ n(e0, { typedef: e3, value: t2, ctx: l2 }) : /* @__PURE__ */ n(eW, { typedef: e3, value: t2, ctx: l2 }), e2 = /* @__PURE__ */ l((e3, t2) => {
   let {} = e3, { render: l2 } = t2, i2 = /* @__PURE__ */ el.use(), r2 = /* @__PURE__ */ ea.use(), o2 = /* @__PURE__ */ v(null);
   return a(i2, /* @__PURE__ */ l2((e4) => {
     var t3, l3;
     let a2 = null !== (t3 = r2.$value) && void 0 !== t3 ? t3 : e1;
-    return /* @__PURE__ */ n(e_, { children: /* @__PURE__ */ n(ea, { value: { $value: null !== (l3 = r2.$value) && void 0 !== l3 ? l3 : e1 }, children: /* @__PURE__ */ s(e2, { children: [/* @__PURE__ */ n("section", { ref: o2 }), o2.value && /* @__PURE__ */ n(eC, { value: { indent: 0, $container: o2 }, children: /* @__PURE__ */ n(ek, { path: [], viewOnly: true, children: /* @__PURE__ */ a2(i2.typedef, e4, N) }) })] }) }) });
+    return /* @__PURE__ */ n(e_, { children: /* @__PURE__ */ n(ea, { value: { $value: null !== (l3 = r2.$value) && void 0 !== l3 ? l3 : e1 }, children: /* @__PURE__ */ s(e8, { children: [/* @__PURE__ */ n("section", { ref: o2 }), o2.value && /* @__PURE__ */ n(eC, { value: { indent: 0, $container: o2 }, children: /* @__PURE__ */ n(ek, { path: [], viewOnly: true, children: /* @__PURE__ */ a2(i2.typedef, e4, N) }) })] }) }) });
   }));
-}, { displayName: "JSONEditorView" }), e2 = /* @__PURE__ */ C("div", { displayName: "JSONEditorContainer" })({ width: "100%", height: "100%", overflow: "auto", section: { display: "flex", flexDirection: "column", minWidth: "max-content" } });
+}, { displayName: "JSONEditorView" }), e8 = /* @__PURE__ */ C("div", { displayName: "JSONEditorContainer" })({ width: "100%", height: "100%", overflow: "auto", section: { display: "flex", flexDirection: "column", minWidth: "max-content" } });
 export {
   en as J,
   el as a,
-  e8 as b,
+  e2 as b,
   eJ as c
 };

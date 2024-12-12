@@ -8,7 +8,7 @@ import { e as X, f as q, C as Y, D as Z, g as K, h as Q, i as nn, j as ne, k as 
 import { B as ns, C as nt, c as nc, G as nl, T as no, e as ni, f as nr, g as np, s as nd, v as nu, a as nm, P as nh, b as nk, d as nN, t as ng } from "./lib-nodepkg-vueuikit.5ZJpfML9.chunk.js";
 import { v as ny, w as nv, p as nf, l as nx, x as nb } from "./vendor-innoai-tech-lodash.BEztC5WG.chunk.js";
 import { c as nw, _ as n_ } from "./webapp-vuekit-page.BbRpj0xQ.chunk.js";
-import { J as nj, a as nS, b as nO, c as nC } from "./lib-nodepkg-jsoneditor.B1KiTRHO.chunk.js";
+import { J as nj, a as nS, b as nO, c as nC } from "./lib-nodepkg-jsoneditor.D9YRnxWg.chunk.js";
 import { t as nI, g as nE } from "./vendor-rxjs.2rASjH9I.chunk.js";
 let nT = /* @__PURE__ */ n(() => {
   let n10 = /* @__PURE__ */ ny(/* @__PURE__ */ l().options.routes.filter((n11) => "/" !== n11.path), (n11) => n11.path.split("/")[1]);
