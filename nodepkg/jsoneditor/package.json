@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/jsoneditor",
-  "version": "0.3.5",
+  "version": "0.3.6",
   "monobundle": {
     "build": {
       "clean": true

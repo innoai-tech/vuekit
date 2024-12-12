@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "type": "module",
   "private": true,
-  "packageManager": "bun@1.1.36",
+  "packageManager": "bun@1.1.38",
   "workspaces": [
     "nodepkg/*",
     "nodedevpkg/*"
@@ -29,10 +29,10 @@
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^15.11.6",
+    "@happy-dom/global-registrator": "^15.11.7",
     "@innoai-tech/config": "^0.5.7",
     "@innoai-tech/devconfig": "^0.5.0",
-    "@innoai-tech/monobundle": "^0.14.5",
+    "@innoai-tech/monobundle": "^0.14.6",
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
@@ -41,14 +41,15 @@
     "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.39.0",
     "normalize.css": "^8.0.1",
-    "prettier": "^3.3.3",
-    "turbo": "^2.3.1",
+    "prettier": "^3.4.2",
+    "turbo": "^2.3.3",
     "typescript": "^5.7.2",
-    "vite": "^5.4.11",
+    "vite": "^6.0.3",
     "vue": "^3.5.13"
   },
   "resolutions": {
-    "vite": "5.4.11",
-    "vue": "3.5.13"
+    "vite": "^6.0.3",
+    "vue": "^3.5.13",
+    "rollup": "^4.20.0"
   }
 }

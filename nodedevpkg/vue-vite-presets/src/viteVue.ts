@@ -6,9 +6,9 @@ import vitePages, {
 } from "vite-plugin-pages";
 import { mdx } from "./mdx";
 import {
-  createPageMetaResolver,
+  createPageMetaResolver, sortedRoutes,
   viteVueComponentCompleter,
-  viteVueComponentHMR,
+  viteVueComponentHMR
 } from "./vue";
 
 export interface ViteReactOptions {
@@ -38,21 +38,7 @@ export const viteVue = (options: ViteReactOptions = {}): PluginOption[] => {
         }
 
         if (r.children) {
-          r.children = (r.children as any[]).toSorted((a, b) => {
-            if (
-              a.component.endsWith("/index.tsx") ||
-              b.component.endsWith("/index.tsx")
-            ) {
-              if (a.component.endsWith("index.tsx")) {
-                return -1;
-              }
-              return 0;
-            }
-            if (a.component < b.component) {
-              return -1;
-            }
-            return 0;
-          });
+          r.children = sortedRoutes(r.children)
         }
 
         return r;

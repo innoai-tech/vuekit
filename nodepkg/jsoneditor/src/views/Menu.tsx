@@ -29,7 +29,7 @@ export class PopupStatus extends ImmerBehaviorSubject<boolean> {
             rx(
               fromEvent<FocusEvent>(inputEl, "blur"),
               // delay to avoid break other actions
-              delay(50),
+              delay(200),
               tap(() => {
                 if (status$.value) {
                   status$.hide();
