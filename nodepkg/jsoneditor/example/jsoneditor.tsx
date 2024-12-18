@@ -49,6 +49,11 @@ class JSONSchema {
   @t.record(t.string(), t.any())
   @t.optional()
   manifests!: Record<string, any>;
+
+  @t.annotate({ title: "任意类型" })
+  @t.record(t.string(), t.any())
+  @t.optional()
+  anyjson: any;
 }
 
 export default component(() => {
@@ -62,6 +67,20 @@ export default component(() => {
     ports: [],
     manifests: {
       "x": {}
+    },
+    anyjson: {
+      obj: {
+        a: 1
+      },
+      arr: ["1", "2", "3"],
+      nested: [
+        {
+          a: 1
+        },
+        {
+          a: 2
+        }
+      ]
     }
   });
 

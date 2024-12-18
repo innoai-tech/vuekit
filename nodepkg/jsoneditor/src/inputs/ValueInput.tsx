@@ -529,6 +529,7 @@ export const ValueInputActions = styled("div")({
   roundedRight: "sm",
   display: "flex",
   px: 2,
+  py: 1,
   ml: -4
 });
 
@@ -567,7 +568,14 @@ export const ValueContainer = styled("div")({
     alignItems: "center",
     border: "1px solid",
     overflow: "hidden",
-    borderColor: variant("sys.outline-variant", alpha(0.38))
+    borderColor: variant("sys.outline-variant", alpha(0.38)),
+    opacity: 0.38,
+    "&:hover": {
+      opacity: 1
+    },
+    "&:focus-within": {
+      opacity: 1
+    }
   },
 
   "& textarea,input": {
