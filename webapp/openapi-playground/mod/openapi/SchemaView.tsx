@@ -2,6 +2,7 @@ import {
   component,
   component$,
   createProvider,
+  observableRef,
   RouterLink,
   Schema,
   t,
@@ -11,7 +12,7 @@ import {
 import { isUndefined } from "@innoai-tech/lodash";
 import { styled } from "@innoai-tech/vueuikit";
 import { Markdown } from "@innoai-tech/vuemarkdown";
-import { Icon, Tooltip } from "@innoai-tech/vuematerial";
+import { Dialog, Icon, Tooltip } from "@innoai-tech/vuematerial";
 import { mdiHelpBox } from "@mdi/js";
 
 export const Token = styled("div")({
@@ -77,10 +78,6 @@ export const Description = styled<{
     return (Root) => {
       const title = Schema.metaProp(props.schema, "title") ?? "";
       const description = Schema.metaProp(props.schema, "description") ?? "";
-
-      if (!(title || description)) {
-        return null;
-      }
 
       return (
         <Root>
@@ -232,6 +229,9 @@ const SchemaViewLink = component$<{
   schema: Type,
 }>((props) => {
   const node = SchemaRenderProvider.use();
+  const ident = IntentContextProvider.use();
+
+  const open$ = observableRef(false);
 
   return () => {
     let schema = props.schema;
@@ -242,15 +242,73 @@ const SchemaViewLink = component$<{
 
     const needID = schema.type == "intersection" || schema.type == "object" || schema.type == "union" || schema.type == "record" || schema.type == "array" || schema.type == "union";
 
+    const $inline = node.safe(id) && (
+      <>
+        <span>&nbsp;</span>
+        <SchemaView schema={schema} />
+      </>
+    );
+
     return (
       <SchemaRenderProvider value={node.child(id)}>
-        {needID && <RouterLink to={`#${id}`}><Token id={id}>{id}&nbsp;</Token></RouterLink>}
-        {node.safe(id) && <SchemaView schema={schema} />}
+        {needID ? (
+          ident.indent < 3 ? (
+            <>
+              <RouterLink to={`#${id}`}>
+                <Token id={id}>{id}</Token>
+              </RouterLink>
+              {ident.indent < 3 && $inline}
+            </>
+          ) : (
+            <>
+              <a href={`#${id}`}
+                 onClick={(e) => {
+                   e.preventDefault();
+                   open$.next(true);
+                 }}
+              >
+                <Token id={id}>{id}</Token>
+              </a>
+              {node.safe(id) && (
+                <Dialog
+                  isOpen={open$.value}
+                  onClose={() => {
+                    open$.next(false);
+                  }}
+                >
+                  <DialogContainer>
+                    <Line>
+                      <Token>{id}</Token>
+                      <IntentContextProvider value={{ indent: 0 }}>
+                        {$inline}
+                      </IntentContextProvider>
+                    </Line>
+                  </DialogContainer>
+                </Dialog>
+              )}
+            </>
+          )
+        ) : (
+          $inline
+        )}
       </SchemaRenderProvider>
     );
   };
 });
 
+const DialogContainer = styled("div")({
+  display: "flex",
+  containerStyle: "sys.surface",
+  height: "100vh",
+  width: "36vw",
+  roundedLeft: "sm",
+  px: 16,
+  py: 36,
+  top: 0,
+  right: 0,
+  position: "absolute",
+  overflow: "auto"
+});
 
 export const SchemaView = component$<{
   schema: Type,
