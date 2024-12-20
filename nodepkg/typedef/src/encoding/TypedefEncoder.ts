@@ -116,18 +116,35 @@ export ${type} ${name} ${decl}`;
     switch (type.type) {
       case "union": {
         if (Schema.schemaProp(type, "discriminator")) {
-          const propName = Schema.schemaProp(type, "discriminator")[
-            "propertyName"
-          ];
+          const discriminator = Schema.schemaProp(type, "discriminator");
 
-          return `t.discriminatorMapping(${JSON.stringify(propName)}, ${Schema.schemaProp(
-            type,
-            "oneOf",
-          )
-            .map((t: Type) => {
-              return this._encode(t);
+          const propName = discriminator["propertyName"];
+
+          const mapping = Schema.schemaProp(type, "oneOf")
+            .map((t: any) => {
+              const discriminatorSchema = Schema.schemaProp(t, "properties")[propName];
+              if (!discriminatorSchema) {
+                return "";
+              }
+
+              const e = discriminatorSchema.schema["enum"];
+
+              if (!e) {
+                return "";
+              }
+
+              const id = this._encode(t);
+
+              return e.map((k: string) => {
+                return `${JSON.stringify(k)}: t.ref(${JSON.stringify(id)}, () => t.object(${id})),`;
+              }).join("");
+
             })
-            .join(", ")})`;
+            .join("");
+
+          return `t.discriminatorMapping(${JSON.stringify(propName)}, {
+            ${mapping}
+          })`;
         }
 
         return `t.union(${Schema.schemaProp(type, "oneOf")
@@ -147,9 +164,9 @@ export ${type} ${name} ${decl}`;
 
       case "record": {
         return `t.record(${this._typedef(
-          Schema.schemaProp(type, "propertyNames") ?? t.string(),
+          Schema.schemaProp(type, "propertyNames") ?? t.string()
         )}, ${this._typedef(
-          Schema.schemaProp(type, "additionalProperties") ?? t.any(),
+          Schema.schemaProp(type, "additionalProperties") ?? t.any()
         )})`;
       }
       case "object": {

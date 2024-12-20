@@ -53,7 +53,9 @@ export class TypeSchema {
 @t.tuple([t.number(), t.number()])
 "point"!: [number, number]
 
-@t.discriminatorMapping("type", InputTextSchema, InputSelectSchema)
+@t.discriminatorMapping("type", {
+            "text": t.ref("InputTextSchema", () => t.object(InputTextSchema)),"select": t.ref("InputSelectSchema", () => t.object(InputSelectSchema)),
+          })
 "input"!: /* @type:union */ Input
 
 }"
