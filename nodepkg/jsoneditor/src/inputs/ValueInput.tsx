@@ -529,7 +529,6 @@ export const ValueInputActions = styled("div")({
   roundedRight: "sm",
   display: "flex",
   px: 2,
-  py: 1,
   ml: -4
 });
 
@@ -579,8 +578,7 @@ export const ValueContainer = styled("div")({
   },
 
   "& textarea,input": {
-    border: "1px solid",
-    borderColor: "rgba(0,0,0,0)",
+    border: "none",
     flex: 1,
     rounded: "xs",
     containerStyle: "sys.surface-container-lowest",

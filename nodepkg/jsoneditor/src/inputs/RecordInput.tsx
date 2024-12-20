@@ -34,7 +34,15 @@ export const RecordInput = component$<{
             />
           }
         >
-          {[...props.typedef.entries(obj, props.ctx)].map(
+          {[...props.typedef.entries((() => {
+            const o: any = {};
+
+            for (const key of Object.keys(obj).toSorted()) {
+              o[key] = (obj as any)?.[key];
+            }
+
+            return o;
+          })(), props.ctx)].map(
             ([propName, propValue, propSchema]) => {
               if (!Object.hasOwn(obj, propName)) {
                 return null;
