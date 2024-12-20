@@ -7,14 +7,14 @@ var __privateAdd = (obj, member, value) => member.has(obj) ? __typeError("Cannot
 var _e, _t, _n;
 var e, t, n, l;
 import { c as a, I as i, j as r, a as o, r as d, s, b as p, d as c, e as u, f as h, T as y, F as v, g as m, o as f, t as x, h as b } from "./lib-nodepkg-vuekit.C6OVFkS0.chunk.js";
-import { o as g, J as w, S as N, a as C, b as k, r as $, s as S, E as O } from "./lib-nodepkg-typedef.CrSzMsIc.chunk.js";
+import { o as g, J as w, S as N, a as C, b as k, r as S, s as $, E as O } from "./lib-nodepkg-typedef.CrSzMsIc.chunk.js";
 import { s as E, v as I, a as T, P as A, b as D, B as R } from "./lib-nodepkg-vueuikit.aep_QMMq.chunk.js";
 import { I as J, a as L } from "./lib-nodepkg-vuematerial.BGYIEazc.chunk.js";
-import { m as P, a as M, b as B, c as _, d as W } from "./webapp-vuekit-layout.Dnp5oLJ6.chunk.js";
-import { O as j, s as z, m as H, f as F, d as U, t as V, E as K, c as X, B as q, S as G } from "./vendor-rxjs.Ceq9fhEZ.chunk.js";
+import { m as P, a as M, b as B, c as _, d as j } from "./webapp-vuekit-layout.Dnp5oLJ6.chunk.js";
+import { O as W, s as z, m as H, f as F, d as U, t as V, E as K, c as X, B as q, S as G } from "./vendor-rxjs.Ceq9fhEZ.chunk.js";
 import { i as Q, g as Y, a as Z, b as ee, s as et, l as en, c as el, d as ea, e as ei } from "./vendor-innoai-tech-lodash.1IBb5NLI.chunk.js";
 import { M as er } from "./lib-nodepkg-vuemarkdown.D60tRdd5.chunk.js";
-const _eo = class _eo extends j {
+const _eo = class _eo extends W {
   constructor(e6, t2) {
     super((e7) => {
       let t3 = __privateGet(this, _e).subscribe(e7);
@@ -143,7 +143,7 @@ let em = E("div", { displayName: "PopoverContainer" })({ textStyle: "sys.body-sm
     var t3;
     return h(ek, { "data-deprecated": e6.deprecated, "data-optional": e6.optional, "data-nullable": e6.nullable, children: [n2.leading && r(eC, { "data-visible-on-hover": true, children: n2.leading() }), null === (t3 = n2.default) || void 0 === t3 ? void 0 : t3.call(n2)] });
   };
-}, { displayName: "PropName", props: ["deprecated", "optional", "nullable"] }), eC = E(ep, { displayName: "PropLeading" })({ position: "absolute", ml: -28 }), ek = E("div", { displayName: "PropNameView" })({ position: "relative", display: "flex", alignItems: "center", textStyle: "sys.label-small", fontWeight: "bold", fontFamily: "inherit", wordBreak: "keep-all", whiteSpace: "nowrap", border: "1px solid", borderColor: "rgba(0,0,0,0)", fontSize: 12, lineHeight: 24, _deprecated: { textDecoration: "line-through" }, _optional: { "&:after": { content: '"?"', color: "sys.secondary", opacity: 0.58 } } }), e$ = E("div", { displayName: "LineTitle" })({ position: "absolute", zIndex: 1, left: 0, opacity: 0.58, fontSize: 10, lineHeight: 10, top: 0, "& > *": { display: "flex", alignItems: "center", gap: 4, "&::before": { content: '"// "', font: "code" } } }), eS = E("div", { displayName: "LineError" })({ display: "block", fontSize: 10, lineHeight: 14, color: "sys.error" }), eO = E("div", { displayName: "LineContainer" })({ position: "relative", py: 4, _hover: { containerStyle: "sys.surface-container", "& [data-visible-on-hover]": { visibility: "visible" } }, "&:focus-within": { containerStyle: "sys.surface-container" }, _dirty: { bgColor: I("sys.warning-container", T(0.38)) }, _error: { bgColor: "sys.error-container" }, [`&:has(${ec})`]: { [`& > ${eS}`]: { display: "none" }, _error: { bgColor: "inherit" } } }), eE = a(() => ({ indent: 0, $container: c(null) }), { name: "IntentContext" }), eI = u((e6, t2) => {
+}, { displayName: "PropName", props: ["deprecated", "optional", "nullable"] }), eC = E(ep, { displayName: "PropLeading" })({ position: "absolute", ml: -28 }), ek = E("div", { displayName: "PropNameView" })({ position: "relative", display: "flex", alignItems: "center", textStyle: "sys.label-small", fontWeight: "bold", fontFamily: "inherit", wordBreak: "keep-all", whiteSpace: "nowrap", border: "1px solid", borderColor: "rgba(0,0,0,0)", fontSize: 12, lineHeight: 24, _deprecated: { textDecoration: "line-through" }, _optional: { "&:after": { content: '"?"', color: "sys.secondary", opacity: 0.58 } } }), eS = E("div", { displayName: "LineTitle" })({ position: "absolute", zIndex: 1, left: 0, opacity: 0.58, fontSize: 10, lineHeight: 10, top: 0, "& > *": { display: "flex", alignItems: "center", gap: 4, "&::before": { content: '"// "', font: "code" } } }), e$ = E("div", { displayName: "LineError" })({ display: "block", fontSize: 10, lineHeight: 14, color: "sys.error" }), eO = E("div", { displayName: "LineContainer" })({ position: "relative", py: 4, _hover: { containerStyle: "sys.surface-container", "& [data-visible-on-hover]": { visibility: "visible" } }, "&:focus-within": { containerStyle: "sys.surface-container" }, _dirty: { bgColor: I("sys.warning-container", T(0.38)) }, _error: { bgColor: "sys.error-container" }, [`&:has(${ec})`]: { [`& > ${e$}`]: { display: "none" }, _error: { bgColor: "inherit" } } }), eE = a(() => ({ indent: 0, $container: c(null) }), { name: "IntentContext" }), eI = u((e6, t2) => {
   let { slots: n2 } = t2, l2 = eE.use(), a2 = c(null), i2 = c(null);
   return () => {
     var t3, o2, d2, s2, p2;
@@ -153,7 +153,7 @@ let em = E("div", { displayName: "PopoverContainer" })({ textStyle: "sys.body-sm
   let { slots: n2, render: l2 } = t2, a2 = eE.use(), i2 = d(ed.use().error$, l2((t3) => {
     var l3;
     let i3 = w.create(e6.path), o2 = !e6.viewOnly && !!t3[i3];
-    return h(eO, { "data-error": o2, "data-dirty": e6.dirty, style: { paddingLeft: `${32 * a2.indent}px` }, children: [(e6.title || e6.description) && r(e$, { style: { paddingLeft: `${32 * a2.indent}px` }, children: e6.description ? r(ex, { $title: r(eL, { children: r(er, { text: e6.description }) }), children: h("div", { children: [e6.title, " ", r(L, { path: P })] }) }) : r("span", { children: e6.title }) }), r(eJ, { children: null === (l3 = n2.default) || void 0 === l3 ? void 0 : l3.call(n2) }), o2 && r(eS, { children: `${t3[i3]}` })] });
+    return h(eO, { "data-error": o2, "data-dirty": e6.dirty, style: { paddingLeft: `${32 * a2.indent}px` }, children: [(e6.title || e6.description) && r(eS, { style: { paddingLeft: `${32 * a2.indent}px` }, children: e6.description ? r(ex, { $title: r(eL, { children: r(er, { text: e6.description }) }), children: h("div", { children: [e6.title, " ", r(L, { path: P })] }) }) : r("span", { children: e6.title }) }), r(eJ, { children: null === (l3 = n2.default) || void 0 === l3 ? void 0 : l3.call(n2) }), o2 && r(e$, { children: `${t3[i3]}` })] });
   }));
   return () => r(y, { to: a2.$container.value, children: i2 });
 }, { displayName: "Line", props: ["path", "dirty", "viewOnly", "title", "description"] }), eA = E("div", { displayName: "Lines" })({}), eD = E("section", { displayName: "LineSection" })({}), eR = E("div", { displayName: "LinesTrailing" })({}), eJ = E("div", { displayName: "LineRow" })({ display: "flex", alignItems: "start", pr: 10 }), eL = E("span", { displayName: "Description" })({ display: "block", textStyle: "sys.body-small", "& p": { my: 1, wordBreak: "keep-all", whiteSpace: "nowrap", opacity: 0.7 }, "& code": { wordBreak: "keep-all", whiteSpace: "nowrap" } }), eP = E("form", { displayName: "FormControls" })({ display: "flex", pos: "absolute", right: 0, bottom: 0, px: 8 });
@@ -219,9 +219,9 @@ class e_ extends q {
     })) : K), s()), t2;
   }
 }
-class eW extends G {
+class ej extends G {
   static from(e6) {
-    let t2 = new eW();
+    let t2 = new ej();
     return d(e6, z((e7) => e7 ? H(d(F(e7, "keypress"), V((e9) => {
       "Enter" !== e9.key || e9.shiftKey || (e9.preventDefault(), t2.next({ type: "COMMIT" }));
     })), d(F(e7, "keydown"), V((e9) => {
@@ -238,7 +238,7 @@ class eW extends G {
     }))) : K), s()), t2;
   }
 }
-class ej extends j {
+class eW extends W {
   constructor() {
     super((e6) => {
       let t2 = __privateGet(this, _n).subscribe(e6);
@@ -264,9 +264,9 @@ class ej extends j {
   }
 }
 _n = new WeakMap();
-let ez = a(() => new ej()), eH = o((e6, t2) => {
-  let n2, { render: l2 } = t2, a2 = f(null), o2 = f(null), p2 = f(null), c2 = eW.from(p2), u2 = e_.from(p2), y2 = ez.use(), v2 = eh.from(p2), m2 = ed.use();
-  ej.sync(y2, { editing$: v2, value$: e6.value$, path: () => e6.ctx.path });
+let ez = a(() => new eW()), eH = o((e6, t2) => {
+  let n2, { render: l2 } = t2, a2 = f(null), o2 = f(null), p2 = f(null), c2 = ej.from(p2), u2 = e_.from(p2), y2 = ez.use(), v2 = eh.from(p2), m2 = ed.use();
+  eW.sync(y2, { editing$: v2, value$: e6.value$, path: () => e6.ctx.path });
   let b2 = () => {
     if ("enums" === e6.typedef.type) {
       var t3;
@@ -365,9 +365,9 @@ let ez = a(() => new ej()), eH = o((e6, t2) => {
       v2.show();
     }, children: l3 ? r(A, { isOpen: true, placement: "right-start", $content: h(eF, { ref: a2, children: [r(eu, { type: "button", onClick: () => c2.next({ type: "CANCEL" }), children: r(L, { path: B }) }), r(eu, { type: "button", onClick: () => c2.next({ type: "COMMIT" }), children: r(L, { path: _ }) })] }), children: r("div", { "data-input-wrapper": true, children: r("textarea", { ref: p2, rows: 1, value: void 0 == n3 ? "" : `${n3}` }) }) }) : r("span", { "data-value": true, children: null !== (t3 = JSON.stringify(n3)) && void 0 !== t3 ? t3 : "undefined" }) });
   }));
-}, { displayName: "ValueInput", props: ["typedef", "ctx", "value", "allowRawJSON"] }), eF = E("div", { displayName: "ValueInputActions" })({ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid", borderColor: I("sys.outline-variant", T(0.38)), containerStyle: "sys.surface-container-lowest", roundedRight: "sm", display: "flex", px: 2, py: 1, ml: -4 }), eU = E("div", { displayName: "ValueContainer" })({ wordBreak: "keep-all", whiteSpace: "nowrap", cursor: "pointer", display: "flex", alignItems: "center", font: "code", width: "100%", textStyle: "sys.label-small", fontSize: 12, lineHeight: 24, gap: 8, "& [data-value]": { border: "1px solid", borderColor: "rgba(0,0,0,0)", maxWidth: "40vw", width: "100%", overflow: "hidden", textOverflow: "ellipsis", _hover: { textOverflow: "clip", whiteSpace: "normal", wordBreak: "break-all" } }, "& [data-input-wrapper]": { width: "100%", maxWidth: "40vw", display: "flex", alignItems: "center", border: "1px solid", overflow: "hidden", borderColor: I("sys.outline-variant", T(0.38)), opacity: 0.38, "&:hover": { opacity: 1 }, "&:focus-within": { opacity: 1 } }, "& textarea,input": { border: "1px solid", borderColor: "rgba(0,0,0,0)", flex: 1, rounded: "xs", containerStyle: "sys.surface-container-lowest", width: "100%", outline: "none", px: 8, py: 0, m: 0, fontSize: "inherit", color: "inherit", lineHeight: "inherit", overflow: "hidden", resize: "none", "&[data-options]:focus": { roundedBottom: 0 } }, _type__string: { color: "sys.primary" }, _type__number: { color: "sys.primary" }, _type__boolean: { color: "sys.warning" }, _type__undefined: { color: "sys.error" } }), eV = E(ef, { displayName: "EnumMenuItemContainer" })({ [`& ${eN}`]: { textAlign: "left" } }), eK = u((e6) => () => h(eV, { "data-value": e6.value, tabindex: 0, children: [r(eN, { children: e6.value }), e6.label && r(eL, { children: e6.label })] }), { displayName: "EnumMenuItem", props: ["value", "label"] }), eX = o((e6, t2) => {
+}, { displayName: "ValueInput", props: ["typedef", "ctx", "value", "allowRawJSON"] }), eF = E("div", { displayName: "ValueInputActions" })({ borderRight: "1px solid", borderTop: "1px solid", borderBottom: "1px solid", borderColor: I("sys.outline-variant", T(0.38)), containerStyle: "sys.surface-container-lowest", roundedRight: "sm", display: "flex", px: 2, ml: -4 }), eU = E("div", { displayName: "ValueContainer" })({ wordBreak: "keep-all", whiteSpace: "nowrap", cursor: "pointer", display: "flex", alignItems: "center", font: "code", width: "100%", textStyle: "sys.label-small", fontSize: 12, lineHeight: 24, gap: 8, "& [data-value]": { border: "1px solid", borderColor: "rgba(0,0,0,0)", maxWidth: "40vw", width: "100%", overflow: "hidden", textOverflow: "ellipsis", _hover: { textOverflow: "clip", whiteSpace: "normal", wordBreak: "break-all" } }, "& [data-input-wrapper]": { width: "100%", maxWidth: "40vw", display: "flex", alignItems: "center", border: "1px solid", overflow: "hidden", borderColor: I("sys.outline-variant", T(0.38)), opacity: 0.38, "&:hover": { opacity: 1 }, "&:focus-within": { opacity: 1 } }, "& textarea,input": { border: "none", flex: 1, rounded: "xs", containerStyle: "sys.surface-container-lowest", width: "100%", outline: "none", px: 8, py: 0, m: 0, fontSize: "inherit", color: "inherit", lineHeight: "inherit", overflow: "hidden", resize: "none", "&[data-options]:focus": { roundedBottom: 0 } }, _type__string: { color: "sys.primary" }, _type__number: { color: "sys.primary" }, _type__boolean: { color: "sys.warning" }, _type__undefined: { color: "sys.error" } }), eV = E(ef, { displayName: "EnumMenuItemContainer" })({ [`& ${eN}`]: { textAlign: "left" } }), eK = u((e6) => () => h(eV, { "data-value": e6.value, tabindex: 0, children: [r(eN, { children: e6.value }), e6.label && r(eL, { children: e6.label })] }), { displayName: "EnumMenuItem", props: ["value", "label"] }), eX = o((e6, t2) => {
   let {} = e6, { emit: n2 } = t2;
-  return () => r(ex, { $title: "删除属性", children: r(eu, { type: "button", onClick: () => n2("remove"), children: r(L, { path: W }) }) });
+  return () => r(ex, { $title: "删除属性", children: r(eu, { type: "button", onClick: () => n2("remove"), children: r(L, { path: j }) }) });
 }, { displayName: "RemovePropIconBtn", emits: ["remove"] }), eq = o((e6, t2) => {
   let { render: n2 } = t2, l2 = ed.use(), a2 = es.use();
   return d(e6.value$, n2((t3) => r(eI, { openToken: "{", closeToken: "}", $leading: r(ec, { children: r(eB, { value: t3 }) }), $trailing: r(eG, { ctx: e6.ctx, onAdd: (t4) => {
@@ -388,7 +388,7 @@ let ez = a(() => new ej()), eH = o((e6, t2) => {
     } }), children: String(o2) }), h(ew, { children: [":", " "] }), null === (i2 = a2.$value) || void 0 === i2 ? void 0 : i2.call(a2, s2, d2, { ...e6.ctx, path: p2, branch: [...e6.ctx.branch, d2] })] });
   }) })));
 }, { displayName: "ObjectInput", props: ["typedef", "ctx", "value"] }), eG = o((e6, t2) => {
-  let { emit: n2, render: l2 } = t2, a2 = f(null), o2 = eW.from(a2), p2 = e_.from(a2), c2 = eh.from(a2), u2 = ed.use(), y2 = new i({ index: 0 }), v2 = () => {
+  let { emit: n2, render: l2 } = t2, a2 = f(null), o2 = ej.from(a2), p2 = e_.from(a2), c2 = eh.from(a2), u2 = ed.use(), y2 = new i({ index: 0 }), v2 = () => {
     c2.hide(), p2.next(""), a2.value && (a2.value.value = "", a2.value.blur()), y2.next({ index: 0 });
   };
   d(p2, V((t3) => {
@@ -442,7 +442,7 @@ let ez = a(() => new ej()), eH = o((e6, t2) => {
     } }), children: r(R, { sx: { opacity: 0.3, mr: "0.5em" }, children: String(i2) }) }), null === (n3 = a2.$value) || void 0 === n3 ? void 0 : n3.call(a2, d2, o2, { ...e6.ctx, path: s2, branch: [...e6.ctx.branch, o2] })] });
   }) })));
 }, { displayName: "ArrayInput", props: ["ctx", "value", "typedef"] }), e0 = o((e6, t2) => {
-  let { emit: n2, render: l2 } = t2, a2 = f(null), i2 = e_.from(a2), o2 = eW.from(a2), p2 = eh.from(a2), c2 = ed.use(), u2 = () => {
+  let { emit: n2, render: l2 } = t2, a2 = f(null), i2 = e_.from(a2), o2 = ej.from(a2), p2 = eh.from(a2), c2 = ed.use(), u2 = () => {
     a2.value && (a2.value.value = "", a2.value.blur());
   }, y2 = (t3) => {
     if (null != t3 || (t3 = i2.value), t3) {
@@ -481,12 +481,16 @@ let ez = a(() => new ej()), eH = o((e6, t2) => {
   return () => r(eT, { path: e6.ctx.path, children: r(eU, { sx: { mx: -4 }, children: v2 }) });
 }, { displayName: "AddItemIconBtn", props: ["ctx", "typedef"], emits: ["add"] }), e1 = o((e6, t2) => {
   let {} = e6, { emit: n2 } = t2;
-  return () => r(ex, { $title: "移除项", children: r(eu, { type: "button", onClick: () => n2("remove"), children: r(L, { path: W }) }) });
+  return () => r(ex, { $title: "移除项", children: r(eu, { type: "button", onClick: () => n2("remove"), children: r(L, { path: j }) }) });
 }, { displayName: "RemoteItemIconBtn", emits: ["remove"] }), e8 = o((e6, t2) => {
   let { render: n2 } = t2, l2 = ed.use(), a2 = es.use();
   return d(e6.value$, n2((t3) => r(eI, { openToken: "{", closeToken: "}", $leading: r(ec, { children: r(eB, { value: t3 }) }), $trailing: r(eG, { ctx: e6.ctx, onAdd: (t4) => {
     l2.update([...e6.ctx.path, t4], void 0);
-  } }, "prop-input"), children: [...e6.typedef.entries(t3, e6.ctx)].map((n3) => {
+  } }, "prop-input"), children: [...e6.typedef.entries((() => {
+    let e7 = {};
+    for (let n3 of Object.keys(t3).toSorted()) e7[n3] = null == t3 ? void 0 : t3[n3];
+    return e7;
+  })(), e6.ctx)].map((n3) => {
     var i2;
     let [o2, d2, s2] = n3;
     if (!Object.hasOwn(t3, o2)) return null;
@@ -497,7 +501,7 @@ let ez = a(() => new ej()), eH = o((e6, t2) => {
   }) })));
 }, { displayName: "RecordInput", props: ["ctx", "value", "typedef"] }), e2 = o((e6, t2) => {
   let { render: n2 } = t2;
-  return d(e6.value$, n2((t3) => ea(t3) ? r(eZ, { value: t3, typedef: C(k()), ctx: e6.ctx }) : ei(t3) ? r(e8, { value: t3, typedef: $(S(), k()), ctx: e6.ctx }) : r(eH, { value: t3, typedef: k(), ctx: e6.ctx, allowRawJSON: true })));
+  return d(e6.value$, n2((t3) => ea(t3) ? r(eZ, { value: t3, typedef: C(k()), ctx: e6.ctx }) : ei(t3) ? r(e8, { value: t3, typedef: S($(), k()), ctx: e6.ctx }) : r(eH, { value: t3, typedef: k(), ctx: e6.ctx, allowRawJSON: true })));
 }, { displayName: "AnyInput", props: ["typedef", "ctx", "value"] }), e4 = (e6, t2, n2) => "object" == e6.type || "intersection" == e6.type || "union" == e6.type && N.schemaProp(e6, "discriminator") ? r(eq, { typedef: e6, value: null != t2 ? t2 : {}, ctx: n2 }) : "union" == e6.type && Z(N.schemaProp(e6, "discriminator")) ? r(eH, { typedef: e6, value: t2, ctx: n2 }) : "record" == e6.type ? r(e8, { typedef: e6, value: t2, ctx: n2 }) : "array" == e6.type ? r(eZ, { typedef: e6, value: t2, ctx: n2 }) : "any" == e6.type || "unknown" == e6.type ? r(e2, { typedef: e6, value: t2, ctx: n2 }) : r(eH, { typedef: e6, value: t2, ctx: n2 }), e3 = o((e6, t2) => {
   let {} = e6, { render: n2 } = t2, l2 = ed.use(), a2 = es.use(), i2 = b(null);
   return d(l2, n2((e7) => {
