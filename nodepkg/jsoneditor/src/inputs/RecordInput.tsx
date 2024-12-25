@@ -37,7 +37,7 @@ export const RecordInput = component$<{
           {[...props.typedef.entries((() => {
             const o: any = {};
 
-            for (const key of Object.keys(obj).toSorted()) {
+            for (const key of Object.keys(obj ?? {}).toSorted()) {
               o[key] = (obj as any)?.[key];
             }
 
