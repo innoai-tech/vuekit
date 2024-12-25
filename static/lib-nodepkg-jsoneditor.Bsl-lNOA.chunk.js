@@ -488,7 +488,7 @@ let ez = a(() => new eW()), eH = o((e6, t2) => {
     l2.update([...e6.ctx.path, t4], void 0);
   } }, "prop-input"), children: [...e6.typedef.entries((() => {
     let e7 = {};
-    for (let n3 of Object.keys(t3).toSorted()) e7[n3] = null == t3 ? void 0 : t3[n3];
+    for (let n3 of Object.keys(null != t3 ? t3 : {}).toSorted()) e7[n3] = null == t3 ? void 0 : t3[n3];
     return e7;
   })(), e6.ctx)].map((n3) => {
     var i2;
