@@ -6,16 +6,25 @@ import {
   type InferSchema,
   JSONPointer,
   t,
-  type Type
+  type Type,
 } from "@innoai-tech/vuekit";
-import { get, isArray, isFunction, isNumber, isPlainObject, isUndefined, last, set } from "@innoai-tech/lodash";
+import {
+  get,
+  isArray,
+  isFunction,
+  isNumber,
+  isPlainObject,
+  isUndefined,
+  last,
+  set,
+} from "@innoai-tech/lodash";
 import { Observable } from "rxjs";
 
 export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
   static of<T extends Type>(typedef: T, initials?: Partial<Infer<T>>) {
     return new JSONEditor<Type<Infer<T>, InferSchema<T>>>(
       typedef,
-      initials ?? (typedef.type == "array" ? [] : {})
+      initials ?? (typedef.type == "array" ? [] : {}),
     );
   }
 
@@ -23,7 +32,7 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
 
   constructor(
     public typedef: T,
-    protected initials: Infer<T>
+    protected initials: Infer<T>,
   ) {
     super((subscriber) => {
       const sub = this.#values$.subscribe(subscriber);
@@ -48,12 +57,12 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
   update<T>(
     path: Array<string | number>,
     mut: (value: T) => void,
-    defaultValue: T
+    defaultValue: T,
   ): void;
   update<T>(
     path: Array<string | number>,
     valueOrMut: T | ((value: T) => void),
-    defaultValue?: T
+    defaultValue?: T,
   ): void {
     this.#error$.next({});
 
@@ -119,7 +128,7 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
 }
 
 export const JSONEditorProvider = createProvider(
-  () => new JSONEditor<Type<any, any>>(t.object(), {})
+  () => new JSONEditor<Type<any, any>>(t.object(), {}),
 );
 
 export const JSONEditorSlotsProvider = createProvider(() => {
@@ -127,7 +136,7 @@ export const JSONEditorSlotsProvider = createProvider(() => {
     $value?: (
       _t: Type,
       _value: any,
-      _ctx: Context
+      _ctx: Context,
     ) => JSX.Element | null | undefined;
   };
 });

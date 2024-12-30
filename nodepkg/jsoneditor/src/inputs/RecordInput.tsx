@@ -34,50 +34,50 @@ export const RecordInput = component$<{
             />
           }
         >
-          {[...props.typedef.entries((() => {
-            const o: any = {};
+          {[
+            ...props.typedef.entries(
+              (() => {
+                const o: any = {};
 
-            for (const key of Object.keys(obj ?? {}).toSorted()) {
-              o[key] = (obj as any)?.[key];
+                for (const key of Object.keys(obj ?? {}).toSorted()) {
+                  o[key] = (obj as any)?.[key];
+                }
+
+                return o;
+              })(),
+              props.ctx,
+            ),
+          ].map(([propName, propValue, propSchema]) => {
+            if (!Object.hasOwn(obj, propName)) {
+              return null;
             }
 
-            return o;
-          })(), props.ctx)].map(
-            ([propName, propValue, propSchema]) => {
-              if (!Object.hasOwn(obj, propName)) {
-                return null;
-              }
+            const path = [...props.ctx.path, propName];
 
-              const path = [...props.ctx.path, propName];
-
-              return (
-                <Line
-                  path={path}
-                  dirty={editor$.isDirty(propValue, path)}
+            return (
+              <Line path={path} dirty={editor$.isDirty(propValue, path)}>
+                <PropName
+                  $leading={
+                    <RemovePropIconBtn
+                      onRemove={() => {
+                        editor$.delete(path);
+                      }}
+                    />
+                  }
                 >
-                  <PropName
-                    $leading={
-                      <RemovePropIconBtn
-                        onRemove={() => {
-                          editor$.delete(path);
-                        }}
-                      />
-                    }
-                  >
-                    {String(propName)}
-                  </PropName>
-                  <Token>{":"}&nbsp;</Token>
-                  {slots.$value?.(propSchema, propValue, {
-                    ...props.ctx,
-                    path: path,
-                    branch: [...props.ctx.branch, propValue]
-                  })}
-                </Line>
-              );
-            }
-          )}
+                  {String(propName)}
+                </PropName>
+                <Token>{":"}&nbsp;</Token>
+                {slots.$value?.(propSchema, propValue, {
+                  ...props.ctx,
+                  path: path,
+                  branch: [...props.ctx.branch, propValue],
+                })}
+              </Line>
+            );
+          })}
         </Block>
       );
-    })
+    }),
   );
 });

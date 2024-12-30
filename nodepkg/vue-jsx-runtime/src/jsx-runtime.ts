@@ -1,4 +1,12 @@
-import { Fragment, h, isVNode, type NativeElements, type ReservedProps, type VNode, type VNodeChild } from "vue";
+import {
+  Fragment,
+  h,
+  isVNode,
+  type NativeElements,
+  type ReservedProps,
+  type VNode,
+  type VNodeChild,
+} from "vue";
 
 export { Fragment };
 
@@ -45,7 +53,7 @@ const wrapSlot = (children: any) => {
 
 const pickPropsWithoutSlots = (
   rawProps: Record<string, any>,
-  key?: string
+  key?: string,
 ): [any, any] => {
   const { children, ...otherProps } = rawProps;
 
@@ -114,8 +122,7 @@ declare module "vue" {
 
 declare global {
   namespace JSX {
-    export interface Element extends VNode {
-    }
+    export interface Element extends VNode {}
 
     export interface ElementClass {
       $props: {};
@@ -136,11 +143,11 @@ declare global {
       $default: {};
     }
 
-    export interface IntrinsicAttributes extends ReservedPropsWithElementChildren {
-    }
+    export interface IntrinsicAttributes
+      extends ReservedPropsWithElementChildren {}
 
     type ReservedPropsWithElementChildren = ReservedProps & {
       $default?: VNodeChild | {};
-    }
+    };
   }
 }

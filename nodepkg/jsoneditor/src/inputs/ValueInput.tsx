@@ -10,7 +10,7 @@ import {
   Schema,
   subscribeUntilUnmount,
   tapEffect,
-  type Type
+  type Type,
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider } from "../models";
 import {
@@ -23,13 +23,20 @@ import {
   Observable,
   Subject,
   switchMap,
-  tap
+  tap,
 } from "rxjs";
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold } from "@mdi/js";
 import { isUndefined } from "@innoai-tech/lodash";
-import { ActionBtn, Description, Menu, MenuItem, PopupStatus, PropName } from "../views";
+import {
+  ActionBtn,
+  Description,
+  Menu,
+  MenuItem,
+  PopupStatus,
+  PropName,
+} from "../views";
 
 export class InputText extends BehaviorSubject<string> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
@@ -46,10 +53,10 @@ export class InputText extends BehaviorSubject<string> {
           fromEvent<InputEvent>(inputEl, "input"),
           tap((e) => {
             input$.next((e.target as HTMLInputElement).value.trim());
-          })
+          }),
         );
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return input$;
@@ -58,15 +65,15 @@ export class InputText extends BehaviorSubject<string> {
 
 export type InputAction =
   | {
-  type: "COMMIT";
-}
+      type: "COMMIT";
+    }
   | {
-  type: "CANCEL";
-}
+      type: "CANCEL";
+    }
   | {
-  type: "SELECT";
-  direction: number;
-};
+      type: "SELECT";
+      direction: number;
+    };
 
 export class InputActionSubject extends Subject<InputAction> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
@@ -87,7 +94,7 @@ export class InputActionSubject extends Subject<InputAction> {
                 e.preventDefault();
                 inputAction$.next({ type: "COMMIT" });
               }
-            })
+            }),
           ),
           rx(
             fromEvent<KeyboardEvent>(inputEl, "keydown"),
@@ -112,7 +119,7 @@ export class InputActionSubject extends Subject<InputAction> {
                   }
                   break;
               }
-            })
+            }),
           ),
           rx(
             fromEvent<KeyboardEvent>(inputEl, "keyup"),
@@ -120,11 +127,11 @@ export class InputActionSubject extends Subject<InputAction> {
               if (e.key === "Escape") {
                 inputAction$.next({ type: "CANCEL" });
               }
-            })
-          )
+            }),
+          ),
         );
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
 
     return inputAction$;
@@ -138,7 +145,7 @@ class OneEditing extends Observable<string | null> {
       value$: Observable<any>;
       editing$: PopupStatus;
       path: () => Array<any>;
-    }
+    },
   ) {
     return rx(
       merge(
@@ -148,7 +155,7 @@ class OneEditing extends Observable<string | null> {
             if (p && p == JSONPointer.create(opt.path())) {
               opt.editing$.show();
             }
-          })
+          }),
         ),
 
         rx(
@@ -158,7 +165,7 @@ class OneEditing extends Observable<string | null> {
             if (!editing) {
               oneEditing$.disable(opt.path());
             }
-          })
+          }),
         ),
 
         rx(
@@ -168,10 +175,10 @@ class OneEditing extends Observable<string | null> {
             if (isUndefined(value) && !anyEditing) {
               oneEditing$.enable(opt.path());
             }
-          })
-        )
+          }),
+        ),
       ),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
   }
 
@@ -204,7 +211,7 @@ export const ValueInput = component$<{
   typedef: Type;
   ctx: Context;
   value: string | boolean | number | null | undefined;
-  allowRawJSON?: boolean
+  allowRawJSON?: boolean;
 }>((props, { render }) => {
   const actionsEl$ = observableRef<HTMLDivElement | null>(null);
   const containerEl$ = observableRef<HTMLDivElement | null>(null);
@@ -219,7 +226,7 @@ export const ValueInput = component$<{
   OneEditing.sync(oneEditing$, {
     editing$,
     value$: props.value$,
-    path: () => props.ctx.path
+    path: () => props.ctx.path,
   });
 
   const selectedIndex = () => {
@@ -236,7 +243,7 @@ export const ValueInput = component$<{
   };
 
   const selectFocus$ = new ImmerBehaviorSubject({
-    index: selectedIndex()
+    index: selectedIndex(),
   });
 
   const reset = () => {
@@ -285,7 +292,10 @@ export const ValueInput = component$<{
       tap((input) => {
         const raw = input.trim();
 
-        if ((raw.startsWith("{") && raw.endsWith("}")) || raw.startsWith("[") && raw.endsWith("]")) {
+        if (
+          (raw.startsWith("{") && raw.endsWith("}")) ||
+          (raw.startsWith("[") && raw.endsWith("]"))
+        ) {
           try {
             const v = JSON.parse(raw);
             editor$.update(props.ctx.path, v);
@@ -295,7 +305,7 @@ export const ValueInput = component$<{
           }
         }
       }),
-      subscribeUntilUnmount()
+      subscribeUntilUnmount(),
     );
   }
 
@@ -316,7 +326,7 @@ export const ValueInput = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   let containerHeight: number | undefined;
@@ -342,9 +352,8 @@ export const ValueInput = component$<{
             };
           }
 
-          return () => {
-          };
-        })
+          return () => {};
+        }),
       ),
 
       rx(
@@ -359,7 +368,7 @@ export const ValueInput = component$<{
               inputEl.selectionEnd = inputEl.value.length;
             }
           }
-        })
+        }),
       ),
 
       rx(
@@ -383,7 +392,7 @@ export const ValueInput = component$<{
                   if (e.relatedTarget) {
                     if (
                       containerEl$.value?.contains(
-                        e.relatedTarget as HTMLElement
+                        e.relatedTarget as HTMLElement,
                       ) ||
                       actionsEl$.value?.contains(e.relatedTarget as HTMLElement)
                     ) {
@@ -393,23 +402,23 @@ export const ValueInput = component$<{
 
                   e.preventDefault();
                   commit(inputEl.value);
-                })
+                }),
               ),
               rx(
                 fromEvent<InputEvent>(inputEl, "input"),
                 tap((e) => {
                   updateHeight(e.target as HTMLTextAreaElement);
                   inputText$.next((e.target as HTMLTextAreaElement).value);
-                })
-              )
+                }),
+              ),
             );
           }
 
           return EMPTY;
-        })
-      )
+        }),
+      ),
     ),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   if (props.typedef.type == "enums") {
@@ -463,7 +472,7 @@ export const ValueInput = component$<{
             )}
           </ValueContainer>
         );
-      })
+      }),
     );
   }
 
@@ -504,11 +513,11 @@ export const ValueInput = component$<{
               }
             >
               <div data-input-wrapper>
-                 <textarea
-                   ref={inputEl$}
-                   rows={1}
-                   value={value == undefined ? "" : `${value}`}
-                 />
+                <textarea
+                  ref={inputEl$}
+                  rows={1}
+                  value={value == undefined ? "" : `${value}`}
+                />
               </div>
             </Popper>
           ) : (
@@ -516,7 +525,7 @@ export const ValueInput = component$<{
           )}
         </ValueContainer>
       );
-    })
+    }),
   );
 });
 
@@ -529,7 +538,7 @@ export const ValueInputActions = styled("div")({
   roundedRight: "sm",
   display: "flex",
   px: 2,
-  ml: -4
+  ml: -4,
 });
 
 export const ValueContainer = styled("div")({
@@ -556,8 +565,8 @@ export const ValueContainer = styled("div")({
     _hover: {
       textOverflow: "clip",
       whiteSpace: "normal",
-      wordBreak: "break-all"
-    }
+      wordBreak: "break-all",
+    },
   },
 
   "& [data-input-wrapper]": {
@@ -570,11 +579,11 @@ export const ValueContainer = styled("div")({
     borderColor: variant("sys.outline-variant", alpha(0.38)),
     opacity: 0.38,
     "&:hover": {
-      opacity: 1
+      opacity: 1,
     },
     "&:focus-within": {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
 
   "& textarea,input": {
@@ -594,31 +603,31 @@ export const ValueContainer = styled("div")({
     resize: "none",
 
     "&[data-options]:focus": {
-      roundedBottom: 0
-    }
+      roundedBottom: 0,
+    },
   },
 
   _type__string: {
-    color: "sys.primary"
+    color: "sys.primary",
   },
 
   _type__number: {
-    color: "sys.primary"
+    color: "sys.primary",
   },
 
   _type__boolean: {
-    color: "sys.warning"
+    color: "sys.warning",
   },
 
   _type__undefined: {
-    color: "sys.error"
-  }
+    color: "sys.error",
+  },
 });
 
 const EnumMenuItemContainer = styled(MenuItem)({
   [`& ${PropName}`]: {
-    textAlign: "left"
-  }
+    textAlign: "left",
+  },
 });
 
 const EnumMenuItem = component<{

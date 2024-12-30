@@ -16,21 +16,23 @@ export class Metadata {
     target: Object,
     propertyKey: PropertyKey,
     mut: (m: T) => void,
-    defaults: T
+    defaults: T,
   ): void;
   static define(
     target: Object,
     propertyKey: PropertyKey,
     valueOrFunc: any,
-    defaults?: any
+    defaults?: any,
   ): void {
     if (target && target.constructor && target.constructor != Object) {
       if (isFunction(valueOrFunc)) {
-
         Reflect.defineMetadata(
           propertyKey,
-          produce(Reflect.getMetadata(propertyKey, target) ?? defaults ?? {}, valueOrFunc),
-          target
+          produce(
+            Reflect.getMetadata(propertyKey, target) ?? defaults ?? {},
+            valueOrFunc,
+          ),
+          target,
         );
 
         return;

@@ -6,16 +6,29 @@ import {
   Schema,
   subscribeUntilUnmount,
   type Type,
-  type VNodeChild
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold, mdiMinusBoxOutline } from "@mdi/js";
 import { JSONEditorProvider, JSONEditorSlotsProvider } from "../models";
 import { Box, Popper } from "@innoai-tech/vueuikit";
-import { InputActionSubject, InputText, ValueContainer, ValueInputActions } from "./ValueInput.tsx";
+import {
+  InputActionSubject,
+  InputText,
+  ValueContainer,
+  ValueInputActions,
+} from "./ValueInput.tsx";
 import { tap } from "rxjs";
 import { CopyAsJSONIconBtn } from "../actions";
-import { ActionBtn, Actions, Block, Line, PopupStatus, PropName, Tooltip } from "../views";
+import {
+  ActionBtn,
+  Actions,
+  Block,
+  Line,
+  PopupStatus,
+  PropName,
+  Tooltip,
+} from "../views";
 
 export const ArrayInput = component$<{
   ctx: Context;
@@ -47,7 +60,7 @@ export const ArrayInput = component$<{
                   (values: any) => {
                     values.push(value);
                   },
-                  []
+                  [],
                 );
               }}
             />
@@ -73,15 +86,15 @@ export const ArrayInput = component$<{
                   {slots.$value?.(propSchema, itemValue, {
                     ...props.ctx,
                     path: path,
-                    branch: [...props.ctx.branch, itemValue]
+                    branch: [...props.ctx.branch, itemValue],
                   })}
                 </Line>
               );
-            }
+            },
           )}
         </Block>
       );
-    })
+    }),
   );
 });
 
@@ -146,7 +159,7 @@ const AddItemIconBtn = component$<{
         }
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   rx(
@@ -161,7 +174,7 @@ const AddItemIconBtn = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   const $input = rx(
@@ -197,7 +210,7 @@ const AddItemIconBtn = component$<{
           </div>
         </Popper>
       );
-    })
+    }),
   );
 
   return () => (

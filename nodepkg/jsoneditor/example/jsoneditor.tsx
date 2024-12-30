@@ -62,26 +62,26 @@ export default component(() => {
   const editor$ = JSONEditor.of(x, {
     name: "name",
     annotations: {
-      longtext: new Array(100).fill("longtext").join("")
+      longtext: new Array(100).fill("longtext").join(""),
     },
     ports: [],
     manifests: {
-      "x": {}
+      x: {},
     },
     anyjson: {
       obj: {
-        a: 1
+        a: 1,
       },
       arr: ["1", "2", "3"],
       nested: [
         {
-          a: 1
+          a: 1,
         },
         {
-          a: 2
-        }
-      ]
-    }
+          a: 2,
+        },
+      ],
+    },
   });
 
   rx(
@@ -95,7 +95,7 @@ export default component(() => {
       }
       console.log(JSON.stringify(v, null, 2));
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   return () => (

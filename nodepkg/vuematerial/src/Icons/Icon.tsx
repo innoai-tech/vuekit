@@ -31,7 +31,7 @@ export const Icon = styled<
 
     "& svg": {
       w: "100%",
-      h: "100%"
-    }
-  }
+      h: "100%",
+    },
+  },
 });

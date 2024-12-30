@@ -1,4 +1,11 @@
-import { get, isFunction, isPlainObject, isString, isUndefined, set } from "@innoai-tech/lodash";
+import {
+  get,
+  isFunction,
+  isPlainObject,
+  isString,
+  isUndefined,
+  set,
+} from "@innoai-tech/lodash";
 import {
   type Component,
   EmptyContext,
@@ -7,18 +14,17 @@ import {
   JSONPointer,
   rx,
   Schema,
-  type Type
+  type Type,
 } from "@innoai-tech/vuekit";
 import { distinctUntilChanged, map, Observable, Subject } from "rxjs";
-
 
 export class FormData<T extends {}> extends Subject<T> {
   static of<T extends {}>(
     schema: Type<T>,
-    initials: Partial<T> | (() => Partial<T>)
+    initials: Partial<T> | (() => Partial<T>),
   ) {
     return new FormData<T>(schema, () =>
-      isFunction(initials) ? initials() : initials
+      isFunction(initials) ? initials() : initials,
     );
   }
 
@@ -26,13 +32,11 @@ export class FormData<T extends {}> extends Subject<T> {
 
   constructor(
     public typedef: Type<T>,
-    initials: () => Partial<T>
+    initials: () => Partial<T>,
   ) {
     super();
 
-    this.inputs$ = new ImmerBehaviorSubject<Partial<T>>(
-      initials() ?? {}
-    );
+    this.inputs$ = new ImmerBehaviorSubject<Partial<T>>(initials() ?? {});
   }
 
   get inputs() {
@@ -42,17 +46,25 @@ export class FormData<T extends {}> extends Subject<T> {
   #fields = new Map<string, Field>();
 
   field(pointerOrPath: any[] | string) {
-    return this.#fields.get(isString(pointerOrPath) ? pointerOrPath : JSONPointer.create(pointerOrPath));
+    return this.#fields.get(
+      isString(pointerOrPath)
+        ? pointerOrPath
+        : JSONPointer.create(pointerOrPath),
+    );
   }
 
   delete(pointerOrPath: any[] | string) {
-    return this.#fields.delete(isString(pointerOrPath) ? pointerOrPath : JSONPointer.create(pointerOrPath));
+    return this.#fields.delete(
+      isString(pointerOrPath)
+        ? pointerOrPath
+        : JSONPointer.create(pointerOrPath),
+    );
   }
 
-  * fields<T extends Type>(
+  *fields<T extends Type>(
     typedef: T,
     value = this.inputs$.value,
-    path: any[] = []
+    path: any[] = [],
   ): Iterable<Field> {
     for (const [nameOrIdx, _, t] of typedef.entries(value, EmptyContext)) {
       // skip RecordKey
@@ -189,7 +201,8 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
 
 class FieldImpl<T extends any = any>
   extends ImmerBehaviorSubject<FieldState>
-  implements Field<T> {
+  implements Field<T>
+{
   static defaultValue = (def: Type) => {
     try {
       return def.create(undefined);
@@ -202,15 +215,19 @@ class FieldImpl<T extends any = any>
     public readonly form$: FormData<any>,
     public readonly typedef: Type,
     public readonly path: Array<string | number>,
-    public readonly pointer = JSONPointer.create(path)
+    public readonly pointer = JSONPointer.create(path),
   ) {
     super({
-      initial: get(form$.inputs$.value, path, FieldImpl.defaultValue(typedef))
+      initial: get(form$.inputs$.value, path, FieldImpl.defaultValue(typedef)),
     });
   }
 
   get input(): T | undefined {
-    return get(this.form$.inputs$.value, this.path, FieldImpl.defaultValue(this.typedef)) as any;
+    return get(
+      this.form$.inputs$.value,
+      this.path,
+      FieldImpl.defaultValue(this.typedef),
+    ) as any;
   }
 
   get meta(): FieldMeta<T> {
@@ -240,9 +257,9 @@ class FieldImpl<T extends any = any>
       this.#input$ = rx(
         this.form$.inputs$,
         map(
-          (v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any
+          (v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any,
         ),
-        distinctUntilChanged()
+        distinctUntilChanged(),
       );
     }
     return this.#input$;

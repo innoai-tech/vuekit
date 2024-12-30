@@ -12,7 +12,10 @@ export interface ImmerSubject<T> extends Observable<T> {
   next(value: T): void;
 }
 
-export class ImmerBehaviorSubject<T> extends Observable<T> implements ImmerSubject<T> {
+export class ImmerBehaviorSubject<T>
+  extends Observable<T>
+  implements ImmerSubject<T>
+{
   static seed<T>(seed: T) {
     return new ImmerBehaviorSubject<T>(seed);
   }
@@ -37,13 +40,15 @@ export class ImmerBehaviorSubject<T> extends Observable<T> implements ImmerSubje
     return this._value;
   }
 
-  next(updater: (v: T) => void, defaultValue?: T): void
-  next(value: T): void
+  next(updater: (v: T) => void, defaultValue?: T): void;
+  next(value: T): void;
   next(valueOrUpdater: T | ((v: T) => void), defaultValue?: T): void {
-    const v = isFunction(valueOrUpdater) ? produce(this._value ?? defaultValue, valueOrUpdater) : valueOrUpdater;
+    const v = isFunction(valueOrUpdater)
+      ? produce(this._value ?? defaultValue, valueOrUpdater)
+      : valueOrUpdater;
 
     if (!Object.is(v, this._value)) {
-      this._subject$.next(this._value = v!);
+      this._subject$.next((this._value = v!));
     }
   }
 }

@@ -1,10 +1,24 @@
-import { component$, type Context, EmptyContext, rx, Schema, type Type } from "@innoai-tech/vuekit";
+import {
+  component$,
+  type Context,
+  EmptyContext,
+  rx,
+  Schema,
+  type Type,
+} from "@innoai-tech/vuekit";
 import { JSONEditorProvider, JSONEditorSlotsProvider } from "./models";
 import { LayoutContextProvider, Line } from "./views";
 import { styled } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
 import { isUndefined } from "@innoai-tech/lodash";
-import { AnyInput, ArrayInput, ObjectInput, OneEditingProvider, RecordInput, ValueInput } from "./inputs";
+import {
+  AnyInput,
+  ArrayInput,
+  ObjectInput,
+  OneEditingProvider,
+  RecordInput,
+  ValueInput,
+} from "./inputs";
 
 export const defaultValueRender = (typedef: Type, value: any, ctx: Context) => {
   if (
@@ -52,7 +66,7 @@ export const JSONEditorView = component$(({}, { render }) => {
         <OneEditingProvider>
           <JSONEditorSlotsProvider
             value={{
-              $value: slots.$value ?? defaultValueRender
+              $value: slots.$value ?? defaultValueRender,
             }}
           >
             <JSONEditorContainer>
@@ -61,7 +75,7 @@ export const JSONEditorView = component$(({}, { render }) => {
                 <LayoutContextProvider
                   value={{
                     indent: 0,
-                    $container: $container
+                    $container: $container,
                   }}
                 >
                   <Line path={[]} viewOnly>
@@ -73,7 +87,7 @@ export const JSONEditorView = component$(({}, { render }) => {
           </JSONEditorSlotsProvider>
         </OneEditingProvider>
       );
-    })
+    }),
   );
 });
 
@@ -85,6 +99,6 @@ const JSONEditorContainer = styled("div")({
   section: {
     display: "flex",
     flexDirection: "column",
-    minWidth: "max-content"
-  }
+    minWidth: "max-content",
+  },
 });

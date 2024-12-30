@@ -7,7 +7,7 @@ import {
   ref,
   rx,
   Teleport,
-  type VNodeChild
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider } from "../models";
 import { Actions, ActionToolbar } from "./Actions.tsx";
@@ -25,7 +25,7 @@ export const Token = styled("span")({
   wordBreak: "keep-all",
   whiteSpace: "nowrap",
   font: "code",
-  opacity: 0.3
+  opacity: 0.3,
 });
 
 export const PropName = component$<{
@@ -53,7 +53,7 @@ export const PropName = component$<{
 
 const PropLeading = styled(ActionToolbar)({
   position: "absolute",
-  ml: -28
+  ml: -28,
 });
 
 const PropNameView = styled("div")({
@@ -72,12 +72,12 @@ const PropNameView = styled("div")({
   lineHeight: 24,
 
   _deprecated: {
-    textDecoration: "line-through"
+    textDecoration: "line-through",
   },
 
   _optional: {
-    "&:after": { content: `"?"`, color: "sys.secondary", opacity: 0.58 }
-  }
+    "&:after": { content: `"?"`, color: "sys.secondary", opacity: 0.58 },
+  },
 });
 
 export const LineTitle = styled("div")({
@@ -96,16 +96,16 @@ export const LineTitle = styled("div")({
 
     "&::before": {
       content: `"// "`,
-      font: "code"
-    }
-  }
+      font: "code",
+    },
+  },
 });
 
 export const LineError = styled("div")({
   display: "block",
   fontSize: 10,
   lineHeight: 14,
-  color: "sys.error"
+  color: "sys.error",
 });
 
 export const LineContainer = styled("div")({
@@ -116,43 +116,43 @@ export const LineContainer = styled("div")({
     containerStyle: "sys.surface-container",
 
     "& [data-visible-on-hover]": {
-      visibility: "visible"
-    }
+      visibility: "visible",
+    },
   },
 
   "&:focus-within": {
-    containerStyle: "sys.surface-container"
+    containerStyle: "sys.surface-container",
   },
 
   _dirty: {
-    bgColor: variant("sys.warning-container", alpha(0.38))
+    bgColor: variant("sys.warning-container", alpha(0.38)),
   },
 
   _error: {
-    bgColor: "sys.error-container"
+    bgColor: "sys.error-container",
   },
 
   [`&:has(${Actions})`]: {
     [`& > ${LineError}`]: {
-      display: "none"
+      display: "none",
     },
 
     _error: {
-      bgColor: "inherit"
-    }
-  }
+      bgColor: "inherit",
+    },
+  },
 });
 
 export const LayoutContextProvider = createProvider(
   () => {
     return {
       indent: 0,
-      $container: ref<HTMLDivElement | null>(null)
+      $container: ref<HTMLDivElement | null>(null),
     };
   },
   {
-    name: "IntentContext"
-  }
+    name: "IntentContext",
+  },
 );
 
 export const Block = component<{
@@ -179,7 +179,7 @@ export const Block = component<{
             <LayoutContextProvider
               value={{
                 $container: $trailing,
-                indent: 1 + (ctx.indent ?? 0)
+                indent: 1 + (ctx.indent ?? 0),
               }}
             >
               {slots.trailing?.()}
@@ -189,7 +189,7 @@ export const Block = component<{
         <LineRow
           style={{
             paddingLeft: `${ctx.indent * 32}px`,
-            display: "flex"
+            display: "flex",
           }}
         >
           <Token>{props.closeToken}</Token>
@@ -199,7 +199,7 @@ export const Block = component<{
         <LayoutContextProvider
           value={{
             $container: $container,
-            indent: 1 + (ctx.indent ?? 0)
+            indent: 1 + (ctx.indent ?? 0),
           }}
         >
           {slots.default?.()}
@@ -231,29 +231,29 @@ export const Line = component$<{
           data-error={hasError}
           data-dirty={props.dirty}
           style={{
-            paddingLeft: `${ctx.indent * 32}px`
+            paddingLeft: `${ctx.indent * 32}px`,
           }}
         >
           {(props.title || props.description) && (
             <LineTitle
               style={{
-                paddingLeft: `${ctx.indent * 32}px`
+                paddingLeft: `${ctx.indent * 32}px`,
               }}
             >
               {props.description ? (
-                <Tooltip $title={
-                  <Description>
-                    <Markdown text={props.description} />
-                  </Description>
-                }>
+                <Tooltip
+                  $title={
+                    <Description>
+                      <Markdown text={props.description} />
+                    </Description>
+                  }
+                >
                   <div>
                     {props.title} <Icon path={mdiHelpBox} />
                   </div>
                 </Tooltip>
               ) : (
-                <span>
-                 {props.title}
-                </span>
+                <span>{props.title}</span>
               )}
             </LineTitle>
           )}
@@ -261,7 +261,7 @@ export const Line = component$<{
           {hasError && <LineError>{`${errors[pointer]}`}</LineError>}
         </LineContainer>
       );
-    })
+    }),
   );
 
   return () => <Teleport to={ctx.$container.value}>{$line}</Teleport>;
@@ -276,7 +276,7 @@ const LinesTrailing = styled("div")({});
 export const LineRow = styled("div")({
   display: "flex",
   alignItems: "start",
-  pr: 10
+  pr: 10,
 });
 
 export const Description = styled("span")({
@@ -289,13 +289,11 @@ export const Description = styled("span")({
 
     wordBreak: "keep-all",
     whiteSpace: "nowrap",
-    opacity: 0.7
+    opacity: 0.7,
   },
 
   "& code": {
     wordBreak: "keep-all",
-    whiteSpace: "nowrap"
-  }
+    whiteSpace: "nowrap",
+  },
 });
-
-

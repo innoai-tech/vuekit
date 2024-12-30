@@ -5,6 +5,7 @@ import { Box, styled } from "@innoai-tech/vueuikit";
 import { ResponseView } from "./ResponseView.tsx";
 import { RequestBuilder } from "./RequestBuilder.tsx";
 import { Markdown } from "@innoai-tech/vuemarkdown";
+import { DatabaseErContainer } from "./DatabaseErView.tsx";
 
 export const OperationView = component$({
   operationId: t.string()
@@ -87,24 +88,32 @@ export const OperationView = component$({
       if (!op) {
         return null;
       }
+      if (op.operationId == "SycDatabaseEr") {
+        return (
+          <OperationContainer key={op.operationId}>
+            {$heading}
+            {$desc}
+            <OperationMain>
+              <DatabaseErContainer
+                op={op}
+              />
+            </OperationMain>
+          </OperationContainer>
+        )
+      }
+
       return (
         <OperationContainer key={op.operationId}>
           {$heading}
           {$desc}
-          <Box sx={{
-            flex: 1,
-            overflow: "hidden",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "stretch"
-          }}>
+          <OperationMain>
             <Box sx={{
               flex: 1,
               overflow: "auto"
             }}>
               {$requestBuilder}
             </Box>
-          </Box>
+          </OperationMain>
         </OperationContainer>
       );
     })
@@ -117,6 +126,16 @@ const OperationContainer = styled("div")({
   flexDirection: "column",
   alignItems: "stretch"
 });
+
+
+const OperationMain = styled("div")({
+  flex: 1,
+  overflow: "hidden",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "stretch"
+});
+
 
 const OperationHeading = styled("div")({
   display: "flex",

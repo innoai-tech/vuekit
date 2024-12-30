@@ -117,7 +117,7 @@ export const Description = styled<{
   }
 });
 
-const MarkdownContainer = styled("div")({
+export const MarkdownContainer = styled("div")({
   textStyle: "sys.body-small",
 
   "& p": {
