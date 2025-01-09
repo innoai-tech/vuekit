@@ -30,7 +30,10 @@ export type ErColumn = {
 export type ErConstraint = {
   title?: string
   description?: string
-  columnNames: Array<string>
+  columnNames: Array<{
+    name: string,
+    options?: string[]
+  }>
   method?: string
   unique?: boolean
   primary?: boolean
@@ -122,7 +125,7 @@ const DatabaseErTableView = component$<{
             return (
               <DatabaseErTableDef
                 onMouseover={() => {
-                  focus$.next(constraint.columnNames);
+                  focus$.next(constraint.columnNames.map((x) => x.name));
                 }}
                 onMouseleave={() => {
                   focus$.next([]);
@@ -137,7 +140,7 @@ const DatabaseErTableView = component$<{
                             {constraintName}
                           </span>
                   <span>
-                            ({constraint.columnNames.join(",")})
+                            ({constraint.columnNames.map((x) => [x.name, ...(x.options ?? [])].join(" ")).join(",")})
                           </span>
                 </DatabaseErTableConstraintName>
               </DatabaseErTableDef>
