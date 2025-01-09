@@ -1,9 +1,9 @@
 import { component$, JSONSchemaDecoder, refName, t } from "@innoai-tech/vuekit";
 import type { Response } from "./models";
 import { Box, styled } from "@innoai-tech/vueuikit";
-import { Line, PropName, SchemaView, Indent, Token } from "./SchemaView.tsx";
+import { Indent, Line, PropName, SchemaView, Token } from "./SchemaView.tsx";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined, uniq } from "@innoai-tech/lodash";
 
 function isErrorCode(c: number | string) {
   try {
@@ -27,11 +27,11 @@ export const ResponseView = component$({
         </ResponseStatusCode>
         <Box sx={{ pl: "4em" }}>
           <>
-            {props.response["x-status-return-errors"]
-              ?.map((statusErr: string) => {
+            {uniq((props.response["x-status-return-errors"] ?? []) as string[])
+              .map((statusErr: string) => {
                 return parseStatusErr(statusErr);
               })
-              .map((statusErr: StatusErr) => {
+              .map((statusErr) => {
                 if (statusErr) {
                   return (
                     <Box sx={{ mb: 16 }}>
@@ -47,7 +47,7 @@ export const ResponseView = component$({
                               <Line>
                                 <PropName>{key}</PropName>
                                 <Token>:&nbsp;</Token>
-                                <Token>{value}</Token>
+                                <Token>{JSON.stringify(value)}</Token>
                               </Line>
                             );
                           })}
@@ -94,20 +94,50 @@ type StatusErr = {
   desc?: string,
 }
 
-function parseStatusErr(statusErr: string = ""): StatusErr | null {
-  if (statusErr.startsWith("StatusError{")) {
-    return statusErr.slice("StatusError{".length, statusErr.length - 1).split(",").reduce((ret, keyValue) => {
-      const [k, value] = keyValue.split("=", 2);
 
-      if (isUndefined(k) || isUndefined(value)) {
-        return ret;
+// x,v,"c,d" => x v "c,d"
+function splitCsv(str: string) {
+  return str.split(",").reduce((accum, curr: string) => {
+      if (accum.joining) {
+        accum.values[accum.values.length - 1] += "," + curr;
+      } else {
+        accum.values.push(curr);
       }
+      if (curr.split("\"").length % 2 == 0) {
+        accum.joining = !accum.joining;
+      }
+      return accum;
+    }, {
+      values: [] as string[],
+      joining: false
+    }
+  ).values;
+}
 
-      return {
-        ...ret,
-        [k]: value
-      };
-    }, {}) as { key: string, msg?: string, desc?: string };
+function parseStatusErr(statusErr: string = ""): StatusErr | null {
+  const i = statusErr.indexOf("{");
+  if (i > -1) {
+    return splitCsv(statusErr.slice(i + 1, statusErr.length - 1))
+      .reduce((ret, keyValue) => {
+        const i = keyValue.indexOf("=");
+        if (i < 0) {
+          return ret;
+        }
+
+        const key = keyValue.slice(0, i);
+        const value = keyValue.slice(i + 1);
+
+        if (isUndefined(key) || isUndefined(value)) {
+          return ret;
+        }
+
+        return {
+          ...ret,
+          [key]: JSON.parse(value)
+        };
+      }, {
+        key: statusErr.slice(0, i)
+      }) as { key: string, msg?: string, desc?: string };
   }
   return null;
 }
