@@ -2,10 +2,10 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 let e;
-import { e as t, j as r, l as n, c as a, m as i, d as o, S as s, n as l, p as c, q as u, b as d, h as f, u as h, v as m, r as p, x as g, T as v, s as b, t as y, o as x, f as w, F as k } from "./lib-nodepkg-vuekit.C6OVFkS0.chunk.js";
-import { c as C } from "./lib-nodepkg-typedef.CrSzMsIc.chunk.js";
-import { k as M, g as P, i as _, l as S, s as R, f as T, h as D, j as $, m as O, e as L, o as I, n as A, q as F, r as B, b as V, a as E, c as z, t as H, u as j } from "./vendor-innoai-tech-lodash.1IBb5NLI.chunk.js";
-import { _ as W, c as N } from "./vendor-rxjs.Ceq9fhEZ.chunk.js";
+import { e as t, j as r, l as n, c as a, m as i, d as o, S as s, n as l, p as c, q as u, b as d, h as f, u as h, v as m, r as p, x as g, T as v, s as b, t as y, o as x, f as w, F as k } from "./lib-nodepkg-vuekit.Cts2VpE6.chunk.js";
+import { c as C } from "./lib-nodepkg-typedef.DMOVrfQL.chunk.js";
+import { k as M, g as P, i as _, l as S, s as R, f as T, h as D, j as $, m as O, e as L, o as I, n as A, q as F, r as B, b as V, a as E, c as z, t as H, u as j } from "./vendor-innoai-tech-lodash.C5hOAnRW.chunk.js";
+import { _ as W, c as N } from "./vendor-rxjs.CROJHUGX.chunk.js";
 var q, U, G, Y, X, J, K = function() {
 };
 let Z = (e10, t10, r10) => Math.min(Math.max(r10, e10), t10);
@@ -17,28 +17,28 @@ function er(e10, t10) {
   return t10.some((t11) => void 0 !== e10[t11]);
 }
 function en(e10) {
-  var { from: t10 = 0, to: r10 = 1, restSpeed: n6 = 2, restDelta: a2 } = e10, i2 = W(e10, ["from", "to", "restSpeed", "restDelta"]);
+  var { from: t10 = 0, to: r10 = 1, restSpeed: n10 = 2, restDelta: a2 } = e10, i2 = W(e10, ["from", "to", "restSpeed", "restDelta"]);
   let o2 = { done: false, value: t10 }, { stiffness: s2, damping: l2, mass: c2, velocity: u2, duration: d2, isResolvedFromDuration: f2 } = function(e11) {
     let t11 = Object.assign({ velocity: 0, stiffness: 100, damping: 10, mass: 1, isResolvedFromDuration: false }, e11);
     if (!er(e11, et) && er(e11, ee)) {
       let r11 = function(e12) {
-        let t12, r12, { duration: n7 = 800, bounce: a3 = 0.25, velocity: i3 = 0, mass: o3 = 1 } = e12, s3 = 1 - a3;
-        s3 = Z(0.05, 1, s3), n7 = Z(0.01, 10, n7 / 1e3), s3 < 1 ? (t12 = (e13) => {
-          let t13 = e13 * s3, r13 = t13 * n7;
+        let t12, r12, { duration: n11 = 800, bounce: a3 = 0.25, velocity: i3 = 0, mass: o3 = 1 } = e12, s3 = 1 - a3;
+        s3 = Z(0.05, 1, s3), n11 = Z(0.01, 10, n11 / 1e3), s3 < 1 ? (t12 = (e13) => {
+          let t13 = e13 * s3, r13 = t13 * n11;
           return 1e-3 - (t13 - i3) / Q(e13, s3) * Math.exp(-r13);
         }, r12 = (e13) => {
-          let r13 = e13 * s3 * n7, a4 = Math.pow(s3, 2) * Math.pow(e13, 2) * n7, o4 = Math.exp(-r13), l4 = Q(Math.pow(e13, 2), s3);
+          let r13 = e13 * s3 * n11, a4 = Math.pow(s3, 2) * Math.pow(e13, 2) * n11, o4 = Math.exp(-r13), l4 = Q(Math.pow(e13, 2), s3);
           return (r13 * i3 + i3 - a4) * o4 * (-t12(e13) + 1e-3 > 0 ? -1 : 1) / l4;
-        }) : (t12 = (e13) => -1e-3 + Math.exp(-e13 * n7) * ((e13 - i3) * n7 + 1), r12 = (e13) => n7 * n7 * (i3 - e13) * Math.exp(-e13 * n7));
+        }) : (t12 = (e13) => -1e-3 + Math.exp(-e13 * n11) * ((e13 - i3) * n11 + 1), r12 = (e13) => n11 * n11 * (i3 - e13) * Math.exp(-e13 * n11));
         let l3 = function(e13, t13, r13) {
-          let n10 = r13;
-          for (let r14 = 1; r14 < 12; r14++) n10 -= e13(n10) / t13(n10);
-          return n10;
-        }(t12, r12, 5 / n7);
-        if (n7 *= 1e3, isNaN(l3)) return { stiffness: 100, damping: 10, duration: n7 };
+          let n12 = r13;
+          for (let r14 = 1; r14 < 12; r14++) n12 -= e13(n12) / t13(n12);
+          return n12;
+        }(t12, r12, 5 / n11);
+        if (n11 *= 1e3, isNaN(l3)) return { stiffness: 100, damping: 10, duration: n11 };
         {
           let e13 = Math.pow(l3, 2) * o3;
-          return { stiffness: e13, damping: 2 * s3 * Math.sqrt(o3 * e13), duration: n7 };
+          return { stiffness: e13, damping: 2 * s3 * Math.sqrt(o3 * e13), duration: n11 };
         }
       }(e11);
       (t11 = Object.assign(Object.assign(Object.assign({}, t11), r11), { velocity: 0, mass: 1 })).isResolvedFromDuration = true;
@@ -46,19 +46,19 @@ function en(e10) {
     return t11;
   }(i2), h2 = ea, m2 = ea;
   function p2() {
-    let e11 = u2 ? -(u2 / 1e3) : 0, n7 = r10 - t10, i3 = l2 / (2 * Math.sqrt(s2 * c2)), o3 = Math.sqrt(s2 / c2) / 1e3;
+    let e11 = u2 ? -(u2 / 1e3) : 0, n11 = r10 - t10, i3 = l2 / (2 * Math.sqrt(s2 * c2)), o3 = Math.sqrt(s2 / c2) / 1e3;
     if (void 0 === a2 && (a2 = Math.min(Math.abs(r10 - t10) / 100, 0.4)), i3 < 1) {
       let t11 = Q(o3, i3);
-      h2 = (a3) => r10 - Math.exp(-i3 * o3 * a3) * ((e11 + i3 * o3 * n7) / t11 * Math.sin(t11 * a3) + n7 * Math.cos(t11 * a3)), m2 = (r11) => {
+      h2 = (a3) => r10 - Math.exp(-i3 * o3 * a3) * ((e11 + i3 * o3 * n11) / t11 * Math.sin(t11 * a3) + n11 * Math.cos(t11 * a3)), m2 = (r11) => {
         let a3 = Math.exp(-i3 * o3 * r11);
-        return i3 * o3 * a3 * (Math.sin(t11 * r11) * (e11 + i3 * o3 * n7) / t11 + n7 * Math.cos(t11 * r11)) - a3 * (Math.cos(t11 * r11) * (e11 + i3 * o3 * n7) - t11 * n7 * Math.sin(t11 * r11));
+        return i3 * o3 * a3 * (Math.sin(t11 * r11) * (e11 + i3 * o3 * n11) / t11 + n11 * Math.cos(t11 * r11)) - a3 * (Math.cos(t11 * r11) * (e11 + i3 * o3 * n11) - t11 * n11 * Math.sin(t11 * r11));
       };
-    } else if (1 === i3) h2 = (t11) => r10 - Math.exp(-o3 * t11) * (n7 + (e11 + o3 * n7) * t11);
+    } else if (1 === i3) h2 = (t11) => r10 - Math.exp(-o3 * t11) * (n11 + (e11 + o3 * n11) * t11);
     else {
       let t11 = o3 * Math.sqrt(i3 * i3 - 1);
       h2 = (a3) => {
         let s3 = Math.exp(-i3 * o3 * a3), l3 = Math.min(t11 * a3, 300);
-        return r10 - s3 * ((e11 + i3 * o3 * n7) * Math.sinh(l3) + t11 * n7 * Math.cosh(l3)) / t11;
+        return r10 - s3 * ((e11 + i3 * o3 * n11) * Math.sinh(l3) + t11 * n11 * Math.cosh(l3)) / t11;
       };
     }
   }
@@ -66,7 +66,7 @@ function en(e10) {
     let t11 = h2(e11);
     if (f2) o2.done = e11 >= d2;
     else {
-      let i3 = Math.abs(1e3 * m2(e11)) <= n6, s3 = Math.abs(r10 - t11) <= a2;
+      let i3 = Math.abs(1e3 * m2(e11)) <= n10, s3 = Math.abs(r10 - t11) <= a2;
       o2.done = i3 && s3;
     }
     return o2.value = o2.done ? r10 : t11, o2;
@@ -76,8 +76,8 @@ function en(e10) {
 }
 en.needsInterpolation = (e10, t10) => "string" == typeof e10 || "string" == typeof t10;
 let ea = (e10) => 0, ei = (e10, t10, r10) => {
-  let n6 = t10 - e10;
-  return 0 === n6 ? 1 : (r10 - e10) / n6;
+  let n10 = t10 - e10;
+  return 0 === n10 ? 1 : (r10 - e10) / n10;
 }, eo = (e10, t10, r10) => -r10 * e10 + r10 * t10 + e10, es = (e10, t10) => (r10) => Math.max(Math.min(r10, t10), e10), el = (e10) => e10 % 1 ? Number(e10.toFixed(5)) : e10, ec = /(-)?([\d]*\.?[\d])+/g, eu = /(#[0-9a-f]{6}|#[0-9a-f]{3}|#(?:[0-9a-f]{2}){2,4}|(rgb|hsl)a?\((-?[\d\.]+%?[,\s]+){2}(-?[\d\.]+%?)\s*[\,\/]?\s*[\d\.]*%?\))/gi, ed = /^(#[0-9a-f]{3}|#(?:[0-9a-f]{2}){2,4}|(rgb|hsl)a?\((-?[\d\.]+%?[,\s]+){2}(-?[\d\.]+%?)\s*[\,\/]?\s*[\d\.]*%?\))$/i;
 function ef(e10) {
   return "string" == typeof e10;
@@ -86,32 +86,32 @@ let eh = { test: (e10) => "number" == typeof e10, parse: parseFloat, transform: 
 Object.assign(Object.assign({}, eh), { default: 1 });
 let ep = { test: (e10) => ef(e10) && e10.endsWith("%") && 1 === e10.split(" ").length, parse: parseFloat, transform: (e10) => `${e10}%` };
 Object.assign(Object.assign({}, ep), { parse: (e10) => ep.parse(e10) / 100, transform: (e10) => ep.transform(100 * e10) });
-let eg = (e10, t10) => (r10) => !!(ef(r10) && ed.test(r10) && r10.startsWith(e10) || t10 && Object.prototype.hasOwnProperty.call(r10, t10)), ev = (e10, t10, r10) => (n6) => {
-  if (!ef(n6)) return n6;
-  let [a2, i2, o2, s2] = n6.match(ec);
+let eg = (e10, t10) => (r10) => !!(ef(r10) && ed.test(r10) && r10.startsWith(e10) || t10 && Object.prototype.hasOwnProperty.call(r10, t10)), ev = (e10, t10, r10) => (n10) => {
+  if (!ef(n10)) return n10;
+  let [a2, i2, o2, s2] = n10.match(ec);
   return { [e10]: parseFloat(a2), [t10]: parseFloat(i2), [r10]: parseFloat(o2), alpha: void 0 !== s2 ? parseFloat(s2) : 1 };
 }, eb = { test: eg("hsl", "hue"), parse: ev("hue", "saturation", "lightness"), transform: (e10) => {
-  let { hue: t10, saturation: r10, lightness: n6, alpha: a2 = 1 } = e10;
-  return "hsla(" + Math.round(t10) + ", " + ep.transform(el(r10)) + ", " + ep.transform(el(n6)) + ", " + el(em.transform(a2)) + ")";
+  let { hue: t10, saturation: r10, lightness: n10, alpha: a2 = 1 } = e10;
+  return "hsla(" + Math.round(t10) + ", " + ep.transform(el(r10)) + ", " + ep.transform(el(n10)) + ", " + el(em.transform(a2)) + ")";
 } }, ey = es(0, 255), ex = Object.assign(Object.assign({}, eh), { transform: (e10) => Math.round(ey(e10)) }), ew = { test: eg("rgb", "red"), parse: ev("red", "green", "blue"), transform: (e10) => {
-  let { red: t10, green: r10, blue: n6, alpha: a2 = 1 } = e10;
-  return "rgba(" + ex.transform(t10) + ", " + ex.transform(r10) + ", " + ex.transform(n6) + ", " + el(em.transform(a2)) + ")";
+  let { red: t10, green: r10, blue: n10, alpha: a2 = 1 } = e10;
+  return "rgba(" + ex.transform(t10) + ", " + ex.transform(r10) + ", " + ex.transform(n10) + ", " + el(em.transform(a2)) + ")";
 } }, ek = { test: eg("#"), parse: function(e10) {
-  let t10 = "", r10 = "", n6 = "", a2 = "";
-  return e10.length > 5 ? (t10 = e10.substr(1, 2), r10 = e10.substr(3, 2), n6 = e10.substr(5, 2), a2 = e10.substr(7, 2)) : (t10 = e10.substr(1, 1), r10 = e10.substr(2, 1), n6 = e10.substr(3, 1), a2 = e10.substr(4, 1), t10 += t10, r10 += r10, n6 += n6, a2 += a2), { red: parseInt(t10, 16), green: parseInt(r10, 16), blue: parseInt(n6, 16), alpha: a2 ? parseInt(a2, 16) / 255 : 1 };
+  let t10 = "", r10 = "", n10 = "", a2 = "";
+  return e10.length > 5 ? (t10 = e10.substr(1, 2), r10 = e10.substr(3, 2), n10 = e10.substr(5, 2), a2 = e10.substr(7, 2)) : (t10 = e10.substr(1, 1), r10 = e10.substr(2, 1), n10 = e10.substr(3, 1), a2 = e10.substr(4, 1), t10 += t10, r10 += r10, n10 += n10, a2 += a2), { red: parseInt(t10, 16), green: parseInt(r10, 16), blue: parseInt(n10, 16), alpha: a2 ? parseInt(a2, 16) / 255 : 1 };
 }, transform: ew.transform }, eC = { test: (e10) => ew.test(e10) || ek.test(e10) || eb.test(e10), parse: (e10) => ew.test(e10) ? ew.parse(e10) : eb.test(e10) ? eb.parse(e10) : ek.parse(e10), transform: (e10) => ef(e10) ? e10 : e10.hasOwnProperty("red") ? ew.transform(e10) : eb.transform(e10) }, eM = "${c}", eP = "${n}";
 function e_(e10) {
   "number" == typeof e10 && (e10 = `${e10}`);
-  let t10 = [], r10 = 0, n6 = e10.match(eu);
-  n6 && (r10 = n6.length, e10 = e10.replace(eu, eM), t10.push(...n6.map(eC.parse)));
+  let t10 = [], r10 = 0, n10 = e10.match(eu);
+  n10 && (r10 = n10.length, e10 = e10.replace(eu, eM), t10.push(...n10.map(eC.parse)));
   let a2 = e10.match(ec);
   return a2 && (e10 = e10.replace(ec, eP), t10.push(...a2.map(eh.parse))), { values: t10, numColors: r10, tokenised: e10 };
 }
 let eS = function(e10) {
-  let { values: t10, numColors: r10, tokenised: n6 } = e_(e10), a2 = t10.length;
+  let { values: t10, numColors: r10, tokenised: n10 } = e_(e10), a2 = t10.length;
   return (e11) => {
-    let t11 = n6;
-    for (let n7 = 0; n7 < a2; n7++) t11 = t11.replace(n7 < r10 ? eM : eP, n7 < r10 ? eC.transform(e11[n7]) : el(e11[n7]));
+    let t11 = n10;
+    for (let n11 = 0; n11 < a2; n11++) t11 = t11.replace(n11 < r10 ? eM : eP, n11 < r10 ? eC.transform(e11[n11]) : el(e11[n11]));
     return t11;
   };
 };
@@ -119,21 +119,21 @@ function eR(e10, t10, r10) {
   return (r10 < 0 && (r10 += 1), r10 > 1 && (r10 -= 1), r10 < 1 / 6) ? e10 + (t10 - e10) * 6 * r10 : r10 < 0.5 ? t10 : r10 < 2 / 3 ? e10 + (t10 - e10) * (2 / 3 - r10) * 6 : e10;
 }
 function eT(e10) {
-  let { hue: t10, saturation: r10, lightness: n6, alpha: a2 } = e10;
-  t10 /= 360, n6 /= 100;
+  let { hue: t10, saturation: r10, lightness: n10, alpha: a2 } = e10;
+  t10 /= 360, n10 /= 100;
   let i2 = 0, o2 = 0, s2 = 0;
   if (r10 /= 100) {
-    let e11 = n6 < 0.5 ? n6 * (1 + r10) : n6 + r10 - n6 * r10, a3 = 2 * n6 - e11;
+    let e11 = n10 < 0.5 ? n10 * (1 + r10) : n10 + r10 - n10 * r10, a3 = 2 * n10 - e11;
     i2 = eR(a3, e11, t10 + 1 / 3), o2 = eR(a3, e11, t10), s2 = eR(a3, e11, t10 - 1 / 3);
-  } else i2 = o2 = s2 = n6;
+  } else i2 = o2 = s2 = n10;
   return { red: Math.round(255 * i2), green: Math.round(255 * o2), blue: Math.round(255 * s2), alpha: a2 };
 }
 let eD = (e10, t10, r10) => {
-  let n6 = e10 * e10;
-  return Math.sqrt(Math.max(0, r10 * (t10 * t10 - n6) + n6));
+  let n10 = e10 * e10;
+  return Math.sqrt(Math.max(0, r10 * (t10 * t10 - n10) + n10));
 }, e$ = [ek, ew, eb], eO = (e10) => e$.find((t10) => t10.test(e10)), eL = (e10, t10) => {
-  let r10 = eO(e10), n6 = eO(t10), a2 = r10.parse(e10), i2 = n6.parse(t10);
-  r10 === eb && (a2 = eT(a2), r10 = ew), n6 === eb && (i2 = eT(i2), n6 = ew);
+  let r10 = eO(e10), n10 = eO(t10), a2 = r10.parse(e10), i2 = n10.parse(t10);
+  r10 === eb && (a2 = eT(a2), r10 = ew), n10 === eb && (i2 = eT(i2), n10 = ew);
   let o2 = Object.assign({}, a2);
   return (e11) => {
     for (let t11 in o2) "alpha" !== t11 && (o2[t11] = eD(a2[t11], i2[t11], e11));
@@ -147,49 +147,49 @@ function eB(e10, t10) {
   return eI(e10) ? (r10) => eo(e10, t10, r10) : eC.test(e10) ? eL(e10, t10) : eH(e10, t10);
 }
 let eV = (e10, t10) => {
-  let r10 = [...e10], n6 = r10.length, a2 = e10.map((e11, r11) => eB(e11, t10[r11]));
+  let r10 = [...e10], n10 = r10.length, a2 = e10.map((e11, r11) => eB(e11, t10[r11]));
   return (e11) => {
-    for (let t11 = 0; t11 < n6; t11++) r10[t11] = a2[t11](e11);
+    for (let t11 = 0; t11 < n10; t11++) r10[t11] = a2[t11](e11);
     return r10;
   };
 }, eE = (e10, t10) => {
-  let r10 = Object.assign(Object.assign({}, e10), t10), n6 = {};
-  for (let a2 in r10) void 0 !== e10[a2] && void 0 !== t10[a2] && (n6[a2] = eB(e10[a2], t10[a2]));
+  let r10 = Object.assign(Object.assign({}, e10), t10), n10 = {};
+  for (let a2 in r10) void 0 !== e10[a2] && void 0 !== t10[a2] && (n10[a2] = eB(e10[a2], t10[a2]));
   return (e11) => {
-    for (let t11 in n6) r10[t11] = n6[t11](e11);
+    for (let t11 in n10) r10[t11] = n10[t11](e11);
     return r10;
   };
 };
 function ez(e10) {
-  let t10 = e_(e10).values, r10 = t10.length, n6 = 0, a2 = 0, i2 = 0;
-  for (let e11 = 0; e11 < r10; e11++) n6 || "number" == typeof t10[e11] ? n6++ : void 0 !== t10[e11].hue ? i2++ : a2++;
-  return { parsed: t10, numNumbers: n6, numRGB: a2, numHSL: i2 };
+  let t10 = e_(e10).values, r10 = t10.length, n10 = 0, a2 = 0, i2 = 0;
+  for (let e11 = 0; e11 < r10; e11++) n10 || "number" == typeof t10[e11] ? n10++ : void 0 !== t10[e11].hue ? i2++ : a2++;
+  return { parsed: t10, numNumbers: n10, numRGB: a2, numHSL: i2 };
 }
 let eH = (e10, t10) => {
-  let r10 = eS(t10), n6 = ez(e10), a2 = ez(t10);
-  return n6.numHSL === a2.numHSL && n6.numRGB === a2.numRGB && n6.numNumbers >= a2.numNumbers ? eF(eV(n6.parsed, a2.parsed), r10) : (r11) => `${r11 > 0 ? t10 : e10}`;
+  let r10 = eS(t10), n10 = ez(e10), a2 = ez(t10);
+  return n10.numHSL === a2.numHSL && n10.numRGB === a2.numRGB && n10.numNumbers >= a2.numNumbers ? eF(eV(n10.parsed, a2.parsed), r10) : (r11) => `${r11 > 0 ? t10 : e10}`;
 }, ej = (e10, t10) => (r10) => eo(e10, t10, r10);
 function eW(e10, t10) {
-  let { clamp: r10 = true, ease: n6, mixer: a2 } = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, i2 = e10.length;
-  K(i2 === t10.length), K(!n6 || !Array.isArray(n6) || n6.length === i2 - 1), e10[0] > e10[i2 - 1] && (e10 = [].concat(e10), t10 = [].concat(t10), e10.reverse(), t10.reverse());
+  let { clamp: r10 = true, ease: n10, mixer: a2 } = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : {}, i2 = e10.length;
+  K(i2 === t10.length), K(!n10 || !Array.isArray(n10) || n10.length === i2 - 1), e10[0] > e10[i2 - 1] && (e10 = [].concat(e10), t10 = [].concat(t10), e10.reverse(), t10.reverse());
   let o2 = function(e11, t11, r11) {
-    var n7;
-    let a3 = [], i3 = r11 || ("number" == typeof (n7 = e11[0]) ? ej : "string" == typeof n7 ? eC.test(n7) ? eL : eH : Array.isArray(n7) ? eV : "object" == typeof n7 ? eE : void 0), o3 = e11.length - 1;
+    var n11;
+    let a3 = [], i3 = r11 || ("number" == typeof (n11 = e11[0]) ? ej : "string" == typeof n11 ? eC.test(n11) ? eL : eH : Array.isArray(n11) ? eV : "object" == typeof n11 ? eE : void 0), o3 = e11.length - 1;
     for (let r12 = 0; r12 < o3; r12++) {
-      let n10 = i3(e11[r12], e11[r12 + 1]);
-      t11 && (n10 = eF(Array.isArray(t11) ? t11[r12] : t11, n10)), a3.push(n10);
+      let n12 = i3(e11[r12], e11[r12 + 1]);
+      t11 && (n12 = eF(Array.isArray(t11) ? t11[r12] : t11, n12)), a3.push(n12);
     }
     return a3;
-  }(t10, n6, a2), s2 = 2 === i2 ? function(e11, t11) {
-    let [r11, n7] = e11, [a3] = t11;
-    return (e12) => a3(ei(r11, n7, e12));
+  }(t10, n10, a2), s2 = 2 === i2 ? function(e11, t11) {
+    let [r11, n11] = e11, [a3] = t11;
+    return (e12) => a3(ei(r11, n11, e12));
   }(e10, o2) : function(e11, t11) {
-    let r11 = e11.length, n7 = r11 - 1;
+    let r11 = e11.length, n11 = r11 - 1;
     return (a3) => {
       let i3 = 0, o3 = false;
-      if (a3 <= e11[0] ? o3 = true : a3 >= e11[n7] && (i3 = n7 - 1, o3 = true), !o3) {
+      if (a3 <= e11[0] ? o3 = true : a3 >= e11[n11] && (i3 = n11 - 1, o3 = true), !o3) {
         let t12 = 1;
-        for (; t12 < r11 && !(e11[t12] > a3) && t12 !== n7; t12++) ;
+        for (; t12 < r11 && !(e11[t12] > a3) && t12 !== n11; t12++) ;
         i3 = t12 - 1;
       }
       let s3 = ei(e11[i3], e11[i3 + 1], a3);
@@ -200,12 +200,12 @@ function eW(e10, t10) {
 }
 let eN = (e10) => e10, eq = (e = (e10) => Math.pow(e10, 2), (t10) => t10 <= 0.5 ? e(2 * t10) / 2 : (2 - e(2 * (1 - t10))) / 2);
 function eU(e10) {
-  let { from: t10 = 0, to: r10 = 1, ease: n6, offset: a2, duration: i2 = 300 } = e10, o2 = { done: false, value: t10 }, s2 = Array.isArray(r10) ? r10 : [t10, r10], l2 = (a2 && a2.length === s2.length ? a2 : function(e11) {
+  let { from: t10 = 0, to: r10 = 1, ease: n10, offset: a2, duration: i2 = 300 } = e10, o2 = { done: false, value: t10 }, s2 = Array.isArray(r10) ? r10 : [t10, r10], l2 = (a2 && a2.length === s2.length ? a2 : function(e11) {
     let t11 = e11.length;
     return e11.map((e12, r11) => 0 !== r11 ? r11 / (t11 - 1) : 0);
   }(s2)).map((e11) => e11 * i2);
   function c2() {
-    return eW(l2, s2, { ease: Array.isArray(n6) ? n6 : s2.map(() => n6 || eq).splice(0, s2.length - 1) });
+    return eW(l2, s2, { ease: Array.isArray(n10) ? n10 : s2.map(() => n10 || eq).splice(0, s2.length - 1) });
   }
   let u2 = c2();
   return { next: (e11) => (o2.value = u2(e11), o2.done = e11 >= i2, o2), flipTarget: () => {
@@ -213,16 +213,16 @@ function eU(e10) {
   } };
 }
 let eG = { keyframes: eU, spring: en, decay: function(e10) {
-  let { velocity: t10 = 0, from: r10 = 0, power: n6 = 0.8, timeConstant: a2 = 350, restDelta: i2 = 0.5, modifyTarget: o2 } = e10, s2 = { done: false, value: r10 }, l2 = n6 * t10, c2 = r10 + l2, u2 = void 0 === o2 ? c2 : o2(c2);
+  let { velocity: t10 = 0, from: r10 = 0, power: n10 = 0.8, timeConstant: a2 = 350, restDelta: i2 = 0.5, modifyTarget: o2 } = e10, s2 = { done: false, value: r10 }, l2 = n10 * t10, c2 = r10 + l2, u2 = void 0 === o2 ? c2 : o2(c2);
   return u2 !== c2 && (l2 = u2 - r10), { next: (e11) => {
     let t11 = -l2 * Math.exp(-e11 / a2);
     return s2.done = !(t11 > i2 || t11 < -i2), s2.value = s2.done ? u2 : u2 + t11, s2;
   }, flipTarget: () => {
   } };
 } }, eY = 1 / 60 * 1e3, eX = "undefined" != typeof performance ? () => performance.now() : () => Date.now(), eJ = "undefined" != typeof window ? (e10) => window.requestAnimationFrame(e10) : (e10) => setTimeout(() => e10(eX()), eY), eK = true, eZ = false, eQ = false, e0 = { delta: 0, timestamp: 0 }, e1 = ["read", "update", "preRender", "render", "postRender"], e2 = e1.reduce((e10, t10) => (e10[t10] = /* @__PURE__ */ function(e11) {
-  let t11 = [], r10 = [], n6 = 0, a2 = false, i2 = false, o2 = /* @__PURE__ */ new WeakSet(), s2 = { schedule: function(e12) {
+  let t11 = [], r10 = [], n10 = 0, a2 = false, i2 = false, o2 = /* @__PURE__ */ new WeakSet(), s2 = { schedule: function(e12) {
     let i3 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1], s3 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2], l2 = s3 && a2, c2 = l2 ? t11 : r10;
-    return i3 && o2.add(e12), -1 === c2.indexOf(e12) && (c2.push(e12), l2 && a2 && (n6 = t11.length)), e12;
+    return i3 && o2.add(e12), -1 === c2.indexOf(e12) && (c2.push(e12), l2 && a2 && (n10 = t11.length)), e12;
   }, cancel: (e12) => {
     let t12 = r10.indexOf(e12);
     -1 !== t12 && r10.splice(t12, 1), o2.delete(e12);
@@ -231,9 +231,9 @@ let eG = { keyframes: eU, spring: en, decay: function(e10) {
       i2 = true;
       return;
     }
-    if (a2 = true, [t11, r10] = [r10, t11], r10.length = 0, n6 = t11.length) for (let r11 = 0; r11 < n6; r11++) {
-      let n7 = t11[r11];
-      n7(l2), o2.has(n7) && (s2.schedule(n7), e11());
+    if (a2 = true, [t11, r10] = [r10, t11], r10.length = 0, n10 = t11.length) for (let r11 = 0; r11 < n10; r11++) {
+      let n11 = t11[r11];
+      n11(l2), o2.has(n11) && (s2.schedule(n11), e11());
     }
     a2 = false, i2 && (i2 = false, s2.process(l2));
   } };
@@ -241,8 +241,8 @@ let eG = { keyframes: eU, spring: en, decay: function(e10) {
 }(() => eZ = true), e10), {}), e4 = e1.reduce((e10, t10) => {
   let r10 = e2[t10];
   return e10[t10] = function(e11) {
-    let t11 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1], n6 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
-    return eZ || e9(), r10.schedule(e11, t11, n6);
+    let t11 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1], n10 = arguments.length > 2 && void 0 !== arguments[2] && arguments[2];
+    return eZ || e9(), r10.schedule(e11, t11, n10);
   }, e10;
 }, {}), e5 = e1.reduce((e10, t10) => (e10[t10] = e2[t10].cancel, e10), {});
 e1.reduce((e10, t10) => (e10[t10] = () => e2[t10].process(e0), e10), {});
@@ -263,7 +263,7 @@ let e7 = (e10) => {
   return { start: () => e4.update(t10, true), stop: () => e5.update(t10) };
 };
 function te(e10) {
-  let t10, r10, n6;
+  let t10, r10, n10;
   var a2, { from: i2, autoplay: o2 = true, driver: s2 = e7, elapsed: l2 = 0, repeat: c2 = 0, repeatType: u2 = "loop", repeatDelay: d2 = 0, onPlay: f2, onStop: h2, onComplete: m2, onRepeat: p2, onUpdate: g2 } = e10, v2 = W(e10, ["from", "autoplay", "driver", "elapsed", "repeat", "repeatType", "repeatDelay", "onPlay", "onStop", "onComplete", "onRepeat", "onUpdate"]);
   let { to: b2 } = v2, y2 = 0, x2 = v2.duration, w2 = false, k2 = true, C2 = function(e11) {
     if (Array.isArray(e11.to)) return eU;
@@ -273,19 +273,19 @@ function te(e10) {
     else if (t11.has("dampingRatio") || t11.has("stiffness") || t11.has("mass") || t11.has("damping") || t11.has("restSpeed") || t11.has("restDelta")) return en;
     return eU;
   }(v2);
-  (null === (a2 = C2.needsInterpolation) || void 0 === a2 ? void 0 : a2.call(C2, i2, b2)) && (n6 = eW([0, 100], [i2, b2], { clamp: false }), i2 = 0, b2 = 100);
+  (null === (a2 = C2.needsInterpolation) || void 0 === a2 ? void 0 : a2.call(C2, i2, b2)) && (n10 = eW([0, 100], [i2, b2], { clamp: false }), i2 = 0, b2 = 100);
   let M2 = C2(Object.assign(Object.assign({}, v2), { from: i2, to: b2 }));
   return o2 && (null == f2 || f2(), (t10 = s2(function(e11) {
     if (k2 || (e11 = -e11), l2 += e11, !w2) {
       let e12 = M2.next(Math.max(0, l2));
-      r10 = e12.value, n6 && (r10 = n6(r10)), w2 = k2 ? e12.done : l2 <= 0;
+      r10 = e12.value, n10 && (r10 = n10(r10)), w2 = k2 ? e12.done : l2 <= 0;
     }
     if (null == g2 || g2(r10), w2) {
       if (0 === y2 && (null != x2 || (x2 = l2)), y2 < c2) {
         var a3, i3;
         a3 = l2, i3 = x2, (k2 ? a3 >= i3 + d2 : a3 <= -d2) && (y2++, "reverse" === u2 ? l2 = function(e12, t11) {
-          let r11 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0, n7 = !(arguments.length > 3) || void 0 === arguments[3] || arguments[3];
-          return n7 ? e6(t11 + -e12, t11, r11) : t11 - (e12 - t11) + r11;
+          let r11 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 0, n11 = !(arguments.length > 3) || void 0 === arguments[3] || arguments[3];
+          return n11 ? e6(t11 + -e12, t11, r11) : t11 - (e12 - t11) + r11;
         }(l2, x2, d2, k2 = y2 % 2 == 0) : (l2 = e6(l2, x2, d2), "mirror" === u2 && M2.flipTarget()), w2 = false, p2 && p2());
       } else t10.stop(), m2 && m2();
     }
@@ -321,30 +321,30 @@ function th(e10, t10, r10) {
     case "object":
       if (1 === r10.anim) return X = { name: r10.name, styles: r10.styles, next: X }, r10.name;
       if (void 0 !== r10.styles) {
-        var n6 = r10.next;
-        if (void 0 !== n6) for (; void 0 !== n6; ) X = { name: n6.name, styles: n6.styles, next: X }, n6 = n6.next;
+        var n10 = r10.next;
+        if (void 0 !== n10) for (; void 0 !== n10; ) X = { name: n10.name, styles: n10.styles, next: X }, n10 = n10.next;
         return r10.styles + ";";
       }
       return function(e11, t11, r11) {
-        var n7 = "";
-        if (Array.isArray(r11)) for (var a3 = 0; a3 < r11.length; a3++) n7 += th(e11, t11, r11[a3]) + ";";
+        var n11 = "";
+        if (Array.isArray(r11)) for (var a3 = 0; a3 < r11.length; a3++) n11 += th(e11, t11, r11[a3]) + ";";
         else for (var i3 in r11) {
           var o3 = r11[i3];
-          if ("object" != typeof o3) null != t11 && void 0 !== t11[o3] ? n7 += i3 + "{" + t11[o3] + "}" : tu(o3) && (n7 += td(i3) + ":" + tf(i3, o3) + ";");
-          else if (Array.isArray(o3) && "string" == typeof o3[0] && (null == t11 || void 0 === t11[o3[0]])) for (var s2 = 0; s2 < o3.length; s2++) tu(o3[s2]) && (n7 += td(i3) + ":" + tf(i3, o3[s2]) + ";");
+          if ("object" != typeof o3) null != t11 && void 0 !== t11[o3] ? n11 += i3 + "{" + t11[o3] + "}" : tu(o3) && (n11 += td(i3) + ":" + tf(i3, o3) + ";");
+          else if (Array.isArray(o3) && "string" == typeof o3[0] && (null == t11 || void 0 === t11[o3[0]])) for (var s2 = 0; s2 < o3.length; s2++) tu(o3[s2]) && (n11 += td(i3) + ":" + tf(i3, o3[s2]) + ";");
           else {
             var l2 = th(e11, t11, o3);
             switch (i3) {
               case "animation":
               case "animationName":
-                n7 += td(i3) + ":" + l2 + ";";
+                n11 += td(i3) + ":" + l2 + ";";
                 break;
               default:
-                n7 += i3 + "{" + l2 + "}";
+                n11 += i3 + "{" + l2 + "}";
             }
           }
         }
-        return n7;
+        return n11;
       }(e10, t10, r10);
     case "function":
       if (void 0 !== e10) {
@@ -362,22 +362,22 @@ function tp() {
 }
 let tg = tp(), tv = { paddingX: [tg.paddingLeft, tg.paddingRight], paddingY: [tg.paddingTop, tg.paddingBottom], marginX: [tg.marginInlineStart, tg.marginInlineEnd], marginY: [tg.marginTop, tg.marginBottom], borderX: [tg.borderLeft, tg.borderRight], borderY: [tg.borderTop, tg.borderBottom], color: [tg.color, tg.fill], borderTopRadius: [tg.borderTopLeftRadius, tg.borderTopRightRadius], borderBottomRadius: [tg.borderBottomLeftRadius, tg.borderBottomRightRadius], borderRightRadius: [tg.borderTopRightRadius, tg.borderBottomRightRadius], borderLeftRadius: [tg.borderTopLeftRadius, tg.borderBottomLeftRadius], backgroundGradient: [tg.backgroundImage], boxSize: [tg.width, tg.height] }, tb = tp(), ty = { font: tb.fontFamily, shadow: tb.boxShadow, rounded: tb.borderRadius, roundedTop: tb.borderTopRadius, roundedBottom: tb.borderBottomRadius, roundedLeft: tb.borderLeftRadius, roundedRight: tb.borderRightRadius, bg: tb.background, bgImage: tb.backgroundImage, bgSize: tb.backgroundSize, bgPosition: tb.backgroundPosition, bgRepeat: tb.backgroundRepeat, bgAttachment: tb.backgroundAttachment, bgColor: tb.backgroundColor, bgGradient: tb.backgroundGradient, bgClip: tb.backgroundClip, pos: tb.position, p: tb.padding, pt: tb.paddingTop, pr: tb.paddingRight, pl: tb.paddingLeft, pb: tb.paddingBottom, ps: tb.paddingInlineStart, pe: tb.paddingInlineEnd, px: tb.paddingX, py: tb.paddingY, m: tb.margin, mt: tb.marginTop, mr: tb.marginRight, ml: tb.marginLeft, mb: tb.marginBottom, ms: tb.marginInlineStart, me: tb.marginInlineEnd, mx: tb.marginX, my: tb.marginY, w: tb.width, minW: tb.minWidth, maxW: tb.maxWidth, h: tb.height, minH: tb.minHeight, maxH: tb.maxHeight }, tx = tp(), tw = function() {
   for (var e10 = arguments.length, t10 = Array(e10), r10 = 0; r10 < e10; r10++) t10[r10] = arguments[r10];
-  let n6 = [...t10];
-  for (let e11 of t10) ty[e11] && n6.push(ty[e11]);
-  return n6;
+  let n10 = [...t10];
+  for (let e11 of t10) ty[e11] && n10.push(ty[e11]);
+  return n10;
 }, tk = { _rtl: "[dir=rtl] &, &[dir=rtl]", _ltr: "[dir=ltr] &, &[dir=ltr]", _dark: "&[data-theme=dark]", _light: "&[data-theme=light]" };
 const _tC = class _tC {
   constructor(e10) {
     this.opt = e10;
   }
   processAll(e10) {
-    let t10 = !(arguments.length > 1) || void 0 === arguments[1] || arguments[1], r10 = [], { state: n6, extends: a2, ...i2 } = e10;
+    let t10 = !(arguments.length > 1) || void 0 === arguments[1] || arguments[1], r10 = [], { state: n10, extends: a2, ...i2 } = e10;
     if (a2) for (let e11 of a2) r10.push(...this.processAll(e11, t10));
-    if (n6) {
+    if (n10) {
       let e11 = {}, t11 = {};
-      _tC.walkStateValues(n6, (r11, n7, a3) => {
+      _tC.walkStateValues(n10, (r11, n11, a3) => {
         var i3;
-        let o2 = `--${this.opt.varPrefix}-state-${n7.join("-")}`, s2 = null !== (i3 = S(n7)) && void 0 !== i3 ? i3 : "", l2 = {};
+        let o2 = `--${this.opt.varPrefix}-state-${n11.join("-")}`, s2 = null !== (i3 = S(n11)) && void 0 !== i3 ? i3 : "", l2 = {};
         this.process(l2, s2, r11, false), e11[o2] = l2[s2], R(t11, [...a3, s2], `var(${o2})`);
       }), r10.push(e11), r10.push(...this.processAll(t11));
     }
@@ -389,13 +389,13 @@ const _tC = class _tC {
   }
   processTo(e10, t10) {
     let r10 = !(arguments.length > 2) || void 0 === arguments[2] || arguments[2];
-    for (let n6 in t10) this.process(e10, n6, t10[n6], r10);
+    for (let n10 in t10) this.process(e10, n10, t10[n10], r10);
   }
   process(e10, t10, r10) {
-    var n6, a2, i2, o2;
+    var n10, a2, i2, o2;
     let s2 = !(arguments.length > 3) || void 0 === arguments[3] || arguments[3];
     if (this.opt.mixins[t10]) {
-      let a3 = null === (n6 = this.opt.mixins[t10]) || void 0 === n6 ? void 0 : n6.get(r10);
+      let a3 = null === (n10 = this.opt.mixins[t10]) || void 0 === n10 ? void 0 : n10.get(r10);
       if (a3) for (let t11 in a3) this.process(e10, t11, a3[t11], s2);
       return;
     }
@@ -418,8 +418,8 @@ __publicField(_tC, "convertSelector", (e10) => {
   if (t10.startsWith("$") || t10.endsWith("$") || t10.startsWith("_")) {
     let e11 = "", r10 = "";
     if (t10.startsWith("_") ? (e11 = "&", t10 = t10.slice(1)) : t10.startsWith("$") ? (e11 = "& ", t10 = t10.slice(1)) : (r10 = " &", t10 = t10.slice(0, t10.length - 1)), t10.startsWith("data") || t10.startsWith("aria")) {
-      let [n6, a2] = t10.split("__");
-      return a2 ? `${e11}[${M(n6)}='${M(a2)}']${r10}` : `${e11}[${M(n6)}]${r10}`;
+      let [n10, a2] = t10.split("__");
+      return a2 ? `${e11}[${M(n10)}='${M(a2)}']${r10}` : `${e11}[${M(n10)}]${r10}`;
     }
     if ("&" === e11) {
       if (t10.startsWith("$")) return `${e11}::${t10.slice(1)}`;
@@ -427,16 +427,16 @@ __publicField(_tC, "convertSelector", (e10) => {
         let r12 = _tC.supportedPseudoClasses[t10];
         return `${e11}:${r12}, ${e11}[data-${r12}]:not([data-${r12}='false']), ${e11}.${r12}`;
       }
-      let [r11, n6] = t10.split("__"), a2 = M(r11);
-      return n6 ? `${e11}[data-${a2}='${M(n6)}']` : `${e11}[data-${a2}]:not([data-${a2}='false'])`;
+      let [r11, n10] = t10.split("__"), a2 = M(r11);
+      return n10 ? `${e11}[data-${a2}='${M(n10)}']` : `${e11}[data-${a2}]:not([data-${a2}='false'])`;
     }
   }
 });
 __publicField(_tC, "walkStateValues", function(e10, t10) {
-  let r10 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : { default: {}, selectorPath: [], path: [] }, { $: n6, ...a2 } = e10;
+  let r10 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : { default: {}, selectorPath: [], path: [] }, { $: n10, ...a2 } = e10;
   for (let e11 in a2) {
     var i2;
-    let o2 = a2[e11], s2 = null !== (i2 = a2.default) && void 0 !== i2 ? i2 : r10.default, l2 = null != n6 ? n6 : P(s2, [...r10.path.slice(1), "$"]), c2 = l2 ? [...r10.selectorPath, l2] : r10.selectorPath, u2 = [...r10.path, e11];
+    let o2 = a2[e11], s2 = null !== (i2 = a2.default) && void 0 !== i2 ? i2 : r10.default, l2 = null != n10 ? n10 : P(s2, [...r10.path.slice(1), "$"]), c2 = l2 ? [...r10.selectorPath, l2] : r10.selectorPath, u2 = [...r10.path, e11];
     if (_(o2)) {
       _tC.walkStateValues(o2, t10, { path: u2, selectorPath: c2, default: s2 });
       continue;
@@ -448,8 +448,8 @@ let tC = _tC;
 var tM = ((G = tM || {}).var = "var", G.mixin = "mixin", G);
 class tP {
   static create(e10, t10) {
-    let { value: r10, on: n6, transform: a2 } = t10;
-    return { type: e10, value: r10, on: n6, transform: a2, __Tokens: void 0, __ValueType: void 0, __CSSTokens: void 0 };
+    let { value: r10, on: n10, transform: a2 } = t10;
+    return { type: e10, value: r10, on: n10, transform: a2, __Tokens: void 0, __ValueType: void 0, __CSSTokens: void 0 };
   }
   static color(e10) {
     return tP.create("var", { value: e10, on: tw(tx.color, tx.bgColor, tx.outlineColor, tx.borderColor, tx.accentColor, tx.fill, tx.stroke), transform: (e11, t10) => D(e11) ? { default: `var(${t10(e11)})`, rgb: `var(${t10(`${e11}/rgb`)})` } : { default: `rgb(${e11[0]}, ${e11[1]}, ${e11[2]})`, rgb: `${e11[0]} ${e11[1]} ${e11[2]}` }, fallback: "" });
@@ -495,15 +495,15 @@ class tP {
   }
 }
 let t_ = (e10, t10, r10) => {
-  let n6 = e10;
+  let n10 = e10;
   for (let e11 = 0; e11 < t10.length; e11++) {
     var a2;
     let i2 = t10[e11];
     if (e11 === t10.length - 1) {
-      n6[i2] = r10;
+      n10[i2] = r10;
       continue;
     }
-    n6[i2] = null !== (a2 = n6[i2]) && void 0 !== a2 ? a2 : {}, n6 = n6[i2];
+    n10[i2] = null !== (a2 = n10[i2]) && void 0 !== a2 ? a2 : {}, n10 = n10[i2];
   }
 };
 const _tS = class _tS {
@@ -511,16 +511,16 @@ const _tS = class _tS {
     __publicField(this, "__Tokens");
     __publicField(this, "_values", {});
     __publicField(this, "_cssVarRefs", {});
-    _tS.walkValues(e10.value, (n6, a2) => {
-      let i2 = a2.join("."), o2 = (n7, a3) => {
-        let i3 = e10.transform ? e10.transform(n7, t10) : r10(n7);
+    _tS.walkValues(e10.value, (n10, a2) => {
+      let i2 = a2.join("."), o2 = (n11, a3) => {
+        let i3 = e10.transform ? e10.transform(n11, t10) : r10(n11);
         if (L(i3)) for (let e11 in i3) a3(i3[e11], "default" === e11 ? "" : e11);
         else a3(i3, "");
       };
-      if (R(this._cssVarRefs, [i2], t10(i2)), _(n6)) for (let e11 in n6) o2(n6[e11], (t11, r11) => {
+      if (R(this._cssVarRefs, [i2], t10(i2)), _(n10)) for (let e11 in n10) o2(n10[e11], (t11, r11) => {
         R(this._values, [`${i2}${r11 ? `/${r11}` : ""}`, e11], t11);
       });
-      else o2(n6, (e11, t11) => {
+      else o2(n10, (e11, t11) => {
         R(this._values, [`${i2}${t11 ? `/${t11}` : ""}`], e11);
       });
     });
@@ -529,12 +529,12 @@ const _tS = class _tS {
     return O(this._values);
   }
   get(e10, t10, r10) {
-    let n6 = this._values[e10];
-    if (L(n6)) {
+    let n10 = this._values[e10];
+    if (L(n10)) {
       var a2;
-      return r10 ? n6[t10] : null !== (a2 = n6[t10]) && void 0 !== a2 ? a2 : n6[_tS.defaultMode];
+      return r10 ? n10[t10] : null !== (a2 = n10[t10]) && void 0 !== a2 ? a2 : n10[_tS.defaultMode];
     }
-    return r10 ? t10 === _tS.defaultMode ? n6 : void 0 : n6;
+    return r10 ? t10 === _tS.defaultMode ? n10 : void 0 : n10;
   }
   use(e10) {
     let t10 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
@@ -544,17 +544,17 @@ const _tS = class _tS {
 __publicField(_tS, "defaultMode", "_default");
 __publicField(_tS, "walkValues", function(e10, t10) {
   let r10 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : [];
-  for (let n6 in e10) {
-    let a2 = e10[n6];
+  for (let n10 in e10) {
+    let a2 = e10[n10];
     if (_(a2)) {
       if ($(a2, "_default")) {
-        t10(a2, [...r10, n6]);
+        t10(a2, [...r10, n10]);
         continue;
       }
-      _tS.walkValues(a2, t10, [...r10, n6]);
+      _tS.walkValues(a2, t10, [...r10, n10]);
       continue;
     }
-    t10(a2, [...r10, n6]);
+    t10(a2, [...r10, n10]);
   }
 });
 let tS = _tS;
@@ -575,17 +575,17 @@ const _tR = class _tR {
 };
 __publicField(_tR, "walkValue", function(e10, t10) {
   let r10 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : [];
-  for (let n6 in e10) {
-    let a2 = e10[n6];
+  for (let n10 in e10) {
+    let a2 = e10[n10];
     if (_(a2)) {
       if ($(a2, "__mixin")) {
-        t10(a2, [...r10, n6]);
+        t10(a2, [...r10, n10]);
         continue;
       }
-      _tR.walkValue(a2, t10, [...r10, n6]);
+      _tR.walkValue(a2, t10, [...r10, n10]);
       continue;
     }
-    t10(a2, [...r10, n6]);
+    t10(a2, [...r10, n10]);
   }
 });
 let tR = _tR;
@@ -608,34 +608,34 @@ const _tA = class _tA {
     __publicField(this, "dp", (e10) => 0 === e10 ? 0 : `calc(${e10} * var(${this.cssVar("space", "dp")}))`);
     __publicField(this, "transformFallback", (e10, t10) => _tA.propsCanBaseDp[e10] && z(t10) ? _tA.propsCanPercent[e10] && 1 > Math.abs(t10) ? `${100 * t10}%` : this.dp(t10) : t10);
     __publicField(this, "token", new Proxy({}, { get: (e10, t10) => {
-      var r10, n6;
+      var r10, n10;
       return this.tokens[t10] ? Object.assign((e11) => {
         var r11;
         return null === (r11 = this.tokens[t10]) || void 0 === r11 ? void 0 : r11.get(e11, `_${this.mode}`);
       }, { tokens: null === (r10 = this.tokens[t10]) || void 0 === r10 ? void 0 : r10.tokens }) : this.mixins[t10] ? Object.assign((e11) => {
         var r11;
         return null === (r11 = this.mixins[t10]) || void 0 === r11 ? void 0 : r11.get(e11);
-      }, { tokens: null === (n6 = this.mixins[t10]) || void 0 === n6 ? void 0 : n6.tokens }) : void 0;
+      }, { tokens: null === (n10 = this.mixins[t10]) || void 0 === n10 ? void 0 : n10.tokens }) : void 0;
     } }));
     __publicField(this, "processValue", (e10, t10) => {
-      var r10, n6, a2;
+      var r10, n10, a2;
       if (tO(t10)) {
-        let r11 = null === (n6 = this.propValues[e10]) || void 0 === n6 ? void 0 : n6.use(t10.token, true);
+        let r11 = null === (n10 = this.propValues[e10]) || void 0 === n10 ? void 0 : n10.use(t10.token, true);
         return r11 ? t10(r11) : void 0;
       }
       return null !== (a2 = null === (r10 = this.propValues[e10]) || void 0 === r10 ? void 0 : r10.use(t10)) && void 0 !== a2 ? a2 : this.transformFallback(e10, t10);
     });
     __publicField(this, "unstable_sx", (e10) => new tC({ mixins: this.mixins, varPrefix: this.varPrefix, processValue: this.processValue }).processAll(e10));
-    var r10, n6;
-    for (let a2 in this.theme = e10, this.varPrefix = null !== (r10 = t10.varPrefix) && void 0 !== r10 ? r10 : "vk", this.mode = null !== (n6 = t10.mode) && void 0 !== n6 ? n6 : "light", R(this.cssVars, [this.cssVar("space", "dp")], "0.1rem"), e10) {
+    var r10, n10;
+    for (let a2 in this.theme = e10, this.varPrefix = null !== (r10 = t10.varPrefix) && void 0 !== r10 ? r10 : "vk", this.mode = null !== (n10 = t10.mode) && void 0 !== n10 ? n10 : "light", R(this.cssVars, [this.cssVar("space", "dp")], "0.1rem"), e10) {
       let t11 = e10[a2];
       if (t11) {
         if (t11.type === tM.var) {
           let e11 = new tS(t11, { cssVar: (e12) => this.cssVar(a2, e12), transformFallback: (e12) => this.transformFallback(t11.on[0], e12) });
           for (let r11 of (this.tokens[a2] = e11, t11.on)) this.propValues[r11] = e11;
           for (let t12 of e11.tokens) for (let r11 of ["light", "dark"]) {
-            let n7 = r11 === this.mode ? "_default" : `_${r11}`, i2 = e11.get(t12, n7, true);
-            E(i2) || ("_default" === n7 ? R(this.cssVars, [this.cssVar(a2, t12)], i2) : R(this.cssVars, [n7, this.cssVar(a2, t12)], i2));
+            let n11 = r11 === this.mode ? "_default" : `_${r11}`, i2 = e11.get(t12, n11, true);
+            E(i2) || ("_default" === n11 ? R(this.cssVars, [this.cssVar(a2, t12)], i2) : R(this.cssVars, [n11, this.cssVar(a2, t12)], i2));
           }
           continue;
         }
@@ -657,43 +657,43 @@ const _tA = class _tA {
   }
   unstable_css(e10, t10) {
     var r10;
-    let n6 = null != t10 ? t10 : {};
-    return n6.__emotion_styles = null !== (r10 = n6.__emotion_styles) && void 0 !== r10 ? r10 : function(e11, t11, r11) {
+    let n10 = null != t10 ? t10 : {};
+    return n10.__emotion_styles = null !== (r10 = n10.__emotion_styles) && void 0 !== r10 ? r10 : function(e11, t11, r11) {
       if (1 === e11.length && "object" == typeof e11[0] && null !== e11[0] && void 0 !== e11[0].styles) return e11[0];
-      var n7, a2 = true, i2 = "";
+      var n11, a2 = true, i2 = "";
       X = void 0;
       var o2 = e11[0];
       null == o2 || void 0 === o2.raw ? (a2 = false, i2 += th(r11, t11, o2)) : i2 += o2[0];
       for (var s2 = 1; s2 < e11.length; s2++) i2 += th(r11, t11, e11[s2]), a2 && (i2 += o2[s2]);
       tm.lastIndex = 0;
-      for (var l2 = ""; null !== (n7 = tm.exec(i2)); ) l2 += "-" + n7[1];
+      for (var l2 = ""; null !== (n11 = tm.exec(i2)); ) l2 += "-" + n11[1];
       return { name: function(e12) {
-        for (var t12, r12 = 0, n10 = 0, a3 = e12.length; a3 >= 4; ++n10, a3 -= 4) t12 = (65535 & (t12 = 255 & e12.charCodeAt(n10) | (255 & e12.charCodeAt(++n10)) << 8 | (255 & e12.charCodeAt(++n10)) << 16 | (255 & e12.charCodeAt(++n10)) << 24)) * 1540483477 + ((t12 >>> 16) * 59797 << 16), t12 ^= t12 >>> 24, r12 = (65535 & t12) * 1540483477 + ((t12 >>> 16) * 59797 << 16) ^ (65535 & r12) * 1540483477 + ((r12 >>> 16) * 59797 << 16);
+        for (var t12, r12 = 0, n12 = 0, a3 = e12.length; a3 >= 4; ++n12, a3 -= 4) t12 = (65535 & (t12 = 255 & e12.charCodeAt(n12) | (255 & e12.charCodeAt(++n12)) << 8 | (255 & e12.charCodeAt(++n12)) << 16 | (255 & e12.charCodeAt(++n12)) << 24)) * 1540483477 + ((t12 >>> 16) * 59797 << 16), t12 ^= t12 >>> 24, r12 = (65535 & t12) * 1540483477 + ((t12 >>> 16) * 59797 << 16) ^ (65535 & r12) * 1540483477 + ((r12 >>> 16) * 59797 << 16);
         switch (a3) {
           case 3:
-            r12 ^= (255 & e12.charCodeAt(n10 + 2)) << 16;
+            r12 ^= (255 & e12.charCodeAt(n12 + 2)) << 16;
           case 2:
-            r12 ^= (255 & e12.charCodeAt(n10 + 1)) << 8;
+            r12 ^= (255 & e12.charCodeAt(n12 + 1)) << 8;
           case 1:
-            r12 ^= 255 & e12.charCodeAt(n10), r12 = (65535 & r12) * 1540483477 + ((r12 >>> 16) * 59797 << 16);
+            r12 ^= 255 & e12.charCodeAt(n12), r12 = (65535 & r12) * 1540483477 + ((r12 >>> 16) * 59797 << 16);
         }
         return r12 ^= r12 >>> 13, (((r12 = (65535 & r12) * 1540483477 + ((r12 >>> 16) * 59797 << 16)) ^ r12 >>> 15) >>> 0).toString(36);
       }(i2) + l2, styles: i2, next: X };
-    }(this.unstable_sx(t10), null == e10 ? void 0 : e10.registered, {}), n6.__emotion_styles;
+    }(this.unstable_sx(t10), null == e10 ? void 0 : e10.registered, {}), n10.__emotion_styles;
   }
   toFigmaTokens() {
-    let e10 = { space: { dp: { $type: "sizing", $value: 1 } } }, t10 = {}, r10 = {}, n6 = (e11, t11) => L(t11) ? { $type: e11, $value: A(t11, (t12) => n6(e11, t12).$value) } : D(t11) ? { $type: e11, $value: t11.replace(/var\(([^)]+)\)/g, (e12) => {
+    let e10 = { space: { dp: { $type: "sizing", $value: 1 } } }, t10 = {}, r10 = {}, n10 = (e11, t11) => L(t11) ? { $type: e11, $value: A(t11, (t12) => n10(e11, t12).$value) } : D(t11) ? { $type: e11, $value: t11.replace(/var\(([^)]+)\)/g, (e12) => {
       var t12, r11;
-      let n7 = null !== (r11 = null === (t12 = e12.slice(4, e12.length - 1).slice(`--${this.varPrefix}-`.length).split("--")[0]) || void 0 === t12 ? void 0 : t12.split("__").map((e13, t13) => 0 === t13 ? H(e13) : e13).join(".")) && void 0 !== r11 ? r11 : "";
-      return n7.startsWith("sys.") ? `{${n7}}` : `{seed.${n7}}`;
+      let n11 = null !== (r11 = null === (t12 = e12.slice(4, e12.length - 1).slice(`--${this.varPrefix}-`.length).split("--")[0]) || void 0 === t12 ? void 0 : t12.split("__").map((e13, t13) => 0 === t13 ? H(e13) : e13).join(".")) && void 0 !== r11 ? r11 : "";
+      return n11.startsWith("sys.") ? `{${n11}}` : `{seed.${n11}}`;
     }).replace(/calc\(.+\)$/g, (e12) => e12.slice(5, e12.length - 1)) } : { $type: e11, $value: t11 };
     for (let a2 in this.tokens) {
       let i2 = this.tokens[a2], o2 = (o3) => {
         for (let s2 of i2.tokens) if (!s2.includes("/")) {
           if (s2.startsWith("sys.")) {
             let e11 = i2.get(s2, "_default"), l2 = i2.get(s2, "_dark");
-            t_(t10, [a2, ...s2.split(".")], n6(o3, e11)), e11 !== l2 && t_(r10, [a2, ...s2.split(".")], n6(o3, l2));
-          } else t_(e10, [a2, ...s2.split(".")], n6(o3, i2.get(s2, "_default")));
+            t_(t10, [a2, ...s2.split(".")], n10(o3, e11)), e11 !== l2 && t_(r10, [a2, ...s2.split(".")], n10(o3, l2));
+          } else t_(e10, [a2, ...s2.split(".")], n10(o3, i2.get(s2, "_default")));
         }
       };
       switch (a2) {
@@ -721,7 +721,7 @@ const _tA = class _tA {
           let o2 = r11.get(i2);
           if (!o2) continue;
           let s2 = this.unstable_sx(o2)[0];
-          t_(t10, [e11, ...i2.split(".")], n6(a3, s2));
+          t_(t10, [e11, ...i2.split(".")], n10(a3, s2));
         }
       };
       "textStyle" === e11 && a2("typography");
@@ -732,32 +732,32 @@ const _tA = class _tA {
 __publicField(_tA, "propsCanPercent", tI([...tP.boxSize({}).on]));
 __publicField(_tA, "propsCanBaseDp", tI([...tP.boxSize({}).on, ...tP.space({}).on, ...tP.fontSize({}).on, ...tP.letterSpacing({}).on, ...tP.lineHeight({}).on, ...tP.rounded({}).on]));
 let tA = _tA;
-let tF = { shadow: tP.shadow({ 0: { _default: "0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0)", _dark: "0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(0, 0, 0, 0)" }, 1: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)", _dark: "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 2: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)", _dark: "0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 3: { _default: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)" }, 4: { _default: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)" }, 5: { _default: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)", _dark: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)" } }), elevation: tP.customMixin("elevation", { 0: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "0", _hover: { shadow: "1" } }), 1: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "1", _hover: { shadow: "2" } }), 2: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "2", _hover: { shadow: "3" } }), 3: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "3", _hover: { shadow: "4" } }), 4: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "4", _hover: { shadow: "5" } }) }) }, tB = (e10, t10, r10, n6) => Object.assign(function(e11, t11, r11, n7) {
-  if (e11 === t11 && r11 === n7) return eN;
+let tF = { shadow: tP.shadow({ 0: { _default: "0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px 0px rgba(0, 0, 0, 0)", _dark: "0px 0px 0px 0px rgba(0, 0, 0, 0), 0px 0px 0px rgba(0, 0, 0, 0)" }, 1: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 1px 3px 1px rgba(0, 0, 0, 0.15)", _dark: "0px 1px 3px 1px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 2: { _default: "0px 1px 2px rgba(0, 0, 0, 0.3), 0px 2px 6px 2px rgba(0, 0, 0, 0.15)", _dark: "0px 2px 6px 2px rgba(0, 0, 0, 0.15), 0px 1px 2px rgba(0, 0, 0, 0.3)" }, 3: { _default: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 4px 8px 3px rgba(0, 0, 0, 0.15), 0px 1px 3px rgba(0, 0, 0, 0.3)" }, 4: { _default: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)", _dark: "0px 6px 10px 4px rgba(0, 0, 0, 0.15), 0px 2px 3px rgba(0, 0, 0, 0.3)" }, 5: { _default: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)", _dark: "0px 8px 12px 6px rgba(0, 0, 0, 0.15), 0px 4px 4px rgba(0, 0, 0, 0.3)" } }), elevation: tP.customMixin("elevation", { 0: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "0", _hover: { shadow: "1" } }), 1: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "1", _hover: { shadow: "2" } }), 2: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "2", _hover: { shadow: "3" } }), 3: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "3", _hover: { shadow: "4" } }), 4: tP.mixin({ transitionDuration: "md4", transitionTimingFunction: "standard", shadow: "4", _hover: { shadow: "5" } }) }) }, tB = (e10, t10, r10, n10) => Object.assign(function(e11, t11, r11, n11) {
+  if (e11 === t11 && r11 === n11) return eN;
   let a2 = new Float32Array(11);
   for (let t12 = 0; t12 < 11; ++t12) a2[t12] = ta(0.1 * t12, e11, r11);
   return (i2) => 0 === i2 || 1 === i2 ? i2 : ta(function(t12) {
-    let n10 = 0, i3 = 1;
-    for (; 10 !== i3 && a2[i3] <= t12; ++i3) n10 += 0.1;
-    let o2 = n10 + (t12 - a2[--i3]) / (a2[i3 + 1] - a2[i3]) * 0.1, s2 = ti(o2, e11, r11);
-    return s2 >= 1e-3 ? function(e12, t13, r12, n11) {
+    let n12 = 0, i3 = 1;
+    for (; 10 !== i3 && a2[i3] <= t12; ++i3) n12 += 0.1;
+    let o2 = n12 + (t12 - a2[--i3]) / (a2[i3 + 1] - a2[i3]) * 0.1, s2 = ti(o2, e11, r11);
+    return s2 >= 1e-3 ? function(e12, t13, r12, n13) {
       for (let a3 = 0; a3 < 8; ++a3) {
-        let a4 = ti(t13, r12, n11);
+        let a4 = ti(t13, r12, n13);
         if (0 === a4) break;
-        let i4 = ta(t13, r12, n11) - e12;
+        let i4 = ta(t13, r12, n13) - e12;
         t13 -= i4 / a4;
       }
       return t13;
-    }(t12, o2, e11, r11) : 0 === s2 ? o2 : function(e12, t13, r12, n11, a3) {
+    }(t12, o2, e11, r11) : 0 === s2 ? o2 : function(e12, t13, r12, n13, a3) {
       let i4, o3;
       let s3 = 0;
       do
-        (i4 = ta(o3 = t13 + (r12 - t13) / 2, n11, a3) - e12) > 0 ? r12 = o3 : t13 = o3;
+        (i4 = ta(o3 = t13 + (r12 - t13) / 2, n13, a3) - e12) > 0 ? r12 = o3 : t13 = o3;
       while (Math.abs(i4) > 1e-7 && ++s3 < 10);
       return o3;
-    }(t12, n10, n10 + 0.1, e11, r11);
-  }(i2), t11, n7);
-}(e10, t10, r10, n6), { toString: () => `cubic-bezier(${e10}, ${t10}, ${r10}, ${n6})` }), tV = { duration: { sm1: 50, sm2: 100, sm3: 150, sm4: 200, md1: 250, md2: 300, md3: 350, md4: 400, lg1: 450, lg2: 500, lg3: 550, lg4: 600, xl1: 700, xl2: 800, xl3: 900, xl4: 1e3 }, easing: { linear: tB(0, 0, 1, 1), standard: Object.assign(tB(0.2, 0, 0, 1), { accelerate: tB(0.3, 0, 1, 1), decelerate: tB(0, 0, 0, 1) }), emphasized: Object.assign(tB(0.2, 0, 0, 1), { accelerate: tB(0.3, 0, 0.8, 0.15), decelerate: tB(0.05, 0.7, 0.1, 1) }), legacy: Object.assign(tB(0.4, 0, 0.2, 1), { decelerate: tB(0, 0, 0.2, 1), accelerate: tB(0.4, 0, 1, 1) }) } }, tE = (e10, a2) => {
+    }(t12, n12, n12 + 0.1, e11, r11);
+  }(i2), t11, n11);
+}(e10, t10, r10, n10), { toString: () => `cubic-bezier(${e10}, ${t10}, ${r10}, ${n10})` }), tV = { duration: { sm1: 50, sm2: 100, sm3: 150, sm4: 200, md1: 250, md2: 300, md3: 350, md4: 400, lg1: 450, lg2: 500, lg3: 550, lg4: 600, xl1: 700, xl2: 800, xl3: 900, xl4: 1e3 }, easing: { linear: tB(0, 0, 1, 1), standard: Object.assign(tB(0.2, 0, 0, 1), { accelerate: tB(0.3, 0, 1, 1), decelerate: tB(0, 0, 0, 1) }), emphasized: Object.assign(tB(0.2, 0, 0, 1), { accelerate: tB(0.3, 0, 0.8, 0.15), decelerate: tB(0.05, 0.7, 0.1, 1) }), legacy: Object.assign(tB(0.4, 0, 0.2, 1), { decelerate: tB(0, 0, 0.2, 1), accelerate: tB(0.4, 0, 1, 1) }) } }, tE = (e10, a2) => {
   let i2 = null != a2 ? a2 : { ...e10, from: { ...e10.to }, to: { ...e10.from } };
   return t({ onComplete: C(), $default: C() }, (t10, a3) => {
     let o2, { slots: s2, emit: l2 } = a3, c2 = (t11, r10) => {
@@ -857,59 +857,59 @@ function t0(e10) {
 class t1 {
   static make() {
     var e10, t10;
-    let r10 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : tU, n6 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 200 / Math.PI * tJ(50) / 100, a2 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 50, i2 = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 2, o2 = arguments.length > 4 && void 0 !== arguments[4] && arguments[4], s2 = 0.401288 * r10[0] + 0.650173 * r10[1] + -0.051461 * r10[2], l2 = -0.250268 * r10[0] + 1.204414 * r10[1] + 0.045854 * r10[2], c2 = -2079e-6 * r10[0] + 0.048952 * r10[1] + 0.953127 * r10[2], u2 = 0.8 + i2 / 10, d2 = u2 >= 0.9 ? (1 - (e10 = (u2 - 0.9) * 10)) * 0.59 + 0.69 * e10 : (1 - (t10 = (u2 - 0.8) * 10)) * 0.525 + 0.59 * t10, f2 = o2 ? 1 : u2 * (1 - 1 / 3.6 * Math.exp((-n6 - 42) / 92)), h2 = [100 / s2 * (f2 = f2 > 1 ? 1 : f2 < 0 ? 0 : f2) + 1 - f2, 100 / l2 * f2 + 1 - f2, 100 / c2 * f2 + 1 - f2], m2 = 1 / (5 * n6 + 1), p2 = m2 * m2 * m2 * m2, g2 = 1 - p2, v2 = p2 * n6 + 0.1 * g2 * g2 * Math.cbrt(5 * n6), b2 = tJ(a2) / r10[1], y2 = 1.48 + Math.sqrt(b2), x2 = 0.725 / Math.pow(b2, 0.2), w2 = [Math.pow(v2 * h2[0] * s2 / 100, 0.42), Math.pow(v2 * h2[1] * l2 / 100, 0.42), Math.pow(v2 * h2[2] * c2 / 100, 0.42)], k2 = [400 * w2[0] / (w2[0] + 27.13), 400 * w2[1] / (w2[1] + 27.13), 400 * w2[2] / (w2[2] + 27.13)];
+    let r10 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : tU, n10 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : 200 / Math.PI * tJ(50) / 100, a2 = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 50, i2 = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 2, o2 = arguments.length > 4 && void 0 !== arguments[4] && arguments[4], s2 = 0.401288 * r10[0] + 0.650173 * r10[1] + -0.051461 * r10[2], l2 = -0.250268 * r10[0] + 1.204414 * r10[1] + 0.045854 * r10[2], c2 = -2079e-6 * r10[0] + 0.048952 * r10[1] + 0.953127 * r10[2], u2 = 0.8 + i2 / 10, d2 = u2 >= 0.9 ? (1 - (e10 = (u2 - 0.9) * 10)) * 0.59 + 0.69 * e10 : (1 - (t10 = (u2 - 0.8) * 10)) * 0.525 + 0.59 * t10, f2 = o2 ? 1 : u2 * (1 - 1 / 3.6 * Math.exp((-n10 - 42) / 92)), h2 = [100 / s2 * (f2 = f2 > 1 ? 1 : f2 < 0 ? 0 : f2) + 1 - f2, 100 / l2 * f2 + 1 - f2, 100 / c2 * f2 + 1 - f2], m2 = 1 / (5 * n10 + 1), p2 = m2 * m2 * m2 * m2, g2 = 1 - p2, v2 = p2 * n10 + 0.1 * g2 * g2 * Math.cbrt(5 * n10), b2 = tJ(a2) / r10[1], y2 = 1.48 + Math.sqrt(b2), x2 = 0.725 / Math.pow(b2, 0.2), w2 = [Math.pow(v2 * h2[0] * s2 / 100, 0.42), Math.pow(v2 * h2[1] * l2 / 100, 0.42), Math.pow(v2 * h2[2] * c2 / 100, 0.42)], k2 = [400 * w2[0] / (w2[0] + 27.13), 400 * w2[1] / (w2[1] + 27.13), 400 * w2[2] / (w2[2] + 27.13)];
     return new t1(b2, (2 * k2[0] + k2[1] + 0.05 * k2[2]) * x2, x2, x2, d2, u2, h2, v2, Math.pow(v2, 0.25), y2);
   }
-  constructor(e10, t10, r10, n6, a2, i2, o2, s2, l2, c2) {
-    this.n = e10, this.aw = t10, this.nbb = r10, this.ncb = n6, this.c = a2, this.nc = i2, this.rgbD = o2, this.fl = s2, this.fLRoot = l2, this.z = c2;
+  constructor(e10, t10, r10, n10, a2, i2, o2, s2, l2, c2) {
+    this.n = e10, this.aw = t10, this.nbb = r10, this.ncb = n10, this.c = a2, this.nc = i2, this.rgbD = o2, this.fl = s2, this.fLRoot = l2, this.z = c2;
   }
 }
 t1.DEFAULT = t1.make();
 class t2 {
-  constructor(e10, t10, r10, n6, a2, i2, o2, s2, l2) {
-    this.hue = e10, this.chroma = t10, this.j = r10, this.q = n6, this.m = a2, this.s = i2, this.jstar = o2, this.astar = s2, this.bstar = l2;
+  constructor(e10, t10, r10, n10, a2, i2, o2, s2, l2) {
+    this.hue = e10, this.chroma = t10, this.j = r10, this.q = n10, this.m = a2, this.s = i2, this.jstar = o2, this.astar = s2, this.bstar = l2;
   }
   distance(e10) {
-    let t10 = this.jstar - e10.jstar, r10 = this.astar - e10.astar, n6 = this.bstar - e10.bstar;
-    return 1.41 * Math.pow(Math.sqrt(t10 * t10 + r10 * r10 + n6 * n6), 0.63);
+    let t10 = this.jstar - e10.jstar, r10 = this.astar - e10.astar, n10 = this.bstar - e10.bstar;
+    return 1.41 * Math.pow(Math.sqrt(t10 * t10 + r10 * r10 + n10 * n10), 0.63);
   }
   static fromInt(e10) {
     return t2.fromIntInViewingConditions(e10, t1.DEFAULT);
   }
   static fromIntInViewingConditions(e10, t10) {
-    let r10 = tZ((16711680 & e10) >> 16), n6 = tZ((65280 & e10) >> 8), a2 = tZ(255 & e10), i2 = 0.41233895 * r10 + 0.35762064 * n6 + 0.18051042 * a2, o2 = 0.2126 * r10 + 0.7152 * n6 + 0.0722 * a2, s2 = 0.01932141 * r10 + 0.11916382 * n6 + 0.95034478 * a2, l2 = t10.rgbD[0] * (0.401288 * i2 + 0.650173 * o2 - 0.051461 * s2), c2 = t10.rgbD[1] * (-0.250268 * i2 + 1.204414 * o2 + 0.045854 * s2), u2 = t10.rgbD[2] * (-2079e-6 * i2 + 0.048952 * o2 + 0.953127 * s2), d2 = Math.pow(t10.fl * Math.abs(l2) / 100, 0.42), f2 = Math.pow(t10.fl * Math.abs(c2) / 100, 0.42), h2 = Math.pow(t10.fl * Math.abs(u2) / 100, 0.42), m2 = 400 * tH(l2) * d2 / (d2 + 27.13), p2 = 400 * tH(c2) * f2 / (f2 + 27.13), g2 = 400 * tH(u2) * h2 / (h2 + 27.13), v2 = (11 * m2 + -12 * p2 + g2) / 11, b2 = (m2 + p2 - 2 * g2) / 9, y2 = 180 * Math.atan2(b2, v2) / Math.PI, x2 = y2 < 0 ? y2 + 360 : y2 >= 360 ? y2 - 360 : y2, w2 = x2 * Math.PI / 180, k2 = 100 * Math.pow((40 * m2 + 20 * p2 + g2) / 20 * t10.nbb / t10.aw, t10.c * t10.z), C2 = 4 / t10.c * Math.sqrt(k2 / 100) * (t10.aw + 4) * t10.fLRoot, M2 = Math.pow(5e4 / 13 * (0.25 * (Math.cos((x2 < 20.14 ? x2 + 360 : x2) * Math.PI / 180 + 2) + 3.8)) * t10.nc * t10.ncb * Math.sqrt(v2 * v2 + b2 * b2) / ((20 * m2 + 20 * p2 + 21 * g2) / 20 + 0.305), 0.9) * Math.pow(1.64 - Math.pow(0.29, t10.n), 0.73), P2 = M2 * Math.sqrt(k2 / 100), _2 = P2 * t10.fLRoot, S2 = 50 * Math.sqrt(M2 * t10.c / (t10.aw + 4)), R2 = 1 / 0.0228 * Math.log(1 + 0.0228 * _2);
+    let r10 = tZ((16711680 & e10) >> 16), n10 = tZ((65280 & e10) >> 8), a2 = tZ(255 & e10), i2 = 0.41233895 * r10 + 0.35762064 * n10 + 0.18051042 * a2, o2 = 0.2126 * r10 + 0.7152 * n10 + 0.0722 * a2, s2 = 0.01932141 * r10 + 0.11916382 * n10 + 0.95034478 * a2, l2 = t10.rgbD[0] * (0.401288 * i2 + 0.650173 * o2 - 0.051461 * s2), c2 = t10.rgbD[1] * (-0.250268 * i2 + 1.204414 * o2 + 0.045854 * s2), u2 = t10.rgbD[2] * (-2079e-6 * i2 + 0.048952 * o2 + 0.953127 * s2), d2 = Math.pow(t10.fl * Math.abs(l2) / 100, 0.42), f2 = Math.pow(t10.fl * Math.abs(c2) / 100, 0.42), h2 = Math.pow(t10.fl * Math.abs(u2) / 100, 0.42), m2 = 400 * tH(l2) * d2 / (d2 + 27.13), p2 = 400 * tH(c2) * f2 / (f2 + 27.13), g2 = 400 * tH(u2) * h2 / (h2 + 27.13), v2 = (11 * m2 + -12 * p2 + g2) / 11, b2 = (m2 + p2 - 2 * g2) / 9, y2 = 180 * Math.atan2(b2, v2) / Math.PI, x2 = y2 < 0 ? y2 + 360 : y2 >= 360 ? y2 - 360 : y2, w2 = x2 * Math.PI / 180, k2 = 100 * Math.pow((40 * m2 + 20 * p2 + g2) / 20 * t10.nbb / t10.aw, t10.c * t10.z), C2 = 4 / t10.c * Math.sqrt(k2 / 100) * (t10.aw + 4) * t10.fLRoot, M2 = Math.pow(5e4 / 13 * (0.25 * (Math.cos((x2 < 20.14 ? x2 + 360 : x2) * Math.PI / 180 + 2) + 3.8)) * t10.nc * t10.ncb * Math.sqrt(v2 * v2 + b2 * b2) / ((20 * m2 + 20 * p2 + 21 * g2) / 20 + 0.305), 0.9) * Math.pow(1.64 - Math.pow(0.29, t10.n), 0.73), P2 = M2 * Math.sqrt(k2 / 100), _2 = P2 * t10.fLRoot, S2 = 50 * Math.sqrt(M2 * t10.c / (t10.aw + 4)), R2 = 1 / 0.0228 * Math.log(1 + 0.0228 * _2);
     return new t2(x2, P2, k2, C2, _2, S2, (1 + 100 * 7e-3) * k2 / (1 + 7e-3 * k2), R2 * Math.cos(w2), R2 * Math.sin(w2));
   }
   static fromJch(e10, t10, r10) {
     return t2.fromJchInViewingConditions(e10, t10, r10, t1.DEFAULT);
   }
-  static fromJchInViewingConditions(e10, t10, r10, n6) {
-    let a2 = 4 / n6.c * Math.sqrt(e10 / 100) * (n6.aw + 4) * n6.fLRoot, i2 = t10 * n6.fLRoot, o2 = 50 * Math.sqrt(t10 / Math.sqrt(e10 / 100) * n6.c / (n6.aw + 4)), s2 = r10 * Math.PI / 180, l2 = 1 / 0.0228 * Math.log(1 + 0.0228 * i2);
+  static fromJchInViewingConditions(e10, t10, r10, n10) {
+    let a2 = 4 / n10.c * Math.sqrt(e10 / 100) * (n10.aw + 4) * n10.fLRoot, i2 = t10 * n10.fLRoot, o2 = 50 * Math.sqrt(t10 / Math.sqrt(e10 / 100) * n10.c / (n10.aw + 4)), s2 = r10 * Math.PI / 180, l2 = 1 / 0.0228 * Math.log(1 + 0.0228 * i2);
     return new t2(r10, t10, e10, a2, i2, o2, (1 + 100 * 7e-3) * e10 / (1 + 7e-3 * e10), l2 * Math.cos(s2), l2 * Math.sin(s2));
   }
   static fromUcs(e10, t10, r10) {
     return t2.fromUcsInViewingConditions(e10, t10, r10, t1.DEFAULT);
   }
-  static fromUcsInViewingConditions(e10, t10, r10, n6) {
-    let a2 = (Math.exp(0.0228 * Math.sqrt(t10 * t10 + r10 * r10)) - 1) / 0.0228 / n6.fLRoot, i2 = 180 / Math.PI * Math.atan2(r10, t10);
-    return i2 < 0 && (i2 += 360), t2.fromJchInViewingConditions(e10 / (1 - (e10 - 100) * 7e-3), a2, i2, n6);
+  static fromUcsInViewingConditions(e10, t10, r10, n10) {
+    let a2 = (Math.exp(0.0228 * Math.sqrt(t10 * t10 + r10 * r10)) - 1) / 0.0228 / n10.fLRoot, i2 = 180 / Math.PI * Math.atan2(r10, t10);
+    return i2 < 0 && (i2 += 360), t2.fromJchInViewingConditions(e10 / (1 - (e10 - 100) * 7e-3), a2, i2, n10);
   }
   toInt() {
     return this.viewed(t1.DEFAULT);
   }
   viewed(e10) {
-    let t10 = Math.pow((0 === this.chroma || 0 === this.j ? 0 : this.chroma / Math.sqrt(this.j / 100)) / Math.pow(1.64 - Math.pow(0.29, e10.n), 0.73), 1 / 0.9), r10 = this.hue * Math.PI / 180, n6 = 0.25 * (Math.cos(r10 + 2) + 3.8), a2 = e10.aw * Math.pow(this.j / 100, 1 / e10.c / e10.z), i2 = 5e4 / 13 * n6 * e10.nc * e10.ncb, o2 = a2 / e10.nbb, s2 = Math.sin(r10), l2 = Math.cos(r10), c2 = 23 * (o2 + 0.305) * t10 / (23 * i2 + 11 * t10 * l2 + 108 * t10 * s2), u2 = c2 * l2, d2 = c2 * s2, f2 = (460 * o2 + 451 * u2 + 288 * d2) / 1403, h2 = (460 * o2 - 891 * u2 - 261 * d2) / 1403, m2 = (460 * o2 - 220 * u2 - 6300 * d2) / 1403, p2 = Math.max(0, 27.13 * Math.abs(f2) / (400 - Math.abs(f2))), g2 = tH(f2) * (100 / e10.fl) * Math.pow(p2, 1 / 0.42), v2 = Math.max(0, 27.13 * Math.abs(h2) / (400 - Math.abs(h2))), b2 = tH(h2) * (100 / e10.fl) * Math.pow(v2, 1 / 0.42), y2 = Math.max(0, 27.13 * Math.abs(m2) / (400 - Math.abs(m2))), x2 = tH(m2) * (100 / e10.fl) * Math.pow(y2, 1 / 0.42), w2 = g2 / e10.rgbD[0], k2 = b2 / e10.rgbD[1], C2 = x2 / e10.rgbD[2];
+    let t10 = Math.pow((0 === this.chroma || 0 === this.j ? 0 : this.chroma / Math.sqrt(this.j / 100)) / Math.pow(1.64 - Math.pow(0.29, e10.n), 0.73), 1 / 0.9), r10 = this.hue * Math.PI / 180, n10 = 0.25 * (Math.cos(r10 + 2) + 3.8), a2 = e10.aw * Math.pow(this.j / 100, 1 / e10.c / e10.z), i2 = 5e4 / 13 * n10 * e10.nc * e10.ncb, o2 = a2 / e10.nbb, s2 = Math.sin(r10), l2 = Math.cos(r10), c2 = 23 * (o2 + 0.305) * t10 / (23 * i2 + 11 * t10 * l2 + 108 * t10 * s2), u2 = c2 * l2, d2 = c2 * s2, f2 = (460 * o2 + 451 * u2 + 288 * d2) / 1403, h2 = (460 * o2 - 891 * u2 - 261 * d2) / 1403, m2 = (460 * o2 - 220 * u2 - 6300 * d2) / 1403, p2 = Math.max(0, 27.13 * Math.abs(f2) / (400 - Math.abs(f2))), g2 = tH(f2) * (100 / e10.fl) * Math.pow(p2, 1 / 0.42), v2 = Math.max(0, 27.13 * Math.abs(h2) / (400 - Math.abs(h2))), b2 = tH(h2) * (100 / e10.fl) * Math.pow(v2, 1 / 0.42), y2 = Math.max(0, 27.13 * Math.abs(m2) / (400 - Math.abs(m2))), x2 = tH(m2) * (100 / e10.fl) * Math.pow(y2, 1 / 0.42), w2 = g2 / e10.rgbD[0], k2 = b2 / e10.rgbD[1], C2 = x2 / e10.rgbD[2];
     return function(e11, t11, r11) {
-      let n7 = tq[0][0] * e11 + tq[0][1] * t11 + tq[0][2] * r11, a3 = tq[1][0] * e11 + tq[1][1] * t11 + tq[1][2] * r11, i3 = tq[2][0] * e11 + tq[2][1] * t11 + tq[2][2] * r11;
-      return tG(tQ(n7), tQ(a3), tQ(i3));
+      let n11 = tq[0][0] * e11 + tq[0][1] * t11 + tq[0][2] * r11, a3 = tq[1][0] * e11 + tq[1][1] * t11 + tq[1][2] * r11, i3 = tq[2][0] * e11 + tq[2][1] * t11 + tq[2][2] * r11;
+      return tG(tQ(n11), tQ(a3), tQ(i3));
     }(1.86206786 * w2 - 1.01125463 * k2 + 0.14918677 * C2, 0.38752654 * w2 + 0.62144744 * k2 - 897398e-8 * C2, -0.0158415 * w2 - 0.03412294 * k2 + 1.04996444 * C2);
   }
-  static fromXyzInViewingConditions(e10, t10, r10, n6) {
-    let a2 = n6.rgbD[0] * (0.401288 * e10 + 0.650173 * t10 - 0.051461 * r10), i2 = n6.rgbD[1] * (-0.250268 * e10 + 1.204414 * t10 + 0.045854 * r10), o2 = n6.rgbD[2] * (-2079e-6 * e10 + 0.048952 * t10 + 0.953127 * r10), s2 = Math.pow(n6.fl * Math.abs(a2) / 100, 0.42), l2 = Math.pow(n6.fl * Math.abs(i2) / 100, 0.42), c2 = Math.pow(n6.fl * Math.abs(o2) / 100, 0.42), u2 = 400 * tH(a2) * s2 / (s2 + 27.13), d2 = 400 * tH(i2) * l2 / (l2 + 27.13), f2 = 400 * tH(o2) * c2 / (c2 + 27.13), h2 = (11 * u2 + -12 * d2 + f2) / 11, m2 = (u2 + d2 - 2 * f2) / 9, p2 = 180 * Math.atan2(m2, h2) / Math.PI, g2 = p2 < 0 ? p2 + 360 : p2 >= 360 ? p2 - 360 : p2, v2 = g2 * Math.PI / 180, b2 = 100 * Math.pow((40 * u2 + 20 * d2 + f2) / 20 * n6.nbb / n6.aw, n6.c * n6.z), y2 = 4 / n6.c * Math.sqrt(b2 / 100) * (n6.aw + 4) * n6.fLRoot, x2 = Math.pow(5e4 / 13 * (0.25 * (Math.cos((g2 < 20.14 ? g2 + 360 : g2) * Math.PI / 180 + 2) + 3.8)) * n6.nc * n6.ncb * Math.sqrt(h2 * h2 + m2 * m2) / ((20 * u2 + 20 * d2 + 21 * f2) / 20 + 0.305), 0.9) * Math.pow(1.64 - Math.pow(0.29, n6.n), 0.73), w2 = x2 * Math.sqrt(b2 / 100), k2 = w2 * n6.fLRoot, C2 = 50 * Math.sqrt(x2 * n6.c / (n6.aw + 4)), M2 = Math.log(1 + 0.0228 * k2) / 0.0228;
+  static fromXyzInViewingConditions(e10, t10, r10, n10) {
+    let a2 = n10.rgbD[0] * (0.401288 * e10 + 0.650173 * t10 - 0.051461 * r10), i2 = n10.rgbD[1] * (-0.250268 * e10 + 1.204414 * t10 + 0.045854 * r10), o2 = n10.rgbD[2] * (-2079e-6 * e10 + 0.048952 * t10 + 0.953127 * r10), s2 = Math.pow(n10.fl * Math.abs(a2) / 100, 0.42), l2 = Math.pow(n10.fl * Math.abs(i2) / 100, 0.42), c2 = Math.pow(n10.fl * Math.abs(o2) / 100, 0.42), u2 = 400 * tH(a2) * s2 / (s2 + 27.13), d2 = 400 * tH(i2) * l2 / (l2 + 27.13), f2 = 400 * tH(o2) * c2 / (c2 + 27.13), h2 = (11 * u2 + -12 * d2 + f2) / 11, m2 = (u2 + d2 - 2 * f2) / 9, p2 = 180 * Math.atan2(m2, h2) / Math.PI, g2 = p2 < 0 ? p2 + 360 : p2 >= 360 ? p2 - 360 : p2, v2 = g2 * Math.PI / 180, b2 = 100 * Math.pow((40 * u2 + 20 * d2 + f2) / 20 * n10.nbb / n10.aw, n10.c * n10.z), y2 = 4 / n10.c * Math.sqrt(b2 / 100) * (n10.aw + 4) * n10.fLRoot, x2 = Math.pow(5e4 / 13 * (0.25 * (Math.cos((g2 < 20.14 ? g2 + 360 : g2) * Math.PI / 180 + 2) + 3.8)) * n10.nc * n10.ncb * Math.sqrt(h2 * h2 + m2 * m2) / ((20 * u2 + 20 * d2 + 21 * f2) / 20 + 0.305), 0.9) * Math.pow(1.64 - Math.pow(0.29, n10.n), 0.73), w2 = x2 * Math.sqrt(b2 / 100), k2 = w2 * n10.fLRoot, C2 = 50 * Math.sqrt(x2 * n10.c / (n10.aw + 4)), M2 = Math.log(1 + 0.0228 * k2) / 0.0228;
     return new t2(g2, w2, b2, y2, k2, C2, (1 + 100 * 7e-3) * b2 / (1 + 7e-3 * b2), M2 * Math.cos(v2), M2 * Math.sin(v2));
   }
   xyzInViewingConditions(e10) {
-    let t10 = Math.pow((0 === this.chroma || 0 === this.j ? 0 : this.chroma / Math.sqrt(this.j / 100)) / Math.pow(1.64 - Math.pow(0.29, e10.n), 0.73), 1 / 0.9), r10 = this.hue * Math.PI / 180, n6 = 0.25 * (Math.cos(r10 + 2) + 3.8), a2 = e10.aw * Math.pow(this.j / 100, 1 / e10.c / e10.z), i2 = 5e4 / 13 * n6 * e10.nc * e10.ncb, o2 = a2 / e10.nbb, s2 = Math.sin(r10), l2 = Math.cos(r10), c2 = 23 * (o2 + 0.305) * t10 / (23 * i2 + 11 * t10 * l2 + 108 * t10 * s2), u2 = c2 * l2, d2 = c2 * s2, f2 = (460 * o2 + 451 * u2 + 288 * d2) / 1403, h2 = (460 * o2 - 891 * u2 - 261 * d2) / 1403, m2 = (460 * o2 - 220 * u2 - 6300 * d2) / 1403, p2 = Math.max(0, 27.13 * Math.abs(f2) / (400 - Math.abs(f2))), g2 = tH(f2) * (100 / e10.fl) * Math.pow(p2, 1 / 0.42), v2 = Math.max(0, 27.13 * Math.abs(h2) / (400 - Math.abs(h2))), b2 = tH(h2) * (100 / e10.fl) * Math.pow(v2, 1 / 0.42), y2 = Math.max(0, 27.13 * Math.abs(m2) / (400 - Math.abs(m2))), x2 = tH(m2) * (100 / e10.fl) * Math.pow(y2, 1 / 0.42), w2 = g2 / e10.rgbD[0], k2 = b2 / e10.rgbD[1], C2 = x2 / e10.rgbD[2];
+    let t10 = Math.pow((0 === this.chroma || 0 === this.j ? 0 : this.chroma / Math.sqrt(this.j / 100)) / Math.pow(1.64 - Math.pow(0.29, e10.n), 0.73), 1 / 0.9), r10 = this.hue * Math.PI / 180, n10 = 0.25 * (Math.cos(r10 + 2) + 3.8), a2 = e10.aw * Math.pow(this.j / 100, 1 / e10.c / e10.z), i2 = 5e4 / 13 * n10 * e10.nc * e10.ncb, o2 = a2 / e10.nbb, s2 = Math.sin(r10), l2 = Math.cos(r10), c2 = 23 * (o2 + 0.305) * t10 / (23 * i2 + 11 * t10 * l2 + 108 * t10 * s2), u2 = c2 * l2, d2 = c2 * s2, f2 = (460 * o2 + 451 * u2 + 288 * d2) / 1403, h2 = (460 * o2 - 891 * u2 - 261 * d2) / 1403, m2 = (460 * o2 - 220 * u2 - 6300 * d2) / 1403, p2 = Math.max(0, 27.13 * Math.abs(f2) / (400 - Math.abs(f2))), g2 = tH(f2) * (100 / e10.fl) * Math.pow(p2, 1 / 0.42), v2 = Math.max(0, 27.13 * Math.abs(h2) / (400 - Math.abs(h2))), b2 = tH(h2) * (100 / e10.fl) * Math.pow(v2, 1 / 0.42), y2 = Math.max(0, 27.13 * Math.abs(m2) / (400 - Math.abs(m2))), x2 = tH(m2) * (100 / e10.fl) * Math.pow(y2, 1 / 0.42), w2 = g2 / e10.rgbD[0], k2 = b2 / e10.rgbD[1], C2 = x2 / e10.rgbD[2];
     return [1.86206786 * w2 - 1.01125463 * k2 + 0.14918677 * C2, 0.38752654 * w2 + 0.62144744 * k2 - 897398e-8 * C2, -0.0158415 * w2 - 0.03412294 * k2 + 1.04996444 * C2];
   }
 }
@@ -942,8 +942,8 @@ class t4 {
     return 400 * tH(e10) * t10 / (t10 + 27.13);
   }
   static hueOf(e10) {
-    let t10 = tW(e10, t4.SCALED_DISCOUNT_FROM_LINRGB), r10 = t4.chromaticAdaptation(t10[0]), n6 = t4.chromaticAdaptation(t10[1]), a2 = t4.chromaticAdaptation(t10[2]);
-    return Math.atan2((r10 + n6 - 2 * a2) / 9, (11 * r10 + -12 * n6 + a2) / 11);
+    let t10 = tW(e10, t4.SCALED_DISCOUNT_FROM_LINRGB), r10 = t4.chromaticAdaptation(t10[0]), n10 = t4.chromaticAdaptation(t10[1]), a2 = t4.chromaticAdaptation(t10[2]);
+    return Math.atan2((r10 + n10 - 2 * a2) / 9, (11 * r10 + -12 * n10 + a2) / 11);
   }
   static areInCyclicOrder(e10, t10, r10) {
     return t4.sanitizeRadians(t10 - e10) < t4.sanitizeRadians(r10 - e10);
@@ -954,41 +954,41 @@ class t4 {
   static lerpPoint(e10, t10, r10) {
     return [e10[0] + (r10[0] - e10[0]) * t10, e10[1] + (r10[1] - e10[1]) * t10, e10[2] + (r10[2] - e10[2]) * t10];
   }
-  static setCoordinate(e10, t10, r10, n6) {
-    let a2 = t4.intercept(e10[n6], t10, r10[n6]);
+  static setCoordinate(e10, t10, r10, n10) {
+    let a2 = t4.intercept(e10[n10], t10, r10[n10]);
     return t4.lerpPoint(e10, a2, r10);
   }
   static isBounded(e10) {
     return 0 <= e10 && e10 <= 100;
   }
   static nthVertex(e10, t10) {
-    let r10 = t4.Y_FROM_LINRGB[0], n6 = t4.Y_FROM_LINRGB[1], a2 = t4.Y_FROM_LINRGB[2], i2 = t10 % 4 <= 1 ? 0 : 100, o2 = t10 % 2 == 0 ? 0 : 100;
+    let r10 = t4.Y_FROM_LINRGB[0], n10 = t4.Y_FROM_LINRGB[1], a2 = t4.Y_FROM_LINRGB[2], i2 = t10 % 4 <= 1 ? 0 : 100, o2 = t10 % 2 == 0 ? 0 : 100;
     if (t10 < 4) {
-      let t11 = (e10 - i2 * n6 - o2 * a2) / r10;
+      let t11 = (e10 - i2 * n10 - o2 * a2) / r10;
       return t4.isBounded(t11) ? [t11, i2, o2] : [-1, -1, -1];
     }
     if (t10 < 8) {
-      let t11 = (e10 - o2 * r10 - i2 * a2) / n6;
+      let t11 = (e10 - o2 * r10 - i2 * a2) / n10;
       return t4.isBounded(t11) ? [o2, t11, i2] : [-1, -1, -1];
     }
     {
-      let t11 = (e10 - i2 * r10 - o2 * n6) / a2;
+      let t11 = (e10 - i2 * r10 - o2 * n10) / a2;
       return t4.isBounded(t11) ? [i2, o2, t11] : [-1, -1, -1];
     }
   }
   static bisectToSegment(e10, t10) {
-    let r10 = [-1, -1, -1], n6 = r10, a2 = 0, i2 = 0, o2 = false, s2 = true;
+    let r10 = [-1, -1, -1], n10 = r10, a2 = 0, i2 = 0, o2 = false, s2 = true;
     for (let l2 = 0; l2 < 12; l2++) {
       let c2 = t4.nthVertex(e10, l2);
       if (c2[0] < 0) continue;
       let u2 = t4.hueOf(c2);
       if (!o2) {
-        r10 = c2, n6 = c2, a2 = u2, i2 = u2, o2 = true;
+        r10 = c2, n10 = c2, a2 = u2, i2 = u2, o2 = true;
         continue;
       }
-      (s2 || t4.areInCyclicOrder(a2, u2, i2)) && (s2 = false, t4.areInCyclicOrder(a2, t10, u2) ? (n6 = c2, i2 = u2) : (r10 = c2, a2 = u2));
+      (s2 || t4.areInCyclicOrder(a2, u2, i2)) && (s2 = false, t4.areInCyclicOrder(a2, t10, u2) ? (n10 = c2, i2 = u2) : (r10 = c2, a2 = u2));
     }
-    return [r10, n6];
+    return [r10, n10];
   }
   static midpoint(e10, t10) {
     return [(e10[0] + t10[0]) / 2, (e10[1] + t10[1]) / 2, (e10[2] + t10[2]) / 2];
@@ -1000,25 +1000,25 @@ class t4 {
     return Math.ceil(e10 - 0.5);
   }
   static bisectToLimit(e10, t10) {
-    let r10 = t4.bisectToSegment(e10, t10), n6 = r10[0], a2 = t4.hueOf(n6), i2 = r10[1];
-    for (let e11 = 0; e11 < 3; e11++) if (n6[e11] !== i2[e11]) {
+    let r10 = t4.bisectToSegment(e10, t10), n10 = r10[0], a2 = t4.hueOf(n10), i2 = r10[1];
+    for (let e11 = 0; e11 < 3; e11++) if (n10[e11] !== i2[e11]) {
       let r11 = -1, o2 = 255;
-      n6[e11] < i2[e11] ? (r11 = t4.criticalPlaneBelow(t4.trueDelinearized(n6[e11])), o2 = t4.criticalPlaneAbove(t4.trueDelinearized(i2[e11]))) : (r11 = t4.criticalPlaneAbove(t4.trueDelinearized(n6[e11])), o2 = t4.criticalPlaneBelow(t4.trueDelinearized(i2[e11])));
+      n10[e11] < i2[e11] ? (r11 = t4.criticalPlaneBelow(t4.trueDelinearized(n10[e11])), o2 = t4.criticalPlaneAbove(t4.trueDelinearized(i2[e11]))) : (r11 = t4.criticalPlaneAbove(t4.trueDelinearized(n10[e11])), o2 = t4.criticalPlaneBelow(t4.trueDelinearized(i2[e11])));
       for (let s2 = 0; s2 < 8 && !(1 >= Math.abs(o2 - r11)); s2++) {
-        let s3 = Math.floor((r11 + o2) / 2), l2 = t4.CRITICAL_PLANES[s3], c2 = t4.setCoordinate(n6, l2, i2, e11), u2 = t4.hueOf(c2);
-        t4.areInCyclicOrder(a2, t10, u2) ? (i2 = c2, o2 = s3) : (n6 = c2, a2 = u2, r11 = s3);
+        let s3 = Math.floor((r11 + o2) / 2), l2 = t4.CRITICAL_PLANES[s3], c2 = t4.setCoordinate(n10, l2, i2, e11), u2 = t4.hueOf(c2);
+        t4.areInCyclicOrder(a2, t10, u2) ? (i2 = c2, o2 = s3) : (n10 = c2, a2 = u2, r11 = s3);
       }
     }
-    return t4.midpoint(n6, i2);
+    return t4.midpoint(n10, i2);
   }
   static inverseChromaticAdaptation(e10) {
     let t10 = Math.abs(e10), r10 = Math.max(0, 27.13 * t10 / (400 - t10));
     return tH(e10) * Math.pow(r10, 1 / 0.42);
   }
   static findResultByJ(e10, t10, r10) {
-    let n6 = 11 * Math.sqrt(r10), a2 = t1.DEFAULT, i2 = 1 / Math.pow(1.64 - Math.pow(0.29, a2.n), 0.73), o2 = 5e4 / 13 * (0.25 * (Math.cos(e10 + 2) + 3.8)) * a2.nc * a2.ncb, s2 = Math.sin(e10), l2 = Math.cos(e10);
+    let n10 = 11 * Math.sqrt(r10), a2 = t1.DEFAULT, i2 = 1 / Math.pow(1.64 - Math.pow(0.29, a2.n), 0.73), o2 = 5e4 / 13 * (0.25 * (Math.cos(e10 + 2) + 3.8)) * a2.nc * a2.ncb, s2 = Math.sin(e10), l2 = Math.cos(e10);
     for (let e11 = 0; e11 < 5; e11++) {
-      let c2 = n6 / 100, u2 = Math.pow((0 === t10 || 0 === n6 ? 0 : t10 / Math.sqrt(c2)) * i2, 1 / 0.9), d2 = a2.aw * Math.pow(c2, 1 / a2.c / a2.z) / a2.nbb, f2 = 23 * (d2 + 0.305) * u2 / (23 * o2 + 11 * u2 * l2 + 108 * u2 * s2), h2 = f2 * l2, m2 = f2 * s2, p2 = (460 * d2 + 451 * h2 + 288 * m2) / 1403, g2 = (460 * d2 - 891 * h2 - 261 * m2) / 1403, v2 = (460 * d2 - 220 * h2 - 6300 * m2) / 1403, b2 = tW([t4.inverseChromaticAdaptation(p2), t4.inverseChromaticAdaptation(g2), t4.inverseChromaticAdaptation(v2)], t4.LINRGB_FROM_SCALED_DISCOUNT);
+      let c2 = n10 / 100, u2 = Math.pow((0 === t10 || 0 === n10 ? 0 : t10 / Math.sqrt(c2)) * i2, 1 / 0.9), d2 = a2.aw * Math.pow(c2, 1 / a2.c / a2.z) / a2.nbb, f2 = 23 * (d2 + 0.305) * u2 / (23 * o2 + 11 * u2 * l2 + 108 * u2 * s2), h2 = f2 * l2, m2 = f2 * s2, p2 = (460 * d2 + 451 * h2 + 288 * m2) / 1403, g2 = (460 * d2 - 891 * h2 - 261 * m2) / 1403, v2 = (460 * d2 - 220 * h2 - 6300 * m2) / 1403, b2 = tW([t4.inverseChromaticAdaptation(p2), t4.inverseChromaticAdaptation(g2), t4.inverseChromaticAdaptation(v2)], t4.LINRGB_FROM_SCALED_DISCOUNT);
       if (b2[0] < 0 || b2[1] < 0 || b2[2] < 0) break;
       let y2 = t4.Y_FROM_LINRGB[0], x2 = t4.Y_FROM_LINRGB[1], w2 = t4.Y_FROM_LINRGB[2], k2 = y2 * b2[0] + x2 * b2[1] + w2 * b2[2];
       if (k2 <= 0) break;
@@ -1026,18 +1026,18 @@ class t4 {
         if (b2[0] > 100.01 || b2[1] > 100.01 || b2[2] > 100.01) return 0;
         return tY(b2);
       }
-      n6 -= (k2 - r10) * n6 / (2 * k2);
+      n10 -= (k2 - r10) * n10 / (2 * k2);
     }
     return 0;
   }
   static solveToInt(e10, t10, r10) {
-    var n6;
+    var n10;
     if (t10 < 1e-4 || r10 < 1e-4 || r10 > 99.9999) return function(e11) {
       let t11 = tQ(tJ(e11));
       return tG(t11, t11, t11);
     }(r10);
-    (n6 = e10 % 360) < 0 && (n6 += 360);
-    let a2 = (e10 = n6) / 180 * Math.PI, i2 = tJ(r10), o2 = t4.findResultByJ(a2, t10, i2);
+    (n10 = e10 % 360) < 0 && (n10 += 360);
+    let a2 = (e10 = n10) / 180 * Math.PI, i2 = tJ(r10), o2 = t4.findResultByJ(a2, t10, i2);
     return 0 !== o2 ? o2 : tY(t4.bisectToLimit(i2, a2));
   }
   static solveToCam(e10, t10, r10) {
@@ -1113,16 +1113,16 @@ class t3 {
   }
   static lighter(e10, t10) {
     if (e10 < 0 || e10 > 100) return -1;
-    let r10 = tJ(e10), n6 = t10 * (r10 + 5) - 5, a2 = t3.ratioOfYs(n6, r10), i2 = Math.abs(a2 - t10);
+    let r10 = tJ(e10), n10 = t10 * (r10 + 5) - 5, a2 = t3.ratioOfYs(n10, r10), i2 = Math.abs(a2 - t10);
     if (a2 < t10 && i2 > 0.04) return -1;
-    let o2 = tK(n6) + 0.4;
+    let o2 = tK(n10) + 0.4;
     return o2 < 0 || o2 > 100 ? -1 : o2;
   }
   static darker(e10, t10) {
     if (e10 < 0 || e10 > 100) return -1;
-    let r10 = tJ(e10), n6 = (r10 + 5) / t10 - 5, a2 = t3.ratioOfYs(r10, n6), i2 = Math.abs(a2 - t10);
+    let r10 = tJ(e10), n10 = (r10 + 5) / t10 - 5, a2 = t3.ratioOfYs(r10, n10), i2 = Math.abs(a2 - t10);
     if (a2 < t10 && i2 > 0.04) return -1;
-    let o2 = tK(n6) - 0.4;
+    let o2 = tK(n10) - 0.4;
     return o2 < 0 || o2 > 100 ? -1 : o2;
   }
   static lighterUnsafe(e10, t10) {
@@ -1136,8 +1136,8 @@ class t3 {
 }
 class t8 {
   static isDisliked(e10) {
-    let t10 = Math.round(e10.hue) >= 90 && 111 >= Math.round(e10.hue), r10 = Math.round(e10.chroma) > 16, n6 = 65 > Math.round(e10.tone);
-    return t10 && r10 && n6;
+    let t10 = Math.round(e10.hue) >= 90 && 111 >= Math.round(e10.hue), r10 = Math.round(e10.chroma) > 16, n10 = 65 > Math.round(e10.tone);
+    return t10 && r10 && n10;
   }
   static fixIfDisliked(e10) {
     return t8.isDisliked(e10) ? t5.from(e10.hue, e10.chroma, 70) : e10;
@@ -1148,8 +1148,8 @@ class t9 {
     var t10, r10;
     return new t9(null !== (t10 = e10.name) && void 0 !== t10 ? t10 : "", e10.palette, e10.tone, null !== (r10 = e10.isBackground) && void 0 !== r10 && r10, e10.background, e10.secondBackground, e10.contrastCurve, e10.toneDeltaPair);
   }
-  constructor(e10, t10, r10, n6, a2, i2, o2, s2) {
-    if (this.name = e10, this.palette = t10, this.tone = r10, this.isBackground = n6, this.background = a2, this.secondBackground = i2, this.contrastCurve = o2, this.toneDeltaPair = s2, this.hctCache = /* @__PURE__ */ new Map(), !a2 && i2) throw Error(`Color ${e10} has secondBackgrounddefined, but background is not defined.`);
+  constructor(e10, t10, r10, n10, a2, i2, o2, s2) {
+    if (this.name = e10, this.palette = t10, this.tone = r10, this.isBackground = n10, this.background = a2, this.secondBackground = i2, this.contrastCurve = o2, this.toneDeltaPair = s2, this.hctCache = /* @__PURE__ */ new Map(), !a2 && i2) throw Error(`Color ${e10} has secondBackgrounddefined, but background is not defined.`);
     if (!a2 && o2) throw Error(`Color ${e10} has contrastCurvedefined, but background is not defined.`);
     if (a2 && !o2) throw Error(`Color ${e10} has backgrounddefined, but contrastCurve is not defined.`);
   }
@@ -1159,21 +1159,21 @@ class t9 {
   getHct(e10) {
     let t10 = this.hctCache.get(e10);
     if (null != t10) return t10;
-    let r10 = this.getTone(e10), n6 = this.palette(e10).getHct(r10);
-    return this.hctCache.size > 4 && this.hctCache.clear(), this.hctCache.set(e10, n6), n6;
+    let r10 = this.getTone(e10), n10 = this.palette(e10).getHct(r10);
+    return this.hctCache.size > 4 && this.hctCache.clear(), this.hctCache.set(e10, n10), n10;
   }
   getTone(e10) {
     let t10 = e10.contrastLevel < 0;
     if (this.toneDeltaPair) {
-      let r10 = this.toneDeltaPair(e10), n6 = r10.roleA, a2 = r10.roleB, i2 = r10.delta, o2 = r10.polarity, s2 = r10.stayTogether, l2 = this.background(e10).getTone(e10), c2 = "nearer" === o2 || "lighter" === o2 && !e10.isDark || "darker" === o2 && e10.isDark, u2 = c2 ? n6 : a2, d2 = c2 ? a2 : n6, f2 = this.name === u2.name, h2 = e10.isDark ? 1 : -1, m2 = u2.contrastCurve.get(e10.contrastLevel), p2 = d2.contrastCurve.get(e10.contrastLevel), g2 = u2.tone(e10), v2 = t3.ratioOfTones(l2, g2) >= m2 ? g2 : t9.foregroundTone(l2, m2), b2 = d2.tone(e10), y2 = t3.ratioOfTones(l2, b2) >= p2 ? b2 : t9.foregroundTone(l2, p2);
+      let r10 = this.toneDeltaPair(e10), n10 = r10.roleA, a2 = r10.roleB, i2 = r10.delta, o2 = r10.polarity, s2 = r10.stayTogether, l2 = this.background(e10).getTone(e10), c2 = "nearer" === o2 || "lighter" === o2 && !e10.isDark || "darker" === o2 && e10.isDark, u2 = c2 ? n10 : a2, d2 = c2 ? a2 : n10, f2 = this.name === u2.name, h2 = e10.isDark ? 1 : -1, m2 = u2.contrastCurve.get(e10.contrastLevel), p2 = d2.contrastCurve.get(e10.contrastLevel), g2 = u2.tone(e10), v2 = t3.ratioOfTones(l2, g2) >= m2 ? g2 : t9.foregroundTone(l2, m2), b2 = d2.tone(e10), y2 = t3.ratioOfTones(l2, b2) >= p2 ? b2 : t9.foregroundTone(l2, p2);
       return t10 && (v2 = t9.foregroundTone(l2, m2), y2 = t9.foregroundTone(l2, p2)), (y2 - v2) * h2 >= i2 || ((y2 = tj(0, 100, v2 + i2 * h2)) - v2) * h2 >= i2 || (v2 = tj(0, 100, y2 - i2 * h2)), 50 <= v2 && v2 < 60 ? y2 = h2 > 0 ? Math.max(y2, (v2 = 60) + i2 * h2) : Math.min(y2, (v2 = 49) + i2 * h2) : 50 <= y2 && y2 < 60 && (y2 = s2 ? h2 > 0 ? Math.max(y2, (v2 = 60) + i2 * h2) : Math.min(y2, (v2 = 49) + i2 * h2) : h2 > 0 ? 60 : 49), f2 ? v2 : y2;
     }
     {
       let r10 = this.tone(e10);
       if (null == this.background) return r10;
-      let n6 = this.background(e10).getTone(e10), a2 = this.contrastCurve.get(e10.contrastLevel);
-      if (t3.ratioOfTones(n6, r10) >= a2 || (r10 = t9.foregroundTone(n6, a2)), t10 && (r10 = t9.foregroundTone(n6, a2)), this.isBackground && 50 <= r10 && r10 < 60 && (r10 = t3.ratioOfTones(49, n6) >= a2 ? 49 : 60), this.secondBackground) {
-        let [t11, n7] = [this.background, this.secondBackground], [i2, o2] = [t11(e10).getTone(e10), n7(e10).getTone(e10)], [s2, l2] = [Math.max(i2, o2), Math.min(i2, o2)];
+      let n10 = this.background(e10).getTone(e10), a2 = this.contrastCurve.get(e10.contrastLevel);
+      if (t3.ratioOfTones(n10, r10) >= a2 || (r10 = t9.foregroundTone(n10, a2)), t10 && (r10 = t9.foregroundTone(n10, a2)), this.isBackground && 50 <= r10 && r10 < 60 && (r10 = t3.ratioOfTones(49, n10) >= a2 ? 49 : 60), this.secondBackground) {
+        let [t11, n11] = [this.background, this.secondBackground], [i2, o2] = [t11(e10).getTone(e10), n11(e10).getTone(e10)], [s2, l2] = [Math.max(i2, o2), Math.min(i2, o2)];
         if (t3.ratioOfTones(s2, r10) >= a2 && t3.ratioOfTones(l2, r10) >= a2) return r10;
         let c2 = t3.lighter(s2, a2), u2 = t3.darker(l2, a2), d2 = [];
         return (-1 !== c2 && d2.push(c2), -1 !== u2 && d2.push(u2), t9.tonePrefersLightForeground(i2) || t9.tonePrefersLightForeground(o2)) ? c2 < 0 ? 100 : c2 : 1 === d2.length ? d2[0] : u2 < 0 ? 0 : u2;
@@ -1182,11 +1182,11 @@ class t9 {
     }
   }
   static foregroundTone(e10, t10) {
-    let r10 = t3.lighterUnsafe(e10, t10), n6 = t3.darkerUnsafe(e10, t10), a2 = t3.ratioOfTones(r10, e10), i2 = t3.ratioOfTones(n6, e10);
-    if (!t9.tonePrefersLightForeground(e10)) return i2 >= t10 || i2 >= a2 ? n6 : r10;
+    let r10 = t3.lighterUnsafe(e10, t10), n10 = t3.darkerUnsafe(e10, t10), a2 = t3.ratioOfTones(r10, e10), i2 = t3.ratioOfTones(n10, e10);
+    if (!t9.tonePrefersLightForeground(e10)) return i2 >= t10 || i2 >= a2 ? n10 : r10;
     {
       let e11 = 0.1 > Math.abs(a2 - i2) && a2 < t10 && i2 < t10;
-      return a2 >= t10 || a2 >= i2 || e11 ? r10 : n6;
+      return a2 >= t10 || a2 >= i2 || e11 ? r10 : n10;
     }
   }
   static tonePrefersLightForeground(e10) {
@@ -1229,14 +1229,14 @@ class t7 {
   create() {
     let e10 = 0, t10 = 100;
     for (; e10 < t10; ) {
-      let r10 = Math.floor((e10 + t10) / 2), n6 = this.maxChroma(r10) < this.maxChroma(r10 + 1);
+      let r10 = Math.floor((e10 + t10) / 2), n10 = this.maxChroma(r10) < this.maxChroma(r10 + 1);
       if (this.maxChroma(r10) >= this.requestedChroma - 0.01) {
         if (Math.abs(e10 - 50) < Math.abs(t10 - 50)) t10 = r10;
         else {
           if (e10 === r10) return t5.from(this.hue, this.requestedChroma, e10);
           e10 = r10;
         }
-      } else n6 ? e10 = r10 + 1 : t10 = r10;
+      } else n10 ? e10 = r10 + 1 : t10 = r10;
     }
     return t5.from(this.hue, this.requestedChroma, e10);
   }
@@ -1247,12 +1247,12 @@ class t7 {
   }
 }
 class re {
-  constructor(e10, t10, r10, n6) {
-    this.low = e10, this.normal = t10, this.medium = r10, this.high = n6;
+  constructor(e10, t10, r10, n10) {
+    this.low = e10, this.normal = t10, this.medium = r10, this.high = n10;
   }
   get(e10) {
-    var t10, r10, n6, a2, i2, o2, s2, l2, c2;
-    return e10 <= -1 ? this.low : e10 < 0 ? (t10 = this.low, r10 = this.normal, (1 - (n6 = (e10 - -1) / 1)) * t10 + n6 * r10) : e10 < 0.5 ? (a2 = this.normal, i2 = this.medium, (1 - (o2 = (e10 - 0) / 0.5)) * a2 + o2 * i2) : e10 < 1 ? (s2 = this.medium, l2 = this.high, (1 - (c2 = (e10 - 0.5) / 0.5)) * s2 + c2 * l2) : this.high;
+    var t10, r10, n10, a2, i2, o2, s2, l2, c2;
+    return e10 <= -1 ? this.low : e10 < 0 ? (t10 = this.low, r10 = this.normal, (1 - (n10 = (e10 - -1) / 1)) * t10 + n10 * r10) : e10 < 0.5 ? (a2 = this.normal, i2 = this.medium, (1 - (o2 = (e10 - 0) / 0.5)) * a2 + o2 * i2) : e10 < 1 ? (s2 = this.medium, l2 = this.high, (1 - (c2 = (e10 - 0.5) / 0.5)) * s2 + c2 * l2) : this.high;
   }
 }
 /**
@@ -1272,8 +1272,8 @@ class re {
 * limitations under the License.
 */
 class rt {
-  constructor(e10, t10, r10, n6, a2) {
-    this.roleA = e10, this.roleB = t10, this.delta = r10, this.polarity = n6, this.stayTogether = a2;
+  constructor(e10, t10, r10, n10, a2) {
+    this.roleA = e10, this.roleB = t10, this.delta = r10, this.polarity = n10, this.stayTogether = a2;
   }
 }
 function rr(e10) {
@@ -1290,12 +1290,12 @@ class ra {
 }
 ra.contentAccentToneDelta = 15, ra.primaryPaletteKeyColor = t9.fromPalette({ name: "primary_palette_key_color", palette: (e10) => e10.primaryPalette, tone: (e10) => e10.primaryPalette.keyColor.tone }), ra.secondaryPaletteKeyColor = t9.fromPalette({ name: "secondary_palette_key_color", palette: (e10) => e10.secondaryPalette, tone: (e10) => e10.secondaryPalette.keyColor.tone }), ra.tertiaryPaletteKeyColor = t9.fromPalette({ name: "tertiary_palette_key_color", palette: (e10) => e10.tertiaryPalette, tone: (e10) => e10.tertiaryPalette.keyColor.tone }), ra.neutralPaletteKeyColor = t9.fromPalette({ name: "neutral_palette_key_color", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.neutralPalette.keyColor.tone }), ra.neutralVariantPaletteKeyColor = t9.fromPalette({ name: "neutral_variant_palette_key_color", palette: (e10) => e10.neutralVariantPalette, tone: (e10) => e10.neutralVariantPalette.keyColor.tone }), ra.background = t9.fromPalette({ name: "background", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 6 : 98, isBackground: true }), ra.onBackground = t9.fromPalette({ name: "on_background", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 90 : 10, background: (e10) => ra.background, contrastCurve: new re(3, 3, 4.5, 7) }), ra.surface = t9.fromPalette({ name: "surface", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 6 : 98, isBackground: true }), ra.surfaceDim = t9.fromPalette({ name: "surface_dim", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 6 : new re(87, 87, 80, 75).get(e10.contrastLevel), isBackground: true }), ra.surfaceBright = t9.fromPalette({ name: "surface_bright", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? new re(24, 24, 29, 34).get(e10.contrastLevel) : 98, isBackground: true }), ra.surfaceContainerLowest = t9.fromPalette({ name: "surface_container_lowest", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? new re(4, 4, 2, 0).get(e10.contrastLevel) : 100, isBackground: true }), ra.surfaceContainerLow = t9.fromPalette({ name: "surface_container_low", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? new re(10, 10, 11, 12).get(e10.contrastLevel) : new re(96, 96, 96, 95).get(e10.contrastLevel), isBackground: true }), ra.surfaceContainer = t9.fromPalette({ name: "surface_container", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? new re(12, 12, 16, 20).get(e10.contrastLevel) : new re(94, 94, 92, 90).get(e10.contrastLevel), isBackground: true }), ra.surfaceContainerHigh = t9.fromPalette({ name: "surface_container_high", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? new re(17, 17, 21, 25).get(e10.contrastLevel) : new re(92, 92, 88, 85).get(e10.contrastLevel), isBackground: true }), ra.surfaceContainerHighest = t9.fromPalette({ name: "surface_container_highest", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? new re(22, 22, 26, 30).get(e10.contrastLevel) : new re(90, 90, 84, 80).get(e10.contrastLevel), isBackground: true }), ra.onSurface = t9.fromPalette({ name: "on_surface", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 90 : 10, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(4.5, 7, 11, 21) }), ra.surfaceVariant = t9.fromPalette({ name: "surface_variant", palette: (e10) => e10.neutralVariantPalette, tone: (e10) => e10.isDark ? 30 : 90, isBackground: true }), ra.onSurfaceVariant = t9.fromPalette({ name: "on_surface_variant", palette: (e10) => e10.neutralVariantPalette, tone: (e10) => e10.isDark ? 80 : 30, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(3, 4.5, 7, 11) }), ra.inverseSurface = t9.fromPalette({ name: "inverse_surface", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 90 : 20 }), ra.inverseOnSurface = t9.fromPalette({ name: "inverse_on_surface", palette: (e10) => e10.neutralPalette, tone: (e10) => e10.isDark ? 20 : 95, background: (e10) => ra.inverseSurface, contrastCurve: new re(4.5, 7, 11, 21) }), ra.outline = t9.fromPalette({ name: "outline", palette: (e10) => e10.neutralVariantPalette, tone: (e10) => e10.isDark ? 60 : 50, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(1.5, 3, 4.5, 7) }), ra.outlineVariant = t9.fromPalette({ name: "outline_variant", palette: (e10) => e10.neutralVariantPalette, tone: (e10) => e10.isDark ? 30 : 80, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(1, 1, 3, 4.5) }), ra.shadow = t9.fromPalette({ name: "shadow", palette: (e10) => e10.neutralPalette, tone: (e10) => 0 }), ra.scrim = t9.fromPalette({ name: "scrim", palette: (e10) => e10.neutralPalette, tone: (e10) => 0 }), ra.surfaceTint = t9.fromPalette({ name: "surface_tint", palette: (e10) => e10.primaryPalette, tone: (e10) => e10.isDark ? 80 : 40, isBackground: true }), ra.primary = t9.fromPalette({ name: "primary", palette: (e10) => e10.primaryPalette, tone: (e10) => rn(e10) ? e10.isDark ? 100 : 0 : e10.isDark ? 80 : 40, isBackground: true, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(3, 4.5, 7, 7), toneDeltaPair: (e10) => new rt(ra.primaryContainer, ra.primary, 10, "nearer", false) }), ra.onPrimary = t9.fromPalette({ name: "on_primary", palette: (e10) => e10.primaryPalette, tone: (e10) => rn(e10) ? e10.isDark ? 10 : 90 : e10.isDark ? 20 : 100, background: (e10) => ra.primary, contrastCurve: new re(4.5, 7, 11, 21) }), ra.primaryContainer = t9.fromPalette({ name: "primary_container", palette: (e10) => e10.primaryPalette, tone: (e10) => rr(e10) ? e10.sourceColorHct.tone : rn(e10) ? e10.isDark ? 85 : 25 : e10.isDark ? 30 : 90, isBackground: true, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(1, 1, 3, 4.5), toneDeltaPair: (e10) => new rt(ra.primaryContainer, ra.primary, 10, "nearer", false) }), ra.onPrimaryContainer = t9.fromPalette({ name: "on_primary_container", palette: (e10) => e10.primaryPalette, tone: (e10) => rr(e10) ? t9.foregroundTone(ra.primaryContainer.tone(e10), 4.5) : rn(e10) ? e10.isDark ? 0 : 100 : e10.isDark ? 90 : 30, background: (e10) => ra.primaryContainer, contrastCurve: new re(3, 4.5, 7, 11) }), ra.inversePrimary = t9.fromPalette({ name: "inverse_primary", palette: (e10) => e10.primaryPalette, tone: (e10) => e10.isDark ? 40 : 80, background: (e10) => ra.inverseSurface, contrastCurve: new re(3, 4.5, 7, 7) }), ra.secondary = t9.fromPalette({ name: "secondary", palette: (e10) => e10.secondaryPalette, tone: (e10) => e10.isDark ? 80 : 40, isBackground: true, background: (e10) => ra.highestSurface(e10), contrastCurve: new re(3, 4.5, 7, 7), toneDeltaPair: (e10) => new rt(ra.secondaryContainer, ra.secondary, 10, "nearer", false) }), ra.onSecondary = t9.fromPalette({ name: "on_secondary", palette: (e10) => e10.secondaryPalette, tone: (e10) => rn(e10) ? e10.isDark ? 10 : 100 : e10.isDark ? 20 : 100, background: (e10) => ra.secondary, contrastCurve: new re(4.5, 7, 11, 21) }), ra.secondaryContainer = t9.fromPalette({ name: "secondary_container", palette: (e10) => e10.secondaryPalette, tone: (e10) => {
   let t10 = e10.isDark ? 30 : 90;
-  return rn(e10) ? e10.isDark ? 30 : 85 : rr(e10) ? function(e11, t11, r10, n6) {
+  return rn(e10) ? e10.isDark ? 30 : 85 : rr(e10) ? function(e11, t11, r10, n10) {
     let a2 = r10, i2 = t5.from(e11, t11, r10);
     if (i2.chroma < t11) {
       let r11 = i2.chroma;
       for (; i2.chroma < t11; ) {
-        a2 += n6 ? -1 : 1;
+        a2 += n10 ? -1 : 1;
         let o2 = t5.from(e11, t11, a2);
         if (r11 > o2.chroma || 0.4 > Math.abs(o2.chroma - t11)) break;
         Math.abs(o2.chroma - t11) < Math.abs(i2.chroma - t11) && (i2 = o2), r11 = Math.max(r11, o2.chroma);
@@ -1325,37 +1325,37 @@ class ri {
   static createPaletteFromColors(e10, t10) {
     let r10 = new ri(t10.primary, e10);
     if (t10.secondary) {
-      let n6 = new ri(t10.secondary, e10);
-      r10.a2 = n6.a1;
+      let n10 = new ri(t10.secondary, e10);
+      r10.a2 = n10.a1;
     }
     if (t10.tertiary) {
-      let n6 = new ri(t10.tertiary, e10);
-      r10.a3 = n6.a1;
+      let n10 = new ri(t10.tertiary, e10);
+      r10.a3 = n10.a1;
     }
     if (t10.error) {
-      let n6 = new ri(t10.error, e10);
-      r10.error = n6.a1;
+      let n10 = new ri(t10.error, e10);
+      r10.error = n10.a1;
     }
     if (t10.neutral) {
-      let n6 = new ri(t10.neutral, e10);
-      r10.n1 = n6.n1;
+      let n10 = new ri(t10.neutral, e10);
+      r10.n1 = n10.n1;
     }
     if (t10.neutralVariant) {
-      let n6 = new ri(t10.neutralVariant, e10);
-      r10.n2 = n6.n2;
+      let n10 = new ri(t10.neutralVariant, e10);
+      r10.n2 = n10.n2;
     }
     return r10;
   }
   constructor(e10, t10) {
-    let r10 = t5.fromInt(e10), n6 = r10.hue, a2 = r10.chroma;
-    t10 ? (this.a1 = t6.fromHueAndChroma(n6, a2), this.a2 = t6.fromHueAndChroma(n6, a2 / 3), this.a3 = t6.fromHueAndChroma(n6 + 60, a2 / 2), this.n1 = t6.fromHueAndChroma(n6, Math.min(a2 / 12, 4)), this.n2 = t6.fromHueAndChroma(n6, Math.min(a2 / 6, 8))) : (this.a1 = t6.fromHueAndChroma(n6, Math.max(48, a2)), this.a2 = t6.fromHueAndChroma(n6, 16), this.a3 = t6.fromHueAndChroma(n6 + 60, 24), this.n1 = t6.fromHueAndChroma(n6, 4), this.n2 = t6.fromHueAndChroma(n6, 8)), this.error = t6.fromHueAndChroma(25, 84);
+    let r10 = t5.fromInt(e10), n10 = r10.hue, a2 = r10.chroma;
+    t10 ? (this.a1 = t6.fromHueAndChroma(n10, a2), this.a2 = t6.fromHueAndChroma(n10, a2 / 3), this.a3 = t6.fromHueAndChroma(n10 + 60, a2 / 2), this.n1 = t6.fromHueAndChroma(n10, Math.min(a2 / 12, 4)), this.n2 = t6.fromHueAndChroma(n10, Math.min(a2 / 6, 8))) : (this.a1 = t6.fromHueAndChroma(n10, Math.max(48, a2)), this.a2 = t6.fromHueAndChroma(n10, 16), this.a3 = t6.fromHueAndChroma(n10 + 60, 24), this.n1 = t6.fromHueAndChroma(n10, 4), this.n2 = t6.fromHueAndChroma(n10, 8)), this.error = t6.fromHueAndChroma(25, 84);
   }
 }
 function ro(e10) {
-  let t10 = 3 === (e10 = e10.replace("#", "")).length, r10 = 6 === e10.length, n6 = 8 === e10.length;
-  if (!t10 && !r10 && !n6) throw Error("unexpected hex " + e10);
+  let t10 = 3 === (e10 = e10.replace("#", "")).length, r10 = 6 === e10.length, n10 = 8 === e10.length;
+  if (!t10 && !r10 && !n10) throw Error("unexpected hex " + e10);
   let a2 = 0, i2 = 0, o2 = 0;
-  return t10 ? (a2 = rs(e10.slice(0, 1).repeat(2)), i2 = rs(e10.slice(1, 2).repeat(2)), o2 = rs(e10.slice(2, 3).repeat(2))) : r10 ? (a2 = rs(e10.slice(0, 2)), i2 = rs(e10.slice(2, 4)), o2 = rs(e10.slice(4, 6))) : n6 && (a2 = rs(e10.slice(2, 4)), i2 = rs(e10.slice(4, 6)), o2 = rs(e10.slice(6, 8))), (-16777216 | (255 & a2) << 16 | (255 & i2) << 8 | 255 & o2) >>> 0;
+  return t10 ? (a2 = rs(e10.slice(0, 1).repeat(2)), i2 = rs(e10.slice(1, 2).repeat(2)), o2 = rs(e10.slice(2, 3).repeat(2))) : r10 ? (a2 = rs(e10.slice(0, 2)), i2 = rs(e10.slice(2, 4)), o2 = rs(e10.slice(4, 6))) : n10 && (a2 = rs(e10.slice(2, 4)), i2 = rs(e10.slice(4, 6)), o2 = rs(e10.slice(6, 8))), (-16777216 | (255 & a2) << 16 | (255 & i2) << 8 | 255 & o2) >>> 0;
 }
 function rs(e10) {
   return parseInt(e10, 16);
@@ -1369,32 +1369,32 @@ const _rd = class _rd {
     this.seeds = e10;
   }
   static createRoleColorRuleBuilder(e10) {
-    let t10 = {}, r10 = new Proxy({}, { get: (n6, a2) => "build" == a2 ? () => t10 : (n7, a3) => (t10[`${n7}${e10 ? `:${e10}` : ""}`] = a3, r10) });
+    let t10 = {}, r10 = new Proxy({}, { get: (n10, a2) => "build" == a2 ? () => t10 : (n11, a3) => (t10[`${n11}${e10 ? `:${e10}` : ""}`] = a3, r10) });
     return r10;
   }
   static createRoleColorSourcePicker() {
     return new Proxy({}, { get: (e10, t10) => (e11) => [t10, e11] });
   }
   normalizeRoleRules() {
-    let e10 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t10 = _rd.createRoleColorSourcePicker(), r10 = _rd.createRoleColorRuleBuilder().rule("shadow", t10.neutral(0)).rule("scrim", t10.neutral(0)).rule("outline", t10.neutralVariant(87)).rule("outline-variant", t10.neutralVariant(80)).rule("surface", t10.neutral(99)).rule("on-surface", t10.neutral(10)).rule("surface-variant", t10.neutralVariant(90)).rule("on-surface-variant", t10.neutralVariant(30)).rule("surface-dim", t10.neutral(87)).rule("surface-bright", t10.neutral(98)).rule("surface-container-lowest", t10.neutral(100)).rule("surface-container-low", t10.neutral(96)).rule("surface-container", t10.neutral(94)).rule("surface-container-high", t10.neutral(92)).rule("surface-container-highest", t10.neutral(90)).rule("inverse-surface", t10.neutral(20)).rule("inverse-on-surface", t10.neutral(95)).rule("inverse-primary", t10.primary(80)), n6 = _rd.createRoleColorRuleBuilder("dark").rule("shadow", t10.neutral(0)).rule("scrim", t10.neutral(0)).rule("outline", t10.neutralVariant(60)).rule("outline-variant", t10.neutralVariant(30)).rule("surface", t10.neutral(10)).rule("on-surface", t10.neutral(90)).rule("surface-variant", t10.neutralVariant(30)).rule("on-surface-variant", t10.neutralVariant(80)).rule("surface-dim", t10.neutral(6)).rule("surface-bright", t10.neutral(24)).rule("surface-container-lowest", t10.neutral(4)).rule("surface-container-low", t10.neutral(10)).rule("surface-container", t10.neutral(12)).rule("surface-container-high", t10.neutral(17)).rule("surface-container-highest", t10.neutral(22)).rule("inverse-surface", t10.neutral(90)).rule("inverse-on-surface", t10.neutral(20)).rule("inverse-primary", t10.primary(40));
-    for (let e11 in this.seeds) e11.startsWith("neutral") || (r10 = r10.rule(e11, t10[e11](40)).rule(`on-${e11}`, t10[e11](100)).rule(`${e11}-container`, t10[e11](90)).rule(`on-${e11}-container`, t10[e11](10)), n6 = n6.rule(e11, t10[e11](80)).rule(`on-${e11}`, t10[e11](20)).rule(`${e11}-container`, t10[e11](30)).rule(`on-${e11}-container`, t10[e11](90)));
-    return { ...r10.build(), ...n6.build(), ...e10 };
+    let e10 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t10 = _rd.createRoleColorSourcePicker(), r10 = _rd.createRoleColorRuleBuilder().rule("shadow", t10.neutral(0)).rule("scrim", t10.neutral(0)).rule("outline", t10.neutralVariant(87)).rule("outline-variant", t10.neutralVariant(80)).rule("surface", t10.neutral(99)).rule("on-surface", t10.neutral(10)).rule("surface-variant", t10.neutralVariant(90)).rule("on-surface-variant", t10.neutralVariant(30)).rule("surface-dim", t10.neutral(87)).rule("surface-bright", t10.neutral(98)).rule("surface-container-lowest", t10.neutral(100)).rule("surface-container-low", t10.neutral(96)).rule("surface-container", t10.neutral(94)).rule("surface-container-high", t10.neutral(92)).rule("surface-container-highest", t10.neutral(90)).rule("inverse-surface", t10.neutral(20)).rule("inverse-on-surface", t10.neutral(95)).rule("inverse-primary", t10.primary(80)), n10 = _rd.createRoleColorRuleBuilder("dark").rule("shadow", t10.neutral(0)).rule("scrim", t10.neutral(0)).rule("outline", t10.neutralVariant(60)).rule("outline-variant", t10.neutralVariant(30)).rule("surface", t10.neutral(10)).rule("on-surface", t10.neutral(90)).rule("surface-variant", t10.neutralVariant(30)).rule("on-surface-variant", t10.neutralVariant(80)).rule("surface-dim", t10.neutral(6)).rule("surface-bright", t10.neutral(24)).rule("surface-container-lowest", t10.neutral(4)).rule("surface-container-low", t10.neutral(10)).rule("surface-container", t10.neutral(12)).rule("surface-container-high", t10.neutral(17)).rule("surface-container-highest", t10.neutral(22)).rule("inverse-surface", t10.neutral(90)).rule("inverse-on-surface", t10.neutral(20)).rule("inverse-primary", t10.primary(40));
+    for (let e11 in this.seeds) e11.startsWith("neutral") || (r10 = r10.rule(e11, t10[e11](40)).rule(`on-${e11}`, t10[e11](100)).rule(`${e11}-container`, t10[e11](90)).rule(`on-${e11}-container`, t10[e11](10)), n10 = n10.rule(e11, t10[e11](80)).rule(`on-${e11}`, t10[e11](20)).rule(`${e11}-container`, t10[e11](30)).rule(`on-${e11}-container`, t10[e11](90)));
+    return { ...r10.build(), ...n10.build(), ...e10 };
   }
   getThemeRoleColors(e10) {
     let t10 = {}, r10 = {};
     for (let [i2, [o2, s2]] of Object.entries(e10)) if (this.seeds[o2]) {
-      var n6, a2;
+      var n10, a2;
       if (i2.endsWith(":dark")) {
         r10[i2.split(":")[0]] = rl[s2] ? `${String(o2)}.${s2}` : null === (a2 = this.seeds[o2]) || void 0 === a2 ? void 0 : a2.tone(s2);
         continue;
       }
-      t10[i2] = rl[s2] ? `${String(o2)}.${s2}` : null === (n6 = this.seeds[o2]) || void 0 === n6 ? void 0 : n6.tone(s2);
+      t10[i2] = rl[s2] ? `${String(o2)}.${s2}` : null === (n10 = this.seeds[o2]) || void 0 === n10 ? void 0 : n10.tone(s2);
     }
     return [t10, r10];
   }
   toDesignTokens() {
-    let e10 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t10 = this.normalizeRoleRules(e10), [r10, n6] = this.getThemeRoleColors(t10), a2 = {}, i2 = {};
-    for (let e11 in r10) if (a2[`${e11}`] = { _default: z(r10[e11]) ? rc(r10[e11]) : r10[e11], _dark: z(n6[e11]) ? rc(n6[e11]) : n6[e11] }, ru(e11) && (i2[`${e11}`] = tP.mixin({ bgColor: `sys.${e11}`, color: `sys.on-${e11}` }), i2[`${e11}-container`] = tP.mixin({ bgColor: `sys.${e11}-container`, color: `sys.on-${e11}-container` })), e11.startsWith("surface")) {
+    let e10 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t10 = this.normalizeRoleRules(e10), [r10, n10] = this.getThemeRoleColors(t10), a2 = {}, i2 = {};
+    for (let e11 in r10) if (a2[`${e11}`] = { _default: z(r10[e11]) ? rc(r10[e11]) : r10[e11], _dark: z(n10[e11]) ? rc(n10[e11]) : n10[e11] }, ru(e11) && (i2[`${e11}`] = tP.mixin({ bgColor: `sys.${e11}`, color: `sys.on-${e11}` }), i2[`${e11}-container`] = tP.mixin({ bgColor: `sys.${e11}-container`, color: `sys.on-${e11}-container` })), e11.startsWith("surface")) {
       if (e11.includes("container")) {
         i2[`${e11}`] = tP.mixin({ bgColor: `sys.${e11}`, color: "sys.on-surface" });
         continue;
@@ -1407,7 +1407,7 @@ const _rd = class _rd {
 };
 __publicField(_rd, "toHEX", (e10) => `#${rc(e10).map((e11) => j(e11.toString(16), 2, "0")).join("")}`);
 __publicField(_rd, "fromColors", (e10) => {
-  let { primary: t10, secondary: r10, tertiary: n6, neutral: a2, neutralVariant: i2, error: o2, ...s2 } = e10, l2 = ri.contentFromColors({ primary: ro(t10), secondary: r10 ? ro(r10) : void 0, tertiary: n6 ? ro(n6) : void 0, error: o2 ? ro(o2) : void 0 });
+  let { primary: t10, secondary: r10, tertiary: n10, neutral: a2, neutralVariant: i2, error: o2, ...s2 } = e10, l2 = ri.contentFromColors({ primary: ro(t10), secondary: r10 ? ro(r10) : void 0, tertiary: n10 ? ro(n10) : void 0, error: o2 ? ro(o2) : void 0 });
   return a2 && (l2.n1 = t6.fromHueAndChroma(ro(a2), 4)), i2 && (l2.n2 = t6.fromHueAndChroma(ro(i2), 8)), new _rd({ primary: l2.a1, secondary: l2.a2, tertiary: l2.a3, neutral: l2.n1, neutralVariant: l2.n2, error: l2.error, ...A(s2, (e11) => t6.fromInt(ro(e11))) });
 });
 let rd = _rd;
@@ -1430,12 +1430,12 @@ var rb = function() {
     }
     var r10 = this.tags[this.tags.length - 1];
     if (this.isSpeedy) {
-      var n6 = function(e12) {
+      var n10 = function(e12) {
         if (e12.sheet) return e12.sheet;
         for (var t12 = 0; t12 < document.styleSheets.length; t12++) if (document.styleSheets[t12].ownerNode === e12) return document.styleSheets[t12];
       }(r10);
       try {
-        n6.insertRule(e11, n6.cssRules.length);
+        n10.insertRule(e11, n10.cssRules.length);
       } catch (e12) {
       }
     } else r10.appendChild(document.createTextNode(e11));
@@ -1466,8 +1466,8 @@ function rI(e10, t10) {
   return t10.push(e10), e10;
 }
 var rA = 1, rF = 1, rB = 0, rV = 0, rE = 0, rz = "";
-function rH(e10, t10, r10, n6, a2, i2, o2) {
-  return { value: e10, root: t10, parent: r10, type: n6, props: a2, children: i2, line: rA, column: rF, length: o2, return: "" };
+function rH(e10, t10, r10, n10, a2, i2, o2) {
+  return { value: e10, root: t10, parent: r10, type: n10, props: a2, children: i2, line: rA, column: rF, length: o2, return: "" };
 }
 function rj(e10, t10) {
   return rR(rH("", null, null, "", null, null, 0), e10, { length: -e10.length }, t10);
@@ -1532,18 +1532,18 @@ function rG(e10) {
     return rV;
   }(91 === e10 ? e10 + 2 : 40 === e10 ? e10 + 1 : e10), rO(rz, t10, r10)).trim();
 }
-function rY(e10, t10, r10, n6, a2, i2, o2, s2, l2, c2, u2) {
-  for (var d2 = a2 - 1, f2 = 0 === a2 ? i2 : [""], h2 = f2.length, m2 = 0, p2 = 0, g2 = 0; m2 < n6; ++m2) for (var v2 = 0, b2 = rO(e10, d2 + 1, d2 = r_(p2 = o2[m2])), y2 = e10; v2 < h2; ++v2) (y2 = (p2 > 0 ? f2[v2] + " " + b2 : rT(b2, /&\f/g, f2[v2])).trim()) && (l2[g2++] = y2);
+function rY(e10, t10, r10, n10, a2, i2, o2, s2, l2, c2, u2) {
+  for (var d2 = a2 - 1, f2 = 0 === a2 ? i2 : [""], h2 = f2.length, m2 = 0, p2 = 0, g2 = 0; m2 < n10; ++m2) for (var v2 = 0, b2 = rO(e10, d2 + 1, d2 = r_(p2 = o2[m2])), y2 = e10; v2 < h2; ++v2) (y2 = (p2 > 0 ? f2[v2] + " " + b2 : rT(b2, /&\f/g, f2[v2])).trim()) && (l2[g2++] = y2);
   return rH(e10, t10, r10, 0 === a2 ? rC : s2, l2, c2, u2);
 }
-function rX(e10, t10, r10, n6) {
-  return rH(e10, t10, r10, rM, rO(e10, 0, n6), rO(e10, n6 + 1, -1), n6);
+function rX(e10, t10, r10, n10) {
+  return rH(e10, t10, r10, rM, rO(e10, 0, n10), rO(e10, n10 + 1, -1), n10);
 }
 function rJ(e10, t10) {
-  for (var r10 = "", n6 = e10.length, a2 = 0; a2 < n6; a2++) r10 += t10(e10[a2], a2, e10, t10) || "";
+  for (var r10 = "", n10 = e10.length, a2 = 0; a2 < n10; a2++) r10 += t10(e10[a2], a2, e10, t10) || "";
   return r10;
 }
-function rK(e10, t10, r10, n6) {
+function rK(e10, t10, r10, n10) {
   switch (e10.type) {
     case "@layer":
       if (e10.children.length) break;
@@ -1553,42 +1553,42 @@ function rK(e10, t10, r10, n6) {
     case rk:
       return "";
     case rP:
-      return e10.return = e10.value + "{" + rJ(e10.children, n6) + "}";
+      return e10.return = e10.value + "{" + rJ(e10.children, n10) + "}";
     case rC:
       e10.value = e10.props.join(",");
   }
-  return rL(r10 = rJ(e10.children, n6)) ? e10.return = e10.value + "{" + r10 + "}" : "";
+  return rL(r10 = rJ(e10.children, n10)) ? e10.return = e10.value + "{" + r10 + "}" : "";
 }
 var rZ = function(e10, t10, r10) {
-  for (var n6 = 0, a2 = 0; n6 = a2, a2 = rN(), 38 === n6 && 12 === a2 && (t10[r10] = 1), !rq(a2); ) rW();
+  for (var n10 = 0, a2 = 0; n10 = a2, a2 = rN(), 38 === n10 && 12 === a2 && (t10[r10] = 1), !rq(a2); ) rW();
   return rO(rz, e10, rV);
 }, rQ = function(e10, t10) {
-  var r10 = -1, n6 = 44;
+  var r10 = -1, n10 = 44;
   do
-    switch (rq(n6)) {
+    switch (rq(n10)) {
       case 0:
-        38 === n6 && 12 === rN() && (t10[r10] = 1), e10[r10] += rZ(rV - 1, t10, r10);
+        38 === n10 && 12 === rN() && (t10[r10] = 1), e10[r10] += rZ(rV - 1, t10, r10);
         break;
       case 2:
-        e10[r10] += rG(n6);
+        e10[r10] += rG(n10);
         break;
       case 4:
-        if (44 === n6) {
+        if (44 === n10) {
           e10[++r10] = 58 === rN() ? "&\f" : "", t10[r10] = e10[r10].length;
           break;
         }
       default:
-        e10[r10] += rS(n6);
+        e10[r10] += rS(n10);
     }
-  while (n6 = rW());
+  while (n10 = rW());
   return e10;
 }, r0 = function(e10, t10) {
   var r10;
   return r10 = rQ(rU(e10), t10), rz = "", r10;
 }, r1 = /* @__PURE__ */ new WeakMap(), r2 = function(e10) {
   if ("rule" === e10.type && e10.parent && !(e10.length < 1)) {
-    for (var t10 = e10.value, r10 = e10.parent, n6 = e10.column === r10.column && e10.line === r10.line; "rule" !== r10.type; ) if (!(r10 = r10.parent)) return;
-    if ((1 !== e10.props.length || 58 === t10.charCodeAt(0) || r1.get(r10)) && !n6) {
+    for (var t10 = e10.value, r10 = e10.parent, n10 = e10.column === r10.column && e10.line === r10.line; "rule" !== r10.type; ) if (!(r10 = r10.parent)) return;
+    if ((1 !== e10.props.length || 58 === t10.charCodeAt(0) || r1.get(r10)) && !n10) {
       r1.set(e10, true);
       for (var a2 = [], i2 = r0(t10, a2), o2 = r10.props, s2 = 0, l2 = 0; s2 < i2.length; s2++) for (var c2 = 0; c2 < o2.length; c2++, l2++) e10.props[l2] = a2[s2] ? i2[s2].replace(/&\f/g, o2[c2]) : o2[c2] + " " + i2[s2];
     }
@@ -1598,7 +1598,7 @@ var rZ = function(e10, t10, r10) {
     var t10 = e10.value;
     108 === t10.charCodeAt(0) && 98 === t10.charCodeAt(2) && (e10.return = "", e10.value = "");
   }
-}, r5 = [function(e10, t10, r10, n6) {
+}, r5 = [function(e10, t10, r10, n10) {
   if (e10.length > -1 && !e10.return) switch (e10.type) {
     case rM:
       e10.return = function e11(t11, r11) {
@@ -1714,7 +1714,7 @@ var rZ = function(e10, t10, r10) {
       }(e10.value, e10.length);
       break;
     case rP:
-      return rJ([rj(e10, { value: rT(e10.value, "@", "@" + rw) })], n6);
+      return rJ([rj(e10, { value: rT(e10.value, "@", "@" + rw) })], n10);
     case rC:
       if (e10.length) {
         var a2, i2;
@@ -1723,16 +1723,16 @@ var rZ = function(e10, t10, r10) {
           switch (r11 = t11, (r11 = /(::plac\w+|:read-\w+)/.exec(r11)) ? r11[0] : r11) {
             case ":read-only":
             case ":read-write":
-              return rJ([rj(e10, { props: [rT(t11, /:(read-\w+)/, ":" + rx + "$1")] })], n6);
+              return rJ([rj(e10, { props: [rT(t11, /:(read-\w+)/, ":" + rx + "$1")] })], n10);
             case "::placeholder":
-              return rJ([rj(e10, { props: [rT(t11, /:(plac\w+)/, ":" + rw + "input-$1")] }), rj(e10, { props: [rT(t11, /:(plac\w+)/, ":" + rx + "$1")] }), rj(e10, { props: [rT(t11, /:(plac\w+)/, ry + "input-$1")] })], n6);
+              return rJ([rj(e10, { props: [rT(t11, /:(plac\w+)/, ":" + rw + "input-$1")] }), rj(e10, { props: [rT(t11, /:(plac\w+)/, ":" + rx + "$1")] }), rj(e10, { props: [rT(t11, /:(plac\w+)/, ry + "input-$1")] })], n10);
           }
           return "";
         }, a2.map(i2).join("");
       }
   }
 }], r3 = function(e10) {
-  var t10, r10, n6, a2, i2, o2, s2 = e10.key;
+  var t10, r10, n10, a2, i2, o2, s2 = e10.key;
   if ("css" === s2) {
     var l2 = document.querySelectorAll("style[data-emotion]:not([data-s])");
     Array.prototype.forEach.call(l2, function(e11) {
@@ -1744,16 +1744,16 @@ var rZ = function(e10, t10, r10) {
     for (var t11 = e11.getAttribute("data-emotion").split(" "), r11 = 1; r11 < t11.length; r11++) u2[t11[r11]] = true;
     d2.push(e11);
   });
-  var f2 = (r10 = (t10 = [r2, r4].concat(c2, [rK, (n6 = function(e11) {
+  var f2 = (r10 = (t10 = [r2, r4].concat(c2, [rK, (n10 = function(e11) {
     o2.insert(e11);
   }, function(e11) {
-    !e11.root && (e11 = e11.return) && n6(e11);
-  })])).length, function(e11, n7, a3, i3) {
-    for (var o3 = "", s3 = 0; s3 < r10; s3++) o3 += t10[s3](e11, n7, a3, i3) || "";
+    !e11.root && (e11 = e11.return) && n10(e11);
+  })])).length, function(e11, n11, a3, i3) {
+    for (var o3 = "", s3 = 0; s3 < r10; s3++) o3 += t10[s3](e11, n11, a3, i3) || "";
     return o3;
   }), h2 = function(e11) {
     var t11, r11;
-    return rJ((r11 = function e12(t12, r12, n7, a3, i3, o3, s3, l3, c3) {
+    return rJ((r11 = function e12(t12, r12, n11, a3, i3, o3, s3, l3, c3) {
       for (var u3, d3 = 0, f3 = 0, h3 = s3, m3 = 0, p2 = 0, g2 = 0, v2 = 1, b2 = 1, y2 = 1, x2 = 0, w2 = "", k2 = i3, C2 = o3, M2 = a3, P2 = w2; b2; ) switch (g2 = x2, x2 = rW()) {
         case 40:
           if (108 != g2 && 58 == r$(P2, h3 - 1)) {
@@ -1789,7 +1789,7 @@ var rZ = function(e10, t10, r10) {
                 for (; rW(); ) if (e13 + rE === 57) break;
                 else if (e13 + rE === 84 && 47 === rN()) break;
                 return "/*" + rO(rz, t13, rV - 1) + "*" + rS(47 === e13 ? e13 : rW());
-              }(rW(), rV), r12, n7, rk, rS(rE), rO(u3, 2, -2), 0), c3);
+              }(rW(), rV), r12, n11, rk, rS(rE), rO(u3, 2, -2), 0), c3);
               break;
             default:
               P2 += "/";
@@ -1805,12 +1805,12 @@ var rZ = function(e10, t10, r10) {
             case 125:
               b2 = 0;
             case 59 + f3:
-              -1 == y2 && (P2 = rT(P2, /\f/g, "")), p2 > 0 && rL(P2) - h3 && rI(p2 > 32 ? rX(P2 + ";", a3, n7, h3 - 1) : rX(rT(P2, " ", "") + ";", a3, n7, h3 - 2), c3);
+              -1 == y2 && (P2 = rT(P2, /\f/g, "")), p2 > 0 && rL(P2) - h3 && rI(p2 > 32 ? rX(P2 + ";", a3, n11, h3 - 1) : rX(rT(P2, " ", "") + ";", a3, n11, h3 - 2), c3);
               break;
             case 59:
               P2 += ";";
             default:
-              if (rI(M2 = rY(P2, r12, n7, d3, f3, i3, l3, w2, k2 = [], C2 = [], h3), o3), 123 === x2) {
+              if (rI(M2 = rY(P2, r12, n11, d3, f3, i3, l3, w2, k2 = [], C2 = [], h3), o3), 123 === x2) {
                 if (0 === f3) e12(P2, r12, M2, M2, k2, o3, h3, l3, C2);
                 else switch (99 === m3 && 110 === r$(P2, 3) ? 100 : m3) {
                   case 100:
@@ -1853,21 +1853,21 @@ var rZ = function(e10, t10, r10) {
       return o3;
     }("", null, null, null, [""], t11 = rU(t11 = e11), 0, [0], t11), rz = "", r11), f2);
   };
-  i2 = function(e11, t11, r11, n7) {
-    o2 = r11, h2(e11 ? e11 + "{" + t11.styles + "}" : t11.styles), n7 && (m2.inserted[t11.name] = true);
+  i2 = function(e11, t11, r11, n11) {
+    o2 = r11, h2(e11 ? e11 + "{" + t11.styles + "}" : t11.styles), n11 && (m2.inserted[t11.name] = true);
   };
   var m2 = { key: s2, sheet: new rb({ key: s2, container: a2, nonce: e10.nonce, speedy: e10.speedy, prepend: e10.prepend, insertionPoint: e10.insertionPoint }), nonce: e10.nonce, inserted: u2, registered: {}, insert: i2 };
   return m2.sheet.hydrate(d2), m2;
 }, r8 = function(e10, t10, r10) {
-  var n6 = e10.key + "-" + t10.name;
-  false === r10 && void 0 === e10.registered[n6] && (e10.registered[n6] = t10.styles);
+  var n10 = e10.key + "-" + t10.name;
+  false === r10 && void 0 === e10.registered[n10] && (e10.registered[n10] = t10.styles);
 }, r9 = function(e10, t10, r10) {
   r8(e10, t10, r10);
-  var n6 = e10.key + "-" + t10.name;
+  var n10 = e10.key + "-" + t10.name;
   if (void 0 === e10.inserted[t10.name]) {
     var a2 = t10;
     do
-      e10.insert(t10 === a2 ? "." + n6 : "", a2, e10.sheet, true), a2 = a2.next;
+      e10.insert(t10 === a2 ? "." + n10 : "", a2, e10.sheet, true), a2 = a2.next;
     while (void 0 !== a2);
   }
 };
@@ -1880,8 +1880,8 @@ let r6 = a(() => r3({ key: "css" }), { name: "Cache" }), r7 = (e10) => (t10) => 
     }
   }
 }, ne = t({ sx: C(), component: C().optional().default("div") }, (e10, t10) => {
-  var n6;
-  let { slots: a2, expose: l2 } = t10, c2 = rv.use(), u2 = r6.use(), d2 = c2.unstable_css(u2, null !== (n6 = e10.sx) && void 0 !== n6 ? n6 : {}), f2 = () => "0" !== d2.name ? `${u2.key}-${d2.name}` : "", h2 = r7(u2);
+  var n10;
+  let { slots: a2, expose: l2 } = t10, c2 = rv.use(), u2 = r6.use(), d2 = c2.unstable_css(u2, null !== (n10 = e10.sx) && void 0 !== n10 ? n10 : {}), f2 = () => "0" !== d2.name ? `${u2.key}-${d2.name}` : "", h2 = r7(u2);
   i(() => {
     h2({ serialized: d2, isStringTag: true });
   });
@@ -1893,7 +1893,7 @@ let r6 = a(() => r3({ key: "css" }), { name: "Cache" }), r7 = (e10) => (t10) => 
 });
 function nt() {
   let e10;
-  for (var n6 = arguments.length, a2 = Array(n6), f2 = 0; f2 < n6; f2++) a2[f2] = arguments[f2];
+  for (var n10 = arguments.length, a2 = Array(n10), f2 = 0; f2 < n10; f2++) a2[f2] = arguments[f2];
   let h2 = "div", m2 = {}, p2 = {};
   for (let t10 of a2) {
     if (V(t10)) {
@@ -1906,13 +1906,13 @@ function nt() {
     }
     E(e10) && c(t10) ? m2 = t10 : p2 = t10;
   }
-  return null != e10 || (e10 = (e11, t10) => (n7) => {
+  return null != e10 || (e10 = (e11, t10) => (n11) => {
     let a3 = {};
     for (let t11 in e11) "component" !== t11 && "sx" !== t11 && e11[t11] && (a3[`data-${t11}`] = e11[t11]);
-    return r(n7, { ...a3, children: t10.slots });
+    return r(n11, { ...a3, children: t10.slots });
   }), (r10) => {
-    let n7 = Object.assign(t({ ...m2, sx: C().optional(), component: C().optional() }, (t10, a3) => {
-      let l2 = rv.use(), c2 = r6.use(), f3 = r7(c2), m3 = o(""), p3 = l2.unstable_css(c2, r10), g2 = () => ("0" !== p3.name ? `${c2.key}-${p3.name}${m3.value}` : `${m3.value}`) + (n7.name ? ` ${n7.name}` : "");
+    let n11 = Object.assign(t({ ...m2, sx: C().optional(), component: C().optional() }, (t10, a3) => {
+      let l2 = rv.use(), c2 = r6.use(), f3 = r7(c2), m3 = o(""), p3 = l2.unstable_css(c2, r10), g2 = () => ("0" !== p3.name ? `${c2.key}-${p3.name}${m3.value}` : `${m3.value}`) + (n11.name ? ` ${n11.name}` : "");
       if (h2.__styled) {
         var v2;
         let e11 = l2.unstable_css(c2, null !== (v2 = t10.sx) && void 0 !== v2 ? v2 : {});
@@ -1932,11 +1932,11 @@ function nt() {
         return e11 ? d(e11, { component: t10.component || h2, sx: t10.sx, ref: y2, class: g2() }) : null;
       };
     }, p2), { __styled: true });
-    return n7.toString = () => `.${n7.name}`, n7;
+    return n11.toString = () => `.${n11.name}`, n11;
   };
 }
 let nr = t((e10) => {
-  let { styles: t10 } = e10, r10 = rv.use(), n6 = r6.use(), a2 = r7(n6), i2 = r10.unstable_css(n6, D(t10) ? { "&": t10 } : t10);
+  let { styles: t10 } = e10, r10 = rv.use(), n10 = r6.use(), a2 = r7(n10), i2 = r10.unstable_css(n10, D(t10) ? { "&": t10 } : t10);
   return u(() => {
     a2({ serialized: i2, withoutScoping: true });
   }), () => null;
@@ -1962,8 +1962,8 @@ class no {
   }
 }
 let ns = t((e10, t10) => {
-  var n6;
-  let { slots: a2, attrs: i2, emit: o2 } = t10, s2 = e10.contentRef || f(null), l2 = new no(null !== (n6 = e10.triggerRef) && void 0 !== n6 ? n6 : f(null), s2, () => !!e10.isOpen), c2 = na.use();
+  var n10;
+  let { slots: a2, attrs: i2, emit: o2 } = t10, s2 = e10.contentRef || f(null), l2 = new no(null !== (n10 = e10.triggerRef) && void 0 !== n10 ? n10 : f(null), s2, () => !!e10.isOpen), c2 = na.use();
   return m(ni.use().add(l2)), window && p(g(s2, "value"), y((e11) => {
     if (!e11) return;
     let t11 = (e12) => {
@@ -1982,112 +1982,113 @@ let ns = t((e10, t10) => {
     };
   }), b()), () => {
     var t11;
-    let n7 = e10.isOpen ? d(r("div", { ...i2, ref: s2, style: e10.style, children: r(ni, { value: l2, children: null === (t11 = a2.default) || void 0 === t11 ? void 0 : t11.call(a2) }) }), { onVnodeBeforeMount: () => {
+    let n11 = e10.isOpen ? d(r("div", { ...i2, ref: s2, style: e10.style, children: r(ni, { value: l2, children: null === (t11 = a2.default) || void 0 === t11 ? void 0 : t11.call(a2) }) }), { onVnodeBeforeMount: () => {
       o2("content-before-mount");
     } }) : null;
-    return r(v, { to: c2.mountPoint(), children: a2.transition ? a2.transition({ content: n7 }) : n7 });
+    return r(v, { to: c2.mountPoint(), children: a2.transition ? a2.transition({ content: n11 }) : n11 });
   };
-}, { name: "Overlay", inheritAttrs: false }, { displayName: "Overlay", props: ["isOpen", "style", "contentRef", "triggerRef"], emits: ["click-outside", "esc-keydown", "content-before-mount"] }), nl = Math.min, nc = Math.max, nu = Math.round, nd = Math.floor, nf = (e10) => ({ x: e10, y: e10 }), nh = { left: "right", right: "left", bottom: "top", top: "bottom" }, nm = { start: "end", end: "start" };
-function np(e10, t10) {
+}, { name: "Overlay", inheritAttrs: false }, { displayName: "Overlay", props: ["isOpen", "style", "contentRef", "triggerRef"], emits: ["click-outside", "esc-keydown", "content-before-mount"] }), nl = Math.min, nc = Math.max, nu = { left: "right", right: "left", bottom: "top", top: "bottom" }, nd = { start: "end", end: "start" };
+function nf(e10, t10) {
   return "function" == typeof e10 ? e10(t10) : e10;
 }
-function ng(e10) {
+function nh(e10) {
   return e10.split("-")[0];
 }
-function nv(e10) {
+function nm(e10) {
   return e10.split("-")[1];
 }
-function nb(e10) {
+function np(e10) {
   return "x" === e10 ? "y" : "x";
 }
-function ny(e10) {
+function ng(e10) {
   return "y" === e10 ? "height" : "width";
 }
+function nv(e10) {
+  return ["top", "bottom"].includes(nh(e10)) ? "y" : "x";
+}
+function nb(e10) {
+  return e10.replace(/start|end/g, (e11) => nd[e11]);
+}
+function ny(e10) {
+  return e10.replace(/left|right|bottom|top/g, (e11) => nu[e11]);
+}
 function nx(e10) {
-  return ["top", "bottom"].includes(ng(e10)) ? "y" : "x";
+  let { x: t10, y: r10, width: n10, height: a2 } = e10;
+  return { width: n10, height: a2, top: r10, left: t10, right: t10 + n10, bottom: r10 + a2, x: t10, y: r10 };
 }
-function nw(e10) {
-  return e10.replace(/start|end/g, (e11) => nm[e11]);
-}
-function nk(e10) {
-  return e10.replace(/left|right|bottom|top/g, (e11) => nh[e11]);
-}
-function nC(e10) {
-  let { x: t10, y: r10, width: n6, height: a2 } = e10;
-  return { width: n6, height: a2, top: r10, left: t10, right: t10 + n6, bottom: r10 + a2, x: t10, y: r10 };
-}
-function nM(e10, t10, r10) {
-  let n6, { reference: a2, floating: i2 } = e10, o2 = nx(t10), s2 = nb(nx(t10)), l2 = ny(s2), c2 = ng(t10), u2 = "y" === o2, d2 = a2.x + a2.width / 2 - i2.width / 2, f2 = a2.y + a2.height / 2 - i2.height / 2, h2 = a2[l2] / 2 - i2[l2] / 2;
+function nw(e10, t10, r10) {
+  let n10, { reference: a2, floating: i2 } = e10, o2 = nv(t10), s2 = np(nv(t10)), l2 = ng(s2), c2 = nh(t10), u2 = "y" === o2, d2 = a2.x + a2.width / 2 - i2.width / 2, f2 = a2.y + a2.height / 2 - i2.height / 2, h2 = a2[l2] / 2 - i2[l2] / 2;
   switch (c2) {
     case "top":
-      n6 = { x: d2, y: a2.y - i2.height };
+      n10 = { x: d2, y: a2.y - i2.height };
       break;
     case "bottom":
-      n6 = { x: d2, y: a2.y + a2.height };
+      n10 = { x: d2, y: a2.y + a2.height };
       break;
     case "right":
-      n6 = { x: a2.x + a2.width, y: f2 };
+      n10 = { x: a2.x + a2.width, y: f2 };
       break;
     case "left":
-      n6 = { x: a2.x - i2.width, y: f2 };
+      n10 = { x: a2.x - i2.width, y: f2 };
       break;
     default:
-      n6 = { x: a2.x, y: a2.y };
+      n10 = { x: a2.x, y: a2.y };
   }
-  switch (nv(t10)) {
+  switch (nm(t10)) {
     case "start":
-      n6[s2] -= h2 * (r10 && u2 ? -1 : 1);
+      n10[s2] -= h2 * (r10 && u2 ? -1 : 1);
       break;
     case "end":
-      n6[s2] += h2 * (r10 && u2 ? -1 : 1);
+      n10[s2] += h2 * (r10 && u2 ? -1 : 1);
   }
-  return n6;
+  return n10;
 }
-let nP = async (e10, t10, r10) => {
-  let { placement: n6 = "bottom", strategy: a2 = "absolute", middleware: i2 = [], platform: o2 } = r10, s2 = i2.filter(Boolean), l2 = await (null == o2.isRTL ? void 0 : o2.isRTL(t10)), c2 = await o2.getElementRects({ reference: e10, floating: t10, strategy: a2 }), { x: u2, y: d2 } = nM(c2, n6, l2), f2 = n6, h2 = {}, m2 = 0;
+let nk = async (e10, t10, r10) => {
+  let { placement: n10 = "bottom", strategy: a2 = "absolute", middleware: i2 = [], platform: o2 } = r10, s2 = i2.filter(Boolean), l2 = await (null == o2.isRTL ? void 0 : o2.isRTL(t10)), c2 = await o2.getElementRects({ reference: e10, floating: t10, strategy: a2 }), { x: u2, y: d2 } = nw(c2, n10, l2), f2 = n10, h2 = {}, m2 = 0;
   for (let r11 = 0; r11 < s2.length; r11++) {
-    let { name: i3, fn: p2 } = s2[r11], { x: g2, y: v2, data: b2, reset: y2 } = await p2({ x: u2, y: d2, initialPlacement: n6, placement: f2, strategy: a2, middlewareData: h2, rects: c2, platform: o2, elements: { reference: e10, floating: t10 } });
-    u2 = null != g2 ? g2 : u2, d2 = null != v2 ? v2 : d2, h2 = { ...h2, [i3]: { ...h2[i3], ...b2 } }, y2 && m2 <= 50 && (m2++, "object" == typeof y2 && (y2.placement && (f2 = y2.placement), y2.rects && (c2 = true === y2.rects ? await o2.getElementRects({ reference: e10, floating: t10, strategy: a2 }) : y2.rects), { x: u2, y: d2 } = nM(c2, f2, l2)), r11 = -1);
+    let { name: i3, fn: p2 } = s2[r11], { x: g2, y: v2, data: b2, reset: y2 } = await p2({ x: u2, y: d2, initialPlacement: n10, placement: f2, strategy: a2, middlewareData: h2, rects: c2, platform: o2, elements: { reference: e10, floating: t10 } });
+    u2 = null != g2 ? g2 : u2, d2 = null != v2 ? v2 : d2, h2 = { ...h2, [i3]: { ...h2[i3], ...b2 } }, y2 && m2 <= 50 && (m2++, "object" == typeof y2 && (y2.placement && (f2 = y2.placement), y2.rects && (c2 = true === y2.rects ? await o2.getElementRects({ reference: e10, floating: t10, strategy: a2 }) : y2.rects), { x: u2, y: d2 } = nw(c2, f2, l2)), r11 = -1);
   }
   return { x: u2, y: d2, placement: f2, strategy: a2, middlewareData: h2 };
 };
-async function n_(e10, t10) {
+async function nC(e10, t10) {
   var r10;
   void 0 === t10 && (t10 = {});
-  let { x: n6, y: a2, platform: i2, rects: o2, elements: s2, strategy: l2 } = e10, { boundary: c2 = "clippingAncestors", rootBoundary: u2 = "viewport", elementContext: d2 = "floating", altBoundary: f2 = false, padding: h2 = 0 } = np(t10, e10), m2 = "number" != typeof h2 ? { top: 0, right: 0, bottom: 0, left: 0, ...h2 } : { top: h2, right: h2, bottom: h2, left: h2 }, p2 = s2[f2 ? "floating" === d2 ? "reference" : "floating" : d2], g2 = nC(await i2.getClippingRect({ element: null == (r10 = await (null == i2.isElement ? void 0 : i2.isElement(p2))) || r10 ? p2 : p2.contextElement || await (null == i2.getDocumentElement ? void 0 : i2.getDocumentElement(s2.floating)), boundary: c2, rootBoundary: u2, strategy: l2 })), v2 = "floating" === d2 ? { x: n6, y: a2, width: o2.floating.width, height: o2.floating.height } : o2.reference, b2 = await (null == i2.getOffsetParent ? void 0 : i2.getOffsetParent(s2.floating)), y2 = await (null == i2.isElement ? void 0 : i2.isElement(b2)) && await (null == i2.getScale ? void 0 : i2.getScale(b2)) || { x: 1, y: 1 }, x2 = nC(i2.convertOffsetParentRelativeRectToViewportRelativeRect ? await i2.convertOffsetParentRelativeRectToViewportRelativeRect({ elements: s2, rect: v2, offsetParent: b2, strategy: l2 }) : v2);
+  let { x: n10, y: a2, platform: i2, rects: o2, elements: s2, strategy: l2 } = e10, { boundary: c2 = "clippingAncestors", rootBoundary: u2 = "viewport", elementContext: d2 = "floating", altBoundary: f2 = false, padding: h2 = 0 } = nf(t10, e10), m2 = "number" != typeof h2 ? { top: 0, right: 0, bottom: 0, left: 0, ...h2 } : { top: h2, right: h2, bottom: h2, left: h2 }, p2 = s2[f2 ? "floating" === d2 ? "reference" : "floating" : d2], g2 = nx(await i2.getClippingRect({ element: null == (r10 = await (null == i2.isElement ? void 0 : i2.isElement(p2))) || r10 ? p2 : p2.contextElement || await (null == i2.getDocumentElement ? void 0 : i2.getDocumentElement(s2.floating)), boundary: c2, rootBoundary: u2, strategy: l2 })), v2 = "floating" === d2 ? { x: n10, y: a2, width: o2.floating.width, height: o2.floating.height } : o2.reference, b2 = await (null == i2.getOffsetParent ? void 0 : i2.getOffsetParent(s2.floating)), y2 = await (null == i2.isElement ? void 0 : i2.isElement(b2)) && await (null == i2.getScale ? void 0 : i2.getScale(b2)) || { x: 1, y: 1 }, x2 = nx(i2.convertOffsetParentRelativeRectToViewportRelativeRect ? await i2.convertOffsetParentRelativeRectToViewportRelativeRect({ elements: s2, rect: v2, offsetParent: b2, strategy: l2 }) : v2);
   return { top: (g2.top - x2.top + m2.top) / y2.y, bottom: (x2.bottom - g2.bottom + m2.bottom) / y2.y, left: (g2.left - x2.left + m2.left) / y2.x, right: (x2.right - g2.right + m2.right) / y2.x };
 }
-function nS() {
+let nM = Math.min, nP = Math.max, n_ = Math.round, nS = Math.floor, nR = (e10) => ({ x: e10, y: e10 });
+function nT() {
   return "undefined" != typeof window;
 }
-function nR(e10) {
-  return n$(e10) ? (e10.nodeName || "").toLowerCase() : "#document";
+function nD(e10) {
+  return nL(e10) ? (e10.nodeName || "").toLowerCase() : "#document";
 }
-function nT(e10) {
+function n$(e10) {
   var t10;
   return (null == e10 || null == (t10 = e10.ownerDocument) ? void 0 : t10.defaultView) || window;
 }
-function nD(e10) {
-  var t10;
-  return null == (t10 = (n$(e10) ? e10.ownerDocument : e10.document) || window.document) ? void 0 : t10.documentElement;
-}
-function n$(e10) {
-  return !!nS() && (e10 instanceof Node || e10 instanceof nT(e10).Node);
-}
 function nO(e10) {
-  return !!nS() && (e10 instanceof Element || e10 instanceof nT(e10).Element);
+  var t10;
+  return null == (t10 = (nL(e10) ? e10.ownerDocument : e10.document) || window.document) ? void 0 : t10.documentElement;
 }
 function nL(e10) {
-  return !!nS() && (e10 instanceof HTMLElement || e10 instanceof nT(e10).HTMLElement);
+  return !!nT() && (e10 instanceof Node || e10 instanceof n$(e10).Node);
 }
 function nI(e10) {
-  return !!nS() && "undefined" != typeof ShadowRoot && (e10 instanceof ShadowRoot || e10 instanceof nT(e10).ShadowRoot);
+  return !!nT() && (e10 instanceof Element || e10 instanceof n$(e10).Element);
 }
 function nA(e10) {
-  let { overflow: t10, overflowX: r10, overflowY: n6, display: a2 } = nz(e10);
-  return /auto|scroll|overlay|hidden|clip/.test(t10 + n6 + r10) && !["inline", "contents"].includes(a2);
+  return !!nT() && (e10 instanceof HTMLElement || e10 instanceof n$(e10).HTMLElement);
 }
 function nF(e10) {
+  return !!nT() && "undefined" != typeof ShadowRoot && (e10 instanceof ShadowRoot || e10 instanceof n$(e10).ShadowRoot);
+}
+function nB(e10) {
+  let { overflow: t10, overflowX: r10, overflowY: n10, display: a2 } = nj(e10);
+  return /auto|scroll|overlay|hidden|clip/.test(t10 + n10 + r10) && !["inline", "contents"].includes(a2);
+}
+function nV(e10) {
   return [":popover-open", ":modal"].some((t10) => {
     try {
       return e10.matches(t10);
@@ -2096,260 +2097,264 @@ function nF(e10) {
     }
   });
 }
-function nB(e10) {
-  let t10 = nV(), r10 = nO(e10) ? nz(e10) : e10;
-  return "none" !== r10.transform || "none" !== r10.perspective || !!r10.containerType && "normal" !== r10.containerType || !t10 && !!r10.backdropFilter && "none" !== r10.backdropFilter || !t10 && !!r10.filter && "none" !== r10.filter || ["transform", "perspective", "filter"].some((e11) => (r10.willChange || "").includes(e11)) || ["paint", "layout", "strict", "content"].some((e11) => (r10.contain || "").includes(e11));
+function nE(e10) {
+  let t10 = nz(), r10 = nI(e10) ? nj(e10) : e10;
+  return ["transform", "translate", "scale", "rotate", "perspective"].some((e11) => !!r10[e11] && "none" !== r10[e11]) || !!r10.containerType && "normal" !== r10.containerType || !t10 && !!r10.backdropFilter && "none" !== r10.backdropFilter || !t10 && !!r10.filter && "none" !== r10.filter || ["transform", "translate", "scale", "rotate", "perspective", "filter"].some((e11) => (r10.willChange || "").includes(e11)) || ["paint", "layout", "strict", "content"].some((e11) => (r10.contain || "").includes(e11));
 }
-function nV() {
+function nz() {
   return "undefined" != typeof CSS && !!CSS.supports && CSS.supports("-webkit-backdrop-filter", "none");
 }
-function nE(e10) {
-  return ["html", "body", "#document"].includes(nR(e10));
-}
-function nz(e10) {
-  return nT(e10).getComputedStyle(e10);
-}
 function nH(e10) {
-  return nO(e10) ? { scrollLeft: e10.scrollLeft, scrollTop: e10.scrollTop } : { scrollLeft: e10.scrollX, scrollTop: e10.scrollY };
+  return ["html", "body", "#document"].includes(nD(e10));
 }
 function nj(e10) {
-  if ("html" === nR(e10)) return e10;
-  let t10 = e10.assignedSlot || e10.parentNode || nI(e10) && e10.host || nD(e10);
-  return nI(t10) ? t10.host : t10;
+  return n$(e10).getComputedStyle(e10);
 }
-function nW(e10, t10, r10) {
-  var n6;
-  void 0 === t10 && (t10 = []), void 0 === r10 && (r10 = true);
-  let a2 = function e11(t11) {
-    let r11 = nj(t11);
-    return nE(r11) ? t11.ownerDocument ? t11.ownerDocument.body : t11.body : nL(r11) && nA(r11) ? r11 : e11(r11);
-  }(e10), i2 = a2 === (null == (n6 = e10.ownerDocument) ? void 0 : n6.body), o2 = nT(a2);
-  if (i2) {
-    let e11 = nN(o2);
-    return t10.concat(o2, o2.visualViewport || [], nA(a2) ? a2 : [], e11 && r10 ? nW(e11) : []);
-  }
-  return t10.concat(a2, nW(a2, [], r10));
+function nW(e10) {
+  return nI(e10) ? { scrollLeft: e10.scrollLeft, scrollTop: e10.scrollTop } : { scrollLeft: e10.scrollX, scrollTop: e10.scrollY };
 }
 function nN(e10) {
-  return e10.parent && Object.getPrototypeOf(e10.parent) ? e10.frameElement : null;
+  if ("html" === nD(e10)) return e10;
+  let t10 = e10.assignedSlot || e10.parentNode || nF(e10) && e10.host || nO(e10);
+  return nF(t10) ? t10.host : t10;
 }
-function nq(e10) {
-  let t10 = nz(e10), r10 = parseFloat(t10.width) || 0, n6 = parseFloat(t10.height) || 0, a2 = nL(e10), i2 = a2 ? e10.offsetWidth : r10, o2 = a2 ? e10.offsetHeight : n6, s2 = nu(r10) !== i2 || nu(n6) !== o2;
-  return s2 && (r10 = i2, n6 = o2), { width: r10, height: n6, $: s2 };
+function nq(e10, t10, r10) {
+  var n10;
+  void 0 === t10 && (t10 = []), void 0 === r10 && (r10 = true);
+  let a2 = function e11(t11) {
+    let r11 = nN(t11);
+    return nH(r11) ? t11.ownerDocument ? t11.ownerDocument.body : t11.body : nA(r11) && nB(r11) ? r11 : e11(r11);
+  }(e10), i2 = a2 === (null == (n10 = e10.ownerDocument) ? void 0 : n10.body), o2 = n$(a2);
+  if (i2) {
+    let e11 = nU(o2);
+    return t10.concat(o2, o2.visualViewport || [], nB(a2) ? a2 : [], e11 && r10 ? nq(e11) : []);
+  }
+  return t10.concat(a2, nq(a2, [], r10));
 }
 function nU(e10) {
-  return nO(e10) ? e10 : e10.contextElement;
+  return e10.parent && Object.getPrototypeOf(e10.parent) ? e10.frameElement : null;
 }
 function nG(e10) {
-  let t10 = nU(e10);
-  if (!nL(t10)) return nf(1);
-  let r10 = t10.getBoundingClientRect(), { width: n6, height: a2, $: i2 } = nq(t10), o2 = (i2 ? nu(r10.width) : r10.width) / n6, s2 = (i2 ? nu(r10.height) : r10.height) / a2;
+  let t10 = nj(e10), r10 = parseFloat(t10.width) || 0, n10 = parseFloat(t10.height) || 0, a2 = nA(e10), i2 = a2 ? e10.offsetWidth : r10, o2 = a2 ? e10.offsetHeight : n10, s2 = n_(r10) !== i2 || n_(n10) !== o2;
+  return s2 && (r10 = i2, n10 = o2), { width: r10, height: n10, $: s2 };
+}
+function nY(e10) {
+  return nI(e10) ? e10 : e10.contextElement;
+}
+function nX(e10) {
+  let t10 = nY(e10);
+  if (!nA(t10)) return nR(1);
+  let r10 = t10.getBoundingClientRect(), { width: n10, height: a2, $: i2 } = nG(t10), o2 = (i2 ? n_(r10.width) : r10.width) / n10, s2 = (i2 ? n_(r10.height) : r10.height) / a2;
   return o2 && Number.isFinite(o2) || (o2 = 1), s2 && Number.isFinite(s2) || (s2 = 1), { x: o2, y: s2 };
 }
-let nY = nf(0);
-function nX(e10) {
-  let t10 = nT(e10);
-  return nV() && t10.visualViewport ? { x: t10.visualViewport.offsetLeft, y: t10.visualViewport.offsetTop } : nY;
+let nJ = nR(0);
+function nK(e10) {
+  let t10 = n$(e10);
+  return nz() && t10.visualViewport ? { x: t10.visualViewport.offsetLeft, y: t10.visualViewport.offsetTop } : nJ;
 }
-function nJ(e10, t10, r10, n6) {
+function nZ(e10, t10, r10, n10) {
   var a2;
   void 0 === t10 && (t10 = false), void 0 === r10 && (r10 = false);
-  let i2 = e10.getBoundingClientRect(), o2 = nU(e10), s2 = nf(1);
-  t10 && (n6 ? nO(n6) && (s2 = nG(n6)) : s2 = nG(e10));
-  let l2 = (void 0 === (a2 = r10) && (a2 = false), n6 && (!a2 || n6 === nT(o2)) && a2) ? nX(o2) : nf(0), c2 = (i2.left + l2.x) / s2.x, u2 = (i2.top + l2.y) / s2.y, d2 = i2.width / s2.x, f2 = i2.height / s2.y;
+  let i2 = e10.getBoundingClientRect(), o2 = nY(e10), s2 = nR(1);
+  t10 && (n10 ? nI(n10) && (s2 = nX(n10)) : s2 = nX(e10));
+  let l2 = (void 0 === (a2 = r10) && (a2 = false), n10 && (!a2 || n10 === n$(o2)) && a2) ? nK(o2) : nR(0), c2 = (i2.left + l2.x) / s2.x, u2 = (i2.top + l2.y) / s2.y, d2 = i2.width / s2.x, f2 = i2.height / s2.y;
   if (o2) {
-    let e11 = nT(o2), t11 = n6 && nO(n6) ? nT(n6) : n6, r11 = e11, a3 = nN(r11);
-    for (; a3 && n6 && t11 !== r11; ) {
-      let e12 = nG(a3), t12 = a3.getBoundingClientRect(), n7 = nz(a3), i3 = t12.left + (a3.clientLeft + parseFloat(n7.paddingLeft)) * e12.x, o3 = t12.top + (a3.clientTop + parseFloat(n7.paddingTop)) * e12.y;
-      c2 *= e12.x, u2 *= e12.y, d2 *= e12.x, f2 *= e12.y, c2 += i3, u2 += o3, a3 = nN(r11 = nT(a3));
+    let e11 = n$(o2), t11 = n10 && nI(n10) ? n$(n10) : n10, r11 = e11, a3 = nU(r11);
+    for (; a3 && n10 && t11 !== r11; ) {
+      let e12 = nX(a3), t12 = a3.getBoundingClientRect(), n11 = nj(a3), i3 = t12.left + (a3.clientLeft + parseFloat(n11.paddingLeft)) * e12.x, o3 = t12.top + (a3.clientTop + parseFloat(n11.paddingTop)) * e12.y;
+      c2 *= e12.x, u2 *= e12.y, d2 *= e12.x, f2 *= e12.y, c2 += i3, u2 += o3, a3 = nU(r11 = n$(a3));
     }
   }
-  return nC({ width: d2, height: f2, x: c2, y: u2 });
+  return nx({ width: d2, height: f2, x: c2, y: u2 });
 }
-function nK(e10, t10) {
-  let r10 = nH(e10).scrollLeft;
-  return t10 ? t10.left + r10 : nJ(nD(e10)).left + r10;
+function nQ(e10, t10) {
+  let r10 = nW(e10).scrollLeft;
+  return t10 ? t10.left + r10 : nZ(nO(e10)).left + r10;
 }
-function nZ(e10, t10, r10) {
+function n0(e10, t10, r10) {
   void 0 === r10 && (r10 = false);
-  let n6 = e10.getBoundingClientRect();
-  return { x: n6.left + t10.scrollLeft - (r10 ? 0 : nK(e10, n6)), y: n6.top + t10.scrollTop };
+  let n10 = e10.getBoundingClientRect();
+  return { x: n10.left + t10.scrollLeft - (r10 ? 0 : nQ(e10, n10)), y: n10.top + t10.scrollTop };
 }
-function nQ(e10, t10, r10) {
-  let n6;
-  if ("viewport" === t10) n6 = function(e11, t11) {
-    let r11 = nT(e11), n7 = nD(e11), a2 = r11.visualViewport, i2 = n7.clientWidth, o2 = n7.clientHeight, s2 = 0, l2 = 0;
+function n1(e10, t10, r10) {
+  let n10;
+  if ("viewport" === t10) n10 = function(e11, t11) {
+    let r11 = n$(e11), n11 = nO(e11), a2 = r11.visualViewport, i2 = n11.clientWidth, o2 = n11.clientHeight, s2 = 0, l2 = 0;
     if (a2) {
       i2 = a2.width, o2 = a2.height;
-      let e12 = nV();
+      let e12 = nz();
       (!e12 || e12 && "fixed" === t11) && (s2 = a2.offsetLeft, l2 = a2.offsetTop);
     }
     return { width: i2, height: o2, x: s2, y: l2 };
   }(e10, r10);
-  else if ("document" === t10) n6 = function(e11) {
-    let t11 = nD(e11), r11 = nH(e11), n7 = e11.ownerDocument.body, a2 = nc(t11.scrollWidth, t11.clientWidth, n7.scrollWidth, n7.clientWidth), i2 = nc(t11.scrollHeight, t11.clientHeight, n7.scrollHeight, n7.clientHeight), o2 = -r11.scrollLeft + nK(e11), s2 = -r11.scrollTop;
-    return "rtl" === nz(n7).direction && (o2 += nc(t11.clientWidth, n7.clientWidth) - a2), { width: a2, height: i2, x: o2, y: s2 };
-  }(nD(e10));
-  else if (nO(t10)) n6 = function(e11, t11) {
-    let r11 = nJ(e11, true, "fixed" === t11), n7 = r11.top + e11.clientTop, a2 = r11.left + e11.clientLeft, i2 = nL(e11) ? nG(e11) : nf(1), o2 = e11.clientWidth * i2.x;
-    return { width: o2, height: e11.clientHeight * i2.y, x: a2 * i2.x, y: n7 * i2.y };
+  else if ("document" === t10) n10 = function(e11) {
+    let t11 = nO(e11), r11 = nW(e11), n11 = e11.ownerDocument.body, a2 = nP(t11.scrollWidth, t11.clientWidth, n11.scrollWidth, n11.clientWidth), i2 = nP(t11.scrollHeight, t11.clientHeight, n11.scrollHeight, n11.clientHeight), o2 = -r11.scrollLeft + nQ(e11), s2 = -r11.scrollTop;
+    return "rtl" === nj(n11).direction && (o2 += nP(t11.clientWidth, n11.clientWidth) - a2), { width: a2, height: i2, x: o2, y: s2 };
+  }(nO(e10));
+  else if (nI(t10)) n10 = function(e11, t11) {
+    let r11 = nZ(e11, true, "fixed" === t11), n11 = r11.top + e11.clientTop, a2 = r11.left + e11.clientLeft, i2 = nA(e11) ? nX(e11) : nR(1), o2 = e11.clientWidth * i2.x;
+    return { width: o2, height: e11.clientHeight * i2.y, x: a2 * i2.x, y: n11 * i2.y };
   }(t10, r10);
   else {
-    let r11 = nX(e10);
-    n6 = { x: t10.x - r11.x, y: t10.y - r11.y, width: t10.width, height: t10.height };
+    let r11 = nK(e10);
+    n10 = { x: t10.x - r11.x, y: t10.y - r11.y, width: t10.width, height: t10.height };
   }
-  return nC(n6);
+  return nx(n10);
 }
-function n0(e10) {
-  return "static" === nz(e10).position;
+function n2(e10) {
+  return "static" === nj(e10).position;
 }
-function n1(e10, t10) {
-  if (!nL(e10) || "fixed" === nz(e10).position) return null;
+function n4(e10, t10) {
+  if (!nA(e10) || "fixed" === nj(e10).position) return null;
   if (t10) return t10(e10);
   let r10 = e10.offsetParent;
-  return nD(e10) === r10 && (r10 = r10.ownerDocument.body), r10;
+  return nO(e10) === r10 && (r10 = r10.ownerDocument.body), r10;
 }
-function n2(e10, t10) {
-  let r10 = nT(e10);
-  if (nF(e10)) return r10;
-  if (!nL(e10)) {
-    let t11 = nj(e10);
-    for (; t11 && !nE(t11); ) {
-      if (nO(t11) && !n0(t11)) return t11;
-      t11 = nj(t11);
+function n5(e10, t10) {
+  let r10 = n$(e10);
+  if (nV(e10)) return r10;
+  if (!nA(e10)) {
+    let t11 = nN(e10);
+    for (; t11 && !nH(t11); ) {
+      if (nI(t11) && !n2(t11)) return t11;
+      t11 = nN(t11);
     }
     return r10;
   }
-  let n6 = n1(e10, t10);
-  for (; n6 && ["table", "td", "th"].includes(nR(n6)) && n0(n6); ) n6 = n1(n6, t10);
-  return n6 && nE(n6) && n0(n6) && !nB(n6) ? r10 : n6 || function(e11) {
-    let t11 = nj(e11);
-    for (; nL(t11) && !nE(t11); ) {
-      if (nB(t11)) return t11;
-      if (nF(t11)) break;
-      t11 = nj(t11);
+  let n10 = n4(e10, t10);
+  for (; n10 && ["table", "td", "th"].includes(nD(n10)) && n2(n10); ) n10 = n4(n10, t10);
+  return n10 && nH(n10) && n2(n10) && !nE(n10) ? r10 : n10 || function(e11) {
+    let t11 = nN(e11);
+    for (; nA(t11) && !nH(t11); ) {
+      if (nE(t11)) return t11;
+      if (nV(t11)) break;
+      t11 = nN(t11);
     }
     return null;
   }(e10) || r10;
 }
-let n4 = async function(e10) {
-  let t10 = this.getOffsetParent || n2, r10 = this.getDimensions, n6 = await r10(e10.floating);
+let n3 = async function(e10) {
+  let t10 = this.getOffsetParent || n5, r10 = this.getDimensions, n10 = await r10(e10.floating);
   return { reference: function(e11, t11, r11) {
-    let n7 = nL(t11), a2 = nD(t11), i2 = "fixed" === r11, o2 = nJ(e11, true, i2, t11), s2 = { scrollLeft: 0, scrollTop: 0 }, l2 = nf(0);
-    if (n7 || !n7 && !i2) {
-      if (("body" !== nR(t11) || nA(a2)) && (s2 = nH(t11)), n7) {
-        let e12 = nJ(t11, true, i2, t11);
+    let n11 = nA(t11), a2 = nO(t11), i2 = "fixed" === r11, o2 = nZ(e11, true, i2, t11), s2 = { scrollLeft: 0, scrollTop: 0 }, l2 = nR(0);
+    if (n11 || !n11 && !i2) {
+      if (("body" !== nD(t11) || nB(a2)) && (s2 = nW(t11)), n11) {
+        let e12 = nZ(t11, true, i2, t11);
         l2.x = e12.x + t11.clientLeft, l2.y = e12.y + t11.clientTop;
-      } else a2 && (l2.x = nK(a2));
+      } else a2 && (l2.x = nQ(a2));
     }
-    let c2 = !a2 || n7 || i2 ? nf(0) : nZ(a2, s2);
+    let c2 = !a2 || n11 || i2 ? nR(0) : n0(a2, s2);
     return { x: o2.left + s2.scrollLeft - l2.x - c2.x, y: o2.top + s2.scrollTop - l2.y - c2.y, width: o2.width, height: o2.height };
-  }(e10.reference, await t10(e10.floating), e10.strategy), floating: { x: 0, y: 0, width: n6.width, height: n6.height } };
-}, n5 = { convertOffsetParentRelativeRectToViewportRelativeRect: function(e10) {
-  let { elements: t10, rect: r10, offsetParent: n6, strategy: a2 } = e10, i2 = "fixed" === a2, o2 = nD(n6), s2 = !!t10 && nF(t10.floating);
-  if (n6 === o2 || s2 && i2) return r10;
-  let l2 = { scrollLeft: 0, scrollTop: 0 }, c2 = nf(1), u2 = nf(0), d2 = nL(n6);
-  if ((d2 || !d2 && !i2) && (("body" !== nR(n6) || nA(o2)) && (l2 = nH(n6)), nL(n6))) {
-    let e11 = nJ(n6);
-    c2 = nG(n6), u2.x = e11.x + n6.clientLeft, u2.y = e11.y + n6.clientTop;
+  }(e10.reference, await t10(e10.floating), e10.strategy), floating: { x: 0, y: 0, width: n10.width, height: n10.height } };
+}, n8 = { convertOffsetParentRelativeRectToViewportRelativeRect: function(e10) {
+  let { elements: t10, rect: r10, offsetParent: n10, strategy: a2 } = e10, i2 = "fixed" === a2, o2 = nO(n10), s2 = !!t10 && nV(t10.floating);
+  if (n10 === o2 || s2 && i2) return r10;
+  let l2 = { scrollLeft: 0, scrollTop: 0 }, c2 = nR(1), u2 = nR(0), d2 = nA(n10);
+  if ((d2 || !d2 && !i2) && (("body" !== nD(n10) || nB(o2)) && (l2 = nW(n10)), nA(n10))) {
+    let e11 = nZ(n10);
+    c2 = nX(n10), u2.x = e11.x + n10.clientLeft, u2.y = e11.y + n10.clientTop;
   }
-  let f2 = !o2 || d2 || i2 ? nf(0) : nZ(o2, l2, true);
+  let f2 = !o2 || d2 || i2 ? nR(0) : n0(o2, l2, true);
   return { width: r10.width * c2.x, height: r10.height * c2.y, x: r10.x * c2.x - l2.scrollLeft * c2.x + u2.x + f2.x, y: r10.y * c2.y - l2.scrollTop * c2.y + u2.y + f2.y };
-}, getDocumentElement: nD, getClippingRect: function(e10) {
-  let { element: t10, boundary: r10, rootBoundary: n6, strategy: a2 } = e10, i2 = [..."clippingAncestors" === r10 ? nF(t10) ? [] : function(e11, t11) {
+}, getDocumentElement: nO, getClippingRect: function(e10) {
+  let { element: t10, boundary: r10, rootBoundary: n10, strategy: a2 } = e10, i2 = [..."clippingAncestors" === r10 ? nV(t10) ? [] : function(e11, t11) {
     let r11 = t11.get(e11);
     if (r11) return r11;
-    let n7 = nW(e11, [], false).filter((e12) => nO(e12) && "body" !== nR(e12)), a3 = null, i3 = "fixed" === nz(e11).position, o3 = i3 ? nj(e11) : e11;
-    for (; nO(o3) && !nE(o3); ) {
-      let t12 = nz(o3), r12 = nB(o3);
-      r12 || "fixed" !== t12.position || (a3 = null), (i3 ? !r12 && !a3 : !r12 && "static" === t12.position && !!a3 && ["absolute", "fixed"].includes(a3.position) || nA(o3) && !r12 && function e12(t13, r13) {
-        let n10 = nj(t13);
-        return !(n10 === r13 || !nO(n10) || nE(n10)) && ("fixed" === nz(n10).position || e12(n10, r13));
-      }(e11, o3)) ? n7 = n7.filter((e12) => e12 !== o3) : a3 = t12, o3 = nj(o3);
+    let n11 = nq(e11, [], false).filter((e12) => nI(e12) && "body" !== nD(e12)), a3 = null, i3 = "fixed" === nj(e11).position, o3 = i3 ? nN(e11) : e11;
+    for (; nI(o3) && !nH(o3); ) {
+      let t12 = nj(o3), r12 = nE(o3);
+      r12 || "fixed" !== t12.position || (a3 = null), (i3 ? !r12 && !a3 : !r12 && "static" === t12.position && !!a3 && ["absolute", "fixed"].includes(a3.position) || nB(o3) && !r12 && function e12(t13, r13) {
+        let n12 = nN(t13);
+        return !(n12 === r13 || !nI(n12) || nH(n12)) && ("fixed" === nj(n12).position || e12(n12, r13));
+      }(e11, o3)) ? n11 = n11.filter((e12) => e12 !== o3) : a3 = t12, o3 = nN(o3);
     }
-    return t11.set(e11, n7), n7;
-  }(t10, this._c) : [].concat(r10), n6], o2 = i2[0], s2 = i2.reduce((e11, r11) => {
-    let n7 = nQ(t10, r11, a2);
-    return e11.top = nc(n7.top, e11.top), e11.right = nl(n7.right, e11.right), e11.bottom = nl(n7.bottom, e11.bottom), e11.left = nc(n7.left, e11.left), e11;
-  }, nQ(t10, o2, a2));
+    return t11.set(e11, n11), n11;
+  }(t10, this._c) : [].concat(r10), n10], o2 = i2[0], s2 = i2.reduce((e11, r11) => {
+    let n11 = n1(t10, r11, a2);
+    return e11.top = nP(n11.top, e11.top), e11.right = nM(n11.right, e11.right), e11.bottom = nM(n11.bottom, e11.bottom), e11.left = nP(n11.left, e11.left), e11;
+  }, n1(t10, o2, a2));
   return { width: s2.right - s2.left, height: s2.bottom - s2.top, x: s2.left, y: s2.top };
-}, getOffsetParent: n2, getElementRects: n4, getClientRects: function(e10) {
+}, getOffsetParent: n5, getElementRects: n3, getClientRects: function(e10) {
   return Array.from(e10.getClientRects());
 }, getDimensions: function(e10) {
-  let { width: t10, height: r10 } = nq(e10);
+  let { width: t10, height: r10 } = nG(e10);
   return { width: t10, height: r10 };
-}, getScale: nG, isElement: nO, isRTL: function(e10) {
-  return "rtl" === nz(e10).direction;
-} }, n3 = function(e10) {
+}, getScale: nX, isElement: nI, isRTL: function(e10) {
+  return "rtl" === nj(e10).direction;
+} };
+function n9(e10, t10) {
+  return e10.x === t10.x && e10.y === t10.y && e10.width === t10.width && e10.height === t10.height;
+}
+let n6 = function(e10) {
   return void 0 === e10 && (e10 = {}), { name: "size", options: e10, async fn(t10) {
-    var r10, n6;
+    var r10, n10;
     let a2, i2;
     let { placement: o2, rects: s2, platform: l2, elements: c2 } = t10, { apply: u2 = () => {
-    }, ...d2 } = np(e10, t10), f2 = await n_(t10, d2), h2 = ng(o2), m2 = nv(o2), p2 = "y" === nx(o2), { width: g2, height: v2 } = s2.floating;
+    }, ...d2 } = nf(e10, t10), f2 = await nC(t10, d2), h2 = nh(o2), m2 = nm(o2), p2 = "y" === nv(o2), { width: g2, height: v2 } = s2.floating;
     "top" === h2 || "bottom" === h2 ? (a2 = h2, i2 = m2 === (await (null == l2.isRTL ? void 0 : l2.isRTL(c2.floating)) ? "start" : "end") ? "left" : "right") : (i2 = h2, a2 = "end" === m2 ? "top" : "bottom");
     let b2 = v2 - f2.top - f2.bottom, y2 = g2 - f2.left - f2.right, x2 = nl(v2 - f2[a2], b2), w2 = nl(g2 - f2[i2], y2), k2 = !t10.middlewareData.shift, C2 = x2, M2 = w2;
-    if (null != (r10 = t10.middlewareData.shift) && r10.enabled.x && (M2 = y2), null != (n6 = t10.middlewareData.shift) && n6.enabled.y && (C2 = b2), k2 && !m2) {
-      let e11 = nc(f2.left, 0), t11 = nc(f2.right, 0), r11 = nc(f2.top, 0), n7 = nc(f2.bottom, 0);
-      p2 ? M2 = g2 - 2 * (0 !== e11 || 0 !== t11 ? e11 + t11 : nc(f2.left, f2.right)) : C2 = v2 - 2 * (0 !== r11 || 0 !== n7 ? r11 + n7 : nc(f2.top, f2.bottom));
+    if (null != (r10 = t10.middlewareData.shift) && r10.enabled.x && (M2 = y2), null != (n10 = t10.middlewareData.shift) && n10.enabled.y && (C2 = b2), k2 && !m2) {
+      let e11 = nc(f2.left, 0), t11 = nc(f2.right, 0), r11 = nc(f2.top, 0), n11 = nc(f2.bottom, 0);
+      p2 ? M2 = g2 - 2 * (0 !== e11 || 0 !== t11 ? e11 + t11 : nc(f2.left, f2.right)) : C2 = v2 - 2 * (0 !== r11 || 0 !== n11 ? r11 + n11 : nc(f2.top, f2.bottom));
     }
     await u2({ ...t10, availableWidth: M2, availableHeight: C2 });
     let P2 = await l2.getDimensions(c2.floating);
     return g2 !== P2.width || v2 !== P2.height ? { reset: { rects: true } } : {};
   } };
-}, n8 = (e10, t10, r10) => {
-  let n6 = /* @__PURE__ */ new Map(), a2 = { platform: n5, ...r10 }, i2 = { ...a2.platform, _c: n6 };
-  return nP(e10, t10, { ...a2, platform: i2 });
-}, n9 = t((e10, t10) => {
-  let { slots: n6, emit: a2, attrs: i2 } = t10, o2 = x(null), s2 = x(null);
+}, n7 = (e10, t10, r10) => {
+  let n10 = /* @__PURE__ */ new Map(), a2 = { platform: n8, ...r10 }, i2 = { ...a2.platform, _c: n10 };
+  return nk(e10, t10, { ...a2, platform: i2 });
+}, ae = t((e10, t10) => {
+  let { slots: n10, emit: a2, attrs: i2 } = t10, o2 = x(null), s2 = x(null);
   return p(N([o2, s2]), y((t11) => {
-    let [r10, n7] = t11;
-    if (n7 && r10) {
+    let [r10, n11] = t11;
+    if (n11 && r10) {
       let t12 = async () => {
         var t13, a4, i3, o3, s3;
-        n7.style.position = "absolute";
-        let { x: l2, y: c2 } = await n8(r10, n7, { placement: null !== (t13 = e10.placement) && void 0 !== t13 ? t13 : "bottom", middleware: [...null !== (a4 = e10.modifiers) && void 0 !== a4 ? a4 : [], ...null !== (i3 = e10.middleware) && void 0 !== i3 ? i3 : [], (void 0 === o3 && (o3 = {}), { name: "flip", options: o3, async fn(e11) {
-          var t14, r11, n10, a5, i4;
-          let { placement: s4, middlewareData: l3, rects: c3, initialPlacement: u2, platform: d2, elements: f2 } = e11, { mainAxis: h2 = true, crossAxis: m2 = true, fallbackPlacements: p2, fallbackStrategy: g2 = "bestFit", fallbackAxisSideDirection: v2 = "none", flipAlignment: b2 = true, ...y2 } = np(o3, e11);
+        n11.style.position = "absolute";
+        let { x: l2, y: c2 } = await n7(r10, n11, { placement: null !== (t13 = e10.placement) && void 0 !== t13 ? t13 : "bottom", middleware: [...null !== (a4 = e10.modifiers) && void 0 !== a4 ? a4 : [], ...null !== (i3 = e10.middleware) && void 0 !== i3 ? i3 : [], (void 0 === o3 && (o3 = {}), { name: "flip", options: o3, async fn(e11) {
+          var t14, r11, n12, a5, i4;
+          let { placement: s4, middlewareData: l3, rects: c3, initialPlacement: u2, platform: d2, elements: f2 } = e11, { mainAxis: h2 = true, crossAxis: m2 = true, fallbackPlacements: p2, fallbackStrategy: g2 = "bestFit", fallbackAxisSideDirection: v2 = "none", flipAlignment: b2 = true, ...y2 } = nf(o3, e11);
           if (null != (t14 = l3.arrow) && t14.alignmentOffset) return {};
-          let x2 = ng(s4), w2 = nx(u2), k2 = ng(u2) === u2, C2 = await (null == d2.isRTL ? void 0 : d2.isRTL(f2.floating)), M2 = p2 || (k2 || !b2 ? [nk(u2)] : function(e12) {
-            let t15 = nk(e12);
-            return [nw(e12), t15, nw(t15)];
+          let x2 = nh(s4), w2 = nv(u2), k2 = nh(u2) === u2, C2 = await (null == d2.isRTL ? void 0 : d2.isRTL(f2.floating)), M2 = p2 || (k2 || !b2 ? [ny(u2)] : function(e12) {
+            let t15 = ny(e12);
+            return [nb(e12), t15, nb(t15)];
           }(u2)), P2 = "none" !== v2;
-          !p2 && P2 && M2.push(...function(e12, t15, r12, n11) {
-            let a6 = nv(e12), i5 = function(e13, t16, r13) {
-              let n12 = ["left", "right"], a7 = ["right", "left"];
+          !p2 && P2 && M2.push(...function(e12, t15, r12, n13) {
+            let a6 = nm(e12), i5 = function(e13, t16, r13) {
+              let n14 = ["left", "right"], a7 = ["right", "left"];
               switch (e13) {
                 case "top":
                 case "bottom":
-                  if (r13) return t16 ? a7 : n12;
-                  return t16 ? n12 : a7;
+                  if (r13) return t16 ? a7 : n14;
+                  return t16 ? n14 : a7;
                 case "left":
                 case "right":
                   return t16 ? ["top", "bottom"] : ["bottom", "top"];
                 default:
                   return [];
               }
-            }(ng(e12), "start" === r12, n11);
-            return a6 && (i5 = i5.map((e13) => e13 + "-" + a6), t15 && (i5 = i5.concat(i5.map(nw)))), i5;
+            }(nh(e12), "start" === r12, n13);
+            return a6 && (i5 = i5.map((e13) => e13 + "-" + a6), t15 && (i5 = i5.concat(i5.map(nb)))), i5;
           }(u2, b2, v2, C2));
-          let _2 = [u2, ...M2], S2 = await n_(e11, y2), R2 = [], T2 = (null == (r11 = l3.flip) ? void 0 : r11.overflows) || [];
+          let _2 = [u2, ...M2], S2 = await nC(e11, y2), R2 = [], T2 = (null == (r11 = l3.flip) ? void 0 : r11.overflows) || [];
           if (h2 && R2.push(S2[x2]), m2) {
             let e12 = function(e13, t15, r12) {
               void 0 === r12 && (r12 = false);
-              let n11 = nv(e13), a6 = nb(nx(e13)), i5 = ny(a6), o4 = "x" === a6 ? n11 === (r12 ? "end" : "start") ? "right" : "left" : "start" === n11 ? "bottom" : "top";
-              return t15.reference[i5] > t15.floating[i5] && (o4 = nk(o4)), [o4, nk(o4)];
+              let n13 = nm(e13), a6 = np(nv(e13)), i5 = ng(a6), o4 = "x" === a6 ? n13 === (r12 ? "end" : "start") ? "right" : "left" : "start" === n13 ? "bottom" : "top";
+              return t15.reference[i5] > t15.floating[i5] && (o4 = ny(o4)), [o4, ny(o4)];
             }(s4, c3, C2);
             R2.push(S2[e12[0]], S2[e12[1]]);
           }
           if (T2 = [...T2, { placement: s4, overflows: R2 }], !R2.every((e12) => e12 <= 0)) {
-            let e12 = ((null == (n10 = l3.flip) ? void 0 : n10.index) || 0) + 1, t15 = _2[e12];
+            let e12 = ((null == (n12 = l3.flip) ? void 0 : n12.index) || 0) + 1, t15 = _2[e12];
             if (t15) return { data: { index: e12, overflows: T2 }, reset: { placement: t15 } };
             let r12 = null == (a5 = T2.filter((e13) => e13.overflows[0] <= 0).sort((e13, t16) => e13.overflows[1] - t16.overflows[1])[0]) ? void 0 : a5.placement;
             if (!r12) switch (g2) {
               case "bestFit": {
                 let e13 = null == (i4 = T2.filter((e14) => {
                   if (P2) {
-                    let t16 = nx(e14.placement);
+                    let t16 = nv(e14.placement);
                     return t16 === w2 || "y" === t16;
                   }
                   return true;
@@ -2364,76 +2369,76 @@ let n4 = async function(e10) {
           }
           return {};
         } }), (void 0 === s3 && (s3 = {}), { name: "shift", options: s3, async fn(e11) {
-          let { x: t14, y: r11, placement: n10 } = e11, { mainAxis: a5 = true, crossAxis: i4 = false, limiter: o4 = { fn: (e12) => {
+          let { x: t14, y: r11, placement: n12 } = e11, { mainAxis: a5 = true, crossAxis: i4 = false, limiter: o4 = { fn: (e12) => {
             let { x: t15, y: r12 } = e12;
             return { x: t15, y: r12 };
-          } }, ...l3 } = np(s3, e11), c3 = { x: t14, y: r11 }, u2 = await n_(e11, l3), d2 = nx(ng(n10)), f2 = nb(d2), h2 = c3[f2], m2 = c3[d2];
+          } }, ...l3 } = nf(s3, e11), c3 = { x: t14, y: r11 }, u2 = await nC(e11, l3), d2 = nv(nh(n12)), f2 = np(d2), h2 = c3[f2], m2 = c3[d2];
           if (a5) {
-            let e12 = "y" === f2 ? "top" : "left", t15 = "y" === f2 ? "bottom" : "right", r12 = h2 + u2[e12], n11 = h2 - u2[t15];
-            h2 = nc(r12, nl(h2, n11));
+            let e12 = "y" === f2 ? "top" : "left", t15 = "y" === f2 ? "bottom" : "right", r12 = h2 + u2[e12], n13 = h2 - u2[t15];
+            h2 = nc(r12, nl(h2, n13));
           }
           if (i4) {
-            let e12 = "y" === d2 ? "top" : "left", t15 = "y" === d2 ? "bottom" : "right", r12 = m2 + u2[e12], n11 = m2 - u2[t15];
-            m2 = nc(r12, nl(m2, n11));
+            let e12 = "y" === d2 ? "top" : "left", t15 = "y" === d2 ? "bottom" : "right", r12 = m2 + u2[e12], n13 = m2 - u2[t15];
+            m2 = nc(r12, nl(m2, n13));
           }
           let p2 = o4.fn({ ...e11, [f2]: h2, [d2]: m2 });
           return { ...p2, data: { x: p2.x - t14, y: p2.y - r11, enabled: { [f2]: a5, [d2]: i4 } } };
         } })] });
-        Object.assign(n7.style, { left: `${l2}px`, top: `${c2}px` });
-      }, a3 = function(e11, t13, r11, n10) {
+        Object.assign(n11.style, { left: `${l2}px`, top: `${c2}px` });
+      }, a3 = function(e11, t13, r11, n12) {
         let a4;
-        void 0 === n10 && (n10 = {});
-        let { ancestorScroll: i3 = true, ancestorResize: o3 = true, elementResize: s3 = "function" == typeof ResizeObserver, layoutShift: l2 = "function" == typeof IntersectionObserver, animationFrame: c2 = false } = n10, u2 = nU(e11), d2 = i3 || o3 ? [...u2 ? nW(u2) : [], ...nW(t13)] : [];
+        void 0 === n12 && (n12 = {});
+        let { ancestorScroll: i3 = true, ancestorResize: o3 = true, elementResize: s3 = "function" == typeof ResizeObserver, layoutShift: l2 = "function" == typeof IntersectionObserver, animationFrame: c2 = false } = n12, u2 = nY(e11), d2 = i3 || o3 ? [...u2 ? nq(u2) : [], ...nq(t13)] : [];
         d2.forEach((e12) => {
           i3 && e12.addEventListener("scroll", r11, { passive: true }), o3 && e12.addEventListener("resize", r11);
         });
         let f2 = u2 && l2 ? function(e12, t14) {
-          let r12, n11 = null, a5 = nD(e12);
+          let r12, n13 = null, a5 = nO(e12);
           function i4() {
             var e13;
-            clearTimeout(r12), null == (e13 = n11) || e13.disconnect(), n11 = null;
+            clearTimeout(r12), null == (e13 = n13) || e13.disconnect(), n13 = null;
           }
           return function o4(s4, l3) {
             void 0 === s4 && (s4 = false), void 0 === l3 && (l3 = 1), i4();
-            let { left: c3, top: u3, width: d3, height: f3 } = e12.getBoundingClientRect();
-            if (s4 || t14(), !d3 || !f3) return;
-            let h3 = nd(u3), m3 = nd(a5.clientWidth - (c3 + d3)), p3 = { rootMargin: -h3 + "px " + -m3 + "px " + -nd(a5.clientHeight - (u3 + f3)) + "px " + -nd(c3) + "px", threshold: nc(0, nl(1, l3)) || 1 }, g2 = true;
-            function v2(e13) {
-              let t15 = e13[0].intersectionRatio;
-              if (t15 !== l3) {
-                if (!g2) return o4();
-                t15 ? o4(false, t15) : r12 = setTimeout(() => {
+            let c3 = e12.getBoundingClientRect(), { left: u3, top: d3, width: f3, height: h3 } = c3;
+            if (s4 || t14(), !f3 || !h3) return;
+            let m3 = nS(d3), p3 = nS(a5.clientWidth - (u3 + f3)), g2 = { rootMargin: -m3 + "px " + -p3 + "px " + -nS(a5.clientHeight - (d3 + h3)) + "px " + -nS(u3) + "px", threshold: nP(0, nM(1, l3)) || 1 }, v2 = true;
+            function b2(t15) {
+              let n14 = t15[0].intersectionRatio;
+              if (n14 !== l3) {
+                if (!v2) return o4();
+                n14 ? o4(false, n14) : r12 = setTimeout(() => {
                   o4(false, 1e-7);
                 }, 1e3);
               }
-              g2 = false;
+              1 !== n14 || n9(c3, e12.getBoundingClientRect()) || o4(), v2 = false;
             }
             try {
-              n11 = new IntersectionObserver(v2, { ...p3, root: a5.ownerDocument });
+              n13 = new IntersectionObserver(b2, { ...g2, root: a5.ownerDocument });
             } catch (e13) {
-              n11 = new IntersectionObserver(v2, p3);
+              n13 = new IntersectionObserver(b2, g2);
             }
-            n11.observe(e12);
+            n13.observe(e12);
           }(true), i4;
         }(u2, r11) : null, h2 = -1, m2 = null;
         s3 && (m2 = new ResizeObserver((e12) => {
-          let [n11] = e12;
-          n11 && n11.target === u2 && m2 && (m2.unobserve(t13), cancelAnimationFrame(h2), h2 = requestAnimationFrame(() => {
+          let [n13] = e12;
+          n13 && n13.target === u2 && m2 && (m2.unobserve(t13), cancelAnimationFrame(h2), h2 = requestAnimationFrame(() => {
             var e13;
             null == (e13 = m2) || e13.observe(t13);
           })), r11();
         }), u2 && !c2 && m2.observe(u2), m2.observe(t13));
-        let p2 = c2 ? nJ(e11) : null;
+        let p2 = c2 ? nZ(e11) : null;
         return c2 && function t14() {
-          let n11 = nJ(e11);
-          p2 && (n11.x !== p2.x || n11.y !== p2.y || n11.width !== p2.width || n11.height !== p2.height) && r11(), p2 = n11, a4 = requestAnimationFrame(t14);
+          let n13 = nZ(e11);
+          p2 && !n9(p2, n13) && r11(), p2 = n13, a4 = requestAnimationFrame(t14);
         }(), r11(), () => {
           var e12;
           d2.forEach((e13) => {
             i3 && e13.removeEventListener("scroll", r11), o3 && e13.removeEventListener("resize", r11);
           }), null == f2 || f2(), null == (e12 = m2) || e12.disconnect(), m2 = null, c2 && cancelAnimationFrame(a4);
         };
-      }(r10, n7, t12);
+      }(r10, n11, t12);
       return () => {
         a3();
       };
@@ -2442,7 +2447,7 @@ let n4 = async function(e10) {
     };
   }), b()), () => {
     var t11, l2;
-    let c2 = null === (t11 = n6.default) || void 0 === t11 ? void 0 : t11.call(n6)[0];
+    let c2 = null === (t11 = n10.default) || void 0 === t11 ? void 0 : t11.call(n10)[0];
     return c2 ? w(k, { children: [d(c2, { ...i2, onVnodeMounted: (e11) => {
       o2.value = function e12(t12) {
         if (t12) {
@@ -2451,7 +2456,7 @@ let n4 = async function(e10) {
         }
         return null;
       }(e11.el);
-    } }), r(ns, { triggerRef: o2, contentRef: s2, isOpen: e10.isOpen, onClickOutside: (e11) => a2("click-outside", e11), style: { zIndex: 100 }, $transition: n6.transition, children: null === (l2 = n6.content) || void 0 === l2 ? void 0 : l2.call(n6) })] }) : null;
+    } }), r(ns, { triggerRef: o2, contentRef: s2, isOpen: e10.isOpen, onClickOutside: (e11) => a2("click-outside", e11), style: { zIndex: 100 }, $transition: n10.transition, children: null === (l2 = n10.content) || void 0 === l2 ? void 0 : l2.call(n10) })] }) : null;
   };
 }, { name: "Popper", inheritAttrs: false }, { displayName: "Popper", props: ["isOpen", "style", "contentRef", "triggerRef", "placement", "middleware", "modifiers"], emits: ["click-outside", "esc-keydown", "content-before-mount"] });
 export {
@@ -2459,10 +2464,10 @@ export {
   r6 as C,
   nr as G,
   ns as O,
-  n9 as P,
+  ae as P,
   rv as T,
   t$ as a,
-  n3 as b,
+  n6 as b,
   nn as c,
   tE as d,
   tA as e,

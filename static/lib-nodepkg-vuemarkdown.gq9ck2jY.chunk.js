@@ -1,5 +1,5 @@
-import { g as e, F as t, j as n, f as r, a as i, r as l, k as o } from "./lib-nodepkg-vuekit.C6OVFkS0.chunk.js";
-import { e as a } from "./vendor-rxjs.Ceq9fhEZ.chunk.js";
+import { g as e, F as t, j as n, f as r, a as i, r as l, k as o } from "./lib-nodepkg-vuekit.Cts2VpE6.chunk.js";
+import { e as a } from "./vendor-rxjs.CROJHUGX.chunk.js";
 let u = {};
 function c(e10, t10, n10) {
   if (e10 && "object" == typeof e10) {
@@ -1267,7 +1267,7 @@ function eX(e10) {
 }
 function eZ(e10) {
   !function(e11, t10, n10) {
-    let r2 = eB((n10 || {}).ignore || []), i2 = function(e12) {
+    let r2 = eB(n10.ignore || []), i2 = function(e12) {
       let t11 = [];
       if (!Array.isArray(e12)) throw TypeError("Expected find and replace tuple or list of tuples");
       let n11 = !e12[0] || Array.isArray(e12[0]) ? e12 : [e12], r3 = -1;
@@ -2665,7 +2665,7 @@ var nJ, nG, n1, n0 = {};
 let n2 = e(function() {
   if (n1) return n0;
   n1 = 1;
-  var e10 = n0 && n0.__importDefault || function(e11) {
+  var e10 = n0.__importDefault || function(e11) {
     return e11 && e11.__esModule ? e11 : { default: e11 };
   };
   Object.defineProperty(n0, "__esModule", { value: true }), n0.default = function(e11, n10) {
@@ -3284,13 +3284,13 @@ let rN = i((e10, i2) => {
     let o2 = function(e11, t10) {
       let n10 = function(e12, t11) {
         var n11, r3;
-        let i5, l4, o3;
-        let a2 = /* @__PURE__ */ new Map(), u2 = /* @__PURE__ */ new Map(), c2 = { all: function(e13) {
+        let i5, l4;
+        let o3 = /* @__PURE__ */ new Map(), a2 = /* @__PURE__ */ new Map(), u2 = { all: function(e13) {
           let t12 = [];
           if ("children" in e13) {
             let n12 = e13.children, r4 = -1;
             for (; ++r4 < n12.length; ) {
-              let i6 = c2.one(n12[r4], e13);
+              let i6 = u2.one(n12[r4], e13);
               if (i6) {
                 if (r4 && "break" === n12[r4 - 1].type && (Array.isArray(i6) || "text" !== i6.type || (i6.value = rP(i6.value)), !Array.isArray(i6) && "element" === i6.type)) {
                   let e14 = i6.children[0];
@@ -3301,30 +3301,30 @@ let rN = i((e10, i2) => {
             }
           }
           return t12;
-        }, applyData: rO, definitionById: a2, footnoteById: u2, footnoteCounts: /* @__PURE__ */ new Map(), footnoteOrder: [], handlers: { ...rg, ...rM.handlers }, one: function(e13, t12) {
-          let n12 = e13.type, r4 = c2.handlers[n12];
-          if (rE.call(c2.handlers, n12) && r4) return r4(c2, e13, t12);
-          if (c2.options.passThrough && c2.options.passThrough.includes(n12)) {
+        }, applyData: rO, definitionById: o3, footnoteById: a2, footnoteCounts: /* @__PURE__ */ new Map(), footnoteOrder: [], handlers: { ...rg, ...rM.handlers }, one: function(e13, t12) {
+          let n12 = e13.type, r4 = u2.handlers[n12];
+          if (rE.call(u2.handlers, n12) && r4) return r4(u2, e13, t12);
+          if (u2.options.passThrough && u2.options.passThrough.includes(n12)) {
             if ("children" in e13) {
               let { children: t13, ...n13 } = e13, r5 = rI(n13);
-              return r5.children = c2.all(e13), r5;
+              return r5.children = u2.all(e13), r5;
             }
             return rI(e13);
           }
-          return (c2.options.unknownHandler || function(e14, t13) {
+          return (u2.options.unknownHandler || function(e14, t13) {
             let n13 = t13.data || {}, r5 = "value" in t13 && !(rE.call(n13, "hProperties") || rE.call(n13, "hChildren")) ? { type: "text", value: t13.value } : { type: "element", tagName: "div", properties: {}, children: e14.all(t13) };
             return e14.patch(t13, r5), e14.applyData(t13, r5);
-          })(c2, e13, t12);
+          })(u2, e13, t12);
         }, options: rM, patch: rF, wrap: rz };
         return "function" == typeof (n11 = function(e13) {
           if ("definition" === e13.type || "footnoteDefinition" === e13.type) {
-            let t12 = "definition" === e13.type ? a2 : u2, n12 = String(e13.identifier).toUpperCase();
+            let t12 = "definition" === e13.type ? o3 : a2, n12 = String(e13.identifier).toUpperCase();
             t12.has(n12) || t12.set(n12, e13);
           }
-        }) ? (l4 = void 0, o3 = n11, i5 = r3) : (l4 = n11, o3 = r3, i5 = void 0), eq(e12, l4, function(e13, t12) {
+        }) ? (i5 = void 0, l4 = n11) : (i5 = n11, l4 = r3), eq(e12, i5, function(e13, t12) {
           let n12 = t12[t12.length - 1], r4 = n12 ? n12.children.indexOf(e13) : void 0;
-          return o3(e13, r4, n12);
-        }, i5), c2;
+          return l4(e13, r4, n12);
+        }, void 0), u2;
       }(e11), r2 = n10.one(e11, void 0), i4 = function(e12) {
         let t11 = "string" == typeof e12.options.clobberPrefix ? e12.options.clobberPrefix : "user-content-", n11 = e12.options.footnoteBackContent || rL, r3 = e12.options.footnoteBackLabel || rD, i5 = e12.options.footnoteLabel || "Footnotes", l4 = e12.options.footnoteLabelTagName || "h2", o3 = e12.options.footnoteLabelProperties || { className: ["sr-only"] }, a2 = [], u2 = -1;
         for (; ++u2 < e12.footnoteOrder.length; ) {
