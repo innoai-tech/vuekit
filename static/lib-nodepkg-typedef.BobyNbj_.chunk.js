@@ -2,7 +2,7 @@ var __defProp = Object.defineProperty;
 var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __publicField = (obj, key, value) => __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
 var _a;
-import { i as e } from "./lib-nodepkg-vuekit.Cts2VpE6.chunk.js";
+import { i as e } from "./lib-nodepkg-vuekit.TuFQNKD5.chunk.js";
 let t = (e2) => void 0 === e2, r = (e2) => !!e2 && "object" == typeof e2, n = (e2) => !!e2 && e2.constructor == Object, i = (e2) => Array.isArray(e2), a = (e2) => "number" == typeof e2 && !Number.isNaN(e2) && Number.isInteger(e2), o = (e2) => "boolean" == typeof e2, s = (e2) => "string" == typeof e2, c = (e2) => "object" == typeof e2 && "function" == typeof e2[Symbol.iterator], l = (e2) => "function" == typeof e2 && `${e2}`.startsWith("class"), u = (e2) => !!(e2 && e2.constructor && e2.call && e2.apply);
 var f, d, p, h, y = Symbol.for("immer-nothing"), v = Symbol.for("immer-draftable"), m = Symbol.for("immer-state");
 function g(e2) {
@@ -26,19 +26,19 @@ function P(e2) {
   return r2 === Object || "function" == typeof r2 && Function.toString.call(r2) === O;
 }
 function j(e2, t2) {
-  0 === M(e2) ? Reflect.ownKeys(e2).forEach((r2) => {
+  0 === S(e2) ? Reflect.ownKeys(e2).forEach((r2) => {
     t2(r2, e2[r2], e2);
   }) : e2.forEach((r2, n2) => t2(n2, r2, e2));
 }
-function M(e2) {
+function S(e2) {
   let t2 = e2[m];
   return t2 ? t2.type_ : Array.isArray(e2) ? 1 : A(e2) ? 2 : x(e2) ? 3 : 0;
 }
-function S(e2, t2) {
-  return 2 === M(e2) ? e2.has(t2) : Object.prototype.hasOwnProperty.call(e2, t2);
+function M(e2, t2) {
+  return 2 === S(e2) ? e2.has(t2) : Object.prototype.hasOwnProperty.call(e2, t2);
 }
 function E(e2, t2, r2) {
-  let n2 = M(e2);
+  let n2 = S(e2);
   2 === n2 ? e2.set(t2, r2) : 3 === n2 ? e2.add(r2) : e2[t2] = r2;
 }
 function A(e2) {
@@ -72,7 +72,7 @@ function T(e2, t2) {
 }
 function N(e2) {
   let t2 = arguments.length > 1 && void 0 !== arguments[1] && arguments[1];
-  return k(e2) || w(e2) || !_(e2) || (M(e2) > 1 && (e2.set = e2.add = e2.clear = e2.delete = z), Object.freeze(e2), t2 && Object.entries(e2).forEach((e3) => {
+  return k(e2) || w(e2) || !_(e2) || (S(e2) > 1 && (e2.set = e2.add = e2.clear = e2.delete = z), Object.freeze(e2), t2 && Object.entries(e2).forEach((e3) => {
     let [t3, r2] = e3;
     return N(r2, true);
   })), e2;
@@ -107,30 +107,30 @@ function I(e2) {
 function V(e2, t2) {
   t2.unfinalizedDrafts_ = t2.drafts_.length;
   let r2 = t2.drafts_[0];
-  return void 0 !== e2 && e2 !== r2 ? (r2[m].modified_ && (W(t2), g(4)), _(e2) && (e2 = q(t2, e2), t2.parent_ || G(t2, e2)), t2.patches_ && K("Patches").generateReplacementPatches_(r2[m].base_, e2, t2.patches_, t2.inversePatches_)) : e2 = q(t2, r2, []), W(t2), t2.patches_ && t2.patchListener_(t2.patches_, t2.inversePatches_), e2 !== y ? e2 : void 0;
+  return void 0 !== e2 && e2 !== r2 ? (r2[m].modified_ && (W(t2), g(4)), _(e2) && (e2 = J(t2, e2), t2.parent_ || G(t2, e2)), t2.patches_ && K("Patches").generateReplacementPatches_(r2[m].base_, e2, t2.patches_, t2.inversePatches_)) : e2 = J(t2, r2, []), W(t2), t2.patches_ && t2.patchListener_(t2.patches_, t2.inversePatches_), e2 !== y ? e2 : void 0;
 }
-function q(e2, t2, r2) {
+function J(e2, t2, r2) {
   if (k(t2)) return t2;
   let n2 = t2[m];
-  if (!n2) return j(t2, (i2, a2) => J(e2, n2, t2, i2, a2, r2)), t2;
+  if (!n2) return j(t2, (i2, a2) => q(e2, n2, t2, i2, a2, r2)), t2;
   if (n2.scope_ !== e2) return t2;
   if (!n2.modified_) return G(e2, n2.base_, true), n2.base_;
   if (!n2.finalized_) {
     n2.finalized_ = true, n2.scope_.unfinalizedDrafts_--;
     let t3 = n2.copy_, i2 = t3, a2 = false;
-    3 === n2.type_ && (i2 = new Set(t3), t3.clear(), a2 = true), j(i2, (i3, o2) => J(e2, n2, t3, i3, o2, r2, a2)), G(e2, t3, false), r2 && e2.patches_ && K("Patches").generatePatches_(n2, r2, e2.patches_, e2.inversePatches_);
+    3 === n2.type_ && (i2 = new Set(t3), t3.clear(), a2 = true), j(i2, (i3, o2) => q(e2, n2, t3, i3, o2, r2, a2)), G(e2, t3, false), r2 && e2.patches_ && K("Patches").generatePatches_(n2, r2, e2.patches_, e2.inversePatches_);
   }
   return n2.copy_;
 }
-function J(e2, t2, r2, n2, i2, a2, o2) {
+function q(e2, t2, r2, n2, i2, a2, o2) {
   if (w(i2)) {
-    let o3 = q(e2, i2, a2 && t2 && 3 !== t2.type_ && !S(t2.assigned_, n2) ? a2.concat(n2) : void 0);
+    let o3 = J(e2, i2, a2 && t2 && 3 !== t2.type_ && !M(t2.assigned_, n2) ? a2.concat(n2) : void 0);
     if (E(r2, n2, o3), !w(o3)) return;
     e2.canAutoFreeze_ = false;
   } else o2 && r2.add(i2);
   if (_(i2) && !k(i2)) {
     if (!e2.immer_.autoFreeze_ && e2.unfinalizedDrafts_ < 1) return;
-    q(e2, i2), (!t2 || !t2.scope_.parent_) && "symbol" != typeof n2 && Object.prototype.propertyIsEnumerable.call(r2, n2) && G(e2, i2);
+    J(e2, i2), (!t2 || !t2.scope_.parent_) && "symbol" != typeof n2 && Object.prototype.propertyIsEnumerable.call(r2, n2) && G(e2, i2);
   }
 }
 function G(e2, t2) {
@@ -140,7 +140,7 @@ function G(e2, t2) {
 var H = { get(e2, t2) {
   if (t2 === m) return e2;
   let r2 = R(e2);
-  if (!S(r2, t2)) return function(e3, t3, r3) {
+  if (!M(r2, t2)) return function(e3, t3, r3) {
     var n3;
     let i2 = X(t3, r3);
     return i2 ? "value" in i2 ? i2.value : null === (n3 = i2.get) || void 0 === n3 ? void 0 : n3.call(e3.draft_) : void 0;
@@ -153,7 +153,7 @@ var H = { get(e2, t2) {
   if (!e2.modified_) {
     let n3 = L(R(e2), t2), i2 = null == n3 ? void 0 : n3[m];
     if (i2 && i2.base_ === r2) return e2.copy_[t2] = r2, e2.assigned_[t2] = false, true;
-    if ((r2 === n3 ? 0 !== r2 || 1 / r2 == 1 / n3 : r2 != r2 && n3 != n3) && (void 0 !== r2 || S(e2.base_, t2))) return true;
+    if ((r2 === n3 ? 0 !== r2 || 1 / r2 == 1 / n3 : r2 != r2 && n3 != n3) && (void 0 !== r2 || M(e2.base_, t2))) return true;
     Q(e2), B(e2);
   }
   return !!(e2.copy_[t2] === r2 && (void 0 !== r2 || t2 in e2.copy_) || Number.isNaN(r2) && Number.isNaN(e2.copy_[t2])) || (e2.copy_[t2] = r2, e2.assigned_[t2] = true, true);
@@ -345,7 +345,7 @@ Z.produceWithPatches.bind(Z), Z.setAutoFreeze.bind(Z), Z.setUseStrictShallowCopy
           if (p3.isProviderFor(e5, t4)) return p3;
           if (!g2(h3)) {
             if (h3.isProviderFor(e5, t4)) return p3;
-            if (!g2(y3)) for (var r5 = S2(y3); ; ) {
+            if (!g2(y3)) for (var r5 = M2(y3); ; ) {
               var n5 = E2(r5);
               if (!n5) return;
               var i4 = n5.value;
@@ -371,7 +371,7 @@ Z.produceWithPatches.bind(Z), Z.setAutoFreeze.bind(Z), Z.setUseStrictShallowCopy
     }, OrdinaryOwnMetadataKeys: function(e4, t4) {
       var r4 = [], i3 = n3(e4, t4, false);
       if (g2(i3)) return r4;
-      for (var a3 = S2(i3.keys()), o3 = 0; ; ) {
+      for (var a3 = M2(i3.keys()), o3 = 0; ; ) {
         var s3 = E2(a3);
         if (!s3) return r4.length = o3, r4;
         var c3 = s3.value;
@@ -464,7 +464,7 @@ Z.produceWithPatches.bind(Z), Z.setAutoFreeze.bind(Z), Z.setUseStrictShallowCopy
         case 5:
           return e4;
       }
-      var r3 = M2(e4, i2);
+      var r3 = S2(e4, i2);
       if (void 0 !== r3) {
         var n3 = r3.call(e4, "string");
         if (w2(n3)) throw TypeError();
@@ -495,15 +495,15 @@ Z.produceWithPatches.bind(Z), Z.setAutoFreeze.bind(Z), Z.setUseStrictShallowCopy
   function j2(e3) {
     return "function" == typeof e3;
   }
-  function M2(e3, t3) {
+  function S2(e3, t3) {
     var r3 = e3[t3];
     if (null != r3) {
       if (!P2(r3)) throw TypeError();
       return r3;
     }
   }
-  function S2(e3) {
-    var t3 = M2(e3, a2);
+  function M2(e3) {
+    var t3 = S2(e3, a2);
     if (!P2(t3)) throw TypeError();
     var r3 = t3.call(e3);
     if (!w2(r3)) throw TypeError();
@@ -851,9 +851,15 @@ const _ev = class _ev {
   coercer(e2, t2) {
     if (s(e2)) {
       let t3 = e2.trim();
-      if (t3.length >= 2 && (t3.startsWith("{") && t3.endsWith("}") || t3.startsWith("[") && t3.endsWith("]"))) try {
-        return JSON.parse(t3);
-      } catch (e3) {
+      if (t3.length >= 2) {
+        if (t3.startsWith("{") && t3.endsWith("}")) try {
+          return JSON.parse(t3);
+        } catch (e3) {
+        }
+        if (t3.startsWith("[") && t3.endsWith("]")) try {
+          return JSON.parse(t3);
+        } catch (e3) {
+        }
       }
     }
     return e2;
@@ -1022,7 +1028,7 @@ __publicField(_ej, "create", el(_ej.createEnum));
 __publicField(_ej, "literal", el((e2) => new _ej({ enum: [e2] })));
 __publicField(_ej, "nativeEnum", el((e2) => new _ej({ enum: Object.values(e2) })));
 let ej = _ej;
-const _eM = class _eM extends ev {
+const _eS = class _eS extends ev {
   get type() {
     return "never";
   }
@@ -1030,9 +1036,9 @@ const _eM = class _eM extends ev {
     return false;
   }
 };
-__publicField(_eM, "create", el(() => new _eM(false)));
-let eM = _eM;
-class eS extends ev {
+__publicField(_eS, "create", el(() => new _eS(false)));
+let eS = _eS;
+class eM extends ev {
   static create(e2) {
     let t2 = function() {
       let e3 = arguments.length > 0 && void 0 !== arguments[0] ? arguments[0] : {}, t3 = [];
@@ -1054,11 +1060,11 @@ class eS extends ev {
               } else a2[e3] = i3;
             }
           }
-          return new eS({ type: "object", properties: a2, required: t2(a2), additionalProperties: eM.create() });
+          return new eM({ type: "object", properties: a2, required: t2(a2), additionalProperties: eS.create() });
         }
-        return new eS({ type: "object", properties: e2, required: t2(e2), additionalProperties: eM.create() });
+        return new eM({ type: "object", properties: e2, required: t2(e2), additionalProperties: eS.create() });
       }
-      return new eS({ type: "object", properties: {}, required: [], additionalProperties: eM.create() });
+      return new eM({ type: "object", properties: {}, required: [], additionalProperties: eS.create() });
     })();
   }
   get type() {
@@ -1131,9 +1137,9 @@ const _ex = class _ex extends ev {
       else {
         let r3 = { [e2]: ej.literal(n3) };
         for (let [e3, t4, n4] of i2.entries({}, er)) r3[String(e3)] = n4;
-        t3.push(eS.create(r3));
+        t3.push(eM.create(r3));
       }
-      else for (let e3 of r2) l(e3) && t3.push(eS.create(e3));
+      else for (let e3 of r2) l(e3) && t3.push(eM.create(e3));
       return new _ex({ oneOf: t3, discriminator: { propertyName: e2 } });
     })();
   }
@@ -1177,7 +1183,7 @@ const _ex = class _ex extends ev {
   *entries(e2) {
     let t2 = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : er;
     if (this.schema.discriminator) {
-      let r2 = this.schema.discriminator.propertyName, n2 = null == e2 ? void 0 : e2[r2], i2 = eS.create({ [r2]: this.discriminatorPropType(t2), ...this.discriminatorMapping(r2, n2, t2) });
+      let r2 = this.schema.discriminator.propertyName, n2 = null == e2 ? void 0 : e2[r2], i2 = eM.create({ [r2]: this.discriminatorPropType(t2), ...this.discriminatorMapping(r2, n2, t2) });
       yield* i2.entries(e2, t2);
     }
   }
@@ -1194,7 +1200,7 @@ const _ex = class _ex extends ev {
   validator(e2, t2) {
     if (this.schema.discriminator) {
       let r3 = this.schema.discriminator.propertyName, n2 = null == e2 ? void 0 : e2[r3];
-      return eS.create({ [r3]: this.discriminatorPropType(t2), ...this.discriminatorMapping(r3, n2, t2) }).validator(e2, t2);
+      return eM.create({ [r3]: this.discriminatorPropType(t2), ...this.discriminatorMapping(r3, n2, t2) }).validator(e2, t2);
     }
     let r2 = [];
     for (let n2 of this.schema.oneOf) {
@@ -1210,7 +1216,7 @@ __publicField(_ex, "create", el(function() {
   return new _ex({ oneOf: t2 });
 }));
 let ex = _ex;
-let eR = ew.create, eT = e_.create, eN = eO.create, ez = eP.create, ek = ej.create, eF = ej.nativeEnum, eK = eS.create, eD = eE.create, eW = eA.create, e$ = ex.create, eC = ev.define, eI = eu((e2) => eb.create(e2)), eV = eu((e2, t2) => em.of(e2, { [ef.meta]: t2 }));
+let eR = ew.create, eT = e_.create, eN = eO.create, ez = eP.create, ek = ej.create, eF = ej.nativeEnum, eK = eM.create, eD = eE.create, eW = eA.create, e$ = ex.create, eC = ev.define, eI = eu((e2) => eb.create(e2)), eV = eu((e2, t2) => em.of(e2, { [ef.meta]: t2 }));
 export {
   er as E,
   ey as J,
