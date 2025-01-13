@@ -1,4 +1,4 @@
-import { component$, render, rx, t } from "@innoai-tech/vuekit";
+import { component$, ImmerBehaviorSubject, render, rx, t } from "@innoai-tech/vuekit";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
 import { filter, switchMap } from "rxjs";
 import { Box, styled } from "@innoai-tech/vueuikit";
@@ -6,6 +6,10 @@ import { ResponseView } from "./ResponseView.tsx";
 import { RequestBuilder } from "./RequestBuilder.tsx";
 import { Markdown } from "@innoai-tech/vuemarkdown";
 import { DatabaseErContainer } from "./DatabaseErView.tsx";
+import { PreWithMermaid } from "./MermaidView.tsx";
+import { Dialog, Icon, IconButton } from "@innoai-tech/vuematerial";
+import { mdiHelp } from "@mdi/js";
+import { MarkdownContainer } from "./SchemaView.tsx";
 
 export const OperationView = component$({
   operationId: t.string()
@@ -22,43 +26,77 @@ export const OperationView = component$({
     filter((op): op is NonNullable<typeof op> => !!op)
   );
 
-  const $heading = rx(
+  const open$ = ImmerBehaviorSubject.seed(false);
+
+  const $descInDialog = rx(
     opExists$,
     render((op) => {
-      return (
-        <OperationHeading sx={{
-          containerStyle: ({
-            "get": "sys.primary-container",
-            "post": "sys.success-container",
-            "put": "sys.warning-container",
-            "delete": "sys.error-container"
-          } as const)[op.method] ?? "sys.secondary-container"
+      return op.description ? (
+        <Markdown
+          text={op.description}
+          components={{
+            "pre": PreWithMermaid
+          }}
+        />
+      ) : null;
+    })
+  );
 
-        }}>
-          <div data-operation-method>
-            {op.method}
-          </div>
-          <div data-operation-desc>
-            <div data-operation-path>
-              {op.path}
-            </div>
-            <div data-operation-summary>
-              {op.summary} {op.operationId != op.summary ? op.operationId : ""}
-            </div>
-          </div>
-        </OperationHeading>
+  const $dialog = rx(
+    open$,
+    render((open) => {
+      return (
+        <Dialog
+          isOpen={open}
+          onClose={() => {
+            open$.next(false);
+          }}
+        >
+          <DialogContainer>
+            <MarkdownContainer>
+              {$descInDialog}
+            </MarkdownContainer>
+          </DialogContainer>
+        </Dialog>
       );
     })
   );
 
-  const $desc = rx(
+  const DialogContainer = styled("div")({
+    containerStyle: "sys.surface",
+    width: "95vw",
+    maxHeight: "98vh",
+    roundedBottom: "sm",
+    px: 32,
+    pt: 16,
+    py: 48,
+    top: 0,
+    position: "absolute",
+    overflow: "auto",
+
+    "pre": {
+      width: "100%"
+    },
+
+    "svg,img": {
+      display: "block",
+      m: "0 auto"
+    }
+  });
+
+  const $descBtn = rx(
     opExists$,
     render((op) => {
-      return (
-        <Box sx={{ px: 24 }}>
-          <Markdown text={op.description ?? ""} />
-        </Box>
-      );
+      return op.description ? (
+        <IconButton
+          onClick={() => {
+            open$.next(true);
+          }}
+        >
+          <Icon path={mdiHelp} />
+          {$dialog}
+        </IconButton>
+      ) : null;
     })
   );
 
@@ -82,6 +120,36 @@ export const OperationView = component$({
     })
   );
 
+  const $heading = rx(
+    opExists$,
+    render((op) => {
+      return (
+        <OperationHeading sx={{
+          containerStyle: ({
+            "get": "sys.primary-container",
+            "post": "sys.success-container",
+            "put": "sys.warning-container",
+            "delete": "sys.error-container"
+          } as const)[op.method] ?? "sys.secondary-container"
+        }}>
+          <div data-operation-method>
+            {op.method}
+          </div>
+          <div data-operation-desc>
+            <div data-operation-path>
+              {op.path}
+            </div>
+            <div data-operation-summary>
+              {op.summary} {op.operationId != op.summary ? op.operationId : ""}
+            </div>
+          </div>
+          <Box sx={{ flex: 1 }} />
+          {$descBtn}
+        </OperationHeading>
+      );
+    })
+  );
+
   return rx(
     op$,
     render((op) => {
@@ -92,20 +160,18 @@ export const OperationView = component$({
         return (
           <OperationContainer key={op.operationId}>
             {$heading}
-            {$desc}
             <OperationMain>
               <DatabaseErContainer
                 op={op}
               />
             </OperationMain>
           </OperationContainer>
-        )
+        );
       }
 
       return (
         <OperationContainer key={op.operationId}>
           {$heading}
-          {$desc}
           <OperationMain>
             <Box sx={{
               flex: 1,
@@ -119,6 +185,7 @@ export const OperationView = component$({
     })
   );
 });
+
 
 const OperationContainer = styled("div")({
   height: "100%",
@@ -137,7 +204,7 @@ const OperationMain = styled("div")({
 });
 
 
-const OperationHeading = styled("div")({
+const OperationHeading = styled("summary")({
   display: "flex",
   alignItems: "center",
   width: "100%",

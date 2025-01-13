@@ -1,5 +1,5 @@
 import { transform, usePlugin } from "@innoai-tech/purebundle";
-import { type Plugin, createFilter } from "vite";
+import { createFilter, type Plugin } from "vite";
 import { isUndefined } from "@innoai-tech/lodash";
 
 export const chunkCleanup = (
@@ -13,14 +13,14 @@ export const chunkCleanup = (
       exclude?: string[];
       include?: string[];
     };
-  } = {},
+  } = {}
 ): Plugin => {
   const isJSOrLike = createFilter([
     /\.vue$/,
     /\.mdx$/,
     /\.tsx?$/,
     /\.mjs$/,
-    /\.jsx?$/,
+    /\.jsx?$/
   ]);
 
   return {
@@ -50,24 +50,33 @@ export const chunkCleanup = (
       const result = await transform(code, {
         filename: id,
         env: opt.env ?? { targets: "defaults" },
-        minify: false,
+        minify: false
       });
 
       return (
         result.code && {
           code: result.code,
-          map: result.map || null,
+          map: result.map || null
         }
       );
     },
 
-    async renderChunk(code: string) {
+    async renderChunk(code: string, c) {
+      if (c.fileName.includes("/vendor-min-")) {
+        return (
+          await transform(code, {
+            minify: false,
+            plugins: [usePlugin({})]
+          })
+        ).code;
+      }
+
       return (
         await transform(code, {
           minify: opt.minify ?? false,
-          plugins: [usePlugin({})],
+          plugins: [usePlugin({})]
         })
       ).code;
-    },
+    }
   };
 };

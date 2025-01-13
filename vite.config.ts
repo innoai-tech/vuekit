@@ -48,17 +48,6 @@ export default defineConfig({
     }),
     chunkCleanup({
       minify: true,
-      env: {
-        targets: {
-          chrome: "76"
-        },
-        mode: "usage",
-        coreJs: "3.31.0",
-        exclude: [
-          // 哪个报错加哪个
-          "es.symbol.async-dispose"
-        ]
-      }
     })
   ]
 });

@@ -93,7 +93,6 @@ export const TextField = styled<{
     right: 0,
     display: "flex",
     zIndex: 1,
-    pointerEvents: "none",
     rounded: "xs"
   },
 
@@ -107,7 +106,8 @@ export const TextField = styled<{
     borderLeft: "1px solid",
     borderTop: "1px solid",
     borderBottom: "1px solid",
-    borderColor: "sys.outline"
+    borderColor: "sys.outline",
+    pointerEvents: "none"
   },
 
   $data_input_decorator_label: {
@@ -126,7 +126,8 @@ export const TextField = styled<{
     roundedRight: "xs",
     transitionDuration: "sm1",
     transitionTimingFunction: "standard",
-    flex: 1
+    flex: 1,
+    pointerEvents: "none"
   },
 
   $data_input_label: {

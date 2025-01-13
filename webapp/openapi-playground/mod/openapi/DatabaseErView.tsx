@@ -187,7 +187,6 @@ const DatabaseErTableColumnOfView = component$<{
   );
 
   return () => {
-
     return (
       <DatabaseErTableColumnOf
         onClick={() => {
@@ -316,12 +315,11 @@ export const DatabaseDescription = styled<{
   }
 });
 
-
 const DialogContainer = styled("div")({
   display: "flex",
   containerStyle: "sys.surface",
   width: "90vw",
-  roundedLeft: "sm",
+  roundedBottom: "sm",
   px: 16,
   py: 36,
   top: 0,

@@ -12,7 +12,9 @@
   "devDependencies": {
     "reflect-metadata": "^0.2.2"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@innoai-tech/lodash": "*"
+  },
   "exports": {
     ".": {
       "bun": "./src/index.ts",
