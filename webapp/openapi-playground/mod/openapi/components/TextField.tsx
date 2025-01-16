@@ -82,7 +82,8 @@ export const TextField = styled<{
     minHeight: 40,
 
     display: "flex",
-    alignItems: "stretch"
+    alignItems: "stretch",
+    zIndex: 1
   },
 
   $data_input_decorator_container: {
