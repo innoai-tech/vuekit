@@ -39,10 +39,6 @@ export const ResponseView = component$({
                         <Token>{"{"}&nbsp;</Token>
                         <Indent>
                           {Object.entries(statusErr).map(([key, value]) => {
-                            if (key === "code") {
-                              return null;
-                            }
-
                             return (
                               <Line>
                                 <PropName>{key}</PropName>
@@ -89,11 +85,9 @@ export const ResponseView = component$({
 });
 
 type StatusErr = {
-  key: string,
-  msg?: string,
-  desc?: string,
+  code: string,
+  message?: string,
 }
-
 
 // x,v,"c,d" => x v "c,d"
 function splitCsv(str: string) {
@@ -136,8 +130,8 @@ function parseStatusErr(statusErr: string = ""): StatusErr | null {
           [key]: JSON.parse(value)
         };
       }, {
-        key: statusErr.slice(0, i)
-      }) as { key: string, msg?: string, desc?: string };
+        code: statusErr.slice(0, i)
+      }) as { code: string, message?: string, [k: string]: any };
   }
   return null;
 }
