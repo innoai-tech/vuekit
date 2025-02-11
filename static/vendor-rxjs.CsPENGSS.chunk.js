@@ -211,15 +211,12 @@ function p(t2) {
 function v(t2) {
   c(t2) ? t2() : t2.unsubscribe();
 }
-var d = { Promise: void 0 }, y = { setTimeout: function(t2, r2) {
+var d = { Promise: void 0 }, y = function(t2, r2) {
   for (var n2 = [], e2 = 2; e2 < arguments.length; e2++) n2[e2 - 2] = arguments[e2];
   return setTimeout.apply(void 0, i([t2, r2], o(n2)));
-}, clearTimeout: function(t2) {
-  var r2 = y.delegate;
-  return ((null == r2 ? void 0 : r2.clearTimeout) || clearTimeout)(t2);
-}, delegate: void 0 };
+};
 function b(t2) {
-  y.setTimeout(function() {
+  y(function() {
     throw t2;
   });
 }
@@ -313,8 +310,10 @@ var A = function() {
     var n2 = new t2();
     return n2.source = this, n2.operator = r2, n2;
   }, t2.prototype.subscribe = function(t3, r2, n2) {
-    var e2, o2, i2, u2 = (e2 = t3) && e2 instanceof w || e2 && c(e2.next) && c(e2.error) && c(e2.complete) && p(e2) ? t3 : new g(t3, r2, n2);
-    return o2 = this.operator, i2 = this.source, u2.add(o2 ? o2.call(u2, i2) : i2 ? this._subscribe(u2) : this._trySubscribe(u2)), u2;
+    var e2, o2, i2 = this, u2 = !function(t4) {
+      return t4 && t4 instanceof w || t4 && c(t4.next) && c(t4.error) && c(t4.complete) && p(t4);
+    }(t3) ? new g(t3, r2, n2) : t3;
+    return e2 = i2.operator, o2 = i2.source, u2.add(e2 ? e2.call(u2, o2) : o2 ? i2._subscribe(u2) : i2._trySubscribe(u2)), u2;
   }, t2.prototype._trySubscribe = function(t3) {
     try {
       return this._subscribe(t3);
@@ -373,10 +372,10 @@ function j(t2) {
     throw TypeError("Unable to lift unknown Observable type");
   };
 }
-function T(t2, r2, n2, e2, o2) {
-  return new k(t2, r2, n2, e2, o2);
+function k(t2, r2, n2, e2, o2) {
+  return new T(t2, r2, n2, e2, o2);
 }
-var k = function(t2) {
+var T = function(t2) {
   function n2(r2, n3, e2, o2, i2, u2) {
     var c2 = t2.call(this, r2) || this;
     return c2.onFinalize = i2, c2.shouldUnsubscribe = u2, c2._next = n3 ? function(t3) {
@@ -694,41 +693,50 @@ function $(t2) {
 function tt(t2) {
   if (t2 instanceof A) return t2;
   if (null != t2) {
-    if (c(t2[S])) return new A(function(r2) {
-      var n2 = t2[S]();
-      if (c(n2.subscribe)) return n2.subscribe(r2);
-      throw TypeError("Provided object does not correctly implement Symbol.observable");
-    });
-    if (H(t2)) return new A(function(r2) {
-      for (var n2 = 0; n2 < t2.length && !r2.closed; n2++) r2.next(t2[n2]);
-      r2.complete();
-    });
-    if (J(t2)) return new A(function(r2) {
-      t2.then(function(t3) {
-        r2.closed || (r2.next(t3), r2.complete());
-      }, function(t3) {
-        return r2.error(t3);
-      }).then(null, b);
-    });
+    var r2, n2, o2, i2;
+    if (c(t2[S])) {
+      return r2 = t2, new A(function(t3) {
+        var n3 = r2[S]();
+        if (c(n3.subscribe)) return n3.subscribe(t3);
+        throw TypeError("Provided object does not correctly implement Symbol.observable");
+      });
+    }
+    if (H(t2)) {
+      return n2 = t2, new A(function(t3) {
+        for (var r3 = 0; r3 < n2.length && !t3.closed; r3++) t3.next(n2[r3]);
+        t3.complete();
+      });
+    }
+    if (J(t2)) {
+      return o2 = t2, new A(function(t3) {
+        o2.then(function(r3) {
+          t3.closed || (t3.next(r3), t3.complete());
+        }, function(r3) {
+          return t3.error(r3);
+        }).then(null, b);
+      });
+    }
     if (K(t2)) return tr(t2);
-    if (X(t2)) return new A(function(r2) {
-      var n2, o2;
-      try {
-        for (var i2 = e(t2), u2 = i2.next(); !u2.done; u2 = i2.next()) {
-          var c2 = u2.value;
-          if (r2.next(c2), r2.closed) return;
-        }
-      } catch (t3) {
-        n2 = { error: t3 };
-      } finally {
+    if (X(t2)) {
+      return i2 = t2, new A(function(t3) {
+        var r3, n3;
         try {
-          u2 && !u2.done && (o2 = i2.return) && o2.call(i2);
+          for (var o3 = e(i2), u2 = o3.next(); !u2.done; u2 = o3.next()) {
+            var c2 = u2.value;
+            if (t3.next(c2), t3.closed) return;
+          }
+        } catch (t4) {
+          r3 = { error: t4 };
         } finally {
-          if (n2) throw n2.error;
+          try {
+            u2 && !u2.done && (n3 = o3.return) && n3.call(o3);
+          } finally {
+            if (r3) throw r3.error;
+          }
         }
-      }
-      r2.complete();
-    });
+        t3.complete();
+      });
+    }
     if ($(t2)) return tr(Z(t2));
   }
   throw Q(t2);
@@ -825,7 +833,7 @@ function tn(t2, r2, n2, e2, o2) {
 }
 function te(t2, r2) {
   return void 0 === r2 && (r2 = 0), j(function(n2, e2) {
-    n2.subscribe(T(e2, function(n3) {
+    n2.subscribe(k(e2, function(n3) {
       return tn(e2, t2, function() {
         return e2.next(n3);
       }, r2);
@@ -900,7 +908,7 @@ function tc(t2) {
 function ts(t2, r2) {
   return j(function(n2, e2) {
     var o2 = 0;
-    n2.subscribe(T(e2, function(n3) {
+    n2.subscribe(k(e2, function(n3) {
       e2.next(t2.call(r2, n3, o2++));
     }));
   });
@@ -913,45 +921,50 @@ function tl(t2) {
 }
 var tf = Array.isArray, th = Object.getPrototypeOf, tp = Object.prototype, tv = Object.keys;
 function td() {
-  for (var t2, r2 = [], n2 = 0; n2 < arguments.length; n2++) r2[n2] = arguments[n2];
-  var e2 = G(r2), o2 = c(V(r2)) ? r2.pop() : void 0, i2 = function(t3) {
+  for (var t2, r2, n2, e2 = [], o2 = 0; o2 < arguments.length; o2++) e2[o2] = arguments[o2];
+  var i2 = G(e2), u2 = c(V(e2)) ? e2.pop() : void 0, s2 = function(t3) {
     if (1 === t3.length) {
-      var r3 = t3[0];
-      if (tf(r3)) return { args: r3, keys: null };
-      if (r3 && "object" == typeof r3 && th(r3) === tp) {
-        var n3 = tv(r3);
-        return { args: n3.map(function(t4) {
-          return r3[t4];
-        }), keys: n3 };
+      var r3, n3 = t3[0];
+      if (tf(n3)) return { args: n3, keys: null };
+      if ((r3 = n3) && "object" == typeof r3 && th(r3) === tp) {
+        var e3 = tv(n3);
+        return { args: e3.map(function(t4) {
+          return n3[t4];
+        }), keys: e3 };
       }
     }
     return { args: t3, keys: null };
-  }(r2), u2 = i2.args, s2 = i2.keys;
-  if (0 === u2.length) return tu([], e2);
-  var a2 = new A((void 0 === (t2 = s2 ? function(t3) {
-    return s2.reduce(function(r3, n3, e3) {
+  }(e2), a2 = s2.args, l2 = s2.keys;
+  if (0 === a2.length) return tu([], i2);
+  var f2 = new A((t2 = a2, r2 = i2, void 0 === (n2 = l2 ? function(t3) {
+    return l2.reduce(function(r3, n3, e3) {
       return r3[n3] = t3[e3], r3;
     }, {});
-  } : O) && (t2 = O), function(r3) {
-    var n3, o3, i3;
-    n3 = e2, o3 = function() {
-      for (var n4 = u2.length, o4 = Array(n4), i4 = n4, c2 = n4, s3 = function(n5) {
-        var s4, a4, l2;
-        s4 = e2, a4 = function() {
-          var s5 = tu(u2[n5], e2), a5 = false;
-          s5.subscribe(T(r3, function(e3) {
-            o4[n5] = e3, !a5 && (a5 = true, c2--), c2 || r3.next(t2(o4.slice()));
+  } : O) && (n2 = O), function(e3) {
+    (function(t3, r3, n3) {
+      t3 ? tn(n3, t3, r3) : r3();
+    })(r2, function() {
+      for (var o3 = t2.length, i3 = Array(o3), u3 = o3, c2 = o3, s3 = function(o4) {
+        (function(t3, r3, n3) {
+          t3 ? tn(n3, t3, r3) : r3();
+        })(r2, function() {
+          var s4 = tu(t2[o4], r2), a4 = false;
+          s4.subscribe(k(e3, function(t3) {
+            i3[o4] = t3, !a4 && (a4 = true, c2--), c2 || e3.next(n2(i3.slice()));
           }, function() {
-            --i4 || r3.complete();
+            --u3 || e3.complete();
           }));
-        }, l2 = r3, s4 ? tn(l2, s4, a4) : a4();
-      }, a3 = 0; a3 < n4; a3++) s3(a3);
-    }, i3 = r3, n3 ? tn(i3, n3, o3) : o3();
+        }, e3);
+      }, a3 = 0; a3 < o3; a3++) s3(a3);
+    }, e3);
   }));
-  return o2 ? a2.pipe(tl(o2)) : a2;
+  return u2 ? f2.pipe(tl(u2)) : f2;
 }
 function ty(t2, r2, n2) {
-  return (void 0 === n2 && (n2 = 1 / 0), c(r2)) ? ty(function(n3, e2) {
+  t2 ? tn(n2, t2, r2) : r2();
+}
+function tb(t2, r2, n2) {
+  return (void 0 === n2 && (n2 = 1 / 0), c(r2)) ? tb(function(n3, e2) {
     return ts(function(t3, o2) {
       return r2(n3, t3, e2, o2);
     })(tt(t2(n3, e2)));
@@ -962,7 +975,7 @@ function ty(t2, r2, n2) {
     }, l2 = function(r4) {
       u2++;
       var n3 = false;
-      tt(t2(r4, c2++)).subscribe(T(e2, function(t3) {
+      tt(t2(r4, c2++)).subscribe(k(e2, function(t3) {
         e2.next(t3);
       }, function() {
         n3 = true;
@@ -977,7 +990,7 @@ function ty(t2, r2, n2) {
           e2.error(t3);
         }
       }));
-    }, r3.subscribe(T(e2, function(t3) {
+    }, r3.subscribe(k(e2, function(t3) {
       return u2 < o2 ? l2(t3) : i2.push(t3);
     }, function() {
       s2 = true, a2();
@@ -985,41 +998,41 @@ function ty(t2, r2, n2) {
     };
   }));
 }
-var tb = ["addListener", "removeListener"], tm = ["addEventListener", "removeEventListener"], tw = ["on", "off"];
-function t_(t2, r2, n2, e2) {
-  if (c(n2) && (e2 = n2, n2 = void 0), e2) return t_(t2, r2, n2).pipe(tl(e2));
-  var i2 = o(c(t2.addEventListener) && c(t2.removeEventListener) ? tm.map(function(e3) {
+var tm = ["addListener", "removeListener"], tw = ["addEventListener", "removeEventListener"], t_ = ["on", "off"];
+function tg(t2, r2, n2, e2) {
+  if (c(n2) && (e2 = n2, n2 = void 0), e2) return tg(t2, r2, n2).pipe(tl(e2));
+  var i2, u2, s2, a2 = o(c((i2 = t2).addEventListener) && c(i2.removeEventListener) ? tw.map(function(e3) {
     return function(o2) {
       return t2[e3](r2, o2, n2);
     };
-  }) : c(t2.addListener) && c(t2.removeListener) ? tb.map(tg(t2, r2)) : c(t2.on) && c(t2.off) ? tw.map(tg(t2, r2)) : [], 2), u2 = i2[0], s2 = i2[1];
-  if (!u2 && H(t2)) return ty(function(t3) {
-    return t_(t3, r2, n2);
+  }) : c((u2 = t2).addListener) && c(u2.removeListener) ? tm.map(tx(t2, r2)) : c((s2 = t2).on) && c(s2.off) ? t_.map(tx(t2, r2)) : [], 2), l2 = a2[0], f2 = a2[1];
+  if (!l2 && H(t2)) return tb(function(t3) {
+    return tg(t3, r2, n2);
   })(tt(t2));
-  if (!u2) throw TypeError("Invalid event target");
+  if (!l2) throw TypeError("Invalid event target");
   return new A(function(t3) {
     var r3 = function() {
       for (var r4 = [], n3 = 0; n3 < arguments.length; n3++) r4[n3] = arguments[n3];
       return t3.next(1 < r4.length ? r4 : r4[0]);
     };
-    return u2(r3), function() {
-      return s2(r3);
+    return l2(r3), function() {
+      return f2(r3);
     };
   });
 }
-function tg(t2, r2) {
+function tx(t2, r2) {
   return function(n2) {
     return function(e2) {
       return t2[n2](r2, e2);
     };
   };
 }
-function tx() {
+function tS() {
   for (var t2, r2, n2 = [], e2 = 0; e2 < arguments.length; e2++) n2[e2] = arguments[e2];
   var o2 = G(n2), i2 = (t2 = 1 / 0, "number" == typeof V(n2) ? n2.pop() : t2);
-  return n2.length ? 1 === n2.length ? tt(n2[0]) : (void 0 === (r2 = i2) && (r2 = 1 / 0), ty(O, r2))(tu(n2, o2)) : D;
+  return n2.length ? 1 === n2.length ? tt(n2[0]) : (void 0 === (r2 = i2) && (r2 = 1 / 0), tb(O, r2))(tu(n2, o2)) : D;
 }
-function tS(t2, r2) {
+function tO(t2, r2) {
   return void 0 === r2 && (r2 = B), j(function(n2, e2) {
     var o2 = null, i2 = null, u2 = null, c2 = function() {
       if (o2) {
@@ -1036,7 +1049,7 @@ function tS(t2, r2) {
       }
       c2();
     }
-    n2.subscribe(T(e2, function(n3) {
+    n2.subscribe(k(e2, function(n3) {
       i2 = n3, u2 = r2.now(), o2 || (o2 = r2.schedule(s2, t2), e2.add(o2));
     }, function() {
       c2(), e2.complete();
@@ -1045,7 +1058,7 @@ function tS(t2, r2) {
     }));
   });
 }
-function tO(t2, r2) {
+function tE(t2, r2) {
   void 0 === r2 && (r2 = B);
   var n2, e2, o2, i2, u2, c2 = (n2 = t2, e2 = r2, void 0 === n2 && (n2 = 0), void 0 === o2 && (o2 = B), i2 = -1, null != e2 && (N(e2) ? o2 = e2 : i2 = e2), new A(function(t3) {
     var r3, e3 = (r3 = n2) instanceof Date && !isNaN(r3) ? +n2 - o2.now() : n2;
@@ -1057,10 +1070,10 @@ function tO(t2, r2) {
   }));
   return u2 = function() {
     return c2;
-  }, ty(function(t3, r3) {
+  }, tb(function(t3, r3) {
     return tt(u2(t3, r3)).pipe(j(function(t4, r4) {
       var n3 = 0;
-      t4.subscribe(T(r4, function(t5) {
+      t4.subscribe(k(r4, function(t5) {
         ++n3 <= 1 && (r4.next(t5), 1 <= n3 && r4.complete());
       }));
     }), ts(function() {
@@ -1068,27 +1081,27 @@ function tO(t2, r2) {
     }));
   });
 }
-function tE(t2, r2) {
-  return void 0 === r2 && (r2 = O), t2 = null != t2 ? t2 : tI, j(function(n2, e2) {
+function tI(t2, r2) {
+  return void 0 === r2 && (r2 = O), t2 = null != t2 ? t2 : tA, j(function(n2, e2) {
     var o2, i2 = true;
-    n2.subscribe(T(e2, function(n3) {
+    n2.subscribe(k(e2, function(n3) {
       var u2 = r2(n3);
       (i2 || !t2(o2, u2)) && (i2 = false, o2 = u2, e2.next(n3));
     }));
   });
 }
-function tI(t2, r2) {
+function tA(t2, r2) {
   return t2 === r2;
 }
-function tA(t2, r2) {
+function tP(t2, r2) {
   return j(function(n2, e2) {
     var o2 = null, i2 = 0, u2 = false, c2 = function() {
       return u2 && !o2 && e2.complete();
     };
-    n2.subscribe(T(e2, function(n3) {
+    n2.subscribe(k(e2, function(n3) {
       null == o2 || o2.unsubscribe();
       var u3 = 0, s2 = i2++;
-      tt(t2(n3, s2)).subscribe(o2 = T(e2, function(t3) {
+      tt(t2(n3, s2)).subscribe(o2 = k(e2, function(t3) {
         return e2.next(r2 ? r2(n3, t3, s2, u3++) : t3);
       }, function() {
         o2 = null, c2();
@@ -1098,12 +1111,12 @@ function tA(t2, r2) {
     }));
   });
 }
-function tP(t2, r2, n2) {
+function tj(t2, r2, n2) {
   var e2 = c(t2) || r2 || n2 ? { next: t2, error: r2, complete: n2 } : t2;
   return e2 ? j(function(t3, r3) {
     null === (n3 = e2.subscribe) || void 0 === n3 || n3.call(e2);
     var n3, o2 = true;
-    t3.subscribe(T(r3, function(t4) {
+    t3.subscribe(k(r3, function(t4) {
       var n4;
       null === (n4 = e2.next) || void 0 === n4 || n4.call(e2, t4), r3.next(t4);
     }, function() {
@@ -1118,7 +1131,7 @@ function tP(t2, r2, n2) {
     }));
   }) : O;
 }
-function tj(t2, r2) {
+function tk(t2, r2) {
   var n2 = {};
   for (var e2 in t2) Object.prototype.hasOwnProperty.call(t2, e2) && 0 > r2.indexOf(e2) && (n2[e2] = t2[e2]);
   if (null != t2 && "function" == typeof Object.getOwnPropertySymbols) for (var o2 = 0, e2 = Object.getOwnPropertySymbols(t2); o2 < e2.length; o2++) 0 > r2.indexOf(e2[o2]) && Object.prototype.propertyIsEnumerable.call(t2, e2[o2]) && (n2[e2[o2]] = t2[e2[o2]]);
@@ -1129,17 +1142,17 @@ export {
   D as E,
   A as O,
   C as S,
-  tj as _,
+  tk as _,
   tu as a,
   ts as b,
   td as c,
-  tO as d,
-  tE as e,
-  t_ as f,
-  tS as g,
+  tE as d,
+  tI as e,
+  tg as f,
+  tO as g,
   tc as i,
-  tx as m,
+  tS as m,
   E as p,
-  tA as s,
-  tP as t
+  tP as s,
+  tj as t
 };
