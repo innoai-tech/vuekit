@@ -72,12 +72,14 @@ export const RequestBuilder = component$<{
         f.label(`body, content-type = ${JSON.stringify(contentType)}`)
       );
 
-      if (contentType.includes("json")) {
-        propSchemas["body"] = x.use(f.inputBy(JSONEditorInput));
+      if (contentType.includes("text/")) {
+        propSchemas["body"] = x;
       } else if (contentType.includes("octet-stream")) {
         propSchemas["body"] = x.use(f.inputBy(FileSelectInput));
+      } else if (contentType.includes("image/")) {
+        propSchemas["body"] = x.use(f.inputBy(FileSelectInput));
       } else {
-        propSchemas["body"] = x;
+        propSchemas["body"] = x.use(f.inputBy(JSONEditorInput));
       }
     }
   }

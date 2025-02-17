@@ -15,7 +15,7 @@
     "@innoai-tech/vuecomponentcompleter": "^0.2.3",
     "@mapbox/rehype-prism": "^0.9.0",
     "@mdx-js/rollup": "^3.1.0",
-    "@swc/core": "^1.10.15",
+    "@swc/core": "^1.10.16",
     "@vitejs/plugin-vue": "^5.2.1",
     "hastscript": "^9.0.0",
     "unist-util-visit": "^5.0.0",
