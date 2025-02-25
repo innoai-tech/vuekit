@@ -60,22 +60,22 @@ function y(e10, t10) {
 function x(e10) {
   return e10.replace(/[\t\n\r ]+/g, " ").replace(/^ | $/g, "").toLowerCase().toUpperCase();
 }
-let v = (nX = /[A-Za-z]/, function(e10) {
+let v = (nK = /[A-Za-z]/, function(e10) {
+  return null !== e10 && e10 > -1 && nK.test(String.fromCharCode(e10));
+}), k = (nX = /[\dA-Za-z]/, function(e10) {
   return null !== e10 && e10 > -1 && nX.test(String.fromCharCode(e10));
-}), k = (nZ = /[\dA-Za-z]/, function(e10) {
+}), b = (nZ = /[#-'*+\--9=?A-Z^-~]/, function(e10) {
   return null !== e10 && e10 > -1 && nZ.test(String.fromCharCode(e10));
-}), b = (nJ = /[#-'*+\--9=?A-Z^-~]/, function(e10) {
-  return null !== e10 && e10 > -1 && nJ.test(String.fromCharCode(e10));
 });
 function C(e10) {
   return null !== e10 && (e10 < 32 || 127 === e10);
 }
-let S = (nG = /\d/, function(e10) {
+let S = (nJ = /\d/, function(e10) {
+  return null !== e10 && e10 > -1 && nJ.test(String.fromCharCode(e10));
+}), A = (nG = /[\dA-Fa-f]/, function(e10) {
   return null !== e10 && e10 > -1 && nG.test(String.fromCharCode(e10));
-}), A = (n1 = /[\dA-Fa-f]/, function(e10) {
+}), w = (n1 = /[!-/:-@[-`{-~]/, function(e10) {
   return null !== e10 && e10 > -1 && n1.test(String.fromCharCode(e10));
-}), w = (n0 = /[!-/:-@[-`{-~]/, function(e10) {
-  return null !== e10 && e10 > -1 && n0.test(String.fromCharCode(e10));
 });
 function I(e10) {
   return null !== e10 && e10 < -2;
@@ -86,10 +86,10 @@ function T(e10) {
 function L(e10) {
   return -2 === e10 || -1 === e10 || 32 === e10;
 }
-let D = (n2 = new RegExp("\\p{P}|\\p{S}", "u"), function(e10) {
+let D = (n0 = new RegExp("\\p{P}|\\p{S}", "u"), function(e10) {
+  return null !== e10 && e10 > -1 && n0.test(String.fromCharCode(e10));
+}), O = (n2 = /\s/, function(e10) {
   return null !== e10 && e10 > -1 && n2.test(String.fromCharCode(e10));
-}), O = (n4 = /\s/, function(e10) {
-  return null !== e10 && e10 > -1 && n4.test(String.fromCharCode(e10));
 });
 function z(e10) {
   let t10 = [], n10 = -1, r2 = 0, i2 = 0;
@@ -228,7 +228,7 @@ let _ = { tokenize: function(e10) {
 function P(e10) {
   return null === e10 || T(e10) || O(e10) ? 1 : D(e10) ? 2 : void 0;
 }
-function N(e10, t10, n10) {
+function j(e10, t10, n10) {
   let r2 = [], i2 = -1;
   for (; ++i2 < e10.length; ) {
     let l2 = e10[i2].resolveAll;
@@ -236,7 +236,7 @@ function N(e10, t10, n10) {
   }
   return t10;
 }
-let j = { name: "attention", tokenize: function(e10, t10) {
+let N = { name: "attention", tokenize: function(e10, t10) {
   let n10;
   let r2 = this.parser.constructs.attentionMarkers.null, i2 = this.previous, l2 = P(i2);
   return function(o2) {
@@ -253,7 +253,7 @@ let j = { name: "attention", tokenize: function(e10, t10) {
       if ((e10[n10][1]._close || e10[s2][1]._open) && (e10[s2][1].end.offset - e10[s2][1].start.offset) % 3 && !((e10[n10][1].end.offset - e10[n10][1].start.offset + e10[s2][1].end.offset - e10[s2][1].start.offset) % 3)) continue;
       u2 = e10[n10][1].end.offset - e10[n10][1].start.offset > 1 && e10[s2][1].end.offset - e10[s2][1].start.offset > 1 ? 2 : 1;
       let f2 = Object.assign({}, e10[n10][1].end), p2 = Object.assign({}, e10[s2][1].start);
-      R(f2, -u2), R(p2, u2), l2 = { type: u2 > 1 ? "strongSequence" : "emphasisSequence", start: f2, end: Object.assign({}, e10[n10][1].end) }, o2 = { type: u2 > 1 ? "strongSequence" : "emphasisSequence", start: Object.assign({}, e10[s2][1].start), end: p2 }, i2 = { type: u2 > 1 ? "strongText" : "emphasisText", start: Object.assign({}, e10[n10][1].end), end: Object.assign({}, e10[s2][1].start) }, r2 = { type: u2 > 1 ? "strong" : "emphasis", start: Object.assign({}, l2.start), end: Object.assign({}, o2.end) }, e10[n10][1].end = Object.assign({}, l2.start), e10[s2][1].start = Object.assign({}, o2.end), a2 = [], e10[n10][1].end.offset - e10[n10][1].start.offset && (a2 = h(a2, [["enter", e10[n10][1], t10], ["exit", e10[n10][1], t10]])), a2 = h(a2, [["enter", r2, t10], ["enter", l2, t10], ["exit", l2, t10], ["enter", i2, t10]]), a2 = h(a2, N(t10.parser.constructs.insideSpan.null, e10.slice(n10 + 1, s2), t10)), a2 = h(a2, [["exit", i2, t10], ["enter", o2, t10], ["exit", o2, t10], ["exit", r2, t10]]), e10[s2][1].end.offset - e10[s2][1].start.offset ? (c2 = 2, a2 = h(a2, [["enter", e10[s2][1], t10], ["exit", e10[s2][1], t10]])) : c2 = 0, d(e10, n10 - 1, s2 - n10 + 3, a2), s2 = n10 + a2.length - c2 - 2;
+      R(f2, -u2), R(p2, u2), l2 = { type: u2 > 1 ? "strongSequence" : "emphasisSequence", start: f2, end: Object.assign({}, e10[n10][1].end) }, o2 = { type: u2 > 1 ? "strongSequence" : "emphasisSequence", start: Object.assign({}, e10[s2][1].start), end: p2 }, i2 = { type: u2 > 1 ? "strongText" : "emphasisText", start: Object.assign({}, e10[n10][1].end), end: Object.assign({}, e10[s2][1].start) }, r2 = { type: u2 > 1 ? "strong" : "emphasis", start: Object.assign({}, l2.start), end: Object.assign({}, o2.end) }, e10[n10][1].end = Object.assign({}, l2.start), e10[s2][1].start = Object.assign({}, o2.end), a2 = [], e10[n10][1].end.offset - e10[n10][1].start.offset && (a2 = h(a2, [["enter", e10[n10][1], t10], ["exit", e10[n10][1], t10]])), a2 = h(a2, [["enter", r2, t10], ["enter", l2, t10], ["exit", l2, t10], ["enter", i2, t10]]), a2 = h(a2, j(t10.parser.constructs.insideSpan.null, e10.slice(n10 + 1, s2), t10)), a2 = h(a2, [["exit", i2, t10], ["enter", o2, t10], ["exit", o2, t10], ["exit", r2, t10]]), e10[s2][1].end.offset - e10[s2][1].start.offset ? (c2 = 2, a2 = h(a2, [["enter", e10[s2][1], t10], ["exit", e10[s2][1], t10]])) : c2 = 0, d(e10, n10 - 1, s2 - n10 + 3, a2), s2 = n10 + a2.length - c2 - 2;
       break;
     }
   }
@@ -638,7 +638,7 @@ let er = { tokenize: function(e10, t10, n10) {
     }
   } else "labelEnd" === n10.type && (i2 = o2);
   let a2 = { type: "labelLink" === e10[r2][1].type ? "link" : "image", start: Object.assign({}, e10[r2][1].start), end: Object.assign({}, e10[e10.length - 1][1].end) }, c2 = { type: "label", start: Object.assign({}, e10[r2][1].start), end: Object.assign({}, e10[i2][1].end) }, s2 = { type: "labelText", start: Object.assign({}, e10[r2 + u2 + 2][1].end), end: Object.assign({}, e10[i2 - 2][1].start) };
-  return l2 = h(l2 = [["enter", a2, t10], ["enter", c2, t10]], e10.slice(r2 + 1, r2 + u2 + 3)), l2 = h(l2, [["enter", s2, t10]]), l2 = h(l2, N(t10.parser.constructs.insideSpan.null, e10.slice(r2 + u2 + 4, i2 - 3), t10)), l2 = h(l2, [["exit", s2, t10], e10[i2 - 2], e10[i2 - 1], ["exit", c2, t10]]), l2 = h(l2, e10.slice(i2 + 1)), l2 = h(l2, [["exit", a2, t10]]), d(e10, r2, e10.length, l2), e10;
+  return l2 = h(l2 = [["enter", a2, t10], ["enter", c2, t10]], e10.slice(r2 + 1, r2 + u2 + 3)), l2 = h(l2, [["enter", s2, t10]]), l2 = h(l2, j(t10.parser.constructs.insideSpan.null, e10.slice(r2 + u2 + 4, i2 - 3), t10)), l2 = h(l2, [["exit", s2, t10], e10[i2 - 2], e10[i2 - 1], ["exit", c2, t10]]), l2 = h(l2, e10.slice(i2 + 1)), l2 = h(l2, [["exit", a2, t10]]), d(e10, r2, e10.length, l2), e10;
 }, resolveAll: function(e10) {
   let t10 = -1;
   for (; ++t10 < e10.length; ) {
@@ -924,13 +924,13 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
     return n11 = t11, e10.enter("htmlFlow"), e10.enter("htmlFlowData"), e10.consume(n11), c2;
   };
   function c2(o3) {
-    return 33 === o3 ? (e10.consume(o3), s2) : 47 === o3 ? (e10.consume(o3), i2 = true, d2) : 63 === o3 ? (e10.consume(o3), r2 = 3, a2.interrupt ? t10 : N2) : v(o3) ? (e10.consume(o3), l2 = String.fromCharCode(o3), h2) : n10(o3);
+    return 33 === o3 ? (e10.consume(o3), s2) : 47 === o3 ? (e10.consume(o3), i2 = true, d2) : 63 === o3 ? (e10.consume(o3), r2 = 3, a2.interrupt ? t10 : j2) : v(o3) ? (e10.consume(o3), l2 = String.fromCharCode(o3), h2) : n10(o3);
   }
   function s2(i3) {
-    return 45 === i3 ? (e10.consume(i3), r2 = 2, f2) : 91 === i3 ? (e10.consume(i3), r2 = 5, o2 = 0, p2) : v(i3) ? (e10.consume(i3), r2 = 4, a2.interrupt ? t10 : N2) : n10(i3);
+    return 45 === i3 ? (e10.consume(i3), r2 = 2, f2) : 91 === i3 ? (e10.consume(i3), r2 = 5, o2 = 0, p2) : v(i3) ? (e10.consume(i3), r2 = 4, a2.interrupt ? t10 : j2) : n10(i3);
   }
   function f2(r3) {
-    return 45 === r3 ? (e10.consume(r3), a2.interrupt ? t10 : N2) : n10(r3);
+    return 45 === r3 ? (e10.consume(r3), a2.interrupt ? t10 : j2) : n10(r3);
   }
   function p2(r3) {
     let i3 = "CDATA[";
@@ -978,7 +978,7 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
     return null === t11 || I(t11) ? D2(t11) : L(t11) ? (e10.consume(t11), w2) : n10(t11);
   }
   function D2(t11) {
-    return 45 === t11 && 2 === r2 ? (e10.consume(t11), _2) : 60 === t11 && 1 === r2 ? (e10.consume(t11), M2) : 62 === t11 && 4 === r2 ? (e10.consume(t11), j2) : 63 === t11 && 3 === r2 ? (e10.consume(t11), N2) : 93 === t11 && 5 === r2 ? (e10.consume(t11), P2) : I(t11) && (6 === r2 || 7 === r2) ? (e10.exit("htmlFlowData"), e10.check(eo, R2, O2)(t11)) : null === t11 || I(t11) ? (e10.exit("htmlFlowData"), O2(t11)) : (e10.consume(t11), D2);
+    return 45 === t11 && 2 === r2 ? (e10.consume(t11), _2) : 60 === t11 && 1 === r2 ? (e10.consume(t11), M2) : 62 === t11 && 4 === r2 ? (e10.consume(t11), N2) : 63 === t11 && 3 === r2 ? (e10.consume(t11), j2) : 93 === t11 && 5 === r2 ? (e10.consume(t11), P2) : I(t11) && (6 === r2 || 7 === r2) ? (e10.exit("htmlFlowData"), e10.check(eo, R2, O2)(t11)) : null === t11 || I(t11) ? (e10.exit("htmlFlowData"), O2(t11)) : (e10.consume(t11), D2);
   }
   function O2(t11) {
     return e10.check(eu, z2, R2)(t11);
@@ -990,7 +990,7 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
     return null === t11 || I(t11) ? O2(t11) : (e10.enter("htmlFlowData"), D2(t11));
   }
   function _2(t11) {
-    return 45 === t11 ? (e10.consume(t11), N2) : D2(t11);
+    return 45 === t11 ? (e10.consume(t11), j2) : D2(t11);
   }
   function M2(t11) {
     return 47 === t11 ? (e10.consume(t11), l2 = "", F2) : D2(t11);
@@ -998,18 +998,18 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
   function F2(t11) {
     if (62 === t11) {
       let n11 = l2.toLowerCase();
-      return el.includes(n11) ? (e10.consume(t11), j2) : D2(t11);
+      return el.includes(n11) ? (e10.consume(t11), N2) : D2(t11);
     }
     return v(t11) && l2.length < 8 ? (e10.consume(t11), l2 += String.fromCharCode(t11), F2) : D2(t11);
   }
   function P2(t11) {
-    return 93 === t11 ? (e10.consume(t11), N2) : D2(t11);
-  }
-  function N2(t11) {
-    return 62 === t11 ? (e10.consume(t11), j2) : 45 === t11 && 2 === r2 ? (e10.consume(t11), N2) : D2(t11);
+    return 93 === t11 ? (e10.consume(t11), j2) : D2(t11);
   }
   function j2(t11) {
-    return null === t11 || I(t11) ? (e10.exit("htmlFlowData"), R2(t11)) : (e10.consume(t11), j2);
+    return 62 === t11 ? (e10.consume(t11), N2) : 45 === t11 && 2 === r2 ? (e10.consume(t11), j2) : D2(t11);
+  }
+  function N2(t11) {
+    return null === t11 || I(t11) ? (e10.exit("htmlFlowData"), R2(t11)) : (e10.consume(t11), N2);
   }
   function R2(n11) {
     return e10.exit("htmlFlow"), t10(n11);
@@ -1018,11 +1018,11 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
   let t10 = e10.length;
   for (; t10-- && ("enter" !== e10[t10][0] || "htmlFlow" !== e10[t10][1].type); ) ;
   return t10 > 1 && "linePrefix" === e10[t10 - 2][1].type && (e10[t10][1].start = e10[t10 - 2][1].start, e10[t10 + 1][1].start = e10[t10 - 2][1].start, e10.splice(t10 - 2, 2)), e10;
-}, concrete: true }, 61: ev, 95: em, 96: W, 126: W }, flowInitial: { [-2]: Y, [-1]: Y, 32: Y }, insideSpan: { null: [j, { resolveAll: function(e10, t10) {
+}, concrete: true }, 61: ev, 95: em, 96: W, 126: W }, flowInitial: { [-2]: Y, [-1]: Y, 32: Y }, insideSpan: { null: [N, { resolveAll: function(e10, t10) {
   let n10, r2 = -1;
   for (; ++r2 <= e10.length; ) void 0 === n10 ? e10[r2] && "data" === e10[r2][1].type && (n10 = r2, r2++) : e10[r2] && "data" === e10[r2][1].type || (r2 !== n10 + 2 && (e10[n10][1].end = e10[r2 - 1][1].end, e10.splice(n10 + 2, r2 - n10 - 2), r2 = n10 + 2), n10 = void 0);
   return e10;
-} }] }, string: { 38: U, 92: H }, text: { [-5]: eh, [-4]: eh, [-3]: eh, 33: ep, 38: U, 42: j, 60: [{ name: "autolink", tokenize: function(e10, t10, n10) {
+} }] }, string: { 38: U, 92: H }, text: { [-5]: eh, [-4]: eh, [-3]: eh, 33: ep, 38: U, 42: N, 60: [{ name: "autolink", tokenize: function(e10, t10, n10) {
   let r2 = 0;
   return function(t11) {
     return e10.enter("autolink"), e10.enter("autolinkMarker"), e10.consume(t11), e10.exit("autolinkMarker"), e10.enter("autolinkProtocol"), i2;
@@ -1133,12 +1133,12 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
     return 62 === r3 ? (e10.consume(r3), e10.exit("htmlTextData"), e10.exit("htmlText"), t10) : n10(r3);
   }
   function P2(t11) {
-    return e10.exit("htmlTextData"), e10.enter("lineEnding"), e10.consume(t11), e10.exit("lineEnding"), N2;
-  }
-  function N2(t11) {
-    return L(t11) ? E(e10, j2, "linePrefix", o2.parser.constructs.disable.null.includes("codeIndented") ? void 0 : 4)(t11) : j2(t11);
+    return e10.exit("htmlTextData"), e10.enter("lineEnding"), e10.consume(t11), e10.exit("lineEnding"), j2;
   }
   function j2(t11) {
+    return L(t11) ? E(e10, N2, "linePrefix", o2.parser.constructs.disable.null.includes("codeIndented") ? void 0 : 4)(t11) : N2(t11);
+  }
+  function N2(t11) {
     return e10.enter("htmlTextData"), l2(t11);
   }
 } }], 91: ed, 92: [{ name: "hardBreakEscape", tokenize: function(e10, t10, n10) {
@@ -1148,7 +1148,7 @@ let ew = Object.freeze(Object.defineProperty({ __proto__: null, attentionMarkers
   function r2(r3) {
     return I(r3) ? (e10.exit("hardBreakEscape"), t10(r3)) : n10(r3);
   }
-} }, H], 93: ea, 95: j, 96: { name: "codeText", tokenize: function(e10, t10, n10) {
+} }, H], 93: ea, 95: N, 96: { name: "codeText", tokenize: function(e10, t10, n10) {
   let r2, i2, l2 = 0;
   return function(t11) {
     return e10.enter("codeText"), e10.enter("codeTextSequence"), function t12(n11) {
@@ -1211,7 +1211,7 @@ function eP(e10, t10) {
   for (; -1 !== i2; ) r2++, i2 = n10.indexOf(t10, i2 + t10.length);
   return r2;
 }
-let eN = function(e10) {
+let ej = function(e10) {
   var t10, n10, r2;
   if (null == e10) return eR;
   if ("function" == typeof e10) {
@@ -1222,27 +1222,27 @@ let eN = function(e10) {
   if ("object" == typeof e10) {
     return Array.isArray(e10) ? function(e11) {
       let t11 = [], n11 = -1;
-      for (; ++n11 < e11.length; ) t11[n11] = eN(e11[n11]);
-      return ej(function() {
+      for (; ++n11 < e11.length; ) t11[n11] = ej(e11[n11]);
+      return eN(function() {
         for (var e12 = arguments.length, n12 = Array(e12), r3 = 0; r3 < e12; r3++) n12[r3] = arguments[r3];
         let i2 = -1;
         for (; ++i2 < t11.length; ) if (t11[i2].apply(this, n12)) return true;
         return false;
       });
-    }(e10) : (n10 = e10, ej(function(e11) {
+    }(e10) : (n10 = e10, eN(function(e11) {
       let t11;
       for (t11 in n10) if (e11[t11] !== n10[t11]) return false;
       return true;
     }));
   }
   if ("string" == typeof e10) {
-    return r2 = e10, ej(function(e11) {
+    return r2 = e10, eN(function(e11) {
       return e11 && e11.type === r2;
     });
   }
   throw Error("Expected function, string, or object as test");
 };
-function ej(e10) {
+function eN(e10) {
   return function(t10, n10, r2) {
     return !!(eB(t10) && e10.call(this, t10, "number" == typeof n10 ? n10 : void 0, r2 || void 0));
   };
@@ -1257,7 +1257,7 @@ let eV = [];
 function eH(e10, t10, n10, r2) {
   let i2;
   "function" == typeof t10 && "function" != typeof n10 ? (r2 = n10, n10 = t10) : i2 = t10;
-  let l2 = eN(i2), o2 = r2 ? -1 : 1;
+  let l2 = ej(i2), o2 = r2 ? -1 : 1;
   (function e11(i3, u2, a2) {
     let c2 = i3 && "object" == typeof i3 ? i3 : {};
     if ("string" == typeof c2.type) {
@@ -1299,7 +1299,7 @@ function e$(e10) {
 }
 function eK(e10) {
   !function(e11, t10, n10) {
-    let r2 = eN((n10 || {}).ignore || []), i2 = function(e12) {
+    let r2 = ej((n10 || {}).ignore || []), i2 = function(e12) {
       let t11 = [];
       if (!Array.isArray(e12)) throw TypeError("Expected find and replace tuple or list of tuples");
       let n11 = !e12[0] || Array.isArray(e12[0]) ? e12 : [e12], r3 = -1;
@@ -1825,15 +1825,15 @@ let tP = { name: "tasklistCheck", tokenize: function(e10, t10, n10) {
     return 93 === t11 ? (e10.enter("taskListCheckMarker"), e10.consume(t11), e10.exit("taskListCheckMarker"), e10.exit("taskListCheck"), o2) : n10(t11);
   }
   function o2(r3) {
-    return I(r3) ? t10(r3) : L(r3) ? e10.check({ tokenize: tN }, t10, n10)(r3) : n10(r3);
+    return I(r3) ? t10(r3) : L(r3) ? e10.check({ tokenize: tj }, t10, n10)(r3) : n10(r3);
   }
 } };
-function tN(e10, t10, n10) {
+function tj(e10, t10, n10) {
   return E(e10, function(e11) {
     return null === e11 ? n10(e11) : t10(e11);
   }, "whitespace");
 }
-function tj(e10, t10, n10, r2, i2, l2, o2, u2, a2, c2, s2, f2, p2, d2, h2) {
+function tN(e10, t10, n10, r2, i2, l2, o2, u2, a2, c2, s2, f2, p2, d2, h2) {
   let m2, g2;
   return function(t11) {
     return e10.enter(r2), e10.enter(i2), e10.consume(t11), e10.exit(i2), y2;
@@ -1989,7 +1989,7 @@ let tV = { tokenize: function(e10, t10, n10) {
 }, concrete: true }, tH = { tokenize: function(e10, t10, n10) {
   return tR(e10, t10, n10, "directiveContainerLabel", "directiveContainerLabelMarker", "directiveContainerLabelString", true);
 }, partial: true }, tU = { tokenize: function(e10, t10, n10) {
-  return tj(e10, t10, n10, "directiveContainerAttributes", "directiveContainerAttributesMarker", "directiveContainerAttribute", "directiveContainerAttributeId", "directiveContainerAttributeClass", "directiveContainerAttributeName", "directiveContainerAttributeInitializerMarker", "directiveContainerAttributeValueLiteral", "directiveContainerAttributeValue", "directiveContainerAttributeValueMarker", "directiveContainerAttributeValueData", true);
+  return tN(e10, t10, n10, "directiveContainerAttributes", "directiveContainerAttributesMarker", "directiveContainerAttribute", "directiveContainerAttributeId", "directiveContainerAttributeClass", "directiveContainerAttributeName", "directiveContainerAttributeInitializerMarker", "directiveContainerAttributeValueLiteral", "directiveContainerAttributeValue", "directiveContainerAttributeValueMarker", "directiveContainerAttributeValueData", true);
 }, partial: true }, tq = { tokenize: function(e10, t10, n10) {
   let r2 = this;
   return function(t11) {
@@ -2021,7 +2021,7 @@ let tV = { tokenize: function(e10, t10, n10) {
 } }, tY = { tokenize: function(e10, t10, n10) {
   return tR(e10, t10, n10, "directiveLeafLabel", "directiveLeafLabelMarker", "directiveLeafLabelString", true);
 }, partial: true }, tQ = { tokenize: function(e10, t10, n10) {
-  return tj(e10, t10, n10, "directiveLeafAttributes", "directiveLeafAttributesMarker", "directiveLeafAttribute", "directiveLeafAttributeId", "directiveLeafAttributeClass", "directiveLeafAttributeName", "directiveLeafAttributeInitializerMarker", "directiveLeafAttributeValueLiteral", "directiveLeafAttributeValue", "directiveLeafAttributeValueMarker", "directiveLeafAttributeValueData", true);
+  return tN(e10, t10, n10, "directiveLeafAttributes", "directiveLeafAttributesMarker", "directiveLeafAttribute", "directiveLeafAttributeId", "directiveLeafAttributeClass", "directiveLeafAttributeName", "directiveLeafAttributeInitializerMarker", "directiveLeafAttributeValueLiteral", "directiveLeafAttributeValue", "directiveLeafAttributeValueMarker", "directiveLeafAttributeValueData", true);
 }, partial: true }, t$ = { tokenize: function(e10, t10, n10) {
   let r2 = this;
   return function(t11) {
@@ -2041,7 +2041,7 @@ let tV = { tokenize: function(e10, t10, n10) {
 } }, tK = { tokenize: function(e10, t10, n10) {
   return tR(e10, t10, n10, "directiveTextLabel", "directiveTextLabelMarker", "directiveTextLabelString");
 }, partial: true }, tX = { tokenize: function(e10, t10, n10) {
-  return tj(e10, t10, n10, "directiveTextAttributes", "directiveTextAttributesMarker", "directiveTextAttribute", "directiveTextAttributeId", "directiveTextAttributeClass", "directiveTextAttributeName", "directiveTextAttributeInitializerMarker", "directiveTextAttributeValueLiteral", "directiveTextAttributeValue", "directiveTextAttributeValueMarker", "directiveTextAttributeValueData");
+  return tN(e10, t10, n10, "directiveTextAttributes", "directiveTextAttributesMarker", "directiveTextAttribute", "directiveTextAttributeId", "directiveTextAttributeClass", "directiveTextAttributeName", "directiveTextAttributeInitializerMarker", "directiveTextAttributeValueLiteral", "directiveTextAttributeValue", "directiveTextAttributeValueMarker", "directiveTextAttributeValueData");
 }, partial: true }, tZ = ["AElig", "AMP", "Aacute", "Acirc", "Agrave", "Aring", "Atilde", "Auml", "COPY", "Ccedil", "ETH", "Eacute", "Ecirc", "Egrave", "Euml", "GT", "Iacute", "Icirc", "Igrave", "Iuml", "LT", "Ntilde", "Oacute", "Ocirc", "Ograve", "Oslash", "Otilde", "Ouml", "QUOT", "REG", "THORN", "Uacute", "Ucirc", "Ugrave", "Uuml", "Yacute", "aacute", "acirc", "acute", "aelig", "agrave", "amp", "aring", "atilde", "auml", "brvbar", "ccedil", "cedil", "cent", "copy", "curren", "deg", "divide", "eacute", "ecirc", "egrave", "eth", "euml", "frac12", "frac14", "frac34", "gt", "iacute", "icirc", "iexcl", "igrave", "iquest", "iuml", "laquo", "lt", "macr", "micro", "middot", "nbsp", "not", "ntilde", "oacute", "ocirc", "ograve", "ordf", "ordm", "oslash", "otilde", "ouml", "para", "plusmn", "pound", "quot", "raquo", "reg", "sect", "shy", "sup1", "sup2", "sup3", "szlig", "thorn", "times", "uacute", "ucirc", "ugrave", "uml", "uuml", "yacute", "yen", "yuml"], tJ = { 0: "�", 128: "€", 130: "‚", 131: "ƒ", 132: "„", 133: "…", 134: "†", 135: "‡", 136: "ˆ", 137: "‰", 138: "Š", 139: "‹", 140: "Œ", 142: "Ž", 145: "‘", 146: "’", 147: "“", 148: "”", 149: "•", 150: "–", 151: "—", 152: "˜", 153: "™", 154: "š", 155: "›", 156: "œ", 158: "ž", 159: "Ÿ" };
 function tG(e10) {
   let t10 = "string" == typeof e10 ? e10.charCodeAt(0) : e10;
@@ -2205,7 +2205,7 @@ let nc = (e10) => {
         for (; r3--; ) if ("exit" === e12[r3][0] && "strikethroughSequenceTemporary" === e12[r3][1].type && e12[r3][1]._open && e12[n12][1].end.offset - e12[n12][1].start.offset == e12[r3][1].end.offset - e12[r3][1].start.offset) {
           e12[n12][1].type = "strikethroughSequence", e12[r3][1].type = "strikethroughSequence";
           let i3 = { type: "strikethrough", start: Object.assign({}, e12[r3][1].start), end: Object.assign({}, e12[n12][1].end) }, l3 = { type: "strikethroughText", start: Object.assign({}, e12[r3][1].end), end: Object.assign({}, e12[n12][1].start) }, o3 = [["enter", i3, t12], ["enter", e12[r3][1], t12], ["exit", e12[r3][1], t12], ["enter", l3, t12]], u2 = t12.parser.constructs.insideSpan.null;
-          u2 && d(o3, o3.length, 0, N(u2, e12.slice(r3 + 1, n12), t12)), d(o3, o3.length, 0, [["exit", l3, t12], ["enter", e12[n12][1], t12], ["exit", e12[n12][1], t12], ["exit", i3, t12]]), d(e12, r3 - 1, n12 - r3 + 3, o3), n12 = r3 + o3.length - 2;
+          u2 && d(o3, o3.length, 0, j(u2, e12.slice(r3 + 1, n12), t12)), d(o3, o3.length, 0, [["exit", l3, t12], ["enter", e12[n12][1], t12], ["exit", e12[n12][1], t12], ["exit", i3, t12]]), d(e12, r3 - 1, n12 - r3 + 3, o3), n12 = r3 + o3.length - 2;
           break;
         }
       }
@@ -2214,7 +2214,7 @@ let nc = (e10) => {
     } };
     return null == t11 && (t11 = true), { text: { 126: n11 }, insideSpan: { null: [n11] }, attentionMarkers: { null: [126] } };
   }(), { flow: { null: { name: "table", tokenize: tz, resolveAll: tE } } }, { text: { 91: tP } }]), { text: { 58: t$ }, flow: { 58: [tV, tW] } }], mdastExtensions: [[{ transforms: [eK], enter: { literalAutolink: eU, literalAutolinkEmail: eq, literalAutolinkHttp: eq, literalAutolinkWww: eq }, exit: { literalAutolink: e$, literalAutolinkEmail: eQ, literalAutolinkHttp: eW, literalAutolinkWww: eY } }, { enter: { gfmFootnoteDefinition: eG, gfmFootnoteDefinitionLabelString: e1, gfmFootnoteCall: e4, gfmFootnoteCallString: e3 }, exit: { gfmFootnoteDefinition: e2, gfmFootnoteDefinitionLabelString: e0, gfmFootnoteCall: e9, gfmFootnoteCallString: e5 } }, { canContainEols: ["delete"], enter: { strikethrough: e6 }, exit: { strikethrough: e8 } }, { enter: { table: e7, tableData: tr, tableHeader: tr, tableRow: tt }, exit: { codeText: ti, table: te, tableData: tn, tableHeader: tn, tableRow: tn } }, { exit: { taskListCheckValueChecked: to, taskListCheckValueUnchecked: to, paragraph: tu } }], { canContainEols: ["textDirective"], enter: { directiveContainer: t5, directiveContainerAttributes: nn, directiveContainerLabel: ne, directiveLeaf: t9, directiveLeafAttributes: nn, directiveText: t6, directiveTextAttributes: nn }, exit: { directiveContainer: na, directiveContainerAttributeClassValue: ni, directiveContainerAttributeIdValue: nr, directiveContainerAttributeName: no, directiveContainerAttributeValue: nl, directiveContainerAttributes: nu, directiveContainerLabel: nt, directiveContainerName: t7, directiveLeaf: na, directiveLeafAttributeClassValue: ni, directiveLeafAttributeIdValue: nr, directiveLeafAttributeName: no, directiveLeafAttributeValue: nl, directiveLeafAttributes: nu, directiveLeafName: t7, directiveText: na, directiveTextAttributeClassValue: ni, directiveTextAttributeIdValue: nr, directiveTextAttributeName: no, directiveTextAttributeValue: nl, directiveTextAttributes: nu, directiveTextName: t7 } }] }) && (n10 = t10, t10 = void 0), function(e11) {
-    var t11, n11, r3, i3, l3, o3, u2, s2, f2, d2, h2, m2, g2, v2, k2, b2, C2, S2, A2, w2, I2, T2, L2, D2, O2, z2, E2, _2, M2, F2, P2, N2, j2, R2, B2, V2, H2, U2, q2, W2, Y2, Q2, $2, K2, X2, Z2, J2, G2, ee2, et2, en2, er2, ei2, el2, eo2, eu2, ea2, ec2, es2, ef2, ep2, ed2, eh2;
+    var t11, n11, r3, i3, l3, o3, u2, s2, f2, d2, h2, m2, g2, v2, k2, b2, C2, S2, A2, w2, I2, T2, L2, D2, O2, z2, E2, _2, M2, F2, P2, j2, N2, R2, B2, V2, H2, U2, q2, W2, Y2, Q2, $2, K2, X2, Z2, J2, G2, ee2, et2, en2, er2, ei2, el2, eo2, eu2, ea2, ec2, es2, ef2, ep2, ed2, eh2;
     let em2 = { transforms: [], canContainEols: ["emphasis", "fragment", "heading", "paragraph", "strong"], enter: { autolink: (t11 = eE2, function(e12) {
       ex2.call(this, t11(e12), e12);
     }), autolinkProtocol: eb2, autolinkEmail: eb2, atxHeading: (r3 = eI2, function(e12) {
@@ -2259,12 +2259,12 @@ let nc = (e10) => {
       ex2.call(this, M2(e12), e12);
     }), listItemValue: function(e12) {
       this.data.expectingFirstListItemValue && (this.stack[this.stack.length - 2].start = Number.parseInt(this.sliceSerialize(e12), 10), this.data.expectingFirstListItemValue = void 0);
-    }, listOrdered: (P2 = eP2, N2 = function() {
+    }, listOrdered: (P2 = eP2, j2 = function() {
       this.data.expectingFirstListItemValue = true;
     }, function(e12) {
-      ex2.call(this, P2(e12), e12), N2 && N2.call(this, e12);
-    }), listUnordered: (j2 = eP2, function(e12) {
-      ex2.call(this, j2(e12), e12);
+      ex2.call(this, P2(e12), e12), j2 && j2.call(this, e12);
+    }), listUnordered: (N2 = eP2, function(e12) {
+      ex2.call(this, N2(e12), e12);
     }), paragraph: (B2 = function() {
       return { type: "paragraph", children: [] };
     }, function(e12) {
@@ -2614,7 +2614,7 @@ let nc = (e10) => {
                 s2 = s2(e16);
               })(t13);
             }
-          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = N(l4, c2.events, c2), c2.events);
+          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = j(l4, c2.events, c2), c2.events);
         } }, s2 = t12.tokenize.call(c2, a2);
         return t12.resolveAll && l4.push(t12), c2;
         function f2(e14) {
@@ -2741,7 +2741,7 @@ let nc = (e10) => {
                 s2 = s2(e16);
               })(t13);
             }
-          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = N(l4, c2.events, c2), c2.events);
+          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = j(l4, c2.events, c2), c2.events);
         } }, s2 = t12.tokenize.call(c2, a2);
         return t12.resolveAll && l4.push(t12), c2;
         function f2(e14) {
@@ -2868,7 +2868,7 @@ let nc = (e10) => {
                 s2 = s2(e16);
               })(t13);
             }
-          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = N(l4, c2.events, c2), c2.events);
+          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = j(l4, c2.events, c2), c2.events);
         } }, s2 = t12.tokenize.call(c2, a2);
         return t12.resolveAll && l4.push(t12), c2;
         function f2(e14) {
@@ -2995,7 +2995,7 @@ let nc = (e10) => {
                 s2 = s2(e16);
               })(t13);
             }
-          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = N(l4, c2.events, c2), c2.events);
+          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = j(l4, c2.events, c2), c2.events);
         } }, s2 = t12.tokenize.call(c2, a2);
         return t12.resolveAll && l4.push(t12), c2;
         function f2(e14) {
@@ -3122,7 +3122,7 @@ let nc = (e10) => {
                 s2 = s2(e16);
               })(t13);
             }
-          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = N(l4, c2.events, c2), c2.events);
+          }(), null !== o4[o4.length - 1]) ? [] : (x2(t12, 0), c2.events = j(l4, c2.events, c2), c2.events);
         } }, s2 = t12.tokenize.call(c2, a2);
         return t12.resolveAll && l4.push(t12), c2;
         function f2(e14) {
@@ -3230,24 +3230,24 @@ function nm(e10) {
 }
 class ng {
   constructor(e10, t10, n10) {
-    this.property = e10, this.normal = t10, n10 && (this.space = n10);
+    this.normal = t10, this.property = e10, n10 && (this.space = n10);
   }
 }
 function ny(e10, t10) {
-  let n10 = {}, r2 = {}, i2 = -1;
-  for (; ++i2 < e10.length; ) Object.assign(n10, e10[i2].property), Object.assign(r2, e10[i2].normal);
+  let n10 = {}, r2 = {};
+  for (let t11 of e10) Object.assign(n10, t11.property), Object.assign(r2, t11.normal);
   return new ng(n10, r2, t10);
 }
 function nx(e10) {
   return e10.toLowerCase();
 }
-ng.prototype.property = {}, ng.prototype.normal = {}, ng.prototype.space = null;
+ng.prototype.normal = {}, ng.prototype.property = {}, ng.prototype.space = void 0;
 class nv {
   constructor(e10, t10) {
-    this.property = e10, this.attribute = t10;
+    this.attribute = t10, this.property = e10;
   }
 }
-nv.prototype.space = null, nv.prototype.boolean = false, nv.prototype.booleanish = false, nv.prototype.overloadedBoolean = false, nv.prototype.number = false, nv.prototype.commaSeparated = false, nv.prototype.spaceSeparated = false, nv.prototype.commaOrSpaceSeparated = false, nv.prototype.mustUseProperty = false, nv.prototype.defined = false;
+nv.prototype.attribute = "", nv.prototype.booleanish = false, nv.prototype.boolean = false, nv.prototype.commaOrSpaceSeparated = false, nv.prototype.commaSeparated = false, nv.prototype.defined = false, nv.prototype.mustUseProperty = false, nv.prototype.number = false, nv.prototype.overloadedBoolean = false, nv.prototype.property = "", nv.prototype.spaceSeparated = false, nv.prototype.space = void 0;
 let nk = 0, nb = nL(), nC = nL(), nS = nL(), nA = nL(), nw = nL(), nI = nL(), nT = nL();
 function nL() {
   return 2 ** ++nk;
@@ -3263,40 +3263,38 @@ class nz extends nv {
     }
   }
 }
-nz.prototype.defined = true;
-let nE = {}.hasOwnProperty;
-function n_(e10) {
-  let t10;
-  let n10 = {}, r2 = {};
-  for (t10 in e10.properties) if (nE.call(e10.properties, t10)) {
-    let i2 = e10.properties[t10], l2 = new nz(t10, e10.transform(e10.attributes || {}, t10), i2, e10.space);
-    e10.mustUseProperty && e10.mustUseProperty.includes(t10) && (l2.mustUseProperty = true), n10[t10] = l2, r2[nx(t10)] = t10, r2[nx(l2.attribute)] = t10;
+function nE(e10) {
+  let t10 = {}, n10 = {};
+  for (let [r2, i2] of Object.entries(e10.properties)) {
+    let l2 = new nz(r2, e10.transform(e10.attributes || {}, r2), i2, e10.space);
+    e10.mustUseProperty && e10.mustUseProperty.includes(r2) && (l2.mustUseProperty = true), t10[r2] = l2, n10[nx(r2)] = r2, n10[nx(l2.attribute)] = r2;
   }
-  return new ng(n10, r2, e10.space);
+  return new ng(t10, n10, e10.space);
 }
-let nM = n_({ space: "xlink", transform: (e10, t10) => "xlink:" + t10.slice(5).toLowerCase(), properties: { xLinkActuate: null, xLinkArcRole: null, xLinkHref: null, xLinkRole: null, xLinkShow: null, xLinkTitle: null, xLinkType: null } }), nF = n_({ space: "xml", transform: (e10, t10) => "xml:" + t10.slice(3).toLowerCase(), properties: { xmlLang: null, xmlBase: null, xmlSpace: null } });
-function nP(e10, t10) {
+nz.prototype.defined = true;
+let n_ = nE({ properties: { ariaActiveDescendant: null, ariaAtomic: nC, ariaAutoComplete: null, ariaBusy: nC, ariaChecked: nC, ariaColCount: nA, ariaColIndex: nA, ariaColSpan: nA, ariaControls: nw, ariaCurrent: null, ariaDescribedBy: nw, ariaDetails: null, ariaDisabled: nC, ariaDropEffect: nw, ariaErrorMessage: null, ariaExpanded: nC, ariaFlowTo: nw, ariaGrabbed: nC, ariaHasPopup: null, ariaHidden: nC, ariaInvalid: null, ariaKeyShortcuts: null, ariaLabel: null, ariaLabelledBy: nw, ariaLevel: nA, ariaLive: null, ariaModal: nC, ariaMultiLine: nC, ariaMultiSelectable: nC, ariaOrientation: null, ariaOwns: nw, ariaPlaceholder: null, ariaPosInSet: nA, ariaPressed: nC, ariaReadOnly: nC, ariaRelevant: null, ariaRequired: nC, ariaRoleDescription: nw, ariaRowCount: nA, ariaRowIndex: nA, ariaRowSpan: nA, ariaSelected: nC, ariaSetSize: nA, ariaSort: null, ariaValueMax: nA, ariaValueMin: nA, ariaValueNow: nA, ariaValueText: null, role: null }, transform: (e10, t10) => "role" === t10 ? t10 : "aria-" + t10.slice(4).toLowerCase() });
+function nM(e10, t10) {
   return t10 in e10 ? e10[t10] : t10;
 }
-function nN(e10, t10) {
-  return nP(e10, t10.toLowerCase());
+function nF(e10, t10) {
+  return nM(e10, t10.toLowerCase());
 }
-let nj = n_({ space: "xmlns", attributes: { xmlnsxlink: "xmlns:xlink" }, transform: nN, properties: { xmlns: null, xmlnsXLink: null } }), nR = n_({ transform: (e10, t10) => "role" === t10 ? t10 : "aria-" + t10.slice(4).toLowerCase(), properties: { ariaActiveDescendant: null, ariaAtomic: nC, ariaAutoComplete: null, ariaBusy: nC, ariaChecked: nC, ariaColCount: nA, ariaColIndex: nA, ariaColSpan: nA, ariaControls: nw, ariaCurrent: null, ariaDescribedBy: nw, ariaDetails: null, ariaDisabled: nC, ariaDropEffect: nw, ariaErrorMessage: null, ariaExpanded: nC, ariaFlowTo: nw, ariaGrabbed: nC, ariaHasPopup: null, ariaHidden: nC, ariaInvalid: null, ariaKeyShortcuts: null, ariaLabel: null, ariaLabelledBy: nw, ariaLevel: nA, ariaLive: null, ariaModal: nC, ariaMultiLine: nC, ariaMultiSelectable: nC, ariaOrientation: null, ariaOwns: nw, ariaPlaceholder: null, ariaPosInSet: nA, ariaPressed: nC, ariaReadOnly: nC, ariaRelevant: null, ariaRequired: nC, ariaRoleDescription: nw, ariaRowCount: nA, ariaRowIndex: nA, ariaRowSpan: nA, ariaSelected: nC, ariaSetSize: nA, ariaSort: null, ariaValueMax: nA, ariaValueMin: nA, ariaValueNow: nA, ariaValueText: null, role: null } }), nB = n_({ space: "html", attributes: { acceptcharset: "accept-charset", classname: "class", htmlfor: "for", httpequiv: "http-equiv" }, transform: nN, mustUseProperty: ["checked", "multiple", "muted", "selected"], properties: { abbr: null, accept: nI, acceptCharset: nw, accessKey: nw, action: null, allow: null, allowFullScreen: nb, allowPaymentRequest: nb, allowUserMedia: nb, alt: null, as: null, async: nb, autoCapitalize: null, autoComplete: nw, autoFocus: nb, autoPlay: nb, blocking: nw, capture: null, charSet: null, checked: nb, cite: null, className: nw, cols: nA, colSpan: null, content: null, contentEditable: nC, controls: nb, controlsList: nw, coords: nA | nI, crossOrigin: null, data: null, dateTime: null, decoding: null, default: nb, defer: nb, dir: null, dirName: null, disabled: nb, download: nS, draggable: nC, encType: null, enterKeyHint: null, fetchPriority: null, form: null, formAction: null, formEncType: null, formMethod: null, formNoValidate: nb, formTarget: null, headers: nw, height: nA, hidden: nb, high: nA, href: null, hrefLang: null, htmlFor: nw, httpEquiv: nw, id: null, imageSizes: null, imageSrcSet: null, inert: nb, inputMode: null, integrity: null, is: null, isMap: nb, itemId: null, itemProp: nw, itemRef: nw, itemScope: nb, itemType: nw, kind: null, label: null, lang: null, language: null, list: null, loading: null, loop: nb, low: nA, manifest: null, max: null, maxLength: nA, media: null, method: null, min: null, minLength: nA, multiple: nb, muted: nb, name: null, nonce: null, noModule: nb, noValidate: nb, onAbort: null, onAfterPrint: null, onAuxClick: null, onBeforeMatch: null, onBeforePrint: null, onBeforeToggle: null, onBeforeUnload: null, onBlur: null, onCancel: null, onCanPlay: null, onCanPlayThrough: null, onChange: null, onClick: null, onClose: null, onContextLost: null, onContextMenu: null, onContextRestored: null, onCopy: null, onCueChange: null, onCut: null, onDblClick: null, onDrag: null, onDragEnd: null, onDragEnter: null, onDragExit: null, onDragLeave: null, onDragOver: null, onDragStart: null, onDrop: null, onDurationChange: null, onEmptied: null, onEnded: null, onError: null, onFocus: null, onFormData: null, onHashChange: null, onInput: null, onInvalid: null, onKeyDown: null, onKeyPress: null, onKeyUp: null, onLanguageChange: null, onLoad: null, onLoadedData: null, onLoadedMetadata: null, onLoadEnd: null, onLoadStart: null, onMessage: null, onMessageError: null, onMouseDown: null, onMouseEnter: null, onMouseLeave: null, onMouseMove: null, onMouseOut: null, onMouseOver: null, onMouseUp: null, onOffline: null, onOnline: null, onPageHide: null, onPageShow: null, onPaste: null, onPause: null, onPlay: null, onPlaying: null, onPopState: null, onProgress: null, onRateChange: null, onRejectionHandled: null, onReset: null, onResize: null, onScroll: null, onScrollEnd: null, onSecurityPolicyViolation: null, onSeeked: null, onSeeking: null, onSelect: null, onSlotChange: null, onStalled: null, onStorage: null, onSubmit: null, onSuspend: null, onTimeUpdate: null, onToggle: null, onUnhandledRejection: null, onUnload: null, onVolumeChange: null, onWaiting: null, onWheel: null, open: nb, optimum: nA, pattern: null, ping: nw, placeholder: null, playsInline: nb, popover: null, popoverTarget: null, popoverTargetAction: null, poster: null, preload: null, readOnly: nb, referrerPolicy: null, rel: nw, required: nb, reversed: nb, rows: nA, rowSpan: nA, sandbox: nw, scope: null, scoped: nb, seamless: nb, selected: nb, shadowRootClonable: nb, shadowRootDelegatesFocus: nb, shadowRootMode: null, shape: null, size: nA, sizes: null, slot: null, span: nA, spellCheck: nC, src: null, srcDoc: null, srcLang: null, srcSet: null, start: nA, step: null, style: null, tabIndex: nA, target: null, title: null, translate: null, type: null, typeMustMatch: nb, useMap: null, value: nC, width: nA, wrap: null, writingSuggestions: null, align: null, aLink: null, archive: nw, axis: null, background: null, bgColor: null, border: nA, borderColor: null, bottomMargin: nA, cellPadding: null, cellSpacing: null, char: null, charOff: null, classId: null, clear: null, code: null, codeBase: null, codeType: null, color: null, compact: nb, declare: nb, event: null, face: null, frame: null, frameBorder: null, hSpace: nA, leftMargin: nA, link: null, longDesc: null, lowSrc: null, marginHeight: nA, marginWidth: nA, noResize: nb, noHref: nb, noShade: nb, noWrap: nb, object: null, profile: null, prompt: null, rev: null, rightMargin: nA, rules: null, scheme: null, scrolling: nC, standby: null, summary: null, text: null, topMargin: nA, valueType: null, version: null, vAlign: null, vLink: null, vSpace: nA, allowTransparency: null, autoCorrect: null, autoSave: null, disablePictureInPicture: nb, disableRemotePlayback: nb, prefix: null, property: null, results: nA, security: null, unselectable: null } }), nV = n_({ space: "svg", attributes: { accentHeight: "accent-height", alignmentBaseline: "alignment-baseline", arabicForm: "arabic-form", baselineShift: "baseline-shift", capHeight: "cap-height", className: "class", clipPath: "clip-path", clipRule: "clip-rule", colorInterpolation: "color-interpolation", colorInterpolationFilters: "color-interpolation-filters", colorProfile: "color-profile", colorRendering: "color-rendering", crossOrigin: "crossorigin", dataType: "datatype", dominantBaseline: "dominant-baseline", enableBackground: "enable-background", fillOpacity: "fill-opacity", fillRule: "fill-rule", floodColor: "flood-color", floodOpacity: "flood-opacity", fontFamily: "font-family", fontSize: "font-size", fontSizeAdjust: "font-size-adjust", fontStretch: "font-stretch", fontStyle: "font-style", fontVariant: "font-variant", fontWeight: "font-weight", glyphName: "glyph-name", glyphOrientationHorizontal: "glyph-orientation-horizontal", glyphOrientationVertical: "glyph-orientation-vertical", hrefLang: "hreflang", horizAdvX: "horiz-adv-x", horizOriginX: "horiz-origin-x", horizOriginY: "horiz-origin-y", imageRendering: "image-rendering", letterSpacing: "letter-spacing", lightingColor: "lighting-color", markerEnd: "marker-end", markerMid: "marker-mid", markerStart: "marker-start", navDown: "nav-down", navDownLeft: "nav-down-left", navDownRight: "nav-down-right", navLeft: "nav-left", navNext: "nav-next", navPrev: "nav-prev", navRight: "nav-right", navUp: "nav-up", navUpLeft: "nav-up-left", navUpRight: "nav-up-right", onAbort: "onabort", onActivate: "onactivate", onAfterPrint: "onafterprint", onBeforePrint: "onbeforeprint", onBegin: "onbegin", onCancel: "oncancel", onCanPlay: "oncanplay", onCanPlayThrough: "oncanplaythrough", onChange: "onchange", onClick: "onclick", onClose: "onclose", onCopy: "oncopy", onCueChange: "oncuechange", onCut: "oncut", onDblClick: "ondblclick", onDrag: "ondrag", onDragEnd: "ondragend", onDragEnter: "ondragenter", onDragExit: "ondragexit", onDragLeave: "ondragleave", onDragOver: "ondragover", onDragStart: "ondragstart", onDrop: "ondrop", onDurationChange: "ondurationchange", onEmptied: "onemptied", onEnd: "onend", onEnded: "onended", onError: "onerror", onFocus: "onfocus", onFocusIn: "onfocusin", onFocusOut: "onfocusout", onHashChange: "onhashchange", onInput: "oninput", onInvalid: "oninvalid", onKeyDown: "onkeydown", onKeyPress: "onkeypress", onKeyUp: "onkeyup", onLoad: "onload", onLoadedData: "onloadeddata", onLoadedMetadata: "onloadedmetadata", onLoadStart: "onloadstart", onMessage: "onmessage", onMouseDown: "onmousedown", onMouseEnter: "onmouseenter", onMouseLeave: "onmouseleave", onMouseMove: "onmousemove", onMouseOut: "onmouseout", onMouseOver: "onmouseover", onMouseUp: "onmouseup", onMouseWheel: "onmousewheel", onOffline: "onoffline", onOnline: "ononline", onPageHide: "onpagehide", onPageShow: "onpageshow", onPaste: "onpaste", onPause: "onpause", onPlay: "onplay", onPlaying: "onplaying", onPopState: "onpopstate", onProgress: "onprogress", onRateChange: "onratechange", onRepeat: "onrepeat", onReset: "onreset", onResize: "onresize", onScroll: "onscroll", onSeeked: "onseeked", onSeeking: "onseeking", onSelect: "onselect", onShow: "onshow", onStalled: "onstalled", onStorage: "onstorage", onSubmit: "onsubmit", onSuspend: "onsuspend", onTimeUpdate: "ontimeupdate", onToggle: "ontoggle", onUnload: "onunload", onVolumeChange: "onvolumechange", onWaiting: "onwaiting", onZoom: "onzoom", overlinePosition: "overline-position", overlineThickness: "overline-thickness", paintOrder: "paint-order", panose1: "panose-1", pointerEvents: "pointer-events", referrerPolicy: "referrerpolicy", renderingIntent: "rendering-intent", shapeRendering: "shape-rendering", stopColor: "stop-color", stopOpacity: "stop-opacity", strikethroughPosition: "strikethrough-position", strikethroughThickness: "strikethrough-thickness", strokeDashArray: "stroke-dasharray", strokeDashOffset: "stroke-dashoffset", strokeLineCap: "stroke-linecap", strokeLineJoin: "stroke-linejoin", strokeMiterLimit: "stroke-miterlimit", strokeOpacity: "stroke-opacity", strokeWidth: "stroke-width", tabIndex: "tabindex", textAnchor: "text-anchor", textDecoration: "text-decoration", textRendering: "text-rendering", transformOrigin: "transform-origin", typeOf: "typeof", underlinePosition: "underline-position", underlineThickness: "underline-thickness", unicodeBidi: "unicode-bidi", unicodeRange: "unicode-range", unitsPerEm: "units-per-em", vAlphabetic: "v-alphabetic", vHanging: "v-hanging", vIdeographic: "v-ideographic", vMathematical: "v-mathematical", vectorEffect: "vector-effect", vertAdvY: "vert-adv-y", vertOriginX: "vert-origin-x", vertOriginY: "vert-origin-y", wordSpacing: "word-spacing", writingMode: "writing-mode", xHeight: "x-height", playbackOrder: "playbackorder", timelineBegin: "timelinebegin" }, transform: nP, properties: { about: nT, accentHeight: nA, accumulate: null, additive: null, alignmentBaseline: null, alphabetic: nA, amplitude: nA, arabicForm: null, ascent: nA, attributeName: null, attributeType: null, azimuth: nA, bandwidth: null, baselineShift: null, baseFrequency: null, baseProfile: null, bbox: null, begin: null, bias: nA, by: null, calcMode: null, capHeight: nA, className: nw, clip: null, clipPath: null, clipPathUnits: null, clipRule: null, color: null, colorInterpolation: null, colorInterpolationFilters: null, colorProfile: null, colorRendering: null, content: null, contentScriptType: null, contentStyleType: null, crossOrigin: null, cursor: null, cx: null, cy: null, d: null, dataType: null, defaultAction: null, descent: nA, diffuseConstant: nA, direction: null, display: null, dur: null, divisor: nA, dominantBaseline: null, download: nb, dx: null, dy: null, edgeMode: null, editable: null, elevation: nA, enableBackground: null, end: null, event: null, exponent: nA, externalResourcesRequired: null, fill: null, fillOpacity: nA, fillRule: null, filter: null, filterRes: null, filterUnits: null, floodColor: null, floodOpacity: null, focusable: null, focusHighlight: null, fontFamily: null, fontSize: null, fontSizeAdjust: null, fontStretch: null, fontStyle: null, fontVariant: null, fontWeight: null, format: null, fr: null, from: null, fx: null, fy: null, g1: nI, g2: nI, glyphName: nI, glyphOrientationHorizontal: null, glyphOrientationVertical: null, glyphRef: null, gradientTransform: null, gradientUnits: null, handler: null, hanging: nA, hatchContentUnits: null, hatchUnits: null, height: null, href: null, hrefLang: null, horizAdvX: nA, horizOriginX: nA, horizOriginY: nA, id: null, ideographic: nA, imageRendering: null, initialVisibility: null, in: null, in2: null, intercept: nA, k: nA, k1: nA, k2: nA, k3: nA, k4: nA, kernelMatrix: nT, kernelUnitLength: null, keyPoints: null, keySplines: null, keyTimes: null, kerning: null, lang: null, lengthAdjust: null, letterSpacing: null, lightingColor: null, limitingConeAngle: nA, local: null, markerEnd: null, markerMid: null, markerStart: null, markerHeight: null, markerUnits: null, markerWidth: null, mask: null, maskContentUnits: null, maskUnits: null, mathematical: null, max: null, media: null, mediaCharacterEncoding: null, mediaContentEncodings: null, mediaSize: nA, mediaTime: null, method: null, min: null, mode: null, name: null, navDown: null, navDownLeft: null, navDownRight: null, navLeft: null, navNext: null, navPrev: null, navRight: null, navUp: null, navUpLeft: null, navUpRight: null, numOctaves: null, observer: null, offset: null, onAbort: null, onActivate: null, onAfterPrint: null, onBeforePrint: null, onBegin: null, onCancel: null, onCanPlay: null, onCanPlayThrough: null, onChange: null, onClick: null, onClose: null, onCopy: null, onCueChange: null, onCut: null, onDblClick: null, onDrag: null, onDragEnd: null, onDragEnter: null, onDragExit: null, onDragLeave: null, onDragOver: null, onDragStart: null, onDrop: null, onDurationChange: null, onEmptied: null, onEnd: null, onEnded: null, onError: null, onFocus: null, onFocusIn: null, onFocusOut: null, onHashChange: null, onInput: null, onInvalid: null, onKeyDown: null, onKeyPress: null, onKeyUp: null, onLoad: null, onLoadedData: null, onLoadedMetadata: null, onLoadStart: null, onMessage: null, onMouseDown: null, onMouseEnter: null, onMouseLeave: null, onMouseMove: null, onMouseOut: null, onMouseOver: null, onMouseUp: null, onMouseWheel: null, onOffline: null, onOnline: null, onPageHide: null, onPageShow: null, onPaste: null, onPause: null, onPlay: null, onPlaying: null, onPopState: null, onProgress: null, onRateChange: null, onRepeat: null, onReset: null, onResize: null, onScroll: null, onSeeked: null, onSeeking: null, onSelect: null, onShow: null, onStalled: null, onStorage: null, onSubmit: null, onSuspend: null, onTimeUpdate: null, onToggle: null, onUnload: null, onVolumeChange: null, onWaiting: null, onZoom: null, opacity: null, operator: null, order: null, orient: null, orientation: null, origin: null, overflow: null, overlay: null, overlinePosition: nA, overlineThickness: nA, paintOrder: null, panose1: null, path: null, pathLength: nA, patternContentUnits: null, patternTransform: null, patternUnits: null, phase: null, ping: nw, pitch: null, playbackOrder: null, pointerEvents: null, points: null, pointsAtX: nA, pointsAtY: nA, pointsAtZ: nA, preserveAlpha: null, preserveAspectRatio: null, primitiveUnits: null, propagate: null, property: nT, r: null, radius: null, referrerPolicy: null, refX: null, refY: null, rel: nT, rev: nT, renderingIntent: null, repeatCount: null, repeatDur: null, requiredExtensions: nT, requiredFeatures: nT, requiredFonts: nT, requiredFormats: nT, resource: null, restart: null, result: null, rotate: null, rx: null, ry: null, scale: null, seed: null, shapeRendering: null, side: null, slope: null, snapshotTime: null, specularConstant: nA, specularExponent: nA, spreadMethod: null, spacing: null, startOffset: null, stdDeviation: null, stemh: null, stemv: null, stitchTiles: null, stopColor: null, stopOpacity: null, strikethroughPosition: nA, strikethroughThickness: nA, string: null, stroke: null, strokeDashArray: nT, strokeDashOffset: null, strokeLineCap: null, strokeLineJoin: null, strokeMiterLimit: nA, strokeOpacity: nA, strokeWidth: null, style: null, surfaceScale: nA, syncBehavior: null, syncBehaviorDefault: null, syncMaster: null, syncTolerance: null, syncToleranceDefault: null, systemLanguage: nT, tabIndex: nA, tableValues: null, target: null, targetX: nA, targetY: nA, textAnchor: null, textDecoration: null, textRendering: null, textLength: null, timelineBegin: null, title: null, transformBehavior: null, type: null, typeOf: nT, to: null, transform: null, transformOrigin: null, u1: null, u2: null, underlinePosition: nA, underlineThickness: nA, unicode: null, unicodeBidi: null, unicodeRange: null, unitsPerEm: nA, values: null, vAlphabetic: nA, vMathematical: nA, vectorEffect: null, vHanging: nA, vIdeographic: nA, version: null, vertAdvY: nA, vertOriginX: nA, vertOriginY: nA, viewBox: null, viewTarget: null, visibility: null, width: null, widths: null, wordSpacing: null, writingMode: null, x: null, x1: null, x2: null, xChannelSelector: null, xHeight: nA, y: null, y1: null, y2: null, yChannelSelector: null, z: null, zoomAndPan: null } }), nH = /^data[-\w.:]+$/i, nU = /-[a-z]/g, nq = /[A-Z]/g;
+let nP = nE({ attributes: { acceptcharset: "accept-charset", classname: "class", htmlfor: "for", httpequiv: "http-equiv" }, mustUseProperty: ["checked", "multiple", "muted", "selected"], properties: { abbr: null, accept: nI, acceptCharset: nw, accessKey: nw, action: null, allow: null, allowFullScreen: nb, allowPaymentRequest: nb, allowUserMedia: nb, alt: null, as: null, async: nb, autoCapitalize: null, autoComplete: nw, autoFocus: nb, autoPlay: nb, blocking: nw, capture: null, charSet: null, checked: nb, cite: null, className: nw, cols: nA, colSpan: null, content: null, contentEditable: nC, controls: nb, controlsList: nw, coords: nA | nI, crossOrigin: null, data: null, dateTime: null, decoding: null, default: nb, defer: nb, dir: null, dirName: null, disabled: nb, download: nS, draggable: nC, encType: null, enterKeyHint: null, fetchPriority: null, form: null, formAction: null, formEncType: null, formMethod: null, formNoValidate: nb, formTarget: null, headers: nw, height: nA, hidden: nb, high: nA, href: null, hrefLang: null, htmlFor: nw, httpEquiv: nw, id: null, imageSizes: null, imageSrcSet: null, inert: nb, inputMode: null, integrity: null, is: null, isMap: nb, itemId: null, itemProp: nw, itemRef: nw, itemScope: nb, itemType: nw, kind: null, label: null, lang: null, language: null, list: null, loading: null, loop: nb, low: nA, manifest: null, max: null, maxLength: nA, media: null, method: null, min: null, minLength: nA, multiple: nb, muted: nb, name: null, nonce: null, noModule: nb, noValidate: nb, onAbort: null, onAfterPrint: null, onAuxClick: null, onBeforeMatch: null, onBeforePrint: null, onBeforeToggle: null, onBeforeUnload: null, onBlur: null, onCancel: null, onCanPlay: null, onCanPlayThrough: null, onChange: null, onClick: null, onClose: null, onContextLost: null, onContextMenu: null, onContextRestored: null, onCopy: null, onCueChange: null, onCut: null, onDblClick: null, onDrag: null, onDragEnd: null, onDragEnter: null, onDragExit: null, onDragLeave: null, onDragOver: null, onDragStart: null, onDrop: null, onDurationChange: null, onEmptied: null, onEnded: null, onError: null, onFocus: null, onFormData: null, onHashChange: null, onInput: null, onInvalid: null, onKeyDown: null, onKeyPress: null, onKeyUp: null, onLanguageChange: null, onLoad: null, onLoadedData: null, onLoadedMetadata: null, onLoadEnd: null, onLoadStart: null, onMessage: null, onMessageError: null, onMouseDown: null, onMouseEnter: null, onMouseLeave: null, onMouseMove: null, onMouseOut: null, onMouseOver: null, onMouseUp: null, onOffline: null, onOnline: null, onPageHide: null, onPageShow: null, onPaste: null, onPause: null, onPlay: null, onPlaying: null, onPopState: null, onProgress: null, onRateChange: null, onRejectionHandled: null, onReset: null, onResize: null, onScroll: null, onScrollEnd: null, onSecurityPolicyViolation: null, onSeeked: null, onSeeking: null, onSelect: null, onSlotChange: null, onStalled: null, onStorage: null, onSubmit: null, onSuspend: null, onTimeUpdate: null, onToggle: null, onUnhandledRejection: null, onUnload: null, onVolumeChange: null, onWaiting: null, onWheel: null, open: nb, optimum: nA, pattern: null, ping: nw, placeholder: null, playsInline: nb, popover: null, popoverTarget: null, popoverTargetAction: null, poster: null, preload: null, readOnly: nb, referrerPolicy: null, rel: nw, required: nb, reversed: nb, rows: nA, rowSpan: nA, sandbox: nw, scope: null, scoped: nb, seamless: nb, selected: nb, shadowRootClonable: nb, shadowRootDelegatesFocus: nb, shadowRootMode: null, shape: null, size: nA, sizes: null, slot: null, span: nA, spellCheck: nC, src: null, srcDoc: null, srcLang: null, srcSet: null, start: nA, step: null, style: null, tabIndex: nA, target: null, title: null, translate: null, type: null, typeMustMatch: nb, useMap: null, value: nC, width: nA, wrap: null, writingSuggestions: null, align: null, aLink: null, archive: nw, axis: null, background: null, bgColor: null, border: nA, borderColor: null, bottomMargin: nA, cellPadding: null, cellSpacing: null, char: null, charOff: null, classId: null, clear: null, code: null, codeBase: null, codeType: null, color: null, compact: nb, declare: nb, event: null, face: null, frame: null, frameBorder: null, hSpace: nA, leftMargin: nA, link: null, longDesc: null, lowSrc: null, marginHeight: nA, marginWidth: nA, noResize: nb, noHref: nb, noShade: nb, noWrap: nb, object: null, profile: null, prompt: null, rev: null, rightMargin: nA, rules: null, scheme: null, scrolling: nC, standby: null, summary: null, text: null, topMargin: nA, valueType: null, version: null, vAlign: null, vLink: null, vSpace: nA, allowTransparency: null, autoCorrect: null, autoSave: null, disablePictureInPicture: nb, disableRemotePlayback: nb, prefix: null, property: null, results: nA, security: null, unselectable: null }, space: "html", transform: nF }), nj = nE({ attributes: { accentHeight: "accent-height", alignmentBaseline: "alignment-baseline", arabicForm: "arabic-form", baselineShift: "baseline-shift", capHeight: "cap-height", className: "class", clipPath: "clip-path", clipRule: "clip-rule", colorInterpolation: "color-interpolation", colorInterpolationFilters: "color-interpolation-filters", colorProfile: "color-profile", colorRendering: "color-rendering", crossOrigin: "crossorigin", dataType: "datatype", dominantBaseline: "dominant-baseline", enableBackground: "enable-background", fillOpacity: "fill-opacity", fillRule: "fill-rule", floodColor: "flood-color", floodOpacity: "flood-opacity", fontFamily: "font-family", fontSize: "font-size", fontSizeAdjust: "font-size-adjust", fontStretch: "font-stretch", fontStyle: "font-style", fontVariant: "font-variant", fontWeight: "font-weight", glyphName: "glyph-name", glyphOrientationHorizontal: "glyph-orientation-horizontal", glyphOrientationVertical: "glyph-orientation-vertical", hrefLang: "hreflang", horizAdvX: "horiz-adv-x", horizOriginX: "horiz-origin-x", horizOriginY: "horiz-origin-y", imageRendering: "image-rendering", letterSpacing: "letter-spacing", lightingColor: "lighting-color", markerEnd: "marker-end", markerMid: "marker-mid", markerStart: "marker-start", navDown: "nav-down", navDownLeft: "nav-down-left", navDownRight: "nav-down-right", navLeft: "nav-left", navNext: "nav-next", navPrev: "nav-prev", navRight: "nav-right", navUp: "nav-up", navUpLeft: "nav-up-left", navUpRight: "nav-up-right", onAbort: "onabort", onActivate: "onactivate", onAfterPrint: "onafterprint", onBeforePrint: "onbeforeprint", onBegin: "onbegin", onCancel: "oncancel", onCanPlay: "oncanplay", onCanPlayThrough: "oncanplaythrough", onChange: "onchange", onClick: "onclick", onClose: "onclose", onCopy: "oncopy", onCueChange: "oncuechange", onCut: "oncut", onDblClick: "ondblclick", onDrag: "ondrag", onDragEnd: "ondragend", onDragEnter: "ondragenter", onDragExit: "ondragexit", onDragLeave: "ondragleave", onDragOver: "ondragover", onDragStart: "ondragstart", onDrop: "ondrop", onDurationChange: "ondurationchange", onEmptied: "onemptied", onEnd: "onend", onEnded: "onended", onError: "onerror", onFocus: "onfocus", onFocusIn: "onfocusin", onFocusOut: "onfocusout", onHashChange: "onhashchange", onInput: "oninput", onInvalid: "oninvalid", onKeyDown: "onkeydown", onKeyPress: "onkeypress", onKeyUp: "onkeyup", onLoad: "onload", onLoadedData: "onloadeddata", onLoadedMetadata: "onloadedmetadata", onLoadStart: "onloadstart", onMessage: "onmessage", onMouseDown: "onmousedown", onMouseEnter: "onmouseenter", onMouseLeave: "onmouseleave", onMouseMove: "onmousemove", onMouseOut: "onmouseout", onMouseOver: "onmouseover", onMouseUp: "onmouseup", onMouseWheel: "onmousewheel", onOffline: "onoffline", onOnline: "ononline", onPageHide: "onpagehide", onPageShow: "onpageshow", onPaste: "onpaste", onPause: "onpause", onPlay: "onplay", onPlaying: "onplaying", onPopState: "onpopstate", onProgress: "onprogress", onRateChange: "onratechange", onRepeat: "onrepeat", onReset: "onreset", onResize: "onresize", onScroll: "onscroll", onSeeked: "onseeked", onSeeking: "onseeking", onSelect: "onselect", onShow: "onshow", onStalled: "onstalled", onStorage: "onstorage", onSubmit: "onsubmit", onSuspend: "onsuspend", onTimeUpdate: "ontimeupdate", onToggle: "ontoggle", onUnload: "onunload", onVolumeChange: "onvolumechange", onWaiting: "onwaiting", onZoom: "onzoom", overlinePosition: "overline-position", overlineThickness: "overline-thickness", paintOrder: "paint-order", panose1: "panose-1", pointerEvents: "pointer-events", referrerPolicy: "referrerpolicy", renderingIntent: "rendering-intent", shapeRendering: "shape-rendering", stopColor: "stop-color", stopOpacity: "stop-opacity", strikethroughPosition: "strikethrough-position", strikethroughThickness: "strikethrough-thickness", strokeDashArray: "stroke-dasharray", strokeDashOffset: "stroke-dashoffset", strokeLineCap: "stroke-linecap", strokeLineJoin: "stroke-linejoin", strokeMiterLimit: "stroke-miterlimit", strokeOpacity: "stroke-opacity", strokeWidth: "stroke-width", tabIndex: "tabindex", textAnchor: "text-anchor", textDecoration: "text-decoration", textRendering: "text-rendering", transformOrigin: "transform-origin", typeOf: "typeof", underlinePosition: "underline-position", underlineThickness: "underline-thickness", unicodeBidi: "unicode-bidi", unicodeRange: "unicode-range", unitsPerEm: "units-per-em", vAlphabetic: "v-alphabetic", vHanging: "v-hanging", vIdeographic: "v-ideographic", vMathematical: "v-mathematical", vectorEffect: "vector-effect", vertAdvY: "vert-adv-y", vertOriginX: "vert-origin-x", vertOriginY: "vert-origin-y", wordSpacing: "word-spacing", writingMode: "writing-mode", xHeight: "x-height", playbackOrder: "playbackorder", timelineBegin: "timelinebegin" }, properties: { about: nT, accentHeight: nA, accumulate: null, additive: null, alignmentBaseline: null, alphabetic: nA, amplitude: nA, arabicForm: null, ascent: nA, attributeName: null, attributeType: null, azimuth: nA, bandwidth: null, baselineShift: null, baseFrequency: null, baseProfile: null, bbox: null, begin: null, bias: nA, by: null, calcMode: null, capHeight: nA, className: nw, clip: null, clipPath: null, clipPathUnits: null, clipRule: null, color: null, colorInterpolation: null, colorInterpolationFilters: null, colorProfile: null, colorRendering: null, content: null, contentScriptType: null, contentStyleType: null, crossOrigin: null, cursor: null, cx: null, cy: null, d: null, dataType: null, defaultAction: null, descent: nA, diffuseConstant: nA, direction: null, display: null, dur: null, divisor: nA, dominantBaseline: null, download: nb, dx: null, dy: null, edgeMode: null, editable: null, elevation: nA, enableBackground: null, end: null, event: null, exponent: nA, externalResourcesRequired: null, fill: null, fillOpacity: nA, fillRule: null, filter: null, filterRes: null, filterUnits: null, floodColor: null, floodOpacity: null, focusable: null, focusHighlight: null, fontFamily: null, fontSize: null, fontSizeAdjust: null, fontStretch: null, fontStyle: null, fontVariant: null, fontWeight: null, format: null, fr: null, from: null, fx: null, fy: null, g1: nI, g2: nI, glyphName: nI, glyphOrientationHorizontal: null, glyphOrientationVertical: null, glyphRef: null, gradientTransform: null, gradientUnits: null, handler: null, hanging: nA, hatchContentUnits: null, hatchUnits: null, height: null, href: null, hrefLang: null, horizAdvX: nA, horizOriginX: nA, horizOriginY: nA, id: null, ideographic: nA, imageRendering: null, initialVisibility: null, in: null, in2: null, intercept: nA, k: nA, k1: nA, k2: nA, k3: nA, k4: nA, kernelMatrix: nT, kernelUnitLength: null, keyPoints: null, keySplines: null, keyTimes: null, kerning: null, lang: null, lengthAdjust: null, letterSpacing: null, lightingColor: null, limitingConeAngle: nA, local: null, markerEnd: null, markerMid: null, markerStart: null, markerHeight: null, markerUnits: null, markerWidth: null, mask: null, maskContentUnits: null, maskUnits: null, mathematical: null, max: null, media: null, mediaCharacterEncoding: null, mediaContentEncodings: null, mediaSize: nA, mediaTime: null, method: null, min: null, mode: null, name: null, navDown: null, navDownLeft: null, navDownRight: null, navLeft: null, navNext: null, navPrev: null, navRight: null, navUp: null, navUpLeft: null, navUpRight: null, numOctaves: null, observer: null, offset: null, onAbort: null, onActivate: null, onAfterPrint: null, onBeforePrint: null, onBegin: null, onCancel: null, onCanPlay: null, onCanPlayThrough: null, onChange: null, onClick: null, onClose: null, onCopy: null, onCueChange: null, onCut: null, onDblClick: null, onDrag: null, onDragEnd: null, onDragEnter: null, onDragExit: null, onDragLeave: null, onDragOver: null, onDragStart: null, onDrop: null, onDurationChange: null, onEmptied: null, onEnd: null, onEnded: null, onError: null, onFocus: null, onFocusIn: null, onFocusOut: null, onHashChange: null, onInput: null, onInvalid: null, onKeyDown: null, onKeyPress: null, onKeyUp: null, onLoad: null, onLoadedData: null, onLoadedMetadata: null, onLoadStart: null, onMessage: null, onMouseDown: null, onMouseEnter: null, onMouseLeave: null, onMouseMove: null, onMouseOut: null, onMouseOver: null, onMouseUp: null, onMouseWheel: null, onOffline: null, onOnline: null, onPageHide: null, onPageShow: null, onPaste: null, onPause: null, onPlay: null, onPlaying: null, onPopState: null, onProgress: null, onRateChange: null, onRepeat: null, onReset: null, onResize: null, onScroll: null, onSeeked: null, onSeeking: null, onSelect: null, onShow: null, onStalled: null, onStorage: null, onSubmit: null, onSuspend: null, onTimeUpdate: null, onToggle: null, onUnload: null, onVolumeChange: null, onWaiting: null, onZoom: null, opacity: null, operator: null, order: null, orient: null, orientation: null, origin: null, overflow: null, overlay: null, overlinePosition: nA, overlineThickness: nA, paintOrder: null, panose1: null, path: null, pathLength: nA, patternContentUnits: null, patternTransform: null, patternUnits: null, phase: null, ping: nw, pitch: null, playbackOrder: null, pointerEvents: null, points: null, pointsAtX: nA, pointsAtY: nA, pointsAtZ: nA, preserveAlpha: null, preserveAspectRatio: null, primitiveUnits: null, propagate: null, property: nT, r: null, radius: null, referrerPolicy: null, refX: null, refY: null, rel: nT, rev: nT, renderingIntent: null, repeatCount: null, repeatDur: null, requiredExtensions: nT, requiredFeatures: nT, requiredFonts: nT, requiredFormats: nT, resource: null, restart: null, result: null, rotate: null, rx: null, ry: null, scale: null, seed: null, shapeRendering: null, side: null, slope: null, snapshotTime: null, specularConstant: nA, specularExponent: nA, spreadMethod: null, spacing: null, startOffset: null, stdDeviation: null, stemh: null, stemv: null, stitchTiles: null, stopColor: null, stopOpacity: null, strikethroughPosition: nA, strikethroughThickness: nA, string: null, stroke: null, strokeDashArray: nT, strokeDashOffset: null, strokeLineCap: null, strokeLineJoin: null, strokeMiterLimit: nA, strokeOpacity: nA, strokeWidth: null, style: null, surfaceScale: nA, syncBehavior: null, syncBehaviorDefault: null, syncMaster: null, syncTolerance: null, syncToleranceDefault: null, systemLanguage: nT, tabIndex: nA, tableValues: null, target: null, targetX: nA, targetY: nA, textAnchor: null, textDecoration: null, textRendering: null, textLength: null, timelineBegin: null, title: null, transformBehavior: null, type: null, typeOf: nT, to: null, transform: null, transformOrigin: null, u1: null, u2: null, underlinePosition: nA, underlineThickness: nA, unicode: null, unicodeBidi: null, unicodeRange: null, unitsPerEm: nA, values: null, vAlphabetic: nA, vMathematical: nA, vectorEffect: null, vHanging: nA, vIdeographic: nA, version: null, vertAdvY: nA, vertOriginX: nA, vertOriginY: nA, viewBox: null, viewTarget: null, visibility: null, width: null, widths: null, wordSpacing: null, writingMode: null, x: null, x1: null, x2: null, xChannelSelector: null, xHeight: nA, y: null, y1: null, y2: null, yChannelSelector: null, z: null, zoomAndPan: null }, space: "svg", transform: nM }), nN = nE({ properties: { xLinkActuate: null, xLinkArcRole: null, xLinkHref: null, xLinkRole: null, xLinkShow: null, xLinkTitle: null, xLinkType: null }, space: "xlink", transform: (e10, t10) => "xlink:" + t10.slice(5).toLowerCase() }), nR = nE({ attributes: { xmlnsxlink: "xmlns:xlink" }, properties: { xmlnsXLink: null, xmlns: null }, space: "xmlns", transform: nF }), nB = nE({ properties: { xmlBase: null, xmlLang: null, xmlSpace: null }, space: "xml", transform: (e10, t10) => "xml:" + t10.slice(3).toLowerCase() }), nV = { classId: "classID", dataType: "datatype", itemId: "itemID", strokeDashArray: "strokeDasharray", strokeDashOffset: "strokeDashoffset", strokeLineCap: "strokeLinecap", strokeLineJoin: "strokeLinejoin", strokeMiterLimit: "strokeMiterlimit", typeOf: "typeof", xLinkActuate: "xlinkActuate", xLinkArcRole: "xlinkArcrole", xLinkHref: "xlinkHref", xLinkRole: "xlinkRole", xLinkShow: "xlinkShow", xLinkTitle: "xlinkTitle", xLinkType: "xlinkType", xmlnsXLink: "xmlnsXlink" }, nH = /[A-Z]/g, nU = /-[a-z]/g, nq = /^data[-\w.:]+$/i;
 function nW(e10) {
   return "-" + e10.toLowerCase();
 }
 function nY(e10) {
   return e10.charAt(1).toUpperCase();
 }
-let nQ = { classId: "classID", dataType: "datatype", itemId: "itemID", strokeDashArray: "strokeDasharray", strokeDashOffset: "strokeDashoffset", strokeLineCap: "strokeLinecap", strokeLineJoin: "strokeLinejoin", strokeMiterLimit: "strokeMiterlimit", typeOf: "typeof", xLinkActuate: "xlinkActuate", xLinkArcRole: "xlinkArcrole", xLinkHref: "xlinkHref", xLinkRole: "xlinkRole", xLinkShow: "xlinkShow", xLinkTitle: "xlinkTitle", xLinkType: "xlinkType", xmlnsXLink: "xmlnsXlink" }, n$ = ny([nF, nM, nj, nR, nB], "html"), nK = ny([nF, nM, nj, nR, nV], "svg");
-var nX, nZ, nJ, nG, n1, n0, n2, n4, n3, n5, n9, n6, n8 = {};
-let n7 = e(function() {
-  if (n6) return n8;
-  n6 = 1;
-  var e10 = n8 && n8.__importDefault || function(e11) {
+let nQ = ny([n_, nP, nN, nR, nB], "html"), n$ = ny([n_, nj, nN, nR, nB], "svg");
+var nK, nX, nZ, nJ, nG, n1, n0, n2, n4, n3, n5, n9, n6 = {};
+let n8 = e(function() {
+  if (n9) return n6;
+  n9 = 1;
+  var e10 = n6 && n6.__importDefault || function(e11) {
     return e11 && e11.__esModule ? e11 : { default: e11 };
   };
-  Object.defineProperty(n8, "__esModule", { value: true }), n8.default = function(e11, n10) {
+  Object.defineProperty(n6, "__esModule", { value: true }), n6.default = function(e11, n10) {
     var r2 = null;
     if (!e11 || "string" != typeof e11) return r2;
     var i2 = (0, t10.default)(e11), l2 = "function" == typeof n10;
@@ -3308,13 +3306,13 @@ let n7 = e(function() {
     }), r2;
   };
   var t10 = e10(function() {
-    if (n9) return n5;
-    n9 = 1;
+    if (n5) return n3;
+    n5 = 1;
     var e11 = /\/\*[^*]*\*+([^/*][^*]*\*+)*\//g, t11 = /\n/g, n10 = /^\s*/, r2 = /^(\*?[-#/*\\\w]+(\[[0-9a-z_-]+\])?)\s*/, i2 = /^:\s*/, l2 = /^((?:'(?:\\'|.)*?'|"(?:\\"|.)*?"|\([^)]*?\)|[^};])+)/, o2 = /^[;\s]*/, u2 = /^\s+|\s+$/g;
     function a2(e12) {
       return e12 ? e12.replace(u2, "") : "";
     }
-    return n5 = function(u3, c2) {
+    return n3 = function(u3, c2) {
       if ("string" != typeof u3) throw TypeError("First argument must be a string");
       if (!u3) return [];
       c2 = c2 || {};
@@ -3374,15 +3372,15 @@ let n7 = e(function() {
       }();
     };
   }());
-  return n8;
-}()), re = n7.default || n7, rt = function(e10) {
+  return n6;
+}()), n7 = n8.default || n8, re = function(e10) {
   let t10 = e10 && e10.position && e10.position.end || {};
   if ("number" == typeof t10.line && t10.line > 0 && "number" == typeof t10.column && t10.column > 0) return { line: t10.line, column: t10.column, offset: "number" == typeof t10.offset && t10.offset > -1 ? t10.offset : void 0 };
-}, rn = function(e10) {
+}, rt = function(e10) {
   let t10 = e10 && e10.position && e10.position.start || {};
   if ("number" == typeof t10.line && t10.line > 0 && "number" == typeof t10.column && t10.column > 0) return { line: t10.line, column: t10.column, offset: "number" == typeof t10.offset && t10.offset > -1 ? t10.offset : void 0 };
 };
-class rr extends Error {
+class rn extends Error {
   constructor(e10, t10, n10) {
     super(), "string" == typeof t10 && (n10 = t10, t10 = void 0);
     let r2 = "", i2 = {}, l2 = false;
@@ -3398,29 +3396,29 @@ class rr extends Error {
     this.ancestors = i2.ancestors || void 0, this.cause = i2.cause || void 0, this.column = o2 ? o2.column : void 0, this.fatal = void 0, this.file, this.message = r2, this.line = o2 ? o2.line : void 0, this.name = eD(i2.place) || "1:1", this.place = i2.place || void 0, this.reason = this.message, this.ruleId = i2.ruleId || void 0, this.source = i2.source || void 0, this.stack = l2 && i2.cause && "string" == typeof i2.cause.stack ? i2.cause.stack : "", this.actual, this.expected, this.note, this.url;
   }
 }
-rr.prototype.file = "", rr.prototype.name = "", rr.prototype.reason = "", rr.prototype.message = "", rr.prototype.stack = "", rr.prototype.column = void 0, rr.prototype.line = void 0, rr.prototype.ancestors = void 0, rr.prototype.cause = void 0, rr.prototype.fatal = void 0, rr.prototype.place = void 0, rr.prototype.ruleId = void 0, rr.prototype.source = void 0;
-let ri = {}.hasOwnProperty, rl = /* @__PURE__ */ new Map(), ro = /[A-Z]/g, ru = /-([a-z])/g, ra = /* @__PURE__ */ new Set(["table", "tbody", "thead", "tfoot", "tr"]), rc = /* @__PURE__ */ new Set(["td", "th"]), rs = "https://github.com/syntax-tree/hast-util-to-jsx-runtime";
-function rf(e10, t10, n10) {
+rn.prototype.file = "", rn.prototype.name = "", rn.prototype.reason = "", rn.prototype.message = "", rn.prototype.stack = "", rn.prototype.column = void 0, rn.prototype.line = void 0, rn.prototype.ancestors = void 0, rn.prototype.cause = void 0, rn.prototype.fatal = void 0, rn.prototype.place = void 0, rn.prototype.ruleId = void 0, rn.prototype.source = void 0;
+let rr = {}.hasOwnProperty, ri = /* @__PURE__ */ new Map(), rl = /[A-Z]/g, ro = /-([a-z])/g, ru = /* @__PURE__ */ new Set(["table", "tbody", "thead", "tfoot", "tr"]), ra = /* @__PURE__ */ new Set(["td", "th"]), rc = "https://github.com/syntax-tree/hast-util-to-jsx-runtime";
+function rs(e10, t10, n10) {
   var r2;
   return "element" === t10.type ? function(e11, t11, n11) {
     let r3 = e11.schema, i2 = r3;
-    "svg" === t11.tagName.toLowerCase() && "html" === r3.space && (i2 = nK, e11.schema = i2), e11.ancestors.push(t11);
-    let l2 = rm(e11, t11.tagName, false), o2 = function(e12, t12) {
+    "svg" === t11.tagName.toLowerCase() && "html" === r3.space && (i2 = n$, e11.schema = i2), e11.ancestors.push(t11);
+    let l2 = rh(e11, t11.tagName, false), o2 = function(e12, t12) {
       let n12, r4;
       let i3 = {};
-      for (r4 in t12.properties) if ("children" !== r4 && ri.call(t12.properties, r4)) {
+      for (r4 in t12.properties) if ("children" !== r4 && rr.call(t12.properties, r4)) {
         let l3 = function(e13, t13, n13) {
           let r5 = function(e14, t14) {
             let n14 = nx(t14), r6 = t14, i4 = nv;
             if (n14 in e14.normal) return e14.property[e14.normal[n14]];
-            if (n14.length > 4 && "data" === n14.slice(0, 4) && nH.test(t14)) {
+            if (n14.length > 4 && "data" === n14.slice(0, 4) && nq.test(t14)) {
               if ("-" === t14.charAt(4)) {
                 let e15 = t14.slice(5).replace(nU, nY);
                 r6 = "data" + e15.charAt(0).toUpperCase() + e15.slice(1);
               } else {
                 let e15 = t14.slice(4);
                 if (!nU.test(e15)) {
-                  let n15 = e15.replace(nq, nW);
+                  let n15 = e15.replace(nH, nW);
                   "-" !== n15.charAt(0) && (n15 = "-" + n15), t14 = "data" + n15;
                 }
               }
@@ -3436,14 +3434,14 @@ function rf(e10, t10, n10) {
               let t14 = "object" == typeof n13 ? n13 : function(e14, t15) {
                 let n14 = {};
                 try {
-                  re(t15, function(e15, t16) {
+                  n7(t15, function(e15, t16) {
                     let r6 = e15;
-                    "--" !== r6.slice(0, 2) && ("-ms-" === r6.slice(0, 4) && (r6 = "ms-" + r6.slice(4)), r6 = r6.replace(ru, ry)), n14[r6] = t16;
+                    "--" !== r6.slice(0, 2) && ("-ms-" === r6.slice(0, 4) && (r6 = "ms-" + r6.slice(4)), r6 = r6.replace(ro, rg)), n14[r6] = t16;
                   });
                 } catch (t16) {
                   if (!e14.ignoreInvalidStyle) {
-                    let n15 = new rr("Cannot parse `style` attribute", { ancestors: e14.ancestors, cause: t16, ruleId: "style", source: "hast-util-to-jsx-runtime" });
-                    throw n15.file = e14.filePath || void 0, n15.url = rs + "#cannot-parse-style-attribute", n15;
+                    let n15 = new rn("Cannot parse `style` attribute", { ancestors: e14.ancestors, cause: t16, ruleId: "style", source: "hast-util-to-jsx-runtime" });
+                    throw n15.file = e14.filePath || void 0, n15.url = rc + "#cannot-parse-style-attribute", n15;
                   }
                 }
                 return n14;
@@ -3451,36 +3449,36 @@ function rf(e10, t10, n10) {
               return "css" === e13.stylePropertyNameCase && (t14 = function(e14) {
                 let t15;
                 let n14 = {};
-                for (t15 in e14) ri.call(e14, t15) && (n14[function(e15) {
-                  let t16 = e15.replace(ro, rx);
+                for (t15 in e14) rr.call(e14, t15) && (n14[function(e15) {
+                  let t16 = e15.replace(rl, ry);
                   return "ms-" === t16.slice(0, 3) && (t16 = "-" + t16), t16;
                 }(t15)] = e14[t15]);
                 return n14;
               }(t14)), ["style", t14];
             }
-            return ["react" === e13.elementAttributeNameCase && r5.space ? nQ[r5.property] || r5.property : r5.attribute, n13];
+            return ["react" === e13.elementAttributeNameCase && r5.space ? nV[r5.property] || r5.property : r5.attribute, n13];
           }
         }(e12, r4, t12.properties[r4]);
         if (l3) {
           let [r5, o3] = l3;
-          e12.tableCellAlignToStyle && "align" === r5 && "string" == typeof o3 && rc.has(t12.tagName) ? n12 = o3 : i3[r5] = o3;
+          e12.tableCellAlignToStyle && "align" === r5 && "string" == typeof o3 && ra.has(t12.tagName) ? n12 = o3 : i3[r5] = o3;
         }
       }
       return n12 && ((i3.style || (i3.style = {}))["css" === e12.stylePropertyNameCase ? "text-align" : "textAlign"] = n12), i3;
-    }(e11, t11), u2 = rh(e11, t11);
-    return ra.has(t11.tagName) && (u2 = u2.filter(function(e12) {
+    }(e11, t11), u2 = rd(e11, t11);
+    return ru.has(t11.tagName) && (u2 = u2.filter(function(e12) {
       return "string" != typeof e12 || !("object" == typeof e12 ? "text" === e12.type && nm(e12.value) : nm(e12));
-    })), rp(e11, o2, l2, t11), rd(o2, u2), e11.ancestors.pop(), e11.schema = r3, e11.create(t11, l2, o2, n11);
+    })), rf(e11, o2, l2, t11), rp(o2, u2), e11.ancestors.pop(), e11.schema = r3, e11.create(t11, l2, o2, n11);
   }(e10, t10, n10) : "mdxFlowExpression" === t10.type || "mdxTextExpression" === t10.type ? function(e11, t11) {
     if (t11.data && t11.data.estree && e11.evaluater) {
       let n11 = t11.data.estree.body[0];
       return n11.type, e11.evaluater.evaluateExpression(n11.expression);
     }
-    rg(e11, t11.position);
+    rm(e11, t11.position);
   }(e10, t10) : "mdxJsxFlowElement" === t10.type || "mdxJsxTextElement" === t10.type ? function(e11, t11, n11) {
     let r3 = e11.schema, i2 = r3;
-    "svg" === t11.name && "html" === r3.space && (i2 = nK, e11.schema = i2), e11.ancestors.push(t11);
-    let l2 = null === t11.name ? e11.Fragment : rm(e11, t11.name, true), o2 = function(e12, t12) {
+    "svg" === t11.name && "html" === r3.space && (i2 = n$, e11.schema = i2), e11.ancestors.push(t11);
+    let l2 = null === t11.name ? e11.Fragment : rh(e11, t11.name, true), o2 = function(e12, t12) {
       let n12 = {};
       for (let r4 of t12.attributes) if ("mdxJsxExpressionAttribute" === r4.type) {
         if (r4.data && r4.data.estree && e12.evaluater) {
@@ -3490,7 +3488,7 @@ function rf(e10, t10, n10) {
           i3.type;
           let l3 = i3.properties[0];
           l3.type, Object.assign(n12, e12.evaluater.evaluateExpression(l3.argument));
-        } else rg(e12, t12.position);
+        } else rm(e12, t12.position);
       } else {
         let i3;
         let l3 = r4.name;
@@ -3498,32 +3496,32 @@ function rf(e10, t10, n10) {
           if (r4.value.data && r4.value.data.estree && e12.evaluater) {
             let t13 = r4.value.data.estree.body[0];
             t13.type, i3 = e12.evaluater.evaluateExpression(t13.expression);
-          } else rg(e12, t12.position);
+          } else rm(e12, t12.position);
         } else i3 = null === r4.value || r4.value;
         n12[l3] = i3;
       }
       return n12;
-    }(e11, t11), u2 = rh(e11, t11);
-    return rp(e11, o2, l2, t11), rd(o2, u2), e11.ancestors.pop(), e11.schema = r3, e11.create(t11, l2, o2, n11);
+    }(e11, t11), u2 = rd(e11, t11);
+    return rf(e11, o2, l2, t11), rp(o2, u2), e11.ancestors.pop(), e11.schema = r3, e11.create(t11, l2, o2, n11);
   }(e10, t10, n10) : "mdxjsEsm" === t10.type ? function(e11, t11) {
     if (t11.data && t11.data.estree && e11.evaluater) return e11.evaluater.evaluateProgram(t11.data.estree);
-    rg(e11, t11.position);
+    rm(e11, t11.position);
   }(e10, t10) : "root" === t10.type ? function(e11, t11, n11) {
     let r3 = {};
-    return rd(r3, rh(e11, t11)), e11.create(t11, e11.Fragment, r3, n11);
+    return rp(r3, rd(e11, t11)), e11.create(t11, e11.Fragment, r3, n11);
   }(e10, t10, n10) : "text" === t10.type ? (r2 = 0, t10.value) : void 0;
 }
-function rp(e10, t10, n10, r2) {
+function rf(e10, t10, n10, r2) {
   "string" != typeof n10 && n10 !== e10.Fragment && e10.passNode && (t10.node = r2);
 }
-function rd(e10, t10) {
+function rp(e10, t10) {
   if (t10.length > 0) {
     let n10 = t10.length > 1 ? t10 : t10[0];
     n10 && (e10.children = n10);
   }
 }
-function rh(e10, t10) {
-  let n10 = [], r2 = -1, i2 = e10.passKeys ? /* @__PURE__ */ new Map() : rl;
+function rd(e10, t10) {
+  let n10 = [], r2 = -1, i2 = e10.passKeys ? /* @__PURE__ */ new Map() : ri;
   for (; ++r2 < t10.children.length; ) {
     let l2;
     let o2 = t10.children[r2];
@@ -3534,12 +3532,12 @@ function rh(e10, t10) {
         l2 = e11 + "-" + t11, i2.set(e11, t11 + 1);
       }
     }
-    let u2 = rf(e10, o2, l2);
+    let u2 = rs(e10, o2, l2);
     void 0 !== u2 && n10.push(u2);
   }
   return n10;
 }
-function rm(e10, t10, n10) {
+function rh(e10, t10, n10) {
   let r2;
   if (n10) {
     if (t10.includes(".")) {
@@ -3554,22 +3552,22 @@ function rm(e10, t10, n10) {
   } else r2 = { type: "Literal", value: t10 };
   if ("Literal" === r2.type) {
     let t11 = r2.value;
-    return ri.call(e10.components, t11) ? e10.components[t11] : t11;
+    return rr.call(e10.components, t11) ? e10.components[t11] : t11;
   }
   if (e10.evaluater) return e10.evaluater.evaluateExpression(r2);
-  rg(e10);
+  rm(e10);
+}
+function rm(e10, t10) {
+  let n10 = new rn("Cannot handle MDX estrees without `createEvaluater`", { ancestors: e10.ancestors, place: t10, ruleId: "mdx-estree", source: "hast-util-to-jsx-runtime" });
+  throw n10.file = e10.filePath || void 0, n10.url = rc + "#cannot-handle-mdx-estrees-without-createevaluater", n10;
 }
 function rg(e10, t10) {
-  let n10 = new rr("Cannot handle MDX estrees without `createEvaluater`", { ancestors: e10.ancestors, place: t10, ruleId: "mdx-estree", source: "hast-util-to-jsx-runtime" });
-  throw n10.file = e10.filePath || void 0, n10.url = rs + "#cannot-handle-mdx-estrees-without-createevaluater", n10;
-}
-function ry(e10, t10) {
   return t10.toUpperCase();
 }
-function rx(e10) {
+function ry(e10) {
   return "-" + e10.toLowerCase();
 }
-function rv(e10, t10) {
+function rx(e10, t10) {
   let n10 = t10.referenceType, r2 = "]";
   if ("collapsed" === n10 ? r2 += "[]" : "full" === n10 && (r2 += "[" + (t10.label || t10.identifier) + "]"), "imageReference" === t10.type) return [{ type: "text", value: "![" + t10.alt + r2 }];
   let i2 = e10.all(t10), l2 = i2[0];
@@ -3577,11 +3575,11 @@ function rv(e10, t10) {
   let o2 = i2[i2.length - 1];
   return o2 && "text" === o2.type ? o2.value += r2 : i2.push({ type: "text", value: r2 }), i2;
 }
-function rk(e10) {
+function rv(e10) {
   let t10 = e10.spread;
   return null == t10 ? e10.children.length > 1 : t10;
 }
-function rb(e10, t10, n10) {
+function rk(e10, t10, n10) {
   let r2 = 0, i2 = e10.length;
   if (t10) {
     let t11 = e10.codePointAt(r2);
@@ -3593,7 +3591,7 @@ function rb(e10, t10, n10) {
   }
   return i2 > r2 ? e10.slice(r2, i2) : "";
 }
-let rC = { blockquote: function(e10, t10) {
+let rb = { blockquote: function(e10, t10) {
   let n10 = { type: "element", tagName: "blockquote", properties: {}, children: e10.wrap(e10.all(t10), true) };
   return e10.patch(t10, n10), e10.applyData(t10, n10);
 }, break: function(e10, t10) {
@@ -3628,7 +3626,7 @@ let rC = { blockquote: function(e10, t10) {
   }
 }, imageReference: function(e10, t10) {
   let n10 = String(t10.identifier).toUpperCase(), r2 = e10.definitionById.get(n10);
-  if (!r2) return rv(e10, t10);
+  if (!r2) return rx(e10, t10);
   let i2 = { src: z(r2.url || ""), alt: t10.alt };
   null !== r2.title && void 0 !== r2.title && (i2.title = r2.title);
   let l2 = { type: "element", tagName: "img", properties: i2, children: [] };
@@ -3645,7 +3643,7 @@ let rC = { blockquote: function(e10, t10) {
   return e10.patch(t10, r2), e10.applyData(t10, r2);
 }, linkReference: function(e10, t10) {
   let n10 = String(t10.identifier).toUpperCase(), r2 = e10.definitionById.get(n10);
-  if (!r2) return rv(e10, t10);
+  if (!r2) return rx(e10, t10);
   let i2 = { href: z(r2.url || "") };
   null !== r2.title && void 0 !== r2.title && (i2.title = r2.title);
   let l2 = { type: "element", tagName: "a", properties: i2, children: e10.all(t10) };
@@ -3661,10 +3659,10 @@ let rC = { blockquote: function(e10, t10) {
     if ("list" === e11.type) {
       t11 = e11.spread || false;
       let n11 = e11.children, r3 = -1;
-      for (; !t11 && ++r3 < n11.length; ) t11 = rk(n11[r3]);
+      for (; !t11 && ++r3 < n11.length; ) t11 = rv(n11[r3]);
     }
     return t11;
-  }(n10) : rk(t10), l2 = {}, o2 = [];
+  }(n10) : rv(t10), l2 = {}, o2 = [];
   if ("boolean" == typeof t10.checked) {
     let e11;
     let n11 = r2[0];
@@ -3706,7 +3704,7 @@ let rC = { blockquote: function(e10, t10) {
     e10.patch(t10.children[0], n11), i2.push(n11);
   }
   if (n10.length > 0) {
-    let r3 = { type: "element", tagName: "tbody", properties: {}, children: e10.wrap(n10, true) }, l3 = rn(t10.children[1]), o2 = rt(t10.children[t10.children.length - 1]);
+    let r3 = { type: "element", tagName: "tbody", properties: {}, children: e10.wrap(n10, true) }, l3 = rt(t10.children[1]), o2 = re(t10.children[t10.children.length - 1]);
     l3 && o2 && (r3.position = { start: l3, end: o2 }), i2.push(r3);
   }
   let l2 = { type: "element", tagName: "table", properties: {}, children: e10.wrap(i2, true) };
@@ -3727,17 +3725,17 @@ let rC = { blockquote: function(e10, t10) {
 }, text: function(e10, t10) {
   let n10 = { type: "text", value: function(e11) {
     let t11 = String(e11), n11 = /\r?\n|\r/g, r2 = n11.exec(t11), i2 = 0, l2 = [];
-    for (; r2; ) l2.push(rb(t11.slice(i2, r2.index), i2 > 0, true), r2[0]), i2 = r2.index + r2[0].length, r2 = n11.exec(t11);
-    return l2.push(rb(t11.slice(i2), i2 > 0, false)), l2.join("");
+    for (; r2; ) l2.push(rk(t11.slice(i2, r2.index), i2 > 0, true), r2[0]), i2 = r2.index + r2[0].length, r2 = n11.exec(t11);
+    return l2.push(rk(t11.slice(i2), i2 > 0, false)), l2.join("");
   }(String(t10.value)) };
   return e10.patch(t10, n10), e10.applyData(t10, n10);
 }, thematicBreak: function(e10, t10) {
   let n10 = { type: "element", tagName: "hr", properties: {}, children: [] };
   return e10.patch(t10, n10), e10.applyData(t10, n10);
-}, toml: rS, yaml: rS, definition: rS, footnoteDefinition: rS };
-function rS() {
+}, toml: rC, yaml: rC, definition: rC, footnoteDefinition: rC };
+function rC() {
 }
-let rA = "object" == typeof self ? self : globalThis, rw = (e10, t10) => {
+let rS = "object" == typeof self ? self : globalThis, rA = (e10, t10) => {
   let n10 = (t11, n11) => (e10.set(n11, t11), t11), r2 = (i2) => {
     if (e10.has(i2)) return e10.get(i2);
     let [l2, o2] = t10[i2];
@@ -3773,20 +3771,20 @@ let rA = "object" == typeof self ? self : globalThis, rw = (e10, t10) => {
       }
       case 7: {
         let { name: e11, message: t11 } = o2;
-        return n10(new rA[e11](t11), i2);
+        return n10(new rS[e11](t11), i2);
       }
       case 8:
         return n10(BigInt(o2), i2);
       case "BigInt":
         return n10(Object(BigInt(o2)), i2);
     }
-    return n10(new rA[l2](o2), i2);
+    return n10(new rS[l2](o2), i2);
   };
   return r2;
-}, rI = (e10) => rw(/* @__PURE__ */ new Map(), e10)(0), { toString: rT } = {}, { keys: rL } = Object, rD = (e10) => {
+}, rw = (e10) => rA(/* @__PURE__ */ new Map(), e10)(0), { toString: rI } = {}, { keys: rT } = Object, rL = (e10) => {
   let t10 = typeof e10;
   if ("object" !== t10 || !e10) return [0, t10];
-  let n10 = rT.call(e10).slice(8, -1);
+  let n10 = rI.call(e10).slice(8, -1);
   switch (n10) {
     case "Array":
       return [1, ""];
@@ -3802,16 +3800,16 @@ let rA = "object" == typeof self ? self : globalThis, rw = (e10, t10) => {
       return [6, ""];
   }
   return n10.includes("Array") ? [1, n10] : n10.includes("Error") ? [7, n10] : [2, n10];
-}, rO = (e10) => {
+}, rD = (e10) => {
   let [t10, n10] = e10;
   return 0 === t10 && ("function" === n10 || "symbol" === n10);
-}, rz = (e10, t10, n10, r2) => {
+}, rO = (e10, t10, n10, r2) => {
   let i2 = (e11, t11) => {
     let i3 = r2.push(e11) - 1;
     return n10.set(t11, i3), i3;
   }, l2 = (r3) => {
     if (n10.has(r3)) return n10.get(r3);
-    let [o2, u2] = rD(r3);
+    let [o2, u2] = rL(r3);
     switch (o2) {
       case 0: {
         let t11 = r3;
@@ -3846,7 +3844,7 @@ let rA = "object" == typeof self ? self : globalThis, rw = (e10, t10) => {
         }
         if (t10 && "toJSON" in r3) return l2(r3.toJSON());
         let n11 = [], a3 = i2([o2, n11], r3);
-        for (let t11 of rL(r3)) (e10 || !rO(rD(r3[t11]))) && n11.push([l2(t11), l2(r3[t11])]);
+        for (let t11 of rT(r3)) (e10 || !rD(rL(r3[t11]))) && n11.push([l2(t11), l2(r3[t11])]);
         return a3;
       }
       case 3:
@@ -3857,12 +3855,12 @@ let rA = "object" == typeof self ? self : globalThis, rw = (e10, t10) => {
       }
       case 5: {
         let t11 = [], n11 = i2([o2, t11], r3);
-        for (let [n12, i3] of r3) (e10 || !(rO(rD(n12)) || rO(rD(i3)))) && t11.push([l2(n12), l2(i3)]);
+        for (let [n12, i3] of r3) (e10 || !(rD(rL(n12)) || rD(rL(i3)))) && t11.push([l2(n12), l2(i3)]);
         return n11;
       }
       case 6: {
         let t11 = [], n11 = i2([o2, t11], r3);
-        for (let n12 of r3) (e10 || !rO(rD(n12))) && t11.push(l2(n12));
+        for (let n12 of r3) (e10 || !rD(rL(n12))) && t11.push(l2(n12));
         return n11;
       }
     }
@@ -3870,43 +3868,43 @@ let rA = "object" == typeof self ? self : globalThis, rw = (e10, t10) => {
     return i2([o2, { name: u2, message: a2 }], r3);
   };
   return l2;
-}, rE = function(e10) {
+}, rz = function(e10) {
   let { json: t10, lossy: n10 } = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : {}, r2 = [];
-  return rz(!(t10 || n10), !!t10, /* @__PURE__ */ new Map(), r2)(e10), r2;
-}, r_ = "function" == typeof structuredClone ? (e10, t10) => t10 && ("json" in t10 || "lossy" in t10) ? rI(rE(e10, t10)) : structuredClone(e10) : (e10, t10) => rI(rE(e10, t10));
-function rM(e10, t10) {
+  return rO(!(t10 || n10), !!t10, /* @__PURE__ */ new Map(), r2)(e10), r2;
+}, rE = "function" == typeof structuredClone ? (e10, t10) => t10 && ("json" in t10 || "lossy" in t10) ? rw(rz(e10, t10)) : structuredClone(e10) : (e10, t10) => rw(rz(e10, t10));
+function r_(e10, t10) {
   let n10 = [{ type: "text", value: "↩" }];
   return t10 > 1 && n10.push({ type: "element", tagName: "sup", properties: {}, children: [{ type: "text", value: String(t10) }] }), n10;
 }
-function rF(e10, t10) {
+function rM(e10, t10) {
   return "Back to reference " + (e10 + 1) + (t10 > 1 ? "-" + t10 : "");
 }
-let rP = {}.hasOwnProperty, rN = {};
+let rF = {}.hasOwnProperty, rP = {};
 function rj(e10, t10) {
   e10.position && (t10.position = function(e11) {
-    let t11 = rn(e11), n10 = rt(e11);
+    let t11 = rt(e11), n10 = re(e11);
     if (t11 && n10) return { start: t11, end: n10 };
   }(e10));
 }
-function rR(e10, t10) {
+function rN(e10, t10) {
   let n10 = t10;
   if (e10 && e10.data) {
     let t11 = e10.data.hName, r2 = e10.data.hChildren, i2 = e10.data.hProperties;
-    "string" == typeof t11 && ("element" === n10.type ? n10.tagName = t11 : n10 = { type: "element", tagName: t11, properties: {}, children: "children" in n10 ? n10.children : [n10] }), "element" === n10.type && i2 && Object.assign(n10.properties, r_(i2)), "children" in n10 && n10.children && null != r2 && (n10.children = r2);
+    "string" == typeof t11 && ("element" === n10.type ? n10.tagName = t11 : n10 = { type: "element", tagName: t11, properties: {}, children: "children" in n10 ? n10.children : [n10] }), "element" === n10.type && i2 && Object.assign(n10.properties, rE(i2)), "children" in n10 && n10.children && null != r2 && (n10.children = r2);
   }
   return n10;
 }
-function rB(e10, t10) {
+function rR(e10, t10) {
   let n10 = [], r2 = -1;
   for (t10 && n10.push({ type: "text", value: "\n" }); ++r2 < e10.length; ) r2 && n10.push({ type: "text", value: "\n" }), n10.push(e10[r2]);
   return t10 && e10.length > 0 && n10.push({ type: "text", value: "\n" }), n10;
 }
-function rV(e10) {
+function rB(e10) {
   let t10 = 0, n10 = e10.charCodeAt(t10);
   for (; 9 === n10 || 32 === n10; ) t10++, n10 = e10.charCodeAt(t10);
   return e10.slice(t10);
 }
-let rH = i((e10, i2) => l(e10.text$, u(), o((i3) => {
+let rV = i((e10, i2) => l(e10.text$, u(), o((i3) => {
   let l2 = function(e11, t10) {
     let n10 = function(e12, t11) {
       var n11, r3;
@@ -3918,30 +3916,30 @@ let rH = i((e10, i2) => l(e10.text$, u(), o((i3) => {
           for (; ++r4 < n12.length; ) {
             let i6 = c2.one(n12[r4], e13);
             if (i6) {
-              if (r4 && "break" === n12[r4 - 1].type && (Array.isArray(i6) || "text" !== i6.type || (i6.value = rV(i6.value)), !Array.isArray(i6) && "element" === i6.type)) {
+              if (r4 && "break" === n12[r4 - 1].type && (Array.isArray(i6) || "text" !== i6.type || (i6.value = rB(i6.value)), !Array.isArray(i6) && "element" === i6.type)) {
                 let e14 = i6.children[0];
-                e14 && "text" === e14.type && (e14.value = rV(e14.value));
+                e14 && "text" === e14.type && (e14.value = rB(e14.value));
               }
               Array.isArray(i6) ? t12.push(...i6) : t12.push(i6);
             }
           }
         }
         return t12;
-      }, applyData: rR, definitionById: u2, footnoteById: a2, footnoteCounts: /* @__PURE__ */ new Map(), footnoteOrder: [], handlers: { ...rC, ...rN.handlers }, one: function(e13, t12) {
+      }, applyData: rN, definitionById: u2, footnoteById: a2, footnoteCounts: /* @__PURE__ */ new Map(), footnoteOrder: [], handlers: { ...rb, ...rP.handlers }, one: function(e13, t12) {
         let n12 = e13.type, r4 = c2.handlers[n12];
-        if (rP.call(c2.handlers, n12) && r4) return r4(c2, e13, t12);
+        if (rF.call(c2.handlers, n12) && r4) return r4(c2, e13, t12);
         if (c2.options.passThrough && c2.options.passThrough.includes(n12)) {
           if ("children" in e13) {
-            let { children: t13, ...n13 } = e13, r5 = r_(n13);
+            let { children: t13, ...n13 } = e13, r5 = rE(n13);
             return r5.children = c2.all(e13), r5;
           }
-          return r_(e13);
+          return rE(e13);
         }
         return (c2.options.unknownHandler || function(e14, t13) {
-          let n13 = t13.data || {}, r5 = "value" in t13 && !(rP.call(n13, "hProperties") || rP.call(n13, "hChildren")) ? { type: "text", value: t13.value } : { type: "element", tagName: "div", properties: {}, children: e14.all(t13) };
+          let n13 = t13.data || {}, r5 = "value" in t13 && !(rF.call(n13, "hProperties") || rF.call(n13, "hChildren")) ? { type: "text", value: t13.value } : { type: "element", tagName: "div", properties: {}, children: e14.all(t13) };
           return e14.patch(t13, r5), e14.applyData(t13, r5);
         })(c2, e13, t12);
-      }, options: rN, patch: rj, wrap: rB };
+      }, options: rP, patch: rj, wrap: rR };
       return "function" == typeof (n11 = function(e13) {
         if ("definition" === e13.type || "footnoteDefinition" === e13.type) {
           let t12 = "definition" === e13.type ? u2 : a2, n12 = String(e13.identifier).toUpperCase();
@@ -3952,7 +3950,7 @@ let rH = i((e10, i2) => l(e10.text$, u(), o((i3) => {
         return o2(e13, r4, n12);
       }, i5 = void 0), c2;
     }(e11), r2 = n10.one(e11, void 0), i4 = function(e12) {
-      let t11 = "string" == typeof e12.options.clobberPrefix ? e12.options.clobberPrefix : "user-content-", n11 = e12.options.footnoteBackContent || rM, r3 = e12.options.footnoteBackLabel || rF, i5 = e12.options.footnoteLabel || "Footnotes", l4 = e12.options.footnoteLabelTagName || "h2", o2 = e12.options.footnoteLabelProperties || { className: ["sr-only"] }, u2 = [], a2 = -1;
+      let t11 = "string" == typeof e12.options.clobberPrefix ? e12.options.clobberPrefix : "user-content-", n11 = e12.options.footnoteBackContent || r_, r3 = e12.options.footnoteBackLabel || rM, i5 = e12.options.footnoteLabel || "Footnotes", l4 = e12.options.footnoteLabelTagName || "h2", o2 = e12.options.footnoteLabelProperties || { className: ["sr-only"] }, u2 = [], a2 = -1;
       for (; ++a2 < e12.footnoteOrder.length; ) {
         let i6 = e12.footnoteById.get(e12.footnoteOrder[a2]);
         if (!i6) continue;
@@ -3970,7 +3968,7 @@ let rH = i((e10, i2) => l(e10.text$, u(), o((i3) => {
         let h2 = { type: "element", tagName: "li", properties: { id: t11 + "fn-" + c2 }, children: e12.wrap(l5, true) };
         e12.patch(i6, h2), u2.push(h2);
       }
-      if (0 !== u2.length) return { type: "element", tagName: "section", properties: { dataFootnotes: true, className: ["footnotes"] }, children: [{ type: "element", tagName: l4, properties: { ...r_(o2), id: "footnote-label" }, children: [{ type: "text", value: i5 }] }, { type: "text", value: "\n" }, { type: "element", tagName: "ol", properties: {}, children: e12.wrap(u2, true) }, { type: "text", value: "\n" }] };
+      if (0 !== u2.length) return { type: "element", tagName: "section", properties: { dataFootnotes: true, className: ["footnotes"] }, children: [{ type: "element", tagName: l4, properties: { ...rE(o2), id: "footnote-label" }, children: [{ type: "text", value: i5 }] }, { type: "text", value: "\n" }, { type: "element", tagName: "ol", properties: {}, children: e12.wrap(u2, true) }, { type: "text", value: "\n" }] };
     }(n10), l3 = Array.isArray(r2) ? { type: "root", children: r2 } : r2 || { type: "root", children: [] };
     return i4 && l3.children.push({ type: "text", value: "\n" }, i4), l3;
   }(nc(i3));
@@ -3985,7 +3983,7 @@ let rH = i((e10, i2) => l(e10.text$, u(), o((i3) => {
         if (t10.development) {
           if ("function" != typeof t10.jsxDEV) throw TypeError("Expected `jsxDEV` in options when `development: true`");
           n10 = a2, r2 = t10.jsxDEV, u2 = function(e14, t11, i6, l4) {
-            let o3 = Array.isArray(i6.children), u3 = rn(e14);
+            let o3 = Array.isArray(i6.children), u3 = rt(e14);
             return r2(t11, i6, l4, o3, { columnNumber: u3 ? u3.column - 1 : void 0, fileName: n10, lineNumber: u3 ? u3.line : void 0 }, void 0);
           };
         } else {
@@ -3996,12 +3994,12 @@ let rH = i((e10, i2) => l(e10.text$, u(), o((i3) => {
             return r3 ? i6(t11, n11, r3) : i6(t11, n11);
           };
         }
-        let c2 = { Fragment: t10.Fragment, ancestors: [], components: t10.components || {}, create: u2, elementAttributeNameCase: t10.elementAttributeNameCase || "react", evaluater: t10.createEvaluater ? t10.createEvaluater() : void 0, filePath: a2, ignoreInvalidStyle: t10.ignoreInvalidStyle || false, passKeys: false !== t10.passKeys, passNode: t10.passNode || false, schema: "svg" === t10.space ? nK : n$, stylePropertyNameCase: t10.stylePropertyNameCase || "dom", tableCellAlignToStyle: false !== t10.tableCellAlignToStyle }, s2 = rf(c2, e13, void 0);
+        let c2 = { Fragment: t10.Fragment, ancestors: [], components: t10.components || {}, create: u2, elementAttributeNameCase: t10.elementAttributeNameCase || "react", evaluater: t10.createEvaluater ? t10.createEvaluater() : void 0, filePath: a2, ignoreInvalidStyle: t10.ignoreInvalidStyle || false, passKeys: false !== t10.passKeys, passNode: t10.passNode || false, schema: "svg" === t10.space ? n$ : nQ, stylePropertyNameCase: t10.stylePropertyNameCase || "dom", tableCellAlignToStyle: false !== t10.tableCellAlignToStyle }, s2 = rs(c2, e13, void 0);
         return s2 && "string" != typeof s2 ? s2 : c2.create(e13, c2.Fragment, { children: s2 || void 0 }, void 0);
       }(e12, { Fragment: r, jsx: n, jsxs: t, components: i4 });
     };
   }({ components: e10.components ?? {} })(l2);
 })), { displayName: "Markdown", props: ["text", "components"] });
 export {
-  rH as M
+  rV as M
 };
