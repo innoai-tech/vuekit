@@ -31,6 +31,7 @@ import { CopyAsJSONIconBtn } from "../actions";
 import {
   InputActionSubject,
   InputText,
+  InputWrapper,
   ValueContainer,
   ValueInputActions,
 } from "./ValueInput.tsx";
@@ -226,14 +227,14 @@ export const PropValueInput = component$<{
     open$,
     render((isOpen) => {
       return (
-        <div data-input-wrapper>
+        <InputWrapper>
           <input
             ref={inputEl$}
             type="text"
             placeholder={"添加属性 (可粘贴 JSON 字符串)"}
             data-options={isOpen}
           />
-        </div>
+        </InputWrapper>
       );
     }),
   );
@@ -300,13 +301,13 @@ export const PropValueInput = component$<{
                 </ValueInputActions>
               }
             >
-              <div data-input-wrapper>
+              <InputWrapper>
                 <input
                   ref={inputEl$}
                   type="text"
                   placeholder={"添加属性 (可粘贴 JSON 字符串)"}
                 />
-              </div>
+              </InputWrapper>
             </Popper>
           </ValueContainer>
         </Line>

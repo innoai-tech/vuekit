@@ -15,6 +15,7 @@ import { Box, Popper } from "@innoai-tech/vueuikit";
 import {
   InputActionSubject,
   InputText,
+  InputWrapper,
   ValueContainer,
   ValueInputActions,
 } from "./ValueInput.tsx";
@@ -201,13 +202,13 @@ const AddItemIconBtn = component$<{
             </ValueInputActions>
           }
         >
-          <div data-input-wrapper>
+          <InputWrapper>
             <input
               ref={inputEl$}
               type="text"
               placeholder={"添加数组项 (可粘贴 JSON 字符串)"}
             />
-          </div>
+          </InputWrapper>
         </Popper>
       );
     }),

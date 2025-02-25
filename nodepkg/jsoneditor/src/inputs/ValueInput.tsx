@@ -10,7 +10,7 @@ import {
   Schema,
   subscribeUntilUnmount,
   tapEffect,
-  type Type,
+  type Type
 } from "@innoai-tech/vuekit";
 import { JSONEditorProvider } from "../models";
 import {
@@ -23,20 +23,13 @@ import {
   Observable,
   Subject,
   switchMap,
-  tap,
+  tap
 } from "rxjs";
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold } from "@mdi/js";
 import { isUndefined } from "@innoai-tech/lodash";
-import {
-  ActionBtn,
-  Description,
-  Menu,
-  MenuItem,
-  PopupStatus,
-  PropName,
-} from "../views";
+import { ActionBtn, Description, Menu, MenuItem, PopupStatus, PropName } from "../views";
 
 export class InputText extends BehaviorSubject<string> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
@@ -53,10 +46,10 @@ export class InputText extends BehaviorSubject<string> {
           fromEvent<InputEvent>(inputEl, "input"),
           tap((e) => {
             input$.next((e.target as HTMLInputElement).value.trim());
-          }),
+          })
         );
       }),
-      subscribeUntilUnmount(),
+      subscribeUntilUnmount()
     );
 
     return input$;
@@ -65,15 +58,15 @@ export class InputText extends BehaviorSubject<string> {
 
 export type InputAction =
   | {
-      type: "COMMIT";
-    }
+  type: "COMMIT";
+}
   | {
-      type: "CANCEL";
-    }
+  type: "CANCEL";
+}
   | {
-      type: "SELECT";
-      direction: number;
-    };
+  type: "SELECT";
+  direction: number;
+};
 
 export class InputActionSubject extends Subject<InputAction> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
@@ -94,7 +87,7 @@ export class InputActionSubject extends Subject<InputAction> {
                 e.preventDefault();
                 inputAction$.next({ type: "COMMIT" });
               }
-            }),
+            })
           ),
           rx(
             fromEvent<KeyboardEvent>(inputEl, "keydown"),
@@ -119,7 +112,7 @@ export class InputActionSubject extends Subject<InputAction> {
                   }
                   break;
               }
-            }),
+            })
           ),
           rx(
             fromEvent<KeyboardEvent>(inputEl, "keyup"),
@@ -127,11 +120,11 @@ export class InputActionSubject extends Subject<InputAction> {
               if (e.key === "Escape") {
                 inputAction$.next({ type: "CANCEL" });
               }
-            }),
-          ),
+            })
+          )
         );
       }),
-      subscribeUntilUnmount(),
+      subscribeUntilUnmount()
     );
 
     return inputAction$;
@@ -145,7 +138,7 @@ class OneEditing extends Observable<string | null> {
       value$: Observable<any>;
       editing$: PopupStatus;
       path: () => Array<any>;
-    },
+    }
   ) {
     return rx(
       merge(
@@ -155,7 +148,7 @@ class OneEditing extends Observable<string | null> {
             if (p && p == JSONPointer.create(opt.path())) {
               opt.editing$.show();
             }
-          }),
+          })
         ),
 
         rx(
@@ -165,7 +158,7 @@ class OneEditing extends Observable<string | null> {
             if (!editing) {
               oneEditing$.disable(opt.path());
             }
-          }),
+          })
         ),
 
         rx(
@@ -175,10 +168,10 @@ class OneEditing extends Observable<string | null> {
             if (isUndefined(value) && !anyEditing) {
               oneEditing$.enable(opt.path());
             }
-          }),
-        ),
+          })
+        )
       ),
-      subscribeUntilUnmount(),
+      subscribeUntilUnmount()
     );
   }
 
@@ -226,7 +219,7 @@ export const ValueInput = component$<{
   OneEditing.sync(oneEditing$, {
     editing$,
     value$: props.value$,
-    path: () => props.ctx.path,
+    path: () => props.ctx.path
   });
 
   const selectedIndex = () => {
@@ -243,7 +236,7 @@ export const ValueInput = component$<{
   };
 
   const selectFocus$ = new ImmerBehaviorSubject({
-    index: selectedIndex(),
+    index: selectedIndex()
   });
 
   const reset = () => {
@@ -305,7 +298,7 @@ export const ValueInput = component$<{
           }
         }
       }),
-      subscribeUntilUnmount(),
+      subscribeUntilUnmount()
     );
   }
 
@@ -326,7 +319,7 @@ export const ValueInput = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount(),
+    subscribeUntilUnmount()
   );
 
   let containerHeight: number | undefined;
@@ -352,8 +345,9 @@ export const ValueInput = component$<{
             };
           }
 
-          return () => {};
-        }),
+          return () => {
+          };
+        })
       ),
 
       rx(
@@ -368,22 +362,21 @@ export const ValueInput = component$<{
               inputEl.selectionEnd = inputEl.value.length;
             }
           }
-        }),
+        })
       ),
 
       rx(
         inputEl$,
         switchMap((inputEl) => {
           if (inputEl) {
-            const initialHeight =
-              containerHeight ?? inputEl.getBoundingClientRect().height;
+            const initialHeight = containerHeight ? (containerHeight - 2) : inputEl.getBoundingClientRect().height;
 
             const updateHeight = (inputEl: HTMLTextAreaElement) => {
               inputEl.style.height = `${initialHeight ?? 0}px`;
               inputEl.style.height = `${inputEl.scrollHeight}px`;
             };
 
-            updateHeight(inputEl);
+            setTimeout(() => updateHeight(inputEl));
 
             return merge(
               rx(
@@ -392,7 +385,7 @@ export const ValueInput = component$<{
                   if (e.relatedTarget) {
                     if (
                       containerEl$.value?.contains(
-                        e.relatedTarget as HTMLElement,
+                        e.relatedTarget as HTMLElement
                       ) ||
                       actionsEl$.value?.contains(e.relatedTarget as HTMLElement)
                     ) {
@@ -402,23 +395,23 @@ export const ValueInput = component$<{
 
                   e.preventDefault();
                   commit(inputEl.value);
-                }),
+                })
               ),
               rx(
                 fromEvent<InputEvent>(inputEl, "input"),
                 tap((e) => {
                   updateHeight(e.target as HTMLTextAreaElement);
                   inputText$.next((e.target as HTMLTextAreaElement).value);
-                }),
-              ),
+                })
+              )
             );
           }
 
           return EMPTY;
-        }),
-      ),
+        })
+      )
     ),
-    subscribeUntilUnmount(),
+    subscribeUntilUnmount()
   );
 
   if (props.typedef.type == "enums") {
@@ -459,20 +452,20 @@ export const ValueInput = component$<{
                   </div>
                 }
               >
-                <div data-input-wrapper>
+                <InputWrapper>
                   <input
                     value={value == undefined ? "" : `${value}`}
                     ref={inputEl$}
                     data-options={true}
                   />
-                </div>
+                </InputWrapper>
               </Menu>
             ) : (
-              <span>{JSON.stringify(value) ?? "undefined"}</span>
+              <Value>{JSON.stringify(value) ?? "undefined"}</Value>
             )}
           </ValueContainer>
         );
-      }),
+      })
     );
   }
 
@@ -512,20 +505,20 @@ export const ValueInput = component$<{
                 </ValueInputActions>
               }
             >
-              <div data-input-wrapper>
+              <InputWrapper>
                 <textarea
                   ref={inputEl$}
                   rows={1}
                   value={value == undefined ? "" : `${value}`}
                 />
-              </div>
+              </InputWrapper>
             </Popper>
           ) : (
-            <span data-value>{JSON.stringify(value) ?? "undefined"}</span>
+            <Value>{JSON.stringify(value) ?? "undefined"}</Value>
           )}
         </ValueContainer>
       );
-    }),
+    })
   );
 });
 
@@ -538,7 +531,62 @@ export const ValueInputActions = styled("div")({
   roundedRight: "sm",
   display: "flex",
   px: 2,
-  ml: -4,
+  py: 0,
+  ml: -4
+});
+
+export const InputWrapper = styled("div")({
+  width: "100%",
+  maxWidth: "40vw",
+  display: "flex",
+  alignItems: "center",
+  border: "1px solid",
+  overflow: "hidden",
+  borderColor: variant("sys.outline-variant", alpha(0.38)),
+  opacity: 0.38,
+
+  "&:hover": {
+    opacity: 1
+  },
+  "&:focus-within": {
+    opacity: 1
+  },
+
+  "& > textarea,input": {
+    flex: 1,
+    rounded: "xs",
+    containerStyle: "sys.surface-container-lowest",
+    width: "100%",
+    outline: "none",
+    border: "none",
+    px: 8,
+    py: 0,
+    m: 0,
+    fontSize: "inherit",
+    color: "inherit",
+    lineHeight: "inherit",
+    overflow: "hidden",
+    resize: "none",
+
+    "&[data-options]:focus": {
+      roundedBottom: 0
+    }
+  }
+});
+
+const Value = styled("div")({
+  border: "1px solid",
+  borderColor: "rgba(0,0,0,0)",
+  maxWidth: "40vw",
+  width: "100%",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+
+  _hover: {
+    textOverflow: "clip",
+    whiteSpace: "normal",
+    wordBreak: "break-all"
+  }
 });
 
 export const ValueContainer = styled("div")({
@@ -554,80 +602,27 @@ export const ValueContainer = styled("div")({
   lineHeight: 24,
   gap: 8,
 
-  "& [data-value]": {
-    border: "1px solid",
-    borderColor: "rgba(0,0,0,0)",
-    maxWidth: "40vw",
-    width: "100%",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-
-    _hover: {
-      textOverflow: "clip",
-      whiteSpace: "normal",
-      wordBreak: "break-all",
-    },
-  },
-
-  "& [data-input-wrapper]": {
-    width: "100%",
-    maxWidth: "40vw",
-    display: "flex",
-    alignItems: "center",
-    border: "1px solid",
-    overflow: "hidden",
-    borderColor: variant("sys.outline-variant", alpha(0.38)),
-    opacity: 0.38,
-    "&:hover": {
-      opacity: 1,
-    },
-    "&:focus-within": {
-      opacity: 1,
-    },
-  },
-
-  "& textarea,input": {
-    border: "none",
-    flex: 1,
-    rounded: "xs",
-    containerStyle: "sys.surface-container-lowest",
-    width: "100%",
-    outline: "none",
-    px: 8,
-    py: 0,
-    m: 0,
-    fontSize: "inherit",
-    color: "inherit",
-    lineHeight: "inherit",
-    overflow: "hidden",
-    resize: "none",
-
-    "&[data-options]:focus": {
-      roundedBottom: 0,
-    },
-  },
-
   _type__string: {
-    color: "sys.primary",
+    color: "sys.primary"
   },
 
   _type__number: {
-    color: "sys.primary",
+    color: "sys.primary"
   },
 
   _type__boolean: {
-    color: "sys.warning",
+    color: "sys.warning"
   },
 
   _type__undefined: {
-    color: "sys.error",
-  },
+    color: "sys.error"
+  }
 });
 
 const EnumMenuItemContainer = styled(MenuItem)({
   [`& ${PropName}`]: {
-    textAlign: "left",
-  },
+    textAlign: "left"
+  }
 });
 
 const EnumMenuItem = component<{
