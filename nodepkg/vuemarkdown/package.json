@@ -11,12 +11,12 @@
   },
   "dependencies": {
     "@innoai-tech/vuekit": "workspace:^",
-    "hast-util-to-jsx-runtime": "^2.3.4",
+    "hast-util-to-jsx-runtime": "^2.3.5",
     "mdast-util-directive": "^3.1.0",
     "mdast-util-from-markdown": "^2.0.2",
     "mdast-util-gfm": "^3.1.0",
     "mdast-util-to-hast": "^13.2.0",
-    "micromark-extension-directive": "^3.0.2",
+    "micromark-extension-directive": "^4.0.0",
     "micromark-extension-gfm": "^3.0.0"
   },
   "peerDependencies": {},
