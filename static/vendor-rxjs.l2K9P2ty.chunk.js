@@ -203,7 +203,7 @@ var f = function() {
   }, r2.prototype.remove = function(t3) {
     var n2 = this._finalizers;
     n2 && l(n2, t3), t3 instanceof r2 && t3._removeParent(this);
-  }, r2.EMPTY = ((t2 = new r2()).closed = true, t2), r2;
+  }, (t2 = new r2()).closed = true, r2.EMPTY = t2, r2;
 }(), h = f.EMPTY;
 function p(t2) {
   return t2 instanceof f || t2 && "closed" in t2 && c(t2.remove) && c(t2.add) && c(t2.unsubscribe);
@@ -282,7 +282,7 @@ var w = function(t2) {
 }(), g = function(t2) {
   function n2(r2, n3, e2) {
     var o2, i2 = t2.call(this) || this;
-    return o2 = c(r2) || !r2 ? { next: null != r2 ? r2 : void 0, error: null != n3 ? n3 : void 0, complete: null != e2 ? e2 : void 0 } : r2, i2.destination = new _(o2), i2;
+    return i2.destination = new _(c(r2) || !r2 ? { next: null != r2 ? r2 : void 0, error: null != n3 ? n3 : void 0, complete: null != e2 ? e2 : void 0 } : r2), i2;
   }
   return r(n2, t2), n2;
 }(w), x = { closed: true, next: m, error: function(t2) {
@@ -1028,9 +1028,9 @@ function tx(t2, r2) {
   };
 }
 function tS() {
-  for (var t2, r2, n2 = [], e2 = 0; e2 < arguments.length; e2++) n2[e2] = arguments[e2];
-  var o2 = G(n2), i2 = (t2 = 1 / 0, "number" == typeof V(n2) ? n2.pop() : t2);
-  return n2.length ? 1 === n2.length ? tt(n2[0]) : (void 0 === (r2 = i2) && (r2 = 1 / 0), tb(O, r2))(tu(n2, o2)) : D;
+  for (var t2, r2 = [], n2 = 0; n2 < arguments.length; n2++) r2[n2] = arguments[n2];
+  var e2 = G(r2), o2 = "number" == typeof V(r2) ? r2.pop() : 1 / 0;
+  return r2.length ? 1 === r2.length ? tt(r2[0]) : (void 0 === (t2 = o2) && (t2 = 1 / 0), tb(O, t2))(tu(r2, e2)) : D;
 }
 function tO(t2, r2) {
   return void 0 === r2 && (r2 = B), j(function(n2, e2) {
@@ -1060,7 +1060,7 @@ function tO(t2, r2) {
 }
 function tE(t2, r2) {
   void 0 === r2 && (r2 = B);
-  var n2, e2, o2, i2, u2, c2 = (n2 = t2, e2 = r2, void 0 === n2 && (n2 = 0), void 0 === o2 && (o2 = B), i2 = -1, null != e2 && (N(e2) ? o2 = e2 : i2 = e2), new A(function(t3) {
+  var n2, e2, o2, i2, u2 = (n2 = t2, e2 = r2, void 0 === n2 && (n2 = 0), void 0 === o2 && (o2 = B), i2 = -1, null != e2 && (N(e2) ? o2 = e2 : i2 = e2), new A(function(t3) {
     var r3, e3 = (r3 = n2) instanceof Date && !isNaN(r3) ? +n2 - o2.now() : n2;
     e3 < 0 && (e3 = 0);
     var u3 = 0;
@@ -1068,10 +1068,8 @@ function tE(t2, r2) {
       t3.closed || (t3.next(u3++), 0 <= i2 ? this.schedule(void 0, i2) : t3.complete());
     }, e3);
   }));
-  return u2 = function() {
-    return c2;
-  }, tb(function(t3, r3) {
-    return tt(u2(t3, r3)).pipe(j(function(t4, r4) {
+  return tb(function(t3, r3) {
+    return tt(u2).pipe(j(function(t4, r4) {
       var n3 = 0;
       t4.subscribe(k(r4, function(t5) {
         ++n3 <= 1 && (r4.next(t5), 1 <= n3 && r4.complete());
