@@ -1,23 +1,25 @@
 import { isFunction, isString, isUndefined } from "@innoai-tech/lodash";
 import {
-  type Type,
+  cloneVNode,
+  component,
   type InternalEmitsOf,
   type InternalPropsOf,
   type InternalSlotsOf,
-  type OverridableComponent,
-  type PublicPropsOf,
-  type SetupContext,
-  type VElementType,
-  component,
   isComponent,
-  t,
   isPropTypes,
-  SymbolForwardRef,
-  ref,
-  type VNode,
-  cloneVNode,
+  type JSXProps,
   onBeforeMount,
   onMounted,
+  type OverridableComponent,
+  type PublicPropsOf,
+  ref,
+  type SetupContext,
+  type Simplify,
+  SymbolForwardRef,
+  t,
+  type Type,
+  type VElementType,
+  type VNode,
 } from "@innoai-tech/vuekit";
 import { Box, type SxProps } from "./Box";
 import { CacheProvider } from "./CacheProvider";
@@ -41,14 +43,14 @@ export function styled<
   defaultComponent: _DefaultComponent,
   setup?: StyledSetupFunction<Props, _DefaultComponent>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
-  props: Props & Partial<SxProps>;
+  props: Simplify<JSXProps<Props> & Partial<SxProps>>;
   defaultComponent: _DefaultComponent;
 }>;
 export function styled<DefaultComponent extends VElementType>(
   defaultComponent: DefaultComponent,
   setup?: StyledSetupFunction<{}, DefaultComponent>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
-  props: Partial<SxProps>;
+  props: Simplify<Partial<SxProps>>;
   defaultComponent: DefaultComponent;
 }>;
 export function styled<
@@ -59,7 +61,7 @@ export function styled<
   propTypes: PropTypes,
   setup?: StyledSetupFunction<PublicPropsOf<PropTypes>, DefaultComponent>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
-  props: PublicPropsOf<PropTypes> & Partial<SxProps>;
+  props: Simplify<JSXProps<PublicPropsOf<PropTypes>> & Partial<SxProps>>;
   defaultComponent: DefaultComponent;
 }>;
 export function styled<

@@ -29,8 +29,12 @@ export { type RenderFunction, type VNode };
 
 export type Emits = Record<string, (...args: any[]) => any>;
 
+export type JSXProps<P extends Record<string, any>> = {
+  [K in keyof P as K extends "$default" ? "children" : K]: P[K];
+} & {};
+
 export type Component<P extends Record<string, any>> = {
-  (props: P): JSX.Element | null;
+  (props: JSXProps<P>): JSX.Element | null;
   slots?: SlotsType<ToVueSlotsType<PickSlotProps<P>>>;
   propTypes?: any;
 };

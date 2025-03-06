@@ -1,5 +1,11 @@
 import { groupBy, last, map, partition } from "@innoai-tech/lodash";
-import { component, RouterLink, RouterView, t, useRouter } from "@innoai-tech/vuekit";
+import {
+  component,
+  RouterLink,
+  RouterView,
+  t,
+  useRouter,
+} from "@innoai-tech/vuekit";
 import {
   Icon,
   IconButton,
@@ -7,7 +13,7 @@ import {
   mdiWeatherNight,
   mdiWhiteBalanceSunny,
   TextButton,
-  Tooltip
+  Tooltip,
 } from "@innoai-tech/vuematerial";
 import {
   Box,
@@ -17,7 +23,7 @@ import {
   GlobalStyle,
   Palette,
   ThemeProvider,
-  Theming
+  Theming,
 } from "@innoai-tech/vueuikit";
 // @ts-ignore
 import normalizeCss from "normalize.css/normalize.css?raw";
@@ -29,7 +35,7 @@ export const Nav = component(() => {
 
   const groups = groupBy(
     r.options.routes.filter((p) => p.path !== "/"),
-    (route) => route.path.split("/")[1]
+    (route) => route.path.split("/")[1],
   );
 
   return () => {
@@ -38,7 +44,7 @@ export const Nav = component(() => {
         {map(groups, (routes, group) => {
           const [index, subRoutes] = partition(
             routes,
-            (r) => r.path === `/${group}`
+            (r) => r.path === `/${group}`,
           );
 
           return (
@@ -48,7 +54,7 @@ export const Nav = component(() => {
                   component={RouterLink}
                   sx={{
                     width: "100%",
-                    justifyContent: "flex-start"
+                    justifyContent: "flex-start",
                   }}
                   activeClass={"active"}
                   to={index[0]?.path}
@@ -59,7 +65,7 @@ export const Nav = component(() => {
                 <TextButton
                   sx={{
                     width: "100%",
-                    justifyContent: "flex-start"
+                    justifyContent: "flex-start",
                   }}
                 >
                   {group}
@@ -74,7 +80,7 @@ export const Nav = component(() => {
                     to={subRoute.path}
                     sx={{
                       width: "100%",
-                      justifyContent: "flex-start"
+                      justifyContent: "flex-start",
                     }}
                   >
                     {last(subRoute.path.split("/"))?.replaceAll("-", " ")}
@@ -91,7 +97,7 @@ export const Nav = component(() => {
 
 export const Scaffold = component(
   {
-    $default: t.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional(),
   },
   (_, { slots }) => {
     const themeMode = ref("light");
@@ -103,7 +109,7 @@ export const Scaffold = component(
           display: "flex",
           height: "100vh",
           width: "100vw",
-          containerStyle: "sys.surface"
+          containerStyle: "sys.surface",
         }}
       >
         <Box
@@ -118,13 +124,13 @@ export const Scaffold = component(
 
             elevation: "0",
             _hover: {
-              elevation: "2"
-            }
+              elevation: "2",
+            },
           }}
         >
           <Box
             sx={{
-              flex: 1
+              flex: 1,
             }}
           >
             <Nav />
@@ -169,7 +175,7 @@ export const Scaffold = component(
         </Box>
       </Box>
     );
-  }
+  },
 );
 
 export const App = component(() => {
@@ -181,9 +187,9 @@ export const App = component(() => {
       x.theming = Theming.create(
         {
           ...defaultTheme,
-          ...Palette.fromColors(seed).toDesignTokens(rules)
+          ...Palette.fromColors(seed).toDesignTokens(rules),
         },
-        { varPrefix: "vk" }
+        { varPrefix: "vk" },
       );
     });
   });

@@ -1,4 +1,4 @@
-import type { Component, VElementType } from "./vue";
+import type { Component, JSXProps, VElementType } from "./vue";
 import type { Simplify } from "@innoai-tech/typedef";
 
 export interface OverridableTypeMap {
@@ -22,7 +22,7 @@ type DefaultComponentProps<M extends OverridableTypeMap> = BaseProps<M> &
 
 export type ComponentProps<T extends VElementType> =
   T extends Component<infer P>
-    ? P
+    ? JSXProps<P>
     : T extends keyof JSX.IntrinsicElements
       ? JSX.IntrinsicElements[T]
       : never;
@@ -36,5 +36,5 @@ export interface OverridableComponent<
     ctx: any,
   ): any;
 
-  (props: P, ctx: any): any;
+  (props: JSXProps<P>, ctx: any): any;
 }

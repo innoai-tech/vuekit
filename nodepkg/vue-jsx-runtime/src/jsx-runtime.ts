@@ -102,21 +102,21 @@ export const jsx = (type: any, rawProps: any, key?: string) => {
 };
 
 declare module "vue" {
-  // always contains default slots
+  // always contains default slot which should be named children
   interface HTMLAttributes {
-    $default?: VNodeChild;
+    children?: VNodeChild;
   }
 
   interface SVGAttributes {
-    $default?: VNodeChild;
+    children?: VNodeChild;
   }
 
   interface TransitionProps {
-    $default?: VNodeChild;
+    children?: VNodeChild;
   }
 
   interface TeleportProps {
-    $default?: VNodeChild;
+    children?: VNodeChild;
   }
 }
 
@@ -124,10 +124,10 @@ declare global {
   namespace JSX {
     export interface Element extends VNode {}
 
+    // make vue element happy
     export interface ElementClass {
       $props: {};
     }
-
     export interface ElementAttributesProperty {
       $props: {};
     }
@@ -138,16 +138,11 @@ declare global {
       [name: string]: any;
     }
 
-    //  infer children type
-    export interface ElementChildrenAttribute {
-      $default: {};
-    }
+    type ReservedPropsWithElementChildren = ReservedProps & {
+      children?: VNodeChild | {};
+    };
 
     export interface IntrinsicAttributes
       extends ReservedPropsWithElementChildren {}
-
-    type ReservedPropsWithElementChildren = ReservedProps & {
-      $default?: VNodeChild | {};
-    };
   }
 }
