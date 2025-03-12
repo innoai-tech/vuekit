@@ -38,4 +38,8 @@ export class TypeEnum<U, S extends any[]> extends TypeUnknown<U, { enum: S }> {
   override validator(value: unknown, _: Context) {
     return this.schema.enum.includes(value as any);
   }
+
+  override coercer(value: unknown, _: Context) {
+    return value as any;
+  }
 }

@@ -1,6 +1,6 @@
-import { defineType, type Context } from "./Type.ts";
+import { type Context, defineType } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isString } from "./util.ts";
+import { isNull, isString, isUndefined } from "./util.ts";
 
 export class TypeString extends TypeUnknown<string, { type: "string" }> {
   static create = defineType(() => {
@@ -13,5 +13,12 @@ export class TypeString extends TypeUnknown<string, { type: "string" }> {
 
   override validator(value: unknown, _: Context) {
     return isString(value);
+  }
+
+  override coercer(value: unknown, _: Context) {
+    if (isUndefined(value) || isNull(value)) {
+      return value as any;
+    }
+    return String(value);
   }
 }

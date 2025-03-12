@@ -13,4 +13,8 @@ export class TypeNever extends TypeUnknown<never, false> {
   override validator(_value: unknown, _context: Context): Result {
     return false;
   }
+
+  override coercer(value: unknown, _: Context) {
+    return value as any;
+  }
 }

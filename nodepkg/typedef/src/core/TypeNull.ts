@@ -12,4 +12,8 @@ export class TypeNull extends TypeUnknown<null, { type: "null" }> {
   override validator(value: unknown, _context: Context): Result {
     return isNull(value);
   }
+
+  override coercer(value: unknown, _: Context) {
+    return value as any;
+  }
 }

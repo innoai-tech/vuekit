@@ -1,4 +1,4 @@
-import { defineType, type Context } from "./Type.ts";
+import { type Context, defineType } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
 
 export class TypeBinary extends TypeUnknown<
@@ -15,5 +15,9 @@ export class TypeBinary extends TypeUnknown<
 
   override validator(value: unknown, _: Context) {
     return value instanceof File || value instanceof Blob;
+  }
+
+  override coercer(value: unknown, _: Context) {
+    return value as any;
   }
 }
