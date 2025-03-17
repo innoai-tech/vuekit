@@ -30,10 +30,14 @@ build-pkg:
 
 build-web $APP:
     {{ vite }} build --mode production
-    if [[ "${APP}" == "openapi-playground" ]]; then \
-        cp -rf ./tool/openapiview/index.go ./public/openapi-playground/index.go; \
-        cp -rf ./tool/openapiview/go.mod ./public/openapi-playground/go.mod; \
-    fi
+    {{ if APP == "openapi-playground" { _copy_openapi_playground } else { "" } }}
+
+[private]
+_copy_openapi_playground := '''
+    cp ./tool/openapiview/index.go ./public/openapi-playground/index.go;
+    cp ./tool/openapiview/go.mod ./public/openapi-playground/go.mod;
+    ls -al ./public/openapi-playground;
+    '''
 
 dev-web $APP:
     {{ vite }} --host
