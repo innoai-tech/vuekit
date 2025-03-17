@@ -9,22 +9,6 @@
   "dependencies": {
     "@innoai-tech/lodash": "^0.2.5"
   },
-  "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/expression"
-  },
-  "scripts": {
-    "lint": "bunx --bun prettier --write . ",
-    "build": "bunx --bun monobundle",
-    "prepublishOnly": "bun run build"
-  },
-  "type": "module",
   "peerDependencies": {},
   "exports": {
     ".": {
@@ -39,5 +23,21 @@
     "dist/*",
     "src/*",
     "!/**/__tests__"
-  ]
+  ],
+  "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/expression"
+  },
+  "scripts": {
+    "lint": "bunx --bun prettier --write . ",
+    "build": "bunx --bun @innoai-tech/monobundle",
+    "prepublishOnly": "bun run build"
+  },
+  "type": "module"
 }

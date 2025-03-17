@@ -1,0 +1,3 @@
+*.just
+!mod/*.just
+!default.just

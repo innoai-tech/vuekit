@@ -9,11 +9,11 @@
   "dependencies": {
     "immer": "^10.1.1"
   },
-  "devDependencies": {
-    "reflect-metadata": "^0.2.2"
-  },
   "peerDependencies": {
     "@innoai-tech/lodash": "*"
+  },
+  "devDependencies": {
+    "reflect-metadata": "^0.2.2"
   },
   "exports": {
     ".": {
@@ -41,7 +41,7 @@
   },
   "scripts": {
     "lint": "bunx --bun prettier --write . ",
-    "build": "bunx --bun monobundle",
+    "build": "bunx --bun @innoai-tech/monobundle",
     "prepublishOnly": "bun run build"
   },
   "type": "module"
