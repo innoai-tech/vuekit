@@ -1,12 +1,11 @@
-import { component$, rx, t, render } from "@innoai-tech/vuekit";
+import { component$, render, rx } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
 import { HTTPResponse } from "./HTTPViews.tsx";
 
-
-export const ResponsePreview = component$({
-  operationID: t.string()
-}, (props) => {
+export const ResponsePreview = component$<{
+  operationID: string;
+}>((props) => {
   const openapi$ = OpenAPIProvider.use();
 
   return rx(
@@ -17,12 +16,11 @@ export const ResponsePreview = component$({
           <HTTPResponse response={resp} />
         </ResponseSection>
       );
-    })
+    }),
   );
 });
 
 const ResponseSection = styled("section")({
   maxHeight: "40vh",
-  overflow: "auto"
+  overflow: "auto",
 });
-

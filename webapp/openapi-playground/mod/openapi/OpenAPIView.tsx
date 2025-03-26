@@ -7,18 +7,17 @@ import {
   RouterView,
   rx,
   subscribeOnMountedUntilUnmount,
-  subscribeUntilUnmount
+  subscribeUntilUnmount,
 } from "@innoai-tech/vuekit";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
 import { debounceTime, EMPTY, Observable, Subject, switchMap, tap } from "rxjs";
-import { ascBy } from "./util/order.ts";
 
 export const OpenAPIView = component$(({}, {}) => {
   const openapi$ = OpenAPIProvider.use();
 
   const filters$ = new ImmerBehaviorSubject({
-    operationId: undefined as (string | undefined)
+    operationId: undefined as string | undefined,
   });
 
   const operationIDInput = new Subject<string>();
@@ -31,7 +30,7 @@ export const OpenAPIView = component$(({}, {}) => {
         filters.operationId = `*${v ?? ""}`;
       });
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
 
   const scrollContainerEl$ = observableRef<HTMLDivElement | null>(null);
@@ -39,12 +38,11 @@ export const OpenAPIView = component$(({}, {}) => {
   rx(
     scrollContainerEl$,
     switchMap((scrollContainerEl) => {
-
       if (scrollContainerEl) {
         const scrollTo = (item: HTMLElement | null) => {
           if (item) {
             scrollContainerEl.scrollTo({
-              top: item.offsetTop - scrollContainerEl.offsetTop
+              top: item.offsetTop - scrollContainerEl.offsetTop,
             });
           }
         };
@@ -62,11 +60,18 @@ export const OpenAPIView = component$(({}, {}) => {
             }
           });
 
-          observer.observe(scrollContainerEl, { attributes: true, subtree: true });
+          observer.observe(scrollContainerEl, {
+            attributes: true,
+            subtree: true,
+          });
 
           // wait all inserted
           setTimeout(() => {
-            scrollTo(scrollContainerEl.querySelector<HTMLElement>(".router-link-active"));
+            scrollTo(
+              scrollContainerEl.querySelector<HTMLElement>(
+                ".router-link-active",
+              ),
+            );
           }, 100);
 
           return () => {
@@ -75,10 +80,9 @@ export const OpenAPIView = component$(({}, {}) => {
         });
       }
 
-
       return EMPTY;
     }),
-    subscribeOnMountedUntilUnmount()
+    subscribeOnMountedUntilUnmount(),
   );
 
   const $nav = rx(
@@ -106,41 +110,45 @@ export const OpenAPIView = component$(({}, {}) => {
               .map(([group, operations]) => {
                 return (
                   <div data-nav-group>
-                    <div data-nav-group-heading>
-                      {group}
-                    </div>
+                    <div data-nav-group-heading>{group}</div>
                     <div data-nav-group-contents>
-                      {operations
-                        ?.toSorted(ascBy("operationId"))
-                        .map((op) => {
-                          return (
-                            <OperationListItem
-                              component={RouterLink}
-                              to={`/operations/${op.operationId}`}
+                      {operations?.map((op) => {
+                        return (
+                          <OperationListItem
+                            component={RouterLink}
+                            to={`/operations/${op.operationId}`}
+                          >
+                            <Box
+                              data-operation-method
+                              sx={{
+                                color:
+                                  (
+                                    {
+                                      get: "sys.primary",
+                                      post: "sys.success",
+                                      put: "sys.warning",
+                                      delete: "sys.error",
+                                    } as const
+                                  )[op.method] ?? "sys.secondary",
+                              }}
                             >
-                              <Box data-operation-method sx={{
-                                color: ({
-                                  "get": "sys.primary",
-                                  "post": "sys.success",
-                                  "put": "sys.warning",
-                                  "delete": "sys.error"
-                                } as const)[op.method] ?? "sys.secondary"
-                              }}>
-                                {op.method}
-                              </Box>
-                              <div data-operation-desc>
-                                <div data-operation-id>
-                                  {op.operationId}
+                              {op.method}
+                            </Box>
+                            <div data-operation-desc>
+                              <div data-operation-id>{op.operationId}</div>
+                              {op.summary ? (
+                                <div data-operation-summary>
+                                  {op.summary != op.operationId ? (
+                                    op.summary
+                                  ) : (
+                                    <span>&nbsp;</span>
+                                  )}
                                 </div>
-                                {op.summary ? (
-                                  <div data-operation-summary>
-                                    {op.summary != op.operationId ? op.summary : <span>&nbsp;</span>}
-                                  </div>
-                                ) : undefined}
-                              </div>
-                            </OperationListItem>
-                          );
-                        })}
+                              ) : undefined}
+                            </div>
+                          </OperationListItem>
+                        );
+                      })}
                     </div>
                   </div>
                 );
@@ -148,7 +156,7 @@ export const OpenAPIView = component$(({}, {}) => {
           </Nav>
         </NavContainer>
       );
-    })
+    }),
   );
 
   return () => {
@@ -167,7 +175,7 @@ const Container = styled("div")({
   width: "100vw",
   height: "100vh",
   overflow: "hidden",
-  display: "flex"
+  display: "flex",
 });
 
 const NavContainer = styled("aside")({
@@ -180,20 +188,20 @@ const NavContainer = styled("aside")({
   overflow: "hidden",
 
   borderRight: "1px solid",
-  borderColor: "sys.outline"
+  borderColor: "sys.outline",
 });
 
 const NavSearchBox = styled("div")({
-  "input": {
+  input: {
     py: 10,
     px: 12,
     border: "none",
     width: "100%",
-    outline: 0
+    outline: 0,
   },
 
   borderBottom: "1px solid",
-  borderColor: "sys.outline"
+  borderColor: "sys.outline",
 });
 
 const Nav = styled("div")({
@@ -205,13 +213,13 @@ const Nav = styled("div")({
     px: 12,
     py: 4,
     textStyle: "sys.label-small",
-    containerStyle: "sys.secondary-container"
-  }
+    containerStyle: "sys.secondary-container",
+  },
 });
 
 const Main = styled("main")({
   flex: 1,
-  overflow: "hidden"
+  overflow: "hidden",
 });
 
 const OperationListItem = styled("a")({
@@ -234,28 +242,28 @@ const OperationListItem = styled("a")({
     fontFamily: "code",
     display: "flex",
     alignItems: "center",
-    pointerEvents: "none"
+    pointerEvents: "none",
   },
 
   $data_operation_desc: {
     flex: 1,
-    overflow: "hidden"
+    overflow: "hidden",
   },
 
   $data_operation_id: {
     textStyle: "sys.label-large",
     textOverflow: "ellipsis",
-    overflow: "hidden"
+    overflow: "hidden",
   },
 
   $data_operation_summary: {
     opacity: 0.7,
     textStyle: "sys.body-small",
     textOverflow: "ellipsis",
-    overflow: "hidden"
+    overflow: "hidden",
   },
 
   "&.router-link-active": {
-    containerStyle: "sys.surface-container"
-  }
+    containerStyle: "sys.surface-container",
+  },
 });
