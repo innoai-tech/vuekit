@@ -163,6 +163,7 @@ const Annotation = ({
       <Token
         sx={{
           opacity: 0.7,
+          fontSize: "0.9em",
           wordBreak: "keep-all",
           whiteSpace: "nowrap",
         }}
@@ -170,6 +171,9 @@ const Annotation = ({
         <Token sx={{ color: "sys.primary" }}>{`@${name}(`}</Token>
         {`${value}`}
         {Object.entries(extra ?? {}).map(([k, v]) => {
+          if (isUndefined(v)) {
+            return null;
+          }
           return (
             <>
               <Token sx={{ opacity: 0.5 }}>{`,`}&nbsp;</Token>
@@ -502,8 +506,8 @@ export const SchemaView = component$<{
 
     let [type, format, defaultValue] = [
       schema.type,
-      Schema.schemaProp(schema, "format"),
-      Schema.schemaProp(schema, "default"),
+      Schema.metaProp(schema, "format"),
+      Schema.metaProp(schema, "default"),
     ];
 
     return (
@@ -514,33 +518,45 @@ export const SchemaView = component$<{
           {!isUndefined(defaultValue) && (
             <Annotation name={"default"} value={defaultValue} />
           )}
-          {!hasValidate(schema) && (
-            <Annotation name={"validate"} value={displayValidate(schema)} />
-          )}
+          {validateProps.map((prop) => {
+            const v = Schema.schemaProp(schema, prop);
+            if (isUndefined(v)) {
+              return null;
+            }
+            if (prop == "pattern") {
+              return (
+                <Annotation
+                  name={prop}
+                  value={v}
+                  extra={{
+                    errMsg: Schema.metaProp(schema, "x-pattern-err-msg"),
+                  }}
+                />
+              );
+            }
+
+            return <Annotation name={prop} value={v} />;
+          })}
         </Indent>
       </>
     );
   };
 });
 
-function hasValidate(schema: Type) {
-  return (
-    [
-      "enum",
-      "maximum",
-      "exclusiveMaximum",
-      "minimum",
-      "exclusiveMinimum",
-      "maxLength",
-      "minLength",
-      "pattern",
-      "maxItems",
-      "minItems",
-      "maxProperties",
-      "minProperties",
-    ] as Array<keyof ValidatedSchemaProps>
-  ).some((key) => Schema.schemaProp(schema, key));
-}
+const validateProps = [
+  "enum",
+  "maximum",
+  "exclusiveMaximum",
+  "minimum",
+  "exclusiveMinimum",
+  "maxLength",
+  "minLength",
+  "pattern",
+  "maxItems",
+  "minItems",
+  "maxProperties",
+  "minProperties",
+];
 
 export interface ValidatedSchemaProps {
   maximum?: number;
@@ -555,84 +571,4 @@ export interface ValidatedSchemaProps {
   uniqueItems?: boolean;
   maxProperties?: number;
   minProperties?: number;
-}
-
-export function getMax(schema: Type): string {
-  if (Schema.schemaProp(schema, "maxProperties")) {
-    return Schema.schemaProp(schema, "maxProperties")!;
-  }
-  if (Schema.schemaProp(schema, "maxItems")) {
-    return Schema.schemaProp(schema, "maxItems")!;
-  }
-  if (Schema.schemaProp(schema, "maximum")) {
-    return Schema.schemaProp(schema, "maximum")!;
-  }
-  if (Schema.schemaProp(schema, "maxLength")) {
-    return Schema.schemaProp(schema, "maxLength")!;
-  }
-
-  if (
-    schema.type === "string" &&
-    Schema.schemaProp(schema, "format") === "uint64"
-  ) {
-    return "19";
-  }
-
-  if (
-    (schema.type === "number" || schema.type === "integer") &&
-    Schema.schemaProp(schema, "format")
-  ) {
-    return `${
-      Math.pow(
-        2,
-        Number(Schema.schemaProp(schema, "format").replace(/[^0-9]/g, "")) - 1,
-      ) - 1
-    }`;
-  }
-
-  return "+∞";
-}
-
-export function getMin(schema: Type): string {
-  if (Schema.schemaProp(schema, "minProperties")) {
-    return Schema.schemaProp(schema, "minProperties")!;
-  }
-  if (Schema.schemaProp(schema, "minItems")) {
-    return Schema.schemaProp(schema, "minItems")!;
-  }
-  if (Schema.schemaProp(schema, "minimum")) {
-    return Schema.schemaProp(schema, "minimum")!;
-  }
-  if (Schema.schemaProp(schema, "minLength")) {
-    return Schema.schemaProp(schema, "minLength")!;
-  }
-
-  if (schema.type === "string") {
-    return "0";
-  }
-
-  if (
-    (schema.type === "number" || schema.type === "integer") &&
-    Schema.schemaProp(schema, "format")
-  ) {
-    return `${
-      Math.pow(
-        2,
-        Number(Schema.schemaProp(schema, "format").replace(/[^0-9]/g, "")) - 1,
-      ) - 1
-    }`;
-  }
-  return "-∞";
-}
-
-export function displayValidate(schema: Type): string {
-  if (!hasValidate(schema)) {
-    return "";
-  }
-
-  if (Schema.schemaProp(schema, "pattern")) {
-    return `@r/${String(Schema.schemaProp(schema, "pattern"))}/`;
-  }
-
-  return `@${Schema.schemaProp(schema, "exclusiveMinimum")} ? "(" : "["}${getMin(schema)},${getMax(schema)}${Schema.schemaProp(schema, "exclusiveMaximum") ? ")" : "]"}`;
 }

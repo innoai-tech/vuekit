@@ -1,10 +1,10 @@
 import { TypeRef } from "./TypeRef.ts";
 import { TypeAny } from "./TypeAny.ts";
 import {
-  type Type,
   defineModifier,
   type Infer,
   type InferSchema,
+  type Type,
 } from "./Type.ts";
 import { TypeNull } from "./TypeNull.ts";
 import { TypeString } from "./TypeString.ts";
@@ -77,15 +77,15 @@ export const maxLength = defineModifier(
 );
 
 export const pattern = defineModifier(
-  <T extends Type<string>>(type: T, pattern: RegExp, msg?: string) => {
-    return TypeWrapper.refine(
+  <T extends Type<string>>(type: T, pattern: RegExp, errMsg?: string) => {
+    const t = TypeWrapper.refine(
       type,
       (value) => {
         if (pattern.test(value)) {
           return true;
         }
         return (
-          msg ??
+          errMsg ??
           `Expected a ${type.type} matching \`/${pattern.source}/\` but received "${value}"`
         );
       },
@@ -93,6 +93,16 @@ export const pattern = defineModifier(
         pattern: pattern.source,
       },
     );
+
+    if (errMsg) {
+      return t.use(
+        annotate({
+          "x-pattern-err-msg": errMsg,
+        }),
+      );
+    }
+
+    return t;
   },
 );
 

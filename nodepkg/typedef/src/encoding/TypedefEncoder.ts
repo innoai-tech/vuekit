@@ -89,8 +89,13 @@ export ${type} ${name} ${decl}`;
 
         for (const rule of validationRules) {
           if ((t as any)[rule] && !isUndefined(Schema.schemaProp(pt, rule))) {
-            d += `@t.${rule}(${JSON.stringify(Schema.schemaProp(pt, rule))})
+            if (rule == "pattern") {
+              d += `@t.${rule}(new RegExp(${JSON.stringify(Schema.schemaProp(pt, rule))}),${JSON.stringify(Schema.metaProp(pt, "x-pattern-err-msg"))})
 `;
+            } else {
+              d += `@t.${rule}(${JSON.stringify(Schema.schemaProp(pt, rule))})
+`;
+            }
           }
         }
 

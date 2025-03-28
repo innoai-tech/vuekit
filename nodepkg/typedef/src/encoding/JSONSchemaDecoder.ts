@@ -54,13 +54,31 @@ export class JSONSchemaDecoder {
 
     if (jsonSchema) {
       for (const rule of validationRules) {
-        if (rule in jsonSchema) {
-          const ruleFn = (t as any)[rule];
+        if (!isUndefined(jsonSchema[rule])) {
+          if (rule == "pattern") {
+            tt = tt.use(
+              t.pattern(
+                new RegExp(jsonSchema[rule]),
+                jsonSchema["x-pattern-err-msg"],
+              ),
+            );
+            delete jsonSchema[rule];
+            continue;
+          }
 
+          const ruleFn = (t as any)[rule];
           if (ruleFn) {
             tt = tt.use(ruleFn(jsonSchema[rule]));
+            delete jsonSchema[rule];
           }
         }
+      }
+
+      delete jsonSchema["title"];
+      delete jsonSchema["description"];
+
+      if (Object.keys(jsonSchema).length > 0) {
+        tt = tt.use(t.annotate(jsonSchema));
       }
     }
 
@@ -248,15 +266,15 @@ const typeRelationKeywords: { [k: string]: string[] } = {
   object: [
     "properties",
     "additionalProperties",
-    "unevaluatedProperties",
-    "patternProperties",
     "propertyNames",
-    "dependentSchemas",
 
     "maxProperties",
     "minProperties",
 
     // "required",
+    // "unevaluatedProperties",
+    // "patternProperties",
+    // "dependentSchemas",
     // "dependentRequired",
   ],
   array: [
