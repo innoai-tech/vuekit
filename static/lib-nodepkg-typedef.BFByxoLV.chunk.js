@@ -155,15 +155,16 @@ function L(e2, t2) {
   !e2.parent_ && e2.immer_.autoFreeze_ && e2.canAutoFreeze_ && x(t2, r2);
 }
 var q = { get(e2, t2) {
+  var _a2;
   if (t2 === h) return e2;
   let r2 = A(e2);
-  if (!j(r2, t2)) return function(e3, t3, r3) {
-    var _a2;
-    let n3 = G(t3, r3);
-    return n3 ? "value" in n3 ? n3.value : (_a2 = n3.get) == null ? void 0 : _a2.call(e3.draft_) : void 0;
-  }(e2, r2, t2);
-  let n2 = r2[t2];
-  return e2.finalized_ || !b(n2) ? n2 : n2 === U(e2.base_, t2) ? (B(e2), e2.copy_[t2] = X(n2, e2)) : n2;
+  if (!j(r2, t2)) {
+    var n2 = e2, i2 = r2, a2 = t2;
+    let o3 = G(i2, a2);
+    return o3 ? "value" in o3 ? o3.value : (_a2 = o3.get) == null ? void 0 : _a2.call(n2.draft_) : void 0;
+  }
+  let o2 = r2[t2];
+  return e2.finalized_ || !b(o2) ? o2 : o2 === U(e2.base_, t2) ? (B(e2), e2.copy_[t2] = X(o2, e2)) : o2;
 }, has: (e2, t2) => t2 in A(e2), ownKeys: (e2) => Reflect.ownKeys(A(e2)), set(e2, t2, r2) {
   let n2 = G(A(e2), t2);
   if (n2 == null ? void 0 : n2.set) return n2.set.call(e2.draft_, r2), true;
@@ -480,24 +481,22 @@ function ee(e2) {
     e3("decorate", function(e4, t4, r3, n3) {
       if (g2(r3)) {
         if (!O2(e4) || !j2(t4)) throw TypeError();
-        return function(e5, t5) {
-          for (var r4 = e5.length - 1; r4 >= 0; --r4) {
-            var n4 = (0, e5[r4])(t5);
-            if (!g2(n4) && !b2(n4)) {
-              if (!j2(n4)) throw TypeError();
-              t5 = n4;
-            }
+        for (var i3 = e4, a3 = t4, o3 = i3.length - 1; o3 >= 0; --o3) {
+          var s3 = (0, i3[o3])(a3);
+          if (!g2(s3) && !b2(s3)) {
+            if (!j2(s3)) throw TypeError();
+            a3 = s3;
           }
-          return t5;
-        }(e4, t4);
+        }
+        return a3;
       }
       if (!O2(e4) || !w2(t4) || !w2(n3) && !g2(n3) && !b2(n3)) throw TypeError();
       return b2(n3) && (n3 = void 0), function(e5, t5, r4, n4) {
-        for (var i3 = e5.length - 1; i3 >= 0; --i3) {
-          var a3 = (0, e5[i3])(t5, r4, n4);
-          if (!g2(a3) && !b2(a3)) {
-            if (!w2(a3)) throw TypeError();
-            n4 = a3;
+        for (var i4 = e5.length - 1; i4 >= 0; --i4) {
+          var a4 = (0, e5[i4])(t5, r4, n4);
+          if (!g2(a4) && !b2(a4)) {
+            if (!w2(a4)) throw TypeError();
+            n4 = a4;
           }
         }
         return n4;
@@ -659,10 +658,7 @@ class et {
   }
   static define(e2, t2, r2, n2) {
     if (e2 && e2.constructor && e2.constructor != Object) {
-      if (l(r2)) {
-        Reflect.defineMetadata(t2, Y(Reflect.getMetadata(t2, e2) ?? n2 ?? {}, r2), e2);
-        return;
-      }
+      if (l(r2)) return void Reflect.defineMetadata(t2, Y(Reflect.getMetadata(t2, e2) ?? n2 ?? {}, r2), e2);
       Reflect.defineMetadata(t2, r2, e2);
     }
   }
@@ -670,8 +666,7 @@ class et {
 let er = { path: [], branch: [] };
 class en extends TypeError {
   constructor(e2, t2) {
-    let r2;
-    let { message: n2, explanation: i2, ...a2 } = e2, { path: o2 } = e2, s2 = 0 === o2.length ? n2 : `At path: ${o2.join(".")} -- ${n2}`;
+    let r2, { message: n2, explanation: i2, ...a2 } = e2, { path: o2 } = e2, s2 = 0 === o2.length ? n2 : `At path: ${o2.join(".")} -- ${n2}`;
     super(i2 ?? s2);
     __publicField(this, "value");
     __publicField(this, "key");
@@ -739,8 +734,7 @@ let eu = (e2) => function() {
 const _ef = class _ef {
   static create(t2, r2, i2) {
     var _a2;
-    let a2;
-    let o2 = r2 ?? ((_a2 = t2[_ef.underlying]) == null ? void 0 : _a2.schema) ?? {};
+    let a2, o2 = r2 ?? ((_a2 = t2[_ef.underlying]) == null ? void 0 : _a2.schema) ?? {};
     return new Proxy({}, { ownKeys(e2) {
       let r3 = /* @__PURE__ */ new Map();
       if (i2) {

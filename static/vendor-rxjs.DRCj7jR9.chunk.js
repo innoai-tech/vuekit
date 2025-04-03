@@ -22,52 +22,51 @@ function n(t2, r2) {
   }), u2;
   function c2(c3) {
     return function(s2) {
-      return function(c4) {
-        if (n2) throw TypeError("Generator is already executing.");
-        for (; u2 && (u2 = 0, c4[0] && (i2 = 0)), i2; ) try {
-          if (n2 = 1, e2 && (o2 = 2 & c4[0] ? e2.return : c4[0] ? e2.throw || ((o2 = e2.return) && o2.call(e2), 0) : e2.next) && !(o2 = o2.call(e2, c4[1])).done) return o2;
-          switch (e2 = 0, o2 && (c4 = [2 & c4[0], o2.value]), c4[0]) {
-            case 0:
-            case 1:
-              o2 = c4;
+      var a2 = [c3, s2];
+      if (n2) throw TypeError("Generator is already executing.");
+      for (; u2 && (u2 = 0, a2[0] && (i2 = 0)), i2; ) try {
+        if (n2 = 1, e2 && (o2 = 2 & a2[0] ? e2.return : a2[0] ? e2.throw || ((o2 = e2.return) && o2.call(e2), 0) : e2.next) && !(o2 = o2.call(e2, a2[1])).done) return o2;
+        switch (e2 = 0, o2 && (a2 = [2 & a2[0], o2.value]), a2[0]) {
+          case 0:
+          case 1:
+            o2 = a2;
+            break;
+          case 4:
+            return i2.label++, { value: a2[1], done: false };
+          case 5:
+            i2.label++, e2 = a2[1], a2 = [0];
+            continue;
+          case 7:
+            a2 = i2.ops.pop(), i2.trys.pop();
+            continue;
+          default:
+            if (!(o2 = (o2 = i2.trys).length > 0 && o2[o2.length - 1]) && (6 === a2[0] || 2 === a2[0])) {
+              i2 = 0;
+              continue;
+            }
+            if (3 === a2[0] && (!o2 || a2[1] > o2[0] && a2[1] < o2[3])) {
+              i2.label = a2[1];
               break;
-            case 4:
-              return i2.label++, { value: c4[1], done: false };
-            case 5:
-              i2.label++, e2 = c4[1], c4 = [0];
-              continue;
-            case 7:
-              c4 = i2.ops.pop(), i2.trys.pop();
-              continue;
-            default:
-              if (!(o2 = (o2 = i2.trys).length > 0 && o2[o2.length - 1]) && (6 === c4[0] || 2 === c4[0])) {
-                i2 = 0;
-                continue;
-              }
-              if (3 === c4[0] && (!o2 || c4[1] > o2[0] && c4[1] < o2[3])) {
-                i2.label = c4[1];
-                break;
-              }
-              if (6 === c4[0] && i2.label < o2[1]) {
-                i2.label = o2[1], o2 = c4;
-                break;
-              }
-              if (o2 && i2.label < o2[2]) {
-                i2.label = o2[2], i2.ops.push(c4);
-                break;
-              }
-              o2[2] && i2.ops.pop(), i2.trys.pop();
-              continue;
-          }
-          c4 = r2.call(t2, i2);
-        } catch (t3) {
-          c4 = [6, t3], e2 = 0;
-        } finally {
-          n2 = o2 = 0;
+            }
+            if (6 === a2[0] && i2.label < o2[1]) {
+              i2.label = o2[1], o2 = a2;
+              break;
+            }
+            if (o2 && i2.label < o2[2]) {
+              i2.label = o2[2], i2.ops.push(a2);
+              break;
+            }
+            o2[2] && i2.ops.pop(), i2.trys.pop();
+            continue;
         }
-        if (5 & c4[0]) throw c4[1];
-        return { value: c4[0] ? c4[1] : void 0, done: true };
-      }([c3, s2]);
+        a2 = r2.call(t2, i2);
+      } catch (t3) {
+        a2 = [6, t3], e2 = 0;
+      } finally {
+        n2 = o2 = 0;
+      }
+      if (5 & a2[0]) throw a2[1];
+      return { value: a2[0] ? a2[1] : void 0, done: true };
     };
   }
 }
@@ -135,20 +134,18 @@ var f = function() {
     if (!this.closed) {
       this.closed = true;
       var t3, r3, n2, u2, s2, l2 = this._parentage;
-      if (l2) {
-        if (this._parentage = null, Array.isArray(l2)) try {
-          for (var f2 = e(l2), h2 = f2.next(); !h2.done; h2 = f2.next()) h2.value.remove(this);
-        } catch (r4) {
-          t3 = { error: r4 };
+      if (l2) if (this._parentage = null, Array.isArray(l2)) try {
+        for (var f2 = e(l2), h2 = f2.next(); !h2.done; h2 = f2.next()) h2.value.remove(this);
+      } catch (r4) {
+        t3 = { error: r4 };
+      } finally {
+        try {
+          h2 && !h2.done && (r3 = f2.return) && r3.call(f2);
         } finally {
-          try {
-            h2 && !h2.done && (r3 = f2.return) && r3.call(f2);
-          } finally {
-            if (t3) throw t3.error;
-          }
+          if (t3) throw t3.error;
         }
-        else l2.remove(this);
       }
+      else l2.remove(this);
       var p2 = this.initialTeardown;
       if (c(p2)) try {
         p2();
@@ -181,15 +178,13 @@ var f = function() {
     }
   }, r2.prototype.add = function(t3) {
     var n2;
-    if (t3 && t3 !== this) {
-      if (this.closed) v(t3);
-      else {
-        if (t3 instanceof r2) {
-          if (t3.closed || t3._hasParent(this)) return;
-          t3._addParent(this);
-        }
-        (this._finalizers = null !== (n2 = this._finalizers) && void 0 !== n2 ? n2 : []).push(t3);
+    if (t3 && t3 !== this) if (this.closed) v(t3);
+    else {
+      if (t3 instanceof r2) {
+        if (t3.closed || t3._hasParent(this)) return;
+        t3._addParent(this);
       }
+      (this._finalizers = null != (n2 = this._finalizers) ? n2 : []).push(t3);
     }
   }, r2.prototype._hasParent = function(t3) {
     var r3 = this._parentage;
@@ -310,10 +305,10 @@ var A = function() {
     var n2 = new t2();
     return n2.source = this, n2.operator = r2, n2;
   }, t2.prototype.subscribe = function(t3, r2, n2) {
-    var e2, o2, i2 = this, u2 = !function(t4) {
+    var e2 = !function(t4) {
       return t4 && t4 instanceof w || t4 && c(t4.next) && c(t4.error) && c(t4.complete) && p(t4);
-    }(t3) ? new g(t3, r2, n2) : t3;
-    return e2 = i2.operator, o2 = i2.source, u2.add(e2 ? e2.call(u2, o2) : o2 ? i2._subscribe(u2) : i2._trySubscribe(u2)), u2;
+    }(t3) ? new g(t3, r2, n2) : t3, o2 = this.operator, i2 = this.source;
+    return e2.add(o2 ? o2.call(e2, i2) : i2 ? this._subscribe(e2) : this._trySubscribe(e2)), e2;
   }, t2.prototype._trySubscribe = function(t3) {
     try {
       return this._subscribe(t3);
@@ -334,7 +329,7 @@ var A = function() {
     });
   }, t2.prototype._subscribe = function(t3) {
     var r2;
-    return null === (r2 = this.source) || void 0 === r2 ? void 0 : r2.subscribe(t3);
+    return null == (r2 = this.source) ? void 0 : r2.subscribe(t3);
   }, t2.prototype[S] = function() {
     return this;
   }, t2.prototype.pipe = function() {
@@ -358,7 +353,7 @@ var A = function() {
 }();
 function P(t2) {
   var r2;
-  return null !== (r2 = null != t2 ? t2 : d.Promise) && void 0 !== r2 ? r2 : Promise;
+  return null != (r2 = null != t2 ? t2 : d.Promise) ? r2 : Promise;
 }
 function j(t2) {
   return function(r2) {
@@ -406,7 +401,7 @@ var T = function(t2) {
     var r2;
     if (!this.shouldUnsubscribe || this.shouldUnsubscribe()) {
       var n3 = this.closed;
-      t2.prototype.unsubscribe.call(this), n3 || null === (r2 = this.onFinalize) || void 0 === r2 || r2.call(this);
+      t2.prototype.unsubscribe.call(this), n3 || null == (r2 = this.onFinalize) || r2.call(this);
     }
   }, n2;
 }(w), z = s(function(t2) {
@@ -424,45 +419,36 @@ var T = function(t2) {
   }, n2.prototype._throwIfClosed = function() {
     if (this.closed) throw new z();
   }, n2.prototype.next = function(t3) {
-    var r2 = this;
-    (function() {
-      var n3, o2;
-      if (r2._throwIfClosed(), !r2.isStopped) {
-        r2.currentObservers || (r2.currentObservers = Array.from(r2.observers));
+    var r2, n3;
+    if (this._throwIfClosed(), !this.isStopped) {
+      this.currentObservers || (this.currentObservers = Array.from(this.observers));
+      try {
+        for (var o2 = e(this.currentObservers), i2 = o2.next(); !i2.done; i2 = o2.next()) i2.value.next(t3);
+      } catch (t4) {
+        r2 = { error: t4 };
+      } finally {
         try {
-          for (var i2 = e(r2.currentObservers), u2 = i2.next(); !u2.done; u2 = i2.next()) u2.value.next(t3);
-        } catch (t4) {
-          n3 = { error: t4 };
+          i2 && !i2.done && (n3 = o2.return) && n3.call(o2);
         } finally {
-          try {
-            u2 && !u2.done && (o2 = i2.return) && o2.call(i2);
-          } finally {
-            if (n3) throw n3.error;
-          }
+          if (r2) throw r2.error;
         }
       }
-    })();
+    }
   }, n2.prototype.error = function(t3) {
-    var r2 = this;
-    (function() {
-      if (r2._throwIfClosed(), !r2.isStopped) {
-        r2.hasError = r2.isStopped = true, r2.thrownError = t3;
-        for (var n3 = r2.observers; n3.length; ) n3.shift().error(t3);
-      }
-    })();
+    if (this._throwIfClosed(), !this.isStopped) {
+      this.hasError = this.isStopped = true, this.thrownError = t3;
+      for (var r2 = this.observers; r2.length; ) r2.shift().error(t3);
+    }
   }, n2.prototype.complete = function() {
-    var t3 = this;
-    (function() {
-      if (t3._throwIfClosed(), !t3.isStopped) {
-        t3.isStopped = true;
-        for (var r2 = t3.observers; r2.length; ) r2.shift().complete();
-      }
-    })();
+    if (this._throwIfClosed(), !this.isStopped) {
+      this.isStopped = true;
+      for (var t3 = this.observers; t3.length; ) t3.shift().complete();
+    }
   }, n2.prototype.unsubscribe = function() {
     this.isStopped = this.closed = true, this.observers = this.currentObservers = null;
   }, Object.defineProperty(n2.prototype, "observed", { get: function() {
     var t3;
-    return (null === (t3 = this.observers) || void 0 === t3 ? void 0 : t3.length) > 0;
+    return (null == (t3 = this.observers) ? void 0 : t3.length) > 0;
   }, enumerable: false, configurable: true }), n2.prototype._trySubscribe = function(r2) {
     return this._throwIfClosed(), t2.prototype._trySubscribe.call(this, r2);
   }, n2.prototype._subscribe = function(t3) {
@@ -488,16 +474,16 @@ var T = function(t2) {
   }
   return r(n2, t2), n2.prototype.next = function(t3) {
     var r2, n3;
-    null === (n3 = null === (r2 = this.destination) || void 0 === r2 ? void 0 : r2.next) || void 0 === n3 || n3.call(r2, t3);
+    null == (n3 = null == (r2 = this.destination) ? void 0 : r2.next) || n3.call(r2, t3);
   }, n2.prototype.error = function(t3) {
     var r2, n3;
-    null === (n3 = null === (r2 = this.destination) || void 0 === r2 ? void 0 : r2.error) || void 0 === n3 || n3.call(r2, t3);
+    null == (n3 = null == (r2 = this.destination) ? void 0 : r2.error) || n3.call(r2, t3);
   }, n2.prototype.complete = function() {
     var t3, r2;
-    null === (r2 = null === (t3 = this.destination) || void 0 === t3 ? void 0 : t3.complete) || void 0 === r2 || r2.call(t3);
+    null == (r2 = null == (t3 = this.destination) ? void 0 : t3.complete) || r2.call(t3);
   }, n2.prototype._subscribe = function(t3) {
     var r2, n3;
-    return null !== (n3 = null === (r2 = this.source) || void 0 === r2 ? void 0 : r2.subscribe(t3)) && void 0 !== n3 ? n3 : h;
+    return null != (n3 = null == (r2 = this.source) ? void 0 : r2.subscribe(t3)) ? n3 : h;
   }, n2;
 }(C), U = function(t2) {
   function n2(r2) {
@@ -539,7 +525,7 @@ var T = function(t2) {
     if (void 0 === r2 && (r2 = 0), this.closed) return this;
     this.state = t3;
     var n3, e2 = this.id, o2 = this.scheduler;
-    return null != e2 && (this.id = this.recycleAsyncId(o2, e2, r2)), this.pending = true, this.delay = r2, this.id = null !== (n3 = this.id) && void 0 !== n3 ? n3 : this.requestAsyncId(o2, this.id, r2), this;
+    return null != e2 && (this.id = this.recycleAsyncId(o2, e2, r2)), this.pending = true, this.delay = r2, this.id = null != (n3 = this.id) ? n3 : this.requestAsyncId(o2, this.id, r2), this;
   }, n2.prototype.requestAsyncId = function(t3, r2, n3) {
     return void 0 === n3 && (n3 = 0), M.setInterval(t3.flush.bind(t3, this), n3);
   }, n2.prototype.recycleAsyncId = function(t3, r2, n3) {
@@ -580,10 +566,7 @@ var T = function(t2) {
   }
   return r(n2, t2), n2.prototype.flush = function(t3) {
     var r2, n3 = this.actions;
-    if (this._active) {
-      n3.push(t3);
-      return;
-    }
+    if (this._active) return void n3.push(t3);
     this._active = true;
     do
       if (r2 = t3.execute(t3.state, t3.delay)) break;
@@ -759,11 +742,10 @@ function tr(t2) {
                 function o3(n4) {
                   r4[n4] = t4[n4] && function(r5) {
                     return new Promise(function(e2, o4) {
-                      (function(t5, r6, n5, e3) {
-                        Promise.resolve(e3).then(function(r7) {
-                          t5({ value: r7, done: n5 });
-                        }, r6);
-                      })(e2, o4, (r5 = t4[n4](r5)).done, r5.value);
+                      var i3, u3, c3;
+                      i3 = e2, u3 = o4, c3 = (r5 = t4[n4](r5)).done, Promise.resolve(r5.value).then(function(t5) {
+                        i3({ value: t5, done: c3 });
+                      }, u3);
                     });
                   };
                 }
@@ -1028,9 +1010,9 @@ function tx(t2, r2) {
   };
 }
 function tS() {
-  for (var t2, r2 = [], n2 = 0; n2 < arguments.length; n2++) r2[n2] = arguments[n2];
-  var e2 = G(r2), o2 = "number" == typeof V(r2) ? r2.pop() : 1 / 0;
-  return r2.length ? 1 === r2.length ? tt(r2[0]) : (void 0 === (t2 = o2) && (t2 = 1 / 0), tb(O, t2))(tu(r2, e2)) : D;
+  for (var t2, r2, n2 = [], e2 = 0; e2 < arguments.length; e2++) n2[e2] = arguments[e2];
+  var o2 = G(n2), i2 = (t2 = 1 / 0, "number" == typeof V(n2) ? n2.pop() : t2);
+  return n2.length ? 1 === n2.length ? tt(n2[0]) : (void 0 === (r2 = i2) && (r2 = 1 / 0), tb(O, r2))(tu(n2, o2)) : D;
 }
 function tO(t2, r2) {
   return void 0 === r2 && (r2 = B), j(function(n2, e2) {
@@ -1060,7 +1042,7 @@ function tO(t2, r2) {
 }
 function tE(t2, r2) {
   void 0 === r2 && (r2 = B);
-  var n2, e2, o2, i2, u2 = (n2 = t2, e2 = r2, void 0 === n2 && (n2 = 0), void 0 === o2 && (o2 = B), i2 = -1, null != e2 && (N(e2) ? o2 = e2 : i2 = e2), new A(function(t3) {
+  var n2, e2, o2, i2, u2, c2 = (n2 = t2, e2 = r2, void 0 === n2 && (n2 = 0), void 0 === o2 && (o2 = B), i2 = -1, null != e2 && (N(e2) ? o2 = e2 : i2 = e2), new A(function(t3) {
     var r3, e3 = (r3 = n2) instanceof Date && !isNaN(r3) ? +n2 - o2.now() : n2;
     e3 < 0 && (e3 = 0);
     var u3 = 0;
@@ -1068,8 +1050,10 @@ function tE(t2, r2) {
       t3.closed || (t3.next(u3++), 0 <= i2 ? this.schedule(void 0, i2) : t3.complete());
     }, e3);
   }));
-  return tb(function(t3, r3) {
-    return tt(u2).pipe(j(function(t4, r4) {
+  return u2 = function() {
+    return c2;
+  }, tb(function(t3, r3) {
+    return tt(u2(t3, r3)).pipe(j(function(t4, r4) {
       var n3 = 0;
       t4.subscribe(k(r4, function(t5) {
         ++n3 <= 1 && (r4.next(t5), 1 <= n3 && r4.complete());
@@ -1112,20 +1096,20 @@ function tP(t2, r2) {
 function tj(t2, r2, n2) {
   var e2 = c(t2) || r2 || n2 ? { next: t2, error: r2, complete: n2 } : t2;
   return e2 ? j(function(t3, r3) {
-    null === (n3 = e2.subscribe) || void 0 === n3 || n3.call(e2);
+    null == (n3 = e2.subscribe) || n3.call(e2);
     var n3, o2 = true;
     t3.subscribe(k(r3, function(t4) {
       var n4;
-      null === (n4 = e2.next) || void 0 === n4 || n4.call(e2, t4), r3.next(t4);
+      null == (n4 = e2.next) || n4.call(e2, t4), r3.next(t4);
     }, function() {
       var t4;
-      o2 = false, null === (t4 = e2.complete) || void 0 === t4 || t4.call(e2), r3.complete();
+      o2 = false, null == (t4 = e2.complete) || t4.call(e2), r3.complete();
     }, function(t4) {
       var n4;
-      o2 = false, null === (n4 = e2.error) || void 0 === n4 || n4.call(e2, t4), r3.error(t4);
+      o2 = false, null == (n4 = e2.error) || n4.call(e2, t4), r3.error(t4);
     }, function() {
       var t4, r4;
-      o2 && (null === (t4 = e2.unsubscribe) || void 0 === t4 || t4.call(e2)), null === (r4 = e2.finalize) || void 0 === r4 || r4.call(e2);
+      o2 && (null == (t4 = e2.unsubscribe) || t4.call(e2)), null == (r4 = e2.finalize) || r4.call(e2);
     }));
   }) : O;
 }
