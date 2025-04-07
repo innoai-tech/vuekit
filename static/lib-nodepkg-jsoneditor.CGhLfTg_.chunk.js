@@ -1,11 +1,11 @@
-import { c as createProvider, I as ImmerBehaviorSubject, j as jsx, a as component$, r as rx, s as subscribeUntilUnmount, b as cloneVNode, d as jsxs, e as ref, f as component, T as Teleport, F as Fragment, o as observableRef, t as tapEffect, g as ref$1 } from './lib-nodepkg-vuekit.Dc0bMx8m.chunk.js';
+import { c as createProvider, I as ImmerBehaviorSubject, j as jsx, a as component$, r as rx, s as subscribeUntilUnmount, b as cloneVNode, d as jsxs, e as ref, f as component, T as Teleport, F as Fragment, o as observableRef, t as tapEffect, g as ref$1 } from './lib-nodepkg-vuekit.2hehQ1Uy.chunk.js';
 import { J as JSONPointer, o as object, g as getDefaultExportFromCjs, S as Schema, a as array, b as any, r as record, s as string, E as EmptyContext } from './lib-nodepkg-typedef.CPsLm4bM.chunk.js';
-import { s as styled, a as size, P as Popper, v as variant, b as alpha, B as Box } from './lib-nodepkg-vueuikit.DUQFSNyu.chunk.js';
-import { I as IconButton, a as Icon } from './lib-nodepkg-vuematerial.DiZxvLbo.chunk.js';
-import { m as mdiHelpBox, a as mdiContentCopy, b as mdiCancel, c as mdiCheckBold, d as mdiMinusBoxOutline } from './webapp-vuekit-layout.-onvVq4F.chunk.js';
-import { O as Observable, s as switchMap, m as merge, f as fromEvent, d as delay, t as tap, E as EMPTY, c as combineLatest, B as BehaviorSubject, S as Subject } from './vendor-rxjs.BSEFRfiZ.chunk.js';
+import { s as styled, a as size, P as Popper, v as variant, b as alpha, B as Box } from './lib-nodepkg-vueuikit.QdVl-CQk.chunk.js';
+import { I as IconButton, a as Icon } from './lib-nodepkg-vuematerial.1v9uU9ys.chunk.js';
+import { m as mdiHelpBox, a as mdiContentCopy, b as mdiCancel, c as mdiCheckBold, d as mdiMinusBoxOutline } from './webapp-vuekit-layout.CSS9QP55.chunk.js';
+import { O as Observable, s as switchMap, m as merge, f as fromEvent, d as delay, t as tap, E as EMPTY, c as combineLatest, B as BehaviorSubject, S as Subject } from './vendor-rxjs.BtFJbEzF.chunk.js';
 import { i as isPlainObject, g as get, a as isUndefined, b as isFunction, s as set, l as last, c as isNumber, d as isArray, e as isObject } from './vendor-innoai-tech-lodash.DAei4CjR.chunk.js';
-import { M as Markdown } from './lib-nodepkg-vuemarkdown.Cl-Nke6P.chunk.js';
+import { M as Markdown } from './lib-nodepkg-vuemarkdown.DMRCth31.chunk.js';
 
 class JSONEditor extends Observable {
   constructor(typedef, initials) {

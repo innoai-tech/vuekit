@@ -1,6 +1,6 @@
 import { g as getDefaultExportFromCjs } from './lib-nodepkg-typedef.CPsLm4bM.chunk.js';
-import { d as jsxs, j as jsx, F as Fragment, a as component$, r as rx, h as render } from './lib-nodepkg-vuekit.Dc0bMx8m.chunk.js';
-import { e as distinctUntilChanged } from './vendor-rxjs.BSEFRfiZ.chunk.js';
+import { d as jsxs, j as jsx, F as Fragment, a as component$, r as rx, h as render } from './lib-nodepkg-vuekit.2hehQ1Uy.chunk.js';
+import { e as distinctUntilChanged } from './vendor-rxjs.BtFJbEzF.chunk.js';
 
 /**
  * @typedef {import('mdast').Nodes} Nodes
