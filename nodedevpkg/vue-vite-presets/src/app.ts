@@ -1,9 +1,9 @@
 import { join, resolve } from "path";
 import {
-  type PluginOption,
-  type UserConfig,
-  searchForWorkspaceRoot,
   type ESBuildOptions,
+  type PluginOption,
+  searchForWorkspaceRoot,
+  type UserConfig,
 } from "vite";
 import { readFile } from "fs/promises";
 import tsconfigPaths from "vite-tsconfig-paths";
@@ -40,6 +40,10 @@ export const app = (
         c.root = resolve(viteConfigRoot, `./webapp/${appName}`);
 
         c.build = c.build ?? {};
+
+        c.build.minify = false;
+
+        c.build.target = "esnext";
 
         c.build.outDir = resolve(
           viteConfigRoot,

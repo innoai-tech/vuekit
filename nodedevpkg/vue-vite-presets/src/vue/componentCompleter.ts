@@ -24,7 +24,7 @@ export const viteVueComponentCompleter = (
 
       if (filter(id) || filter(filepath)) {
         const result = await transform(code, {
-          filename: id,
+          filename: filepath,
           minify: false,
           swcrc: false,
           isModule: true,

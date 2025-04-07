@@ -43,7 +43,10 @@ export default defineConfig({
                 baseRoute: "vuematerial",
                 dir: "../../nodepkg/vuematerial/example",
               },
-              { baseRoute: "vuemarkdown", dir: "../../nodepkg/vuemarkdown/example" },
+              {
+                baseRoute: "vuemarkdown",
+                dir: "../../nodepkg/vuemarkdown/example",
+              },
               {
                 baseRoute: "jsoneditor",
                 dir: "../../nodepkg/jsoneditor/example",

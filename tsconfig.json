@@ -4,6 +4,7 @@
     "noErrorTruncation": true,
     "baseUrl": ".",
     "lib": [
+      "ESNext",
       "dom"
     ],
     "paths": {
