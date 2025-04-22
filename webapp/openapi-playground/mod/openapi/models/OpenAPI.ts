@@ -1,11 +1,21 @@
 import { ImmerBehaviorSubject, rx } from "@innoai-tech/vuekit";
-import { EMPTY, map, type Observable, of, switchMap, BehaviorSubject, merge } from "rxjs";
 import {
-  type RequestSubject,
-  createRequestSubject,
+  BehaviorSubject,
+  EMPTY,
+  map,
+  merge,
+  type Observable,
+  of,
+  switchMap,
+} from "rxjs";
+import {
   createFetcher,
+  createRequestSubject,
+  type FetcherResponse,
   paramsSerializer,
-  transformRequestBody, type FetcherResponse, type RequestConfig
+  type RequestConfig,
+  type RequestSubject,
+  transformRequestBody,
 } from "@innoai-tech/fetcher";
 import { get, pick } from "@innoai-tech/lodash";
 
@@ -16,10 +26,10 @@ export interface JSONSchema {
 }
 
 export interface Parameter {
-  name: string
-  in: string,
-  schema: JSONSchema
-  required?: boolean
+  name: string;
+  in: string;
+  schema: JSONSchema;
+  required?: boolean;
 }
 
 export interface RequestBody {
@@ -27,20 +37,20 @@ export interface RequestBody {
 }
 
 export interface Response {
-  description: string,
+  description: string;
   content: Record<string, { schema: JSONSchema }>;
 
-  [X: string]: any
+  [X: string]: any;
 }
 
 export interface Operation {
-  operationId: string,
-  summary?: string
-  description?: string,
-  tags?: string[],
-  parameters?: Parameter[],
-  requestBody?: RequestBody
-  responses: Record<number, Response>
+  operationId: string;
+  summary?: string;
+  description?: string;
+  tags?: string[];
+  parameters?: Parameter[];
+  requestBody?: RequestBody;
+  responses: Record<number, Response>;
 }
 
 export interface Server {
@@ -51,7 +61,7 @@ export interface Server {
 export interface OpenAPIObject {
   openapi: "3.1.0";
   components: {
-    schemas: Record<string, JSONSchema>
+    schemas: Record<string, JSONSchema>;
   };
   servers?: Server[];
   paths: Record<string, Record<string, Operation>>;
@@ -68,18 +78,20 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
     return new OpenAPI({
       openapi: "3.1.0",
       components: {
-        schemas: {}
+        schemas: {},
       },
-      paths: {}
+      paths: {},
     });
   }
 
   #fetcher = createFetcher({
     paramsSerializer,
-    transformRequestBody
+    transformRequestBody,
   });
 
-  #requests$ = new BehaviorSubject(new Map<string, RequestSubject<any, any, any>>());
+  #requests$ = new BehaviorSubject(
+    new Map<string, RequestSubject<any, any, any>>(),
+  );
 
   get #baseURL() {
     return this.value.servers?.[0]?.url ?? "";
@@ -89,26 +101,27 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
     return rx(
       this.#requests$,
       switchMap((requests$) => {
-          const r$ = requests$.get(operationId);
-          if (r$) {
-            return merge(
-              r$,
-              r$.error$
-            );
-          }
-          return EMPTY;
+        const r$ = requests$.get(operationId);
+        if (r$) {
+          return merge(r$, r$.error$);
         }
-      ));
+        return EMPTY;
+      }),
+    );
   }
 
   requesting$(operationId: string): Observable<boolean> {
     return rx(
       this.#requests$,
-      switchMap((requests$) => requests$.get(operationId)?.requesting$ ?? of(false))
+      switchMap(
+        (requests$) => requests$.get(operationId)?.requesting$ ?? of(false),
+      ),
     );
   }
 
-  asRequestConfigCreator(operationId: string): ((inputs: Record<string, any>) => RequestConfig<any>) | null {
+  asRequestConfigCreator(
+    operationId: string,
+  ): ((inputs: Record<string, any>) => RequestConfig<any>) | null {
     const op = this.#operation(operationId);
 
     if (!op) {
@@ -119,17 +132,29 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
 
     return (inputs: Record<string, any>): RequestConfig<any> => {
       return {
-        method: op.method,
+        method: op.method.toUpperCase(),
         url: this.#baseURL + compilePath(op.path, inputs),
-        params: pick(inputs, op.parameters?.filter((p) => p.in == "query").map(p => p.name) as any[]),
+        params: pick(
+          inputs,
+          op.parameters
+            ?.filter((p) => p.in == "query")
+            .map((p) => p.name) as any[],
+        ),
         headers: {
-          ...pick(inputs, op.parameters?.filter((p) => p.in == "header").map(p => p.name) as any[]),
-          ...(contentType ? ({
-            "Content-Type": contentType
-          }) : {})
+          ...pick(
+            inputs,
+            op.parameters
+              ?.filter((p) => p.in == "header")
+              .map((p) => p.name) as any[],
+          ),
+          ...(contentType
+            ? {
+                "Content-Type": contentType,
+              }
+            : {}),
         },
         body: inputs["body"],
-        inputs
+        inputs,
       };
     };
   }
@@ -146,7 +171,7 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
 
       const createConfig = Object.assign(createRequestConfig, {
         operationID: operationId,
-        TRespData: {} as any
+        TRespData: {} as any,
       });
 
       r$ = createRequestSubject(createConfig, this.#fetcher);
@@ -168,26 +193,35 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
   }
 
   operation$(operationId: string): Observable<OperationWithMethodPath | null> {
-    return rx(this, switchMap((openapi) => {
-
-      for (const op of operations(openapi, { operationId })) {
-        if (op) {
-          return of(op);
+    return rx(
+      this,
+      switchMap((openapi) => {
+        for (const op of operations(openapi, { operationId })) {
+          if (op) {
+            return of(op);
+          }
         }
-      }
 
-      return of(null);
-    }));
+        return of(null);
+      }),
+    );
   }
 
-  operations$(filters: { tag?: string, operationId?: string }): Observable<OperationWithMethodPath[]> {
-    return rx(this, switchMap((openapi) => of([...operations(openapi, filters)])));
+  operations$(filters: {
+    tag?: string;
+    operationId?: string;
+  }): Observable<OperationWithMethodPath[]> {
+    return rx(
+      this,
+      switchMap((openapi) => of([...operations(openapi, filters)])),
+    );
   }
 
   schema$(ref: string): Observable<JSONSchema | null> {
     const keyPath = ref.split("#/")[1]?.split("/") ?? [];
 
-    return rx(this,
+    return rx(
+      this,
       switchMap((openapi) => {
         if (keyPath) {
           return of(get(openapi, keyPath) ?? null);
@@ -196,7 +230,7 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
       }),
       map((s) => {
         return s ? { ...s, $id: keyPath[keyPath.length - 1] } : s;
-      })
+      }),
     );
   }
 
@@ -209,10 +243,13 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
   }
 }
 
-function* operations(openapi: OpenAPIObject, filters: {
-  tag?: string,
-  operationId?: string
-}): Iterable<OperationWithMethodPath> {
+function* operations(
+  openapi: OpenAPIObject,
+  filters: {
+    tag?: string;
+    operationId?: string;
+  },
+): Iterable<OperationWithMethodPath> {
   for (const [path, ops] of Object.entries(openapi.paths)) {
     for (const [method, o] of Object.entries(ops)) {
       if (o.operationId == "OpenAPI" || o.operationId == "OpenAPIView") {
@@ -227,11 +264,17 @@ function* operations(openapi: OpenAPIObject, filters: {
 
       if (filters.operationId) {
         if (filters.operationId.startsWith("*")) {
-          if (!o.operationId.toLowerCase().includes(filters.operationId.slice(1).toLowerCase())) {
+          if (
+            !o.operationId
+              .toLowerCase()
+              .includes(filters.operationId.slice(1).toLowerCase())
+          ) {
             continue;
           }
         } else {
-          if (o.operationId.toLowerCase() != filters.operationId.toLowerCase()) {
+          if (
+            o.operationId.toLowerCase() != filters.operationId.toLowerCase()
+          ) {
             continue;
           }
         }
@@ -241,7 +284,7 @@ function* operations(openapi: OpenAPIObject, filters: {
         ...o,
         method,
         path,
-        group: o.tags?.[0] ?? ""
+        group: o.tags?.[0] ?? "",
       };
     }
   }
@@ -249,8 +292,8 @@ function* operations(openapi: OpenAPIObject, filters: {
 
 export const compilePath = (
   path: string,
-  params: Record<string, any> = {}
+  params: Record<string, any> = {},
 ): string =>
   path.replace(/{([\s\S]+?)}/g, (target: string, key: string) =>
-    ([] as string[]).concat(params[key] || target).join(",")
+    ([] as string[]).concat(params[key] || target).join(","),
   );
