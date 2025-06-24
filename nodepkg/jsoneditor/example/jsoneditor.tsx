@@ -45,6 +45,10 @@ class JSONSchema {
   @t.array(t.object(Port))
   ports!: Port[];
 
+  @t.annotate({ title: "路径" })
+  @t.union(t.string(), t.array(t.string()))
+  paths?: string | string[];
+
   @t.annotate({ title: "其他配置" })
   @t.record(t.string(), t.any())
   @t.optional()

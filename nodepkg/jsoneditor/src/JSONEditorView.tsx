@@ -10,7 +10,7 @@ import { JSONEditorProvider, JSONEditorSlotsProvider } from "./models";
 import { LayoutContextProvider, Line } from "./views";
 import { styled } from "@innoai-tech/vueuikit";
 import { ref } from "vue";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isArray, isUndefined } from "@innoai-tech/lodash";
 import {
   AnyInput,
   ArrayInput,
@@ -33,7 +33,28 @@ export const defaultValueRender = (typedef: Type, value: any, ctx: Context) => {
     typedef.type == "union" &&
     isUndefined(Schema.schemaProp(typedef, "discriminator"))
   ) {
-    return <ValueInput typedef={typedef} value={value} ctx={ctx} />;
+    const oneOf = Schema.schemaProp(typedef, "oneOf");
+    if (oneOf?.length == 2) {
+      const arrayType = oneOf.find((x: any) => x.type == "array");
+      const singleType = oneOf.find((x: any) => x.type != "array");
+      if (arrayType && singleType) {
+        if (Schema.schemaProp(arrayType, "items").type == singleType.type) {
+          return (
+            <ArrayInput
+              typedef={arrayType}
+              value={
+                isArray(value) ? value : !isUndefined(value) ? [value] : []
+              }
+              ctx={ctx}
+            />
+          );
+        }
+      }
+    }
+
+    return (
+      <ValueInput typedef={typedef} value={value} ctx={ctx} allowRawJSON />
+    );
   }
 
   if (typedef.type == "record") {

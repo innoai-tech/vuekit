@@ -16,7 +16,7 @@
   },
   "peerDependencies": {},
   "devDependencies": {
-    "@innoai-tech/fetcher": "^0.6.0"
+    "@innoai-tech/fetcher": "^0.6.3"
   },
   "exports": {
     ".": {
