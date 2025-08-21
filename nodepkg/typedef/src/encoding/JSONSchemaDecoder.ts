@@ -135,8 +135,8 @@ export class JSONSchemaDecoder {
           ] as Record<string, any>;
 
           if (discriminatorMapping) {
-            for (const [k, sub] of Object.entries(discriminatorMapping)) {
-              mapping[k] = this.decode(sub);
+            for (const k of Object.keys(discriminatorMapping).toSorted()) {
+              mapping[k] = this.decode(discriminatorMapping[k]);
             }
           }
         }

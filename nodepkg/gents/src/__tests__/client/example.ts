@@ -233,9 +233,9 @@ export type ContentReference = string
       
 export type IoReadCloser = File | Blob
       
-export type ManifestV1Payload = (/* @type:object */ ManifestV1OciIndex | /* @type:object */ ManifestV1OciManifest | /* @type:object */ ManifestV1DockerManifestList | /* @type:object */ ManifestV1DockerManifest)
+export type ManifestV1Payload = (/* @type:object */ ManifestV1DockerManifestList | /* @type:object */ ManifestV1DockerManifest | /* @type:object */ ManifestV1OciIndex | /* @type:object */ ManifestV1OciManifest)
       
-export type ManifestV1OciIndex = {
+export type ManifestV1DockerManifestList = {
   "annotations"?: { [k: string]: string },
   "artifactType"?: string,
   "manifests": Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>,
@@ -265,7 +265,7 @@ export type OpencontainersImageSpecSpecsGoV1Platform = {
   "variant"?: string,
 }
       
-export type ManifestV1OciManifest = {
+export type ManifestV1DockerManifest = {
   "annotations"?: { [k: string]: string },
   "artifactType"?: string,
   "config": /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
@@ -275,7 +275,7 @@ export type ManifestV1OciManifest = {
   "subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
 }
       
-export type ManifestV1DockerManifestList = {
+export type ManifestV1OciIndex = {
   "annotations"?: { [k: string]: string },
   "artifactType"?: string,
   "manifests": Array</* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor>,
@@ -284,7 +284,7 @@ export type ManifestV1DockerManifestList = {
   "subject"?: /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
 }
       
-export type ManifestV1DockerManifest = {
+export type ManifestV1OciManifest = {
   "annotations"?: { [k: string]: string },
   "artifactType"?: string,
   "config": /* @type:object */ OpencontainersImageSpecSpecsGoV1Descriptor,
