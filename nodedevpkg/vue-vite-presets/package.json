@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.11.9",
+  "version": "0.11.10",
   "monobundle": {
     "pipeline": {
       "test": false
@@ -11,15 +11,15 @@
   },
   "dependencies": {
     "@innoai-tech/lodash": "^0.2.5",
-    "@innoai-tech/purebundle": "^0.6.10",
-    "@innoai-tech/vuecomponentcompleter": "^0.3.9",
+    "@innoai-tech/purebundle": "^0.6.11",
+    "@innoai-tech/vuecomponentcompleter": "^0.3.10",
     "@mapbox/rehype-prism": "^0.9.0",
-    "@mdx-js/rollup": "^3.1.0",
+    "@mdx-js/rollup": "^3.1.1",
     "@swc/core": "1.11.18",
     "@vitejs/plugin-vue": "^6.0.1",
     "hastscript": "^9.0.1",
     "unist-util-visit": "^5.0.0",
-    "vite": "^7.1.3",
+    "vite": "^7.1.5",
     "vite-plugin-pages": "^0.33.1",
     "vite-tsconfig-paths": "^5.1.4"
   },
