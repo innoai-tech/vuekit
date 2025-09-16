@@ -20,6 +20,13 @@ import {
 } from "@innoai-tech/lodash";
 import { Observable } from "rxjs";
 
+export enum DirtyType {
+  NONE = "NONE",
+  ADD = "ADD",
+  EDIT = "EDIT",
+  DELETE = "DELETE",
+}
+
 export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
   static of<T extends Type>(typedef: T, initials?: Partial<Infer<T>>) {
     return new JSONEditor<Type<Infer<T>, InferSchema<T>>>(
@@ -45,12 +52,24 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
     this.#values$.next(initials);
   }
 
-  isDirty(value: any, path: any[]) {
+  initialsAt(path: any[]) {
+    return get(this.initials, path);
+  }
+
+  dirty(value: any, path: any[]): DirtyType {
     if (!isPlainObject(value)) {
-      const v = get(this.initials, path);
-      return isUndefined(v) || v !== value;
+      const prev = get(this.initials, path);
+      if (isUndefined(prev) && !isUndefined(value)) {
+        return DirtyType.ADD;
+      }
+      if (!isUndefined(prev) && isUndefined(value)) {
+        return DirtyType.DELETE;
+      }
+      if (!isUndefined(prev) && !isUndefined(value) && prev !== value) {
+        return DirtyType.EDIT;
+      }
     }
-    return false;
+    return DirtyType.NONE;
   }
 
   update<T>(path: Array<string | number>, v: T): void;

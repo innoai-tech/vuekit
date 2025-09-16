@@ -72,7 +72,7 @@ export const ArrayInput = component$<{
               const path = [...props.ctx.path, idx] as any[];
 
               return (
-                <Line path={path} dirty={editor$.isDirty(itemValue, path)}>
+                <Line path={path} dirty={editor$.dirty(itemValue, path)}>
                   <PropName
                     $leading={
                       <RemoteItemIconBtn

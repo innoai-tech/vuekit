@@ -3,6 +3,7 @@ import { JSONEditorProvider, JSONEditorSlotsProvider } from "../models";
 import { PropValueInput, RemovePropIconBtn } from "./ObjectInput.tsx";
 import { CopyAsJSONIconBtn } from "../actions";
 import { Actions, Block, Line, PropName, Token } from "../views";
+import { isSymbol } from "@innoai-tech/lodash";
 
 export const RecordInput = component$<{
   ctx: Context;
@@ -15,6 +16,8 @@ export const RecordInput = component$<{
   return rx(
     props.value$,
     render((obj) => {
+      const prev = editor$.initialsAt(props.ctx.path);
+
       return (
         <Block
           openToken={"{"}
@@ -39,7 +42,9 @@ export const RecordInput = component$<{
               (() => {
                 const o: any = {};
 
-                for (const key of Object.keys(obj ?? {}).toSorted()) {
+                const merged = Object.assign({}, prev ?? {}, obj ?? {});
+
+                for (const key of Object.keys(merged).toSorted()) {
                   o[key] = (obj as any)?.[key];
                 }
 
@@ -48,14 +53,14 @@ export const RecordInput = component$<{
               props.ctx,
             ),
           ].map(([propName, propValue, propSchema]) => {
-            if (!Object.hasOwn(obj, propName)) {
+            if (isSymbol(propName)) {
               return null;
             }
 
             const path = [...props.ctx.path, propName];
 
             return (
-              <Line path={path} dirty={editor$.isDirty(propValue, path)}>
+              <Line path={path} dirty={editor$.dirty(propValue, path)}>
                 <PropName
                   $leading={
                     <RemovePropIconBtn
@@ -68,11 +73,18 @@ export const RecordInput = component$<{
                   {String(propName)}
                 </PropName>
                 <Token>{":"}&nbsp;</Token>
-                {slots.$value?.(propSchema, propValue, {
-                  ...props.ctx,
-                  path: path,
-                  branch: [...props.ctx.branch, propValue],
-                })}
+                {Object.hasOwn(obj, propName)
+                  ? slots.$value?.(propSchema, propValue, {
+                      ...props.ctx,
+                      path: path,
+                      branch: [...props.ctx.branch, propValue],
+                    })
+                  : slots.$value?.(propSchema, (prev ?? {})[propName], {
+                      ...props.ctx,
+                      path: path,
+                      branch: [...props.ctx.branch, (prev ?? {})[propName]],
+                      readOnly: true,
+                    })}
               </Line>
             );
           })}

@@ -101,7 +101,7 @@ export const ObjectInput = component$<{
               return (
                 <Line
                   path={path}
-                  dirty={editor$.isDirty(propValue, path)}
+                  dirty={editor$.dirty(propValue, path)}
                   title={Schema.metaProp(propSchema, "title")}
                   description={Schema.metaProp(propSchema, "description")}
                 >

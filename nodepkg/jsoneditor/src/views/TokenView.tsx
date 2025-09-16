@@ -9,7 +9,7 @@ import {
   Teleport,
   type VNodeChild,
 } from "@innoai-tech/vuekit";
-import { JSONEditorProvider } from "../models";
+import { DirtyType, JSONEditorProvider } from "../models";
 import { Actions, ActionToolbar } from "./Actions.tsx";
 import { Icon } from "@innoai-tech/vuematerial";
 import { Markdown } from "@innoai-tech/vuemarkdown";
@@ -124,8 +124,20 @@ export const LineContainer = styled("div")({
     containerStyle: "sys.surface-container",
   },
 
-  _dirty: {
-    bgColor: variant("sys.warning-container", alpha(0.38)),
+  [`&[data-dirty=${DirtyType.EDIT}]`]: {
+    bgColor: variant("sys.warning-container", alpha(0.28)),
+  },
+
+
+  [`&[data-dirty=${DirtyType.ADD}]`]: {
+    bgColor: variant("sys.success-container", alpha(0.28)),
+  },
+
+
+  [`&[data-dirty=${DirtyType.DELETE}]`]: {
+    bgColor: variant("sys.error-container", alpha(0.28)),
+    textDecoration: "line-through",
+    opacity: 0.58,
   },
 
   _error: {
@@ -211,7 +223,7 @@ export const Block = component<{
 
 export const Line = component$<{
   path: any[];
-  dirty?: boolean;
+  dirty?: DirtyType;
   viewOnly?: boolean;
   title?: string;
   description?: string;
