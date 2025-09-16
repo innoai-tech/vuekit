@@ -92,11 +92,12 @@ export const Popper = component<{
             },
           })}
           <Overlay
+            style={{ zIndex: 100 }}
             triggerRef={triggerRef}
             contentRef={contentRef}
             isOpen={props.isOpen}
             onClickOutside={(event) => emit("click-outside", event)}
-            style={{ zIndex: 100 }}
+            onEscKeydown={(event) => emit("esc-keydown", event)}
             $transition={slots.transition}
           >
             {slots.content?.()}
