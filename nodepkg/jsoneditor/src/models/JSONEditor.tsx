@@ -155,7 +155,7 @@ export const JSONEditorSlotsProvider = createProvider(() => {
     $value?: (
       _t: Type,
       _value: any,
-      _ctx: Context,
+      _ctx: Context & { readOnly?: boolean },
     ) => JSX.Element | null | undefined;
   };
 });

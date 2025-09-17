@@ -12,7 +12,6 @@ export type Context = {
   path: Array<any>;
   node?: TypeNode;
   mask?: boolean;
-  readOnly?: boolean;
 };
 
 export const EmptyContext: Context = {

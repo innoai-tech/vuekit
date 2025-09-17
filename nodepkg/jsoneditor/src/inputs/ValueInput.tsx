@@ -209,7 +209,7 @@ export const OneEditingProvider = createProvider(() => new OneEditing());
 
 export const ValueInput = component$<{
   typedef: Type;
-  ctx: Context;
+  ctx: Context & { readOnly?: boolean };
   value: string | boolean | number | null | undefined;
   allowRawJSON?: boolean;
 }>((props, { render }) => {
