@@ -14,6 +14,7 @@ import {
   type PublicPropsOf,
   ref,
   type SetupContext,
+  shallowRef,
   type Simplify,
   SymbolForwardRef,
   t,
@@ -126,7 +127,7 @@ export function styled<
           const cache = CacheProvider.use();
           const insertCSS = useInsertStyles(cache);
 
-          const sxClassNameRef = ref("");
+          const sxClassNameRef = shallowRef("");
 
           const presetSxSerialized = theme.unstable_css(cache, presetSx);
 

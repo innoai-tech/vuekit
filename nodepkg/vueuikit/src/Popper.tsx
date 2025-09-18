@@ -48,7 +48,7 @@ export const Popper = component<{
           const updatePosition = async () => {
             contentEl.style.position = "absolute";
 
-            const { x, y } = await computePosition(triggerEf, contentEl, {
+            const pos = await computePosition(triggerEf, contentEl, {
               placement: props.placement ?? "bottom",
               middleware: [
                 ...(props.modifiers ?? []),
@@ -59,9 +59,11 @@ export const Popper = component<{
             });
 
             Object.assign(contentEl.style, {
-              left: `${x}px`,
-              top: `${y}px`,
+              left: `${pos.x}px`,
+              top: `${pos.y}px`,
             });
+
+            contentEl.setAttribute("data-placement", pos.placement);
           };
 
           const clean = autoUpdate(triggerEf, contentEl, updatePosition);

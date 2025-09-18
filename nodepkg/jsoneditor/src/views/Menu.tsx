@@ -138,12 +138,21 @@ export const Popover = component$<{
 export const PopoverContainer = styled("div")({
   textStyle: "sys.body-small",
   pos: "relative",
-  roundedBottom: "sm",
   containerStyle: "sys.surface-container-lowest",
   borderBottom: "1px solid",
   borderRight: "1px solid",
   borderLeft: "1px solid",
   borderColor: variant("sys.outline-variant", alpha(0.38)),
+
+  overflow: "hidden",
+
+  "[data-placement*=bottom] &": {
+    roundedBottom: "sm",
+  },
+
+  "[data-placement*=top] &": {
+    roundedTop: "sm",
+  },
 });
 
 export const MenuItem = styled("div")({

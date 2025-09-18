@@ -18,7 +18,6 @@ test-web:
 
 lint-web:
     {{ turbo }} run lint --force
-    {{ bun }} run lint
 
 bootstrap:
     {{ monobundle }}

@@ -8,7 +8,7 @@ import {
   observableRef,
   rx,
   Schema,
-  subscribeUntilUnmount,
+  subscribeOnMountedUntilUnmount,
   tapEffect,
   type Type,
 } from "@innoai-tech/vuekit";
@@ -31,14 +31,14 @@ import { mdiCancel, mdiCheckBold } from "@mdi/js";
 import { isUndefined } from "@innoai-tech/lodash";
 import {
   ActionBtn,
-  Description,
   Menu,
   MenuItem,
   PopupStatus,
+  PropDescription,
   PropName,
 } from "../views";
 
-export class InputText extends BehaviorSubject<string> {
+export class InputText extends ImmerBehaviorSubject<string> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
     const input$ = new InputText("");
 
@@ -52,11 +52,11 @@ export class InputText extends BehaviorSubject<string> {
         return rx(
           fromEvent<InputEvent>(inputEl, "input"),
           tap((e) => {
-            input$.next((e.target as HTMLInputElement).value.trim());
+            input$.next((e.target as HTMLInputElement).value?.trim());
           }),
         );
       }),
-      subscribeUntilUnmount(),
+      subscribeOnMountedUntilUnmount(),
     );
 
     return input$;
@@ -131,7 +131,7 @@ export class InputActionSubject extends Subject<InputAction> {
           ),
         );
       }),
-      subscribeUntilUnmount(),
+      subscribeOnMountedUntilUnmount(),
     );
 
     return inputAction$;
@@ -178,7 +178,7 @@ class OneEditing extends Observable<string | null> {
           }),
         ),
       ),
-      subscribeUntilUnmount(),
+      subscribeOnMountedUntilUnmount(),
     );
   }
 
@@ -305,7 +305,7 @@ export const ValueInput = component$<{
           }
         }
       }),
-      subscribeUntilUnmount(),
+      subscribeOnMountedUntilUnmount(),
     );
   }
 
@@ -326,7 +326,7 @@ export const ValueInput = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount(),
+    subscribeOnMountedUntilUnmount(),
   );
 
   let containerHeight: number | undefined;
@@ -402,6 +402,7 @@ export const ValueInput = component$<{
                   }
 
                   e.preventDefault();
+
                   commit(inputEl.value);
                 }),
               ),
@@ -419,7 +420,7 @@ export const ValueInput = component$<{
         }),
       ),
     ),
-    subscribeUntilUnmount(),
+    subscribeOnMountedUntilUnmount(),
   );
 
   if (props.typedef.type == "enums") {
@@ -548,8 +549,9 @@ export const ValueInputActions = styled("div")({
 });
 
 export const InputWrapper = styled("div")({
-  width: "100%",
-  maxWidth: "40vw",
+  flex: 1,
+  minWidth: 0,
+  maxWidth: "80%",
   display: "flex",
   alignItems: "center",
   border: "1px solid",
@@ -589,8 +591,6 @@ export const InputWrapper = styled("div")({
 const Value = styled("div")({
   border: "1px solid",
   borderColor: "rgba(0,0,0,0)",
-  maxWidth: "40vw",
-  width: "100%",
   overflow: "hidden",
   textOverflow: "ellipsis",
 
@@ -608,7 +608,8 @@ export const ValueContainer = styled("div")({
   display: "flex",
   alignItems: "center",
   font: "code",
-  width: "100%",
+  minWidth: 0,
+  flex: 1,
   textStyle: "sys.label-small",
   fontSize: 12,
   lineHeight: 24,
@@ -645,7 +646,7 @@ const EnumMenuItem = component<{
     return (
       <EnumMenuItemContainer data-value={props.value} tabindex={0}>
         <PropName>{props.value}</PropName>
-        {props.label && <Description>{props.label}</Description>}
+        {props.label && <PropDescription>{props.label}</PropDescription>}
       </EnumMenuItemContainer>
     );
   };

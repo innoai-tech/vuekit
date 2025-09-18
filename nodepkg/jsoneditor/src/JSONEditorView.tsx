@@ -1,125 +1,99 @@
 import {
   component$,
-  type Context,
   EmptyContext,
+  JSONPointer,
   rx,
-  Schema,
   type Type,
 } from "@innoai-tech/vuekit";
-import { JSONEditorProvider, JSONEditorSlotsProvider } from "./models";
-import { LayoutContextProvider, Line } from "./views";
-import { styled } from "@innoai-tech/vueuikit";
-import { ref } from "vue";
-import { isArray, isUndefined } from "@innoai-tech/lodash";
 import {
-  AnyInput,
-  ArrayInput,
-  ObjectInput,
-  OneEditingProvider,
-  RecordInput,
-  ValueInput,
-} from "./inputs";
+  JSONEditorProvider,
+  JSONEditorSlotsProvider,
+  type ValueContext,
+} from "./models";
+import { Line } from "./Line.tsx";
+import { styled } from "@innoai-tech/vueuikit";
+import { OneEditingProvider, ValueInput } from "./inputs";
+import { type VNodeChild } from "vue";
+import { flattenValue } from "./util.ts";
 
-export const defaultValueRender = (typedef: Type, value: any, ctx: Context) => {
-  if (
-    typedef.type == "object" ||
-    typedef.type == "intersection" ||
-    (typedef.type == "union" && Schema.schemaProp(typedef, "discriminator"))
-  ) {
-    return <ObjectInput typedef={typedef} value={value ?? {}} ctx={ctx} />;
-  }
-
-  if (
-    typedef.type == "union" &&
-    isUndefined(Schema.schemaProp(typedef, "discriminator"))
-  ) {
-    const oneOf = Schema.schemaProp(typedef, "oneOf");
-    if (oneOf?.length == 2) {
-      const arrayType = oneOf.find((x: any) => x.type == "array");
-      const singleType = oneOf.find((x: any) => x.type != "array");
-      if (arrayType && singleType) {
-        if (Schema.schemaProp(arrayType, "items").type == singleType.type) {
-          return (
-            <ArrayInput
-              typedef={arrayType}
-              value={
-                isArray(value) ? value : !isUndefined(value) ? [value] : []
-              }
-              ctx={ctx}
-            />
-          );
-        }
-      }
-    }
-
-    return (
-      <ValueInput typedef={typedef} value={value} ctx={ctx} allowRawJSON />
-    );
-  }
-
-  if (typedef.type == "record") {
-    return <RecordInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
-  if (typedef.type == "array") {
-    return <ArrayInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
-  if (typedef.type == "any" || typedef.type == "unknown") {
-    return <AnyInput typedef={typedef} value={value} ctx={ctx} />;
-  }
-
+export const defaultValueRender = (
+  typedef: Type,
+  value: any,
+  ctx: ValueContext,
+) => {
   return <ValueInput typedef={typedef} value={value} ctx={ctx} />;
 };
 
-export const JSONEditorView = component$(({}, { render }) => {
-  const editor$ = JSONEditorProvider.use();
-  const slots = JSONEditorSlotsProvider.use();
+export const JSONEditorView = component$<{ readOnly?: boolean }>(
+  (props, { render }) => {
+    const editor$ = JSONEditorProvider.use();
+    const slots = JSONEditorSlotsProvider.use();
 
-  const $container = ref<HTMLDivElement | null>(null);
+    return rx(
+      editor$,
+      render((root: any) => {
+        return (
+          <OneEditingProvider>
+            <JSONEditorSlotsProvider
+              value={{
+                $value: slots.$value ?? defaultValueRender,
+              }}
+            >
+              <JSONEditorContainer>
+                <Lines>
+                  {[
+                    ...flattenValue(
+                      root,
+                      editor$.initialsAt([]),
+                      editor$.typedef,
+                      {
+                        ...EmptyContext,
+                        readOnly: props.readOnly,
+                      },
+                    ),
+                  ].map((x, i) => {
+                    const pointer = JSONPointer.create(x.ctx.path);
 
-  return rx(
-    editor$,
-    render((root: any) => {
-      const valueRender = slots.$value ?? defaultValueRender;
-
-      return (
-        <OneEditingProvider>
-          <JSONEditorSlotsProvider
-            value={{
-              $value: slots.$value ?? defaultValueRender,
-            }}
-          >
-            <JSONEditorContainer>
-              <section ref={$container} />
-              {$container.value && (
-                <LayoutContextProvider
-                  value={{
-                    indent: 0,
-                    $container: $container,
-                  }}
-                >
-                  <Line path={[]} viewOnly>
-                    {valueRender(editor$.typedef, root, EmptyContext)}
-                  </Line>
-                </LayoutContextProvider>
-              )}
-            </JSONEditorContainer>
-          </JSONEditorSlotsProvider>
-        </OneEditingProvider>
-      );
-    }),
-  );
-});
+                    return (
+                      <Line
+                        key={`${pointer}::${x.close ?? false}`}
+                        n={i + 1}
+                        ctx={x.ctx}
+                        typedef={x.typedef}
+                        value={x.value}
+                        previous={x.previous}
+                        close={x.close ?? false}
+                      />
+                    );
+                  })}
+                </Lines>
+              </JSONEditorContainer>
+            </JSONEditorSlotsProvider>
+          </OneEditingProvider>
+        );
+      }),
+    );
+  },
+);
 
 const JSONEditorContainer = styled("div")({
-  width: "100%",
-  height: "100%",
+  w: "100%",
+  h: "100%",
   overflow: "auto",
+});
 
-  section: {
-    display: "flex",
-    flexDirection: "column",
-    minWidth: "max-content",
+const Lines = styled<{ $default: VNodeChild }, "div">(
+  "div",
+  ({}, { slots }) => {
+    return (Wrap) => {
+      return <Wrap>{slots.default()}</Wrap>;
+    };
   },
+)({
+  position: "relative",
+  display: "flex",
+  flexDirection: "column",
+  w: "100%",
+  maxW: "100%",
+  py: 2,
 });

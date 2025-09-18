@@ -5,6 +5,7 @@ import {
   type Infer,
   type InferSchema,
   JSONPointer,
+  rx,
   t,
   type Type,
 } from "@innoai-tech/vuekit";
@@ -13,12 +14,17 @@ import {
   isArray,
   isFunction,
   isNumber,
-  isPlainObject,
-  isUndefined,
+  isString,
   last,
   set,
 } from "@innoai-tech/lodash";
-import { Observable } from "rxjs";
+import { distinctUntilChanged, map, Observable } from "rxjs";
+
+export enum Folded {
+  NONE = 0,
+  EXACT = 1,
+  PREFIX = 2,
+}
 
 export enum DirtyType {
   NONE = "NONE",
@@ -53,23 +59,10 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
   }
 
   initialsAt(path: any[]) {
-    return get(this.initials, path);
-  }
-
-  dirty(value: any, path: any[]): DirtyType {
-    if (!isPlainObject(value)) {
-      const prev = get(this.initials, path);
-      if (isUndefined(prev) && !isUndefined(value)) {
-        return DirtyType.ADD;
-      }
-      if (!isUndefined(prev) && isUndefined(value)) {
-        return DirtyType.DELETE;
-      }
-      if (!isUndefined(prev) && !isUndefined(value) && prev !== value) {
-        return DirtyType.EDIT;
-      }
+    if (path.length == 0) {
+      return this.initials;
     }
-    return DirtyType.NONE;
+    return get(this.initials, path);
   }
 
   update<T>(path: Array<string | number>, v: T): void;
@@ -83,6 +76,8 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
     valueOrMut: T | ((value: T) => void),
     defaultValue?: T,
   ): void {
+    console.log("[json-editor]", "update", path);
+
     this.#error$.next({});
 
     if (path.length == 0) {
@@ -108,6 +103,8 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
       return;
     }
 
+    console.log("[json-editor]", "delete", path);
+
     this.#values$.next((values) => {
       const propOrIdx = last(path)!;
 
@@ -128,13 +125,69 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
   }
 
   #error$ = new ImmerBehaviorSubject<Record<string, any>>({});
+  #foldedPointerPrefixes$ = new ImmerBehaviorSubject<Record<string, boolean>>(
+    {},
+  );
 
   get error$(): Observable<Record<string, any>> {
     return this.#error$;
   }
 
-  setError(path: Array<any>, error: any) {
-    const pointer = JSONPointer.create(path);
+  get foldedPointerPrefixes$(): Observable<Record<string, any>> {
+    return this.#foldedPointerPrefixes$;
+  }
+
+  errorAt$(pointerOrPath: string | Array<any>) {
+    const pointer = this.#toPointer(pointerOrPath);
+
+    return rx(
+      this.error$,
+      map((errors) => errors[pointer]),
+      distinctUntilChanged(),
+    );
+  }
+
+  foldedPrefix$(pointerOrPath: string | Array<any>) {
+    const pointer = this.#toPointer(pointerOrPath);
+
+    return rx(
+      this.foldedPointerPrefixes$,
+      map((foldedPointers) => {
+        for (const [p] of Object.entries(foldedPointers)) {
+          if (p === pointer) {
+            return Folded.EXACT;
+          }
+          if (pointer.startsWith(p)) {
+            return Folded.PREFIX;
+          }
+        }
+        return Folded.NONE;
+      }),
+      distinctUntilChanged(),
+    );
+  }
+
+  #toPointer(pointerOrPath: string | Array<any>) {
+    if (isString(pointerOrPath)) {
+      return pointerOrPath;
+    }
+    return JSONPointer.create(pointerOrPath);
+  }
+
+  toggleFold(pointerOrPath: string | Array<any>) {
+    const pointer = this.#toPointer(pointerOrPath);
+
+    this.#foldedPointerPrefixes$.next((foldedPointers) => {
+      if (Object.hasOwn(foldedPointers, pointer)) {
+        delete foldedPointers[pointer];
+      } else {
+        foldedPointers[pointer] = true;
+      }
+    });
+  }
+
+  setError(pointerOrPath: string | Array<any>, error: any) {
+    const pointer = this.#toPointer(pointerOrPath);
 
     this.#error$.next((errors) => {
       if (error === null) {
@@ -150,12 +203,14 @@ export const JSONEditorProvider = createProvider(
   () => new JSONEditor<Type<any, any>>(t.object(), {}),
 );
 
+export type ValueContext = Context & { readOnly?: boolean };
+
 export const JSONEditorSlotsProvider = createProvider(() => {
   return {} as {
     $value?: (
       _t: Type,
       _value: any,
-      _ctx: Context & { readOnly?: boolean },
+      _ctx: ValueContext,
     ) => JSX.Element | null | undefined;
   };
 });
