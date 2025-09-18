@@ -1,105 +1,26 @@
 import {
   component$,
-  type Context,
   observableRef,
   rx,
-  Schema,
-  subscribeUntilUnmount,
-  type Type,
+  subscribeOnMountedUntilUnmount,
   type VNodeChild,
 } from "@innoai-tech/vuekit";
-import { Icon } from "@innoai-tech/vuematerial";
-import { mdiCancel, mdiCheckBold, mdiMinusBoxOutline } from "@mdi/js";
-import { JSONEditorProvider, JSONEditorSlotsProvider } from "../models";
-import { Box, Popper } from "@innoai-tech/vueuikit";
+import { type Context, Schema, type Type } from "@innoai-tech/typedef";
 import {
   InputActionSubject,
   InputText,
   InputWrapper,
   ValueContainer,
   ValueInputActions,
-} from "./ValueInput.tsx";
+} from "../inputs";
+import { ActionBtn, PopupStatus } from "../views";
+import { JSONEditorProvider } from "../models";
 import { tap } from "rxjs";
-import { CopyAsJSONIconBtn } from "../actions";
-import {
-  ActionBtn,
-  Actions,
-  Block,
-  Line,
-  PopupStatus,
-  PropName,
-  Tooltip,
-} from "../views";
+import { Popper } from "@innoai-tech/vueuikit";
+import { Icon } from "@innoai-tech/vuematerial";
+import { mdiCancel, mdiCheckBold } from "@mdi/js";
 
-export const ArrayInput = component$<{
-  ctx: Context;
-  value: any[];
-  typedef: Type;
-}>((props, { render }) => {
-  const editor$ = JSONEditorProvider.use();
-  const slots = JSONEditorSlotsProvider.use();
-
-  return rx(
-    props.value$,
-    render((value) => {
-      return (
-        <Block
-          openToken={"["}
-          closeToken={"]"}
-          $leading={
-            <Actions>
-              <CopyAsJSONIconBtn value={value} />
-            </Actions>
-          }
-          $trailing={
-            <AddItemIconBtn
-              ctx={props.ctx}
-              typedef={props.typedef}
-              onAdd={(value) => {
-                editor$.update(
-                  props.ctx.path,
-                  (values: any) => {
-                    values.push(value);
-                  },
-                  [],
-                );
-              }}
-            />
-          }
-        >
-          {[...props.typedef.entries(value, props.ctx)].map(
-            ([idx, itemValue, propSchema]) => {
-              const path = [...props.ctx.path, idx] as any[];
-
-              return (
-                <Line path={path} dirty={editor$.dirty(itemValue, path)}>
-                  <PropName
-                    $leading={
-                      <RemoteItemIconBtn
-                        onRemove={() => {
-                          editor$.delete(path);
-                        }}
-                      />
-                    }
-                  >
-                    <Box sx={{ opacity: 0.3, mr: "0.5em" }}>{String(idx)}</Box>
-                  </PropName>
-                  {slots.$value?.(propSchema, itemValue, {
-                    ...props.ctx,
-                    path: path,
-                    branch: [...props.ctx.branch, itemValue],
-                  })}
-                </Line>
-              );
-            },
-          )}
-        </Block>
-      );
-    }),
-  );
-});
-
-const AddItemIconBtn = component$<{
+export const ItemAddIconBtn = component$<{
   ctx: Context;
   typedef: Type;
   onAdd?: (value?: any) => void;
@@ -160,7 +81,7 @@ const AddItemIconBtn = component$<{
         }
       }
     }),
-    subscribeUntilUnmount(),
+    subscribeOnMountedUntilUnmount(),
   );
 
   rx(
@@ -175,7 +96,7 @@ const AddItemIconBtn = component$<{
           break;
       }
     }),
-    subscribeUntilUnmount(),
+    subscribeOnMountedUntilUnmount(),
   );
 
   const $input = rx(
@@ -214,22 +135,5 @@ const AddItemIconBtn = component$<{
     }),
   );
 
-  return () => (
-    <Line path={props.ctx.path}>
-      <ValueContainer sx={{ mx: -4 }}>{$input}</ValueContainer>
-    </Line>
-  );
-});
-
-const RemoteItemIconBtn = component$<{
-  $default?: VNodeChild;
-  onRemove?: () => void;
-}>(({}, { emit }) => {
-  return () => (
-    <Tooltip $title={"移除项"}>
-      <ActionBtn type={"button"} onClick={() => emit("remove")}>
-        <Icon path={mdiMinusBoxOutline} />
-      </ActionBtn>
-    </Tooltip>
-  );
+  return () => <ValueContainer sx={{ mx: -4 }}>{$input}</ValueContainer>;
 });

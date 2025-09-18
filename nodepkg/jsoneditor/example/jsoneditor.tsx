@@ -25,6 +25,7 @@ class JSONSchema {
 
   @t.annotate({ title: "名称", description: "详细描述" })
   @t.string()
+  @t.minLength(2)
   name!: string;
 
   @t.annotate({ title: "注解" })
@@ -69,6 +70,7 @@ export default component(() => {
       longtext: new Array(100).fill("longtext").join(""),
     },
     ports: [],
+    paths: "/x",
     manifests: {
       x: {},
     },
@@ -97,13 +99,14 @@ export default component(() => {
           editor$.setError(x.path, x.message);
         }
       }
-      console.log(JSON.stringify(v, null, 2));
+
+      console.log(v);
     }),
     subscribeUntilUnmount(),
   );
 
   return () => (
-    <Container sx={{ width: "100%", height: "100%" }}>
+    <Container sx={{ width: "100%", height: "100%", pr: "20%" }}>
       <JSONEditorProvider value={editor$}>
         <JSONEditorView />
       </JSONEditorProvider>

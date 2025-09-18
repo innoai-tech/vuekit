@@ -1,44 +1,53 @@
 import { t } from "@innoai-tech/typedef";
 import { map, Observable, tap } from "rxjs";
 import { component } from "../component";
-import { type RenderFunction, shallowRef, type VNodeChild } from "../vue.ts";
+import { type RenderFunction, type VNodeChild } from "../vue.ts";
 import { rx } from "./rx";
-import { subscribeUntilUnmount } from "./subscribe";
+import {
+  subscribeOnMountedUntilUnmount,
+  subscribeUntilUnmount,
+} from "./subscribe";
+import { observableRef } from "./observableRef.ts";
 
 export function render<T>(renderFunc: (value: T) => VNodeChild) {
   return (input$: Observable<T>): JSX.Element => {
     return (
       <RxSlot
-        elem$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}
-      >
-        {{}}
-      </RxSlot>
+        renderFn$={input$.pipe(
+          map<T, RenderFunction>((v) => () => renderFunc(v)),
+        )}
+      />
     );
   };
 }
 
-/**
- * When elem$ with slots, slots must pass as children to trigger rerender
- * <RxSlot elem$={elem$}>{{}}</RxSlot>
- */
 const RxSlot = component(
   {
-    elem$: t.custom<Observable<RenderFunction>>(),
-    $default: t.custom<{}>(),
+    renderFn$: t.custom<Observable<RenderFunction>>(),
   },
   (props, _) => {
-    const r = shallowRef<RenderFunction | null>(null);
+    let renderFunc: RenderFunction | null = null;
 
     rx(
-      props.elem$,
-      tap((renderFunc) => {
-        r.value = renderFunc;
+      props.renderFn$,
+      tap((renderFn) => {
+        renderFunc = renderFn;
       }),
       subscribeUntilUnmount(),
     );
 
+    const tick = observableRef(1);
+
+    rx(
+      props.renderFn$,
+      tap(() => {
+        tick.value += 1;
+      }),
+      subscribeOnMountedUntilUnmount(),
+    );
+
     return () => {
-      return r.value?.();
+      return tick.value ? renderFunc?.() : null;
     };
   },
   {
