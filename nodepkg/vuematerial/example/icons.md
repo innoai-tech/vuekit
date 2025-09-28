@@ -15,13 +15,12 @@ export default component(() => {
 ```tsx preview
 import { component } from "@innoai-tech/vuekit";
 import { mdiSend } from "@mdi/js";
-import { Icon } from "@innoai-tech/vuematerial";
-import { IconButton, FilledButton } from "@innoai-tech/vuematerial";
+import { FilledButton, Icon, IconButton } from "@innoai-tech/vuematerial";
 import { Box } from "@innoai-tech/vueuikit";
 
 export default component(() => {
   return () => (
-    <Box sx={{ display: "flex", gap: 8 }}>
+    <Box sx={{ display: "flex", gap: 16, alignItems: "center" }}>
       <IconButton active onClick={() => console.log(1)}>
         <Icon path={mdiSend} />
       </IconButton>

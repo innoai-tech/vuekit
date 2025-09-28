@@ -287,7 +287,7 @@ export const DatabaseDescription = styled<{
       return (
         <Root>
           {props.meta.title} {props.meta.description ? (
-          <Tooltip title={
+          <Tooltip $title={
             <MarkdownContainer>
               <Markdown text={props.meta.description} />
             </MarkdownContainer>

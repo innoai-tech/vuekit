@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from "@innoai-tech/vuekit";
-import { createApp, type Plugin, setDevtoolsHook } from "vue";
+import { createApp, type Plugin } from "vue";
 import { App } from "./App";
 
 // from vite plugin

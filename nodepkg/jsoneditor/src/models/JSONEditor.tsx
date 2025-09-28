@@ -19,6 +19,7 @@ import {
   set,
 } from "@innoai-tech/lodash";
 import { distinctUntilChanged, map, Observable } from "rxjs";
+import { normalizeArray } from "../util.ts";
 
 export enum Folded {
   NONE = 0,
@@ -70,13 +71,20 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
     path: Array<string | number>,
     mut: (value: T) => void,
     defaultValue: T,
+    valueType?: Type,
   ): void;
   update<T>(
     path: Array<string | number>,
     valueOrMut: T | ((value: T) => void),
     defaultValue?: T,
+    valueType?: Type,
   ): void {
-    console.log("[json-editor]", "update", path);
+    console.log(
+      "[json-editor]",
+      "update",
+      JSON.stringify(path),
+      this.typedef.type,
+    );
 
     this.#error$.next({});
 
@@ -87,7 +95,14 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
 
     if (isFunction(valueOrMut)) {
       this.#values$.next((values: any) => {
-        const value = get(values, path, defaultValue);
+        let value = get(values, path, defaultValue);
+
+        if (valueType && valueType.type == "array") {
+          if (!isArray(value)) {
+            value = normalizeArray(value);
+          }
+        }
+
         valueOrMut(value);
         set(values, path, value);
       });

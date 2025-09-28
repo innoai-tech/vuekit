@@ -4,7 +4,7 @@ import {
   DialogContainer,
   Icon,
   IconButton,
-  ListItem,
+  MenuItem,
   mdiClose,
   Menu,
   TextButton,
@@ -99,15 +99,15 @@ export default component(() => {
           <Menu
             $menu={
               <>
-                <ListItem>选项一</ListItem>
+                <MenuItem>选项一</MenuItem>
 
-                <ListItem
+                <MenuItem
                   onClick={() => {
                     dialogIsOpen.value = true;
                   }}
                 >
                   选项二
-                </ListItem>
+                </MenuItem>
                 <Dialog
                   isOpen={dialogIsOpen.value}
                   onClose={() => {
@@ -122,12 +122,12 @@ export default component(() => {
                   placement={"right-start"}
                   $menu={
                     <>
-                      <ListItem>选项三.1</ListItem>
-                      <ListItem>选项三.2</ListItem>
+                      <MenuItem>选项三.1</MenuItem>
+                      <MenuItem>选项三.2</MenuItem>
                     </>
                   }
                 >
-                  <ListItem>选项三</ListItem>
+                  <MenuItem>选项三</MenuItem>
                 </Menu>
               </>
             }

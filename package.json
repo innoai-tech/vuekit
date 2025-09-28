@@ -21,7 +21,7 @@
   },
   "prettier": {},
   "dependencies": {
-    "@innoai-tech/fetcher": "^0.6.3",
+    "@innoai-tech/fetcher": "^0.6.4",
     "@innoai-tech/jsoneditor": "workspace:*",
     "@innoai-tech/lodash": "^0.2.5",
     "@innoai-tech/vuekit": "workspace:*",

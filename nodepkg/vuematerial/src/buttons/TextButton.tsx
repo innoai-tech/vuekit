@@ -1,39 +1,52 @@
-import { alpha, styled, variant } from "@innoai-tech/vueuikit";
+import { styled, variant, alpha } from "@innoai-tech/vueuikit";
 import { ButtonBase } from "./ButtonBase";
 
-export const ElevatedButton = styled(ButtonBase)({
+export const TextButton = styled(ButtonBase)({
+  extends: [
+    {
+      px: 16,
+
+      $data_icon: {
+        _data_placement__start: {
+          ml: -4,
+        },
+        _data_placement__end: {
+          mr: -4,
+        },
+      },
+    },
+  ],
+
   color: "sys.primary",
-  shadow: "1",
+
   _$before: {
-    bgColor: "sys.surface-container-low",
+    bgColor: "rgba(0,0,0,0)",
   },
 
   _hover: {
-    shadow: "2",
     _$before: {
       bgColor: variant("sys.primary" as const, alpha(0.08)),
     },
   },
 
   _focus: {
-    shadow: "2",
     _$before: {
       bgColor: variant("sys.primary" as const, alpha(0.12)),
     },
   },
 
   _active: {
-    shadow: "2",
     _$before: {
       bgColor: variant("sys.primary" as const, alpha(0.12)),
     },
   },
 
   _disabled: {
-    shadow: "0",
     color: variant("sys.on-surface", alpha(0.38)),
+    bgColor: "rgba(0,0,0,0)",
+
     _$before: {
-      bgColor: variant("sys.on-surface" as const, alpha(0.12)),
+      bgColor: "rgba(0,0,0,0)",
     },
   },
 });

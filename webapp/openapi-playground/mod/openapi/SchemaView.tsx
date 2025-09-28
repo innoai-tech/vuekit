@@ -93,7 +93,7 @@ export const Description = styled<
         {title}{" "}
         {description ? (
           <Tooltip
-            title={
+            $title={
               <MarkdownContainer>
                 <Markdown text={description} />
               </MarkdownContainer>

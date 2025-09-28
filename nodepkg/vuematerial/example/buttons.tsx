@@ -1,12 +1,10 @@
 import { map } from "@innoai-tech/lodash";
-import { Fragment, component } from "@innoai-tech/vuekit";
+import { component, Fragment } from "@innoai-tech/vuekit";
 import {
-  ElevatedButton,
   FilledButton,
   Icon,
   OutlinedButton,
   TextButton,
-  TonalButton,
 } from "@innoai-tech/vuematerial";
 import { Box } from "@innoai-tech/vueuikit";
 import { mdiPlus, mdiSend } from "@mdi/js";
@@ -22,9 +20,7 @@ export default component(() => {
   };
 
   const buttons = {
-    ElevatedButton: ElevatedButton,
     FilledButton: FilledButton,
-    TonalButton: TonalButton,
     OutlinedButton: OutlinedButton,
     TextButton: TextButton,
   };

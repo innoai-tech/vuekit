@@ -26,10 +26,10 @@ export const ButtonBase = styled<
     cursor: "not-allowed",
   },
 
-  gap: 8,
-  h: 40,
-  px: 24,
-  rounded: 20,
+  gap: 4,
+  h: 36,
+  px: 16,
+  rounded: "xs",
 
   transitionDuration: "md4",
   transitionTimingFunction: "standard-accelerate",
@@ -37,7 +37,7 @@ export const ButtonBase = styled<
   bg: "none",
 
   pos: "relative",
-  zIndex: 1,
+  zIndex: 0,
 
   _$before: {
     content: `""`,

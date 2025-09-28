@@ -1,4 +1,4 @@
-import { alpha, styled, variant } from "@innoai-tech/vueuikit";
+import { styled, variant, alpha } from "@innoai-tech/vueuikit";
 import { ButtonBase } from "./ButtonBase";
 
 export const OutlinedButton = styled(ButtonBase)({
@@ -9,9 +9,9 @@ export const OutlinedButton = styled(ButtonBase)({
     },
   ],
 
-  color: "sys.primary",
-  bgColor: "rgba(0,0,0,0)",
+  containerStyle: "sys.surface",
   borderColor: "sys.outline",
+  fontWeight: "bold",
 
   _hover: {
     bgColor: variant("sys.primary" as const, alpha(0.08)),

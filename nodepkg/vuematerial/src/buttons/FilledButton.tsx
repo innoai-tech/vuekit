@@ -1,27 +1,26 @@
 import { alpha, styled, variant } from "@innoai-tech/vueuikit";
-import { ButtonBase } from "./ButtonBase";
+import { ButtonBase } from "./ButtonBase.tsx";
 
 export const FilledButton = styled(ButtonBase)({
   containerStyle: "sys.primary",
-
-  shadow: "1",
-
+  py: 6,
+  px: 16,
   _hover: {
-    shadow: "2",
+    shadow: "1",
     _$before: {
       bgColor: variant("white", alpha(0.08)),
     },
   },
 
   _focus: {
-    shadow: "2",
+    shadow: "1",
     _$before: {
       bgColor: variant("white", alpha(0.12)),
     },
   },
 
   _active: {
-    shadow: "2",
+    shadow: "1",
     _$before: {
       bgColor: variant("white", alpha(0.12)),
     },

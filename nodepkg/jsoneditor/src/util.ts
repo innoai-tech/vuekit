@@ -10,6 +10,10 @@ type ValueLine = {
   close?: boolean;
 };
 
+export const normalizeArray = (value: any | any[]) => {
+  return isArray(value) ? value : !isUndefined(value) ? [value] : [];
+};
+
 export function* flattenValue(
   value: any,
   previous: any,
@@ -67,17 +71,13 @@ export function* flattenValue(
 
       if (arrayType && singleType) {
         if (Schema.schemaProp(arrayType, "items").type == singleType.type) {
-          const normalizeArray = (value: any | any[]) => {
-            return isArray(value) ? value : !isUndefined(value) ? [value] : [];
-          };
-
           const arr = normalizeArray(value);
           const previousArr = normalizeArray(previous);
 
           const arrValueLine = {
             value: arr,
             previous: previousArr,
-            typedef: typedef,
+            typedef: arrayType,
             ctx: ctx,
           };
 
