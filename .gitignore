@@ -14,3 +14,4 @@ dist/
 public/
 node_modules/
 .idea/
+.sonda/

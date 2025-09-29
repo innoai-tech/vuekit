@@ -1,11 +1,10 @@
-import { join, resolve } from "path";
+import { resolve } from "path";
 import {
-  type ESBuildOptions,
+  type OxcOptions,
   type PluginOption,
   searchForWorkspaceRoot,
   type UserConfig,
-} from "vite";
-import { readFile } from "fs/promises";
+} from "rolldown-vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export interface AppConfig {
@@ -51,45 +50,32 @@ export const app = (
         );
         c.build.emptyOutDir = true;
 
-        c.build.rollupOptions = c.build.rollupOptions ?? {};
-        c.build.rollupOptions.external = c.build.rollupOptions.external ?? [
+        c.build.rolldownOptions = c.build.rolldownOptions ?? {};
+        c.build.rolldownOptions.external = c.build.rolldownOptions.external ?? [
           "csstype",
         ];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
 
         // to avoid some filename starts with _
-        c.build.rollupOptions.output = {
+        c.build.rolldownOptions.output = {
           assetFileNames: `${c.build.assetsDir}/[name].[hash][extname]`,
           entryFileNames: `${c.build.assetsDir}/[name].[hash].entry.js`,
           chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`,
         };
 
+        c.build.rolldownOptions.tsconfig = "tsconfig.json";
+
         c.resolve = c.resolve ?? {};
         c.resolve.alias = c.resolve.alias ?? ({} as Record<string, string>);
 
-        c.esbuild = c.esbuild ?? ({} as ESBuildOptions);
-        (c.esbuild as ESBuildOptions).jsx = "automatic";
-        (c.esbuild as ESBuildOptions).jsxDev = c.mode !== "production";
+        c.oxc = c.oxc ?? ({} as OxcOptions);
+        (c.oxc as OxcOptions).jsx = {
+          runtime: "automatic",
+          development: c.mode !== "production",
+        };
 
         c.optimizeDeps = c.optimizeDeps ?? {};
-        c.optimizeDeps.esbuildOptions = c.optimizeDeps.esbuildOptions ?? {};
-        c.optimizeDeps.esbuildOptions.jsx = "automatic";
-        c.optimizeDeps.esbuildOptions.jsxDev = c.mode !== "production";
-
-        if (!c.optimizeDeps.esbuildOptions.jsxImportSource) {
-          try {
-            const tsconfig = JSON.parse(
-              String(await readFile(join(viteConfigRoot, "tsconfig.json"))),
-            );
-            (c.esbuild as ESBuildOptions).jsxImportSource =
-              tsconfig.compilerOptions.jsxImportSource;
-            c.optimizeDeps.esbuildOptions.jsxImportSource =
-              tsconfig.compilerOptions.jsxImportSource;
-          } catch (e) {
-            //
-          }
-        }
 
         return c;
       },

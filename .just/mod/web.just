@@ -31,12 +31,18 @@ build-pkg:
 build-web $APP:
     {{ vite }} build --mode production
     {{ if APP == "openapi-playground" { _copy_openapi_playground } else { "" } }}
+    {{ if APP == "vuekit" { _copy_vuekit } else { "" } }}
 
 [private]
 _copy_openapi_playground := '''
     cp ./tool/openapiview/index.go ./public/openapi-playground/index.go;
     cp ./tool/openapiview/go.mod ./public/openapi-playground/go.mod;
     ls -al ./public/openapi-playground;
+    '''
+[private]
+_copy_vuekit := '''
+    cp ./public/vuekit/index.html ./public/vuekit/404.html
+    ls -al ./public/vuekit;
     '''
 
 dev-web $APP:

@@ -1,14 +1,12 @@
 import {
   app,
   chunkCleanup,
-  d2Graph,
   viteChunkSplit,
   viteVue,
 } from "./nodedevpkg/vue-vite-presets/src";
 import { injectWebAppConfig } from "@innoai-tech/config/vite-plugin-inject-config";
-import { defineConfig } from "vite";
+import { defineConfig } from "rolldown-vite";
 import * as process from "node:process";
-import { writeFile } from "fs/promises";
 
 const appName = process.env?.["APP"] ?? "vuekit";
 
@@ -57,9 +55,6 @@ export default defineConfig({
     }),
     viteChunkSplit({
       lib: [/nodepkg\/([^/]+)\/src/, /webapp\/([^/]+)\/mod/],
-      handleModuleFederations: (rels) => {
-        void writeFile("node_modules/x.d2", d2Graph(rels));
-      },
     }),
     chunkCleanup({
       minify: true,

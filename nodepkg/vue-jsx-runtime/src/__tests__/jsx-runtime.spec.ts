@@ -64,7 +64,7 @@ describe("jsx-runtime", () => {
       ).toEqual(mount(() => h(Layout, {}, () => [["1", h("div", {})]])).html());
     });
 
-    it("with children and slots", () => {
+    describe("with children and slots", () => {
       it("with children", () => {
         expect(
           mount(() =>

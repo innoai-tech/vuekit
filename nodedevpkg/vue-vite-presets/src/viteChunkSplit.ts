@@ -1,52 +1,48 @@
-import { readFileSync } from "fs";
 import { basename, dirname, extname, join, relative, resolve } from "path";
-import { get, last, sum } from "@innoai-tech/lodash";
-import {
-  type ManualChunkMeta,
-  type OutputOptions,
-  type PreRenderedChunk,
-} from "rollup";
+import { get, last } from "@innoai-tech/lodash";
+import { type OutputOptions, type PreRenderedChunk } from "rolldown";
+import { globby } from "globby";
 import {
   createFilter,
   type FilterPattern,
   type PluginOption,
   searchForWorkspaceRoot,
-} from "vite";
+} from "rolldown-vite";
+import { readFile } from "fs/promises";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
-  handleModuleFederations?: (
-    pkgRelations: Record<string, ModuleFederation>,
-  ) => void;
 }
 
 export const viteChunkSplit = (
   options: ChunkSplitOptions = {},
 ): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
-  const cs = new ChunkSplit(resolve(viteRoot), options);
+  let cs: ChunkSplit;
 
   return {
     name: "vite-presets/chunk-split",
     apply: "build",
-    config(c) {
+    async config(c) {
+      cs = await ChunkSplit.load(resolve(viteRoot), options);
+
       c.build = c.build ?? {};
 
       const assetsDir = c.build.assetsDir ?? "assets";
 
-      c.build.rollupOptions = c.build.rollupOptions ?? {};
+      c.build.rolldownOptions = c.build.rolldownOptions ?? {};
 
-      c.build.rollupOptions.output =
-        c.build.rollupOptions.output ?? ({} as OutputOptions);
+      c.build.rolldownOptions.output =
+        c.build.rolldownOptions.output ?? ({} as OutputOptions);
 
       const chunkFileNames = get(
-        c.build.rollupOptions.output,
+        c.build.rolldownOptions.output,
         ["chunkFileNames"],
         `${assetsDir}/[name].[hash].chunk.js`,
       );
 
-      (c.build.rollupOptions.output as any) = {
-        ...c.build.rollupOptions.output,
+      c.build.rolldownOptions.output = {
+        ...c.build.rolldownOptions.output,
         chunkFileNames: (chunkInfo: PreRenderedChunk) => {
           if (
             chunkInfo.name.startsWith("lib-") ||
@@ -56,47 +52,138 @@ export const viteChunkSplit = (
             return chunkFileNames;
           }
 
-          const name = cs.extractName(chunkInfo.moduleIds[0]!);
-          return `${assetsDir}/${name}.[hash].chunk.js`;
+          return `${assetsDir}/${cs.extractName(chunkInfo.facadeModuleId ?? chunkInfo.moduleIds[0] ?? "")}.[hash].chunk.js`;
         },
       };
     },
     outputOptions(o) {
-      o.manualChunks = (id: string, meta: ManualChunkMeta) => {
-        return cs.chunkName(id, meta);
+      o.legalComments = "none";
+
+      o.advancedChunks = {
+        includeDependenciesRecursively: false,
+        groups: [
+          ...cs.directDepGroups(),
+          {
+            name: (moduleId: string): string | null => {
+              return cs.chunkName(moduleId);
+            },
+          },
+        ],
       };
     },
   };
 };
 
+class Package {
+  static async load(dir: string) {
+    const pkg = JSON.parse(String(await readFile(join(dir, "package.json"))));
+
+    return new Package(pkg.name, dir, pkg.dependencies);
+  }
+
+  constructor(
+    public name: string,
+    public dir: string,
+    public dependencies: Record<string, string> = {},
+  ) {}
+
+  get isLocal() {
+    return !this.dir.startsWith("node_modules");
+  }
+
+  dirs() {
+    const dirs = [this.dir];
+    for (const [name, version] of Object.entries(this.dependencies)) {
+      if (version.includes("workspace:")) {
+        continue;
+      }
+      dirs.push("node_modules/" + name);
+    }
+    return dirs;
+  }
+
+  get priority() {
+    return 0;
+  }
+}
+
 class ChunkSplit {
+  static async load(root: string, options: ChunkSplitOptions) {
+    const pkg = JSON.parse(String(await readFile(join(root, "package.json"))));
+
+    const ctx = {
+      options: options,
+      dependencies: pkg.dependencies ?? ({} as Record<string, string>),
+      packages: {} as Record<string, Package>,
+    };
+
+    const workspacePkgs = {} as Record<string, Package>;
+
+    for (const packageJSON of await globby(
+      [...pkg.workspaces?.map((p: string) => `${p}/package.json`)],
+      {
+        cwd: root,
+      },
+    )) {
+      const wp = await Package.load(dirname(packageJSON));
+
+      workspacePkgs[wp.name] = wp;
+    }
+
+    const load = async (name: string) => {
+      let wp = workspacePkgs[name];
+
+      if (wp) {
+        for (const [name] of Object.entries(wp.dependencies)) {
+          // dep load first
+          await load(name);
+        }
+
+        ctx.packages[wp.name] = wp;
+
+        return;
+      }
+
+      if (!ctx.packages[name]) {
+        wp = await Package.load(join("node_modules", name));
+        ctx.packages[wp.name] = wp;
+      }
+    };
+
+    for (const [name] of Object.entries(ctx.dependencies)) {
+      await load(name);
+    }
+
+    return new ChunkSplit(root, ctx);
+  }
+
   private readonly isLib: (id: string) => boolean;
-  private readonly dependencies: Record<string, string>;
 
   constructor(
     private root: string,
-    private options: ChunkSplitOptions,
+    private ctx: {
+      options: ChunkSplitOptions;
+      dependencies: Record<string, string>;
+      packages: Record<string, Package>;
+    },
   ) {
-    this.isLib = createFilter(options.lib ?? []);
-
-    this.dependencies =
-      JSON.parse(String(readFileSync(join(root, "package.json"))))
-        .dependencies ?? {};
+    this.isLib = createFilter(ctx.options.lib ?? []);
   }
 
-  #pkgRelegation?: Record<string, ModuleFederation>;
-
-  pkgRelegation(meta: ManualChunkMeta, pkgName: string) {
-    return (this.#pkgRelegation ??= this.#resolvePkgRelations(meta))[pkgName];
+  chunkName(id: string): string | null {
+    if (id) {
+      const name = this.#chunkName(id);
+      if (name && name.startsWith("_")) {
+        return null;
+      }
+      return name;
+    }
+    return null;
   }
 
-  chunkName(id: string, meta: ManualChunkMeta): string | undefined {
-    return this.#chunkName(id, meta);
-  }
-
-  #chunkName(id: string, meta: ManualChunkMeta): string | undefined {
+  #chunkName(id: string): string {
     if (this.isLib(id)) {
-      return this.pkgRelegation(meta, this.normalizePkgName(id))?.federation;
+      return this.normalizePkgName(id);
     }
 
     if (id.includes("/node_modules/") || id.startsWith("\0")) {
@@ -111,73 +198,25 @@ class ChunkSplit {
       }
 
       if (this.isDirectVendor(pkgName)) {
-        return this.pkgRelegation(meta, this.normalizePkgName(id))?.federation;
+        return this.normalizePkgName(id);
       }
     }
 
-    return this.pkgRelegation(meta, this.normalizePkgName(id))?.federation;
-  }
-
-  #resolvePkgRelations({ getModuleInfo, getModuleIds }: ManualChunkMeta) {
-    const directImports: Record<string, boolean> = {};
-    const moduleFederations: Record<string, ModuleFederation> = {};
-
-    const moduleIds = [...getModuleIds()];
-
-    for (const modID of moduleIds) {
-      const pkgName = this.normalizePkgName(modID);
-
-      const markImported = (dep: string) => {
-        const currentModuleFederation = (moduleFederations[pkgName] ??=
-          new ModuleFederation(pkgName));
-        const moduleFederation = (moduleFederations[dep] ??=
-          new ModuleFederation(dep));
-
-        moduleFederation.importedBy(currentModuleFederation);
-      };
-
-      const m = getModuleInfo(modID)!;
-
-      m.importedIds
-        .map((id) => this.normalizePkgName(id))
-        .filter((v) => v !== pkgName)
-        .forEach((dep) => {
-          directImports[dep] = true;
-          markImported(dep);
-        });
-
-      m.dynamicallyImportedIds
-        .map((id) => this.normalizePkgName(id))
-        .filter((v) => v !== pkgName)
-        .forEach((dep) => {
-          markImported(dep);
-        });
-    }
-
-    for (const pkgName in directImports) {
-      if (pkgName.startsWith("lib-") || pkgName.startsWith("webapp-")) {
-        continue;
-      }
-
-      if (!this.isDirectVendor(pkgName)) {
-        delete directImports[pkgName];
-      }
-    }
-
-    markPkgRelegation(moduleFederations, directImports);
-
-    this.options.handleModuleFederations?.(moduleFederations);
-
-    return moduleFederations;
+    return "_" + this.normalizePkgName(id);
   }
 
   extractName(id: string): string {
-    return this.normalizePkgName(id);
+    const name = this.normalizePkgName(id);
+    if (name.startsWith("_")) {
+      return name.slice(1);
+    }
+    return name;
   }
 
   normalizePkgName(id: string) {
+    // safe path
     return this.#normalizePkgName(id)
-      .replaceAll(/[:./\[\]]/g, "-")
+      .replaceAll(/[:~_./\[\]]/g, "-")
       .replaceAll(/[@?=]/g, "");
   }
 
@@ -210,12 +249,12 @@ class ChunkSplit {
 
       if (parts.length === 1) {
         if (id) {
-          // vite or rollup helpers
+          // vite or rolldown helpers
           if (id[0] === "\0") {
             if (/react/.test(id)) {
               return "react";
             }
-            return "_internal";
+            return "_runtime";
           }
           if (id[0] !== "/") {
             return id.split("/")[0]!;
@@ -242,149 +281,48 @@ class ChunkSplit {
       return dirname(id.slice(this.root.length + 1));
     }
 
-    return "_internal";
+    return "_runtime";
   }
 
   private isDirectVendor(pkgName: string) {
     if (pkgName.startsWith("vendor-")) {
-      for (const [name] of Object.entries(this.dependencies)) {
+      for (const [name] of Object.entries(this.ctx.dependencies)) {
         if (this.normalizePkgName(`/node_modules/${name}`) == pkgName) {
           return true;
         }
       }
     }
-    return this.dependencies[pkgName];
-  }
-}
-
-export class ModuleFederation {
-  #federation?: string;
-
-  #imported = new Map<string, ModuleFederation>();
-
-  constructor(public name: string) {}
-
-  get federation() {
-    return this.#federation ?? this.name;
+    return this.ctx.dependencies[pkgName];
   }
 
-  importedBy(moduleFederation: ModuleFederation) {
-    if (moduleFederation.imported(this.name)) {
-      return;
-    }
+  directDepGroups(): Group[] {
+    const groups = [];
 
-    this.#imported.set(moduleFederation.name, moduleFederation);
-  }
+    for (const [name, pkg] of Object.entries(this.ctx.packages)) {
+      if (pkg.isLocal) {
+        const groupName = this.chunkName(`/node_modules/${name}`);
 
-  imported(name: string): boolean {
-    if (name == this.name) {
-      return true;
-    }
+        if (groupName) {
+          groups.push({
+            name: groupName,
+            test: (id) => pkg.dirs().some((p) => id.includes(p)),
+            minShareCount: 1,
+          } as Group);
+        }
 
-    for (const [_, m] of this.#imported.entries()) {
-      if (m.imported(name)) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  #rank?: number;
-
-  get rank(): number {
-    return (this.#rank ??=
-      this.#imported.size +
-      sum([...this.#imported.entries()].map(([_, mf]) => mf.rank)));
-  }
-
-  sortedImported() {
-    return [...this.#imported.entries()].toSorted(([_a, a], [_b, b]) =>
-      a.rank > b.rank ? -1 : 1,
-    );
-  }
-
-  namesOfImported() {
-    return this.sortedImported().map(([name]) => name);
-  }
-
-  bindFederation(federation: string) {
-    this.#federation = federation;
-  }
-}
-
-const markPkgRelegation = (
-  moduleFederations: Record<string, ModuleFederation>,
-  directs: Record<string, boolean>,
-) => {
-  const federations: Record<string, boolean> = {};
-
-  const walkToNearestDirectFederationFrom = (
-    pkg: string,
-    visited: Map<string, boolean>,
-  ): string => {
-    // cycle avoid
-    if (visited.has(pkg)) {
-      return pkg;
-    }
-
-    if (directs[pkg]) {
-      return pkg;
-    }
-
-    const pkgRelation = moduleFederations[pkg]!;
-    if (pkgRelation) {
-      const federation = pkgRelation.namesOfImported()[0];
-
-      if (federation) {
-        return walkToNearestDirectFederationFrom(federation, visited);
-      }
-    }
-
-    return pkg;
-  };
-
-  for (const [targetPkg, mf] of Object.entries(moduleFederations)) {
-    const federation = walkToNearestDirectFederationFrom(targetPkg, new Map());
-
-    mf.bindFederation(federation);
-    federations[federation] = true;
-  }
-
-  for (const federation in federations) {
-    if (!moduleFederations[federation]) {
-      moduleFederations[federation] = new ModuleFederation(federation);
-    }
-  }
-};
-
-export const d2Graph = (
-  moduleFederations: Record<string, ModuleFederation>,
-) => {
-  let g = "";
-
-  const pkgId = (pkgName: string) => {
-    return pkgName;
-  };
-
-  const r = (pkgName: string) => {
-    if (moduleFederations[pkgName]) {
-      const federation = moduleFederations[pkgName]!.federation;
-      return `${JSON.stringify(pkgId(federation))}.${JSON.stringify(pkgId(pkgName))}`;
-    }
-    return `${JSON.stringify(pkgId(pkgName))}`;
-  };
-
-  for (const pkgName in moduleFederations) {
-    const pkgRelation = moduleFederations[pkgName]!;
-    for (const d of pkgRelation.namesOfImported()) {
-      if (r(pkgName) == r(d)) {
         continue;
       }
-      g += `${r(pkgName)} -> ${r(d)}      
-`;
-    }
-  }
 
-  return g;
-};
+      groups.push({
+        test: (id) => id.includes(`node_modules/${name}`),
+        name: (id) => this.chunkName(id),
+      } as Group);
+    }
+
+    return groups;
+  }
+}
+
+type Group = NonNullable<
+  NonNullable<OutputOptions["advancedChunks"]>["groups"]
+>["0"];

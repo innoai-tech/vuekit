@@ -1,6 +1,6 @@
 import { basename, extname } from "path";
 import { camelCase, upperFirst } from "@innoai-tech/lodash";
-import { type Plugin, createFilter } from "vite";
+import { type Plugin, createFilter } from "rolldown-vite";
 import { getHash } from "../helpers";
 
 export interface VueJsxHmrOptions {

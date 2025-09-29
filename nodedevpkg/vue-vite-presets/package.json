@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.11.10",
+  "version": "0.12.2",
   "monobundle": {
     "pipeline": {
       "test": false
@@ -18,8 +18,10 @@
     "@swc/core": "1.11.18",
     "@vitejs/plugin-vue": "^6.0.1",
     "hastscript": "^9.0.1",
+    "globby": "^15.0.0",
+    "rolldown": "^1.0.0-beta.41",
+    "rolldown-vite": "^7.1.13",
     "unist-util-visit": "^5.0.0",
-    "vite": "^7.1.6",
     "vite-plugin-pages": "^0.33.1",
     "vite-tsconfig-paths": "^5.1.4"
   },

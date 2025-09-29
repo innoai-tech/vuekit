@@ -4,7 +4,7 @@ import mdxRollup from "@mdx-js/rollup";
 
 import { h } from "hastscript";
 import { visit } from "unist-util-visit";
-import { type PluginOption } from "vite";
+import { type PluginOption } from "rolldown-vite";
 import { VirtualCache, getHash } from "../helpers";
 
 const reKeyValue = /\b(?<key>[-\w]+)(?:=(?:"([^"]*)"|'([^']*)'|([^"'\s]+)))?/g;

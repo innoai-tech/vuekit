@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/gents",
-  "version": "0.8.0",
+  "version": "0.8.1",
   "monobundle": {
     "build": {
       "clean": true
@@ -14,9 +14,11 @@
     "@innoai-tech/typedef": "workspace:^",
     "node-fetch": "^3.3.2"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@innoai-tech/config": "*"
+  },
   "devDependencies": {
-    "@innoai-tech/fetcher": "^0.6.3"
+    "@innoai-tech/fetcher": "^0.6.6"
   },
   "exports": {
     ".": {
