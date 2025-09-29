@@ -115,11 +115,11 @@ export const Line = component$<{
                             editor$.update(
                               props.ctx.path,
                               (values: any) => {
-                                console.log(values)
+                                console.log(values);
                                 values.push(value);
                               },
                               [],
-                              props.typedef
+                              props.typedef,
                             );
                           }}
                         />

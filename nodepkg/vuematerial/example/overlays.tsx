@@ -1,123 +1,119 @@
 import { component } from "@innoai-tech/vuekit";
 import {
-  Dialog,
-  DialogContainer,
   Icon,
   IconButton,
-  MenuItem,
   mdiClose,
   Menu,
+  MenuItem,
+  SheetDialogContainer,
+  SheetDialogContent,
+  SheetDialogFooter,
+  SheetDialogHeading,
+  SheetDialogHeadingTitle,
   TextButton,
   Tooltip,
+  useLeftSheetDialog,
+  useTopSheetDialog,
 } from "@innoai-tech/vuematerial";
 import { Box } from "@innoai-tech/vueuikit";
 import { Container } from "@webapp/vuekit/layout";
-import { ref } from "vue";
 
 export default component(() => {
-  const dialogIsOpen = ref(false);
-  const dialogIsOpen1 = ref(false);
-  const dialogIsOpen2 = ref(false);
+  const dialogInDialog$ = useTopSheetDialog(() => {
+    return () => {
+      return (
+        <SheetDialogContainer sx={{ h: "auto", minH: 40 }}>
+          <SheetDialogHeading>
+            <SheetDialogHeadingTitle>我是对话框</SheetDialogHeadingTitle>
+            <IconButton
+              onClick={() => {
+                dialogInDialog$.hide();
+              }}
+            >
+              <Icon path={mdiClose} />
+            </IconButton>
+          </SheetDialogHeading>
+        </SheetDialogContainer>
+      );
+    };
+  });
+
+  const dialog$ = useTopSheetDialog(() => {
+    return () => {
+      return (
+        <SheetDialogContainer sx={{ h: "auto", minH: 40 }}>
+          <SheetDialogHeading>
+            <SheetDialogHeadingTitle>我是对话框</SheetDialogHeadingTitle>
+            <IconButton
+              onClick={() => {
+                dialog$.hide();
+              }}
+            >
+              <Icon path={mdiClose} />
+            </IconButton>
+          </SheetDialogHeading>
+          <SheetDialogContent>xxx</SheetDialogContent>
+          <SheetDialogFooter>
+            <TextButton
+              onClick={() => {
+                dialogInDialog$.show();
+              }}
+            >
+              Open Dialog
+            </TextButton>
+            {dialogInDialog$.$elem}
+          </SheetDialogFooter>
+        </SheetDialogContainer>
+      );
+    };
+  });
+
+  const dialog1$ = useLeftSheetDialog(() => {
+    return () => {
+      return (
+        <SheetDialogContainer sx={{ h: "100vh", w: 300, maxH: "100vh" }}>
+          <SheetDialogHeading>
+            <SheetDialogHeadingTitle>我是对话框</SheetDialogHeadingTitle>
+            <IconButton
+              onClick={() => {
+                dialog$.hide();
+              }}
+            >
+              <Icon path={mdiClose} />
+            </IconButton>
+          </SheetDialogHeading>
+        </SheetDialogContainer>
+      );
+    };
+  });
 
   return () => (
     <Container>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 8 }}>
         <TextButton
           onClick={() => {
-            dialogIsOpen1.value = true;
+            dialog$.show();
           }}
         >
           Open Dialog
         </TextButton>
-        <Dialog
-          isOpen={dialogIsOpen1.value}
-          onClose={() => {
-            dialogIsOpen1.value = false;
-          }}
-        >
-          <DialogContainer sx={{ minH: "40vh" }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                px: 16,
-                textStyle: "sys.title-large",
-              }}
-            >
-              <Box sx={{ flex: 1 }}>我是对话框</Box>
-              <IconButton
-                onClick={() => {
-                  dialogIsOpen1.value = false;
-                }}
-              >
-                <Icon path={mdiClose} />
-              </IconButton>
-            </Box>
-
-            <TextButton
-              onClick={() => {
-                dialogIsOpen2.value = true;
-              }}
-            >
-              Open Dialog In Dialog
-            </TextButton>
-
-            <Dialog
-              isOpen={dialogIsOpen2.value}
-              onClose={() => {
-                dialogIsOpen2.value = false;
-              }}
-            >
-              <DialogContainer sx={{ minH: "40vh" }}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    px: 16,
-                    textStyle: "sys.title-large",
-                  }}
-                >
-                  <Box sx={{ flex: 1 }}>我是对话框 2</Box>
-                  <IconButton
-                    onClick={() => {
-                      dialogIsOpen2.value = false;
-                    }}
-                  >
-                    <Icon path={mdiClose} />
-                  </IconButton>
-                </Box>
-              </DialogContainer>
-            </Dialog>
-          </DialogContainer>
-        </Dialog>
-
+        {dialog$.$elem}
         <Tooltip title={"Tooltip"}>
           <TextButton>Hover me</TextButton>
         </Tooltip>
-
         <Tooltip title={"Menu"}>
           <Menu
             $menu={
               <>
                 <MenuItem>选项一</MenuItem>
-
                 <MenuItem
                   onClick={() => {
-                    dialogIsOpen.value = true;
+                    dialog1$.show();
                   }}
                 >
                   选项二
                 </MenuItem>
-                <Dialog
-                  isOpen={dialogIsOpen.value}
-                  onClose={() => {
-                    dialogIsOpen.value = false;
-                  }}
-                >
-                  <DialogContainer sx={{ minH: "40vh" }}>
-                    我是对话框
-                  </DialogContainer>
-                </Dialog>
+                {dialog1$.$elem}
                 <Menu
                   placement={"right-start"}
                   $menu={

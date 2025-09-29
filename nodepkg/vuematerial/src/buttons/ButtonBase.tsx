@@ -54,6 +54,7 @@ export const ButtonBase = styled<
 
   $data_icon: {
     boxSize: 18,
+
     _data_placement__start: {
       ml: -8,
     },

@@ -22,3 +22,94 @@ export const FadeInOutTransition = defineTransition(
     easing: transition.easing.standard.decelerate,
   },
 );
+
+export const SlideInOutTransitions = {
+  left: defineTransition(
+    {
+      from: {
+        transform: "translateX(-100%)",
+      },
+      to: {
+        transform: "translateX(0%)",
+      },
+      duration: transition.duration.sm4,
+      easing: transition.easing.standard.decelerate,
+    },
+    {
+      from: {
+        transform: "translateX(0%)",
+      },
+      to: {
+        transform: "translateX(-120%)",
+      },
+      duration: transition.duration.sm1,
+      easing: transition.easing.standard.accelerate,
+    },
+  ),
+  right: defineTransition(
+    {
+      from: {
+        transform: "translateX(100%)",
+      },
+      to: {
+        transform: "translateX(0%)",
+      },
+      duration: transition.duration.sm4,
+      easing: transition.easing.standard.decelerate,
+    },
+    {
+      from: {
+        transform: "translateX(0%)",
+      },
+      to: {
+        transform: "translateX(120%)",
+      },
+      duration: transition.duration.sm1,
+      easing: transition.easing.standard.accelerate,
+    },
+  ),
+  top: defineTransition(
+    {
+      from: {
+        transform: "translateY(-100%)",
+      },
+      to: {
+        transform: "translateY(0%)",
+      },
+      duration: transition.duration.sm4,
+      easing: transition.easing.standard.decelerate,
+    },
+    {
+      from: {
+        transform: "translateY(0%)",
+      },
+      to: {
+        transform: "translateY(-120%)",
+      },
+      duration: transition.duration.sm1,
+      easing: transition.easing.standard.accelerate,
+    },
+  ),
+  bottom: defineTransition(
+    {
+      from: {
+        transform: "translateY(100%)",
+      },
+      to: {
+        transform: "translateY(0%)",
+      },
+      duration: transition.duration.sm4,
+      easing: transition.easing.standard.decelerate,
+    },
+    {
+      from: {
+        transform: "translateY(0%)",
+      },
+      to: {
+        transform: "translateY(120%)",
+      },
+      duration: transition.duration.sm1,
+      easing: transition.easing.standard.accelerate,
+    },
+  ),
+};
