@@ -1,19 +1,17 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
+    "reflect-metadata": "^0.2.2",
     "immer": "^10.1.3"
   },
   "peerDependencies": {
     "es-toolkit": "^1.40.0"
-  },
-  "devDependencies": {
-    "reflect-metadata": "^0.2.2"
   },
   "exports": {
     ".": {

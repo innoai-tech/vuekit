@@ -1,6 +1,6 @@
 import { isFunction } from "es-toolkit/compat";
 import { produce } from "immer";
-import "reflect-metadata/lite";
+import * as Reflect from "reflect-metadata/no-conflict";
 
 export class Metadata {
   static getOwnPropertyNames(target: Object): string[] {
