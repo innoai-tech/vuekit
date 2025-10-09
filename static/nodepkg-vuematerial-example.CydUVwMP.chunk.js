@@ -1,4 +1,4 @@
-import { X as e, Z as n, c as t } from "./vendor-innoai-tech-vuekit.BzJ0CBX5.chunk.js";
+import { X as e, Z as n, c as t } from "./vendor-innoai-tech-vuekit.MKBnlEgu.chunk.js";
 function o(e) {
 	return t({
 		p: "p",

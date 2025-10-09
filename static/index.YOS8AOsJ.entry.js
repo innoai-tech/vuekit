@@ -1,7 +1,7 @@
-const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["static/nodepkg-jsoneditor-example.C2meuW83.chunk.js","static/vendor-innoai-tech-jsoneditor.CaCqtzu8.chunk.js","static/vendor-innoai-tech-vueuikit.CyLdjQA1.chunk.js","static/vendor-innoai-tech-vuekit.BzJ0CBX5.chunk.js","static/vendor-rxjs.DKDKEK-M.chunk.js","static/rolldown-runtime.D8qhy2Lt.chunk.js","static/nodepkg-jsoneditor-example.CXOx3vzF.chunk.js","static/nodepkg-vuemarkdown-example.DeB_UVjc.chunk.js","static/nodepkg-vuematerial-example.8ddp-z0i.chunk.js","static/nodepkg-vuematerial-example.D0f4FhBm.chunk.js","static/nodepkg-vuematerial-example.DEkYRea7.chunk.js","static/nodepkg-vuematerial-example.fWXdq6o_.chunk.js","static/nodepkg-vuematerial-example.BHVuZrQU.chunk.js","static/nodepkg-vueuikit-example.ChBKRaqh.chunk.js","static/nodepkg-vueuikit-example.0g0gnDU5.chunk.js","static/nodepkg-vueuikit-example.6y96850e.chunk.js","static/nodepkg-vueuikit-example.BZPY3Xdx.chunk.js","static/nodepkg-vueuikit-example.Y2_DQlEB.chunk.js","static/nodepkg-vueuikit-example.DNgSnuob.chunk.js","static/nodepkg-vueuikit-example.D5AlLt0t.chunk.js","static/nodepkg-vuekit-example.BqpxpN0Q.chunk.js","static/nodepkg-vuekit-example.DCHTxWgg.chunk.js","static/webapp-vuekit-layout.B_0NFJ6a.chunk.js"])))=>i.map(i=>d[i]);
-import { Ft as e, It as n, Lt as t, _ as o, b as i, c as r, j as a, l as s, nt as l, tt as p, v as d, w as c, x as m, y as u, zt as h } from "./vendor-innoai-tech-vuekit.BzJ0CBX5.chunk.js";
-import { A as _, B as f, E as v, F as g, I as k, L as E, N as b, P as y, T as x, U as I, j as w, l as R, u as S, y as O } from "./vendor-innoai-tech-vueuikit.CyLdjQA1.chunk.js";
-import { g as j, h as T, m as D, v as V } from "./vendor-innoai-tech-jsoneditor.CaCqtzu8.chunk.js";
+const __vite__mapDeps=(i,m=__vite__mapDeps,d=(m.f||(m.f=["static/nodepkg-jsoneditor-example.CIwD31Ns.chunk.js","static/vendor-innoai-tech-jsoneditor.CaFa3F5t.chunk.js","static/vendor-innoai-tech-vueuikit.Dn_svbHX.chunk.js","static/vendor-innoai-tech-vuekit.MKBnlEgu.chunk.js","static/vendor-rxjs.DKDKEK-M.chunk.js","static/rolldown-runtime.D8qhy2Lt.chunk.js","static/nodepkg-jsoneditor-example.BvmtvXMY.chunk.js","static/nodepkg-vuemarkdown-example.Bm6nCl9G.chunk.js","static/nodepkg-vuematerial-example.CydUVwMP.chunk.js","static/nodepkg-vuematerial-example.kwZzIOwi.chunk.js","static/nodepkg-vuematerial-example.Bqb7DDvp.chunk.js","static/nodepkg-vuematerial-example.CsCVNTGz.chunk.js","static/nodepkg-vuematerial-example.B4NwI0Ll.chunk.js","static/nodepkg-vueuikit-example.Dcn2hD9N.chunk.js","static/nodepkg-vueuikit-example.BIumT9RU.chunk.js","static/nodepkg-vueuikit-example.0pjy0BEh.chunk.js","static/nodepkg-vueuikit-example.Du4Kzv46.chunk.js","static/nodepkg-vueuikit-example.CeVl8FOU.chunk.js","static/nodepkg-vueuikit-example.DqZDxKq2.chunk.js","static/nodepkg-vueuikit-example.CWQctdxC.chunk.js","static/nodepkg-vuekit-example.9nrrvwMJ.chunk.js","static/nodepkg-vuekit-example.WCR6RP3Z.chunk.js","static/webapp-vuekit-layout.DEU4HpDs.chunk.js"])))=>i.map(i=>d[i]);
+import { Ft as e, It as n, Lt as t, _ as o, b as i, c as r, j as a, l as s, nt as l, tt as p, v as d, w as c, x as m, y as u, zt as h } from "./vendor-innoai-tech-vuekit.MKBnlEgu.chunk.js";
+import { A as _, B as f, E as v, F as g, I as k, L as E, N as b, P as y, T as x, U as I, j as w, l as R, u as S, y as O } from "./vendor-innoai-tech-vueuikit.Dn_svbHX.chunk.js";
+import { g as j, h as T, m as D, v as V } from "./vendor-innoai-tech-jsoneditor.CaFa3F5t.chunk.js";
 let C = document.createElement("link").relList;
 if (!(C && C.supports && C.supports("modulepreload"))) {
 	for (let e of document.querySelectorAll("link[rel=\"modulepreload\"]")) A(e);
@@ -182,103 +182,103 @@ var F = [
 	{
 		name: "jsoneditor-jsoneditor",
 		path: "/jsoneditor/jsoneditor",
-		component: () => M(() => import("./nodepkg-jsoneditor-example.C2meuW83.chunk.js"), __vite__mapDeps([0,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-jsoneditor-example.CIwD31Ns.chunk.js"), __vite__mapDeps([0,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "jsoneditor-jsoneditor-large",
 		path: "/jsoneditor/jsoneditor-large",
-		component: () => M(() => import("./nodepkg-jsoneditor-example.CXOx3vzF.chunk.js"), __vite__mapDeps([6,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-jsoneditor-example.BvmtvXMY.chunk.js"), __vite__mapDeps([6,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuemarkdown-markdown",
 		path: "/vuemarkdown/markdown",
-		component: () => M(() => import("./nodepkg-vuemarkdown-example.DeB_UVjc.chunk.js"), __vite__mapDeps([7,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vuemarkdown-example.Bm6nCl9G.chunk.js"), __vite__mapDeps([7,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuematerial",
 		path: "/vuematerial",
-		component: () => M(() => import("./nodepkg-vuematerial-example.8ddp-z0i.chunk.js"), __vite__mapDeps([8,3,4])),
+		component: () => M(() => import("./nodepkg-vuematerial-example.CydUVwMP.chunk.js"), __vite__mapDeps([8,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuematerial-buttons",
 		path: "/vuematerial/buttons",
-		component: () => M(() => import("./nodepkg-vuematerial-example.D0f4FhBm.chunk.js"), __vite__mapDeps([9,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vuematerial-example.kwZzIOwi.chunk.js"), __vite__mapDeps([9,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuematerial-textfields",
 		path: "/vuematerial/textfields",
-		component: () => M(() => import("./nodepkg-vuematerial-example.DEkYRea7.chunk.js"), __vite__mapDeps([10,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vuematerial-example.Bqb7DDvp.chunk.js"), __vite__mapDeps([10,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuematerial-overlays",
 		path: "/vuematerial/overlays",
-		component: () => M(() => import("./nodepkg-vuematerial-example.fWXdq6o_.chunk.js"), __vite__mapDeps([11,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vuematerial-example.CsCVNTGz.chunk.js"), __vite__mapDeps([11,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuematerial-icons",
 		path: "/vuematerial/icons",
-		component: () => M(() => import("./nodepkg-vuematerial-example.BHVuZrQU.chunk.js"), __vite__mapDeps([12,1,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vuematerial-example.B4NwI0Ll.chunk.js"), __vite__mapDeps([12,1,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit",
 		path: "/vueuikit",
-		component: () => M(() => import("./nodepkg-vueuikit-example.ChBKRaqh.chunk.js"), __vite__mapDeps([13,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.Dcn2hD9N.chunk.js"), __vite__mapDeps([13,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit-color-palette",
 		path: "/vueuikit/color-palette",
-		component: () => M(() => import("./nodepkg-vueuikit-example.0g0gnDU5.chunk.js"), __vite__mapDeps([14,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.BIumT9RU.chunk.js"), __vite__mapDeps([14,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit-color-scheme",
 		path: "/vueuikit/color-scheme",
-		component: () => M(() => import("./nodepkg-vueuikit-example.6y96850e.chunk.js"), __vite__mapDeps([15,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.0pjy0BEh.chunk.js"), __vite__mapDeps([15,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit-popper",
 		path: "/vueuikit/popper",
-		component: () => M(() => import("./nodepkg-vueuikit-example.BZPY3Xdx.chunk.js"), __vite__mapDeps([16,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.Du4Kzv46.chunk.js"), __vite__mapDeps([16,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit-elevation",
 		path: "/vueuikit/elevation",
-		component: () => M(() => import("./nodepkg-vueuikit-example.Y2_DQlEB.chunk.js"), __vite__mapDeps([17,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.CeVl8FOU.chunk.js"), __vite__mapDeps([17,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit-typography",
 		path: "/vueuikit/typography",
-		component: () => M(() => import("./nodepkg-vueuikit-example.DNgSnuob.chunk.js"), __vite__mapDeps([18,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.DqZDxKq2.chunk.js"), __vite__mapDeps([18,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vueuikit-figma-tokens",
 		path: "/vueuikit/figma-tokens",
-		component: () => M(() => import("./nodepkg-vueuikit-example.D5AlLt0t.chunk.js"), __vite__mapDeps([19,2,3,4,5])),
+		component: () => M(() => import("./nodepkg-vueuikit-example.CWQctdxC.chunk.js"), __vite__mapDeps([19,2,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuekit",
 		path: "/vuekit",
-		component: () => M(() => import("./nodepkg-vuekit-example.BqpxpN0Q.chunk.js"), __vite__mapDeps([20,3,4])),
+		component: () => M(() => import("./nodepkg-vuekit-example.9nrrvwMJ.chunk.js"), __vite__mapDeps([20,3,4,5])),
 		props: !0
 	},
 	{
 		name: "vuekit-rx-in-vue",
 		path: "/vuekit/rx-in-vue",
-		component: () => M(() => import("./nodepkg-vuekit-example.DCHTxWgg.chunk.js"), __vite__mapDeps([21,3,4])),
+		component: () => M(() => import("./nodepkg-vuekit-example.WCR6RP3Z.chunk.js"), __vite__mapDeps([21,3,4,5])),
 		props: !0
 	},
 	{
@@ -294,7 +294,7 @@ var F = [
 			children: "Vuekit"
 		})), { meta: {
 			name: "Home",
-			icon: () => M(() => import("./webapp-vuekit-layout.B_0NFJ6a.chunk.js"), __vite__mapDeps([22,2,3,4,5]))
+			icon: () => M(() => import("./webapp-vuekit-layout.DEU4HpDs.chunk.js"), __vite__mapDeps([22,2,3,4,5]))
 		} }),
 		props: !0
 	}
