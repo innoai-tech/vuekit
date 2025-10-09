@@ -1032,31 +1032,31 @@ function tI(t, r, n) {
 			return r(n, t, e, o);
 		})(ts(t(n, e)));
 	}, n) : ("number" == typeof r && (n = r), Y(function(r, e) {
-		var o, i, u, c, s, a, l, f, h;
-		return o = n, u = [], c = 0, s = 0, a = !1, l = function() {
-			!a || u.length || c || e.complete();
-		}, f = function(t) {
-			return c < o ? h(t) : u.push(t);
-		}, h = function(r) {
-			c++;
+		var o, i, u, c, s, a, l, f;
+		return o = n, i = [], u = 0, c = 0, s = !1, a = function() {
+			!s || i.length || u || e.complete();
+		}, l = function(t) {
+			return u < o ? f(t) : i.push(t);
+		}, f = function(r) {
+			u++;
 			var n = !1;
-			ts(t(r, s++)).subscribe(M(e, function(t) {
-				i ? f(t) : e.next(t);
+			ts(t(r, c++)).subscribe(M(e, function(t) {
+				e.next(t);
 			}, function() {
 				n = !0;
 			}, void 0, function() {
 				if (n) try {
-					for (c--; u.length && c < o;) (function() {
-						var t = u.shift();
-						h(t);
+					for (u--; i.length && u < o;) (function() {
+						var t = i.shift();
+						f(t);
 					})();
-					l();
+					a();
 				} catch (t) {
 					e.error(t);
 				}
 			}));
-		}, r.subscribe(M(e, f, function() {
-			a = !0, l();
+		}, r.subscribe(M(e, l, function() {
+			s = !0, a();
 		})), function() {};
 	}));
 }
