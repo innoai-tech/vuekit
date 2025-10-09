@@ -1,4 +1,4 @@
-import { camelCase, get, keys, lowerFirst, set } from "@innoai-tech/lodash";
+import { camelCase, get, keys, lowerFirst, set } from "es-toolkit/compat";
 import {
   JSONSchemaDecoder,
   refName,

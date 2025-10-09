@@ -1,4 +1,4 @@
-import { isFunction } from "@innoai-tech/lodash";
+import { isFunction } from "es-toolkit/compat";
 import { BehaviorSubject, Observable, isObservable } from "rxjs";
 import { watch } from "vue";
 

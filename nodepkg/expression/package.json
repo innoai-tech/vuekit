@@ -1,13 +1,13 @@
 {
   "name": "@innoai-tech/expression",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
-    "@innoai-tech/lodash": "^0.2.5"
+    "es-toolkit": "^1.40.0"
   },
   "peerDependencies": {},
   "exports": {

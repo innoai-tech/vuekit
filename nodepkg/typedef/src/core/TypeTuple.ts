@@ -8,7 +8,7 @@ import {
 } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
 import { TypeNever } from "./TypeNever.ts";
-import { isArray } from "./util.ts";
+import { isArray } from "es-toolkit/compat";
 
 export class TypeTuple<T, S extends Type[]> extends TypeUnknown<
   T,

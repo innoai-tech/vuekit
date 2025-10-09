@@ -3,7 +3,7 @@ import type { Response } from "./models";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { Line, SchemaView } from "./SchemaView.tsx";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
-import { isUndefined, uniq } from "@innoai-tech/lodash";
+import { isUndefined, uniq } from "es-toolkit/compat";
 
 function isErrorCode(c: number | string) {
   try {

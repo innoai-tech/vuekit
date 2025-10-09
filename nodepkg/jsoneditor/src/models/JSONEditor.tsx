@@ -17,7 +17,7 @@ import {
   isString,
   last,
   set,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import { distinctUntilChanged, map, Observable } from "rxjs";
 import { normalizeArray } from "../util.ts";
 

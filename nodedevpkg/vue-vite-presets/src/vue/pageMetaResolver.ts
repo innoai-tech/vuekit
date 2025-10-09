@@ -1,4 +1,4 @@
-import { isUndefined, set } from "@innoai-tech/lodash";
+import { isUndefined, set } from "es-toolkit/compat";
 import { readFile } from "fs/promises";
 import { type Plugin, type UserConfig, searchForWorkspaceRoot } from "rolldown-vite";
 import { type VueRoute, vueResolver } from "vite-plugin-pages";

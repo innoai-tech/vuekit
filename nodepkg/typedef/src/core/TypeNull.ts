@@ -1,6 +1,6 @@
 import { defineType, type Context, type Result } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isNull } from "./util.ts";
+import { isNull } from "es-toolkit/compat";
 
 export class TypeNull extends TypeUnknown<null, { type: "null" }> {
   static create = defineType(() => new TypeNull({ type: "null" }));

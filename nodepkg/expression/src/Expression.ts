@@ -1,4 +1,4 @@
-import { isString, isArray } from "@innoai-tech/lodash";
+import { isString, isArray } from "es-toolkit/compat";
 
 export const isExpression = (args: any[]): boolean => {
   if (isArray(args) && args.length > 0) {

@@ -1,6 +1,6 @@
 import { cloneVNode, type VNodeChild } from "vue";
 import { styled } from "@innoai-tech/vueuikit";
-import { get } from "@innoai-tech/lodash";
+import { get } from "es-toolkit/compat";
 
 export const TextField = styled<
   {

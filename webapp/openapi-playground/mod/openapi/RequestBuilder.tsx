@@ -28,7 +28,7 @@ import { onUnmounted } from "vue";
 import { ResponsePreview } from "./ResponsePreview.tsx";
 import { HttpRequest } from "./HTTPViews.tsx";
 import { mdiUploadBox } from "@mdi/js";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 
 export const RequestBuilder = component$<{
   operation: Operation,

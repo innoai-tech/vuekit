@@ -1,4 +1,4 @@
-import { has, isObject, keys, set } from "@innoai-tech/lodash";
+import { has, isObject, keys, set } from "es-toolkit/compat";
 import type { DesignTokenOptionAny } from "./DesignToken";
 import { isMap } from "./util";
 

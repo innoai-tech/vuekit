@@ -1,7 +1,7 @@
 import { type FetcherResponse, paramsSerializer, type RequestConfig } from "@innoai-tech/fetcher";
 import { Box } from "@innoai-tech/vueuikit";
 import { component, t, type VNodeChild } from "@innoai-tech/vuekit";
-import { isArray, isObject } from "@innoai-tech/lodash";
+import { isArray, isObject } from "es-toolkit/compat";
 
 const getDefaultHeads = (): Record<string, any> => ({
   "User-Agent": navigator.userAgent,

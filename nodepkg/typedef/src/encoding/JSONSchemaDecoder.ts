@@ -1,6 +1,6 @@
 import { Schema, t, type Type } from "../core";
 import type { JSONSchema } from "./JSONSchemaEncoder";
-import { isArray, isBoolean, isUndefined } from "../core/util.ts";
+import { isArray, isBoolean, isUndefined } from "es-toolkit/compat";
 
 export const refName = (ref: string) => {
   return ref.split("/")?.findLast(() => true) ?? "";

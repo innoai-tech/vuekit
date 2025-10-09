@@ -1,5 +1,5 @@
 import { isType, Schema, type Type } from "../core";
-import { isArray, isObjectLike } from "../core/util.ts";
+import { isArray, isObjectLike } from "es-toolkit/compat";
 
 export type JSONSchema = {
   type?: string;

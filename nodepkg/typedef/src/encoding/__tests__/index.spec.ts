@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { get } from "@innoai-tech/lodash";
+import { get } from "es-toolkit/compat";
 import {
   JSONSchemaDecoder,
   JSONSchemaEncoder,

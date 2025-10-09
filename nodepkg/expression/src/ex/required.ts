@@ -1,4 +1,4 @@
-import { isNull, isNumber, isString, isUndefined } from "@innoai-tech/lodash";
+import { isNull, isNumber, isString, isUndefined } from "es-toolkit/compat";
 import { defineExpression } from "../Expression";
 
 export const required = defineExpression("required", () => () => {

@@ -1,13 +1,13 @@
 {
   "name": "@innoai-tech/vuematerial",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
-    "@innoai-tech/lodash": "^0.2.5",
+    "es-toolkit": "^1.40.0",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
     "@mdi/js": "^7.4.47",

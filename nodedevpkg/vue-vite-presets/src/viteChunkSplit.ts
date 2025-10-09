@@ -1,5 +1,5 @@
 import { basename, dirname, extname, join, relative, resolve } from "path";
-import { get, last } from "@innoai-tech/lodash";
+import { get, last } from "es-toolkit/compat";
 import { type OutputOptions, type PreRenderedChunk } from "rolldown";
 import { globby } from "globby";
 import {

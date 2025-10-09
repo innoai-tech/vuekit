@@ -1,4 +1,4 @@
-import { includes, isString, keys, some } from "@innoai-tech/lodash";
+import { includes, isString, keys, some } from "es-toolkit/compat";
 import { type ExpressionBuildFunc, defineExpression } from "../Expression";
 
 export const oneOf = defineExpression(

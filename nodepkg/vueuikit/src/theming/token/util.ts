@@ -1,4 +1,4 @@
-import { isPlainObject } from "@innoai-tech/lodash";
+import { isPlainObject } from "es-toolkit/compat";
 
 export const isMap = isPlainObject;
 

@@ -9,7 +9,7 @@ import {
   type Type,
   type VNodeChild,
 } from "@innoai-tech/vuekit";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 import { Box, styled } from "@innoai-tech/vueuikit";
 import { Markdown } from "@innoai-tech/vuemarkdown";
 import { Dialog, Icon, Tooltip } from "@innoai-tech/vuematerial";

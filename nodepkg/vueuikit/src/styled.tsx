@@ -1,4 +1,4 @@
-import { isFunction, isString, isUndefined } from "@innoai-tech/lodash";
+import { isFunction, isString, isUndefined } from "es-toolkit/compat";
 import {
   cloneVNode,
   component,

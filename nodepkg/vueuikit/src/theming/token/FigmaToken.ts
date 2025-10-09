@@ -7,7 +7,7 @@ import {
   mapValues,
   pickBy,
   some,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import { DesignToken } from "./DesignToken";
 import { setTo } from "./util.ts";
 import { parseToRgb as polishedParseToRgb } from "polished";

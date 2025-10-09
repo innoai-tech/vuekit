@@ -1,4 +1,4 @@
-import { groupBy, last, map, partition } from "@innoai-tech/lodash";
+import { groupBy, last, map, partition } from "es-toolkit/compat";
 import {
   component,
   RouterLink,

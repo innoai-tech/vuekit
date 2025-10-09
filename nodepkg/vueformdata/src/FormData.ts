@@ -5,7 +5,7 @@ import {
   isString,
   isUndefined,
   set,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import {
   type Component,
   EmptyContext,

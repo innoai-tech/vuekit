@@ -3,7 +3,7 @@ import {
   isNumber,
   mapValues,
   padStart,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import {
   CorePalette,
   TonalPalette,

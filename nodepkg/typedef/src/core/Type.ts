@@ -1,6 +1,7 @@
-import { isIterable, isObjectLike, isString, isUndefined } from "./util.ts";
+import { isObjectLike, isString, isUndefined } from "es-toolkit/compat";
 import type { Optionalize } from "./Schema.ts";
 import { Metadata } from "./Metadata.ts";
+import { isIterable } from "./util.ts";
 
 export type TypeNode = {
   current: Type;

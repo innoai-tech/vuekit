@@ -1,4 +1,4 @@
-import { isFunction, isUndefined } from "@innoai-tech/lodash";
+import { isFunction, isUndefined } from "es-toolkit/compat";
 import { type Type } from "@innoai-tech/typedef";
 import type { RenderFunction } from "vue";
 import { type ComponentOptions, component } from "../component";

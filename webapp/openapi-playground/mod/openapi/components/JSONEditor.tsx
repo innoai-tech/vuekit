@@ -3,7 +3,7 @@ import {
 } from "@innoai-tech/vuekit";
 import type { Field } from "@innoai-tech/vueformdata";
 import { styled } from "@innoai-tech/vueuikit";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 import { JSONEditor, JSONEditorView, JSONEditorProvider } from "@innoai-tech/jsoneditor";
 import { skip, tap } from "rxjs";
 

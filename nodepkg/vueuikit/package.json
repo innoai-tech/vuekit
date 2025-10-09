@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueuikit",
-  "version": "0.15.6",
+  "version": "0.16.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -11,7 +11,7 @@
     "@emotion/serialize": "^1.3.3",
     "@emotion/utils": "^1.4.2",
     "@floating-ui/dom": "^1.7.4",
-    "@innoai-tech/lodash": "^0.2.5",
+    "es-toolkit": "^1.40.0",
     "@innoai-tech/vuekit": "workspace:^",
     "@material/material-color-utilities": "^0.3.0",
     "polished": "^4.3.1",

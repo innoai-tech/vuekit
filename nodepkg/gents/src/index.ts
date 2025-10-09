@@ -1,8 +1,7 @@
 import { join } from "path";
 import { type AppConfig } from "@innoai-tech/config";
-import { camelCase } from "@innoai-tech/lodash";
+import { camelCase } from "es-toolkit/compat";
 import { readFile } from "fs/promises";
-import fetch from "node-fetch";
 import { ClientGen, type RequestCreator } from "./ClientGen";
 
 export interface GenerateOptions {

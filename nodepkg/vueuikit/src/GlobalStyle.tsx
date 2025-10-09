@@ -1,4 +1,4 @@
-import { isString } from "@innoai-tech/lodash";
+import { isString } from "es-toolkit/compat";
 import { component } from "@innoai-tech/vuekit";
 import { onBeforeMount } from "vue";
 import { CacheProvider } from "./CacheProvider";

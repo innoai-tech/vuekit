@@ -1,4 +1,4 @@
-import { isString } from "@innoai-tech/lodash";
+import { isString } from "es-toolkit/compat";
 import type { CSSAllProps, Globals } from "../csstype";
 import { CSSAllProperty, CSSProperty, expandAliases } from "../csstype";
 import type { UnionToIntersection, ValuesOf } from "../typeutil";

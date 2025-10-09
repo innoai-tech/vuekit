@@ -1,6 +1,5 @@
 import { Schema, t, type Type } from "../core";
-import { isNumber, isString } from "../core/util";
-import { camelCase } from "@innoai-tech/lodash";
+import { camelCase, isNumber, isString } from "es-toolkit/compat";
 
 export class TypeScriptEncoder {
   static encode(type: Type, all = true): string {

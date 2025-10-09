@@ -1,4 +1,4 @@
-import { get as lodashGet } from "@innoai-tech/lodash";
+import { get as lodashGet } from "es-toolkit/compat";
 import { keyPathToSchemaKeyPath, defineExpression } from "../Expression";
 
 export const get = defineExpression("get", (ref: string) => (ctx: any) => {

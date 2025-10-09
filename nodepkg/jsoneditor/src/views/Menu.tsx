@@ -7,7 +7,7 @@ import {
   type VNodeChild,
 } from "@innoai-tech/vuekit";
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 import { size } from "@floating-ui/dom";
 import { delay, EMPTY, fromEvent, merge, switchMap, tap } from "rxjs";
 

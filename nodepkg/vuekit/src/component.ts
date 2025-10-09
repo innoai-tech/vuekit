@@ -4,7 +4,7 @@ import {
   isUndefined,
   kebabCase,
   partition,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import { Fragment as OriginFragment } from "vue";
 import type {
   Component,

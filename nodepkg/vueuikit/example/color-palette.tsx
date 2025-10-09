@@ -1,4 +1,4 @@
-import { map } from "@innoai-tech/lodash";
+import { map } from "es-toolkit/compat";
 import { component, ref } from "@innoai-tech/vuekit";
 import { Palette } from "@innoai-tech/vueuikit";
 import { Box } from "@innoai-tech/vueuikit";

@@ -28,7 +28,7 @@ import {
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold } from "@mdi/js";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 import {
   ActionBtn,
   Menu,

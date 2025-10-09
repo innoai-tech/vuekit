@@ -1,6 +1,6 @@
 import { type Context, defineType } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isNull, isString, isUndefined } from "./util.ts";
+import { isNull, isString, isUndefined } from "es-toolkit/compat";
 
 export class TypeString extends TypeUnknown<string, { type: "string" }> {
   static create = defineType(() => {

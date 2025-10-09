@@ -16,7 +16,7 @@ import {
   validate,
 } from "./Type.ts";
 import { Schema } from "./Schema.ts";
-import { isString } from "./util.ts";
+import { isString } from "es-toolkit/compat";
 
 export class TypeUnknown<T = unknown, Schema = unknown>
   implements Type<T, Schema>

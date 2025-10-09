@@ -1,5 +1,5 @@
 import { type Context, Schema, t, type Type } from "@innoai-tech/typedef";
-import { get, isArray, isObject, isUndefined } from "@innoai-tech/lodash";
+import { get, isArray, isObject, isUndefined } from "es-toolkit/compat";
 import type { ValueContext } from "./models";
 
 type ValueLine = {

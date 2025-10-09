@@ -21,8 +21,7 @@
   },
   "prettier": {},
   "dependencies": {
-    "@innoai-tech/fetcher": "^0.6.6",
-    "@innoai-tech/lodash": "^0.2.5",
+    "@innoai-tech/fetcher": "^0.7.0",
     "@innoai-tech/jsoneditor": "workspace:*",
     "@innoai-tech/vuekit": "workspace:*",
     "@innoai-tech/vueuikit": "workspace:*",
@@ -31,9 +30,9 @@
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^19.0.2",
-    "@innoai-tech/config": "^0.6.4",
+    "@innoai-tech/config": "^0.6.5",
     "@innoai-tech/devconfig": "^0.5.0",
-    "@innoai-tech/monobundle": "^0.16.1",
+    "@innoai-tech/monobundle": "^0.16.2",
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
@@ -44,13 +43,14 @@
     "normalize.css": "^8.0.1",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "vite-plugin-vue-devtools": "^8.0.2",
-    "vue": "^3.5.22"
+    "vue": "^3.5.22",
+    "es-toolkit": "^1.40.0"
   },
   "resolutions": {
-    "rolldown": "^1.0.0-beta.41",
-    "rolldown-vite": "^7.1.13",
+    "rolldown": "^1.0.0-beta.42",
+    "rolldown-vite": "^7.1.16",
     "vue": "^3.5.22"
   }
 }

@@ -1,6 +1,6 @@
 import { type Context, defineType } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isNumber } from "./util.ts";
+import { isNumber } from "es-toolkit/compat";
 
 export class TypeNumber extends TypeUnknown<number, { type: "number" }> {
   static create = defineType(() => {

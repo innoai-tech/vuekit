@@ -1,7 +1,7 @@
 import { component, observableRef } from "@innoai-tech/vuekit";
 import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { cloneVNode, type VNodeChild, watch } from "vue";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 import { Icon } from "../icons";
 import { mdiCheck } from "@mdi/js";
 import { sameWidth } from "./util.ts";

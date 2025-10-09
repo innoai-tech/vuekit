@@ -1,4 +1,4 @@
-import { has, isFunction } from "@innoai-tech/lodash";
+import { has, isFunction } from "es-toolkit/compat";
 
 export const alpha = (a: number) => {
   return (cssVar: string): any => `rgba(var(${cssVar}--rgb) / ${a})`;

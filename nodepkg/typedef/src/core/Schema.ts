@@ -1,4 +1,4 @@
-import { isArray, isObject, isUndefined } from "./util.ts";
+import { isArray, isObject, isUndefined } from "es-toolkit/compat";
 import type { OmitBy, PickBy } from "./Type.ts";
 
 export type Simplify<T> = T extends any[] ? T : { [K in keyof T]: T[K] } & {};

@@ -1,4 +1,4 @@
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 import {
   type ExpressionBuildFunc,
   isValidBuildExprFn,

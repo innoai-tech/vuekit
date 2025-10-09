@@ -1,4 +1,4 @@
-import { isFunction } from "./util.ts";
+import { isFunction } from "es-toolkit/compat";
 import { produce } from "immer";
 import "reflect-metadata/lite";
 

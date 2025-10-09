@@ -1,4 +1,4 @@
-import { map } from "@innoai-tech/lodash";
+import { map } from "es-toolkit/compat";
 import { component, Fragment } from "@innoai-tech/vuekit";
 import {
   FilledButton,

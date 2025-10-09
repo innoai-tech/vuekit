@@ -7,7 +7,7 @@ import {
   EmptyContext,
 } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isArray } from "./util.ts";
+import { isArray } from "es-toolkit/compat";
 
 export class TypeArray<T, S extends Type> extends TypeUnknown<
   T,

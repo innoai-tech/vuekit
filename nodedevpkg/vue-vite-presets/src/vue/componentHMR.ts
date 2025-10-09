@@ -1,5 +1,5 @@
 import { basename, extname } from "path";
-import { camelCase, upperFirst } from "@innoai-tech/lodash";
+import { camelCase, upperFirst } from "es-toolkit/compat";
 import { type Plugin, createFilter } from "rolldown-vite";
 import { getHash } from "../helpers";
 

@@ -27,7 +27,7 @@ import {
 } from "./TypeUnknown.ts";
 import { TypeNever } from "./TypeNever.ts";
 import { Schema } from "./Schema.ts";
-import { isArray } from "./util.ts";
+import { isArray } from "es-toolkit/compat";
 
 export const ref = TypeRef.create;
 export const any = TypeAny.create;

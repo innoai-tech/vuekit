@@ -1,4 +1,4 @@
-import { isArray } from "@innoai-tech/lodash";
+import { isArray } from "es-toolkit/compat";
 import { tap } from "rxjs";
 
 const equal = (a: any, b: any) => {

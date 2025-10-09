@@ -18,7 +18,7 @@ import {
   isString,
   isUndefined,
   last,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import { combineLatest } from "rxjs";
 import {
   CopyAsJSONIconBtn,

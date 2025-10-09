@@ -1,14 +1,14 @@
 {
   "name": "@innoai-tech/vueformdata",
-  "version": "0.6.1",
+  "version": "0.7.0",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
-    "@innoai-tech/lodash": "^0.2.5",
     "@innoai-tech/vuekit": "workspace:^",
+    "es-toolkit": "^1.40.0",
     "rxjs": "^7.8.2"
   },
   "peerDependencies": {},

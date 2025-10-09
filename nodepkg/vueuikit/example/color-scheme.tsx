@@ -1,4 +1,4 @@
-import { map, upperFirst } from "@innoai-tech/lodash";
+import { map, upperFirst } from "es-toolkit/compat";
 import { Fragment, component } from "@innoai-tech/vuekit";
 import { Box } from "@innoai-tech/vueuikit";
 

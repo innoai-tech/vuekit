@@ -17,7 +17,7 @@ import {
   type RequestSubject,
   transformRequestBody,
 } from "@innoai-tech/fetcher";
-import { get, pick } from "@innoai-tech/lodash";
+import { get, pick } from "es-toolkit/compat";
 
 export interface JSONSchema {
   type?: string;

@@ -1,4 +1,4 @@
-import { isFunction, isObject, isString, map } from "@innoai-tech/lodash";
+import { isFunction, isObject, isString, map } from "es-toolkit/compat";
 import { writeFile } from "fs/promises";
 
 export class ID {

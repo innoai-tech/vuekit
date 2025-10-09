@@ -5,7 +5,7 @@ import {
   kebabCase,
   last,
   set,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import {
   aliases,
   extensions,

@@ -1,4 +1,4 @@
-import { isEmpty, isFunction, isUndefined } from "@innoai-tech/lodash";
+import { isEmpty, isFunction, isUndefined } from "es-toolkit/compat";
 import { type Type, t } from "@innoai-tech/typedef";
 import { type ComponentOptions, component } from "./component";
 import { ext } from "./ext";

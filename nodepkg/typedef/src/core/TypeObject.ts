@@ -9,9 +9,10 @@ import {
 import { TypeUnknown } from "./TypeUnknown.ts";
 import { TypeNever } from "./TypeNever.ts";
 import { type Constructor, Schema, type Simplify } from "./Schema.ts";
-import { isClass, isObjectLike } from "./util.ts";
+import { isObjectLike } from "es-toolkit/compat";
 import { TypeEnum } from "./TypeEnum.ts";
 import { Metadata } from "./Metadata.ts";
+import { isClass } from "./util.ts";
 
 type ObjectSchema<Props extends Record<string, Type>> = {
   type: "object";
@@ -122,7 +123,7 @@ export class TypeObject<
     ctx: Context = EmptyContext,
   ): Iterable<[string | number | symbol, unknown, Type | Type<never>]> {
     if (isObjectLike(value)) {
-      const propNames = new Set(Object.keys(value));
+      const propNames = new Set(Object.keys(value as object));
 
       if (this.schema.properties) {
         for (const key in this.schema.properties) {
@@ -149,7 +150,7 @@ export class TypeObject<
 
   override coercer(value: unknown, ctx: Context): T | undefined {
     if (isObjectLike(value)) {
-      const v: { [k: string]: any } = { ...value };
+      const v: { [k: string]: any } = { ...(value as object) };
 
       if (ctx.mask) {
         // FIXME: support object with additionalProperties

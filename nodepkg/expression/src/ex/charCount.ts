@@ -1,4 +1,4 @@
-import { isString } from "@innoai-tech/lodash";
+import { isString } from "es-toolkit/compat";
 import { defineExpression } from "../Expression";
 
 export const charCount = defineExpression("charCount", () => () => {

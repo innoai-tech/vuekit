@@ -1,4 +1,4 @@
-import { isArray, isPlainObject } from "@innoai-tech/lodash";
+import { isArray, isPlainObject } from "es-toolkit/compat";
 
 export class Entity<K extends string | symbol | number, V extends any> {
   static *entities(values: any): Generator<Entity<any, any>> {

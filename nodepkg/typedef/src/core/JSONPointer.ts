@@ -1,4 +1,4 @@
-import { Schema } from "@innoai-tech/typedef";
+import { Schema } from "./Schema.ts";
 
 export class JSONPointer {
   static parse(pointer: string): any[] {

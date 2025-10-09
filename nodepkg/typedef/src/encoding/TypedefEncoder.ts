@@ -1,7 +1,7 @@
 import { Schema, t, type Type } from "../core";
 import { TypeScriptEncoder } from "./TypeScriptEncoder.ts";
 import { validationRules } from "./JSONSchemaDecoder.ts";
-import { isUndefined } from "../core/util.ts";
+import { isUndefined } from "es-toolkit/compat";
 
 export class TypedefEncoder {
   static encode<T extends Type>(type: T): string {

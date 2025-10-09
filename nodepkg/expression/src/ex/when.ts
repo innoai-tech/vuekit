@@ -1,4 +1,4 @@
-import { get } from "@innoai-tech/lodash";
+import { get } from "es-toolkit/compat";
 import { type ExpressionBuildFunc, defineExpression } from "../Expression";
 
 export const when = defineExpression(

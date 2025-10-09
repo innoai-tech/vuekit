@@ -1,4 +1,4 @@
-import { size } from "@innoai-tech/lodash";
+import { size } from "es-toolkit/compat";
 import { defineExpression } from "../Expression";
 
 export const len = defineExpression("len", () => (ctx: any) => {

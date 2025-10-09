@@ -1,4 +1,4 @@
-import { isFunction } from "@innoai-tech/lodash";
+import { isFunction } from "es-toolkit/compat";
 import { produce } from "immer";
 import { customRef, type Ref } from "vue";
 import { ImmerBehaviorSubject, type ImmerSubject } from "./Immer";

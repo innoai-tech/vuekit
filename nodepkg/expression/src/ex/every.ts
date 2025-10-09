@@ -3,7 +3,7 @@ import {
   type ExpressionBuildFunc,
   isValidBuildExprFn,
 } from "../Expression.ts";
-import { isArray, isPlainObject } from "@innoai-tech/lodash";
+import { isArray, isPlainObject } from "es-toolkit/compat";
 import { Entity } from "../iter";
 
 export const every = defineExpression(

@@ -9,7 +9,7 @@ import {
   kebabCase,
   mapValues,
   set,
-} from "@innoai-tech/lodash";
+} from "es-toolkit/compat";
 import { CSSProcessor } from "./CSSProcessor";
 import { type CSSAllProps, type FullCSSObject } from "./csstype";
 import {

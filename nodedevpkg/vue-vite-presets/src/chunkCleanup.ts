@@ -1,6 +1,6 @@
 import { transform, usePlugin } from "@innoai-tech/purebundle";
 import { createFilter, type Plugin } from "rolldown-vite";
-import { isUndefined } from "@innoai-tech/lodash";
+import { isUndefined } from "es-toolkit/compat";
 
 export const chunkCleanup = (
   opt: {
