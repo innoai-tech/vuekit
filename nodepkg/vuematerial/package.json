@@ -1,16 +1,16 @@
 {
   "name": "@innoai-tech/vuematerial",
-  "version": "0.7.0",
+  "version": "0.7.1",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
   },
   "dependencies": {
-    "es-toolkit": "^1.40.0",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
     "@mdi/js": "^7.4.47",
+    "es-toolkit": "^1.40.0",
     "vue": "^3.5.22"
   },
   "peerDependencies": {},

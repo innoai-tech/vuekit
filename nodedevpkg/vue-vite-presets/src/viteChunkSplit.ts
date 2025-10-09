@@ -150,8 +150,18 @@ class ChunkSplit {
       }
     };
 
+    // workload pkgs first
     for (const [name] of Object.entries(ctx.dependencies)) {
-      await load(name);
+      if (workspacePkgs[name]) {
+        await load(name);
+      }
+    }
+
+    // then others pkgs
+    for (const [name] of Object.entries(ctx.dependencies)) {
+      if (!workspacePkgs[name]) {
+        await load(name);
+      }
     }
 
     return new ChunkSplit(root, ctx);

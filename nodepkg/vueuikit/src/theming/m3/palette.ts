@@ -1,14 +1,9 @@
+import { isNumber, mapValues, padStart } from "es-toolkit/compat";
 import {
-  type Dictionary,
-  isNumber,
-  mapValues,
-  padStart,
-} from "es-toolkit/compat";
-import {
-  CorePalette,
-  TonalPalette,
   argbFromHex,
+  CorePalette,
   rgbaFromArgb,
+  TonalPalette,
 } from "@material/material-color-utilities";
 import { DesignToken, type WithMixin } from "../token";
 
@@ -210,7 +205,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
       neutral: palette.n1,
       neutralVariant: palette.n2,
       error: palette.error,
-      ...(mapValues(otherColors as Dictionary<string>, (v) =>
+      ...(mapValues(otherColors as Record<string, string>, (v) =>
         TonalPalette.fromInt(argbFromHex(v)),
       ) as any),
     });

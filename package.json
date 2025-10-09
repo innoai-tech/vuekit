@@ -21,10 +21,10 @@
   },
   "prettier": {},
   "dependencies": {
-    "@innoai-tech/fetcher": "^0.7.0",
     "@innoai-tech/jsoneditor": "workspace:*",
     "@innoai-tech/vuekit": "workspace:*",
     "@innoai-tech/vueuikit": "workspace:*",
+    "@innoai-tech/fetcher": "^0.7.2",
     "mermaid": "^11.12.0",
     "rxjs": "^7.8.2"
   },
