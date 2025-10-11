@@ -4,7 +4,7 @@
     "": {
       "name": "vuekit",
       "dependencies": {
-        "@innoai-tech/fetcher": "^0.7.2",
+        "@innoai-tech/fetcher": "^0.7.3",
         "@innoai-tech/jsoneditor": "workspace:*",
         "@innoai-tech/vuekit": "workspace:*",
         "@innoai-tech/vueuikit": "workspace:*",
@@ -34,7 +34,7 @@
     },
     "nodedevpkg/vue-vite-presets": {
       "name": "@innoai-tech/vue-vite-presets",
-      "version": "0.12.5",
+      "version": "0.12.6",
       "dependencies": {
         "@innoai-tech/purebundle": "^0.6.13",
         "@innoai-tech/vuecomponentcompleter": "^0.3.12",
@@ -78,7 +78,7 @@
         "es-toolkit": "^1.40.0",
       },
       "devDependencies": {
-        "@innoai-tech/fetcher": "^0.7.2",
+        "@innoai-tech/fetcher": "^0.7.3",
       },
       "peerDependencies": {
         "@innoai-tech/config": "*",
@@ -88,7 +88,6 @@
       "name": "@innoai-tech/jsoneditor",
       "version": "0.5.1",
       "dependencies": {
-        "@floating-ui/core": "^1.7.3",
         "@floating-ui/dom": "^1.7.4",
         "@innoai-tech/vuekit": "workspace:^",
         "@innoai-tech/vuemarkdown": "workspace:^",
@@ -143,8 +142,6 @@
       "version": "0.5.1",
       "dependencies": {
         "@innoai-tech/vuekit": "workspace:^",
-        "@types/hast": "^3.0.4",
-        "@types/mdast": "^4.0.4",
         "hast-util-to-jsx-runtime": "^2.3.6",
         "mdast-util-directive": "^3.1.0",
         "mdast-util-from-markdown": "^2.0.2",
@@ -152,7 +149,6 @@
         "mdast-util-to-hast": "^13.2.0",
         "micromark-extension-directive": "^4.0.0",
         "micromark-extension-gfm": "^3.0.0",
-        "vfile": "^6.0.3",
       },
     },
     "nodepkg/vuematerial": {
@@ -311,7 +307,7 @@
 
     "@innoai-tech/expression": ["@innoai-tech/expression@workspace:nodepkg/expression"],
 
-    "@innoai-tech/fetcher": ["@innoai-tech/fetcher@0.7.2", "https://npm.pkg.github.com/download/@innoai-tech/fetcher/0.7.2/a9066ca23a816e64cdde244fd593566c278201c9", { "peerDependencies": { "rxjs": "7.x" } }, "sha512-ttrTC6xjEwPylRi5aN/uPTwLEJqMXEPihqfTy1OkkOoCCvPyHxD04ACE6bqEHvXIO35keyixQOIUVbyxy9CqBA=="],
+    "@innoai-tech/fetcher": ["@innoai-tech/fetcher@0.7.3", "https://npm.pkg.github.com/download/@innoai-tech/fetcher/0.7.3/6e6d93fd293bca3d0549fbf68125c665129360df", { "peerDependencies": { "rxjs": "7.x" } }, "sha512-mGyeb0+zgFIU6R69qXen5GjT0E1yJr5huZhuhT4axTIemeaC8Y3h228KrwNrDUdvBrC9UD6CYA/NvULU1wClwg=="],
 
     "@innoai-tech/gents": ["@innoai-tech/gents@workspace:nodepkg/gents"],
 

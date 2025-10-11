@@ -130,22 +130,20 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
 
     const contentType = Object.keys(op.requestBody?.content ?? {})[0];
 
-    return (inputs: Record<string, any>): RequestConfig<any> => {
+    return (inputs: Record<string, any> = {}): RequestConfig<any> => {
       return {
         method: op.method.toUpperCase(),
         url: this.#baseURL + compilePath(op.path, inputs),
         params: pick(
           inputs,
-          op.parameters
-            ?.filter((p) => p.in == "query")
-            .map((p) => p.name) as any[],
+          op.parameters?.filter((p) => p.in == "query").map((p) => p.name) ??
+            [],
         ),
         headers: {
           ...pick(
             inputs,
-            op.parameters
-              ?.filter((p) => p.in == "header")
-              .map((p) => p.name) as any[],
+            op.parameters?.filter((p) => p.in == "header").map((p) => p.name) ??
+              [],
           ),
           ...(contentType
             ? {

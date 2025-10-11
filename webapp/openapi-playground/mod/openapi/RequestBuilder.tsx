@@ -123,7 +123,7 @@ export const RequestBuilder = component$<{
       if (!createConfig) {
         return null;
       }
-      return <HttpRequest request={createConfig(inputs)} />;
+      return <HttpRequest request={createConfig(inputs ?? {})} />;
     })
   );
 

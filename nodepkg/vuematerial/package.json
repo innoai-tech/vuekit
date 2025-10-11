@@ -7,9 +7,9 @@
     }
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.7.4",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
-    "@floating-ui/dom": "^1.7.4",
     "@mdi/js": "^7.4.47",
     "es-toolkit": "^1.40.0",
     "vue": "^3.5.22"

@@ -10,11 +10,11 @@
     }
   },
   "dependencies": {
+    "@floating-ui/dom": "^1.7.4",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vuemarkdown": "workspace:^",
     "@innoai-tech/vuematerial": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
-    "@floating-ui/dom": "^1.7.4",
     "@mdi/js": "^7.4.47",
     "copy-to-clipboard": "^3.3.3"
   },

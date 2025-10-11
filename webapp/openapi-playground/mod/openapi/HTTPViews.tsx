@@ -183,6 +183,8 @@ export const HTTPResponse = component(
         );
       }
 
+      console.log(response)
+
       return (
         <CodeView>
           <span>HTTP/* {response.status}</span>
