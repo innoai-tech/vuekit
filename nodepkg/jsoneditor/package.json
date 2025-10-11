@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/jsoneditor",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "monobundle": {
     "build": {
       "clean": true
@@ -14,6 +14,7 @@
     "@innoai-tech/vuemarkdown": "workspace:^",
     "@innoai-tech/vuematerial": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
+    "@floating-ui/dom": "^1.7.4",
     "@mdi/js": "^7.4.47",
     "copy-to-clipboard": "^3.3.3"
   },

@@ -15,44 +15,54 @@ export default defineConfig({
     assetsDir: appName == "vuekit" ? "static" : "assets",
   },
   plugins: [
-    appName == "openapi-playground"
-      ? [
-          app(appName, {
-            enableBaseHref: true,
-            buildWithPlaceHolder: true,
-          }),
-          injectWebAppConfig((_, ac) => {
-            ac.config["OPENAPI"] = process.env["APP_CONFIG__OPENAPI"] ?? "";
-          }),
-        ]
-      : [
-          app(appName, {
-            enableBaseHref: true,
-          }),
-        ],
-    viteVue({
-      ...(appName == "vuekit"
-        ? {
-            pagesDirs: [
-              { baseRoute: "", dir: "page" },
-              { baseRoute: "vuekit", dir: "../../nodepkg/vuekit/example" },
-              { baseRoute: "vueuikit", dir: "../../nodepkg/vueuikit/example" },
-              {
-                baseRoute: "vuematerial",
-                dir: "../../nodepkg/vuematerial/example",
-              },
-              {
-                baseRoute: "vuemarkdown",
-                dir: "../../nodepkg/vuemarkdown/example",
-              },
-              {
-                baseRoute: "jsoneditor",
-                dir: "../../nodepkg/jsoneditor/example",
-              },
-            ],
-          }
-        : {}),
-    }),
+    ...(() => {
+      switch (appName) {
+        case "openapi-playground":
+          return [
+            app(appName, {
+              enableBaseHref: true,
+              buildWithPlaceHolder: true,
+            }),
+            injectWebAppConfig((_, ac) => {
+              ac.config["OPENAPI"] = process.env["APP_CONFIG__OPENAPI"] ?? "";
+            }),
+            viteVue({}),
+          ];
+        case "vuekit":
+          return [
+            app(appName, {
+              enableBaseHref: true,
+            }),
+            viteVue({
+              pagesDirs: [
+                { baseRoute: "", dir: "page" },
+                {
+                  baseRoute: "vuekit",
+                  dir: "../../nodepkg/vuekit/example",
+                },
+                {
+                  baseRoute: "vueuikit",
+                  dir: "../../nodepkg/vueuikit/example",
+                },
+                {
+                  baseRoute: "vuematerial",
+                  dir: "../../nodepkg/vuematerial/example",
+                },
+                {
+                  baseRoute: "vuemarkdown",
+                  dir: "../../nodepkg/vuemarkdown/example",
+                },
+                {
+                  baseRoute: "jsoneditor",
+                  dir: "../../nodepkg/jsoneditor/example",
+                },
+              ],
+            }),
+          ];
+      }
+
+      return [];
+    })(),
     viteChunkSplit({
       lib: [/nodepkg\/([^/]+)\/src/, /webapp\/([^/]+)\/mod/],
     }),

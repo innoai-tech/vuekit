@@ -32,7 +32,7 @@ export const chunkCleanup = (
       c.build = c.build ?? {};
 
       if (!isUndefined(opt.minify)) {
-        // when minify set, disable default esbuild minify
+        // when minify set, disable default minify
         c.build.minify = false;
       }
     },

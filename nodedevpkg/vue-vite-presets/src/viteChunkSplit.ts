@@ -75,10 +75,22 @@ export const viteChunkSplit = (
 };
 
 class Package {
-  static async load(dir: string) {
-    const pkg = JSON.parse(String(await readFile(join(dir, "package.json"))));
+  static async load(dirs: string[], name: string): Promise<Package> {
+    let pkg: any = {};
+    let pkgDir = "";
 
-    return new Package(pkg.name, dir, pkg.dependencies);
+    for (const dir of dirs) {
+      try {
+        pkg = JSON.parse(String(await readFile(join(dir, "package.json"))));
+        pkgDir = dir;
+      } catch (err) {}
+    }
+
+    if (pkgDir == "") {
+      throw new Error(`package ${name} not found, resolve-dirs:${dirs}`);
+    }
+
+    return new Package(pkg.name, pkgDir, pkg.dependencies);
   }
 
   constructor(
@@ -125,18 +137,19 @@ class ChunkSplit {
         cwd: root,
       },
     )) {
-      const wp = await Package.load(dirname(packageJSON));
+      const dir = dirname(packageJSON);
+      const wp = await Package.load([dir], basename(dir));
 
       workspacePkgs[wp.name] = wp;
     }
 
-    const load = async (name: string) => {
+    const load = async (name: string, root: string) => {
       let wp = workspacePkgs[name];
 
       if (wp) {
         for (const [name] of Object.entries(wp.dependencies)) {
           // dep load first
-          await load(name);
+          await load(name, wp.dir);
         }
 
         ctx.packages[wp.name] = wp;
@@ -145,7 +158,10 @@ class ChunkSplit {
       }
 
       if (!ctx.packages[name]) {
-        wp = await Package.load(join("node_modules", name));
+        wp = await Package.load(
+          [join("node_modules", name), join(root, "node_modules", name)],
+          name,
+        );
         ctx.packages[wp.name] = wp;
       }
     };
@@ -153,14 +169,14 @@ class ChunkSplit {
     // workload pkgs first
     for (const [name] of Object.entries(ctx.dependencies)) {
       if (workspacePkgs[name]) {
-        await load(name);
+        await load(name, root);
       }
     }
 
     // then others pkgs
     for (const [name] of Object.entries(ctx.dependencies)) {
       if (!workspacePkgs[name]) {
-        await load(name);
+        await load(name, root);
       }
     }
 

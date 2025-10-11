@@ -17,7 +17,7 @@
     "@innoai-tech/config": "*"
   },
   "devDependencies": {
-    "@innoai-tech/fetcher": "^0.7.0"
+    "@innoai-tech/fetcher": "^0.7.2"
   },
   "exports": {
     ".": {

@@ -7,8 +7,8 @@
     }
   },
   "dependencies": {
-    "reflect-metadata": "^0.2.2",
-    "immer": "^10.1.3"
+    "immer": "^10.1.3",
+    "reflect-metadata": "^0.2.2"
   },
   "peerDependencies": {
     "es-toolkit": "^1.40.0"
