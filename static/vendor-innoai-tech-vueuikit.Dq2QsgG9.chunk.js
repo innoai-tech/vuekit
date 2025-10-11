@@ -1,7 +1,7 @@
 let e;
 import { r as n, t } from "./rolldown-runtime.D8qhy2Lt.chunk.js";
-import { $ as a, A as r, At as s, Bt as o, C as i, Ct as l, Dt as c, E as u, Et as p, G as d, Ht as h, J as m, K as f, Lt as k, Mt as g, Nt as N, Ot as y, Q as b, Rt as v, St as x, T as w, Tt as C, U as M, Vt as P, W as S, X as _, Y as A, Z as T, _t as L, at as R, bt as $, c as D, ct as O, dt as H, et as V, f as I, ft as B, g as F, gt as E, ht as j, i as W, it as z, j as U, jt as q, kt as G, l as Y, lt as X, m as K, mt as Z, nt as J, o as Q, ot as ee, p as en, pt as et, q as ea, r as er, rt as es, st as eo, u as ei, ut as el, vt as ec, w as eu, wt as ep, xt as ed, yt as eh, zt as em } from "./vendor-innoai-tech-vuekit.BWaMSRNh.chunk.js";
-import { l as ef, v as ek } from "./vendor-rxjs.D-0PU470.chunk.js";
+import { $t as a, At as r, Bt as s, Ct as o, Dt as i, Et as l, Ft as c, Gt as u, Ht as p, I as d, It as h, Kt as m, L as f, Lt as k, Mt as g, Nt as N, Ot as y, Pt as b, Qt as v, R as x, Rt as w, St as C, Tt as M, U as P, Ut as S, Vt as _, W as A, Wt as T, Xt as L, Zt as R, _t as $, at as D, bt as O, c as H, ct as V, dt as I, en as B, f as F, ft as E, g as j, gt as W, ht as z, i as U, it as q, jt as G, kt as Y, l as X, lt as K, m as Z, nt as J, o as Q, ot as ee, p as en, pt as et, r as ea, rt as er, st as es, tn as eo, u as ei, ut as el, vt as ec, w as eu, wt as ep, xt as ed, yt as eh, z as em, zt as ef } from "./vendor-innoai-tech-vuekit.BKRMrcGB.chunk.js";
+import { t as ek } from "./vendor-rxjs.CsNJjMpf.chunk.js";
 var eg, eN, ey, eb, ev, ex, ew, eC, eM = void 0, eP = "undefined" != typeof window && window.trustedTypes;
 if (eP) try {
 	eM = eP.createPolicy("vue", { createHTML: (e) => e });
@@ -27,62 +27,62 @@ var eS = eM ? (e) => eM.createHTML(e) : (e) => e, e_ = "undefined" != typeof doc
 	leaveFromClass: String,
 	leaveActiveClass: String,
 	leaveToClass: String
-}, eD = eo({}, S, e$), eO = ((eg = (e, { slots: n }) => T(M, function(e) {
+}, eD = O({}, er, e$), eO = ((eg = (e, { slots: n }) => el(J, function(e) {
 	let n = {};
 	for (let t in e) t in e$ || (n[t] = e[t]);
 	if (!1 === e.css) return n;
-	let { name: t = "v", type: a, duration: r, enterFromClass: s = `${t}-enter-from`, enterActiveClass: o = `${t}-enter-active`, enterToClass: i = `${t}-enter-to`, appearFromClass: l = s, appearActiveClass: c = o, appearToClass: u = i, leaveFromClass: p = `${t}-leave-from`, leaveActiveClass: d = `${t}-leave-active`, leaveToClass: h = `${t}-leave-to` } = e, m = function(e) {
+	let { name: t = "v", type: a, duration: r, enterFromClass: s = `${t}-enter-from`, enterActiveClass: o = `${t}-enter-active`, enterToClass: i = `${t}-enter-to`, appearFromClass: c = s, appearActiveClass: u = o, appearToClass: p = i, leaveFromClass: d = `${t}-leave-from`, leaveActiveClass: h = `${t}-leave-active`, leaveToClass: m = `${t}-leave-to` } = e, f = function(e) {
 		if (null == e) return null;
 		{
-			if (et(e)) return [function(e) {
-				return ec(e);
+			if (l(e)) return [function(e) {
+				return G(e);
 			}(e.enter), function(e) {
-				return ec(e);
+				return G(e);
 			}(e.leave)];
 			let n = function(e) {
-				return ec(e);
+				return G(e);
 			}(e);
 			return [n, n];
 		}
-	}(r), f = m && m[0], k = m && m[1], { onBeforeEnter: g, onEnter: N, onEnterCancelled: y, onLeave: b, onLeaveCancelled: v, onBeforeAppear: x = g, onAppear: w = N, onAppearCancelled: C = y } = n, M = (e, n, t, a) => {
-		e._enterCancelled = a, eB(e, n ? u : i), eB(e, n ? c : o), t && t();
-	}, P = (e, n) => {
-		e._isLeaving = !1, eB(e, p), eB(e, h), eB(e, d), n && n();
-	}, S = (e) => (n, t) => {
-		let r = e ? w : N, o = () => M(n, e, t);
+	}(r), k = f && f[0], g = f && f[1], { onBeforeEnter: N, onEnter: y, onEnterCancelled: b, onLeave: v, onLeaveCancelled: x, onBeforeAppear: w = N, onAppear: C = y, onAppearCancelled: M = b } = n, P = (e, n, t, a) => {
+		e._enterCancelled = a, eB(e, n ? p : i), eB(e, n ? u : o), t && t();
+	}, S = (e, n) => {
+		e._isLeaving = !1, eB(e, d), eB(e, m), eB(e, h), n && n();
+	}, _ = (e) => (n, t) => {
+		let r = e ? C : y, o = () => P(n, e, t);
 		eH(r, [n, o]), eF(() => {
-			eB(n, e ? l : s), eI(n, e ? u : i), eV(r) || ej(n, a, f, o);
+			eB(n, e ? c : s), eI(n, e ? p : i), eV(r) || ej(n, a, k, o);
 		});
 	};
-	return eo(n, {
+	return O(n, {
 		onBeforeEnter(e) {
-			eH(g, [e]), eI(e, s), eI(e, o);
+			eH(N, [e]), eI(e, s), eI(e, o);
 		},
 		onBeforeAppear(e) {
-			eH(x, [e]), eI(e, l), eI(e, c);
+			eH(w, [e]), eI(e, c), eI(e, u);
 		},
-		onEnter: S(!1),
-		onAppear: S(!0),
+		onEnter: _(!1),
+		onAppear: _(!0),
 		onLeave(e, n) {
 			e._isLeaving = !0;
-			let t = () => P(e, n);
-			eI(e, p), e._enterCancelled ? (eI(e, d), eU(e)) : (eU(e), eI(e, d)), eF(() => {
-				e._isLeaving && (eB(e, p), eI(e, h), eV(b) || ej(e, a, k, t));
-			}), eH(b, [e, t]);
+			let t = () => S(e, n);
+			eI(e, d), e._enterCancelled ? (eI(e, h), eU(e)) : (eU(e), eI(e, h)), eF(() => {
+				e._isLeaving && (eB(e, d), eI(e, m), eV(v) || ej(e, a, g, t));
+			}), eH(v, [e, t]);
 		},
 		onEnterCancelled(e) {
-			M(e, !1, void 0, !0), eH(y, [e]);
+			P(e, !1, void 0, !0), eH(b, [e]);
 		},
 		onAppearCancelled(e) {
-			M(e, !0, void 0, !0), eH(C, [e]);
+			P(e, !0, void 0, !0), eH(M, [e]);
 		},
 		onLeaveCancelled(e) {
-			P(e), eH(v, [e]);
+			S(e), eH(x, [e]);
 		}
 	});
 }(e), n)).displayName = "Transition", eg.props = eD, eg), eH = (e, n = []) => {
-	el(e) ? e.forEach((e) => e(...n)) : e && e(...n);
-}, eV = (e) => !!e && (el(e) ? e.some((e) => e.length > 1) : e.length > 1);
+	o(e) ? e.forEach((e) => e(...n)) : e && e(...n);
+}, eV = (e) => !!e && (o(e) ? e.some((e) => e.length > 1) : e.length > 1);
 function eI(e, n) {
 	n.split(/\s+/).forEach((n) => n && e.classList.add(n)), (e[eR] || (e[eR] = /* @__PURE__ */ new Set())).add(n);
 }
@@ -98,26 +98,30 @@ function eF(e) {
 }
 var eE = 0;
 function ej(e, n, t, a) {
-	var r, s;
-	let o, i, l, c, u, p, d, h, m, f, k, g, N = e._endId = ++eE, y = () => {
-		N === e._endId && a();
+	let r = e._endId = ++eE, s = () => {
+		r === e._endId && a();
 	};
-	if (null != t) return setTimeout(y, t);
-	let { type: b, timeout: v, propCount: x } = (r = e, s = n, o = window.getComputedStyle(r), l = (i = (e) => (o[e] || "").split(", "))(`${eT}Delay`), u = eW(l, c = i(`${eT}Duration`)), p = i(`${eL}Delay`), h = eW(p, d = i(`${eL}Duration`)), m = null, f = 0, k = 0, s === eT ? u > 0 && (m = eT, f = u, k = c.length) : s === eL ? h > 0 && (m = eL, f = h, k = d.length) : k = (m = (f = Math.max(u, h)) > 0 ? u > h ? eT : eL : null) ? m === eT ? c.length : d.length : 0, g = m === eT && /\b(?:transform|all)(?:,|$)/.test(i(`${eT}Property`).toString()), {
-		type: m,
-		timeout: f,
-		propCount: k,
-		hasTransform: g
-	});
-	if (!b) return a();
-	let w = b + "end", C = 0, M = () => {
-		e.removeEventListener(w, P), y();
-	}, P = (n) => {
-		n.target === e && ++C >= x && M();
+	if (null != t) return setTimeout(s, t);
+	let { type: o, timeout: i, propCount: l } = function(e, n) {
+		let t = window.getComputedStyle(e), a = (e) => (t[e] || "").split(", "), r = a(`${eT}Delay`), s = a(`${eT}Duration`), o = eW(r, s), i = a(`${eL}Delay`), l = a(`${eL}Duration`), c = eW(i, l), u = null, p = 0, d = 0;
+		n === eT ? o > 0 && (u = eT, p = o, d = s.length) : n === eL ? c > 0 && (u = eL, p = c, d = l.length) : d = (u = (p = Math.max(o, c)) > 0 ? o > c ? eT : eL : null) ? u === eT ? s.length : l.length : 0;
+		let h = u === eT && /\b(?:transform|all)(?:,|$)/.test(a(`${eT}Property`).toString());
+		return {
+			type: u,
+			timeout: p,
+			propCount: d,
+			hasTransform: h
+		};
+	}(e, n);
+	if (!o) return a();
+	let c = o + "end", u = 0, p = () => {
+		e.removeEventListener(c, d), s();
+	}, d = (n) => {
+		n.target === e && ++u >= l && p();
 	};
 	setTimeout(() => {
-		C < x && M();
-	}, v + 1), e.addEventListener(w, P);
+		u < l && p();
+	}, i + 1), e.addEventListener(c, d);
 }
 function eW(e, n) {
 	for (; e.length < n.length;) e = e.concat(e);
@@ -131,22 +135,22 @@ function eU(e) {
 }
 var eq = Symbol("_vod"), eG = Symbol("_vsh"), eY = Symbol(""), eX = /(?:^|;)\s*display\s*:/, eK = /\s*!important$/;
 function eZ(e, n, t) {
-	if (el(t)) t.forEach((t) => eZ(e, n, t));
+	if (o(t)) t.forEach((t) => eZ(e, n, t));
 	else if (t ??= "", n.startsWith("--")) e.setProperty(n, t);
 	else {
 		let a = function(e, n) {
 			let t = eQ[n];
 			if (t) return t;
-			let a = R(n);
+			let a = ec(n);
 			if ("filter" !== a && a in e) return eQ[n] = a;
-			a = ee(a);
+			a = eh(a);
 			for (let t = 0; t < eJ.length; t++) {
 				let r = eJ[t] + a;
 				if (r in e) return eQ[n] = r;
 			}
 			return n;
 		}(e, n);
-		eK.test(t) ? e.setProperty(O(a), t.replace(eK, ""), "important") : e[a] = t;
+		eK.test(t) ? e.setProperty(ed(a), t.replace(eK, ""), "important") : e[a] = t;
 	}
 }
 var eJ = [
@@ -154,8 +158,8 @@ var eJ = [
 	"Moz",
 	"ms"
 ], eQ = {}, e1 = "http://www.w3.org/1999/xlink";
-function e0(e, n, t, a, r, s = j(n)) {
-	a && n.startsWith("xlink:") ? null == t ? e.removeAttributeNS(e1, n.slice(6, n.length)) : e.setAttributeNS(e1, n, t) : null == t || s && !X(t) ? e.removeAttribute(n) : e.setAttribute(n, s ? "" : L(t) ? String(t) : t);
+function e0(e, n, t, a, s, o = y(n)) {
+	a && n.startsWith("xlink:") ? null == t ? e.removeAttributeNS(e1, n.slice(6, n.length)) : e.setAttributeNS(e1, n, t) : null == t || o && !C(t) ? e.removeAttribute(n) : e.setAttribute(n, o ? "" : r(t) ? String(t) : t);
 }
 function e2(e, n, t, a, r) {
 	if ("innerHTML" === n || "textContent" === n) {
@@ -171,23 +175,23 @@ function e2(e, n, t, a, r) {
 	let o = !1;
 	if ("" === t || null == t) {
 		let a = typeof e[n];
-		"boolean" === a ? t = X(t) : null == t && "string" === a ? (t = "", o = !0) : "number" === a && (t = 0, o = !0);
+		"boolean" === a ? t = C(t) : null == t && "string" === a ? (t = "", o = !0) : "number" === a && (t = 0, o = !0);
 	}
 	try {
 		e[n] = t;
 	} catch (e) {}
 	o && e.removeAttribute(r || n);
 }
-var e5 = Symbol("_vei"), e4 = /(?:Once|Passive|Capture)$/, e3 = 0, e6 = Promise.resolve(), e9 = (e) => 111 === e.charCodeAt(0) && 110 === e.charCodeAt(1) && e.charCodeAt(2) > 96 && 123 > e.charCodeAt(2), e8 = eo({ patchProp: (e, n, t, a, r, s) => {
-	let o = "svg" === r;
+var e5 = Symbol("_vei"), e4 = /(?:Once|Passive|Capture)$/, e3 = 0, e6 = Promise.resolve(), e9 = (e) => 111 === e.charCodeAt(0) && 110 === e.charCodeAt(1) && e.charCodeAt(2) > 96 && 123 > e.charCodeAt(2), e8 = O({ patchProp: (e, n, t, a, r, s) => {
+	let l = "svg" === r;
 	if ("class" === n) {
-		var i;
-		let n;
-		i = a, (n = e[eR]) && (i = (i ? [i, ...n] : [...n]).join(" ")), null == i ? e.removeAttribute("class") : o ? e.setAttribute("class", i) : e.className = i;
+		var c = a;
+		let n = e[eR];
+		n && (c = (c ? [c, ...n] : [...n]).join(" ")), null == c ? e.removeAttribute("class") : l ? e.setAttribute("class", c) : e.className = c;
 	} else "style" === n ? function(e, n, t) {
-		let a = e.style, r = E(t), s = !1;
+		let a = e.style, r = Y(t), s = !1;
 		if (t && !r) {
-			if (n) if (E(n)) for (let e of n.split(";")) {
+			if (n) if (Y(n)) for (let e of n.split(";")) {
 				let n = e.slice(0, e.indexOf(":")).trim();
 				t[n] ?? eZ(a, n, "");
 			}
@@ -200,46 +204,46 @@ var e5 = Symbol("_vei"), e4 = /(?:Once|Passive|Capture)$/, e3 = 0, e6 = Promise.
 			}
 		} else n && e.removeAttribute("style");
 		eq in e && (e[eq] = s ? a.display : "", e[eG] && (a.display = "none"));
-	}(e, t, a) : Z(n) ? B(n) || function(e, n, t, a, r = null) {
-		let s = e[e5] || (e[e5] = {}), o = s[n];
-		if (a && o) o.value = a;
+	}(e, t, a) : i(n) ? M(n) || function(e, n, t, a, r = null) {
+		let s = e[e5] || (e[e5] = {}), i = s[n];
+		if (a && i) i.value = a;
 		else {
-			var i, l, c;
-			let [t, u] = function(e) {
+			var l;
+			let [t, c] = function(e) {
 				let n;
 				if (e4.test(e)) {
 					let t;
 					for (n = {}; t = e.match(e4);) e = e.slice(0, e.length - t[0].length), n[t[0].toLowerCase()] = !0;
 				}
-				return [":" === e[2] ? e.slice(3) : O(e.slice(2)), n];
+				return [":" === e[2] ? e.slice(3) : ed(e.slice(2)), n];
 			}(n);
-			if (a) {
-				let o;
-				i = s[n] = (l = a, c = r, (o = (e) => {
+			a ? (l = s[n] = function(e, n) {
+				let t = (e) => {
 					if (e._vts) {
-						if (e._vts <= o.attached) return;
+						if (e._vts <= t.attached) return;
 					} else e._vts = Date.now();
-					ea(function(e, n) {
-						if (!el(n)) return n;
+					ee(function(e, n) {
+						if (!o(n)) return n;
 						{
 							let t = e.stopImmediatePropagation;
 							return e.stopImmediatePropagation = () => {
 								t.call(e), e._stopped = !0;
 							}, n.map((e) => (n) => !n._stopped && e && e(n));
 						}
-					}(e, o.value), c, 5, [e]);
-				}).value = l, o.attached = e3 || (e6.then(() => e3 = 0), e3 = Date.now()), o), e.addEventListener(t, i, u);
-			} else o && (e.removeEventListener(t, o, u), s[n] = void 0);
+					}(e, t.value), n, 5, [e]);
+				};
+				return t.value = e, t.attached = e3 || (e6.then(() => e3 = 0), e3 = Date.now()), t;
+			}(a, r), e.addEventListener(t, l, c)) : i && (e.removeEventListener(t, i, c), s[n] = void 0);
 		}
 	}(e, n, 0, a, s) : ("." === n[0] ? (n = n.slice(1), 0) : "^" === n[0] ? (n = n.slice(1), 1) : !function(e, n, t, a) {
-		if (a) return !!("innerHTML" === n || "textContent" === n || n in e && e9(n) && H(t));
+		if (a) return !!("innerHTML" === n || "textContent" === n || n in e && e9(n) && ep(t));
 		if ("spellcheck" === n || "draggable" === n || "translate" === n || "autocorrect" === n || "form" === n || "list" === n && "INPUT" === e.tagName || "type" === n && "TEXTAREA" === e.tagName) return !1;
 		if ("width" === n || "height" === n) {
 			let n = e.tagName;
 			if ("IMG" === n || "VIDEO" === n || "CANVAS" === n || "SOURCE" === n) return !1;
 		}
-		return !(e9(n) && E(t)) && n in e;
-	}(e, n, a, o)) ? e._isVueCE && (/[A-Z]/.test(n) || !E(a)) ? e2(e, R(n), a, s, n) : ("true-value" === n ? e._trueValue = a : "false-value" === n && (e._falseValue = a), e0(e, n, a, o)) : (e2(e, n, a), e.tagName.includes("-") || "value" !== n && "checked" !== n && "selected" !== n || e0(e, n, a, o, s, "value" !== n));
+		return !(e9(n) && Y(t)) && n in e;
+	}(e, n, a, l)) ? e._isVueCE && (/[A-Z]/.test(n) || !Y(a)) ? e2(e, ec(n), a, s, n) : ("true-value" === n ? e._trueValue = a : "false-value" === n && (e._falseValue = a), e0(e, n, a, l)) : (e2(e, n, a), e.tagName.includes("-") || "value" !== n && "checked" !== n && "selected" !== n || e0(e, n, a, l, s, "value" !== n));
 } }, {
 	insert: (e, n, t) => {
 		n.insertBefore(e, t || null);
@@ -282,13 +286,13 @@ var e5 = Symbol("_vei"), e4 = /(?:Once|Passive|Capture)$/, e3 = 0, e6 = Promise.
 		return [o ? o.nextSibling : n.firstChild, t ? t.previousSibling : n.lastChild];
 	}
 }), e7 = (...e) => {
-	let n = (ex || (ex = A(e8))).createApp(...e), { mount: t } = n;
+	let n = (ex || (ex = V(e8))).createApp(...e), { mount: t } = n;
 	return n.mount = (e) => {
 		var a, r;
-		let s = E(a = e) ? document.querySelector(a) : a;
+		let s = Y(a = e) ? document.querySelector(a) : a;
 		if (!s) return;
 		let o = n._component;
-		H(o) || o.render || o.template || (o.template = s.innerHTML), 1 === s.nodeType && (s.textContent = "");
+		ep(o) || o.render || o.template || (o.template = s.innerHTML), 1 === s.nodeType && (s.textContent = "");
 		let i = t(s, !1, (r = s) instanceof SVGElement ? "svg" : "function" == typeof MathMLElement && r instanceof MathMLElement ? "mathml" : void 0);
 		return s instanceof Element && (s.removeAttribute("v-cloak"), s.setAttribute("data-v-app", "")), i;
 	}, n;
@@ -524,10 +528,9 @@ var nG = (e, n) => {
 	return a.numHSL === r.numHSL && a.numRGB === r.numRGB && a.numNumbers >= r.numNumbers ? nj(nz(a.parsed, r.parsed), t) : (ne(!0, `Complex values '${e}' and '${n}' too different to mix. Ensure all colors are of the same type, and that each contains the same quantity of number and color values. Falling back to instant transition.`), (t) => `${t > 0 ? n : e}`);
 }, nY = (e, n) => (t) => nu(e, n, t);
 function nX(e, n, { clamp: t = !0, ease: a, mixer: r } = {}) {
-	var s;
-	let o, i, l = e.length;
-	nn(l === n.length, "Both input and output ranges must be the same length"), nn(!a || !Array.isArray(a) || a.length === l - 1, "Array of easing functions must be of length `input.length - 1`, as it applies to the transitions **between** the defined values."), e[0] > e[l - 1] && (e = [].concat(e), n = [].concat(n), e.reverse(), n.reverse());
-	let c = function(e, n, t) {
+	let s = e.length;
+	nn(s === n.length, "Both input and output ranges must be the same length"), nn(!a || !Array.isArray(a) || a.length === s - 1, "Array of easing functions must be of length `input.length - 1`, as it applies to the transitions **between** the defined values."), e[0] > e[s - 1] && (e = [].concat(e), n = [].concat(n), e.reverse(), n.reverse());
+	let o = function(e, n, t) {
 		let a = [], r = t || function(e) {
 			if ("number" == typeof e) return nY;
 			if ("string" == typeof e) if (nS(e)) return nF;
@@ -539,35 +542,41 @@ function nX(e, n, { clamp: t = !0, ease: a, mixer: r } = {}) {
 			n && (s = nj(Array.isArray(n) ? n[t] : n, s)), a.push(s);
 		}
 		return a;
-	}(n, a, r), u = 2 === l ? function([e, n], [t]) {
+	}(n, a, r), i = 2 === s ? function([e, n], [t]) {
 		return (a) => t(nc(e, n, a));
-	}(e, c) : (i = (o = (s = e).length) - 1, (e) => {
-		let n = 0, t = !1;
-		if (e <= s[0] ? t = !0 : e >= s[i] && (n = i - 1, t = !0), !t) {
-			let t = 1;
-			for (; t < o && !(s[t] > e) && t !== i; t++);
-			n = t - 1;
-		}
-		let a = nc(s[n], s[n + 1], e);
-		return c[n](a);
-	});
-	return t ? (n) => u(nt(e[0], e[l - 1], n)) : u;
+	}(e, o) : function(e, n) {
+		let t = e.length, a = t - 1;
+		return (r) => {
+			let s = 0, o = !1;
+			if (r <= e[0] ? o = !0 : r >= e[a] && (s = a - 1, o = !0), !o) {
+				let n = 1;
+				for (; n < t && !(e[n] > r) && n !== a; n++);
+				s = n - 1;
+			}
+			let i = nc(e[s], e[s + 1], r);
+			return n[s](i);
+		};
+	}(e, o);
+	return t ? (n) => i(nt(e[0], e[s - 1], n)) : i;
 }
 var nK = (e) => e, nZ = (e = (e) => Math.pow(e, 2), (n) => n <= .5 ? e(2 * n) / 2 : (2 - e(2 * (1 - n))) / 2);
 function nJ({ from: e = 0, to: n = 1, ease: t, offset: a, duration: r = 300 }) {
 	var s;
-	let o, i = {
+	let o = {
 		done: !1,
 		value: e
-	}, l = Array.isArray(n) ? n : [e, n], c = (s = a && a.length === l.length ? a : (o = l.length, l.map((e, n) => 0 !== n ? n / (o - 1) : 0)), s.map((e) => e * r));
-	function u() {
-		return nX(c, l, { ease: Array.isArray(t) ? t : l.map(() => t || nZ).splice(0, l.length - 1) });
+	}, i = Array.isArray(n) ? n : [e, n], l = (s = a && a.length === i.length ? a : function(e) {
+		let n = e.length;
+		return e.map((e, t) => 0 !== t ? t / (n - 1) : 0);
+	}(i), s.map((e) => e * r));
+	function c() {
+		return nX(l, i, { ease: Array.isArray(t) ? t : i.map(() => t || nZ).splice(0, i.length - 1) });
 	}
-	let p = u();
+	let u = c();
 	return {
-		next: (e) => (i.value = p(e), i.done = e >= r, i),
+		next: (e) => (o.value = u(e), o.done = e >= r, o),
 		flipTarget: () => {
-			l.reverse(), p = u();
+			i.reverse(), u = c();
 		}
 	};
 }
@@ -596,31 +605,30 @@ var nQ = {
 	"preRender",
 	"render",
 	"postRender"
-], n8 = n9.reduce((e, n) => {
-	var t;
-	let a, r, s, o, i, l, c;
-	return e[n] = (t = () => n4 = !0, a = [], r = [], s = 0, o = !1, i = !1, l = /* @__PURE__ */ new WeakSet(), c = {
-		schedule: (e, n = !1, t = !1) => {
-			let i = t && o, c = i ? a : r;
-			return n && l.add(e), -1 === c.indexOf(e) && (c.push(e), i && o && (s = a.length)), e;
+], n8 = n9.reduce((e, n) => (e[n] = function(e) {
+	let n = [], t = [], a = 0, r = !1, s = !1, o = /* @__PURE__ */ new WeakSet(), i = {
+		schedule: (e, s = !1, i = !1) => {
+			let l = i && r, c = l ? n : t;
+			return s && o.add(e), -1 === c.indexOf(e) && (c.push(e), l && r && (a = n.length)), e;
 		},
 		cancel: (e) => {
-			let n = r.indexOf(e);
-			-1 !== n && r.splice(n, 1), l.delete(e);
+			let n = t.indexOf(e);
+			-1 !== n && t.splice(n, 1), o.delete(e);
 		},
-		process: (e) => {
-			if (o) {
-				i = !0;
+		process: (l) => {
+			if (r) {
+				s = !0;
 				return;
 			}
-			if (o = !0, [a, r] = [r, a], r.length = 0, s = a.length) for (let n = 0; n < s; n++) {
-				let r = a[n];
-				r(e), l.has(r) && (c.schedule(r), t());
+			if (r = !0, [n, t] = [t, n], t.length = 0, a = n.length) for (let t = 0; t < a; t++) {
+				let a = n[t];
+				a(l), o.has(a) && (i.schedule(a), e());
 			}
-			o = !1, i && (i = !1, c.process(e));
+			r = !1, s && (s = !1, i.process(l));
 		}
-	}), e;
-}, {}), n7 = n9.reduce((e, n) => {
+	};
+	return i;
+}(() => n4 = !0), e), {}), n7 = n9.reduce((e, n) => {
 	let t = n8[n];
 	return e[n] = (e, n = !1, a = !1) => (n4 || ta(), t.schedule(e, n, a)), e;
 }, {}), te = n9.reduce((e, n) => (e[n] = n8[n].cancel, e), {}), tn = (e) => n8[e].process(n6), tt = (e) => {
@@ -934,7 +942,7 @@ var t_ = class e {
 			let n = "", a = "";
 			if (t.startsWith("_") ? (n = "&", t = t.slice(1)) : t.startsWith("$") ? (n = "& ", t = t.slice(1)) : (a = " &", t = t.slice(0, t.length - 1)), t.startsWith("data") || t.startsWith("aria")) {
 				let [e, r] = t.split("__");
-				return r ? `${n}[${ed(e)}='${ed(r)}']${a}` : `${n}[${ed(e)}]${a}`;
+				return r ? `${n}[${b(e)}='${b(r)}']${a}` : `${n}[${b(e)}]${a}`;
 			}
 			if ("&" === n) {
 				if (t.startsWith("$")) return `${n}::${t.slice(1)}`;
@@ -942,8 +950,8 @@ var t_ = class e {
 					let a = e.supportedPseudoClasses[t];
 					return `${n}:${a}, ${n}[data-${a}]:not([data-${a}='false']), ${n}.${a}`;
 				}
-				let [a, r] = t.split("__"), s = ed(a);
-				return r ? `${n}[data-${s}='${ed(r)}']` : `${n}[data-${s}]:not([data-${s}='false'])`;
+				let [a, r] = t.split("__"), s = b(a);
+				return r ? `${n}[data-${s}='${b(r)}']` : `${n}[data-${s}]:not([data-${s}='false'])`;
 			}
 		}
 	};
@@ -954,8 +962,8 @@ var t_ = class e {
 	}) => {
 		let { $: r,...s } = n;
 		for (let n in s) {
-			let o = s[n], i = s.default ?? a.default, l = r ?? h(i, [...a.path.slice(1), "$"]), c = l ? [...a.selectorPath, l] : a.selectorPath, u = [...a.path, n];
-			if (G(o)) {
+			let o = s[n], i = s.default ?? a.default, l = r ?? eo(i, [...a.path.slice(1), "$"]), c = l ? [...a.selectorPath, l] : a.selectorPath, u = [...a.path, n];
+			if (p(o)) {
 				e.walkStateValues(o, t, {
 					path: u,
 					selectorPath: c,
@@ -975,11 +983,11 @@ var t_ = class e {
 		if (r) {
 			let n = {}, t = {};
 			e.walkStateValues(r, (e, a, r) => {
-				let s = `--${this.opt.varPrefix}-state-${a.join("-")}`, o = em(a) ?? "", i = {};
-				this.process(i, o, e, !1), n[s] = i[o], q(t, [...r, o], `var(${s})`);
+				let s = `--${this.opt.varPrefix}-state-${a.join("-")}`, o = v(a) ?? "", i = {};
+				this.process(i, o, e, !1), n[s] = i[o], T(t, [...r, o], `var(${s})`);
 			}), a.push(n), a.push(...this.processAll(t));
 		}
-		if (!l(o)) {
+		if (!h(o)) {
 			let e = {};
 			this.processTo(e, o, t), a.push(e);
 		}
@@ -995,7 +1003,7 @@ var t_ = class e {
 			return;
 		}
 		let s = t;
-		if (G(a)) {
+		if (p(a)) {
 			n[s = e.convertSelector(s) ?? s] = n[s] ?? {}, this.processTo(n[s], a);
 			return;
 		}
@@ -1023,7 +1031,7 @@ var tT = class e {
 		return e.create(tA.var, {
 			value: n,
 			on: tP(tM.color, tM.bgColor, tM.outlineColor, tM.borderColor, tM.accentColor, tM.fill, tM.stroke),
-			transform: (e, n) => v(e) ? {
+			transform: (e, n) => R(e) ? {
 				default: `var(${n(e)})`,
 				rgb: `var(${n(`${e}/rgb`)})`
 			} : {
@@ -1130,18 +1138,18 @@ let tL = (e, n, t) => {
 };
 var tR = class e {
 	static defaultMode = "_default";
-	static walkValues = (n, t, a = []) => {
-		for (let r in n) {
-			let s = n[r];
-			if (G(s)) {
-				if (o(s, "_default")) {
-					t(s, [...a, r]);
+	static walkValues = (n, t, r = []) => {
+		for (let s in n) {
+			let o = n[s];
+			if (p(o)) {
+				if (a(o, "_default")) {
+					t(o, [...r, s]);
 					continue;
 				}
-				e.walkValues(s, t, [...a, r]);
+				e.walkValues(o, t, [...r, s]);
 				continue;
 			}
-			t(s, [...a, r]);
+			t(o, [...r, s]);
 		}
 	};
 	__Tokens = void 0;
@@ -1151,51 +1159,51 @@ var tR = class e {
 		e.walkValues(n.value, (e, r) => {
 			let s = r.join("."), o = (e, r) => {
 				let s = n.transform ? n.transform(e, t) : a(e);
-				if (P(s)) for (let e in s) r(s[e], "default" === e ? "" : e);
+				if (B(s)) for (let e in s) r(s[e], "default" === e ? "" : e);
 				else r(s, "");
 			};
-			if (q(this._cssVarRefs, [s], t(s)), G(e)) for (let n in e) o(e[n], (e, t) => {
-				q(this._values, [`${s}${t ? `/${t}` : ""}`, n], e);
+			if (T(this._cssVarRefs, [s], t(s)), p(e)) for (let n in e) o(e[n], (e, t) => {
+				T(this._values, [`${s}${t ? `/${t}` : ""}`, n], e);
 			});
 			else o(e, (e, n) => {
-				q(this._values, [`${s}${n ? `/${n}` : ""}`], e);
+				T(this._values, [`${s}${n ? `/${n}` : ""}`], e);
 			});
 		});
 	}
 	get tokens() {
-		return s(this._values);
+		return S(this._values);
 	}
 	get(n, t, a) {
 		let r = this._values[n];
-		return P(r) ? a ? r[t] : r[t] ?? r[e.defaultMode] : a ? t === e.defaultMode ? r : void 0 : r;
+		return B(r) ? a ? r[t] : r[t] ?? r[e.defaultMode] : a ? t === e.defaultMode ? r : void 0 : r;
 	}
 	use(e, n = !1) {
 		if (this._cssVarRefs[e]) return n ? `${this._cssVarRefs[e]}` : `var(${this._cssVarRefs[e]})`;
 	}
 }, t$ = class e {
-	static walkValue = (n, t, a = []) => {
-		for (let r in n) {
-			let s = n[r];
-			if (G(s)) {
-				if (o(s, "__mixin")) {
-					t(s, [...a, r]);
+	static walkValue = (n, t, r = []) => {
+		for (let s in n) {
+			let o = n[s];
+			if (p(o)) {
+				if (a(o, "__mixin")) {
+					t(o, [...r, s]);
 					continue;
 				}
-				e.walkValue(s, t, [...a, r]);
+				e.walkValue(o, t, [...r, s]);
 				continue;
 			}
-			t(s, [...a, r]);
+			t(o, [...r, s]);
 		}
 	};
 	_values = {};
 	constructor(n) {
 		e.walkValue(n.value, (e, n) => {
 			let t = n.join(".");
-			q(this._values, [t], c(e, "__mixin"));
+			T(this._values, [t], s(e, "__mixin"));
 		});
 	}
 	get tokens() {
-		return s(this._values);
+		return S(this._values);
 	}
 	get(e) {
 		return this._values[e];
@@ -1210,10 +1218,10 @@ var tR = class e {
 	neutral: ["surface", "outline"]
 };
 let tO = (e) => {
-	let n = h(e, ["color", "sys"], {});
+	let n = eo(e, ["color", "sys"], {});
 	return {
 		...e,
-		color: { sys: y(tD, (e) => p(n, (n, t) => N(e, (e) => t.indexOf(e) > -1))) }
+		color: { sys: _(tD, (e) => ef(n, (n, t) => m(e, (e) => t.indexOf(e) > -1))) }
 	};
 }, tH = (e) => (n) => `rgba(var(${n}--rgb) / ${e})`;
 function tV(e, n) {
@@ -1242,9 +1250,9 @@ var tI = (e) => e.reduce((e, n) => Object.assign(e, { [n]: !0 }), {}), tB = clas
 	propValues = {};
 	mixins = {};
 	dp = (e) => 0 === e ? 0 : `calc(${e} * var(${this.cssVar("space", "dp")}))`;
-	transformFallback = (n, t) => e.propsCanBaseDp[n] && g(t) ? e.propsCanPercent[n] && 1 > Math.abs(t) ? `${100 * t}%` : this.dp(t) : t;
+	transformFallback = (n, t) => e.propsCanBaseDp[n] && u(t) ? e.propsCanPercent[n] && 1 > Math.abs(t) ? `${100 * t}%` : this.dp(t) : t;
 	constructor(e, n = {}) {
-		for (let t in this.theme = e, this.varPrefix = n.varPrefix ?? "vk", this.mode = n.mode ?? "light", q(this.cssVars, [this.cssVar("space", "dp")], "0.1rem"), e) {
+		for (let t in this.theme = e, this.varPrefix = n.varPrefix ?? "vk", this.mode = n.mode ?? "light", T(this.cssVars, [this.cssVar("space", "dp")], "0.1rem"), e) {
 			let n = e[t];
 			if (n) {
 				if (n.type === tA.var) {
@@ -1255,7 +1263,7 @@ var tI = (e) => e.reduce((e, n) => Object.assign(e, { [n]: !0 }), {}), tB = clas
 					for (let a of (this.tokens[t] = e, n.on)) this.propValues[a] = e;
 					for (let n of e.tokens) for (let a of ["light", "dark"]) {
 						let r = a === this.mode ? "_default" : `_${a}`, s = e.get(n, r, !0);
-						ep(s) || ("_default" === r ? q(this.cssVars, [this.cssVar(t, n)], s) : q(this.cssVars, [r, this.cssVar(t, n)], s));
+						k(s) || ("_default" === r ? T(this.cssVars, [this.cssVar(t, n)], s) : T(this.cssVars, [r, this.cssVar(t, n)], s));
 					}
 					continue;
 				}
@@ -1267,14 +1275,14 @@ var tI = (e) => e.reduce((e, n) => Object.assign(e, { [n]: !0 }), {}), tB = clas
 		}
 	}
 	cssVar(e, n) {
-		return `--${this.varPrefix}-${ed(e)}__${n.replaceAll("/", "--").replaceAll(".", "__")}`;
+		return `--${this.varPrefix}-${b(e)}__${n.replaceAll("/", "--").replaceAll(".", "__")}`;
 	}
 	get rootCSSVars() {
 		return this.cssVars;
 	}
 	token = new Proxy({}, { get: (e, n) => this.tokens[n] ? Object.assign((e) => this.tokens[n]?.get(e, `_${this.mode}`), { tokens: this.tokens[n]?.tokens }) : this.mixins[n] ? Object.assign((e) => this.mixins[n]?.get(e), { tokens: this.mixins[n]?.tokens }) : void 0 });
 	processValue = (e, n) => {
-		if (C(n) && o(n, "token")) {
+		if (w(n) && a(n, "token")) {
 			let t = this.propValues[e]?.use(n.token, !0);
 			return t ? n(t) : void 0;
 		}
@@ -1315,13 +1323,13 @@ var tI = (e) => e.reduce((e, n) => Object.assign(e, { [n]: !0 }), {}), tB = clas
 		let e = { space: { dp: {
 			$type: "sizing",
 			$value: 1
-		} } }, n = {}, t = {}, a = (e, n) => P(n) ? {
+		} } }, n = {}, t = {}, a = (e, n) => B(n) ? {
 			$type: e,
-			$value: y(n, (n) => a(e, n).$value)
-		} : v(n) ? {
+			$value: _(n, (n) => a(e, n).$value)
+		} : R(n) ? {
 			$type: e,
 			$value: n.replace(/var\(([^)]+)\)/g, (e) => {
-				let n = e.slice(4, e.length - 1).slice(`--${this.varPrefix}-`.length).split("--")[0]?.split("__").map((e, n) => 0 === n ? x(e) : e).join(".") ?? "";
+				let n = e.slice(4, e.length - 1).slice(`--${this.varPrefix}-`.length).split("--")[0]?.split("__").map((e, n) => 0 === n ? c(e) : e).join(".") ?? "";
 				return n.startsWith("sys.") ? `{${n}}` : `{seed.${n}}`;
 			}).replace(/calc\(.+\)$/g, (e) => e.slice(5, e.length - 1))
 		} : {
@@ -1498,9 +1506,9 @@ let tj = {
 		from: { ...e.to },
 		to: { ...e.from }
 	};
-	return eu({
-		onComplete: U(),
-		$default: U()
+	return f({
+		onComplete: A(),
+		$default: A()
 	}, (n, { slots: a, emit: r }) => {
 		let s, o = (n, t) => {
 			s = to({
@@ -1527,7 +1535,7 @@ let tj = {
 		}, l = () => {
 			s?.stop();
 		};
-		return () => D(eO, {
+		return () => H(eO, {
 			css: !1,
 			onEnter: o,
 			onEnterCancelled: l,
@@ -1614,17 +1622,19 @@ function t1(e) {
 	return tQ(t3(e[0]), t3(e[1]), t3(e[2]));
 }
 function t0(e) {
-	var n;
-	return 116 * t6(tX([
-		t4((n = e) >> 16 & 255),
-		t4(n >> 8 & 255),
-		t4(255 & n)
-	], tK)[1] / 100) - 16;
+	return 116 * t6(function(e) {
+		return tX([
+			t4(e >> 16 & 255),
+			t4(e >> 8 & 255),
+			t4(255 & e)
+		], tK);
+	}(e)[1] / 100) - 16;
 }
 function t2(e) {
-	var n;
-	let t;
-	return 100 * ((t = (n = (e + 16) / 116) * n * n) > 216 / 24389 ? t : (116 * n - 16) / (24389 / 27));
+	return 100 * function(e) {
+		let n = e * e * e;
+		return n > 216 / 24389 ? n : (116 * e - 16) / (24389 / 27);
+	}((e + 16) / 116);
 }
 function t5(e) {
 	return 116 * t6(e / 100) - 16;
@@ -1697,9 +1707,11 @@ var t8 = class e {
 		return this.viewed(t9.DEFAULT);
 	}
 	viewed(e) {
-		var n, t, a;
-		let r, s, o, i = Math.pow((0 === this.chroma || 0 === this.j ? 0 : this.chroma / Math.sqrt(this.j / 100)) / Math.pow(1.64 - Math.pow(.29, e.n), .73), 1 / .9), l = this.hue * Math.PI / 180, c = .25 * (Math.cos(l + 2) + 3.8), u = e.aw * Math.pow(this.j / 100, 1 / e.c / e.z), p = 5e4 / 13 * c * e.nc * e.ncb, d = u / e.nbb, h = Math.sin(l), m = Math.cos(l), f = 23 * (d + .305) * i / (23 * p + 11 * i * m + 108 * i * h), k = f * m, g = f * h, N = (460 * d + 451 * k + 288 * g) / 1403, y = (460 * d - 891 * k - 261 * g) / 1403, b = (460 * d - 220 * k - 6300 * g) / 1403, v = Math.max(0, 27.13 * Math.abs(N) / (400 - Math.abs(N))), x = tU(N) * (100 / e.fl) * Math.pow(v, 1 / .42), w = Math.max(0, 27.13 * Math.abs(y) / (400 - Math.abs(y))), C = tU(y) * (100 / e.fl) * Math.pow(w, 1 / .42), M = Math.max(0, 27.13 * Math.abs(b) / (400 - Math.abs(b))), P = tU(b) * (100 / e.fl) * Math.pow(M, 1 / .42), S = x / e.rgbD[0], _ = C / e.rgbD[1], A = P / e.rgbD[2];
-		return n = 1.86206786 * S - 1.01125463 * _ + .14918677 * A, t = .38752654 * S + .62144744 * _ - .00897398 * A, a = -.0158415 * S - .03412294 * _ + 1.04996444 * A, r = tZ[0][0] * n + tZ[0][1] * t + tZ[0][2] * a, s = tZ[1][0] * n + tZ[1][1] * t + tZ[1][2] * a, o = tZ[2][0] * n + tZ[2][1] * t + tZ[2][2] * a, tQ(t3(r), t3(s), t3(o));
+		let n = Math.pow((0 === this.chroma || 0 === this.j ? 0 : this.chroma / Math.sqrt(this.j / 100)) / Math.pow(1.64 - Math.pow(.29, e.n), .73), 1 / .9), t = this.hue * Math.PI / 180, a = .25 * (Math.cos(t + 2) + 3.8), r = e.aw * Math.pow(this.j / 100, 1 / e.c / e.z), s = 5e4 / 13 * a * e.nc * e.ncb, o = r / e.nbb, i = Math.sin(t), l = Math.cos(t), c = 23 * (o + .305) * n / (23 * s + 11 * n * l + 108 * n * i), u = c * l, p = c * i, d = (460 * o + 451 * u + 288 * p) / 1403, h = (460 * o - 891 * u - 261 * p) / 1403, m = (460 * o - 220 * u - 6300 * p) / 1403, f = Math.max(0, 27.13 * Math.abs(d) / (400 - Math.abs(d))), k = tU(d) * (100 / e.fl) * Math.pow(f, 1 / .42), g = Math.max(0, 27.13 * Math.abs(h) / (400 - Math.abs(h))), N = tU(h) * (100 / e.fl) * Math.pow(g, 1 / .42), y = Math.max(0, 27.13 * Math.abs(m) / (400 - Math.abs(m))), b = tU(m) * (100 / e.fl) * Math.pow(y, 1 / .42), v = k / e.rgbD[0], x = N / e.rgbD[1], w = b / e.rgbD[2];
+		return function(e, n, t) {
+			let a = tZ[0][0] * e + tZ[0][1] * n + tZ[0][2] * t, r = tZ[1][0] * e + tZ[1][1] * n + tZ[1][2] * t, s = tZ[2][0] * e + tZ[2][1] * n + tZ[2][2] * t;
+			return tQ(t3(a), t3(r), t3(s));
+		}(1.86206786 * v - 1.01125463 * x + .14918677 * w, .38752654 * v + .62144744 * x - .00897398 * w, -.0158415 * v - .03412294 * x + 1.04996444 * w);
 	}
 	static fromXyzInViewingConditions(n, t, a, r) {
 		let s = r.rgbD[0] * (.401288 * n + .650173 * t - .051461 * a), o = r.rgbD[1] * (-.250268 * n + 1.204414 * t + .045854 * a), i = r.rgbD[2] * (-.002079 * n + .048952 * t + .953127 * a), l = Math.pow(r.fl * Math.abs(s) / 100, .42), c = Math.pow(r.fl * Math.abs(o) / 100, .42), u = Math.pow(r.fl * Math.abs(i) / 100, .42), p = 400 * tU(s) * l / (l + 27.13), d = 400 * tU(o) * c / (c + 27.13), h = 400 * tU(i) * u / (u + 27.13), m = (11 * p + -12 * d + h) / 11, f = (p + d - 2 * h) / 9, k = 180 * Math.atan2(f, m) / Math.PI, g = k < 0 ? k + 360 : k >= 360 ? k - 360 : k, N = g * Math.PI / 180, y = 100 * Math.pow((40 * p + 20 * d + h) / 20 * r.nbb / r.aw, r.c * r.z), b = 4 / r.c * Math.sqrt(y / 100) * (r.aw + 4) * r.fLRoot, v = Math.pow(5e4 / 13 * (1 / 4 * (Math.cos((g < 20.14 ? g + 360 : g) * Math.PI / 180 + 2) + 3.8)) * r.nc * r.ncb * Math.sqrt(m * m + f * f) / ((20 * p + 20 * d + 21 * h) / 20 + .305), .9) * Math.pow(1.64 - Math.pow(.29, r.n), .73), x = v * Math.sqrt(y / 100), w = x * r.fLRoot, C = 50 * Math.sqrt(v * r.c / (r.aw + 4)), M = Math.log(1 + .0228 * w) / .0228;
@@ -1839,26 +1851,26 @@ var t8 = class e {
 	static findResultByJ(n, t, a) {
 		let r = 11 * Math.sqrt(a), s = t9.DEFAULT, o = 1 / Math.pow(1.64 - Math.pow(.29, s.n), .73), i = .25 * (Math.cos(n + 2) + 3.8) * (5e4 / 13) * s.nc * s.ncb, l = Math.sin(n), c = Math.cos(n);
 		for (let n = 0; n < 5; n++) {
-			let u = r / 100, p = Math.pow((0 === t || 0 === r ? 0 : t / Math.sqrt(u)) * o, 1 / .9), d = s.aw * Math.pow(u, 1 / s.c / s.z) / s.nbb, h = 23 * (d + .305) * p / (23 * i + 11 * p * c + 108 * p * l), m = h * c, f = h * l, k = (460 * d + 451 * m + 288 * f) / 1403, g = (460 * d - 891 * m - 261 * f) / 1403, N = (460 * d - 220 * m - 6300 * f) / 1403, y = tX([
+			let u = r / 100, p = Math.pow((0 === t || 0 === r ? 0 : t / Math.sqrt(u)) * o, 1 / .9), d = s.aw * Math.pow(u, 1 / s.c / s.z) / s.nbb, h = 23 * (d + .305) * p / (23 * i + 11 * p * c + 108 * p * l), m = h * c, f = h * l, k = (460 * d + 451 * m + 288 * f) / 1403, g = (460 * d - 891 * m - 261 * f) / 1403, N = (460 * d - 220 * m - 6300 * f) / 1403, b = tX([
 				e.inverseChromaticAdaptation(k),
 				e.inverseChromaticAdaptation(g),
 				e.inverseChromaticAdaptation(N)
 			], e.LINRGB_FROM_SCALED_DISCOUNT);
-			if (y[0] < 0 || y[1] < 0 || y[2] < 0) break;
-			let b = e.Y_FROM_LINRGB[0], v = e.Y_FROM_LINRGB[1], x = e.Y_FROM_LINRGB[2], w = b * y[0] + v * y[1] + x * y[2];
-			if (w <= 0) break;
-			if (4 === n || .002 > Math.abs(w - a)) {
-				if (y[0] > 100.01 || y[1] > 100.01 || y[2] > 100.01) return 0;
-				return t1(y);
+			if (b[0] < 0 || b[1] < 0 || b[2] < 0) break;
+			let v = e.Y_FROM_LINRGB[0], x = e.Y_FROM_LINRGB[1], w = e.Y_FROM_LINRGB[2], C = v * b[0] + x * b[1] + w * b[2];
+			if (C <= 0) break;
+			if (4 === n || .002 > Math.abs(C - a)) {
+				if (b[0] > 100.01 || b[1] > 100.01 || b[2] > 100.01) return 0;
+				return t1(b);
 			}
-			r -= (w - a) * r / (2 * w);
+			r -= (C - a) * r / (2 * C);
 		}
 		return 0;
 	}
 	static solveToInt(n, t, a) {
 		if (t < 1e-4 || a < 1e-4 || a > 99.9999) {
-			let e;
-			return tQ(e = t3(t2(a)), e, e);
+			let e = t3(t2(a));
+			return tQ(e, e, e);
 		}
 		let r = (n = tY(n)) / 180 * Math.PI, s = t2(a), o = e.findResultByJ(r, t, s);
 		return 0 !== o ? o : t1(e.bisectToLimit(s, r));
@@ -3103,7 +3115,7 @@ var ab = {
 	warning: !0,
 	success: !0
 })[e], aw = class e {
-	static toHEX = (e) => `#${av(e).map((e) => $(e.toString(16), 2, "0")).join("")}`;
+	static toHEX = (e) => `#${av(e).map((e) => N(e.toString(16), 2, "0")).join("")}`;
 	static createRoleColorRuleBuilder(e) {
 		let n = {}, t = new Proxy({}, { get: (a, r) => "build" == r ? () => n : (a, r) => (n[`${a}${e ? `:${e}` : ""}`] = r, t) });
 		return t;
@@ -3125,7 +3137,7 @@ var ab = {
 			neutral: c.n1,
 			neutralVariant: c.n2,
 			error: c.error,
-			...y(l, (e) => ar.fromInt(aN(e)))
+			..._(l, (e) => ar.fromInt(aN(e)))
 		});
 	};
 	constructor(e) {
@@ -3154,8 +3166,8 @@ var ab = {
 	toDesignTokens(e = {}) {
 		let n = this.normalizeRoleRules(e), [t, a] = this.getThemeRoleColors(n), r = {}, s = {};
 		for (let e in t) if (r[`${e}`] = {
-			_default: g(t[e]) ? av(t[e]) : t[e],
-			_dark: g(a[e]) ? av(a[e]) : a[e]
+			_default: u(t[e]) ? av(t[e]) : t[e],
+			_dark: u(a[e]) ? av(a[e]) : a[e]
 		}, ax(e) && (s[`${e}`] = tT.mixin({
 			bgColor: `sys.${e}`,
 			color: `sys.on-${e}`
@@ -3180,7 +3192,7 @@ var ab = {
 		}
 		return {
 			color: tT.color({
-				...y(this.seeds, (e) => Object.keys(ab).reduce((n, t) => Object.assign(n, { [t]: av(e.tone(parseInt(t))) }), {})),
+				..._(this.seeds, (e) => Object.keys(ab).reduce((n, t) => Object.assign(n, { [t]: av(e.tone(parseInt(t))) }), {})),
 				white: [
 					255,
 					255,
@@ -3337,7 +3349,7 @@ let aS = {
 	...tF,
 	rounded: aC,
 	...aP.toDesignTokens({})
-}, a_ = tB.create(aS, { varPrefix: "vk" }), aA = er(() => a_, { name: "Theme" });
+}, a_ = tB.create(aS, { varPrefix: "vk" }), aA = ea(() => a_, { name: "Theme" });
 var aT = function() {
 	function e(e) {
 		var n = this;
@@ -3766,22 +3778,22 @@ var re = function(e, n, t) {
 		while (void 0 !== r);
 	}
 };
-let ru = er(() => ri({ key: "css" }), { name: "Cache" }), rp = (e) => (n) => {
+let ru = ea(() => ri({ key: "css" }), { name: "Cache" }), rp = (e) => (n) => {
 	n.serialized && (n.withoutScoping ? e.insert("", n.serialized, e.sheet, !0) : rc(e, n.serialized, n.isStringTag ?? !0));
 };
-var rd = eu({
-	sx: U(),
-	component: U().optional().default("div")
+var rd = f({
+	sx: A(),
+	component: A().optional().default("div")
 }, (e, { slots: n, expose: t }) => {
 	let a = aA.use(), r = ru.use(), s = a.unstable_css(r, e.sx ?? {}), o = rp(r);
-	V(() => {
+	et(() => {
 		o({
 			serialized: s,
 			isStringTag: !0
 		});
 	});
-	let i = K(null);
-	return t({ [en]: i }), () => D(e.component ?? "div", {
+	let i = Z(null);
+	return t({ [en]: i }), () => H(e.component ?? "div", {
 		ref: i,
 		class: "0" !== s.name ? `${r.key}-${s.name}` : "",
 		children: n
@@ -3790,33 +3802,33 @@ var rd = eu({
 function rh(...e) {
 	let n, t = "div", a = {}, r = {};
 	for (let s of e) {
-		if (C(s)) {
+		if (w(s)) {
 			n = s;
 			continue;
 		}
-		if (v(s) || w(s)) {
+		if (R(s) || x(s)) {
 			t = s;
 			continue;
 		}
-		ep(n) && u(s) ? a = s : r = s;
+		k(n) && em(s) ? a = s : r = s;
 	}
 	return n ??= (e, n) => (t) => {
 		let a = {};
 		for (let n in e) "component" !== n && "sx" !== n && e[n] && (a[`data-${n}`] = e[n]);
-		return D(t, {
+		return H(t, {
 			...a,
 			children: n.slots
 		});
 	}, (e) => {
-		let s = Object.assign(eu({
+		let s = Object.assign(f({
 			...a,
-			sx: U().optional(),
-			component: U().optional()
+			sx: A().optional(),
+			component: A().optional()
 		}, (a, r) => {
-			let o = aA.use(), i = ru.use(), l = rp(i), c = es(""), u = o.unstable_css(i, e), p = () => ("0" !== u.name ? `${i.key}-${u.name}${c.value}` : `${c.value}`) + (s.name ? ` ${s.name}` : "");
+			let o = aA.use(), i = ru.use(), l = rp(i), c = W(""), u = o.unstable_css(i, e), p = () => ("0" !== u.name ? `${i.key}-${u.name}${c.value}` : `${c.value}`) + (s.name ? ` ${s.name}` : "");
 			if (t.__styled) {
 				let e = o.unstable_css(i, a.sx ?? {});
-				"0" !== e.name && (c.value = ` ${i.key}-${e.name}`), V(() => {
+				"0" !== e.name && (c.value = ` ${i.key}-${e.name}`), et(() => {
 					l({
 						serialized: u,
 						isStringTag: !0
@@ -3825,24 +3837,24 @@ function rh(...e) {
 						isStringTag: !0
 					});
 				});
-			} else b(() => {
+			} else I(() => {
 				l({
 					serialized: u,
 					isStringTag: !0
 				});
 			});
-			let d = n(a, r), h = K(null);
+			let d = n(a, r), h = Z(null);
 			return r.expose({ [en]: h }), () => {
 				if (t.__styled) {
 					let e = d(t);
-					return e ? m(e, {
+					return e ? es(e, {
 						component: a.component,
 						ref: h,
 						class: p()
 					}) : null;
 				}
 				let e = d(rd);
-				return e ? m(e, {
+				return e ? es(e, {
 					component: a.component || t,
 					sx: a.sx,
 					ref: h,
@@ -3853,9 +3865,9 @@ function rh(...e) {
 		return s.toString = () => `.${s.name}`, s;
 	};
 }
-var rm = eu(({ styles: e }) => {
-	let n = aA.use(), t = ru.use(), a = rp(t), r = n.unstable_css(t, v(e) ? { "&": e } : e);
-	return b(() => {
+var rm = f(({ styles: e }) => {
+	let n = aA.use(), t = ru.use(), a = rp(t), r = n.unstable_css(t, R(e) ? { "&": e } : e);
+	return I(() => {
 		a({
 			serialized: r,
 			withoutScoping: !0
@@ -3864,9 +3876,9 @@ var rm = eu(({ styles: e }) => {
 }, {
 	displayName: "GlobalStyle",
 	props: ["styles"]
-}), rf = eu(() => {
+}), rf = f(() => {
 	let e = aA.use().rootCSSVars;
-	return () => D(rm, { styles: {
+	return () => H(rm, { styles: {
 		":host, :root, [data-theme]": e,
 		"*, *::after, *::before": { boxSizing: "border-box" },
 		html: { fontSize: "10px" },
@@ -3874,8 +3886,8 @@ var rm = eu(({ styles: e }) => {
 		body: { textStyle: "sys.body-medium" }
 	} });
 }, { displayName: "CSSReset" });
-let rk = er(() => ({ mountPoint: () => document.body }), { name: "OverlaySetting" });
-var rg = er(() => new rN(J(null), J(null), () => !1), { name: "Overlay" }), rN = class {
+let rk = ea(() => ({ mountPoint: () => document.body }), { name: "OverlaySetting" });
+var rg = ea(() => new rN(z(null), z(null), () => !1), { name: "Overlay" }), rN = class {
 	children = [];
 	constructor(e, n, t) {
 		this.triggerRef = e, this.contentRef = n, this.isOpen = t;
@@ -3885,45 +3897,45 @@ var rg = er(() => new rN(J(null), J(null), () => !1), { name: "Overlay" }), rN =
 	});
 	isClickInside = (e) => {
 		for (let n of this.children) if (n.isClickInside(e)) return !0;
-		let n = z(this.triggerRef), t = z(this.contentRef);
+		let n = $(this.triggerRef), t = $(this.contentRef);
 		return n && (n === e.target || e.composedPath().includes(n)) || t && (t === e.target || e.composedPath().includes(t));
 	};
 	topmost() {
 		return 0 === this.children.filter((e) => e.isOpen()).length;
 	}
-}, ry = eu((e, { slots: n, attrs: t, emit: r }) => {
-	let s = e.contentRef || J(null), o = new rN(e.triggerRef ?? J(null), s, () => !!e.isOpen), i = rk.use();
-	return a(rg.use().add(o)), window && F(Q(s, "value"), W((e) => {
+}, ry = f((e, { slots: n, attrs: t, emit: a }) => {
+	let r = e.contentRef || z(null), s = new rN(e.triggerRef ?? z(null), r, () => !!e.isOpen), o = rk.use();
+	return E(rg.use().add(s)), window && j(Q(r, "value"), U((e) => {
 		if (!e) return;
 		let n = (e) => {
-			o.isClickInside(e) || r("click-outside", e);
+			s.isClickInside(e) || a("click-outside", e);
 		};
 		return window.addEventListener("pointerdown", n), () => {
 			window.removeEventListener("pointerdown", n);
 		};
-	}), W((e) => {
+	}), U((e) => {
 		if (!e) return;
 		let n = (e) => {
-			"Escape" === e.key && o.topmost() && r("esc-keydown", e);
+			"Escape" === e.key && s.topmost() && a("esc-keydown", e);
 		};
 		return window.addEventListener("keydown", n), () => {
 			window.removeEventListener("keydown", n);
 		};
-	}), I()), () => {
-		let a = e.isOpen ? m(D("div", {
+	}), F()), () => {
+		let i = e.isOpen ? es(H("div", {
 			...t,
-			ref: s,
+			ref: r,
 			style: e.style,
-			children: D(rg, {
-				value: o,
+			children: H(rg, {
+				value: s,
 				children: n.default?.()
 			})
 		}), { onVnodeBeforeMount: () => {
-			r("content-before-mount");
+			a("content-before-mount");
 		} }) : null;
-		return D(f, {
-			to: i.mountPoint(),
-			children: n.transition ? n.transition({ content: a }) : a
+		return H(D, {
+			to: o.mountPoint(),
+			children: n.transition ? n.transition({ content: i }) : i
 		});
 	};
 }, {
@@ -4287,9 +4299,8 @@ function sd(e, n) {
 }
 var sh = new Set(["absolute", "fixed"]);
 function sm(e, n, t) {
-	var a;
-	let r;
-	if ("viewport" === n) r = function(e, n) {
+	let a;
+	if ("viewport" === n) a = function(e, n) {
 		let t = rq(e), a = rG(e), r = t.visualViewport, s = a.clientWidth, o = a.clientHeight, i = 0, l = 0;
 		if (r) {
 			s = r.width, o = r.height;
@@ -4308,32 +4319,34 @@ function sm(e, n, t) {
 			y: l
 		};
 	}(e, t);
-	else if ("document" === n) {
-		let n, t, s, o, i, l, c;
-		a = rG(e), n = rG(a), t = sn(a), s = a.ownerDocument.body, o = rv(n.scrollWidth, n.clientWidth, s.scrollWidth, s.clientWidth), i = rv(n.scrollHeight, n.clientHeight, s.scrollHeight, s.clientHeight), l = -t.scrollLeft + sp(a), c = -t.scrollTop, "rtl" === se(s).direction && (l += rv(n.clientWidth, s.clientWidth) - o), r = {
-			width: o,
-			height: i,
-			x: l,
-			y: c
+	else if ("document" === n) a = function(e) {
+		let n = rG(e), t = sn(e), a = e.ownerDocument.body, r = rv(n.scrollWidth, n.clientWidth, a.scrollWidth, a.clientWidth), s = rv(n.scrollHeight, n.clientHeight, a.scrollHeight, a.clientHeight), o = -t.scrollLeft + sp(e), i = -t.scrollTop;
+		return "rtl" === se(a).direction && (o += rv(n.clientWidth, a.clientWidth) - r), {
+			width: r,
+			height: s,
+			x: o,
+			y: i
 		};
-	} else if (rX(n)) {
-		let e, a, s, o;
-		a = (e = su(n, !0, "fixed" === t)).top + n.clientTop, s = e.left + n.clientLeft, o = rK(n) ? si(n) : rC(1), r = {
-			width: n.clientWidth * o.x,
-			height: n.clientHeight * o.y,
-			x: s * o.x,
-			y: a * o.y
+	}(rG(e));
+	else if (rX(n)) a = function(e, n) {
+		let t = su(e, !0, "fixed" === n), a = t.top + e.clientTop, r = t.left + e.clientLeft, s = rK(e) ? si(e) : rC(1);
+		return {
+			width: e.clientWidth * s.x,
+			height: e.clientHeight * s.y,
+			x: r * s.x,
+			y: a * s.y
 		};
-	} else {
+	}(n, t);
+	else {
 		let t = sc(e);
-		r = {
+		a = {
 			x: n.x - t.x,
 			y: n.y - t.y,
 			width: n.width,
 			height: n.height
 		};
 	}
-	return rF(r);
+	return rF(a);
 }
 function sf(e) {
 	return "static" === se(e).position;
@@ -4484,15 +4497,26 @@ var sv = function(e) {
 			return k !== M.width || g !== M.height ? { reset: { rects: !0 } } : {};
 		}
 	};
-}, sx = eu((e, { slots: n, emit: t, attrs: a }) => {
+}, sx = f((e, { slots: n, emit: t, attrs: a }) => {
 	let r = ei(null), s = ei(null);
-	return F(ef([r, s]), W(([n, t]) => {
+	return j(eu([r, s]), U(([n, t]) => {
 		if (t && n) {
 			let a = async () => {
-				var a, r, s;
-				let o, i, l;
+				var a, r;
 				t.style.position = "absolute";
-				let c = await (s = {
+				let s = await ((e, n, t) => {
+					let a = /* @__PURE__ */ new Map(), r = {
+						platform: sy,
+						...t
+					}, s = {
+						...r.platform,
+						_c: a
+					};
+					return rj(e, n, {
+						...r,
+						platform: s
+					});
+				})(n, t, {
 					placement: e.placement ?? "bottom",
 					middleware: [
 						...e.modifiers ?? [],
@@ -4501,58 +4525,68 @@ var sv = function(e) {
 							name: "flip",
 							options: a,
 							async fn(e) {
-								var n, t, r, s, o, i, l, c;
-								let u, p, d, { placement: h, middlewareData: m, rects: f, initialPlacement: k, platform: g, elements: N } = e, { mainAxis: y = !0, crossAxis: b = !0, fallbackPlacements: v, fallbackStrategy: x = "bestFit", fallbackAxisSideDirection: w = "none", flipAlignment: C = !0,...M } = rS(a, e);
-								if (null != (n = m.arrow) && n.alignmentOffset) return {};
-								let P = r_(h), S = r$(k), _ = r_(k) === k, A = await (null == g.isRTL ? void 0 : g.isRTL(N.floating)), T = v || (_ || !C ? [rB(k)] : (u = rB(k), [
-									rD(k),
-									u,
-									rD(u)
-								])), L = "none" !== w;
-								!v && L && T.push(...(p = rA(k), d = function(e, n, t) {
-									switch (e) {
-										case "top":
-										case "bottom":
-											if (t) return n ? rH : rO;
-											return n ? rO : rH;
-										case "left":
-										case "right": return n ? rV : rI;
-										default: return [];
-									}
-								}(r_(k), "start" === w, A), p && (d = d.map((e) => e + "-" + p), C && (d = d.concat(d.map(rD)))), d));
-								let R = [k, ...T], $ = await rW(e, M), D = [], O = (null == (t = m.flip) ? void 0 : t.overflows) || [];
-								if (y && D.push($[P]), b) {
-									let e, n, t, a, r = (i = h, l = f, void 0 === (c = A) && (c = !1), e = rA(i), t = rL(n = rT(r$(i))), a = "x" === n ? e === (c ? "end" : "start") ? "right" : "left" : "start" === e ? "bottom" : "top", l.reference[t] > l.floating[t] && (a = rB(a)), [a, rB(a)]);
-									D.push($[r[0]], $[r[1]]);
+								var n, t, r, s, o;
+								let { placement: i, middlewareData: l, rects: c, initialPlacement: u, platform: p, elements: d } = e, { mainAxis: h = !0, crossAxis: m = !0, fallbackPlacements: f, fallbackStrategy: k = "bestFit", fallbackAxisSideDirection: g = "none", flipAlignment: N = !0,...y } = rS(a, e);
+								if (null != (n = l.arrow) && n.alignmentOffset) return {};
+								let b = r_(i), v = r$(u), x = r_(u) === u, w = await (null == p.isRTL ? void 0 : p.isRTL(d.floating)), C = f || (x || !N ? [rB(u)] : function(e) {
+									let n = rB(e);
+									return [
+										rD(e),
+										n,
+										rD(n)
+									];
+								}(u)), M = "none" !== g;
+								!f && M && C.push(...function(e, n, t, a) {
+									let r = rA(e), s = function(e, n, t) {
+										switch (e) {
+											case "top":
+											case "bottom":
+												if (t) return n ? rH : rO;
+												return n ? rO : rH;
+											case "left":
+											case "right": return n ? rV : rI;
+											default: return [];
+										}
+									}(r_(e), "start" === t, a);
+									return r && (s = s.map((e) => e + "-" + r), n && (s = s.concat(s.map(rD)))), s;
+								}(u, N, g, w));
+								let P = [u, ...C], S = await rW(e, y), _ = [], A = (null == (t = l.flip) ? void 0 : t.overflows) || [];
+								if (h && _.push(S[b]), m) {
+									let e = function(e, n, t) {
+										void 0 === t && (t = !1);
+										let a = rA(e), r = rT(r$(e)), s = rL(r), o = "x" === r ? a === (t ? "end" : "start") ? "right" : "left" : "start" === a ? "bottom" : "top";
+										return n.reference[s] > n.floating[s] && (o = rB(o)), [o, rB(o)];
+									}(i, c, w);
+									_.push(S[e[0]], S[e[1]]);
 								}
-								if (O = [...O, {
-									placement: h,
-									overflows: D
-								}], !D.every((e) => e <= 0)) {
-									let e = ((null == (r = m.flip) ? void 0 : r.index) || 0) + 1, n = R[e];
-									if (n && ("alignment" !== b || S === r$(n) || O.every((e) => r$(e.placement) !== S || e.overflows[0] > 0))) return {
+								if (A = [...A, {
+									placement: i,
+									overflows: _
+								}], !_.every((e) => e <= 0)) {
+									let e = ((null == (r = l.flip) ? void 0 : r.index) || 0) + 1, n = P[e];
+									if (n && ("alignment" !== m || v === r$(n) || A.every((e) => r$(e.placement) !== v || e.overflows[0] > 0))) return {
 										data: {
 											index: e,
-											overflows: O
+											overflows: A
 										},
 										reset: { placement: n }
 									};
-									let t = null == (s = O.filter((e) => e.overflows[0] <= 0).sort((e, n) => e.overflows[1] - n.overflows[1])[0]) ? void 0 : s.placement;
-									if (!t) switch (x) {
+									let t = null == (s = A.filter((e) => e.overflows[0] <= 0).sort((e, n) => e.overflows[1] - n.overflows[1])[0]) ? void 0 : s.placement;
+									if (!t) switch (k) {
 										case "bestFit": {
-											let e = null == (o = O.filter((e) => {
-												if (L) {
+											let e = null == (o = A.filter((e) => {
+												if (M) {
 													let n = r$(e.placement);
-													return n === S || "y" === n;
+													return n === v || "y" === n;
 												}
 												return !0;
 											}).map((e) => [e.placement, e.overflows.filter((e) => e > 0).reduce((e, n) => e + n, 0)]).sort((e, n) => e[1] - n[1])[0]) ? void 0 : o[0];
 											e && (t = e);
 											break;
 										}
-										case "initialPlacement": t = k;
+										case "initialPlacement": t = u;
 									}
-									if (h !== t) return { reset: { placement: t } };
+									if (i !== t) return { reset: { placement: t } };
 								}
 								return {};
 							}
@@ -4598,20 +4632,11 @@ var sv = function(e) {
 							}
 						})
 					]
-				}, o = /* @__PURE__ */ new Map(), l = {
-					...(i = {
-						platform: sy,
-						...s
-					}).platform,
-					_c: o
-				}, rj(n, t, {
-					...i,
-					platform: l
-				}));
+				});
 				Object.assign(t.style, {
-					left: `${c.x}px`,
-					top: `${c.y}px`
-				}), t.setAttribute("data-placement", c.placement);
+					left: `${s.x}px`,
+					top: `${s.y}px`
+				}), t.setAttribute("data-placement", s.placement);
 			}, r = function(e, n, t, a) {
 				let r;
 				void 0 === a && (a = {});
@@ -4629,27 +4654,27 @@ var sv = function(e) {
 						void 0 === i && (i = !1), void 0 === l && (l = 1), s();
 						let c = e.getBoundingClientRect(), { left: u, top: p, width: d, height: h } = c;
 						if (i || n(), !d || !h) return;
-						let m = {
-							rootMargin: -rw(p) + "px " + -rw(r.clientWidth - (u + d)) + "px " + -rw(r.clientHeight - (p + h)) + "px " + -rw(u) + "px",
+						let m = rw(p), f = rw(r.clientWidth - (u + d)), k = {
+							rootMargin: -m + "px " + -f + "px " + -rw(r.clientHeight - (p + h)) + "px " + -rw(u) + "px",
 							threshold: rv(0, rb(1, l)) || 1
-						}, f = !0;
-						function k(n) {
+						}, g = !0;
+						function N(n) {
 							let a = n[0].intersectionRatio;
 							if (a !== l) {
-								if (!f) return o();
+								if (!g) return o();
 								a ? o(!1, a) : t = setTimeout(() => {
 									o(!1, 1e-7);
 								}, 1e3);
 							}
-							1 !== a || sb(c, e.getBoundingClientRect()) || o(), f = !1;
+							1 !== a || sb(c, e.getBoundingClientRect()) || o(), g = !1;
 						}
 						try {
-							a = new IntersectionObserver(k, {
-								...m,
+							a = new IntersectionObserver(N, {
+								...k,
 								root: r.ownerDocument
 							});
 						} catch (e) {
-							a = new IntersectionObserver(k, m);
+							a = new IntersectionObserver(N, k);
 						}
 						a.observe(e);
 					}(!0), s;
@@ -4677,9 +4702,9 @@ var sv = function(e) {
 			};
 		}
 		return () => {};
-	}), I()), () => {
+	}), F()), () => {
 		let o = n.default?.()[0];
-		return o ? Y(d, { children: [m(o, {
+		return o ? X(q, { children: [es(o, {
 			...a,
 			onVnodeMounted: (e) => {
 				r.value = function e(n) {
@@ -4690,7 +4715,7 @@ var sv = function(e) {
 					return null;
 				}(e.el);
 			}
-		}), D(ry, {
+		}), H(ry, {
 			style: { zIndex: 100 },
 			triggerRef: r,
 			contentRef: s,
@@ -4757,7 +4782,7 @@ var sv = function(e) {
 	"& p,li": { my: "1em" },
 	overflowY: "auto"
 });
-let sF = er(() => {
+let sF = ea(() => {
 	let e = {
 		primary: "#1270f5",
 		secondary: "#8a90a5",
@@ -4826,38 +4851,38 @@ var sE = t((e, n) => {
 		}
 		return d;
 	};
-}), sW = n(sj()), sz = eu(() => {
-	let e = sF.use(), n = K(null);
+}), sW = n(sj()), sz = f(() => {
+	let e = sF.use(), n = Z(null);
 	return () => {
 		let t = aw.fromColors(e.value.seed);
-		return Y(rd, {
+		return X(rd, {
 			ref: n,
 			sx: {
 				display: "flex",
 				flexDirection: "column",
 				gap: 24
 			},
-			children: [Y(rd, {
+			children: [X(rd, {
 				sx: {
 					display: "flex",
 					gap: 56
 				},
-				children: [D(rd, {
+				children: [H(rd, {
 					sx: {
 						display: "flex",
 						flexDirection: "column"
 					},
-					children: k(e.value.seed, (n, t) => Y(rd, {
+					children: L(e.value.seed, (n, t) => X(rd, {
 						sx: {
 							flex: 1,
 							display: "flex",
 							alignItems: "center",
 							gap: 16
 						},
-						children: [D(rd, {
+						children: [H(rd, {
 							sx: { flex: 1 },
 							children: t
-						}), D("input", {
+						}), H("input", {
 							type: "color",
 							value: n,
 							onChange: (n) => {
@@ -4867,22 +4892,22 @@ var sE = t((e, n) => {
 							}
 						})]
 					}))
-				}), D(rd, {
+				}), H(rd, {
 					sx: {
 						display: "flex",
 						flexWrap: "wrap",
 						gap: 16
 					},
-					children: k(e.value.rules, ([n, a], r) => Y(rd, {
+					children: L(e.value.rules, ([n, a], r) => X(rd, {
 						sx: {
 							display: "flex",
 							alignItems: "center",
 							width: "30%"
 						},
-						children: [D(rd, {
+						children: [H(rd, {
 							sx: { flex: 1 },
 							children: r
-						}), D(rd, {
+						}), H(rd, {
 							sx: {
 								flex: 1,
 								display: "flex",
@@ -4893,7 +4918,7 @@ var sE = t((e, n) => {
 									borderColor: "sys.outline"
 								}
 							},
-							children: D("input", {
+							children: H("input", {
 								type: "number",
 								value: a,
 								max: 100,
@@ -4920,15 +4945,15 @@ var sE = t((e, n) => {
 						})]
 					}))
 				})]
-			}), D(rd, {
+			}), H(rd, {
 				sx: {
 					display: "flex",
 					gap: 16,
 					"& > *": { flex: 1 }
 				},
-				children: D("pre", {
+				children: H("pre", {
 					onClick: () => (0, sW.default)(JSON.stringify(e.value)),
-					children: D("code", { children: JSON.stringify(e.value, null, 2) })
+					children: H("code", { children: JSON.stringify(e.value, null, 2) })
 				})
 			})]
 		});
@@ -4946,23 +4971,23 @@ var sE = t((e, n) => {
 	90: !0,
 	95: !0,
 	100: !0
-}, sq = eu(() => () => D(d, { children: ["light", "dark"].map((e) => Y("div", {
+}, sq = f(() => () => H(q, { children: ["light", "dark"].map((e) => X("div", {
 	"data-theme": e,
-	children: [Y(rd, {
+	children: [X(rd, {
 		component: "h1",
 		sx: {
 			textStyle: "sys.headline-medium",
 			pb: 8,
 			mt: 16
 		},
-		children: [eh(e), " Scheme"]
-	}), Y(rd, {
+		children: [g(e), " Scheme"]
+	}), X(rd, {
 		sx: {
 			display: "flex",
 			flexDirection: "column",
 			gap: 16
 		},
-		children: [D(rd, {
+		children: [H(rd, {
 			sx: {
 				display: "flex",
 				flexWrap: "wrap",
@@ -4975,20 +5000,20 @@ var sE = t((e, n) => {
 				"error",
 				"warning",
 				"success"
-			].map((e) => Y(rd, {
+			].map((e) => X(rd, {
 				sx: {
 					flex: 1,
 					minW: 1 / 4,
 					display: "flex",
 					alignItems: "stretch"
 				},
-				children: [D(rd, {
+				children: [H(rd, {
 					sx: {
 						flex: 1,
 						display: "flex",
 						flexDirection: "column"
 					},
-					children: ["", "-container"].map((n) => Y(i, { children: [D(rd, {
+					children: ["", "-container"].map((n) => X(d, { children: [H(rd, {
 						sx: {
 							bgColor: `sys.${e}${n}`,
 							color: `sys.on-${e}${n}`,
@@ -4996,7 +5021,7 @@ var sE = t((e, n) => {
 							flex: 3
 						},
 						children: `${e}${n}`
-					}), D(rd, {
+					}), H(rd, {
 						sx: {
 							color: `sys.${e}${n}`,
 							bgColor: `sys.on-${e}${n}`,
@@ -5005,12 +5030,12 @@ var sE = t((e, n) => {
 						},
 						children: `on-${e}${n}`
 					})] }, n))
-				}), D(rd, {
+				}), H(rd, {
 					sx: {
 						display: "flex",
 						flexDirection: "column"
 					},
-					children: k(sU, (n, t) => Y(rd, {
+					children: L(sU, (n, t) => X(rd, {
 						sx: {
 							color: `${e}.${parseInt(t) > 50 ? 0 : 100}`,
 							bgColor: `${e}.${t}`,
@@ -5022,8 +5047,8 @@ var sE = t((e, n) => {
 					}))
 				})]
 			}, e))
-		}), Y("div", { children: [
-			D(rd, {
+		}), X("div", { children: [
+			H(rd, {
 				sx: {
 					display: "flex",
 					"& > *": { width: 1 / 3 }
@@ -5032,7 +5057,7 @@ var sE = t((e, n) => {
 					"-dim",
 					"",
 					"-bright"
-				].map((e) => D(rd, {
+				].map((e) => H(rd, {
 					sx: {
 						color: "sys.on-surface",
 						bgColor: `sys.surface${e}`,
@@ -5042,7 +5067,7 @@ var sE = t((e, n) => {
 					children: `surface${e}`
 				}))
 			}),
-			D(rd, {
+			H(rd, {
 				sx: {
 					display: "flex",
 					"& > *": { width: 1 / 4 }
@@ -5053,7 +5078,7 @@ var sE = t((e, n) => {
 					"",
 					"-high",
 					"-highest"
-				].map((e) => D(rd, {
+				].map((e) => H(rd, {
 					sx: {
 						color: "sys.on-surface",
 						bgColor: `sys.surface-container${e}`,
@@ -5063,7 +5088,7 @@ var sE = t((e, n) => {
 					children: `surface-container${e}`
 				}))
 			}),
-			D(rd, {
+			H(rd, {
 				sx: {
 					display: "flex",
 					"& > *": { width: 1 / 4 }
@@ -5073,7 +5098,7 @@ var sE = t((e, n) => {
 					"on-surface-variant",
 					"outline",
 					"outline-variant"
-				].map((e) => D(rd, {
+				].map((e) => H(rd, {
 					sx: {
 						color: e.includes("outline-variant") ? "sys.inverse-surface" : "sys.inverse-on-surface",
 						bgColor: `sys.${e}`,
@@ -5083,9 +5108,9 @@ var sE = t((e, n) => {
 					children: e
 				}))
 			}),
-			D(rd, {
+			H(rd, {
 				sx: { display: "flex" },
-				children: k(sU, (e, n) => Y(rd, {
+				children: L(sU, (e, n) => X(rd, {
 					sx: {
 						color: `neutral.${parseInt(n) > 50 ? 0 : 100}`,
 						bgColor: `neutral.${n}`,
@@ -5098,9 +5123,9 @@ var sE = t((e, n) => {
 			})
 		] })]
 	})]
-}, e)) })), sG = eu(() => {
+}, e)) })), sG = f(() => {
 	let e = aA.use();
-	return () => D(d, { children: Object.keys(e.token.elevation.tokens).map((e) => D(rd, {
+	return () => H(q, { children: Object.keys(e.token.elevation.tokens).map((e) => H(rd, {
 		sx: {
 			mt: 16,
 			p: 16,
@@ -5110,17 +5135,17 @@ var sE = t((e, n) => {
 			shadow: e,
 			_hover: { shadow: `${1 + parseInt(e)}` }
 		},
-		children: Y("div", { children: ["Elevation ", e] })
+		children: X("div", { children: ["Elevation ", e] })
 	}, e)) });
-}), sY = eu(() => {
+}), sY = f(() => {
 	let e = aA.use();
-	return () => Y(rd, {
+	return () => X(rd, {
 		sx: {
 			display: "flex",
 			gap: 16,
 			flexDirection: "column"
 		},
-		children: [D("div", { children: "点击下载，通过 Figma Tokens 全量导入文件" }), D("pre", {
+		children: [H("div", { children: "点击下载，通过 Figma Tokens 全量导入文件" }), H("pre", {
 			onClick: () => {
 				(function(e, n, t = "application/json") {
 					let a = document.createElement("a"), r = new Blob([e], { type: t }), s = URL.createObjectURL(r);
@@ -5129,10 +5154,10 @@ var sE = t((e, n) => {
 					}, 0);
 				})(JSON.stringify(e.toFigmaTokens(), null, 2), `tokens.${(/* @__PURE__ */ new Date()).getTime()}.json`);
 			},
-			children: D("code", { children: JSON.stringify(e.toFigmaTokens(), null, 2) })
+			children: H("code", { children: JSON.stringify(e.toFigmaTokens(), null, 2) })
 		})]
 	});
-}), sX = rh("button", { disabled: r().optional() }, { displayName: "Button" })({
+}), sX = rh("button", { disabled: P().optional() }, { displayName: "Button" })({
 	bg: "none",
 	outline: "none",
 	border: "none",
@@ -5145,22 +5170,22 @@ var sE = t((e, n) => {
 		color: tV("sys.on-surface", tH(.12)),
 		bgColor: tV("sys.on-surface", tH(.08))
 	}
-}), sK = () => Y(rd, {
+}), sK = () => X(rd, {
 	sx: {
 		display: "flex",
 		gap: 8
 	},
-	children: [D(sX, { children: "按钮" }), D(sX, {
+	children: [H(sX, { children: "按钮" }), H(sX, {
 		disabled: !0,
 		children: "按钮"
 	})]
-}), sZ = eu(() => () => D(rd, {
+}), sZ = f(() => () => H(rd, {
 	sx: {
 		display: "flex",
 		padding: 10,
 		containerStyle: "sys.primary"
 	},
-	children: D(rd, {
+	children: H(rd, {
 		sx: { containerStyle: "sys.surface-container" },
 		component: "button",
 		children: "Hi 111"
@@ -5184,799 +5209,799 @@ function sJ(e) {
 		ul: "ul",
 		...e.components
 	};
-	return Y(d, { children: [
-		Y(n.p, { children: ["设计理念沿用 ", D(n.a, {
+	return X(q, { children: [
+		X(n.p, { children: ["设计理念沿用 ", H(n.a, {
 			href: "https://m3.material.io/",
 			children: "Material 3"
 		})] }),
 		"\n",
-		D(n.p, { children: "这里仅为适配该设计理念，抽象 Design System, 方便开发：" }),
+		H(n.p, { children: "这里仅为适配该设计理念，抽象 Design System, 方便开发：" }),
 		"\n",
-		Y(n.p, { children: [
+		X(n.p, { children: [
 			"所有的 Design Token 将声明为 ",
-			D(n.code, { children: "css var" }),
+			H(n.code, { children: "css var" }),
 			" (",
-			D(n.a, {
+			H(n.a, {
 				href: "https://developer.mozilla.org/en-US/docs/Web/CSS/--*",
 				children: "Custom properties"
 			}),
 			"),\n可同时支持在 ",
-			D(n.code, { children: "css-in-js" }),
+			H(n.code, { children: "css-in-js" }),
 			" 和 ",
-			D(n.code, { children: "raw css" }),
+			H(n.code, { children: "raw css" }),
 			" 中使用。"
 		] }),
 		"\n",
-		D(n.h2, { children: D(n.code, { children: "css-in-js" }) }),
+		H(n.h2, { children: H(n.code, { children: "css-in-js" }) }),
 		"\n",
-		D(n.p, { children: "TypeScript 的帮助下，还会提供准确的 Design Token 值. 如：" }),
+		H(n.p, { children: "TypeScript 的帮助下，还会提供准确的 Design Token 值. 如：" }),
 		"\n",
-		Y(n.div, {
+		X(n.div, {
 			"data-example": "",
-			children: [D(n.div, {
+			children: [H(n.div, {
 				"data-example-container": "",
-				children: D(n.codeblock4a44dc15, {})
-			}), D(n.pre, {
+				children: H(n.codeblock4a44dc15, {})
+			}), H(n.pre, {
 				className: "language-tsx",
-				children: Y(n.code, {
+				children: X(n.code, {
 					className: "language-tsx",
 					children: [
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Box"
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" alpha",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" styled",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" variant ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vueuikit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" t ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword",
 							children: "const"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token maybe-class-name",
 							children: "Button"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: "="
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "styled"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"button\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  disabled",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" t",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token method function property-access",
 							children: "boolean"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token method function property-access",
 							children: "optional"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  bg",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"none\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  outline",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"none\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  border",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"none\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  px",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "16"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  h",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "40"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  rounded",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"md\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// 利用 TypeScript 的推导而来，且非 color 属性无该值"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// 实际将转换为 var(--vk-color-sys-primary)"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// sys-* 的 color 还会随暗黑/普通主题进行切换"
 						}),
 						"\n  color",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"sys.primary\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// color 变种"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// 实际将转换为 rbga(var(--vk-color-sys-primary-rgb) / 0.08)"
 						}),
 						"\n  bgColor",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "variant"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"sys.primary\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "alpha"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "0.08"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// 通常情况下，组件 props 将转换成 data-<prop> 作为 attr"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// 即： <Button disabled/>  =>  <button data-disabled=true />"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token comment",
 							children: "// 同理，在自定义转换规则中，也建议如下做类似的转换，避免动态创建 CSSObject"
 						}),
 						"\n  _disabled",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n    color",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "variant"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"sys.on-surface\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "alpha"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "0.12"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    bgColor",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "variant"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"sys.on-surface\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "alpha"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "0.08"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword control-flow",
 							children: "return"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n    ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" display",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"flex\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ","
 										}),
 										" gap",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token number",
 											children: "8"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "<"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Button"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "按钮"
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Button"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Button"
 									})]
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "disabled"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token boolean",
 											children: "true"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "按钮"
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Button"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n    "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -5986,381 +6011,381 @@ function sJ(e) {
 			})]
 		}),
 		"\n",
-		Y(n.p, { children: ["不同于其他框架中的 theme 定义，为了更准确的类型推导，需要由 DesignToken 进行创建\n详细请", D(n.a, {
+		X(n.p, { children: ["不同于其他框架中的 theme 定义，为了更准确的类型推导，需要由 DesignToken 进行创建\n详细请", H(n.a, {
 			href: "https://github.com/innoai-tech/vuekit/blob/main/nodepkg/vueuikit/src/theming/m3",
 			children: "参考源码"
 		})] }),
 		"\n",
-		Y(n.p, { children: [
+		X(n.p, { children: [
 			"虽然底层使用的是 ",
-			D(n.code, { children: "@emotion/*" }),
+			H(n.code, { children: "@emotion/*" }),
 			"，但屏蔽掉了 ",
-			D(n.code, { children: "array" }),
+			H(n.code, { children: "array" }),
 			" 等非 CSSObject 值的使用, 初衷是为了更稳定的类型推导。\n另外样式扩展有两种方式"
 		] }),
 		"\n",
-		D(n.pre, {
+		H(n.pre, {
 			className: "language-tsx",
-			children: Y(n.code, {
+			children: X(n.code, {
 				className: "language-tsx",
 				children: [
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword module",
 						children: "import"
 					}),
 					" ",
-					Y(n.span, {
+					X(n.span, {
 						className: "token imports",
 						children: [
-							D(n.span, {
+							H(n.span, {
 								className: "token punctuation",
 								children: "{"
 							}),
 							" t ",
-							D(n.span, {
+							H(n.span, {
 								className: "token punctuation",
 								children: "}"
 							})
 						]
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword module",
 						children: "from"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token string",
 						children: "\"@innoai-tech/vuekit\""
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ";"
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword module",
 						children: "import"
 					}),
 					" ",
-					Y(n.span, {
+					X(n.span, {
 						className: "token imports",
 						children: [
-							D(n.span, {
+							H(n.span, {
 								className: "token punctuation",
 								children: "{"
 							}),
 							" styled",
-							D(n.span, {
+							H(n.span, {
 								className: "token punctuation",
 								children: ","
 							}),
 							" ",
-							D(n.span, {
+							H(n.span, {
 								className: "token maybe-class-name",
 								children: "SystemStyleObject"
 							}),
 							" ",
-							D(n.span, {
+							H(n.span, {
 								className: "token punctuation",
 								children: "}"
 							})
 						]
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword module",
 						children: "from"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token string",
 						children: "\"@innoai-tech/vueuikit\""
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ";"
 					}),
 					"\n\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword",
 						children: "const"
 					}),
 					" shared",
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: ":"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token maybe-class-name",
 						children: "SystemStyleObject"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: "="
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "{"
 					}),
 					"\n  color",
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: ":"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token string",
 						children: "\"sys.primary\""
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ","
 					}),
 					"\n  ",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// ..."
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "}"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ";"
 					}),
 					"\n\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// 直接通过 extends 复用样式"
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "//"
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// 组件 props 定义需要重新声明"
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword module",
 						children: "export"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword",
 						children: "const"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token maybe-class-name",
 						children: "ButtonBase"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: "="
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token function",
 						children: "styled"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "("
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token string",
 						children: "\"button\""
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ","
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "{"
 					}),
 					"\n  disabled",
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: ":"
 					}),
 					" t",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "."
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token method function property-access",
 						children: "boolean"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "("
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ")"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "."
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token method function property-access",
 						children: "optional"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "("
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ")"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ","
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "}"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ")"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "("
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "{"
 					}),
 					"\n  ",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword",
 						children: "extends"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: ":"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "["
 					}),
 					"shared",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "]"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ","
 					}),
 					"\n  ",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// ..."
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "}"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ")"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ";"
 					}),
 					"\n\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// 通过 styled 覆写样式"
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// 可以完全继承 BaseButton 的 props 定义"
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword module",
 						children: "export"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token keyword",
 						children: "const"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token maybe-class-name",
 						children: "Button"
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token operator",
 						children: "="
 					}),
 					" ",
-					D(n.span, {
+					H(n.span, {
 						className: "token function",
 						children: "styled"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "("
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token maybe-class-name",
 						children: "ButtonBase"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ")"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "("
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "{"
 					}),
 					"\n  ",
-					D(n.span, {
+					H(n.span, {
 						className: "token comment",
 						children: "// ..."
 					}),
 					"\n",
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: "}"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ")"
 					}),
-					D(n.span, {
+					H(n.span, {
 						className: "token punctuation",
 						children: ";"
 					}),
@@ -6369,382 +6394,382 @@ function sJ(e) {
 			})
 		}),
 		"\n",
-		Y(n.p, { children: [
+		X(n.p, { children: [
 			"除 ",
-			D(n.code, { children: "styled" }),
+			H(n.code, { children: "styled" }),
 			" 外，我们还可以使用 ",
-			D(n.code, { children: "Box" }),
+			H(n.code, { children: "Box" }),
 			" 进行快速样式定义, 通过 ",
-			D(n.code, { children: "sx" }),
+			H(n.code, { children: "sx" }),
 			" prop。 并且 ",
-			D(n.code, { children: "component" }),
+			H(n.code, { children: "component" }),
 			" prop 支持我们随时切换 tag 或者\n组件，并且其他 props 会随着不同的 component 切换对应 props 类型约束与提示。"
 		] }),
 		"\n",
-		D(n.p, { children: "同样的，通过 styled 创建的组件也有一样的特性。" }),
+		H(n.p, { children: "同样的，通过 styled 创建的组件也有一样的特性。" }),
 		"\n",
-		Y(n.div, {
+		X(n.div, {
 			"data-example": "",
-			children: [D(n.div, {
+			children: [H(n.div, {
 				"data-example-container": "",
-				children: D(n.codeblock785f3ec7, {})
-			}), D(n.pre, {
+				children: H(n.codeblock785f3ec7, {})
+			}), H(n.pre, {
 				className: "language-tsx",
-				children: Y(n.code, {
+				children: X(n.code, {
 					className: "language-tsx",
 					children: [
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" component ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Box"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vueuikit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "component"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n  ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" display",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"flex\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ","
 										}),
 										" padding",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token number",
 											children: "10"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ","
 										}),
 										" containerStyle",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"sys.primary\""
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n    "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" containerStyle",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"sys.surface-container\""
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "component"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"button\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n      Hi 111\n    "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n  "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -6754,53 +6779,53 @@ function sJ(e) {
 			})]
 		}),
 		"\n",
-		D(n.h3, { children: "CSS Selector 简写规则" }),
+		H(n.h3, { children: "CSS Selector 简写规则" }),
 		"\n",
-		Y(n.p, { children: [
+		X(n.p, { children: [
 			"另外，为了简化 ",
-			D(n.code, { children: "\"&:hover\"" }),
+			H(n.code, { children: "\"&:hover\"" }),
 			" ",
-			D(n.code, { children: "&[aria-current='page']" }),
+			H(n.code, { children: "&[aria-current='page']" }),
 			" 等选择器声明，\n提供的如下的简化规则："
 		] }),
 		"\n",
-		Y(n.ul, { children: [
+		X(n.ul, { children: [
 			"\n",
-			Y(n.li, { children: [
+			X(n.li, { children: [
 				"所有名称支持 ",
-				D(n.em, { children: "下划线命名" }),
+				H(n.em, { children: "下划线命名" }),
 				" 或者 ",
-				D(n.em, { children: "驼峰命名" }),
+				H(n.em, { children: "驼峰命名" }),
 				"，最终都将转换为 ",
-				D(n.em, { children: "短横小写命名" }),
+				H(n.em, { children: "短横小写命名" }),
 				", ",
-				D(n.code, { children: "=" }),
+				H(n.code, { children: "=" }),
 				" 用 ",
-				D(n.code, { children: "__" }),
+				H(n.code, { children: "__" }),
 				" 替代"
 			] }),
 			"\n",
-			Y(n.li, { children: [
-				D(n.code, { children: "_*" }),
+			X(n.li, { children: [
+				H(n.code, { children: "_*" }),
 				" 一般表示",
-				D(n.strong, { children: "状态" }),
+				H(n.strong, { children: "状态" }),
 				"，可用值",
 				"\n",
-				Y(n.ul, { children: [
+				X(n.ul, { children: [
 					"\n",
-					Y(n.li, { children: [
-						D(n.code, { children: "data-*" }),
+					X(n.li, { children: [
+						H(n.code, { children: "data-*" }),
 						" 和 ",
-						D(n.code, { children: "aria-*" }),
+						H(n.code, { children: "aria-*" }),
 						", `",
 						"\n",
-						Y(n.ul, { children: [
+						X(n.ul, { children: [
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "_aria_current__page" }),
+								H(n.code, { children: "_aria_current__page" }),
 								"： 等效为 ",
-								D(n.code, { children: "&[aria-current='page']" }),
+								H(n.code, { children: "&[aria-current='page']" }),
 								","
 							] }),
 							"\n"
@@ -6808,51 +6833,51 @@ function sJ(e) {
 						"\n"
 					] }),
 					"\n",
-					Y(n.li, { children: [
-						D(n.code, { children: "before" }),
+					X(n.li, { children: [
+						H(n.code, { children: "before" }),
 						"，",
-						D(n.code, { children: "after" }),
+						H(n.code, { children: "after" }),
 						" 等",
-						D(n.a, {
+						H(n.a, {
 							href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-elements",
 							children: "伪元素"
 						}),
 						", 需要声明 \"$\" 表示为元素",
 						"\n",
-						Y(n.ul, { children: [
+						X(n.ul, { children: [
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "_$before" }),
+								H(n.code, { children: "_$before" }),
 								"： 等效为 ",
-								D(n.code, { children: "&::before" })
+								H(n.code, { children: "&::before" })
 							] }),
 							"\n"
 						] }),
 						"\n"
 					] }),
 					"\n",
-					Y(n.li, { children: [
-						D(n.code, { children: "hover" }),
+					X(n.li, { children: [
+						H(n.code, { children: "hover" }),
 						", ",
-						D(n.code, { children: "focus" }),
+						H(n.code, { children: "focus" }),
 						", ",
-						D(n.code, { children: "active" }),
+						H(n.code, { children: "active" }),
 						", ",
-						D(n.code, { children: "disabled" }),
+						H(n.code, { children: "disabled" }),
 						" 等",
-						D(n.a, {
+						H(n.a, {
 							href: "https://developer.mozilla.org/zh-CN/docs/Web/CSS/Pseudo-classes",
 							children: "伪类"
 						}),
 						"\n",
-						Y(n.ul, { children: [
+						X(n.ul, { children: [
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "_hover" }),
+								H(n.code, { children: "_hover" }),
 								"： 等效为 ",
-								D(n.code, { children: "&:hover, &.hover, &[data-hover]:not([data-hover='false'])" }),
+								H(n.code, { children: "&:hover, &.hover, &[data-hover]:not([data-hover='false'])" }),
 								","
 							] }),
 							"\n"
@@ -6860,16 +6885,16 @@ function sJ(e) {
 						"\n"
 					] }),
 					"\n",
-					Y(n.li, { children: [
+					X(n.li, { children: [
 						"以及其他自定义状态",
 						"\n",
-						Y(n.ul, { children: [
+						X(n.ul, { children: [
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "_has_icon" }),
+								H(n.code, { children: "_has_icon" }),
 								"： 等效为 ",
-								D(n.code, { children: "&[data-has-icon]:not([data-has-icon='false'])" })
+								H(n.code, { children: "&[data-has-icon]:not([data-has-icon='false'])" })
 							] }),
 							"\n"
 						] }),
@@ -6880,43 +6905,43 @@ function sJ(e) {
 				"\n"
 			] }),
 			"\n",
-			Y(n.li, { children: [
-				D(n.code, { children: "$*" }),
+			X(n.li, { children: [
+				H(n.code, { children: "$*" }),
 				" 或 ",
-				D(n.code, { children: "*$" }),
+				H(n.code, { children: "*$" }),
 				"，一般指代",
-				D(n.strong, { children: "元素节点" }),
+				H(n.strong, { children: "元素节点" }),
 				", 可用值为",
 				"\n",
-				Y(n.ul, { children: [
+				X(n.ul, { children: [
 					"\n",
-					Y(n.li, { children: [
-						D(n.code, { children: "data-*" }),
+					X(n.li, { children: [
+						H(n.code, { children: "data-*" }),
 						" 和 ",
-						D(n.code, { children: "aria-*" }),
+						H(n.code, { children: "aria-*" }),
 						", `",
 						"\n",
-						Y(n.ul, { children: [
+						X(n.ul, { children: [
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "$data_icon" }),
+								H(n.code, { children: "$data_icon" }),
 								"： 等效为 ",
-								D(n.code, { children: "&[data-icon]" })
+								H(n.code, { children: "&[data-icon]" })
 							] }),
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "$data_popper_arrow" }),
+								H(n.code, { children: "$data_popper_arrow" }),
 								"： 等效为 ",
-								D(n.code, { children: "&[data-popper-arrow]" })
+								H(n.code, { children: "&[data-popper-arrow]" })
 							] }),
 							"\n",
-							Y(n.li, { children: [
+							X(n.li, { children: [
 								"如 ",
-								D(n.code, { children: "data_popper_placement__right$" }),
+								H(n.code, { children: "data_popper_placement__right$" }),
 								"： 等效为 ",
-								D(n.code, { children: "[data-popper-placement=right] &" })
+								H(n.code, { children: "[data-popper-placement=right] &" })
 							] }),
 							"\n"
 						] }),
@@ -6932,24 +6957,24 @@ function sJ(e) {
 }
 function sQ(e = {}) {
 	let { wrapper: n } = e.components || {};
-	return n ? D(n, {
+	return n ? H(n, {
 		...e,
-		children: D(sJ, { ...e })
+		children: H(sJ, { ...e })
 	}) : sJ(e);
 }
-var s1 = _(() => () => T(sQ, { components: {
+var s1 = K(() => () => el(sQ, { components: {
 	codeblock4a44dc15: sK,
 	codeblock785f3ec7: sZ
-} })), s0 = eu(() => {
-	let e = J(!1), n = sv({ apply({ elements: e, rects: n }) {
+} })), s0 = f(() => {
+	let e = z(!1), n = sv({ apply({ elements: e, rects: n }) {
 		Object.assign(e.floating.style, { width: `${n.reference.width}px` });
 	} });
-	return () => D(sx, {
+	return () => H(sx, {
 		isOpen: e.value,
 		onClickOutside: () => e.value = !1,
 		placement: "bottom-start",
 		modifiers: [n],
-		$content: Y(rd, {
+		$content: X(rd, {
 			sx: { containerStyle: "sys.on-surface" },
 			children: [
 				"Popper ",
@@ -6957,22 +6982,22 @@ var s1 = _(() => () => T(sQ, { components: {
 				"!"
 			]
 		}),
-		children: D(rd, {
+		children: H(rd, {
 			sx: { p: 4 },
 			component: "button",
 			onClick: () => e.value = !e.value,
 			children: "Click Trigger Popper"
 		})
 	});
-}), s2 = eu(() => {
-	let e = J(!1);
-	return () => D(sx, {
+}), s2 = f(() => {
+	let e = z(!1);
+	return () => H(sx, {
 		isOpen: e.value,
-		$content: D(rd, {
+		$content: H(rd, {
 			sx: { containerStyle: "sys.on-surface" },
 			children: "Popper Content!"
 		}),
-		children: D(rd, {
+		children: H(rd, {
 			component: "button",
 			sx: { p: 4 },
 			onMouseover: () => e.value = !0,
@@ -6992,12 +7017,12 @@ let s5 = tW({
 	duration: tj.duration.sm4,
 	easing: tj.easing.standard.decelerate
 });
-var s4 = eu(() => {
-	let e = J(!0);
-	return () => D(sx, {
+var s4 = f(() => {
+	let e = z(!0);
+	return () => H(sx, {
 		isOpen: e.value,
-		$transition: ({ content: e }) => D(s5, { children: e }),
-		$content: Y(rd, {
+		$transition: ({ content: e }) => H(s5, { children: e }),
+		$content: X(rd, {
 			sx: {
 				containerStyle: "sys.on-surface",
 				shadow: "2",
@@ -7011,7 +7036,7 @@ var s4 = eu(() => {
 				"!"
 			]
 		}),
-		children: D(rd, {
+		children: H(rd, {
 			sx: { p: 4 },
 			component: "button",
 			onMouseover: () => e.value = !0,
@@ -7032,995 +7057,995 @@ function s3(e) {
 		span: "span",
 		...e.components
 	};
-	return Y(d, { children: [
-		D(n.h2, { children: "Normal Popper" }),
+	return X(q, { children: [
+		H(n.h2, { children: "Normal Popper" }),
 		"\n",
-		Y(n.div, {
+		X(n.div, {
 			"data-example": "",
-			children: [D(n.div, {
+			children: [H(n.div, {
 				"data-example-container": "",
-				children: D(n.codeblockd4735e3a, {})
-			}), D(n.pre, {
+				children: H(n.codeblockd4735e3a, {})
+			}), H(n.pre, {
 				className: "language-tsx",
-				children: Y(n.code, {
+				children: X(n.code, {
 					className: "language-tsx",
 					children: [
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" component ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Box"
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Popper"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vueuikit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" size ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@floating-ui/dom\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ref ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"vue\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "component"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword",
 							children: "const"
 						}),
 						" isOpen ",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: "="
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "ref"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token boolean",
 							children: "false"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword",
 							children: "const"
 						}),
 						" sameWidth ",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: "="
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "size"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "apply"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						" elements",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						" rects ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n      ",
-						D(n.span, {
+						H(n.span, {
 							className: "token known-class-name class-name",
 							children: "Object"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token method function property-access",
 							children: "assign"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"elements",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "floating"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "style"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n        width",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token template-string",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token template-punctuation string",
 									children: "`"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token interpolation",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token interpolation-punctuation punctuation",
 											children: "${"
 										}),
 										"rects",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "reference"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "width"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token interpolation-punctuation punctuation",
 											children: "}"
 										})
 									]
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token string",
 									children: "px"
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token template-punctuation string",
 									children: "`"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n      ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword control-flow",
 							children: "return"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n    ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Popper"
 									})]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "isOpen"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "onClickOutside"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "="
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token boolean",
 											children: "false"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "placement"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"bottom-start\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "modifiers"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "["
 										}),
 										"sameWidth",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "]"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "$content"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"\n        ",
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
 											children: [
-												Y(n.span, {
+												X(n.span, {
 													className: "token tag",
-													children: [D(n.span, {
+													children: [H(n.span, {
 														className: "token punctuation",
 														children: "<"
-													}), D(n.span, {
+													}), H(n.span, {
 														className: "token class-name",
 														children: "Box"
 													})]
 												}),
 												" ",
-												D(n.span, {
+												H(n.span, {
 													className: "token attr-name",
 													children: "sx"
 												}),
-												Y(n.span, {
+												X(n.span, {
 													className: "token script language-javascript",
 													children: [
-														D(n.span, {
+														H(n.span, {
 															className: "token script-punctuation punctuation",
 															children: "="
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "{"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "{"
 														}),
 														" containerStyle",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token string",
 															children: "\"sys.on-surface\""
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "}"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "}"
 														})
 													]
 												}),
-												D(n.span, {
+												H(n.span, {
 													className: "token punctuation",
 													children: ">"
 												})
 											]
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token plain-text",
 											children: "\n          Popper "
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										Y(n.span, {
+										X(n.span, {
 											className: "token template-string",
 											children: [
-												D(n.span, {
+												H(n.span, {
 													className: "token template-punctuation string",
 													children: "`"
 												}),
-												Y(n.span, {
+												X(n.span, {
 													className: "token interpolation",
 													children: [
-														D(n.span, {
+														H(n.span, {
 															className: "token interpolation-punctuation punctuation",
 															children: "${"
 														}),
 														"isOpen",
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "."
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token property-access",
 															children: "value"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token interpolation-punctuation punctuation",
 															children: "}"
 														})
 													]
 												}),
-												D(n.span, {
+												H(n.span, {
 													className: "token template-punctuation string",
 													children: "`"
 												})
 											]
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token plain-text",
 											children: "!\n        "
 										}),
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
-											children: [Y(n.span, {
+											children: [X(n.span, {
 												className: "token tag",
-												children: [D(n.span, {
+												children: [H(n.span, {
 													className: "token punctuation",
 													children: "</"
-												}), D(n.span, {
+												}), H(n.span, {
 													className: "token class-name",
 													children: "Box"
 												})]
-											}), D(n.span, {
+											}), H(n.span, {
 												className: "token punctuation",
 												children: ">"
 											})]
 										}),
 										"\n      ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n    ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" p",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token number",
 											children: "4"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "component"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"button\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "onClick"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "="
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "!"
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n        Click Trigger Popper\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n    "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Popper"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -8030,657 +8055,657 @@ function s3(e) {
 			})]
 		}),
 		"\n",
-		D(n.h2, { children: "Hovered Popper" }),
+		H(n.h2, { children: "Hovered Popper" }),
 		"\n",
-		Y(n.div, {
+		X(n.div, {
 			"data-example": "",
-			children: [D(n.div, {
+			children: [H(n.div, {
 				"data-example-container": "",
-				children: D(n.codeblocke7f6c011, {})
-			}), D(n.pre, {
+				children: H(n.codeblocke7f6c011, {})
+			}), H(n.pre, {
 				className: "language-tsx",
-				children: Y(n.code, {
+				children: X(n.code, {
 					className: "language-tsx",
 					children: [
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ref ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"vue\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" component ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Box"
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Popper"
 								}),
 								" ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vueuikit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "component"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword",
 							children: "const"
 						}),
 						" isOpen ",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: "="
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "ref"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token boolean",
 							children: "false"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword control-flow",
 							children: "return"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n    ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Popper"
 									})]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "isOpen"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "$content"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"\n        ",
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
 											children: [
-												Y(n.span, {
+												X(n.span, {
 													className: "token tag",
-													children: [D(n.span, {
+													children: [H(n.span, {
 														className: "token punctuation",
 														children: "<"
-													}), D(n.span, {
+													}), H(n.span, {
 														className: "token class-name",
 														children: "Box"
 													})]
 												}),
 												" ",
-												D(n.span, {
+												H(n.span, {
 													className: "token attr-name",
 													children: "sx"
 												}),
-												Y(n.span, {
+												X(n.span, {
 													className: "token script language-javascript",
 													children: [
-														D(n.span, {
+														H(n.span, {
 															className: "token script-punctuation punctuation",
 															children: "="
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "{"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "{"
 														}),
 														" containerStyle",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token string",
 															children: "\"sys.on-surface\""
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "}"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "}"
 														})
 													]
 												}),
-												D(n.span, {
+												H(n.span, {
 													className: "token punctuation",
 													children: ">"
 												})
 											]
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token plain-text",
 											children: "Popper Content!"
 										}),
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
-											children: [Y(n.span, {
+											children: [X(n.span, {
 												className: "token tag",
-												children: [D(n.span, {
+												children: [H(n.span, {
 													className: "token punctuation",
 													children: "</"
-												}), D(n.span, {
+												}), H(n.span, {
 													className: "token class-name",
 													children: "Box"
 												})]
-											}), D(n.span, {
+											}), H(n.span, {
 												className: "token punctuation",
 												children: ">"
 											})]
 										}),
 										"\n      ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n    ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "component"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"button\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" p",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token number",
 											children: "4"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "onMouseover"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "="
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token boolean",
 											children: "true"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "onMouseout"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "="
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token boolean",
 											children: "false"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n        Popper Trigger\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n    "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Popper"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -8690,1206 +8715,1206 @@ function s3(e) {
 			})]
 		}),
 		"\n",
-		D(n.h2, { children: "Animated" }),
+		H(n.h2, { children: "Animated" }),
 		"\n",
-		Y(n.div, {
+		X(n.div, {
 			"data-example": "",
-			children: [D(n.div, {
+			children: [H(n.div, {
 				"data-example-container": "",
-				children: D(n.codeblock4a44dc15, {})
-			}), D(n.pre, {
+				children: H(n.codeblock4a44dc15, {})
+			}), H(n.pre, {
 				className: "language-tsx",
-				children: Y(n.code, {
+				children: X(n.code, {
 					className: "language-tsx",
 					children: [
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ref ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"vue\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" component ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token imports",
 							children: [
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								"\n  ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Box"
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								"\n  defineTransition",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								"\n  ",
-								D(n.span, {
+								H(n.span, {
 									className: "token maybe-class-name",
 									children: "Popper"
 								}),
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								"\n  transition",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								"\n  triangle",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								"\n",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vueuikit\""
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword",
 							children: "const"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token maybe-class-name",
 							children: "FadeInOutTransition"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: "="
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "defineTransition"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n      opacity",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "0"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    to",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n      opacity",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "1"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    duration",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" transition",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "duration"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "md1"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    easing",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" transition",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "easing"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "standard"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "accelerate"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n      opacity",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "1"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    to",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n      opacity",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token number",
 							children: "0"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    duration",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" transition",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "duration"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "sm4"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n    easing",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: ":"
 						}),
 						" transition",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "easing"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "standard"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "."
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token property-access",
 							children: "decelerate"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ","
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "component"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword",
 							children: "const"
 						}),
 						" isOpen ",
-						D(n.span, {
+						H(n.span, {
 							className: "token operator",
 							children: "="
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token function",
 							children: "ref"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token boolean",
 							children: "true"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token keyword control-flow",
 							children: "return"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n    ",
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Popper"
 									})]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "isOpen"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "$transition"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" content ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"\n        ",
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
-											children: [Y(n.span, {
+											children: [X(n.span, {
 												className: "token tag",
-												children: [D(n.span, {
+												children: [H(n.span, {
 													className: "token punctuation",
 													children: "<"
-												}), D(n.span, {
+												}), H(n.span, {
 													className: "token class-name",
 													children: "FadeInOutTransition"
 												})]
-											}), D(n.span, {
+											}), H(n.span, {
 												className: "token punctuation",
 												children: ">"
 											})]
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"content",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
-											children: [Y(n.span, {
+											children: [X(n.span, {
 												className: "token tag",
-												children: [D(n.span, {
+												children: [H(n.span, {
 													className: "token punctuation",
 													children: "</"
-												}), D(n.span, {
+												}), H(n.span, {
 													className: "token class-name",
 													children: "FadeInOutTransition"
 												})]
-											}), D(n.span, {
+											}), H(n.span, {
 												className: "token punctuation",
 												children: ">"
 											})]
 										}),
 										"\n      ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "$content"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"\n        ",
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
 											children: [
-												Y(n.span, {
+												X(n.span, {
 													className: "token tag",
-													children: [D(n.span, {
+													children: [H(n.span, {
 														className: "token punctuation",
 														children: "<"
-													}), D(n.span, {
+													}), H(n.span, {
 														className: "token class-name",
 														children: "Box"
 													})]
 												}),
 												"\n          ",
-												D(n.span, {
+												H(n.span, {
 													className: "token attr-name",
 													children: "sx"
 												}),
-												Y(n.span, {
+												X(n.span, {
 													className: "token script language-javascript",
 													children: [
-														D(n.span, {
+														H(n.span, {
 															className: "token script-punctuation punctuation",
 															children: "="
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "{"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "{"
 														}),
 														"\n            containerStyle",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token string",
 															children: "\"sys.on-surface\""
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: ","
 														}),
 														"\n            shadow",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token string",
 															children: "\"2\""
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: ","
 														}),
 														"\n            py",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token number",
 															children: "2"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: ","
 														}),
 														"\n            px",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token number",
 															children: "4"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: ","
 														}),
 														"\n            rounded",
-														D(n.span, {
+														H(n.span, {
 															className: "token operator",
 															children: ":"
 														}),
 														" ",
-														D(n.span, {
+														H(n.span, {
 															className: "token string",
 															children: "\"sm\""
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: ","
 														}),
 														"\n          ",
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "}"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "}"
 														})
 													]
 												}),
 												"\n        ",
-												D(n.span, {
+												H(n.span, {
 													className: "token punctuation",
 													children: ">"
 												})
 											]
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token plain-text",
 											children: "\n          Popper "
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										Y(n.span, {
+										X(n.span, {
 											className: "token template-string",
 											children: [
-												D(n.span, {
+												H(n.span, {
 													className: "token template-punctuation string",
 													children: "`"
 												}),
-												Y(n.span, {
+												X(n.span, {
 													className: "token interpolation",
 													children: [
-														D(n.span, {
+														H(n.span, {
 															className: "token interpolation-punctuation punctuation",
 															children: "${"
 														}),
 														"isOpen",
-														D(n.span, {
+														H(n.span, {
 															className: "token punctuation",
 															children: "."
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token property-access",
 															children: "value"
 														}),
-														D(n.span, {
+														H(n.span, {
 															className: "token interpolation-punctuation punctuation",
 															children: "}"
 														})
 													]
 												}),
-												D(n.span, {
+												H(n.span, {
 													className: "token template-punctuation string",
 													children: "`"
 												})
 											]
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token plain-text",
 											children: "!\n        "
 										}),
-										Y(n.span, {
+										X(n.span, {
 											className: "token tag",
-											children: [Y(n.span, {
+											children: [X(n.span, {
 												className: "token tag",
-												children: [D(n.span, {
+												children: [H(n.span, {
 													className: "token punctuation",
 													children: "</"
-												}), D(n.span, {
+												}), H(n.span, {
 													className: "token class-name",
 													children: "Box"
 												})]
-											}), D(n.span, {
+											}), H(n.span, {
 												className: "token punctuation",
 												children: ">"
 											})]
 										}),
 										"\n      ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n    ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
 							children: [
-								Y(n.span, {
+								X(n.span, {
 									className: "token tag",
-									children: [D(n.span, {
+									children: [H(n.span, {
 										className: "token punctuation",
 										children: "<"
-									}), D(n.span, {
+									}), H(n.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" p",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token number",
 											children: "4"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "component"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token string",
 											children: "\"button\""
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "onMouseover"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "="
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token boolean",
 											children: "true"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n        ",
-								D(n.span, {
+								H(n.span, {
 									className: "token attr-name",
 									children: "onMouseout"
 								}),
-								Y(n.span, {
+								X(n.span, {
 									className: "token script language-javascript",
 									children: [
-										D(n.span, {
+										H(n.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "("
 										}),
 										"isOpen",
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token property-access",
 											children: "value"
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token operator",
 											children: "="
 										}),
 										" ",
-										D(n.span, {
+										H(n.span, {
 											className: "token boolean",
 											children: "false"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										D(n.span, {
+										H(n.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								"\n      ",
-								D(n.span, {
+								H(n.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n        Animated Popper\n      "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token plain-text",
 							children: "\n    "
 						}),
-						Y(n.span, {
+						X(n.span, {
 							className: "token tag",
-							children: [Y(n.span, {
+							children: [X(n.span, {
 								className: "token tag",
-								children: [D(n.span, {
+								children: [H(n.span, {
 									className: "token punctuation",
 									children: "</"
-								}), D(n.span, {
+								}), H(n.span, {
 									className: "token class-name",
 									children: "Popper"
 								})]
-							}), D(n.span, {
+							}), H(n.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
 						"\n  ",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						D(n.span, {
+						H(n.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -9902,18 +9927,18 @@ function s3(e) {
 }
 function s6(e = {}) {
 	let { wrapper: n } = e.components || {};
-	return n ? D(n, {
+	return n ? H(n, {
 		...e,
-		children: D(s3, { ...e })
+		children: H(s3, { ...e })
 	}) : s3(e);
 }
-var s9 = _(() => () => T(s6, { components: {
+var s9 = K(() => () => el(s6, { components: {
 	codeblockd4735e3a: s0,
 	codeblocke7f6c011: s2,
 	codeblock4a44dc15: s4
-} })), s8 = eu(() => {
+} })), s8 = f(() => {
 	let e = aA.use();
-	return () => D(d, { children: D(rd, {
+	return () => H(q, { children: H(rd, {
 		sx: {
 			height: "40vh",
 			display: "flex",
@@ -9922,7 +9947,7 @@ var s9 = _(() => () => T(s6, { components: {
 			justifyContent: "space-between",
 			gap: 8
 		},
-		children: e.token.textStyle.tokens.map((e) => Y(rd, {
+		children: e.token.textStyle.tokens.map((e) => X(rd, {
 			sx: {
 				flex: 1,
 				rounded: "md",
@@ -9939,12 +9964,12 @@ var s9 = _(() => () => T(s6, { components: {
 				justifyContent: "space-between"
 			},
 			children: [
-				D(rd, {
+				H(rd, {
 					sx: { textStyle: "sys.label-small" },
 					children: e
 				}),
-				D(rd, { sx: { flex: 1 } }),
-				D(rd, {
+				H(rd, { sx: { flex: 1 } }),
+				H(rd, {
 					sx: { py: 16 },
 					children: "中文测试"
 				})
