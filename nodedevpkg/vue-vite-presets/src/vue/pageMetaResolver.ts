@@ -1,7 +1,11 @@
 import { isUndefined, set } from "es-toolkit/compat";
 import { readFile } from "fs/promises";
-import { type Plugin, type UserConfig, searchForWorkspaceRoot } from "rolldown-vite";
-import { type VueRoute, vueResolver } from "vite-plugin-pages";
+import {
+  type Plugin,
+  searchForWorkspaceRoot,
+  type UserConfig,
+} from "rolldown-vite";
+import { vueResolver, type VueRoute } from "vite-plugin-pages";
 
 const reJsDoc = /\/\*\*\s*\n([^*]|\*[^\/])*\*\//g;
 const reProp = /@property( +)\{(?<type>[^}]+)}( +)(?<path>[\w.]+)/g;
@@ -115,7 +119,7 @@ export default {
       .map((k) => {
         const name = m.meta[k];
         if (nameOfImports[name]) {
-          return `${k}: () => import("${nameOfImports[name]}?exportAsDefault=${name}&id=~page-meta.ts")`;
+          return `${k}: () => import("${nameOfImports[name]}").then(({ ${name} }) => ({ "default": ${name} }))`;
         }
         return `${k}: ${name}`;
       })
