@@ -19,8 +19,8 @@
     "es-toolkit": "^1.40.0",
     "globby": "^15.0.0",
     "hastscript": "^9.0.1",
-    "rolldown": "^1.0.0-beta.42",
-    "rolldown-vite": "^7.1.16",
+    "rolldown": "^1.0.0-beta.43",
+    "rolldown-vite": "^7.1.17",
     "unist-util-visit": "^5.0.0",
     "vite-plugin-pages": "^0.33.1",
     "vite-tsconfig-paths": "^5.1.4"
