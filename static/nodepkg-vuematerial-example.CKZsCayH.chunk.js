@@ -1,28 +1,26 @@
-import { F as n } from "./vendor-innoai-tech-vuekit.CrdESE0J.chunk.js";
-import { m as a } from "./vendor-innoai-tech-vueuikit.6XObxuYp.chunk.js";
-import { _ as e, m as s, p as c } from "./lib-nodepkg-vuematerial.DOllZ8PI.chunk.js";
-import { u as t } from "./vendor-innoai-tech-jsoneditor.VwAXinyt.chunk.js";
-import { Q as l, U as o, W as i, Z as p, q as r } from "./index.7YZvkNcF.entry.js";
-var m = n(() => () => o(s, { path: t })), d = n(() => () => i(a, {
+import { L as n, c as a, it as e, l as s, lt as c, ut as t } from "./vendor-innoai-tech-vuekit.BPGmk3ir.chunk.js";
+import { N as l, w as o } from "./vendor-innoai-tech-vueuikit.Dixq5_ax.chunk.js";
+import { _ as i, b as p, g as r } from "./vendor-innoai-tech-jsoneditor.Dpw7bHFQ.chunk.js";
+var d = n(() => () => a(i, { path: o })), m = n(() => () => s(l, {
 	sx: {
 		display: "flex",
 		gap: 16,
 		alignItems: "center"
 	},
-	children: [o(c, {
+	children: [a(r, {
 		active: !0,
 		onClick: () => console.log(1),
-		children: o(s, { path: t })
-	}), i(e, {
+		children: a(i, { path: o })
+	}), s(p, {
 		active: !1,
-		children: ["Send", o(s, {
-			path: t,
+		children: ["Send", a(i, {
+			path: o,
 			placement: "end"
 		})]
 	})]
 }));
 function u(n) {
-	let a = {
+	let c = {
 		a: "a",
 		code: "code",
 		codeblockd4735e3a: "codeblockd4735e3a",
@@ -34,242 +32,242 @@ function u(n) {
 		span: "span",
 		...n.components
 	};
-	return i(r, { children: [
-		i(a.p, { children: ["直接使用沿用 ", o(a.a, {
+	return s(e, { children: [
+		s(c.p, { children: ["直接使用沿用 ", a(c.a, {
 			href: "https://pictogrammers.com/library/mdi/",
 			children: "mid"
 		})] }),
 		"\n",
-		i(a.div, {
+		s(c.div, {
 			"data-example": "",
-			children: [o(a.div, {
+			children: [a(c.div, {
 				"data-example-container": "",
-				children: o(a.codeblockd4735e3a, {})
-			}), o(a.pre, {
+				children: a(c.codeblockd4735e3a, {})
+			}), a(c.pre, {
 				className: "language-tsx",
-				children: i(a.code, {
+				children: s(c.code, {
 					className: "language-tsx",
 					children: [
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" component ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" mdiSend ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@mdi/js\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token maybe-class-name",
 									children: "Icon"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuematerial\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token function",
 							children: "component"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword control-flow",
 							children: "return"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
 							children: [
-								i(a.span, {
+								s(c.span, {
 									className: "token tag",
-									children: [o(a.span, {
+									children: [a(c.span, {
 										className: "token punctuation",
 										children: "<"
-									}), o(a.span, {
+									}), a(c.span, {
 										className: "token class-name",
 										children: "Icon"
 									})]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "path"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token script language-javascript",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"mdiSend",
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "/>"
 								})
 							]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -279,664 +277,664 @@ function u(n) {
 			})]
 		}),
 		"\n",
-		o(a.h3, { children: "和 Button 一起使用" }),
+		a(c.h3, { children: "和 Button 一起使用" }),
 		"\n",
-		i(a.div, {
+		s(c.div, {
 			"data-example": "",
-			children: [o(a.div, {
+			children: [a(c.div, {
 				"data-example-container": "",
-				children: o(a.codeblocke7f6c011, {})
-			}), o(a.pre, {
+				children: a(c.codeblocke7f6c011, {})
+			}), a(c.pre, {
 				className: "language-tsx",
-				children: i(a.code, {
+				children: s(c.code, {
 					className: "language-tsx",
 					children: [
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" component ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuekit\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" mdiSend ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@mdi/js\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token maybe-class-name",
 									children: "FilledButton"
 								}),
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token maybe-class-name",
 									children: "Icon"
 								}),
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: ","
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token maybe-class-name",
 									children: "IconButton"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vuematerial\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "import"
 						}),
 						" ",
-						i(a.span, {
+						s(c.span, {
 							className: "token imports",
 							children: [
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "{"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token maybe-class-name",
 									children: "Box"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "}"
 								})
 							]
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "from"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token string",
 							children: "\"@innoai-tech/vueuikit\""
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "export"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword module",
 							children: "default"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token function",
 							children: "component"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "{"
 						}),
 						"\n  ",
-						o(a.span, {
+						a(c.span, {
 							className: "token keyword control-flow",
 							children: "return"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token arrow operator",
 							children: "=>"
 						}),
 						" ",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "("
 						}),
 						"\n    ",
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
 							children: [
-								i(a.span, {
+								s(c.span, {
 									className: "token tag",
-									children: [o(a.span, {
+									children: [a(c.span, {
 										className: "token punctuation",
 										children: "<"
-									}), o(a.span, {
+									}), a(c.span, {
 										className: "token class-name",
 										children: "Box"
 									})]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "sx"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token script language-javascript",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										" display",
-										o(a.span, {
+										a(c.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										o(a.span, {
+										a(c.span, {
 											className: "token string",
 											children: "\"flex\""
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: ","
 										}),
 										" gap",
-										o(a.span, {
+										a(c.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										o(a.span, {
+										a(c.span, {
 											className: "token number",
 											children: "16"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: ","
 										}),
 										" alignItems",
-										o(a.span, {
+										a(c.span, {
 											className: "token operator",
 											children: ":"
 										}),
 										" ",
-										o(a.span, {
+										a(c.span, {
 											className: "token string",
 											children: "\"center\""
 										}),
 										" ",
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
 							children: [
-								i(a.span, {
+								s(c.span, {
 									className: "token tag",
-									children: [o(a.span, {
+									children: [a(c.span, {
 										className: "token punctuation",
 										children: "<"
-									}), o(a.span, {
+									}), a(c.span, {
 										className: "token class-name",
 										children: "IconButton"
 									})]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "active"
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "onClick"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token script language-javascript",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
 										" ",
-										o(a.span, {
+										a(c.span, {
 											className: "token arrow operator",
 											children: "=>"
 										}),
 										" ",
-										o(a.span, {
+										a(c.span, {
 											className: "token console class-name",
 											children: "console"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "."
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token method function property-access",
 											children: "log"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "("
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token number",
 											children: "1"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: ")"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n        "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
 							children: [
-								i(a.span, {
+								s(c.span, {
 									className: "token tag",
-									children: [o(a.span, {
+									children: [a(c.span, {
 										className: "token punctuation",
 										children: "<"
-									}), o(a.span, {
+									}), a(c.span, {
 										className: "token class-name",
 										children: "Icon"
 									})]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "path"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token script language-javascript",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"mdiSend",
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "/>"
 								})
 							]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
-							children: [i(a.span, {
+							children: [s(c.span, {
 								className: "token tag",
-								children: [o(a.span, {
+								children: [a(c.span, {
 									className: "token punctuation",
 									children: "</"
-								}), o(a.span, {
+								}), a(c.span, {
 									className: "token class-name",
 									children: "IconButton"
 								})]
-							}), o(a.span, {
+							}), a(c.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
 							children: [
-								i(a.span, {
+								s(c.span, {
 									className: "token tag",
-									children: [o(a.span, {
+									children: [a(c.span, {
 										className: "token punctuation",
 										children: "<"
-									}), o(a.span, {
+									}), a(c.span, {
 										className: "token class-name",
 										children: "FilledButton"
 									})]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "active"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token script language-javascript",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token boolean",
 											children: "false"
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: ">"
 								})
 							]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n        Send\n        "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
 							children: [
-								i(a.span, {
+								s(c.span, {
 									className: "token tag",
-									children: [o(a.span, {
+									children: [a(c.span, {
 										className: "token punctuation",
 										children: "<"
-									}), o(a.span, {
+									}), a(c.span, {
 										className: "token class-name",
 										children: "Icon"
 									})]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "path"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token script language-javascript",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token script-punctuation punctuation",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "{"
 										}),
 										"mdiSend",
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "}"
 										})
 									]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token attr-name",
 									children: "placement"
 								}),
-								i(a.span, {
+								s(c.span, {
 									className: "token attr-value",
 									children: [
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation attr-equals",
 											children: "="
 										}),
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "\""
 										}),
 										"end",
-										o(a.span, {
+										a(c.span, {
 											className: "token punctuation",
 											children: "\""
 										})
 									]
 								}),
 								" ",
-								o(a.span, {
+								a(c.span, {
 									className: "token punctuation",
 									children: "/>"
 								})
 							]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n      "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
-							children: [i(a.span, {
+							children: [s(c.span, {
 								className: "token tag",
-								children: [o(a.span, {
+								children: [a(c.span, {
 									className: "token punctuation",
 									children: "</"
-								}), o(a.span, {
+								}), a(c.span, {
 									className: "token class-name",
 									children: "FilledButton"
 								})]
-							}), o(a.span, {
+							}), a(c.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token plain-text",
 							children: "\n    "
 						}),
-						i(a.span, {
+						s(c.span, {
 							className: "token tag",
-							children: [i(a.span, {
+							children: [s(c.span, {
 								className: "token tag",
-								children: [o(a.span, {
+								children: [a(c.span, {
 									className: "token punctuation",
 									children: "</"
-								}), o(a.span, {
+								}), a(c.span, {
 									className: "token class-name",
 									children: "Box"
 								})]
-							}), o(a.span, {
+							}), a(c.span, {
 								className: "token punctuation",
 								children: ">"
 							})]
 						}),
 						"\n  ",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
 						"\n",
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: "}"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ")"
 						}),
-						o(a.span, {
+						a(c.span, {
 							className: "token punctuation",
 							children: ";"
 						}),
@@ -948,14 +946,14 @@ function u(n) {
 	] });
 }
 function h(n = {}) {
-	let { wrapper: a } = n.components || {};
-	return a ? o(a, {
+	let { wrapper: e } = n.components || {};
+	return e ? a(e, {
 		...n,
-		children: o(u, { ...n })
+		children: a(u, { ...n })
 	}) : u(n);
 }
-var k = p(() => () => l(h, { components: {
-	codeblockd4735e3a: m,
-	codeblocke7f6c011: d
+var k = c(() => () => t(h, { components: {
+	codeblockd4735e3a: d,
+	codeblocke7f6c011: m
 } }));
 export { k as default };
