@@ -44,13 +44,14 @@
     "es-toolkit": "^1.40.0",
     "normalize.css": "^8.0.1",
     "prettier": "^3.6.2",
-    "rolldown-vite": "^7.1.17",
+    "rolldown": "1.0.0-beta.42",
+    "rolldown-vite": "7.1.16",
     "turbo": "^2.5.8",
     "vue": "^3.5.22"
   },
   "resolutions": {
-    "rolldown": "^1.0.0-beta.43",
-    "rolldown-vite": "^7.1.17",
-    "vue": "^3.5.22"
+    "vue": "^3.5.22",
+    "rolldown": "1.0.0-beta.42",
+    "rolldown-vite": "7.1.16"
   }
 }

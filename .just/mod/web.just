@@ -9,9 +9,11 @@ dep-web:
 
 clean-web:
     rm -f bun.lock;
-    find . -name '.swc' -type d -prune -print -exec rm -rf '{}' \;
-    find . -name '.turbo' -type d -prune -print -exec rm -rf '{}' \;
-    find . -name 'node_modules' -type d -prune -print -exec rm -rf '{}' \;
+    find . -type d \
+      -name '.swc' \
+      -o -name '.turbo' \
+      -o -name 'node_modules' \
+      -prune -print -exec rm -rf '{}' \;
 
 test-web:
     {{ bun }} test
