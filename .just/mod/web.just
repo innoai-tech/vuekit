@@ -2,6 +2,7 @@ bun := 'bun'
 turbo := 'bunx --bun turbo'
 vite := 'bunx --bun vite'
 taze := 'bunx --bun taze'
+playwright := 'bun playwright'
 monobundle := 'bunx --bun monobundle'
 
 dep-web:
@@ -54,3 +55,14 @@ preview-web $APP:
     {{ vite }} preview
 
 build-all: build-pkg (build-web 'vuekit') (build-web 'openapi-playground')
+
+
+
+test-e2e-setup:
+    {{ playwright }} install
+
+test-e2e:
+    {{ playwright }} test -c e2e/openapi-playground/playwright.config.ts
+
+test-e2e-ui:
+    {{ playwright }} test --ui -c e2e/openapi-playground/playwright.config.ts

@@ -36,6 +36,7 @@
     "@innoai-tech/vue-vite-presets": "workspace:*",
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
+    "@playwright/test": "^1.56.1",
     "@typescript/native-preview": "^7.0.0-dev.20251017.1",
     "@vue/test-utils": "^2.4.6",
     "bun-types": "latest",
@@ -43,6 +44,7 @@
     "core-js": "^3.46.0",
     "es-toolkit": "^1.40.0",
     "normalize.css": "^8.0.1",
+    "playwright": "^1.56.1",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
     "vue": "^3.5.22"
