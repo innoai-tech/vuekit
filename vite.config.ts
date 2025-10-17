@@ -67,7 +67,7 @@ export default defineConfig({
       lib: [/nodepkg\/([^/]+)\/src/, /webapp\/([^/]+)\/mod/],
     }),
     chunkCleanup({
-      minify: true,
+      // minify: true,
     }),
   ],
 });

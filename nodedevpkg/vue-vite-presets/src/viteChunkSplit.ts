@@ -60,7 +60,6 @@ export const viteChunkSplit = (
       o.legalComments = "none";
 
       o.advancedChunks = {
-        includeDependenciesRecursively: false,
         groups: [
           ...cs.directDepGroups(),
           {
@@ -112,10 +111,6 @@ class Package {
       dirs.push("node_modules/" + name);
     }
     return dirs;
-  }
-
-  get priority() {
-    return 0;
   }
 }
 

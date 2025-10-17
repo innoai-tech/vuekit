@@ -1,14 +1,18 @@
 import { isFunction } from "es-toolkit/compat";
 import { produce } from "immer";
-import * as Reflect from "reflect-metadata/no-conflict";
+import {
+  defineMetadata,
+  getMetadata,
+  getMetadataKeys,
+} from "reflect-metadata/no-conflict";
 
 export class Metadata {
   static getOwnPropertyNames(target: Object): string[] {
-    return Reflect.getMetadataKeys(target);
+    return getMetadataKeys(target);
   }
 
   static get<T>(target: Object, propertyKey: PropertyKey): T | undefined {
-    return Reflect.getMetadata(propertyKey, target);
+    return getMetadata(propertyKey, target);
   }
 
   static define<T>(target: Object, propertyKey: PropertyKey, value: T): void;
@@ -26,10 +30,10 @@ export class Metadata {
   ): void {
     if (target && target.constructor && target.constructor != Object) {
       if (isFunction(valueOrFunc)) {
-        Reflect.defineMetadata(
+        defineMetadata(
           propertyKey,
           produce(
-            Reflect.getMetadata(propertyKey, target) ?? defaults ?? {},
+            getMetadata(propertyKey, target) ?? defaults ?? {},
             valueOrFunc,
           ),
           target,
@@ -38,7 +42,7 @@ export class Metadata {
         return;
       }
 
-      Reflect.defineMetadata(propertyKey, valueOrFunc, target);
+      defineMetadata(propertyKey, valueOrFunc, target);
     }
   }
 }
