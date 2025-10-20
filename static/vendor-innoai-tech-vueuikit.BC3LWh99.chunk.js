@@ -1,7 +1,7 @@
 let e;
 import { r as n, t } from "./rolldown-runtime.D8qhy2Lt.chunk.js";
-import { $t as a, At as r, Bt as s, Ct as o, Dt as i, Et as l, Ft as c, Gt as u, Ht as p, I as d, It as h, Kt as m, L as f, Lt as k, Mt as g, Nt as N, Ot as y, Pt as b, Qt as v, R as x, Rt as w, St as C, Tt as M, U as P, Ut as S, Vt as _, W as A, Wt as T, Xt as L, Zt as R, _t as $, at as D, bt as O, c as H, ct as V, dt as I, en as B, f as F, ft as E, g as j, gt as W, ht as z, i as U, it as q, jt as G, kt as Y, l as X, lt as K, m as Z, nt as J, o as Q, ot as ee, p as en, pt as et, r as ea, rt as er, st as es, tn as eo, u as ei, ut as el, vt as ec, w as eu, wt as ep, xt as ed, yt as eh, z as em, zt as ef } from "./vendor-innoai-tech-vuekit.BPGmk3ir.chunk.js";
-import { c as ek } from "./vendor-rxjs.DpvGQWQn.chunk.js";
+import { $t as a, At as r, Bt as s, Ct as o, Dt as i, Et as l, Ft as c, Gt as u, Ht as p, I as d, It as h, Kt as m, L as f, Lt as k, Mt as g, Nt as N, Ot as y, Pt as b, Qt as v, R as x, Rt as w, St as C, Tt as M, U as P, Ut as S, Vt as _, W as A, Wt as T, Xt as L, Zt as R, _t as $, at as D, bt as O, c as H, ct as V, dt as I, en as B, f as F, ft as E, g as j, gt as W, ht as z, i as U, it as q, jt as G, kt as Y, l as X, lt as K, m as Z, nt as J, o as Q, ot as ee, p as en, pt as et, r as ea, rt as er, st as es, tn as eo, u as ei, ut as el, vt as ec, w as eu, wt as ep, xt as ed, yt as eh, z as em, zt as ef } from "./vendor-innoai-tech-vuekit.rtF9gus2.chunk.js";
+import { t as ek } from "./vendor-rxjs.CsNJjMpf.chunk.js";
 var eg, eN, ey, eb, ev, ex, ew, eC, eM = void 0, eP = "undefined" != typeof window && window.trustedTypes;
 if (eP) try {
 	eM = eP.createPolicy("vue", { createHTML: (e) => e });
@@ -4851,7 +4851,7 @@ var sE = t((e, n) => {
 		}
 		return d;
 	};
-}), sW = n(sj()), sz = f(() => {
+}), sW = n(sj(), 1), sz = f(() => {
 	let e = sF.use(), n = Z(null);
 	return () => {
 		let t = aw.fromColors(e.value.seed);
