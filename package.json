@@ -29,7 +29,7 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^20.0.4",
+    "@happy-dom/global-registrator": "^20.0.7",
     "@innoai-tech/config": "^0.6.5",
     "@innoai-tech/devconfig": "^0.5.0",
     "@innoai-tech/monobundle": "^0.16.3",
@@ -37,21 +37,23 @@
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
     "@playwright/test": "^1.56.1",
-    "@typescript/native-preview": "^7.0.0-dev.20251017.1",
+    "@typescript/native-preview": "^7.0.0-dev.20251019.1",
     "@vue/test-utils": "^2.4.6",
     "bun-types": "latest",
     "copy-to-clipboard": "^3.3.3",
     "core-js": "^3.46.0",
     "es-toolkit": "^1.40.0",
     "normalize.css": "^8.0.1",
+    "rolldown": "^1.0.0-beta.44",
+    "rolldown-vite": "^7.1.18",
     "playwright": "^1.56.1",
     "prettier": "^3.6.2",
     "turbo": "^2.5.8",
     "vue": "^3.5.22"
   },
   "resolutions": {
-    "rolldown": "^1.0.0-beta.43",
-    "rolldown-vite": "^7.1.17",
+    "rolldown": "^1.0.0-beta.44",
+    "rolldown-vite": "^7.1.18",
     "vue": "^3.5.22"
   }
 }

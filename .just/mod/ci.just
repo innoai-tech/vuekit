@@ -2,7 +2,7 @@ piper := 'TTY=0 piper -p piper.cue' + if env("DEBUG", "0") == '1' { ' --log-leve
 
 import './web.just'
 
-ci: bootstrap build-all test-web
+ci: bootstrap build-all test-web test-e2e
 
 pub:
     bunx --bun @morlay/bunpublish
