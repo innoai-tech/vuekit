@@ -56,12 +56,10 @@ preview-web $APP:
 
 build-all: build-pkg (build-web 'vuekit') (build-web 'openapi-playground')
 
+setup-e2e:
+    {{ playwright }} install --with-deps chromium
 
-
-test-e2e-setup:
-    {{ playwright }} install
-
-test-e2e:
+test-e2e: (build-web 'openapi-playground')
     {{ playwright }} test -c e2e/openapi-playground/playwright.config.ts
 
 test-e2e-ui:
