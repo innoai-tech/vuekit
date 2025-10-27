@@ -1,116 +1,6 @@
-// Bun Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`Encoding Typedef encode 1`] = `
-"
-      
-export class InputTextSchema {
-
-@t.enums(["text"])
-"type"!: "text"
-
-}
-      
-export class OptionSchema {
-
-@t.string()
-"label"!: string
-
-@t.string()
-"value"!: string
-
-}
-      
-export class InputSelectSchema {
-
-@t.enums(["select"])
-"type"!: "select"
-
-@t.array(t.ref("OptionSchema", () => t.object(OptionSchema)))
-"options"!: Array</* @type:object */ Option>
-
-}
-      
-export class TypeSchema {
-
-@t.annotate({"title":"Test"})
-@t.union(t.integer(), t.string())
-"intOrStr"!: /* @type:union */ IntOrStr
-
-@t.enums(["leading", "trailing"])
-"placement"!: "leading" | "trailing"
-
-@t.nativeEnum(InputType)
-@t.optional()
-"inputType"?: /* @type:enums */ InputType
-
-@t.record(t.string(), t.any())
-@t.optional()
-"keyValues"?: { [k: string]: any }
-
-@t.array(t.boolean())
-"array"!: Array<boolean>
-
-@t.tuple([t.number(), t.number()])
-"point"!: [number, number]
-
-@t.discriminatorMapping("type", {
-            "text": t.ref("InputTextSchema", () => t.object(InputTextSchema)),"select": t.ref("InputSelectSchema", () => t.object(InputSelectSchema)),
-          })
-"input"!: /* @type:union */ Input
-
-}"
-`;
-
-exports[`Encoding TypeScript encode 1`] = `
-"
-      
-export type Type = (/* @type:object */ Base & {
-  "input": /* @type:union */ Input,
-})
-      
-export type Base = {
-  "intOrStr": /* @type:union */ IntOrStr,
-  "placement": "leading" | "trailing",
-  "inputType"?: /* @type:enums */ InputType,
-  "keyValues"?: { [k: string]: any },
-  "array": Array<boolean>,
-  "point": [number, number],
-}
-      
-export type IntOrStr = (number | string)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
-      
-export const displayInputType = (v: InputType) => {
-  return ({
-"text": "文本",
-"number": "数字",
-"select": "选项"   
-  })[v] ?? v      
-}
-      
-export type Input = (/* @type:object */ InputText | /* @type:object */ InputSelect)
-      
-export type InputText = {
-  "type": "text",
-}
-      
-export type InputSelect = {
-  "type": "select",
-  "options": Array</* @type:object */ Option>,
-}
-      
-export type Option = {
-  "label": string,
-  "value": string,
-}"
-`;
-
-exports[`Encoding JSONSchema encode 1`] = `
+exports[`Encoding > JSONSchema encode 1`] = `
 {
   "$defs": {
     "Base": {
@@ -263,4 +153,114 @@ exports[`Encoding JSONSchema encode 1`] = `
     },
   ],
 }
+`;
+
+exports[`Encoding > TypeScript encode 1`] = `
+"
+      
+export type Type = (/* @type:object */ Base & {
+  "input": /* @type:union */ Input,
+})
+      
+export type Base = {
+  "intOrStr": /* @type:union */ IntOrStr,
+  "placement": "leading" | "trailing",
+  "inputType"?: /* @type:enums */ InputType,
+  "keyValues"?: { [k: string]: any },
+  "array": Array<boolean>,
+  "point": [number, number],
+}
+      
+export type IntOrStr = (number | string)
+      
+export enum InputType {
+text = "text",
+number = "number",
+select = "select"         
+}
+      
+export const displayInputType = (v: InputType) => {
+  return ({
+"text": "文本",
+"number": "数字",
+"select": "选项"   
+  })[v] ?? v      
+}
+      
+export type Input = (/* @type:object */ InputText | /* @type:object */ InputSelect)
+      
+export type InputText = {
+  "type": "text",
+}
+      
+export type InputSelect = {
+  "type": "select",
+  "options": Array</* @type:object */ Option>,
+}
+      
+export type Option = {
+  "label": string,
+  "value": string,
+}"
+`;
+
+exports[`Encoding > Typedef encode 1`] = `
+"
+      
+export class InputTextSchema {
+
+@t.enums(["text"])
+"type"!: "text"
+
+}
+      
+export class OptionSchema {
+
+@t.string()
+"label"!: string
+
+@t.string()
+"value"!: string
+
+}
+      
+export class InputSelectSchema {
+
+@t.enums(["select"])
+"type"!: "select"
+
+@t.array(t.ref("OptionSchema", () => t.object(OptionSchema)))
+"options"!: Array</* @type:object */ Option>
+
+}
+      
+export class TypeSchema {
+
+@t.annotate({"title":"Test"})
+@t.union(t.integer(), t.string())
+"intOrStr"!: /* @type:union */ IntOrStr
+
+@t.enums(["leading", "trailing"])
+"placement"!: "leading" | "trailing"
+
+@t.nativeEnum(InputType)
+@t.optional()
+"inputType"?: /* @type:enums */ InputType
+
+@t.record(t.string(), t.any())
+@t.optional()
+"keyValues"?: { [k: string]: any }
+
+@t.array(t.boolean())
+"array"!: Array<boolean>
+
+@t.tuple([t.number(), t.number()])
+"point"!: [number, number]
+
+@t.discriminatorMapping("type", {
+            "text": t.ref("InputTextSchema", () => t.object(InputTextSchema)),"select": t.ref("InputSelectSchema", () => t.object(InputSelectSchema)),
+          })
+"input"!: /* @type:union */ Input
+
+}"
 `;

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { defaultExpressionFactory, ex } from "../index.ts";
 
 describe("expression for array", () => {
@@ -7,8 +7,8 @@ describe("expression for array", () => {
       ex.every(ex.elem(ex.pipe(ex.len(), ex.gte(3)))),
     )({});
 
-    expect(validate(["111", "121", "131"])).toBeTrue();
-    expect(validate(["111", "12", "131"])).toBeFalse();
+    expect(validate(["111", "121", "131"])).toBeTruthy();
+    expect(validate(["111", "12", "131"])).toBeFalsy();
   });
 
   it("build some as validate", () => {
@@ -16,9 +16,9 @@ describe("expression for array", () => {
       ex.some(ex.elem(ex.pipe(ex.len(), ex.gte(3)))),
     )({});
 
-    expect(validate(["111", "121", "131"])).toBeTrue();
-    expect(validate(["111", "12", "131"])).toBeTrue();
-    expect(validate(["11", "12", "11"])).toBeFalse();
+    expect(validate(["111", "121", "131"])).toBeTruthy();
+    expect(validate(["111", "12", "131"])).toBeTruthy();
+    expect(validate(["11", "12", "11"])).toBeFalsy();
   });
 });
 
@@ -34,7 +34,7 @@ describe("expression for object", () => {
         "2": "121",
         "3": "131",
       }),
-    ).toBeTrue();
+    ).toBeTruthy();
 
     expect(
       validate({
@@ -42,6 +42,6 @@ describe("expression for object", () => {
         "2": "12",
         "3": "131",
       }),
-    ).toBeFalse();
+    ).toBeFalsy();
   });
 });

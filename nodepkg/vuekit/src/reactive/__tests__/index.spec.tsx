@@ -1,4 +1,5 @@
-import { describe, expect, test } from "bun:test";
+// @vitest-environment happy-dom
+import { describe, expect, test } from "vitest";
 import { mount } from "@vue/test-utils";
 import { filter, map, of } from "rxjs";
 import {
@@ -8,7 +9,7 @@ import {
   subscribeUntilUnmount,
   toComputed,
 } from "..";
-import { type VNode, component, t } from "../../index";
+import { component, t, type VNode } from "../../index";
 
 describe("vue reactive", () => {
   test("when first render, should use the first ", () => {

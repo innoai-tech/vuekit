@@ -11,7 +11,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
+
       - uses: oven-sh/setup-bun@v2
+      - uses: actions/setup-go@v6
+        with:
+          go-version: '>=1.25.x'
       - uses: extractions/setup-just@v3
 
       - run: just dep-web setup-e2e ci

@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { JSONPointer } from "../JSONPointer.ts";
 import { Schema } from "../Schema.ts";
 

@@ -13,11 +13,11 @@
     "@mdx-js/rollup": "^3.1.1",
     "@swc/core": "1.13.5",
     "@vitejs/plugin-vue": "^6.0.1",
-    "es-toolkit": "^1.40.0",
+    "es-toolkit": "^1.41.0",
     "globby": "^15.0.0",
     "hastscript": "^9.0.1",
     "rolldown": "^1.0.0-beta.44",
-    "rolldown-vite": "^7.1.18",
+    "rolldown-vite": "^7.1.19",
     "unist-util-visit": "^5.0.0",
     "vite-plugin-pages": "^0.33.1",
     "vite-tsconfig-paths": "^5.1.4"

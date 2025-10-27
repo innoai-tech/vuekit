@@ -1,6 +1,7 @@
 bun := 'bun'
 turbo := 'bunx --bun turbo'
 vite := 'bunx --bun vite'
+vitest := 'bunx --bun vitest'
 taze := 'bunx --bun taze'
 playwright := 'bun playwright'
 monobundle := 'bunx --bun monobundle'
@@ -15,9 +16,6 @@ clean-web:
       -o -name '.turbo' \
       -o -name 'node_modules' \
       -prune -print -exec rm -rf '{}' \;
-
-test-web:
-    {{ bun }} test
 
 lint-web:
     {{ turbo }} run lint --force
@@ -55,6 +53,13 @@ preview-web $APP:
     {{ vite }} preview
 
 build-all: build-pkg (build-web 'vuekit') (build-web 'openapi-playground')
+
+test-web:
+    {{ vitest }} --run
+
+test-web-with-ui:
+    {{ vitest }} --run --reporter=html
+    {{ vite }} preview --outDir=./public/vitest-report
 
 setup-e2e:
     {{ playwright }} install --with-deps chromium

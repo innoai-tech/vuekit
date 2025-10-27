@@ -1,6 +1,3 @@
-[test]
-preload = "./tool/happydom.ts"
-
 [install]
 registry = "https://registry.npmjs.org"
 

@@ -1,4 +1,5 @@
-import { describe, expect, test } from "bun:test";
+// @vitest-environment happy-dom
+import { describe, expect, test } from "vitest";
 import { t } from "@innoai-tech/typedef";
 import { mount } from "@vue/test-utils";
 import { ref, watch } from "vue";

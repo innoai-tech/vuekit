@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { t } from "@innoai-tech/vuekit";
 import { FormData } from "../FormData";
 import { f } from "..";

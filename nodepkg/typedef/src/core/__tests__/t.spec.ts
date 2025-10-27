@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import * as t from "../t.ts";
 import { Schema } from "../Schema.ts";
 
@@ -33,29 +33,29 @@ describe("define type", () => {
         type: "string",
       });
 
-      expect(s.validate(1)[0]).not.toBeNil();
-      expect(s.validate("")[0]).toBeNil();
+      expect(s.validate(1)[0]).not.toBeUndefined();
+      expect(s.validate("")[0]).toBeUndefined();
     });
 
-    describe("with default", () => {
+    test("with default", () => {
       const s2 = s.default("1");
 
       expect(s2.create(undefined)).toBe("1");
     });
 
-    describe("with optional", () => {
+    test("with optional", () => {
       const s2 = s.optional();
 
       expect(Schema.extractSchema(s2)).toEqual({
         type: "string",
       });
 
-      expect(s2.validate(undefined)[0]).toBeNil();
-      expect(s2.validate("")[0]).toBeNil();
-      expect(s2.validate(1)[0]).not.toBeNil();
+      expect(s2.validate(undefined)[0]).toBeUndefined();
+      expect(s2.validate("")[0]).toBeUndefined();
+      expect(s2.validate(1)[0]).not.toBeUndefined();
     });
 
-    describe("with modifiers", () => {
+    test("with modifiers", () => {
       const s2 = s.use(t.minLength(1), t.maxLength(10));
 
       expect(Schema.extractSchema(s2.schema)).toEqual({
@@ -64,7 +64,7 @@ describe("define type", () => {
         maxLength: 10,
       });
 
-      expect(s2.validate("")[0]).not.toBeNil();
+      expect(s2.validate("")[0]).not.toBeUndefined();
     });
   });
 

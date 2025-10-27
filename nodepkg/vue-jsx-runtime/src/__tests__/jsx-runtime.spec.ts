@@ -1,6 +1,6 @@
-/// <reference lib="dom" />
+// @vitest-environment happy-dom
 
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { mount } from "@vue/test-utils";
 import { defineComponent, h, renderSlot } from "vue";
 import { Fragment, jsx } from "../jsx-runtime";

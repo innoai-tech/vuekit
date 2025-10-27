@@ -1,4 +1,4 @@
-import { describe, expect, test } from "bun:test";
+import { describe, expect, test } from "vitest";
 import { defineModifier, t, type Type } from "../index";
 
 const label = defineModifier(
@@ -95,7 +95,9 @@ describe("Meta", () => {
         fields[String(k)] = [
           s.meta?.["label"],
           ...((s.schema as any)?.["enum"] ?? []),
-        ].join("|");
+        ]
+          .filter((v) => !!v)
+          .join("|");
       }
 
       expect(fields).toEqual({
@@ -119,7 +121,9 @@ describe("Meta", () => {
         fields[String(k)] = [
           s.meta["label"] ?? "",
           ...((s.schema as any)?.["enum"] ?? []),
-        ].join("|");
+        ]
+          .filter((v) => !!v)
+          .join("|");
       }
 
       expect(fields).toEqual({

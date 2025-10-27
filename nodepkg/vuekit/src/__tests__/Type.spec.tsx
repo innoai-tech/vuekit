@@ -1,7 +1,9 @@
-import { describe, expect, test } from "bun:test";
+// @vitest-environment happy-dom
+
+import { describe, expect, test } from "vitest";
 import { t } from "@innoai-tech/typedef";
 import { mount } from "@vue/test-utils";
-import { type VNodeChild, component } from "../index";
+import { component, type VNodeChild } from "../index";
 
 describe("Type", () => {
   test("render with optional props", () => {

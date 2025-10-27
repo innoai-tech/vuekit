@@ -1,41 +1,30 @@
-// Bun Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`define type any 1`] = `{}`;
+exports[`define type > any 1`] = `{}`;
 
-exports[`define type never 1`] = `false`;
-
-exports[`define type null 1`] = `
+exports[`define type > array 1`] = `
 {
-  "type": "null",
+  "items": {
+    "type": "string",
+  },
+  "type": "array",
 }
 `;
 
-exports[`define type binary 1`] = `
+exports[`define type > binary 1`] = `
 {
   "format": "binary",
   "type": "string",
 }
 `;
 
-exports[`define type boolean 1`] = `
+exports[`define type > boolean 1`] = `
 {
   "type": "boolean",
 }
 `;
 
-exports[`define type integer 1`] = `
-{
-  "type": "integer",
-}
-`;
-
-exports[`define type number 1`] = `
-{
-  "type": "number",
-}
-`;
-
-exports[`define type enums 1`] = `
+exports[`define type > enums 1`] = `
 {
   "enum": [
     "1",
@@ -45,7 +34,7 @@ exports[`define type enums 1`] = `
 }
 `;
 
-exports[`define type enums 2`] = `
+exports[`define type > enums 2`] = `
 {
   "enum": [
     "MALE",
@@ -54,42 +43,13 @@ exports[`define type enums 2`] = `
 }
 `;
 
-exports[`define type record 1`] = `
+exports[`define type > integer 1`] = `
 {
-  "additionalProperties": {
-    "type": "number",
-  },
-  "propertyNames": {
-    "type": "string",
-  },
-  "type": "object",
+  "type": "integer",
 }
 `;
 
-exports[`define type array 1`] = `
-{
-  "items": {
-    "type": "string",
-  },
-  "type": "array",
-}
-`;
-
-exports[`define type tuple 1`] = `
-{
-  "items": [
-    {
-      "type": "number",
-    },
-    {
-      "type": "number",
-    },
-  ],
-  "type": "array",
-}
-`;
-
-exports[`define type intersection 1`] = `
+exports[`define type > intersection 1`] = `
 {
   "allOf": [
     {
@@ -109,7 +69,21 @@ exports[`define type intersection 1`] = `
 }
 `;
 
-exports[`define type object 1`] = `
+exports[`define type > never 1`] = `false`;
+
+exports[`define type > null 1`] = `
+{
+  "type": "null",
+}
+`;
+
+exports[`define type > number 1`] = `
+{
+  "type": "number",
+}
+`;
+
+exports[`define type > object 1`] = `
 {
   "additionalProperties": false,
   "properties": {
@@ -127,7 +101,33 @@ exports[`define type object 1`] = `
 }
 `;
 
-exports[`define type union 1`] = `
+exports[`define type > record 1`] = `
+{
+  "additionalProperties": {
+    "type": "number",
+  },
+  "propertyNames": {
+    "type": "string",
+  },
+  "type": "object",
+}
+`;
+
+exports[`define type > tuple 1`] = `
+{
+  "items": [
+    {
+      "type": "number",
+    },
+    {
+      "type": "number",
+    },
+  ],
+  "type": "array",
+}
+`;
+
+exports[`define type > union 1`] = `
 {
   "oneOf": [
     {
@@ -140,7 +140,7 @@ exports[`define type union 1`] = `
 }
 `;
 
-exports[`define type union 2`] = `
+exports[`define type > union 2`] = `
 {
   "discriminator": {
     "propertyName": "type",
@@ -182,7 +182,7 @@ exports[`define type union 2`] = `
 }
 `;
 
-exports[`define type union 3`] = `
+exports[`define type > union 3`] = `
 {
   "discriminator": {
     "propertyName": "type",
@@ -206,6 +206,7 @@ exports[`define type union 3`] = `
       "additionalProperties": false,
       "properties": {
         "name": {
+          "default": undefined,
           "type": "string",
         },
         "type": {

@@ -1,4 +1,4 @@
-import { describe, expect, it } from "bun:test";
+import { describe, expect, it } from "vitest";
 import { defaultExpressionFactory, ex } from "../index.ts";
 
 describe("expression", () => {
@@ -7,8 +7,8 @@ describe("expression", () => {
       {},
     );
 
-    expect(validate(1)).toBeTrue();
-    expect(validate(0)).toBeFalse();
+    expect(validate(1)).toBeTruthy();
+    expect(validate(0)).toBeFalsy();
   });
 
   it("build as validate with multi expr", () => {
@@ -16,8 +16,8 @@ describe("expression", () => {
       ex.allOf(ex.gte(1), ex.lt(10)),
     )({});
 
-    expect(validate(1)).toBeTrue();
-    expect(validate(10)).toBeFalse();
+    expect(validate(1)).toBeTruthy();
+    expect(validate(10)).toBeFalsy();
   });
 
   it("build as validate with pipe", () => {
@@ -25,8 +25,8 @@ describe("expression", () => {
       ex.pipe(ex.len(), ex.gte(3)),
     )({});
 
-    expect(validate([1, 2, 3])).toBeTrue();
-    expect(validate([1])).toBeFalse();
+    expect(validate([1, 2, 3])).toBeTruthy();
+    expect(validate([1])).toBeFalsy();
   });
 
   it("build as validate with multi expr", () => {
@@ -34,7 +34,7 @@ describe("expression", () => {
       ex.anyOf(ex.lte(1), ex.gt(10)),
     )({});
 
-    expect(validate(1)).toBeTrue();
-    expect(validate(2)).toBeFalse();
+    expect(validate(1)).toBeTruthy();
+    expect(validate(2)).toBeFalsy();
   });
 });
