@@ -2117,7 +2117,15 @@ function af(e) {
 		}, _ = (e, t, r, a) => {
 			[e.el, e.anchor] = g(e.children, t, r, a, e.el, e.anchor);
 		}, w = (e, t, r, a, s, i, o, l, c) => {
-			"svg" === t.type ? o = "svg" : "math" === t.type && (o = "mathml"), null == e ? x(t, r, a, s, i, o, l, c) : A(e, t, s, i, o, l, c);
+			if ("svg" === t.type ? o = "svg" : "math" === t.type && (o = "mathml"), null == e) x(t, r, a, s, i, o, l, c);
+			else {
+				let r = e.el && e.el._isVueCE ? e.el : null;
+				try {
+					r && r._beginPatch(), A(e, t, s, i, o, l, c);
+				} finally {
+					r && r._endPatch();
+				}
+			}
 		}, x = (e, t, r, a, s, o, u, p) => {
 			var d, h;
 			let m, y, { props: g, shapeFlag: k, transition: N, dirs: b } = e;
@@ -3106,7 +3114,7 @@ function a7(e, t, r) {
 		aD(1);
 	}
 }
-var a5 = "3.5.22", a9 = Symbol.for("immer-nothing"), se = Symbol.for("immer-draftable"), st = Symbol.for("immer-state");
+var a5 = "3.5.24", a9 = Symbol.for("immer-nothing"), se = Symbol.for("immer-draftable"), st = Symbol.for("immer-state");
 function sn(e) {
 	throw Error(`[Immer] minified error nr: ${e}. Full error at: https://bit.ly/3cXEKWf`);
 }
