@@ -17,7 +17,7 @@
     "es-toolkit": "^1.41.0",
     "polished": "^4.3.1",
     "popmotion": "^11.0.5",
-    "vue": "^3.5.22"
+    "vue": "^3.5.24"
   },
   "peerDependencies": {},
   "exports": {
