@@ -17,8 +17,8 @@ clean-web:
       -o -name 'node_modules' \
       -prune -print -exec rm -rf '{}' \;
 
-lint-web:
-    {{ turbo }} run lint --force
+fmt-web:
+    {{ turbo }} run fmt
 
 bootstrap:
     {{ monobundle }}

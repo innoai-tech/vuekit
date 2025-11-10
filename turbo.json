@@ -1,28 +1,13 @@
 {
   "$schema": "https://turborepo.org/schema.json",
   "tasks": {
-    "lint": {},
-    "test": {},
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "src/*",
-        "package.json"
-      ],
-      "outputs": [
-        "dist/*"
-      ]
+      "dependsOn": ["^build"],
+      "inputs": ["src/*", "package.json"],
+      "outputs": ["dist/*"]
     },
-    "dev": {
-      "dependsOn": [
-        "^build"
-      ],
-      "inputs": [
-        "src/*",
-        "package.json"
-      ]
+    "//#fmt": {
+      "cache": false
     }
   }
 }

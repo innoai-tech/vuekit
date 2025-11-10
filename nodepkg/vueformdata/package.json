@@ -37,7 +37,6 @@
     "directory": "nodepkg/vueformdata"
   },
   "scripts": {
-    "lint": "bunx --bun prettier --write . ",
     "build": "bunx --bun @innoai-tech/monobundle",
     "prepublishOnly": "bun run build"
   },
