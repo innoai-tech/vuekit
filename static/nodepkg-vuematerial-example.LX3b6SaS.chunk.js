@@ -1,52 +1,52 @@
-import { L as e, c as i, it as n, l } from "./vendor-innoai-tech-vuekit.C7UnEwu7.chunk.js";
-import { N as h, _ as r, u as c } from "./vendor-innoai-tech-vueuikit.DGLGgKDN.chunk.js";
-import { _ as d, c as a, d as s, f as o, g as t, h as m, l as u, m as p, o as k, p as x, s as v, u as f, y as C } from "./vendor-innoai-tech-jsoneditor.BX2qGlk3.chunk.js";
-var g = e(() => {
-	let e = o(() => () => i(k, {
+import { G as e, c as i, l as n, w as l } from "./vendor-innoai-tech-vuekit.DtvXJv7T.chunk.js";
+import { N as h, _ as r, u as c } from "./vendor-innoai-tech-vueuikit.p_1pV-aE.chunk.js";
+import { _ as d, c as a, d as s, f as o, g as t, h as m, l as u, m as p, o as k, p as x, s as v, u as f, y as C } from "./vendor-innoai-tech-jsoneditor.D0TF8nNi.chunk.js";
+var g = l(() => {
+	let l = o(() => () => i(k, {
 		sx: {
 			h: "auto",
 			minH: 40
 		},
-		children: l(u, { children: [i(f, { children: "我是对话框" }), i(t, {
+		children: n(u, { children: [i(f, { children: "我是对话框" }), i(t, {
 			onClick: () => {
-				e.hide();
+				l.hide();
 			},
 			children: i(d, { path: r })
 		})] })
-	})), g = o(() => () => l(k, {
+	})), g = o(() => () => n(k, {
 		sx: {
 			h: "auto",
 			minH: 40
 		},
 		children: [
-			l(u, { children: [i(f, { children: "我是对话框" }), i(t, {
+			n(u, { children: [i(f, { children: "我是对话框" }), i(t, {
 				onClick: () => {
 					g.hide();
 				},
 				children: i(d, { path: r })
 			})] }),
 			i(v, { children: "xxx" }),
-			l(a, { children: [i(C, {
+			n(a, { children: [i(C, {
 				onClick: () => {
-					e.show();
+					l.show();
 				},
 				children: "Open Dialog"
-			}), e.$elem] })
+			}), l.$elem] })
 		]
-	})), $ = s(() => () => i(k, {
+	})), w = s(() => () => i(k, {
 		sx: {
 			h: "100vh",
 			w: 300,
 			maxH: "100vh"
 		},
-		children: l(u, { children: [i(f, { children: "我是对话框" }), i(t, {
+		children: n(u, { children: [i(f, { children: "我是对话框" }), i(t, {
 			onClick: () => {
 				g.hide();
 			},
 			children: i(d, { path: r })
 		})] })
 	}));
-	return () => i(c, { children: l(h, {
+	return () => i(c, { children: n(h, {
 		sx: {
 			display: "flex",
 			flexDirection: "column",
@@ -67,18 +67,18 @@ var g = e(() => {
 			i(m, {
 				title: "Menu",
 				children: i(x, {
-					$menu: l(n, { children: [
+					$menu: n(e, { children: [
 						i(p, { children: "选项一" }),
 						i(p, {
 							onClick: () => {
-								$.show();
+								w.show();
 							},
 							children: "选项二"
 						}),
-						$.$elem,
+						w.$elem,
 						i(x, {
 							placement: "right-start",
-							$menu: l(n, { children: [i(p, { children: "选项三.1" }), i(p, { children: "选项三.2" })] }),
+							$menu: n(e, { children: [i(p, { children: "选项三.1" }), i(p, { children: "选项三.2" })] }),
 							children: i(p, { children: "选项三" })
 						})
 					] }),
