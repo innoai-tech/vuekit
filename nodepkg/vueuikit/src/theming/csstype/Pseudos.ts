@@ -10,10 +10,8 @@ export const pseudoSelectors = {
 export type Pseudos = typeof pseudoSelectors;
 
 type DistributePseudoElement<U> = U extends `::-${
-  | "moz"
-  | "ms"
-  | "khtml"
-  | "webkit"}-${string}`
+  "moz" | "ms" | "khtml" | "webkit"
+}-${string}`
   ? never
   : U extends `::${string}`
     ? U

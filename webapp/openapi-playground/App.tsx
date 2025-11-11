@@ -1,16 +1,16 @@
 import {
   RouterView,
-  component, rx, subscribeOnMountedUntilUnmount
+  component,
+  rx,
+  subscribeOnMountedUntilUnmount,
 } from "@innoai-tech/vuekit";
 import {
-  createFetcher, paramsSerializer, transformRequestBody
+  createFetcher,
+  paramsSerializer,
+  transformRequestBody,
 } from "@innoai-tech/fetcher";
 
-import {
-  CSSReset,
-  GlobalStyle,
-  ThemeProvider
-} from "@innoai-tech/vueuikit";
+import { CSSReset, GlobalStyle, ThemeProvider } from "@innoai-tech/vueuikit";
 
 // @ts-ignore
 import normalizeCss from "normalize.css/normalize.css?raw";
@@ -20,7 +20,6 @@ import { ManifestProvider } from "./common";
 import { OpenAPIProvider } from "./mod/openapi";
 import { from, tap } from "rxjs";
 import type { OpenAPIObject } from "./mod/openapi/models";
-
 
 const fixBaseURL = (baseURL: string) => {
   if (baseURL) {
@@ -41,32 +40,36 @@ export const App = component(() => {
 
   const fetcher = createFetcher({
     paramsSerializer,
-    transformRequestBody
+    transformRequestBody,
   });
 
-  console.log(fixBaseURL(c.OPENAPI))
+  console.log(fixBaseURL(c.OPENAPI));
 
   const url = new URL(fixBaseURL(c.OPENAPI));
 
   rx(
-    from(fetcher.request({
-      method: "GET",
-      url: url.toString(),
-      inputs: null
-    })),
+    from(
+      fetcher.request({
+        method: "GET",
+        url: url.toString(),
+        inputs: null,
+      }),
+    ),
     tap((resp) => {
       openapi$.next((o) => {
         Object.assign(o, resp.body as OpenAPIObject);
 
         if (!o.servers) {
           // default server
-          o.servers = [{
-            url: url.origin
-          }];
+          o.servers = [
+            {
+              url: url.origin,
+            },
+          ];
         }
       });
     }),
-    subscribeOnMountedUntilUnmount()
+    subscribeOnMountedUntilUnmount(),
   );
 
   return () => {
@@ -77,7 +80,7 @@ export const App = component(() => {
         <ManifestProvider
           value={{
             name: c.name,
-            description: CONFIG.manifest["description"]
+            description: CONFIG.manifest["description"],
           }}
         >
           <CSSReset />

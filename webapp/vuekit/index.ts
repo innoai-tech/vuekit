@@ -18,4 +18,3 @@ const router = createRouter({
 createApp(App)
   .use(router as unknown as Plugin)
   .mount("#root");
-

@@ -2,76 +2,78 @@ import { t, type VNodeChild } from "@innoai-tech/vuekit";
 import { styled } from "@innoai-tech/vueuikit";
 import { cloneVNode } from "vue";
 
-export const TextField = styled<{
-  valued?: boolean,
-  focus?: boolean,
-  invalid?: boolean,
-  disabled?: boolean,
-  $label?: VNodeChild,
-  $hint?: VNodeChild,
-  $supporting?: VNodeChild,
-  $leading?: VNodeChild,
-  $trailing?: VNodeChild,
-  $default?: VNodeChild,
-}, "div">("div", (props, { slots }) => {
-    return (Wrap) => {
-      let valued = props.valued;
-      let invalid = props.invalid;
-      let disabled = props.disabled;
+export const TextField = styled<
+  {
+    valued?: boolean;
+    focus?: boolean;
+    invalid?: boolean;
+    disabled?: boolean;
+    $label?: VNodeChild;
+    $hint?: VNodeChild;
+    $supporting?: VNodeChild;
+    $leading?: VNodeChild;
+    $trailing?: VNodeChild;
+    $default?: VNodeChild;
+  },
+  "div"
+>("div", (props, { slots }) => {
+  return (Wrap) => {
+    let valued = props.valued;
+    let invalid = props.invalid;
+    let disabled = props.disabled;
 
-      const children = (slots.default?.() ?? []).map((c) => {
-        if (c.type === "input") {
-          valued = !!(c.props?.["value"] ?? c.props?.["placeholder"] ?? valued);
-          disabled = c.props?.["disabled"] ?? disabled;
+    const children = (slots.default?.() ?? []).map((c) => {
+      if (c.type === "input") {
+        valued = !!(c.props?.["value"] ?? c.props?.["placeholder"] ?? valued);
+        disabled = c.props?.["disabled"] ?? disabled;
 
-          return cloneVNode(c, {
-            disabled: disabled
-          });
-        }
+        return cloneVNode(c, {
+          disabled: disabled,
+        });
+      }
 
-        return cloneVNode(c);
-      });
+      return cloneVNode(c);
+    });
 
-      return (
-        <Wrap
-          data-valued={valued}
-          data-invalid={invalid}
-          data-disabled={disabled}
-          data-focus-within={props.focus}
-          data-has-leading={!!slots.leading}
-          data-has-trailing={!!slots.trailing}
-        >
-          <div data-input-container>
-            <div data-input-decorator-container>
-              <div data-input-decorator-leading />
-              <div data-input-decorator-label>
-                <div data-input-label>{slots.label?.()}</div>
-              </div>
-              <div data-input-decorator-trailing />
+    return (
+      <Wrap
+        data-valued={valued}
+        data-invalid={invalid}
+        data-disabled={disabled}
+        data-focus-within={props.focus}
+        data-has-leading={!!slots.leading}
+        data-has-trailing={!!slots.trailing}
+      >
+        <div data-input-container>
+          <div data-input-decorator-container>
+            <div data-input-decorator-leading />
+            <div data-input-decorator-label>
+              <div data-input-label>{slots.label?.()}</div>
             </div>
-            <div data-input-row>
-              {slots.leading && <Maker role="leading">{slots.leading()}</Maker>}
-              {children}
-              {slots.trailing && (
-                <Maker role={"trailing"}>{slots.trailing()}</Maker>
-              )}
-            </div>
+            <div data-input-decorator-trailing />
           </div>
-          {slots.supporting && (
-            <div data-input-supporting>{slots.supporting?.()}</div>
-          )}
-        </Wrap>
-      );
-    };
-  }
-)({
+          <div data-input-row>
+            {slots.leading && <Maker role="leading">{slots.leading()}</Maker>}
+            {children}
+            {slots.trailing && (
+              <Maker role={"trailing"}>{slots.trailing()}</Maker>
+            )}
+          </div>
+        </div>
+        {slots.supporting && (
+          <div data-input-supporting>{slots.supporting?.()}</div>
+        )}
+      </Wrap>
+    );
+  };
+})({
   display: "block",
   pos: "relative",
   textStyle: "sys.body-medium",
 
   $data_input_container: {
     pos: "relative",
-    zIndex: 1
+    zIndex: 1,
   },
 
   $data_input_row: {
@@ -83,7 +85,7 @@ export const TextField = styled<{
 
     display: "flex",
     alignItems: "stretch",
-    zIndex: 1
+    zIndex: 1,
   },
 
   $data_input_decorator_container: {
@@ -94,7 +96,7 @@ export const TextField = styled<{
     right: 0,
     display: "flex",
     zIndex: 1,
-    rounded: "xs"
+    rounded: "xs",
   },
 
   $data_input_decorator_leading: {
@@ -108,14 +110,14 @@ export const TextField = styled<{
     borderTop: "1px solid",
     borderBottom: "1px solid",
     borderColor: "sys.outline",
-    pointerEvents: "none"
+    pointerEvents: "none",
   },
 
   $data_input_decorator_label: {
     transitionDuration: "sm1",
     transitionTimingFunction: "standard",
     borderBottom: "1px solid",
-    borderColor: "sys.outline"
+    borderColor: "sys.outline",
   },
 
   $data_input_decorator_trailing: {
@@ -128,7 +130,7 @@ export const TextField = styled<{
     transitionDuration: "sm1",
     transitionTimingFunction: "standard",
     flex: 1,
-    pointerEvents: "none"
+    pointerEvents: "none",
   },
 
   $data_input_label: {
@@ -138,7 +140,7 @@ export const TextField = styled<{
     textStyle: "sys.body-small",
     color: "sys.on-surface-variant",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
 
   $data_input: {
@@ -152,7 +154,7 @@ export const TextField = styled<{
     cursor: "text",
 
     "&[readonly]": {
-      cursor: "pointer"
+      cursor: "pointer",
     },
 
     bg: "inherit",
@@ -163,8 +165,8 @@ export const TextField = styled<{
     textStyle: "sys.body-medium",
 
     _disabled: {
-      cursor: "not-allowed"
-    }
+      cursor: "not-allowed",
+    },
   },
 
   $data_input_supporting: {
@@ -177,90 +179,90 @@ export const TextField = styled<{
 
     overflow: "auto",
 
-    color: "sys.on-surface-variant"
+    color: "sys.on-surface-variant",
   },
 
   $data_icon: {
-    color: "sys.on-surface-variant"
+    color: "sys.on-surface-variant",
   },
 
   _has_leading: {
     $data_input: {
-      pl: 16 + 20
+      pl: 16 + 20,
     },
     $data_input_label: {
-      left: 16 + 20
-    }
+      left: 16 + 20,
+    },
   },
 
   _has_trailing: {
     $data_input: {
-      pr: 12 + 20
-    }
+      pr: 12 + 20,
+    },
   },
 
   _valued: {
-    $data_input: {}
+    $data_input: {},
   },
 
   _focusWithin: {
     $data_input_decorator_leading: {
       borderWidth: "2px",
-      borderColor: "sys.primary"
+      borderColor: "sys.primary",
     },
 
     $data_input_decorator_label: {
       borderWidth: "2px",
-      borderColor: "sys.primary"
+      borderColor: "sys.primary",
     },
 
     $data_input_decorator_trailing: {
       borderWidth: "2px",
-      borderColor: "sys.primary"
+      borderColor: "sys.primary",
     },
 
     $data_input_label: {
-      color: "sys.primary"
-    }
+      color: "sys.primary",
+    },
   },
 
   _invalid: {
     $data_input_decorator_leading: {
       borderWidth: "2px",
-      borderColor: "sys.error"
+      borderColor: "sys.error",
     },
 
     $data_input_decorator_label: {
       borderWidth: "2px",
-      borderColor: "sys.error"
+      borderColor: "sys.error",
     },
 
     $data_input_decorator_trailing: {
       borderWidth: "2px",
-      borderColor: "sys.error"
+      borderColor: "sys.error",
     },
 
     $data_input_label: {
-      color: "sys.error"
+      color: "sys.error",
     },
 
     $data_input_supporting: {
-      color: "sys.error"
+      color: "sys.error",
     },
 
     $data_icon: {
-      color: "sys.error"
-    }
+      color: "sys.error",
+    },
   },
 
   _disabled: {
     opacity: 0.38,
-    cursor: "not-allowed"
-  }
+    cursor: "not-allowed",
+  },
 });
 
 const Maker = styled("div", {
-  role: t.enums(["leading", "trailing"])
+  role: t.enums(["leading", "trailing"]),
 })({
   pos: "absolute",
   top: 4,
@@ -273,15 +275,15 @@ const Maker = styled("div", {
     left: 12,
 
     $data_icon: {
-      ml: -4
-    }
+      ml: -4,
+    },
   },
 
   _role__trailing: {
     right: 12,
 
     $data_icon: {
-      mr: -4
-    }
-  }
+      mr: -4,
+    },
+  },
 });

@@ -1,4 +1,8 @@
-import { type FetcherResponse, paramsSerializer, type RequestConfig } from "@innoai-tech/fetcher";
+import {
+  type FetcherResponse,
+  paramsSerializer,
+  type RequestConfig,
+} from "@innoai-tech/fetcher";
 import { Box } from "@innoai-tech/vueuikit";
 import { component, t, type VNodeChild } from "@innoai-tech/vuekit";
 import { isArray, isObject } from "es-toolkit/compat";
@@ -6,13 +10,10 @@ import { isArray, isObject } from "es-toolkit/compat";
 const getDefaultHeads = (): Record<string, any> => ({
   "User-Agent": navigator.userAgent,
   Origin: location.origin,
-  Referer: `${location.origin}${location.pathname}`
+  Referer: `${location.origin}${location.pathname}`,
 });
 
-export const HeadRow = ({ field, value }: {
-  field: string;
-  value: string;
-}) => (
+export const HeadRow = ({ field, value }: { field: string; value: string }) => (
   <Box component={"span"} sx={{ display: "block" }}>
     <Box component={"span"} sx={{ fontWeight: "bold", marginRight: "0.5em" }}>
       {field}:
@@ -28,7 +29,8 @@ const HTTPFirstLine = ({ method, url, params }: RequestConfig<any>) => {
     <Box component={"span"} sx={{ fontWeight: "bold" }}>
       {`${method.toUpperCase()} `}
       <Box component={"span"} sx={{ fontWeight: "medium" }}>
-        {url}{queryString ? `?${queryString}` : ""}
+        {url}
+        {queryString ? `?${queryString}` : ""}
       </Box>
       {` HTTP/*`}
     </Box>
@@ -60,7 +62,9 @@ ${isObject(v) ? JSON.stringify(v) : String(v)}
   };
 
   return (
-    Object.entries(data).map(([k, v]) => getPart(k, v)).join("\n") + `${boundary}--`
+    Object.entries(data)
+      .map(([k, v]) => getPart(k, v))
+      .join("\n") + `${boundary}--`
   );
 };
 
@@ -71,7 +75,7 @@ function stringifyBody(request: RequestConfig<any>) {
 
     request.headers = {
       ...request.headers,
-      "Content-Type": `multipart/form-data; boundary=${boundary}`
+      "Content-Type": `multipart/form-data; boundary=${boundary}`,
     };
 
     return displayMultipart(boundary, request.body);
@@ -90,7 +94,7 @@ function stringifyBody(request: RequestConfig<any>) {
 
 const CodeView = component(
   {
-    $default: t.custom<VNodeChild>().optional()
+    $default: t.custom<VNodeChild>().optional(),
   },
   ({}, { slots }) => {
     return () => (
@@ -101,7 +105,7 @@ const CodeView = component(
           width: "100%",
           overflow: "auto",
           py: 4,
-          px: 8
+          px: 8,
         }}
       >
         <Box
@@ -110,19 +114,19 @@ const CodeView = component(
             padding: 4,
             margin: 0,
             textStyle: "sys.body-small",
-            fontFamily: "code"
+            fontFamily: "code",
           }}
         >
           <code>{slots.default?.()}</code>
         </Box>
       </Box>
     );
-  }
+  },
 );
 
 export const HttpRequest = component(
   {
-    request: t.custom<RequestConfig<any>>()
+    request: t.custom<RequestConfig<any>>(),
   },
   (props) => {
     return () => {
@@ -134,14 +138,12 @@ export const HttpRequest = component(
           <>
             {Object.entries({
               ...getDefaultHeads(),
-              ...request.headers
+              ...request.headers,
             })
               .toSorted()
-              .map(
-                ([key, value]) => (
-                  <HeadRow key={key} field={key} value={value} />
-                )
-              )}
+              .map(([key, value]) => (
+                <HeadRow key={key} field={key} value={value} />
+              ))}
           </>
           {request.body && (
             <>
@@ -152,7 +154,7 @@ export const HttpRequest = component(
         </CodeView>
       );
     };
-  }
+  },
 );
 
 const toDataURI = (buffer: any, contentType: string) => {
@@ -166,7 +168,7 @@ const toDataURI = (buffer: any, contentType: string) => {
 
 export const HTTPResponse = component(
   {
-    response: t.custom<FetcherResponse<any, any>>()
+    response: t.custom<FetcherResponse<any, any>>(),
   },
   (props, {}) => {
     return () => {
@@ -183,7 +185,7 @@ export const HTTPResponse = component(
         );
       }
 
-      console.log(response)
+      console.log(response);
 
       return (
         <CodeView>
@@ -205,7 +207,7 @@ export const HTTPResponse = component(
         </CodeView>
       );
     };
-  }
+  },
 );
 
 function getContentType(headers: Record<string, any> = {}): string {
@@ -216,7 +218,6 @@ function getContentType(headers: Record<string, any> = {}): string {
   }
   return "";
 }
-
 
 function isContentTypeMultipartFormData(headers: any) {
   return getContentType(headers).includes("multipart/form-data");
@@ -232,4 +233,3 @@ function isContentTypeFormURLEncoded(headers: any) {
 function isContentTypeImage(headers: any) {
   return getContentType(headers).includes("image/");
 }
-

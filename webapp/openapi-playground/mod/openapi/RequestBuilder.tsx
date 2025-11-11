@@ -13,7 +13,7 @@ import {
   t,
   useRoute,
   useRouter,
-  type VNodeChild
+  type VNodeChild,
 } from "@innoai-tech/vuekit";
 import type { Operation } from "./models";
 import { f, type Field, FormData } from "@innoai-tech/vueformdata";
@@ -31,8 +31,8 @@ import { mdiUploadBox } from "@mdi/js";
 import { isUndefined } from "es-toolkit/compat";
 
 export const RequestBuilder = component$<{
-  operation: Operation,
-  $default: VNodeChild,
+  operation: Operation;
+  $default: VNodeChild;
 }>((props, { slots }) => {
   const openapi$ = OpenAPIProvider.use();
 
@@ -41,17 +41,13 @@ export const RequestBuilder = component$<{
   for (const p of props.operation.parameters ?? []) {
     let x: AnyType = JSONSchemaDecoder.decode(p.schema, (ref) => {
       return [openapi$.schema(ref) ?? {}, refName(ref)];
-    }).use(
-      f.label(`${p.name}, in=${JSON.stringify(p.in)}`)
-    );
+    }).use(f.label(`${p.name}, in=${JSON.stringify(p.in)}`));
 
     if (!p.required) {
       x = x.optional();
     }
 
-    x.use(
-      f.hint(p.schema["title"])
-    );
+    x.use(f.hint(p.schema["title"]));
 
     if (["object", "array"].includes(p.schema.type ?? "")) {
       propSchemas[p.name] = x.use(f.inputBy(JSONEditorInput));
@@ -68,9 +64,7 @@ export const RequestBuilder = component$<{
 
       const x = JSONSchemaDecoder.decode(content.schema ?? {}, (ref) => {
         return [openapi$.schema(ref) ?? {}, refName(ref)];
-      }).use(
-        f.label(`body, content-type = ${JSON.stringify(contentType)}`)
-      );
+      }).use(f.label(`body, content-type = ${JSON.stringify(contentType)}`));
 
       if (contentType.includes("text/")) {
         propSchemas["body"] = x;
@@ -90,13 +84,12 @@ export const RequestBuilder = component$<{
   const tryParseParams = () => {
     try {
       const params = route.query["params"];
-      return JSON.parse(atob((Array.isArray(params) ? params[0] : params) ?? ""));
-    } catch (err) {
-
-    }
+      return JSON.parse(
+        atob((Array.isArray(params) ? params[0] : params) ?? ""),
+      );
+    } catch (err) {}
     return {};
   };
-
 
   const form$ = FormData.of(t.object(propSchemas), tryParseParams());
 
@@ -108,27 +101,27 @@ export const RequestBuilder = component$<{
     tap((values) => {
       void router.replace({
         query: {
-          "params": btoa(JSON.stringify(values))
-        }
+          params: btoa(JSON.stringify(values)),
+        },
       });
     }),
-    subscribeUntilUnmount()
+    subscribeUntilUnmount(),
   );
-
 
   const $requestPreview = rx(
     form$.inputs$,
     render((inputs) => {
-      const createConfig = openapi$.asRequestConfigCreator(props.operation.operationId);
+      const createConfig = openapi$.asRequestConfigCreator(
+        props.operation.operationId,
+      );
       if (!createConfig) {
         return null;
       }
       return <HttpRequest request={createConfig(inputs ?? {})} />;
-    })
+    }),
   );
 
   return () => {
-
     return (
       <Box
         key={props.operation.operationId}
@@ -140,7 +133,7 @@ export const RequestBuilder = component$<{
           height: "100%",
           display: "flex",
           alignItems: "stretch",
-          overflow: "hidden"
+          overflow: "hidden",
         }}
         component={"form"}
         onSubmit={(e) => {
@@ -148,46 +141,46 @@ export const RequestBuilder = component$<{
           form$.submit();
         }}
       >
-        <Box sx={{
-          flex: 2,
-          py: 24,
-          display: "flex",
-          flexDirection: "column",
-          gap: 32,
-          height: "100%",
-          overflow: "auto"
-        }}>
-          {[...form$.fields(form$.typedef)].map((f) => {
-            return (
-              <ParameterInput field$={f} />
-            );
-          })}
-        </Box>
-        <Box sx={{
-          flex: 3,
-          gap: 24,
-          display: "flex",
-          flexDirection: "column",
-          height: "100%",
-          overflow: "hidden"
-        }}>
-          <Box sx={{
+        <Box
+          sx={{
+            flex: 2,
+            py: 24,
             display: "flex",
             flexDirection: "column",
-            gap: 24,
+            gap: 32,
             height: "100%",
-            overflow: "hidden"
-          }}>
+            overflow: "auto",
+          }}
+        >
+          {[...form$.fields(form$.typedef)].map((f) => {
+            return <ParameterInput field$={f} />;
+          })}
+        </Box>
+        <Box
+          sx={{
+            flex: 3,
+            gap: 24,
+            display: "flex",
+            flexDirection: "column",
+            height: "100%",
+            overflow: "hidden",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 24,
+              height: "100%",
+              overflow: "hidden",
+            }}
+          >
             {$requestPreview}
             <Box sx={{ px: 8 }}>
-              <FilledButton type={"submit"}>
-                发起请求
-              </FilledButton>
+              <FilledButton type={"submit"}>发起请求</FilledButton>
             </Box>
             <ResponsePreview operationID={props.operation.operationId} />
-            <Box sx={{ flex: 1, overflow: "auto" }}>
-              {slots.default?.()}
-            </Box>
+            <Box sx={{ flex: 1, overflow: "auto" }}>{slots.default?.()}</Box>
           </Box>
         </Box>
       </Box>
@@ -196,45 +189,47 @@ export const RequestBuilder = component$<{
 });
 
 const ParameterInput = component$<{
-  field$: Field
+  field$: Field;
 }>(({ field$ }, { render }) => {
-    onUnmounted(() => {
-      field$.destroy();
-    });
+  onUnmounted(() => {
+    field$.destroy();
+  });
 
-    return rx(
-      combineLatest([field$, field$.input$]),
-      render(([s, value]) => {
-        let Input: any = Schema.metaProp(field$.typedef, "inputBy") ?? TextInput;
+  return rx(
+    combineLatest([field$, field$.input$]),
+    render(([s, value]) => {
+      let Input: any = Schema.metaProp(field$.typedef, "inputBy") ?? TextInput;
 
-        const readOnly = (Schema.metaProp(field$.typedef, "readOnlyWhenInitialExist") ?? false) && !!s.initial;
+      const readOnly =
+        (Schema.metaProp(field$.typedef, "readOnlyWhenInitialExist") ??
+          false) &&
+        !!s.initial;
 
-        return (
-          <TextField
-            valued={!isUndefined(value ?? s.initial)}
-            invalid={!!s.error}
-            focus={!!s.focus}
-            $label={
-              <span>
-                {labelOrName(field$)}
-                {field$.optional ? "（非必填）" : ""}
-              </span>
-            }
-            $supporting={
-              <Line>
-                <Description schema={field$.typedef} />
-                <SchemaView schema={field$.typedef} />
-              </Line>
-            }
-            $trailing={(Input as any).$trailing}
-          >
-            <Input field$={field$} readOnly={readOnly} />
-          </TextField>
-        );
-      })
-    );
-  }
-);
+      return (
+        <TextField
+          valued={!isUndefined(value ?? s.initial)}
+          invalid={!!s.error}
+          focus={!!s.focus}
+          $label={
+            <span>
+              {labelOrName(field$)}
+              {field$.optional ? "（非必填）" : ""}
+            </span>
+          }
+          $supporting={
+            <Line>
+              <Description schema={field$.typedef} />
+              <SchemaView schema={field$.typedef} />
+            </Line>
+          }
+          $trailing={(Input as any).$trailing}
+        >
+          <Input field$={field$} readOnly={readOnly} />
+        </TextField>
+      );
+    }),
+  );
+});
 
 function labelOrName(field$: Field): string {
   return field$.meta.label ?? field$.name;
@@ -243,7 +238,7 @@ function labelOrName(field$: Field): string {
 export const TextInput = component(
   {
     readOnly: t.boolean().optional(),
-    field$: t.custom<Field<any>>()
+    field$: t.custom<Field<any>>(),
   },
   (props) => {
     return () => {
@@ -264,22 +259,17 @@ export const TextInput = component(
               case "number":
                 try {
                   field$.update(field$.typedef.create(parseFloat(v)));
-                } catch (e) {
-                }
+                } catch (e) {}
                 break;
               case "integer":
                 try {
                   field$.update(field$.typedef.create(parseInt(v)));
-                } catch (e) {
-
-                }
+                } catch (e) {}
                 break;
               case "boolean":
                 try {
                   field$.update(field$.typedef.create(v !== "false" || !!v));
-                } catch (e) {
-
-                }
+                } catch (e) {}
                 break;
               default:
                 field$.update(field$.typedef.create(v));
@@ -290,14 +280,13 @@ export const TextInput = component(
         />
       );
     };
-  }
+  },
 );
 
-
 export const FileSelectInput = component$<{
-  field$: Field<File>,
-  readOnly?: boolean,
-  accept?: string,
+  field$: Field<File>;
+  readOnly?: boolean;
+  accept?: string;
 }>((props) => {
   const file$ = observableRef<File | null>(null);
 
@@ -308,7 +297,7 @@ export const FileSelectInput = component$<{
         props.field$.update(file);
       }
     }),
-    subscribeOnMountedUntilUnmount()
+    subscribeOnMountedUntilUnmount(),
   );
 
   return () => {
@@ -326,14 +315,14 @@ export const FileSelectInput = component$<{
           gap: 8,
 
           $data_file_input: {
-            display: "none"
+            display: "none",
           },
 
           $data_icon: {
             width: 40,
             height: 40,
-            my: 40
-          }
+            my: 40,
+          },
         }}
       >
         <input

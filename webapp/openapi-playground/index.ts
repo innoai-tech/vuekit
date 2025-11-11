@@ -10,9 +10,7 @@ const base = new URL(document.querySelector("base")?.href ?? "/");
 
 const router = createRouter({
   history: createWebHistory(base.pathname),
-  routes
+  routes,
 });
 
-createApp(App)
-  .use(router)
-  .mount("#root");
+createApp(App).use(router).mount("#root");

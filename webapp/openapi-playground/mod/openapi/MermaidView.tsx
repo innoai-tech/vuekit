@@ -1,31 +1,33 @@
 import { styled } from "@innoai-tech/vueuikit";
 import type { VNodeChild } from "vue";
-import { component$, observableRef, rx, subscribeOnMountedUntilUnmount } from "@innoai-tech/vuekit";
+import {
+  component$,
+  observableRef,
+  rx,
+  subscribeOnMountedUntilUnmount,
+} from "@innoai-tech/vuekit";
 import { EMPTY, from, switchMap } from "rxjs";
 
-export const PreWithMermaid = styled<{
-  $default?: VNodeChild
-}, "pre">("pre", ({}, { slots }) => {
+export const PreWithMermaid = styled<
+  {
+    $default?: VNodeChild;
+  },
+  "pre"
+>("pre", ({}, { slots }) => {
   return (Root) => {
     const children = slots.default?.();
     const child = children?.[0];
-
 
     if (child && (child as any).props.className === "language-mermaid") {
       return <Mermaid code={(child as any).children} />;
     }
 
-    return (
-      <Root>
-        {children}
-      </Root>
-    );
+    return <Root>{children}</Root>;
   };
 })({});
 
-
 const Mermaid = component$<{
-  code: string
+  code: string;
 }>((props, {}) => {
   const $el = observableRef(null);
 
@@ -33,16 +35,19 @@ const Mermaid = component$<{
     $el,
     switchMap((el) => {
       if (el) {
-        return from((async () => {
-          // @ts-ignore
-          const { default: mermaid } = await import("mermaid/dist/mermaid.esm.min.mjs");
+        return from(
+          (async () => {
+            // @ts-ignore
+            const { default: mermaid } =
+              await import("mermaid/dist/mermaid.esm.min.mjs");
 
-          await mermaid.run({ nodes: [el] });
-        })());
+            await mermaid.run({ nodes: [el] });
+          })(),
+        );
       }
       return EMPTY;
     }),
-    subscribeOnMountedUntilUnmount()
+    subscribeOnMountedUntilUnmount(),
   );
 
   return () => {
@@ -56,7 +61,6 @@ const Mermaid = component$<{
 
 const MermaidContainer = styled("div")({
   "& > svg": {
-    minWidth: "80%"
-  }
+    minWidth: "80%",
+  },
 });
-
