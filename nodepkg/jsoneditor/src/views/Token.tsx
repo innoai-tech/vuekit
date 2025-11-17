@@ -30,7 +30,6 @@ const PropNameView = styled(TextBox)({
   position: "relative",
   display: "flex",
   alignItems: "center",
-  userSelect: "none",
 
   _deprecated: {
     textDecoration: "line-through",
