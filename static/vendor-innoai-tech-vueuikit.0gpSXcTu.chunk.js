@@ -1,6 +1,6 @@
 let e;
 import { r as n, t } from "./rolldown-runtime.D8qhy2Lt.chunk.js";
-import { $t as a, At as r, Bt as s, Ct as o, Dt as i, Et as l, Ft as c, Gt as u, Ht as p, I as d, It as h, Kt as m, L as f, Lt as k, Mt as g, Nt as N, Ot as y, Pt as b, Qt as v, R as x, Rt as w, St as C, Tt as M, U as P, Ut as S, Vt as _, W as A, Wt as T, Xt as L, Zt as R, _t as $, at as D, bt as O, c as H, ct as V, dt as I, en as B, f as F, ft as E, g as j, gt as W, ht as z, i as U, it as q, jt as G, kt as Y, l as X, lt as K, m as Z, nt as J, o as Q, ot as ee, p as en, pt as et, r as ea, rt as er, st as es, tn as eo, u as ei, ut as el, vt as ec, w as eu, wt as ep, xt as ed, yt as eh, z as em, zt as ef } from "./vendor-innoai-tech-vuekit.CihhMnsl.chunk.js";
+import { $t as a, At as r, Bt as s, Ct as o, Dt as i, Et as l, Ft as c, Gt as u, Ht as p, I as d, It as h, Kt as m, L as f, Lt as k, Mt as g, Nt as N, Ot as y, Pt as b, Qt as v, R as x, Rt as w, St as C, Tt as M, U as P, Ut as S, Vt as _, W as A, Wt as T, Xt as L, Zt as R, _t as $, at as D, bt as O, c as H, ct as V, dt as I, en as B, f as F, ft as E, g as j, gt as W, ht as z, i as U, it as q, jt as G, kt as Y, l as X, lt as K, m as Z, nt as J, o as Q, ot as ee, p as en, pt as et, r as ea, rt as er, st as es, tn as eo, u as ei, ut as el, vt as ec, w as eu, wt as ep, xt as ed, yt as eh, z as em, zt as ef } from "./vendor-innoai-tech-vuekit.CRQzMVgg.chunk.js";
 import { t as ek } from "./vendor-rxjs.CsNJjMpf.chunk.js";
 var eg, eN, ey, eb, ev, ex, ew, eC, eM = void 0, eP = "undefined" != typeof window && window.trustedTypes;
 if (eP) try {
@@ -952,7 +952,7 @@ var t_ = class e {
 		selectorPath: [],
 		path: []
 	}) => {
-		let { $: r,...s } = n;
+		let { $: r, ...s } = n;
 		for (let n in s) {
 			let o = s[n], i = s.default ?? a.default, l = r ?? eo(i, [...a.path.slice(1), "$"]), c = l ? [...a.selectorPath, l] : a.selectorPath, u = [...a.path, n];
 			if (p(o)) {
@@ -970,7 +970,7 @@ var t_ = class e {
 		this.opt = e;
 	}
 	processAll(n, t = !0) {
-		let a = [], { state: r, extends: s,...o } = n;
+		let a = [], { state: r, extends: s, ...o } = n;
 		if (s) for (let e of s) a.push(...this.processAll(e, t));
 		if (r) {
 			let n = {}, t = {};
@@ -3112,7 +3112,7 @@ var ab = {
 		return new Proxy({}, { get: (e, n) => (e) => [n, e] });
 	}
 	static fromColors = (n) => {
-		let { primary: t, secondary: a, tertiary: r, neutral: s, neutralVariant: o, error: i,...l } = n, c = ad.contentFromColors({
+		let { primary: t, secondary: a, tertiary: r, neutral: s, neutralVariant: o, error: i, ...l } = n, c = ad.contentFromColors({
 			primary: aN(t),
 			secondary: a ? aN(a) : void 0,
 			tertiary: r ? aN(r) : void 0,
@@ -4468,7 +4468,7 @@ var sv = function(e) {
 		options: e,
 		async fn(n) {
 			var t, a;
-			let r, s, { placement: o, rects: i, platform: l, elements: c } = n, { apply: u = () => {},...p } = rS(e, n), d = await rW(n, p), h = r_(o), m = rA(o), f = "y" === r$(o), { width: k, height: g } = i.floating;
+			let r, s, { placement: o, rects: i, platform: l, elements: c } = n, { apply: u = () => {}, ...p } = rS(e, n), d = await rW(n, p), h = r_(o), m = rA(o), f = "y" === r$(o), { width: k, height: g } = i.floating;
 			"top" === h || "bottom" === h ? (r = h, s = m === (await (null == l.isRTL ? void 0 : l.isRTL(c.floating)) ? "start" : "end") ? "left" : "right") : (s = h, r = "end" === m ? "top" : "bottom");
 			let N = g - d.top - d.bottom, y = k - d.left - d.right, b = rb(g - d[r], N), v = rb(k - d[s], y), x = !n.middlewareData.shift, w = b, C = v;
 			if (null != (t = n.middlewareData.shift) && t.enabled.x && (C = y), null != (a = n.middlewareData.shift) && a.enabled.y && (w = N), x && !m) {
@@ -4502,7 +4502,7 @@ var sv = function(e) {
 							options: a,
 							async fn(e) {
 								var n, t, r, s, o, i, l, c;
-								let u, p, d, { placement: h, middlewareData: m, rects: f, initialPlacement: k, platform: g, elements: N } = e, { mainAxis: y = !0, crossAxis: b = !0, fallbackPlacements: v, fallbackStrategy: x = "bestFit", fallbackAxisSideDirection: w = "none", flipAlignment: C = !0,...M } = rS(a, e);
+								let u, p, d, { placement: h, middlewareData: m, rects: f, initialPlacement: k, platform: g, elements: N } = e, { mainAxis: y = !0, crossAxis: b = !0, fallbackPlacements: v, fallbackStrategy: x = "bestFit", fallbackAxisSideDirection: w = "none", flipAlignment: C = !0, ...M } = rS(a, e);
 								if (null != (n = m.arrow) && n.alignmentOffset) return {};
 								let P = r_(h), S = r$(k), _ = r_(k) === k, A = await (null == g.isRTL ? void 0 : g.isRTL(N.floating)), T = v || (_ || !C ? [rB(k)] : (u = rB(k), [
 									rD(k),
@@ -4567,7 +4567,7 @@ var sv = function(e) {
 										x: n,
 										y: t
 									};
-								} },...l } = rS(r, e), c = {
+								} }, ...l } = rS(r, e), c = {
 									x: n,
 									y: t
 								}, u = await rW(e, l), p = r$(r_(a)), d = rT(p), h = c[d], m = c[p];
