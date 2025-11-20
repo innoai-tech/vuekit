@@ -1,0 +1,1 @@
+import{b as e}from"./vendor-innoai-tech-vueuikit.PCWNwfJ6.chunk.js";export{e as mdiGroup};
