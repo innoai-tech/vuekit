@@ -16,7 +16,7 @@
         "@happy-dom/global-registrator": "^20.0.10",
         "@innoai-tech/config": "^0.6.5",
         "@innoai-tech/devconfig": "^0.5.0",
-        "@innoai-tech/monobundle": "^0.17.0",
+        "@innoai-tech/monobundle": "^0.17.1",
         "@innoai-tech/vue-vite-presets": "workspace:*",
         "@innoai-tech/vuedevconfig": "workspace:*",
         "@mdi/js": "^7.4.47",
@@ -41,7 +41,7 @@
     },
     "nodedevpkg/vue-vite-presets": {
       "name": "@innoai-tech/vue-vite-presets",
-      "version": "0.13.0",
+      "version": "0.13.1",
       "dependencies": {
         "@innoai-tech/purebundle": "^0.7.0",
         "@innoai-tech/vuecomponentcompleter": "^0.4.0",
@@ -269,7 +269,7 @@
 
     "@innoai-tech/jsoneditor": ["@innoai-tech/jsoneditor@workspace:nodepkg/jsoneditor"],
 
-    "@innoai-tech/monobundle": ["@innoai-tech/monobundle@0.17.0", "https://npm.pkg.github.com/download/@innoai-tech/monobundle/0.17.0/bf16b98cf2bbd43ecfb0441715eb13bc67dfa502", { "dependencies": { "@innoai-tech/purebundle": "^0.7.0", "@innoai-tech/vuecomponentcompleter": "^0.4.0", "chalk": "^5.6.2", "es-toolkit": "^1.41.0", "globby": "^15.0.0", "js-yaml": "^4.1.0", "minimatch": "^10.1.1", "rolldown": "^1.0.0-beta.47", "yargs": "^18.0.0" }, "bin": { "monobundle": "dist/monobundle.mjs" } }, "sha512-T4h8ivVuix8ggg7gfPW7WysLMkpOdV7xuKjj9nVK0Ta11fD3QYE5ZC0Ky8l+Kr7l2oyoPxkjV2/P7cqftFycLw=="],
+    "@innoai-tech/monobundle": ["@innoai-tech/monobundle@0.17.1", "https://npm.pkg.github.com/download/@innoai-tech/monobundle/0.17.1/7d545d417342e3179751c24ce97a37b30515f41c", { "dependencies": { "@innoai-tech/purebundle": "^0.7.0", "@innoai-tech/vuecomponentcompleter": "^0.4.0", "chalk": "^5.6.2", "es-toolkit": "^1.42.0", "globby": "^16.0.0", "js-yaml": "^4.1.1", "minimatch": "^10.1.1", "rolldown": "^1.0.0-beta.51", "yargs": "^18.0.0" }, "bin": { "monobundle": "dist/monobundle.mjs" } }, "sha512-/JZAFdQIvpTPpKLDWCQH92loz0UZOfFYvjm+vxtjdk8EKNXr/7/89MCpK3MpSSt7RCNLBiUw1gJH3dZFFVDHdg=="],
 
     "@innoai-tech/purebundle": ["@innoai-tech/purebundle@0.7.0", "https://npm.pkg.github.com/download/@innoai-tech/purebundle/0.7.0/307de57eba0694a4bf324ae30c80a0a737d0551e", { "dependencies": { "@swc/core": "1.14.0" } }, "sha512-mw3lVP/+1lp05nl4Z2Q+9ImaTascDmRnOHRdKCmhQFdComKQlMmSjI74yYjVtgHB38Ykxw3cWIDILt7pVMV86w=="],
 
@@ -1083,8 +1083,6 @@
 
     "path-scurry": ["path-scurry@1.11.1", "", { "dependencies": { "lru-cache": "^10.2.0", "minipass": "^5.0.0 || ^6.0.2 || ^7.0.0" } }, "sha512-Xa4Nw17FS9ApQFJ9umLiJS4orGjm7ZzwUrwamcGQuHSzDyth9boKDaycYdDcZDuqYATXw4HFXgaqWTctW/v1HA=="],
 
-    "path-type": ["path-type@6.0.0", "", {}, "sha512-Vj7sf++t5pBD637NSfkxpHSMfWaeig5+DKWLhcqIYx6mWQz5hdJTGDVMQiJcw1ZYkhs7AazKDGpRVji1LJCZUQ=="],
-
     "pathe": ["pathe@2.0.3", "", {}, "sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w=="],
 
     "picocolors": ["picocolors@1.1.1", "", {}, "sha512-xceH2snhtb5M9liqDsmEw56le376mTZkEX/jEb/RxNFyegNul7eNslCXP9FDj/Lcu0X8KEyMceP2ntpaHrDEVA=="],
@@ -1317,8 +1315,6 @@
 
     "@emotion/cache/stylis": ["stylis@4.2.0", "", {}, "sha512-Orov6g6BB1sDfYgzWfTHDOxamtX1bE/zo104Dh9e6fqJ3PooipYyfJ0pUmrZO2wAvO8YbEyeFrkV91XTsGMSrw=="],
 
-    "@innoai-tech/monobundle/globby": ["globby@15.0.0", "", { "dependencies": { "@sindresorhus/merge-streams": "^4.0.0", "fast-glob": "^3.3.3", "ignore": "^7.0.5", "path-type": "^6.0.0", "slash": "^5.1.0", "unicorn-magic": "^0.3.0" } }, "sha512-oB4vkQGqlMl682wL1IlWd02tXCbquGWM4voPEI85QmNKCaw8zGTm1f1rubFgkg3Eli2PtKlFgrnmUqasbQWlkw=="],
-
     "@isaacs/cliui/string-width": ["string-width@5.1.2", "", { "dependencies": { "eastasianwidth": "^0.2.0", "emoji-regex": "^9.2.2", "strip-ansi": "^7.0.1" } }, "sha512-HnLOCR3vjcY8beoNLtcjZ5/nxn2afmME6lhrDrebokqMap+XbeW8n9TXpPDOqdGK5qcI3oT0GKTW6wC7EMiVqA=="],
 
     "@isaacs/cliui/wrap-ansi": ["wrap-ansi@8.1.0", "", { "dependencies": { "ansi-styles": "^6.1.0", "string-width": "^5.0.1", "strip-ansi": "^7.0.1" } }, "sha512-si7QWI6zUMq56bESFvagtmzMdGOtoxfR+Sez11Mobfc7tm+VkUckk9bW2UeffTGVUbOksxmSw0AA2gs8g71NCQ=="],
@@ -1380,8 +1376,6 @@
     "wrap-ansi-cjs/string-width": ["string-width@4.2.3", "", { "dependencies": { "emoji-regex": "^8.0.0", "is-fullwidth-code-point": "^3.0.0", "strip-ansi": "^6.0.1" } }, "sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g=="],
 
     "wrap-ansi-cjs/strip-ansi": ["strip-ansi@6.0.1", "", { "dependencies": { "ansi-regex": "^5.0.1" } }, "sha512-Y38VPSHcqkFrCpFnQ9vuSXmquuv5oXOKpGeT6aGrr3o3Gc9AlVa6JBfUSOCnbxGGZF+/0ooI7KrPuUSztUdU5A=="],
-
-    "@innoai-tech/monobundle/globby/unicorn-magic": ["unicorn-magic@0.3.0", "", {}, "sha512-+QBBXBCvifc56fsbuxZQ6Sic3wqqc3WWaqxs58gvJrcOuN83HGTCwz3oS5phzU9LthRNE9VrJCFCLUgHeeFnfA=="],
 
     "@isaacs/cliui/string-width/emoji-regex": ["emoji-regex@9.2.2", "", {}, "sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg=="],
 
