@@ -2,7 +2,7 @@
   "name": "@innoai-tech/csstype",
   "version": "0.1.2",
   "dependencies": {
-    "csstype": "^3.2.2"
+    "csstype": "^3.2.3"
   },
   "license": "MIT",
   "main": "index.js",

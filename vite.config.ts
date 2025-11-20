@@ -66,8 +66,6 @@ export default defineConfig({
     viteChunkSplit({
       lib: [/nodepkg\/([^/]+)\/src/, /webapp\/([^/]+)\/mod/],
     }),
-    chunkCleanup({
-      minify: true,
-    }),
+    chunkCleanup({}),
   ],
 });

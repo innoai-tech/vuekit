@@ -3,8 +3,8 @@ turbo := 'bunx --bun turbo'
 vite := 'bunx --bun vite'
 vitest := 'bunx --bun vitest'
 taze := 'bunx --bun taze'
-playwright := 'bun playwright'
 monobundle := 'bunx --bun monobundle'
+playwright := 'bun playwright'
 
 dep-web:
     {{ bun }} install --no-cache

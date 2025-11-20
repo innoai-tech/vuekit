@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vue-vite-presets",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
@@ -12,12 +12,12 @@
     "@mapbox/rehype-prism": "^0.9.0",
     "@mdx-js/rollup": "^3.1.1",
     "@swc/core": "1.14.0",
-    "@vitejs/plugin-vue": "^6.0.1",
+    "@vitejs/plugin-vue": "^6.0.2",
     "es-toolkit": "^1.42.0",
     "globby": "^16.0.0",
     "hastscript": "^9.0.1",
-    "rolldown": "^1.0.0-beta.50",
-    "rolldown-vite": "^7.2.5",
+    "rolldown": "^1.0.0-beta.51",
+    "rolldown-vite": "^7.2.7",
     "unist-util-visit": "^5.0.0",
     "vite-plugin-pages": "^0.33.1",
     "vite-tsconfig-paths": "^5.1.4"
