@@ -55,6 +55,18 @@ describe("Type", () => {
       });
       expect(err).not.toBeUndefined();
     });
+
+    test("should mask value", () => {
+      const x = s.mask({
+        a: "1",
+        o: "1",
+      } as any);
+
+      expect(x).toEqual({
+        a: "1",
+        o: 1,
+      });
+    });
   });
 
   describe("Complex", () => {

@@ -149,6 +149,8 @@ export class TypeObject<
   }
 
   override coercer(value: unknown, ctx: Context): T | undefined {
+    value = super.coercer(value, ctx);
+
     if (isObjectLike(value)) {
       const v: { [k: string]: any } = { ...(value as object) };
 
@@ -168,6 +170,6 @@ export class TypeObject<
       return v as T;
     }
 
-    return super.coercer(value, ctx);
+    return value as any;
   }
 }

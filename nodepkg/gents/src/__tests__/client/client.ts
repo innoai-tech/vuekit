@@ -1,9 +1,10 @@
 import type { RequestConfig, RequestConfigCreator } from "@innoai-tech/fetcher";
 
 export const createRequest = <TInputs, TRespData>(
-  _: string,
+  operationID: string,
   createConfig: (input: TInputs) => Omit<RequestConfig<TInputs>, "inputs">,
 ) => {
   const create = (inputs: TInputs) => ({ ...createConfig(inputs), inputs });
+  create.operationID = operationID;
   return create as RequestConfigCreator<TInputs, TRespData>;
 };

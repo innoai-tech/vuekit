@@ -40,8 +40,8 @@ export class ClientGen extends Genfile {
   }
 
   scan() {
-    this.import(this.requestCreator.importPath, this.requestCreator.expose, "");
     this.import("@innoai-tech/typedef", "t", "");
+    this.import(this.requestCreator.importPath, this.requestCreator.expose, "");
 
     const operations: Record<string, { method: string; path: string } & any> =
       {};
@@ -85,7 +85,7 @@ export class ClientGen extends Genfile {
 
     let hasParamInPath = false;
     let isRequestTypeEmpty = true;
-    let hasAccpetHeader = false;
+    let hasAcceptHeader = false;
 
     if (op.parameters) {
       for (const p of op.parameters) {
@@ -109,7 +109,7 @@ export class ClientGen extends Genfile {
 
         if (p.in === "header") {
           if (p.name === "Accept") {
-            hasAccpetHeader = true;
+            hasAcceptHeader = true;
           }
 
           set(
@@ -185,18 +185,20 @@ export class ClientGen extends Genfile {
     const requestType = isRequestTypeEmpty
       ? "void"
       : this.decodeAsTypeScript(
-          bodyTypes.length > 0
-            ? t.intersection(
-                t.object(requestParameterSchema),
-                t.union(...bodyTypes),
-              )
-            : t.object(requestParameterSchema),
+          t.ref(op.operationId + "Inputs", () =>
+            bodyTypes.length > 0
+              ? t.intersection(
+                  t.object(requestParameterSchema),
+                  t.union(...bodyTypes),
+                )
+              : t.object(requestParameterSchema),
+          ),
         );
 
     const [accept, respSchema] = getRespBodySchema(op.responses);
 
     if (!!accept) {
-      if (hasAccpetHeader) {
+      if (hasAcceptHeader) {
         set(
           requestObject,
           ["headers", "Accept"],

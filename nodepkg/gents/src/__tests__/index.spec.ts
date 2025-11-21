@@ -10,12 +10,14 @@ describe("#generateClient", () => {
   it("gen", async () => {
     await generateClient({
       id: "example",
-      uri: `files://${join(__dirname, "example/openapi.json")}`,
+      uri: `file://${join(__dirname, "example/openapi.json")}`,
       outDir: join(__dirname, "client"),
       requestCreator: {
         expose: "createRequest",
         importPath: "./client",
       },
     });
+
+    await Bun.$`oxfmt ${join(__dirname, "client")}`;
   });
 });

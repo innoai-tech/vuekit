@@ -17,7 +17,7 @@ export interface Options extends GenerateOptions {
 const loadOpenAPI = async (uri: string): Promise<any> => {
   const u = new URL(uri);
 
-  if (u.protocol === "files:") {
+  if (u.protocol === "file:" || u.protocol === "files:") {
     const b = await readFile(u.pathname);
     return JSON.parse(`${b}`);
   }
