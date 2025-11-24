@@ -55,70 +55,66 @@ export class Schema {
 
     let meta: Schema | undefined;
 
-    return new Proxy(
-      {},
-      {
-        ownKeys(_: {}): ArrayLike<string | symbol> {
-          const m = new Map<string, string>();
+    return new Proxy(base, {
+      ownKeys(base: {}): ArrayLike<string | symbol> {
+        const m = new Map<string, string>();
 
-          if (scope) {
-            if ((base as any)[scope]) {
+        if (scope) {
+          if ((base as any)[scope]) {
+            for (const x of Object.getOwnPropertyNames((base as any)[scope])) {
+              m.set(x, x);
+            }
+          }
+
+          if (parent) {
+            if ((parent as any)[scope]) {
               for (const x of Object.getOwnPropertyNames(
-                (base as any)[scope],
+                (parent as any)[scope],
               )) {
                 m.set(x, x);
               }
             }
+          }
+        } else {
+          for (const x of Object.getOwnPropertyNames(base)) {
+            m.set(x, x);
+          }
 
-            if (parent) {
-              if ((parent as any)[scope]) {
-                for (const x of Object.getOwnPropertyNames(
-                  (parent as any)[scope],
-                )) {
-                  m.set(x, x);
-                }
-              }
-            }
-          } else {
-            for (const x of Object.getOwnPropertyNames(base)) {
+          if (parent) {
+            for (const x of Object.getOwnPropertyNames(parent)) {
               m.set(x, x);
             }
-
-            if (parent) {
-              for (const x of Object.getOwnPropertyNames(parent)) {
-                m.set(x, x);
-              }
-            }
           }
+        }
 
-          return [...m.keys()];
-        },
-        get(_: {}, p: string | symbol): any {
-          if (p === Schema.meta) {
-            return (meta ??= Schema.create(base, parent, Schema.meta) as any);
-          }
+        return [...m.keys()];
+      },
 
-          if (scope) {
-            if (isObject(base)) {
-              const v = (base as any)?.[scope]?.[p];
-              if (!isUndefined(v)) {
-                return v;
-              }
-            }
-            return parent ? (parent as any)?.[scope]?.[p] : undefined;
-          }
+      get(base: {}, p: string | symbol): any {
+        if (p === Schema.meta) {
+          return (meta ??= Schema.create(base, parent, Schema.meta) as any);
+        }
 
+        if (scope) {
           if (isObject(base)) {
-            const v = (base as any)?.[p];
+            const v = (base as any)?.[scope]?.[p];
             if (!isUndefined(v)) {
               return v;
             }
           }
+          return parent ? (parent as any)?.[scope]?.[p] : undefined;
+        }
 
-          return parent ? (parent as any)[p] : undefined;
-        },
+        if (isObject(base)) {
+          const v = (base as any)?.[p];
+          if (!isUndefined(v)) {
+            return v;
+          }
+        }
+
+        return parent ? (parent as any)[p] : undefined;
       },
-    ) as any;
+    }) as any;
   }
 
   static schemaProp<T = any>(

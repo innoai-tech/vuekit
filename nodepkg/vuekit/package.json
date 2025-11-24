@@ -12,7 +12,7 @@
     "@innoai-tech/typedef": "workspace:^",
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
     "es-toolkit": "^1.42.0",
-    "immer": "^10.2.0",
+    "immer": "^11.0.0",
     "rxjs": "^7.8.2",
     "vue": "^3.5.24",
     "vue-router": "^4.6.3"

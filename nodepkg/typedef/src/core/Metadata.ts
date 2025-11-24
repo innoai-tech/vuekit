@@ -32,10 +32,12 @@ export class Metadata {
       if (isFunction(valueOrFunc)) {
         defineMetadata(
           propertyKey,
-          produce(
-            getMetadata(propertyKey, target) ?? defaults ?? {},
-            valueOrFunc,
-          ),
+          {
+            ...produce(
+              getMetadata(propertyKey, target) ?? defaults ?? {},
+              valueOrFunc,
+            ),
+          },
           target,
         );
 

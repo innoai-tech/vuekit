@@ -44,12 +44,6 @@ class ObjectSchema extends MetaSchema {
   envType?: EnvType;
 }
 
-class ObjectV2Schema extends MetaSchema {
-  @label("自定义字段")
-  @readOnly()
-  custom!: string;
-}
-
 const taggedUnion = t
   .discriminatorMapping("netType", {
     [NetType.AIRGAP]: t.object({}),
@@ -60,10 +54,6 @@ const taggedUnion = t
   .use(label("网络类型"));
 
 describe("Meta", () => {
-  const x = new ObjectV2Schema();
-
-  console.log(x);
-
   describe("iter desc", () => {
     const schema = t.intersection(t.object(ObjectSchema), taggedUnion);
 
