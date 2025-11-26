@@ -1,371 +1,985 @@
 {
   "openapi": "3.1.0",
-  "info": {
-    "title": "",
-    "version": ""
-  },
   "components": {
     "schemas": {
-      "ContentReference": {
-        "type": "string",
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/content.Reference"
-      },
-      "ManifestV1DockerManifestList": {
+      "AccountV1AccountAsList": {
         "type": "object",
         "properties": {
-          "annotations": {
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "Annotations contains arbitrary metadata for the image index.",
-            "x-go-field-name": "Annotations"
-          },
-          "artifactType": {
-            "type": "string",
-            "description": "ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact.",
-            "x-go-field-name": "ArtifactType"
-          },
-          "manifests": {
+          "items": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor"
+              "$ref": "#/components/schemas/AccountV1Account",
+              "x-go-star-level": 1
             },
-            "description": "Manifests references platform specific manifests.",
-            "x-go-field-name": "Manifests"
+            "title": "列表"
           },
-          "mediaType": {
-            "type": "string",
-            "description": "MediaType specifies the type of this document data structure e.g. `application/vnd.oci.image.index.v1+json`",
-            "x-go-field-name": "MediaType"
-          },
-          "schemaVersion": {
+          "total": {
             "type": "integer",
-            "x-format": "int",
-            "x-go-field-name": "SchemaVersion"
+            "title": "总数",
+            "x-format": "int64"
+          }
+        }
+      },
+      "OpenidV1ProviderCode": {
+        "type": "string"
+      },
+      "JsonJsontextPointer": {
+        "type": "string"
+      },
+      "OpenidV1PasswordGrant": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "enum": [
+              "password"
+            ],
+            "title": "授权类型",
+            "x-tag-validate": "@string{password}"
           },
-          "subject": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor",
-            "description": "Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest.",
-            "x-go-star-level": 1,
-            "x-go-field-name": "Subject"
+          "username": {
+            "type": "string",
+            "title": "用户标识",
+            "description": "可以是 用户名/手机/邮箱等"
+          },
+          "password": {
+            "type": "string",
+            "title": "密码"
+          },
+          "scope": {
+            "type": "string",
+            "title": "授权范围"
+          },
+          "client_id": {
+            "type": "string",
+            "title": "Client ID"
+          },
+          "client_secret": {
+            "type": "string",
+            "title": "Client Secret"
           }
         },
-        "required": ["manifests", "schemaVersion"],
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/apis/manifest/v1.DockerManifestList"
+        "required": [
+          "grant_type",
+          "username",
+          "password"
+        ],
+        "title": "https://www.oauth.com/oauth2-servers/access-tokens/password-grant/"
       },
-      "ManifestV1OciIndex": {
+      "OpenidV1ProviderMeta": {
         "type": "object",
         "properties": {
-          "annotations": {
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "Annotations contains arbitrary metadata for the image index.",
-            "x-go-field-name": "Annotations"
+          "code": {
+            "$ref": "#/components/schemas/OpenidV1ProviderCode",
+            "title": "标识"
           },
-          "artifactType": {
+          "name": {
             "type": "string",
-            "description": "ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact.",
-            "x-go-field-name": "ArtifactType"
+            "title": "名称"
           },
-          "manifests": {
+          "authorizationEndpoint": {
+            "type": "string",
+            "title": "登录入口"
+          }
+        },
+        "required": [
+          "code",
+          "name"
+        ]
+      },
+      "OpenidV1ConfigurationWithExternalProviders": {
+        "type": "object",
+        "properties": {
+          "id_token_signing_alg_values_supported": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor"
-            },
-            "description": "Manifests references platform specific manifests.",
-            "x-go-field-name": "Manifests"
+              "type": "string"
+            }
           },
-          "mediaType": {
+          "issuer": {
+            "type": "string"
+          },
+          "jwks_uri": {
+            "type": "string"
+          },
+          "token_endpoint": {
+            "type": "string"
+          },
+          "userinfo_endpoint": {
+            "type": "string"
+          },
+          "authorization_endpoint": {
+            "type": "string"
+          },
+          "subject_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "token_endpoint_auth_methods_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "grant_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "response_types_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "scopes_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "claims_supported": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "externalProviders": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpenidV1ProviderMeta",
+              "x-go-star-level": 1
+            }
+          }
+        },
+        "required": [
+          "id_token_signing_alg_values_supported",
+          "issuer",
+          "jwks_uri",
+          "token_endpoint",
+          "userinfo_endpoint",
+          "subject_types_supported",
+          "token_endpoint_auth_methods_supported",
+          "grant_types_supported",
+          "response_types_supported",
+          "scopes_supported",
+          "claims_supported"
+        ]
+      },
+      "OpenidV1Token": {
+        "type": "object",
+        "properties": {
+          "token_type": {
             "type": "string",
-            "description": "MediaType specifies the type of this document data structure e.g. `application/vnd.oci.image.index.v1+json`",
-            "x-go-field-name": "MediaType"
+            "title": "Token 类型"
           },
-          "schemaVersion": {
+          "expires_in": {
             "type": "integer",
-            "x-go-field-name": "SchemaVersion",
+            "title": "过期时间（单位：秒）",
             "x-format": "int"
           },
-          "subject": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor",
-            "description": "Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest.",
-            "x-go-star-level": 1,
-            "x-go-field-name": "Subject"
+          "access_token": {
+            "type": "string",
+            "title": "访问凭证"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "刷新凭证"
+          },
+          "scope": {
+            "type": "string",
+            "title": "凭证范围",
+            "description": "预留，暂时无实现"
           }
         },
-        "required": ["manifests", "schemaVersion"],
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/apis/manifest/v1.OciIndex"
+        "required": [
+          "token_type",
+          "access_token"
+        ],
+        "title": "https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/"
       },
-      "ManifestV1Payload": {
+      "OpenidV1AuthorizationCodeRequest": {
+        "type": "object",
+        "properties": {
+          "response_type": {
+            "enum": [
+              "code"
+            ],
+            "x-tag-validate": "@string{code}"
+          },
+          "client_id": {
+            "$ref": "#/components/schemas/AccountV1AccountID"
+          },
+          "redirect_uri": {
+            "type": "string"
+          },
+          "scope": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "code_challenge": {
+            "type": "string"
+          },
+          "code_challenge_method": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "response_type",
+          "client_id",
+          "redirect_uri"
+        ],
+        "title": "https://www.oauth.com/oauth2-servers/authorization/the-authorization-request/"
+      },
+      "StringAsFilter": {
+        "type": "string"
+      },
+      "AccountV1IdentityTypeAsFilter": {
+        "$ref": "#/components/schemas/AccountV1IdentityType"
+      },
+      "AccountV1AccountType": {
+        "enum": [
+          "USER",
+          "AGENT",
+          "CLIENT"
+        ],
+        "title": "账户类型",
+        "x-enum-labels": [
+          "用户",
+          "集群代理",
+          "客户端"
+        ]
+      },
+      "AccountV1AccountIdentityRequestForCreate": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "AccountIdentity"
+            ]
+          },
+          "apiVersion": {
+            "enum": [
+              "v1"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "名称"
+          },
+          "description": {
+            "type": "string",
+            "title": "描述"
+          },
+          "annotations": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "其他注解"
+          },
+          "code": {
+            "$ref": "#/components/schemas/AccountV1AccountIdentityCode",
+            "title": "编码"
+          },
+          "identityType": {
+            "$ref": "#/components/schemas/AccountV1IdentityType"
+          }
+        },
+        "required": [
+          "code",
+          "identityType"
+        ],
+        "title": "账户标识（创建）"
+      },
+      "OpenidV1Jwk": {
+        "type": "object",
+        "properties": {
+          "kty": {
+            "type": "string",
+            "title": "密钥类型"
+          },
+          "alg": {
+            "type": "string",
+            "title": "密钥算法类型"
+          },
+          "kid": {
+            "type": "string",
+            "title": "密钥 ID"
+          },
+          "use": {
+            "type": "string",
+            "title": "用途",
+            "description": "sig （签名和验证）或 enc (加密和解密)"
+          },
+          "e": {
+            "type": "string",
+            "title": "RSA 公钥的模数"
+          },
+          "n": {
+            "type": "string",
+            "title": "RSA 公钥的指数"
+          }
+        },
+        "required": [
+          "kty",
+          "alg",
+          "kid",
+          "use",
+          "e",
+          "n"
+        ]
+      },
+      "OpenidV1ResourceAccess": {
+        "type": "object",
+        "propertyNames": {
+          "type": "string"
+        },
+        "additionalProperties": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string"
+          },
+          "additionalProperties": {
+            "$ref": "#/components/schemas/OpenidV1Access",
+            "x-go-star-level": 1
+          }
+        }
+      },
+      "OpenidV1UserInfo": {
+        "type": "object",
+        "properties": {
+          "sub": {
+            "type": "string",
+            "title": "用户标识",
+            "description": "一般同 Account{id}"
+          },
+          "name": {
+            "type": "string",
+            "title": "姓名"
+          },
+          "nickname": {
+            "type": "string",
+            "title": "昵称"
+          },
+          "preferred_username": {
+            "type": "string",
+            "title": "自定义用户名"
+          },
+          "email": {
+            "type": "string",
+            "title": "邮箱"
+          },
+          "email_verified": {
+            "type": "boolean",
+            "title": "已验证邮箱"
+          },
+          "phone_number": {
+            "type": "string",
+            "title": "手机号"
+          },
+          "phone_number_verified": {
+            "type": "boolean",
+            "title": "已验证手机号"
+          },
+          "resource_access": {
+            "$ref": "#/components/schemas/OpenidV1ResourceAccess",
+            "title": "其他资源访问权限上下文"
+          }
+        },
+        "required": [
+          "sub"
+        ],
+        "title": "https://openid.net/specs/openid-connect-core-1_0.html#UserInfoResponse"
+      },
+      "OpenidV1BindingAsList": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpenidV1Binding",
+              "x-go-star-level": 1
+            },
+            "title": "列表"
+          },
+          "total": {
+            "type": "integer",
+            "title": "总数",
+            "x-format": "int64"
+          }
+        }
+      },
+      "AccountV1AccountIdentityCode": {
+        "type": "string"
+      },
+      "AccountV1AccountIdentity": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "$ref": "#/components/schemas/AccountV1AccountIdentityCode",
+            "title": "编码"
+          },
+          "id": {
+            "$ref": "#/components/schemas/AccountV1AccountIdentityID",
+            "title": "资源 id"
+          },
+          "kind": {
+            "enum": [
+              "AccountIdentity"
+            ]
+          },
+          "apiVersion": {
+            "enum": [
+              "v1"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "名称"
+          },
+          "description": {
+            "type": "string",
+            "title": "描述"
+          },
+          "annotations": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "其他注解"
+          },
+          "creationTimestamp": {
+            "$ref": "#/components/schemas/SqltypeTimeTimestamp",
+            "title": "创建时间"
+          },
+          "modificationTimestamp": {
+            "$ref": "#/components/schemas/SqltypeTimeTimestamp",
+            "title": "更新时间"
+          },
+          "identityType": {
+            "$ref": "#/components/schemas/AccountV1IdentityType"
+          },
+          "account": {
+            "$ref": "#/components/schemas/AccountV1Account",
+            "x-go-star-level": 1
+          }
+        },
+        "required": [
+          "code",
+          "id",
+          "identityType"
+        ],
+        "title": "账户标识"
+      },
+      "AccountV1AccountRequestForCreateAsUser": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "Account"
+            ]
+          },
+          "apiVersion": {
+            "enum": [
+              "v1"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "用户名称"
+          },
+          "description": {
+            "type": "string",
+            "title": "用户描述"
+          },
+          "annotations": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "用户其他注解"
+          },
+          "spec": {
+            "$ref": "#/components/schemas/AccountV1AccountRequestSpecForUser",
+            "title": "用户定义"
+          }
+        },
+        "required": [
+          "spec"
+        ]
+      },
+      "RbacV1MemberSpec": {
+        "type": "object",
+        "properties": {
+          "roleType": {
+            "$ref": "#/components/schemas/RbacV1MemberRoleType"
+          }
+        },
+        "required": [
+          "roleType"
+        ]
+      },
+      "OpenidV1RefreshTokenGrant": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "enum": [
+              "refresh_token"
+            ],
+            "title": "授权类型",
+            "x-tag-validate": "@string{refresh_token}"
+          },
+          "refresh_token": {
+            "type": "string",
+            "title": "刷新 Token"
+          },
+          "scope": {
+            "type": "string",
+            "title": "授权范围"
+          },
+          "client_id": {
+            "type": "string",
+            "title": "Client ID"
+          },
+          "client_secret": {
+            "type": "string",
+            "title": "Client Secret"
+          }
+        },
+        "required": [
+          "grant_type",
+          "refresh_token"
+        ],
+        "title": "https://www.oauth.com/oauth2-servers/access-tokens/refreshing-access-tokens/"
+      },
+      "AccountV1AccountIDAsFilter": {
+        "$ref": "#/components/schemas/AccountV1AccountID"
+      },
+      "AccountV1Account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/AccountV1AccountID",
+            "title": "账户资源 id"
+          },
+          "kind": {
+            "enum": [
+              "Account"
+            ]
+          },
+          "apiVersion": {
+            "enum": [
+              "v1"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "账户名称"
+          },
+          "description": {
+            "type": "string",
+            "title": "账户描述"
+          },
+          "annotations": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "账户其他注解"
+          },
+          "creationTimestamp": {
+            "$ref": "#/components/schemas/SqltypeTimeTimestamp",
+            "title": "账户创建时间"
+          },
+          "modificationTimestamp": {
+            "$ref": "#/components/schemas/SqltypeTimeTimestamp",
+            "title": "账户更新时间"
+          },
+          "spec": {
+            "$ref": "#/components/schemas/AccountV1AccountSpec",
+            "title": "账户定义"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AccountV1Status",
+            "title": "账户状态"
+          }
+        },
+        "required": [
+          "id",
+          "spec"
+        ],
+        "title": "账户"
+      },
+      "AccountV1AccountRequestForCreateAsClient": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "enum": [
+              "Account"
+            ]
+          },
+          "apiVersion": {
+            "enum": [
+              "v1"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "title": "客户端名称"
+          },
+          "description": {
+            "type": "string",
+            "title": "客户端描述"
+          },
+          "annotations": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "string"
+            },
+            "title": "客户端其他注解"
+          }
+        }
+      },
+      "AccountV1AccountRequestSpecForUser": {
+        "type": "object",
+        "properties": {
+          "identities": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AccountV1AccountIdentityRequestForCreate",
+              "x-go-star-level": 1
+            },
+            "title": "账户标识"
+          }
+        },
+        "required": [
+          "identities"
+        ]
+      },
+      "OpenidV1Authorization": {
+        "type": "string"
+      },
+      "StatuserrorDescriptor": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "错误编码"
+          },
+          "message": {
+            "type": "string",
+            "title": "错误信息"
+          },
+          "description": {
+            "type": "string",
+            "title": "错误详情"
+          },
+          "location": {
+            "type": "string",
+            "title": "错误参数位置 query, header, path, body 等"
+          },
+          "pointer": {
+            "$ref": "#/components/schemas/JsonJsontextPointer",
+            "title": "错误参数 json pointer"
+          },
+          "source": {
+            "type": "string",
+            "title": "引起错误的源"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/StatuserrorDescriptor",
+              "x-go-star-level": 1
+            },
+            "title": "错误链"
+          }
+        }
+      },
+      "OpenidV1GrantPayload": {
         "oneOf": [
           {
-            "$ref": "#/components/schemas/ManifestV1DockerManifestList"
+            "$ref": "#/components/schemas/OpenidV1AuthorizationCodeGrant"
           },
           {
-            "$ref": "#/components/schemas/ManifestV1DockerManifest"
+            "$ref": "#/components/schemas/OpenidV1ClientCredentialsGrant"
           },
           {
-            "$ref": "#/components/schemas/ManifestV1OciIndex"
+            "$ref": "#/components/schemas/OpenidV1PasswordGrant"
           },
           {
-            "$ref": "#/components/schemas/ManifestV1OciManifest"
+            "$ref": "#/components/schemas/OpenidV1RefreshTokenGrant"
           }
         ],
         "discriminator": {
-          "propertyName": "mediaType",
+          "propertyName": "grant_type",
           "mapping": {
-            "application/vnd.oci.image.index.v1+json": {
-              "$ref": "#/components/schemas/ManifestV1OciIndex"
+            "authorization_code": {
+              "$ref": "#/components/schemas/OpenidV1AuthorizationCodeGrant"
             },
-            "application/vnd.oci.image.manifest.v1+json": {
-              "$ref": "#/components/schemas/ManifestV1OciManifest"
+            "client_credentials": {
+              "$ref": "#/components/schemas/OpenidV1ClientCredentialsGrant"
             },
-            "application/vnd.docker.distribution.manifest.list.v2+json": {
-              "$ref": "#/components/schemas/ManifestV1DockerManifestList"
+            "password": {
+              "$ref": "#/components/schemas/OpenidV1PasswordGrant"
             },
-            "application/vnd.docker.distribution.manifest.v2+json": {
-              "$ref": "#/components/schemas/ManifestV1DockerManifest"
+            "refresh_token": {
+              "$ref": "#/components/schemas/OpenidV1RefreshTokenGrant"
             }
           }
         }
       },
-      "OpencontainersImageSpecSpecsGoV1Platform": {
+      "AlgoidpAuthGrantPayloadWrapper": {
+        "$ref": "#/components/schemas/OpenidV1GrantPayload"
+      },
+      "OpenidV1Access": {
         "type": "object",
         "properties": {
-          "architecture": {
-            "type": "string",
-            "x-go-field-name": "Architecture"
-          },
-          "os": {
-            "type": "string",
-            "x-go-field-name": "OS"
-          },
-          "os.features": {
+          "roles": {
             "type": "array",
             "items": {
-              "type": "string"
-            },
-            "x-go-field-name": "OSFeatures"
-          },
-          "os.version": {
-            "type": "string",
-            "x-go-field-name": "OSVersion"
-          },
-          "variant": {
-            "type": "string",
-            "x-go-field-name": "Variant"
+              "$ref": "#/components/schemas/RbacV1MemberRoleType"
+            }
           }
         },
-        "required": ["architecture", "os"],
-        "x-go-vendor-type": "github.com/opencontainers/image-spec/specs-go/v1.Platform"
+        "required": [
+          "roles"
+        ]
       },
-      "OpencontainersImageSpecSpecsGoV1Descriptor": {
+      "AccountV1IdentityType": {
+        "enum": [
+          "EMAIL",
+          "USERNAME"
+        ],
+        "title": "标识类型",
+        "x-enum-labels": [
+          "邮箱",
+          "用户名"
+        ]
+      },
+      "RbacV1MemberRoleType": {
+        "enum": [
+          "GUEST",
+          "MEMBER",
+          "ADMIN",
+          "OWNER"
+        ],
+        "x-enum-labels": [
+          "访问者",
+          "成员",
+          "管理员",
+          "拥有者"
+        ]
+      },
+      "OpenidV1ClientCredentialsGrant": {
         "type": "object",
         "properties": {
-          "annotations": {
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "Annotations contains arbitrary metadata for the image index.",
-            "x-go-field-name": "Annotations"
+          "grant_type": {
+            "enum": [
+              "client_credentials"
+            ],
+            "title": "授权类型",
+            "x-tag-validate": "@string{client_credentials}"
           },
-          "artifactType": {
+          "scope": {
             "type": "string",
-            "description": "ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact.",
-            "x-go-field-name": "ArtifactType"
+            "title": "授权范围"
           },
-          "data": {
+          "client_id": {
             "type": "string",
-            "format": "bytes",
-            "x-go-field-name": "Data"
+            "title": "Client ID"
           },
-          "digest": {
-            "$ref": "#/components/schemas/OpencontainersGoDigestDigest",
-            "x-go-field-name": "Digest"
-          },
-          "mediaType": {
+          "client_secret": {
             "type": "string",
-            "description": "MediaType specifies the type of this document data structure e.g. `application/vnd.oci.image.index.v1+json`",
-            "x-go-field-name": "MediaType"
-          },
-          "platform": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Platform",
-            "x-go-star-level": 1,
-            "x-go-field-name": "Platform"
-          },
-          "size": {
-            "type": "integer",
-            "x-format": "int64",
-            "x-go-field-name": "Size"
-          },
-          "urls": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "x-go-field-name": "URLs"
+            "title": "Client Secret"
           }
         },
-        "required": ["mediaType", "digest", "size"],
-        "x-go-vendor-type": "github.com/opencontainers/image-spec/specs-go/v1.Descriptor"
+        "required": [
+          "grant_type"
+        ],
+        "title": "https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/"
       },
-      "ManifestV1DockerManifest": {
+      "AccountV1AccountSpec": {
         "type": "object",
         "properties": {
-          "annotations": {
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "Annotations contains arbitrary metadata for the image manifest.",
-            "x-go-field-name": "Annotations"
+          "accountType": {
+            "$ref": "#/components/schemas/AccountV1AccountType",
+            "title": "账户类型"
           },
-          "artifactType": {
-            "type": "string",
-            "description": "ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact.",
-            "x-go-field-name": "ArtifactType"
-          },
-          "config": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor",
-            "description": "Config references a configuration object for a container, by digest.\nThe referenced configuration object is a JSON blob that the runtime uses to set up the container.",
-            "x-go-field-name": "Config"
-          },
-          "layers": {
+          "identities": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor"
+              "$ref": "#/components/schemas/AccountV1AccountIdentity",
+              "x-go-star-level": 1
             },
-            "description": "Layers is an indexed list of layers referenced by the manifest.",
-            "x-go-field-name": "Layers"
-          },
-          "mediaType": {
-            "type": "string",
-            "description": "MediaType specifies the type of this document data structure e.g. `application/vnd.oci.image.manifest.v1+json`",
-            "x-go-field-name": "MediaType"
-          },
-          "schemaVersion": {
-            "type": "integer",
-            "x-format": "int",
-            "x-go-field-name": "SchemaVersion"
-          },
-          "subject": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor",
-            "description": "Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest.",
-            "x-go-star-level": 1,
-            "x-go-field-name": "Subject"
+            "title": "账户标识"
           }
-        },
-        "required": ["config", "layers", "schemaVersion"],
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/apis/manifest/v1.DockerManifest"
+        }
       },
-      "ManifestV1OciManifest": {
+      "OpenidV1ClientAuth": {
         "type": "object",
         "properties": {
-          "annotations": {
-            "type": "object",
-            "propertyNames": {
-              "type": "string"
-            },
-            "additionalProperties": {
-              "type": "string"
-            },
-            "description": "Annotations contains arbitrary metadata for the image manifest.",
-            "x-go-field-name": "Annotations"
-          },
-          "artifactType": {
+          "client_id": {
             "type": "string",
-            "description": "ArtifactType specifies the IANA media type of artifact when the manifest is used for an artifact.",
-            "x-go-field-name": "ArtifactType"
+            "title": "Client ID"
           },
-          "config": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor",
-            "description": "Config references a configuration object for a container, by digest.\nThe referenced configuration object is a JSON blob that the runtime uses to set up the container.",
-            "x-go-field-name": "Config"
-          },
-          "layers": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor"
-            },
-            "description": "Layers is an indexed list of layers referenced by the manifest.",
-            "x-go-field-name": "Layers"
-          },
-          "mediaType": {
+          "client_secret": {
             "type": "string",
-            "description": "MediaType specifies the type of this document data structure e.g. `application/vnd.oci.image.manifest.v1+json`",
-            "x-go-field-name": "MediaType"
-          },
-          "schemaVersion": {
+            "title": "Client Secret"
+          }
+        }
+      },
+      "StatuserrorErrorResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
             "type": "integer",
-            "x-go-field-name": "SchemaVersion",
+            "title": "错误状态码",
             "x-format": "int"
           },
-          "subject": {
-            "$ref": "#/components/schemas/OpencontainersImageSpecSpecsGoV1Descriptor",
-            "description": "Subject is an optional link from the image manifest to another manifest forming an association between the image manifest and the other manifest.",
-            "x-go-star-level": 1,
-            "x-go-field-name": "Subject"
-          }
-        },
-        "required": ["config", "layers", "schemaVersion"],
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/apis/manifest/v1.OciManifest"
-      },
-      "ContentDigest": {
-        "type": "string",
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/content.Digest"
-      },
-      "ContentName": {
-        "type": "string",
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/content.Name"
-      },
-      "IoReadCloser": {
-        "type": "string",
-        "format": "binary",
-        "x-go-vendor-type": "io.ReadCloser"
-      },
-      "OpencontainersGoDigestDigest": {
-        "type": "string",
-        "x-go-vendor-type": "github.com/opencontainers/go-digest.Digest"
-      },
-      "ContentTagList": {
-        "type": "object",
-        "properties": {
-          "name": {
+          "msg": {
             "type": "string",
-            "x-go-field-name": "Name"
+            "title": "错误信息"
           },
-          "tags": {
+          "errors": {
             "type": "array",
             "items": {
-              "type": "string"
+              "$ref": "#/components/schemas/StatuserrorDescriptor",
+              "x-go-star-level": 1
             },
-            "x-go-field-name": "Tags"
+            "title": "错误详情"
+          }
+        }
+      },
+      "OpenidV1AuthorizationCodeGrant": {
+        "type": "object",
+        "properties": {
+          "grant_type": {
+            "enum": [
+              "authorization_code"
+            ],
+            "title": "授权类型",
+            "x-tag-validate": "@string{authorization_code}"
+          },
+          "code": {
+            "type": "string",
+            "title": "临时凭证 code"
+          },
+          "redirect_uri": {
+            "type": "string",
+            "title": "重定向地址"
+          },
+          "code_verifier": {
+            "type": "string"
+          },
+          "client_id": {
+            "type": "string",
+            "title": "Client ID"
+          },
+          "client_secret": {
+            "type": "string",
+            "title": "Client Secret"
           }
         },
-        "required": ["name", "tags"],
-        "x-go-vendor-type": "github.com/octohelm/crkit/pkg/content.TagList"
+        "required": [
+          "grant_type",
+          "code"
+        ],
+        "title": "https://www.oauth.com/oauth2-servers/access-tokens/authorization-code-request/"
+      },
+      "AccountV1AccountIdentityCodeAsFilter": {
+        "$ref": "#/components/schemas/AccountV1AccountIdentityCode"
+      },
+      "SqltypeTimeTimestamp": {
+        "type": "string",
+        "format": "date-time"
+      },
+      "AccountV1Status": {
+        "type": "object",
+        "properties": {
+          "lastLogonAt": {
+            "$ref": "#/components/schemas/SqltypeTimeTimestamp",
+            "title": "最近登录时间"
+          }
+        }
+      },
+      "OpenidV1Jwks": {
+        "type": "object",
+        "properties": {
+          "keys": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OpenidV1Jwk"
+            },
+            "title": "密钥列表"
+          }
+        },
+        "required": [
+          "keys"
+        ]
+      },
+      "AccountV1AccountID": {
+        "type": "string",
+        "title": "账户 AccountID"
+      },
+      "OpenidV1Binding": {
+        "type": "object",
+        "properties": {
+          "sub": {
+            "type": "string"
+          },
+          "provider": {
+            "$ref": "#/components/schemas/OpenidV1ProviderMeta"
+          }
+        },
+        "required": [
+          "sub",
+          "provider"
+        ]
+      },
+      "AlgoidpUserNewPasswordPayload": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "password"
+        ]
+      },
+      "AccountV1AccountIdentityID": {
+        "type": "string",
+        "title": "标识 AccountID"
       }
     }
   },
   "paths": {
-    "/api": {
+    "/api/algo-idp": {
       "get": {
-        "tags": ["httprouter"],
+        "tags": [
+          "httprouter"
+        ],
         "summary": "OpenAPI",
         "operationId": "OpenAPI",
         "responses": {
@@ -378,9 +992,11 @@
         }
       }
     },
-    "/api/_view/0": {
+    "/api/algo-idp/_view/0": {
       "get": {
-        "tags": ["httprouter"],
+        "tags": [
+          "httprouter"
+        ],
         "summary": "OpenAPIView",
         "operationId": "OpenAPIView",
         "responses": {
@@ -393,99 +1009,20 @@
         }
       }
     },
-    "/v2/{name}/blobs/{digest}": {
-      "delete": {
-        "tags": ["registry"],
-        "summary": "DeleteBlob",
-        "operationId": "DeleteBlob",
-        "parameters": [
-          {
-            "name": "digest",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentDigest"
-            },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
+    "/api/algo-idp/.well-known/jwks.json": {
       "get": {
-        "tags": ["registry"],
-        "summary": "GetBlob",
-        "operationId": "GetBlob",
-        "parameters": [
-          {
-            "name": "digest",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentDigest"
-            },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
-          }
+        "tags": [
+          "wellknown"
         ],
+        "summary": "密钥列表",
+        "operationId": "JWKs",
         "responses": {
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/IoReadCloser"
-                }
-              }
-            }
-          }
-        }
-      },
-      "head": {
-        "tags": ["registry"],
-        "summary": "HeadBlob",
-        "operationId": "HeadBlob",
-        "parameters": [
-          {
-            "name": "digest",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentDigest"
-            },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "x-go-type": "any"
+                  "$ref": "#/components/schemas/OpenidV1Jwks"
                 }
               }
             }
@@ -493,53 +1030,108 @@
         }
       }
     },
-    "/v2/{name}/manifests/{reference}": {
+    "/api/algo-idp/.well-known/openid-configuration": {
+      "get": {
+        "tags": [
+          "wellknown"
+        ],
+        "summary": "Openid Connect Discovery",
+        "operationId": "OpenidConfiguration",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1ConfigurationWithExternalProviders"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/admin/members/{accountID}": {
       "delete": {
-        "tags": ["registry"],
-        "summary": "DeleteManifest",
-        "operationId": "DeleteManifest",
+        "tags": [
+          "admin"
+        ],
+        "summary": "移除管理员",
+        "operationId": "DeleteAdminMember",
         "parameters": [
           {
-            "name": "reference",
-            "in": "path",
+            "name": "Authorization",
+            "in": "header",
             "schema": {
-              "$ref": "#/components/schemas/ContentReference"
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
             },
-            "required": true
+            "required": false
           },
           {
-            "name": "name",
+            "name": "accountID",
             "in": "path",
             "schema": {
-              "$ref": "#/components/schemas/ContentName"
+              "$ref": "#/components/schemas/AccountV1AccountID"
             },
             "required": true
           }
         ],
         "responses": {
-          "200": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "204": {
             "description": ""
           }
         }
       },
       "put": {
-        "tags": ["registry"],
-        "summary": "PutManifest",
-        "operationId": "PutManifest",
+        "tags": [
+          "admin"
+        ],
+        "summary": "分配管理员",
+        "operationId": "PutAdminMember",
         "parameters": [
           {
-            "name": "reference",
-            "in": "path",
+            "name": "Authorization",
+            "in": "header",
             "schema": {
-              "$ref": "#/components/schemas/ContentReference"
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
             },
-            "required": true
+            "required": false
           },
           {
-            "name": "name",
+            "name": "accountID",
             "in": "path",
             "schema": {
-              "$ref": "#/components/schemas/ContentName"
+              "$ref": "#/components/schemas/AccountV1AccountID"
             },
             "required": true
           }
@@ -549,168 +1141,737 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ManifestV1Payload"
+                "$ref": "#/components/schemas/RbacV1MemberSpec"
               }
             }
           }
         },
         "responses": {
-          "200": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "x-go-type": "any"
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
                 }
               }
-            }
-          }
-        }
-      },
-      "get": {
-        "tags": ["registry"],
-        "summary": "GetManifest",
-        "operationId": "GetManifest",
-        "parameters": [
-          {
-            "name": "Accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
             },
-            "required": false
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
           },
-          {
-            "name": "reference",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentReference"
-            },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
+          "401": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ManifestV1Payload"
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
                 }
               }
-            }
-          }
-        }
-      },
-      "head": {
-        "tags": ["registry"],
-        "summary": "HeadManifest",
-        "operationId": "HeadManifest",
-        "parameters": [
-          {
-            "name": "Accept",
-            "in": "header",
-            "schema": {
-              "type": "string"
             },
-            "required": false
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
           },
-          {
-            "name": "reference",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentReference"
-            },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "x-go-type": "any"
-                }
-              }
-            }
+          "204": {
+            "description": ""
           }
         }
       }
     },
-    "/v2/{name}/blobs/uploads": {
+    "/api/algo-idp/v1/auth/providers/{providerCode}/token": {
       "post": {
-        "tags": ["registry"],
-        "summary": "UploadBlob",
-        "operationId": "UploadBlob",
+        "tags": [
+          "auth"
+        ],
+        "summary": "三方 openid 通过 code 置换登录（或绑定）",
+        "operationId": "ExchangeTokenFromOpenidProvider",
         "parameters": [
           {
-            "name": "Content-Length",
+            "name": "Authorization",
             "in": "header",
             "schema": {
-              "type": "integer",
-              "x-format": "int"
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "绑定流程必须"
             },
             "required": false
           },
           {
-            "name": "Content-Type",
-            "in": "header",
-            "schema": {
-              "type": "string"
-            },
-            "required": false
-          },
-          {
-            "name": "digest",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/ContentDigest"
-            },
-            "required": false
-          },
-          {
-            "name": "name",
+            "name": "providerCode",
             "in": "path",
             "schema": {
-              "$ref": "#/components/schemas/ContentName"
+              "$ref": "#/components/schemas/OpenidV1ProviderCode"
+            },
+            "required": true
+          },
+          {
+            "name": "code",
+            "in": "query",
+            "schema": {
+              "type": "string"
             },
             "required": true
           }
         ],
-        "requestBody": {
-          "required": true,
-          "content": {
-            "application/octet-stream": {
-              "schema": {
-                "$ref": "#/components/schemas/IoReadCloser"
-              }
-            }
-          }
-        },
         "responses": {
           "201": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "x-go-type": "any"
+                  "$ref": "#/components/schemas/OpenidV1Token"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountIdentityConflict{message=\"{IdentityType} {Identity} 已注册\"}",
+              "openidv1.ErrOpenidBindingConflict{message=\"{Subject}@{Provider} 已绑定\"}"
+            ]
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidOpenidConnect{message=\"Openid 登录异常: {Reason}\"}",
+              "auth.ErrInvalidOpenidProvider{message=\"无效的 Openid Connect {Provider}\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "auth.ErrUnauthorized{message=\"Unauthorized: {Reason}\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/auth/sessions": {
+      "delete": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "退出登录",
+        "operationId": "SessionLogout",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/auth/providers/{providerCode}/authorize": {
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "三方 openid 登录发起授权",
+        "operationId": "AuthorizeOfOpenidProvider",
+        "parameters": [
+          {
+            "name": "providerCode",
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1ProviderCode"
+            },
+            "required": true
+          },
+          {
+            "name": "redirect_uri",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "name": "state",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": ""
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "auth.ErrInvalidOpenidProvider{message=\"无效的 Openid Connect {Provider}\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/auth/token": {
+      "post": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "换取访问凭证（OAuth）",
+        "operationId": "ExchangeToken",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "可能包含 CaptchaCode"
+            },
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenidV1GrantPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrWrongPasswordTooManyTimes{message=\"密码错误太多次，请 {Wait} 后重试\"}"
+            ]
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1Token"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrInvalidCaptcha{message=\"验证码错误\"}",
+              "openidv1.ErrInvalidUserOrPassword{message=\"用户名或密码错误\"}",
+              "openidv1.ErrUnsupportedGrantType{message=\"不支持的 oAuth 授权类型 {GrantType}\"}"
+            ]
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrBadAuthorizationCodeGrant{message=\"无效的授权码: {Reason}\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "auth"
+        ],
+        "summary": "换取访问凭证（OAuth）",
+        "description": "grant=client_credentials 需要",
+        "operationId": "ExchangeTokenFromGet",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization"
+            },
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/AlgoidpAuthGrantPayloadWrapper"
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1Token"
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrInvalidCaptcha{message=\"验证码错误\"}",
+              "openidv1.ErrInvalidUserOrPassword{message=\"用户名或密码错误\"}",
+              "openidv1.ErrUnsupportedGrantType{message=\"不支持的 oAuth 授权类型 {GrantType}\"}"
+            ]
+          },
+          "400": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrBadAuthorizationCodeGrant{message=\"无效的授权码: {Reason}\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "429": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrWrongPasswordTooManyTimes{message=\"密码错误太多次，请 {Wait} 后重试\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/user/openid-bindings/{providerCode}": {
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "解绑三方登录",
+        "operationId": "UnbindingOpenid",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "providerCode",
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1ProviderCode"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "204": {
+            "description": ""
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/user/auth/authorized": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "授权签发 Authorization Code",
+        "operationId": "Authorized",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/OpenidV1AuthorizationCodeRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "201": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1AuthorizationCodeGrant"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/user/info": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "当前登录用户信息 (oauth 用)",
+        "operationId": "CurrentUserInfo",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1UserInfo"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/user/openid-bindings": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "ListOpenidBinding",
+        "operationId": "ListOpenidBinding",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1BindingAsList"
                 }
               }
             }
@@ -718,74 +1879,182 @@
         }
       }
     },
-    "/v2/{name}/blobs/uploads/{id}": {
-      "delete": {
-        "tags": ["registry"],
-        "summary": "CancelUploadBlob",
-        "operationId": "CancelUploadBlob",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
-          }
+    "/api/algo-idp/v1/user/reset-password": {
+      "put": {
+        "tags": [
+          "user"
         ],
-        "responses": {
-          "200": {
-            "description": ""
-          }
-        }
-      },
-      "patch": {
-        "tags": ["registry"],
-        "summary": "UploadPatchBlob",
-        "operationId": "UploadPatchBlob",
+        "summary": "重设密码",
+        "operationId": "ResetPassword",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
+            "name": "Authorization",
+            "in": "header",
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
             },
-            "required": true
-          },
-          {
-            "name": "name",
-            "in": "path",
-            "schema": {
-              "$ref": "#/components/schemas/ContentName"
-            },
-            "required": true
+            "required": false
           }
         ],
         "requestBody": {
           "required": true,
           "content": {
-            "application/octet-stream": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IoReadCloser"
+                "$ref": "#/components/schemas/AlgoidpUserNewPasswordPayload"
               }
             }
           }
         },
         "responses": {
-          "202": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "x-go-type": "any"
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          },
+          "204": {
+            "description": ""
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/account/users": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "拉取用户列表",
+        "operationId": "ListUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "account~id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountIDAsFilter",
+              "title": "通过 账户id 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          },
+          {
+            "name": "account~name",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/StringAsFilter",
+              "title": "通过 账户名称 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          },
+          {
+            "name": "account-identity~identityType",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1IdentityTypeAsFilter",
+              "x-go-star-level": 1
+            },
+            "required": false
+          },
+          {
+            "name": "account-identity~code",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountIdentityCodeAsFilter",
+              "title": "通过 账户标识编码 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "title": "分页偏移",
+              "x-format": "int64"
+            },
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": -1,
+              "title": "分页数",
+              "x-format": "int64",
+              "x-tag-validate": "@int[-1,50] = 10"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountV1AccountAsList"
                 }
               }
             }
@@ -793,40 +2062,352 @@
         }
       },
       "put": {
-        "tags": ["registry"],
-        "summary": "UploadPutBlob",
-        "operationId": "UploadPutBlob",
+        "tags": [
+          "account"
+        ],
+        "summary": "创建用户",
+        "operationId": "CreateUser",
         "parameters": [
           {
-            "name": "id",
-            "in": "path",
-            "schema": {
-              "type": "string"
-            },
-            "required": true
-          },
-          {
-            "name": "Content-Length",
+            "name": "Authorization",
             "in": "header",
             "schema": {
-              "type": "integer",
-              "x-format": "int"
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountV1AccountRequestForCreateAsUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountV1Account"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountIdentityConflict{message=\"{IdentityType} {Identity} 已注册\"}"
+            ]
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "批量删除机器人账号",
+        "operationId": "DeleteAllUser",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
             },
             "required": false
           },
           {
-            "name": "digest",
+            "name": "account~id",
             "in": "query",
             "schema": {
-              "$ref": "#/components/schemas/ContentDigest"
+              "$ref": "#/components/schemas/AccountV1AccountIDAsFilter",
+              "title": "通过 账户id 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "204": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/account/users/{userID}/passwords": {
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "重置用户密码",
+        "operationId": "RenewUserPassword",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "userID",
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountID"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/OpenidV1ClientAuth"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/account/accounts/{accountID}": {
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "获取账户信息",
+        "operationId": "GetAccount",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "accountID",
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountID"
             },
             "required": true
           },
           {
-            "name": "name",
+            "name": "Cache-Control",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          },
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountV1Account"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/account/clients/{clientID}": {
+      "patch": {
+        "tags": [
+          "account"
+        ],
+        "summary": "更新机器人账号信息",
+        "operationId": "PatchClient",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "clientID",
             "in": "path",
             "schema": {
-              "$ref": "#/components/schemas/ContentName"
+              "$ref": "#/components/schemas/AccountV1AccountID"
             },
             "required": true
           }
@@ -834,74 +2415,517 @@
         "requestBody": {
           "required": true,
           "content": {
-            "application/octet-stream": {
+            "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/IoReadCloser"
+                "$ref": "#/components/schemas/AccountV1AccountRequestForCreateAsClient"
               }
             }
           }
         },
         "responses": {
-          "201": {
+          "403": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "x-go-type": "any"
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
                 }
               }
-            }
-          }
-        }
-      }
-    },
-    "/v2": {
-      "get": {
-        "tags": ["registry"],
-        "summary": "BaseURL",
-        "operationId": "BaseURL",
-        "responses": {
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "propertyNames": {
-                    "type": "string"
-                  },
-                  "additionalProperties": {
-                    "type": "string"
-                  }
+                  "$ref": "#/components/schemas/AccountV1Account"
                 }
               }
             }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountIdentityConflict{message=\"{IdentityType} {Identity} 已注册\"}"
+            ]
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
           }
         }
       }
     },
-    "/v2/{name}/tags/list": {
-      "get": {
-        "tags": ["registry"],
-        "summary": "ListTag",
-        "operationId": "ListTag",
+    "/api/algo-idp/v1/account/users/{userID}": {
+      "patch": {
+        "tags": [
+          "account"
+        ],
+        "summary": "更新用户",
+        "operationId": "PatchUser",
         "parameters": [
           {
-            "name": "name",
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "userID",
             "in": "path",
             "schema": {
-              "$ref": "#/components/schemas/ContentName"
+              "$ref": "#/components/schemas/AccountV1AccountID"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountV1AccountRequestForCreateAsUser"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountV1Account"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountIdentityConflict{message=\"{IdentityType} {Identity} 已注册\"}"
+            ]
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/account/clients/{clientID}/secrets": {
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "重新生成机器人账号 Secret",
+        "operationId": "RenewClientSecret",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "clientID",
+            "in": "path",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountID"
             },
             "required": true
           }
         ],
         "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
           "200": {
             "description": "",
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ContentTagList"
+                  "$ref": "#/components/schemas/OpenidV1ClientAuth"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          }
+        }
+      }
+    },
+    "/api/algo-idp/v1/account/clients": {
+      "put": {
+        "tags": [
+          "account"
+        ],
+        "summary": "创建或更新机器人账号信息",
+        "operationId": "CreateClient",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountV1AccountRequestForCreateAsClient"
+              }
+            }
+          }
+        },
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountV1Account"
+                }
+              }
+            }
+          },
+          "409": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountIdentityConflict{message=\"{IdentityType} {Identity} 已注册\"}"
+            ]
+          },
+          "404": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "accountv1.ErrAccountNotFound{message=\"{AccountType} 账户 {AccountID} 不存在\"}"
+            ]
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "account"
+        ],
+        "summary": "批量删除机器人账号",
+        "operationId": "DeleteAllClient",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "account~id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountIDAsFilter",
+              "title": "通过 账户id 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "204": {
+            "description": ""
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "account"
+        ],
+        "summary": "拉取机器人账号",
+        "operationId": "ListClient",
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "schema": {
+              "$ref": "#/components/schemas/OpenidV1Authorization",
+              "title": "Bearer <access_token>"
+            },
+            "required": false
+          },
+          {
+            "name": "account~id",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/AccountV1AccountIDAsFilter",
+              "title": "通过 账户id 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          },
+          {
+            "name": "account~name",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/StringAsFilter",
+              "title": "通过 账户名称 筛选",
+              "x-go-star-level": 1
+            },
+            "required": false
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "title": "分页偏移",
+              "x-format": "int64"
+            },
+            "required": false
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "maximum": 50,
+              "minimum": -1,
+              "title": "分页数",
+              "x-format": "int64",
+              "x-tag-validate": "@int[-1,50] = 10"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "403": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrAccountAlreadyLogout{message=\"账户已登出\"}",
+              "openidv1.ErrAdministratorRequired{message=\"务必是管理员\"}",
+              "rbac.ErrPermissionDenied{message=\"没有访问权限\"}"
+            ]
+          },
+          "401": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StatuserrorErrorResponse"
+                }
+              }
+            },
+            "x-status-return-errors": [
+              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
+            ]
+          },
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AccountV1AccountAsList"
                 }
               }
             }

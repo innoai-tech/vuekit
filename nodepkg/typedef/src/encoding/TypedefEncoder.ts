@@ -127,9 +127,8 @@ export ${type} ${name} ${decl}`;
 
           const mapping = Schema.schemaProp(type, "oneOf")
             .map((t: any) => {
-              const discriminatorSchema = Schema.schemaProp(t, "properties")[
-                propName
-              ];
+              const discriminatorSchema = Schema.schemaProp(t, "properties")[propName];
+
               if (!discriminatorSchema) {
                 return "";
               }
@@ -162,7 +161,8 @@ export ${type} ${name} ${decl}`;
 
       case "enums": {
         if (Schema.schemaProp(type, "$ref")) {
-          return `t.nativeEnum(${Schema.schemaProp(type, "$ref")})`;
+          let ref = Schema.schemaProp(type, "$ref");
+          return `t.nativeEnum(${ref})`;
         }
 
         return `t.enums([${Schema.schemaProp(type, "enum")
@@ -172,9 +172,9 @@ export ${type} ${name} ${decl}`;
 
       case "record": {
         return `t.record(${this._typedef(
-          Schema.schemaProp(type, "propertyNames") ?? t.string(),
+          Schema.schemaProp(type, "propertyNames") ?? t.string()
         )}, ${this._typedef(
-          Schema.schemaProp(type, "additionalProperties") ?? t.any(),
+          Schema.schemaProp(type, "additionalProperties") ?? t.any()
         )})`;
       }
       case "object": {
