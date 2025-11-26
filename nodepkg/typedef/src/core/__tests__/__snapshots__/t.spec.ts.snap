@@ -1,5 +1,39 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
+exports[`define type > [object Object] 1`] = `
+{
+  "type": {},
+}
+`;
+
+exports[`define type > [object Object] 2`] = `
+{
+  "type": {},
+}
+`;
+
+exports[`define type > [object Object] 3`] = `
+{
+  "type": {},
+}
+`;
+
+exports[`define type > [object Object] 4`] = `
+{
+  "items": {},
+  "type": {},
+}
+`;
+
+exports[`define type > [object Object] 5`] = `
+{
+  "additionalProperties": {},
+  "properties": {},
+  "required": {},
+  "type": {},
+}
+`;
+
 exports[`define type > any 1`] = `{}`;
 
 exports[`define type > array 1`] = `
