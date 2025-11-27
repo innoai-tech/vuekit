@@ -1,42 +1,8 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`define type > [object Object] 1`] = `
-{
-  "type": {},
-}
-`;
+exports[`define type > any > any 1`] = `{}`;
 
-exports[`define type > [object Object] 2`] = `
-{
-  "type": {},
-}
-`;
-
-exports[`define type > [object Object] 3`] = `
-{
-  "type": {},
-}
-`;
-
-exports[`define type > [object Object] 4`] = `
-{
-  "items": {},
-  "type": {},
-}
-`;
-
-exports[`define type > [object Object] 5`] = `
-{
-  "additionalProperties": {},
-  "properties": {},
-  "required": {},
-  "type": {},
-}
-`;
-
-exports[`define type > any 1`] = `{}`;
-
-exports[`define type > array 1`] = `
+exports[`define type > array > array 1`] = `
 {
   "items": {
     "type": "string",
@@ -45,20 +11,20 @@ exports[`define type > array 1`] = `
 }
 `;
 
-exports[`define type > binary 1`] = `
+exports[`define type > binary > binary 1`] = `
 {
   "format": "binary",
   "type": "string",
 }
 `;
 
-exports[`define type > boolean 1`] = `
+exports[`define type > boolean > boolean 1`] = `
 {
   "type": "boolean",
 }
 `;
 
-exports[`define type > enums 1`] = `
+exports[`define type > enums > enums 1`] = `
 {
   "enum": [
     "1",
@@ -68,7 +34,7 @@ exports[`define type > enums 1`] = `
 }
 `;
 
-exports[`define type > enums 2`] = `
+exports[`define type > enums > enums 2`] = `
 {
   "enum": [
     "MALE",
@@ -77,13 +43,13 @@ exports[`define type > enums 2`] = `
 }
 `;
 
-exports[`define type > integer 1`] = `
+exports[`define type > integer > integer 1`] = `
 {
   "type": "integer",
 }
 `;
 
-exports[`define type > intersection 1`] = `
+exports[`define type > intersection > intersection 1`] = `
 {
   "allOf": [
     {
@@ -103,21 +69,21 @@ exports[`define type > intersection 1`] = `
 }
 `;
 
-exports[`define type > never 1`] = `false`;
+exports[`define type > never > never 1`] = `false`;
 
-exports[`define type > null 1`] = `
+exports[`define type > null > null 1`] = `
 {
   "type": "null",
 }
 `;
 
-exports[`define type > number 1`] = `
+exports[`define type > number > number 1`] = `
 {
   "type": "number",
 }
 `;
 
-exports[`define type > object 1`] = `
+exports[`define type > object > object 1`] = `
 {
   "additionalProperties": false,
   "properties": {
@@ -135,7 +101,7 @@ exports[`define type > object 1`] = `
 }
 `;
 
-exports[`define type > record 1`] = `
+exports[`define type > record > record 1`] = `
 {
   "additionalProperties": {
     "type": "number",
@@ -147,7 +113,7 @@ exports[`define type > record 1`] = `
 }
 `;
 
-exports[`define type > tuple 1`] = `
+exports[`define type > tuple > tuple 1`] = `
 {
   "items": [
     {
@@ -161,7 +127,7 @@ exports[`define type > tuple 1`] = `
 }
 `;
 
-exports[`define type > union 1`] = `
+exports[`define type > union > union 1`] = `
 {
   "oneOf": [
     {
@@ -174,7 +140,7 @@ exports[`define type > union 1`] = `
 }
 `;
 
-exports[`define type > union 2`] = `
+exports[`define type > union > union 2`] = `
 {
   "discriminator": {
     "propertyName": "type",
@@ -216,7 +182,7 @@ exports[`define type > union 2`] = `
 }
 `;
 
-exports[`define type > union 3`] = `
+exports[`define type > union > union 3`] = `
 {
   "discriminator": {
     "propertyName": "type",

@@ -146,16 +146,16 @@ export const getAccount = /*#__PURE__*/ createRequest<
   },
 }));
 
-export const jwKs = /*#__PURE__*/ createRequest<
-  void,
-  /* @type:object */ OpenidV1Jwks
->("example.JWKs", () => ({
-  method: "GET",
-  url: "/api/algo-idp/.well-known/jwks.json",
-  headers: {
-    Accept: "application/json",
-  },
-}));
+export const jwKs = /*#__PURE__*/ createRequest<void, /* @type:object */ OpenidV1Jwks>(
+  "example.JWKs",
+  () => ({
+    method: "GET",
+    url: "/api/algo-idp/.well-known/jwks.json",
+    headers: {
+      Accept: "application/json",
+    },
+  }),
+);
 
 export const listClient = /*#__PURE__*/ createRequest<
   /* @type:object */ ListClientInputs,
@@ -545,8 +545,7 @@ export type ExchangeTokenFromGetInputs = {
   body: /* @type:union */ AlgoidpAuthGrantPayloadWrapper;
 };
 
-export type AlgoidpAuthGrantPayloadWrapper =
-  /* @type:union */ OpenidV1GrantPayload;
+export type AlgoidpAuthGrantPayloadWrapper = /* @type:union */ OpenidV1GrantPayload;
 
 export type ExchangeTokenFromOpenidProviderInputs = {
   providerCode: /* @type:string */ OpenidV1ProviderCode;
@@ -610,11 +609,9 @@ export type ListUserInputs = {
   limit?: number;
 };
 
-export const AccountV1IdentityTypeAsFilter =
-  /* @type:enums */ AccountV1IdentityType;
+export const AccountV1IdentityTypeAsFilter = /* @type:enums */ AccountV1IdentityType;
 
-export type AccountV1AccountIdentityCodeAsFilter =
-  /* @type:string */ AccountV1AccountIdentityCode;
+export type AccountV1AccountIdentityCodeAsFilter = /* @type:string */ AccountV1AccountIdentityCode;
 
 export type OpenidV1ConfigurationWithExternalProviders = {
   id_token_signing_alg_values_supported: Array<string>;
@@ -718,8 +715,7 @@ export class OpenidV1AuthorizationCodeRequestSchema {
 
 export class AuthorizedInputsSchema {
   @t.annotate({
-    title:
-      "https://www.oauth.com/oauth2-servers/authorization/the-authorization-request/",
+    title: "https://www.oauth.com/oauth2-servers/authorization/the-authorization-request/",
   })
   @t.ref("OpenidV1AuthorizationCodeRequestSchema", () =>
     t.object(OpenidV1AuthorizationCodeRequestSchema),
@@ -847,11 +843,7 @@ export class AccountV1AccountSpecSchema {
   accountType?: /* @type:enums */ AccountV1AccountType;
 
   @t.annotate({ title: "账户标识" })
-  @t.array(
-    t.ref("AccountV1AccountIdentitySchema", () =>
-      t.object(AccountV1AccountIdentitySchema),
-    ),
-  )
+  @t.array(t.ref("AccountV1AccountIdentitySchema", () => t.object(AccountV1AccountIdentitySchema)))
   @t.optional()
   identities?: Array</* @type:object */ AccountV1AccountIdentity>;
 }
@@ -902,9 +894,7 @@ export class AccountV1AccountSchema {
   modificationTimestamp?: /* @type:string */ SqltypeTimeTimestamp;
 
   @t.annotate({ title: "账户定义" })
-  @t.ref("AccountV1AccountSpecSchema", () =>
-    t.object(AccountV1AccountSpecSchema),
-  )
+  @t.ref("AccountV1AccountSpecSchema", () => t.object(AccountV1AccountSpecSchema))
   spec!: /* @type:object */ AccountV1AccountSpec;
 
   @t.annotate({ title: "账户状态" })
@@ -1154,9 +1144,7 @@ export class ExchangeTokenInputsSchema {
     client_credentials: t.ref("OpenidV1ClientCredentialsGrantSchema", () =>
       t.object(OpenidV1ClientCredentialsGrantSchema),
     ),
-    password: t.ref("OpenidV1PasswordGrantSchema", () =>
-      t.object(OpenidV1PasswordGrantSchema),
-    ),
+    password: t.ref("OpenidV1PasswordGrantSchema", () => t.object(OpenidV1PasswordGrantSchema)),
     refresh_token: t.ref("OpenidV1RefreshTokenGrantSchema", () =>
       t.object(OpenidV1RefreshTokenGrantSchema),
     ),
@@ -1197,9 +1185,7 @@ export class ExchangeTokenFromGetInputsSchema {
     client_credentials: t.ref("OpenidV1ClientCredentialsGrantSchema", () =>
       t.object(OpenidV1ClientCredentialsGrantSchema),
     ),
-    password: t.ref("OpenidV1PasswordGrantSchema", () =>
-      t.object(OpenidV1PasswordGrantSchema),
-    ),
+    password: t.ref("OpenidV1PasswordGrantSchema", () => t.object(OpenidV1PasswordGrantSchema)),
     refresh_token: t.ref("OpenidV1RefreshTokenGrantSchema", () =>
       t.object(OpenidV1RefreshTokenGrantSchema),
     ),
@@ -1283,9 +1269,7 @@ export class ListClientInputsSchema {
 
 export class AccountV1AccountAsListSchema {
   @t.annotate({ title: "列表" })
-  @t.array(
-    t.ref("AccountV1AccountSchema", () => t.object(AccountV1AccountSchema)),
-  )
+  @t.array(t.ref("AccountV1AccountSchema", () => t.object(AccountV1AccountSchema)))
   @t.optional()
   items?: Array</* @type:object */ AccountV1Account>;
 
@@ -1314,17 +1298,13 @@ export class OpenidV1BindingSchema {
   @t.string()
   sub!: string;
 
-  @t.ref("OpenidV1ProviderMetaSchema", () =>
-    t.object(OpenidV1ProviderMetaSchema),
-  )
+  @t.ref("OpenidV1ProviderMetaSchema", () => t.object(OpenidV1ProviderMetaSchema))
   provider!: /* @type:object */ OpenidV1ProviderMeta;
 }
 
 export class OpenidV1BindingAsListSchema {
   @t.annotate({ title: "列表" })
-  @t.array(
-    t.ref("OpenidV1BindingSchema", () => t.object(OpenidV1BindingSchema)),
-  )
+  @t.array(t.ref("OpenidV1BindingSchema", () => t.object(OpenidV1BindingSchema)))
   @t.optional()
   items?: Array</* @type:object */ OpenidV1Binding>;
 
@@ -1406,11 +1386,7 @@ export class OpenidV1ConfigurationWithExternalProvidersSchema {
   @t.array(t.string())
   claims_supported!: Array<string>;
 
-  @t.array(
-    t.ref("OpenidV1ProviderMetaSchema", () =>
-      t.object(OpenidV1ProviderMetaSchema),
-    ),
-  )
+  @t.array(t.ref("OpenidV1ProviderMetaSchema", () => t.object(OpenidV1ProviderMetaSchema)))
   @t.optional()
   externalProviders?: Array</* @type:object */ OpenidV1ProviderMeta>;
 }
@@ -1481,9 +1457,7 @@ export class AlgoidpUserNewPasswordPayloadSchema {
 }
 
 export class ResetPasswordInputsSchema {
-  @t.ref("AlgoidpUserNewPasswordPayloadSchema", () =>
-    t.object(AlgoidpUserNewPasswordPayloadSchema),
-  )
+  @t.ref("AlgoidpUserNewPasswordPayloadSchema", () => t.object(AlgoidpUserNewPasswordPayloadSchema))
   body!: /* @type:object */ AlgoidpUserNewPasswordPayload;
 }
 

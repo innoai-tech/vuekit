@@ -118,7 +118,7 @@ describe("define type", () => {
 
   for (const s of types) {
     test(s.type, () => {
-      expect(Schema.extractSchema(s)).toMatchSnapshot();
+      expect(Schema.extractSchema(s)).toMatchSnapshot(s.type);
     });
   }
 });
