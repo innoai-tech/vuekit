@@ -1,1 +1,0 @@
-import{c as e,lt as t,ut as n}from"./vendor-innoai-tech-vuekit.DpoBZGIz.chunk.js";function r(t){return e({p:`p`,...t.components}.p,{children:`这不是一个完整的组件库，只是一个示例，作为 vueuikit 的参考`})}function i(t={}){let{wrapper:n}=t.components||{};return n?e(n,{...t,children:e(r,{...t})}):r(t)}var a=t(()=>()=>n(i,{components:{}}));export{a as default};

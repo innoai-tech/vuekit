@@ -1,1 +1,0 @@
-import{L as e,c as t,l as n}from"./vendor-innoai-tech-vuekit.DpoBZGIz.chunk.js";import{N as r,u as i}from"./vendor-innoai-tech-vueuikit.GVT808_x.chunk.js";import{a}from"./vendor-innoai-tech-jsoneditor.CHBPjAcf.chunk.js";var o=e(()=>()=>t(i,{children:n(r,{sx:{display:`flex`,flexDirection:`column`,gap:16},children:[t(a,{progress:.2}),t(a,{progress:1})]})}));export{o as default};
