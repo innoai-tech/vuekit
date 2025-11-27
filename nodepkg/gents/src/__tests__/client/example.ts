@@ -303,6 +303,24 @@ export const unbindingOpenid = /*#__PURE__*/ createRequest<
   url: `/api/algo-idp/v1/user/openid-bindings/${x["providerCode"]}`,
 }));
 
+export enum AccountV1AccountType {
+  USER = "USER",
+  AGENT = "AGENT",
+  CLIENT = "CLIENT",
+}
+
+export enum AccountV1IdentityType {
+  EMAIL = "EMAIL",
+  USERNAME = "USERNAME",
+}
+
+export enum RbacV1MemberRoleType {
+  GUEST = "GUEST",
+  MEMBER = "MEMBER",
+  ADMIN = "ADMIN",
+  OWNER = "OWNER",
+}
+
 export type AuthorizeOfOpenidProviderInputs = {
   providerCode: /* @type:string */ OpenidV1ProviderCode;
   redirect_uri: string;
@@ -368,12 +386,6 @@ export type AccountV1AccountSpec = {
   identities?: Array</* @type:object */ AccountV1AccountIdentity>;
 };
 
-export enum AccountV1AccountType {
-  USER = "USER",
-  AGENT = "AGENT",
-  CLIENT = "CLIENT",
-}
-
 export const displayAccountV1AccountType = (v: AccountV1AccountType) => {
   return (
     {
@@ -401,11 +413,6 @@ export type AccountV1AccountIdentity = {
 export type AccountV1AccountIdentityCode = string;
 
 export type AccountV1AccountIdentityID = string;
-
-export enum AccountV1IdentityType {
-  EMAIL = "EMAIL",
-  USERNAME = "USERNAME",
-}
 
 export const displayAccountV1IdentityType = (v: AccountV1IdentityType) => {
   return (
@@ -466,13 +473,6 @@ export type OpenidV1ResourceAccess = {
 export type OpenidV1Access = {
   roles: Array</* @type:enums */ RbacV1MemberRoleType>;
 };
-
-export enum RbacV1MemberRoleType {
-  GUEST = "GUEST",
-  MEMBER = "MEMBER",
-  ADMIN = "ADMIN",
-  OWNER = "OWNER",
-}
 
 export const displayRbacV1MemberRoleType = (v: RbacV1MemberRoleType) => {
   return (

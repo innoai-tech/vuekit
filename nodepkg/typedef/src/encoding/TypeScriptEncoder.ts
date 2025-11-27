@@ -19,10 +19,25 @@ export class TypeScriptEncoder {
   decls() {
     let decls = "";
 
+    // enum before all
     for (const [name, [t, decl]] of this.def) {
+      if (t !== "enum") {
+        continue;
+      }
+
       decls += `
       
-export ${t} ${name}${t === "enum" ? " " : " = "}${decl}`;
+export ${t} ${name} ${decl}`;
+    }
+
+    for (const [name, [t, decl]] of this.def) {
+      if (t === "enum") {
+        continue;
+      }
+
+      decls += `
+      
+export ${t} ${name} = ${decl}`;
     }
 
     return decls;

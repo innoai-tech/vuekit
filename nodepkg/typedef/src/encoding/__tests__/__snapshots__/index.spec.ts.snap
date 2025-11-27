@@ -158,6 +158,12 @@ exports[`Encoding > JSONSchema encode 1`] = `
 exports[`Encoding > TypeScript encode 1`] = `
 "
       
+export enum InputType {
+text = "text",
+number = "number",
+select = "select"         
+}
+      
 export type Type = (/* @type:object */ Base & {
   "input": /* @type:union */ Input,
 })
@@ -172,12 +178,6 @@ export type Base = {
 }
       
 export type IntOrStr = (number | string)
-      
-export enum InputType {
-text = "text",
-number = "number",
-select = "select"         
-}
       
 export const displayInputType = (v: InputType) => {
   return ({
