@@ -29,7 +29,7 @@
     "rxjs": "^7.8.2"
   },
   "devDependencies": {
-    "@happy-dom/global-registrator": "^20.0.10",
+    "@happy-dom/global-registrator": "^20.0.11",
     "@innoai-tech/config": "^0.6.5",
     "@innoai-tech/devconfig": "^0.5.0",
     "@innoai-tech/monobundle": "^0.17.1",
@@ -50,7 +50,7 @@
     "rolldown-vite": "^7.2.8",
     "turbo": "^2.6.1",
     "typescript": "^5.9.3",
-    "vite": "^7.2.4",
+    "vite": "^7.2.6",
     "vitest": "^4.0.14",
     "vue": "^3.5.25"
   },
