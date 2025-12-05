@@ -503,8 +503,7 @@ export type ExchangeTokenInputs = {
   body: /* @type:union */ OpenidV1GrantPayload;
 };
 
-export type OpenidV1GrantPayload =
-  /* @type:object */ | OpenidV1AuthorizationCodeGrant
+export type OpenidV1GrantPayload = /* @type:object */ | OpenidV1AuthorizationCodeGrant
   | /* @type:object */ OpenidV1ClientCredentialsGrant
   | /* @type:object */ OpenidV1PasswordGrant
   | /* @type:object */ OpenidV1RefreshTokenGrant;

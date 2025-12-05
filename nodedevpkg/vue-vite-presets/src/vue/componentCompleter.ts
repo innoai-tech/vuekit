@@ -1,4 +1,4 @@
-import { createFilter, type Plugin } from "rolldown-vite";
+import { createFilter, type Plugin } from "vite";
 import { usePlugin } from "@innoai-tech/vuecomponentcompleter";
 import { transform } from "@swc/core";
 

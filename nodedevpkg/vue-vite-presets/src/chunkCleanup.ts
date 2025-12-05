@@ -1,5 +1,5 @@
 import { transform, usePlugin } from "@innoai-tech/purebundle";
-import { createFilter, type Plugin } from "rolldown-vite";
+import { createFilter, type Plugin } from "vite";
 import { isUndefined } from "es-toolkit/compat";
 
 export const chunkCleanup = (

@@ -1,6 +1,6 @@
 import { basename, extname } from "path";
 import { camelCase, upperFirst } from "es-toolkit/compat";
-import { type Plugin, createFilter } from "rolldown-vite";
+import { type Plugin, createFilter } from "vite";
 import { getHash } from "../helpers";
 
 export interface VueJsxHmrOptions {

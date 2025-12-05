@@ -4,7 +4,7 @@ import {
   type Plugin,
   searchForWorkspaceRoot,
   type UserConfig,
-} from "rolldown-vite";
+} from "vite";
 import { vueResolver, type VueRoute } from "vite-plugin-pages";
 
 const reJsDoc = /\/\*\*\s*\n([^*]|\*[^\/])*\*\//g;

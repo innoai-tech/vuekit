@@ -1,5 +1,5 @@
 import vue from "@vitejs/plugin-vue";
-import type { PluginOption } from "rolldown-vite";
+import type { PluginOption } from "vite";
 import vitePages, {
   type PageResolver,
   type PageOptions,

@@ -1,4 +1,4 @@
-import type { ViteDevServer } from "rolldown-vite";
+import type { ViteDevServer } from "vite";
 
 export class VirtualCache {
   private files = new Map<string, string>();

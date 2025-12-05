@@ -1,11 +1,5 @@
 import { resolve } from "path";
-import {
-  type OxcOptions,
-  type PluginOption,
-  searchForWorkspaceRoot,
-  type UserConfig,
-} from "rolldown-vite";
-import tsconfigPaths from "vite-tsconfig-paths";
+import { type OxcOptions, type PluginOption, searchForWorkspaceRoot, type UserConfig } from "vite";
 
 export interface AppConfig {
   enableBaseHref?: boolean;
@@ -14,7 +8,7 @@ export interface AppConfig {
 
 export const app = (
   appName: string,
-  appConfig: AppConfig = {},
+  appConfig: AppConfig = {}
 ): PluginOption[] => {
   (process.env as any).APP_VERSION = "__VERSION__";
 
@@ -44,13 +38,13 @@ export const app = (
 
         c.build.outDir = resolve(
           viteConfigRoot,
-          c.build.outDir ?? `./public/${appName}`,
+          c.build.outDir ?? `./public/${appName}`
         );
         c.build.emptyOutDir = true;
 
         c.build.rolldownOptions = c.build.rolldownOptions ?? {};
         c.build.rolldownOptions.external = c.build.rolldownOptions.external ?? [
-          "csstype",
+          "csstype"
         ];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
@@ -59,23 +53,24 @@ export const app = (
         c.build.rolldownOptions.output = {
           assetFileNames: `${c.build.assetsDir}/[name].[hash][extname]`,
           entryFileNames: `${c.build.assetsDir}/[name].[hash].entry.js`,
-          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`,
+          chunkFileNames: `${c.build.assetsDir}/[name].[hash].chunk.js`
         };
 
         c.build.rolldownOptions.tsconfig = "tsconfig.json";
 
         c.build.minify = true;
         c.build.rolldownOptions.treeshake = {
-          annotations: true,
+          annotations: true
         };
 
         c.resolve = c.resolve ?? {};
+        c.resolve.tsconfigPaths = true;
         c.resolve.alias = c.resolve.alias ?? ({} as Record<string, string>);
 
         c.oxc = c.oxc ?? ({} as OxcOptions);
         (c.oxc as OxcOptions).jsx = {
           runtime: "automatic",
-          development: c.mode !== "production",
+          development: c.mode !== "production"
         };
 
         c.optimizeDeps = c.optimizeDeps ?? {};
@@ -90,13 +85,12 @@ export const app = (
             {
               tag: "base",
               attrs: {
-                href: userConfig.base ?? "/",
-              },
-            },
-          ],
+                href: userConfig.base ?? "/"
+              }
+            }
+          ]
         };
-      },
+      }
     },
-    tsconfigPaths({}) as PluginOption,
   ];
 };

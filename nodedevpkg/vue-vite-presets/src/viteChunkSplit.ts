@@ -7,7 +7,7 @@ import {
   type FilterPattern,
   type PluginOption,
   searchForWorkspaceRoot,
-} from "rolldown-vite";
+} from "vite";
 import { readFile } from "fs/promises";
 
 export interface ChunkSplitOptions {
