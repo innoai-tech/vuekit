@@ -12,10 +12,7 @@ export interface ImmerSubject<T> extends Observable<T> {
   next(value: T): void;
 }
 
-export class ImmerBehaviorSubject<T>
-  extends Observable<T>
-  implements ImmerSubject<T>
-{
+export class ImmerBehaviorSubject<T> extends Observable<T> implements ImmerSubject<T> {
   static seed<T>(seed: T) {
     return new ImmerBehaviorSubject<T>(seed);
   }

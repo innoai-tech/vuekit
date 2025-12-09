@@ -9,9 +9,7 @@ export const pseudoSelectors = {
 
 export type Pseudos = typeof pseudoSelectors;
 
-type DistributePseudoElement<U> = U extends `::-${
-  "moz" | "ms" | "khtml" | "webkit"
-}-${string}`
+type DistributePseudoElement<U> = U extends `::-${"moz" | "ms" | "khtml" | "webkit"}-${string}`
   ? never
   : U extends `::${string}`
     ? U
@@ -28,9 +26,7 @@ type DistributePseudoClass<U> = U extends `::${string}`
 type PseudoElements = DistributePseudoElement<SimplePseudos>;
 type PseudoClasses = DistributePseudoClass<SimplePseudos>;
 
-type ToCamelCase<S> = S extends `${infer T}-${infer U}`
-  ? `${T}${Capitalize<ToCamelCase<U>>}`
-  : S;
+type ToCamelCase<S> = S extends `${infer T}-${infer U}` ? `${T}${Capitalize<ToCamelCase<U>>}` : S;
 
 type DistributePseudoElementNames<U> = U extends `::${infer N}` ? N : never;
 type DistributePseudoClassNames<U> = U extends `:${infer N}` ? N : never;

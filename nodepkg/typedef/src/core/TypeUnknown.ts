@@ -18,13 +18,9 @@ import {
 import { Schema } from "./Schema.ts";
 import { isString } from "es-toolkit/compat";
 
-export class TypeUnknown<T = unknown, Schema = unknown>
-  implements Type<T, Schema>
-{
+export class TypeUnknown<T = unknown, Schema = unknown> implements Type<T, Schema> {
   static define = defineType(
-    <T>(
-      validator: (value: unknown, ctx: Context) => Result = () => true,
-    ): Type<T, null> => {
+    <T>(validator: (value: unknown, ctx: Context) => Result = () => true): Type<T, null> => {
       class CustomType<T> extends TypeUnknown<T, null> {
         override validator(value: unknown, ctx: Context): Result {
           return validator(value, ctx);
@@ -81,11 +77,13 @@ export class TypeUnknown<T = unknown, Schema = unknown>
         if (t.startsWith("{") && t.endsWith("}")) {
           try {
             return JSON.parse(t);
+            // oxlint-disable-next-line no-unused-vars
           } catch (e) {}
         }
         if (t.startsWith("[") && t.endsWith("]")) {
           try {
             return JSON.parse(t);
+            // oxlint-disable-next-line no-unused-vars
           } catch (e) {}
         }
       }
@@ -94,10 +92,7 @@ export class TypeUnknown<T = unknown, Schema = unknown>
     return value as T;
   }
 
-  *entries(
-    _value: unknown,
-    _context: Context = EmptyContext,
-  ): Iterable<Entity> {}
+  *entries(_value: unknown, _context: Context = EmptyContext): Iterable<Entity> {}
 
   public validate(
     value: unknown,
@@ -156,10 +151,7 @@ export class TypeWrapper<T, Schema> extends TypeUnknown<T, Schema> {
     refiner: (v: Infer<U>, ctx: Context) => Result,
     schema: S,
   ): Type<Infer<U>, MergeSchema<InferSchema<U>, S>> {
-    class Refiner<
-      U extends Type,
-      S extends Record<string, any>,
-    > extends TypeWrapper<Infer<U>, S> {
+    class Refiner<U extends Type, S extends Record<string, any>> extends TypeWrapper<Infer<U>, S> {
       override *refiner(value: Infer<U>, ctx: Context): Result {
         yield* this.unwrap.refiner(value, ctx);
 
@@ -188,10 +180,7 @@ export class TypeWrapper<T, Schema> extends TypeUnknown<T, Schema> {
     return this.unwrap.type;
   }
 
-  override *entries(
-    value: unknown,
-    context: Context = EmptyContext,
-  ): Iterable<Entity> {
+  override *entries(value: unknown, context: Context = EmptyContext): Iterable<Entity> {
     yield* this.unwrap.entries(value, {
       ...context,
       node: { current: this, parent: context.node },
@@ -199,21 +188,11 @@ export class TypeWrapper<T, Schema> extends TypeUnknown<T, Schema> {
   }
 
   override validator(value: unknown, context: Context): Result {
-    return toFailures(
-      this.unwrap.validator(value, context),
-      context,
-      this,
-      value,
-    );
+    return toFailures(this.unwrap.validator(value, context), context, this, value);
   }
 
   override refiner(value: T, context: Context): Result {
-    return toFailures(
-      this.unwrap.refiner(value, context),
-      context,
-      this,
-      value,
-    );
+    return toFailures(this.unwrap.refiner(value, context), context, this, value);
   }
 
   override coercer(value: unknown, context: Context) {
@@ -253,14 +232,12 @@ export class OptionalType<T extends Type> extends TypeWrapper<
   Infer<T> | undefined,
   InferSchema<T>
 > {
-  static create = defineType(
-    <T extends Type>(t: T): Type<Infer<T> | undefined, InferSchema<T>> => {
-      return new OptionalType<T>({
-        [Schema.underlying]: t,
-        [Schema.optional]: t,
-      });
-    },
-  );
+  static create = defineType(<T extends Type>(t: T): Type<Infer<T> | undefined, InferSchema<T>> => {
+    return new OptionalType<T>({
+      [Schema.underlying]: t,
+      [Schema.optional]: t,
+    });
+  });
 
   override refiner(value: T | undefined, context: Context): Result {
     return value === undefined || super.unwrap.refiner(value, context);

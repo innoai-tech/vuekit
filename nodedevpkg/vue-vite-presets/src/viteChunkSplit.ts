@@ -2,21 +2,14 @@ import { basename, dirname, extname, join, relative, resolve } from "path";
 import { get, last } from "es-toolkit/compat";
 import { type OutputOptions, type PreRenderedChunk } from "rolldown";
 import { globby } from "globby";
-import {
-  createFilter,
-  type FilterPattern,
-  type PluginOption,
-  searchForWorkspaceRoot,
-} from "vite";
+import { createFilter, type FilterPattern, type PluginOption, searchForWorkspaceRoot } from "vite";
 import { readFile } from "fs/promises";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
 }
 
-export const viteChunkSplit = (
-  options: ChunkSplitOptions = {},
-): PluginOption => {
+export const viteChunkSplit = (options: ChunkSplitOptions = {}): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   let cs: ChunkSplit;
 
@@ -32,8 +25,7 @@ export const viteChunkSplit = (
 
       c.build.rolldownOptions = c.build.rolldownOptions ?? {};
 
-      c.build.rolldownOptions.output =
-        c.build.rolldownOptions.output ?? ({} as OutputOptions);
+      c.build.rolldownOptions.output = c.build.rolldownOptions.output ?? ({} as OutputOptions);
 
       const chunkFileNames = get(
         c.build.rolldownOptions.output,
@@ -82,6 +74,7 @@ class Package {
       try {
         pkg = JSON.parse(String(await readFile(join(dir, "package.json"))));
         pkgDir = dir;
+        // oxlint-disable-next-line no-unused-vars
       } catch (err) {}
     }
 
@@ -127,7 +120,7 @@ class ChunkSplit {
     const workspacePkgs = {} as Record<string, Package>;
 
     for (const packageJSON of await globby(
-      [...pkg.workspaces?.map((p: string) => `${p}/package.json`)],
+      [...(pkg.workspaces?.map((p: string) => `${p}/package.json`) ?? [])],
       {
         cwd: root,
       },
@@ -211,11 +204,7 @@ class ChunkSplit {
       const pkgName = this.normalizePkgName(id);
 
       if (id.includes(".min/") || id.includes(".min.")) {
-        return (
-          pkgName.replace("vendor-", "vendor-min-") +
-          "~" +
-          basename(id, extname(id))
-        );
+        return pkgName.replace("vendor-", "vendor-min-") + "~" + basename(id, extname(id));
       }
 
       if (this.isDirectVendor(pkgName)) {
@@ -237,7 +226,7 @@ class ChunkSplit {
   normalizePkgName(id: string) {
     // safe path
     return this.#normalizePkgName(id)
-      .replaceAll(/[:~_./\[\]]/g, "-")
+      .replaceAll(/[:~_./[\]]/g, "-")
       .replaceAll(/[@?=]/g, "");
   }
 
@@ -344,6 +333,4 @@ class ChunkSplit {
   }
 }
 
-type Group = NonNullable<
-  NonNullable<OutputOptions["advancedChunks"]>["groups"]
->["0"];
+type Group = NonNullable<NonNullable<OutputOptions["advancedChunks"]>["groups"]>["0"];

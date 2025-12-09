@@ -35,10 +35,7 @@ export function* flattenValue(
 
     yield objValueLine;
 
-    for (const [propName, propValue, propType] of typedef.entries(
-      objValueLine.value,
-      ctx,
-    )) {
+    for (const [propName, propValue, propType] of typedef.entries(objValueLine.value, ctx)) {
       if (!Object.hasOwn(objValueLine.value, propName)) {
         continue;
       }
@@ -58,10 +55,7 @@ export function* flattenValue(
     return;
   }
 
-  if (
-    typedef.type == "union" &&
-    isUndefined(Schema.schemaProp(typedef, "discriminator"))
-  ) {
+  if (typedef.type == "union" && isUndefined(Schema.schemaProp(typedef, "discriminator"))) {
     const oneOf = Schema.schemaProp(typedef, "oneOf");
 
     // for some type `string | string[]`
@@ -83,10 +77,7 @@ export function* flattenValue(
 
           yield arrValueLine;
 
-          for (const [idx, itemValue, itemType] of arrayType.entries(
-            arr,
-            ctx,
-          )) {
+          for (const [idx, itemValue, itemType] of arrayType.entries(arr, ctx)) {
             yield* flattenValue(itemValue, get(previousArr, [idx]), itemType, {
               ...ctx,
               path: [...ctx.path, idx],

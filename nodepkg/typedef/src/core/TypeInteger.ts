@@ -19,6 +19,7 @@ export class TypeInteger extends TypeUnknown<number, { type: "integer" }> {
     try {
       const ret = value != undefined ? parseInt(String(value)) : undefined;
       return isInteger(ret) ? ret : undefined;
+      // oxlint-disable-next-line no-unused-vars
     } catch (err) {
       return undefined;
     }

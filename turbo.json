@@ -8,6 +8,9 @@
     },
     "//#fmt": {
       "cache": false
+    },
+    "//#lint": {
+      "cache": false
     }
   }
 }

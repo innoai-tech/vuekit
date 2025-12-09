@@ -1,8 +1,4 @@
-import {
-  defineExpression,
-  type ExpressionBuildFunc,
-  isValidBuildExprFn,
-} from "../Expression.ts";
+import { defineExpression, type ExpressionBuildFunc, isValidBuildExprFn } from "../Expression.ts";
 import { isArray, isPlainObject } from "es-toolkit/compat";
 import { Entity } from "../iter";
 
@@ -12,9 +8,7 @@ export const some = defineExpression(
     ...buildExprFns: ExpressionBuildFunc<TTarget, boolean>[]
   ) =>
     (ctx) => {
-      const fns = buildExprFns
-        .map((buildExprFn) => buildExprFn(ctx))
-        .filter(isValidBuildExprFn);
+      const fns = buildExprFns.map((buildExprFn) => buildExprFn(ctx)).filter(isValidBuildExprFn);
 
       const fn = (v: TTarget, c = ctx) => {
         if (isArray(v) || isPlainObject(v)) {

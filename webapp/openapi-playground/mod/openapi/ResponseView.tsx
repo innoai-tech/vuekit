@@ -8,6 +8,7 @@ import { isUndefined, uniq } from "es-toolkit/compat";
 function isErrorCode(c: number | string) {
   try {
     return Number(c) >= 400;
+    // oxlint-disable-next-line no-unused-vars
   } catch (err) {
     return false;
   }
@@ -20,33 +21,29 @@ export const ResponseView = component$<{
   const openapi$ = OpenAPIProvider.use();
 
   return () => {
-    const statusErrors = uniq(
-      (props.response["x-status-return-errors"] ?? []) as string[],
-    ).map((statusErr: string) => {
-      return parseStatusErr(statusErr);
-    });
+    const statusErrors = uniq((props.response["x-status-return-errors"] ?? []) as string[]).map(
+      (statusErr: string) => {
+        return parseStatusErr(statusErr);
+      },
+    );
 
     return (
       <ResponseSection>
-        <ResponseStatusCode data-failed={isErrorCode(props.code)}>
-          {props.code}
-        </ResponseStatusCode>
+        <ResponseStatusCode data-failed={isErrorCode(props.code)}>{props.code}</ResponseStatusCode>
         <Box sx={{ pl: "4em" }}>
           <>
-            {Object.entries(props.response.content ?? {}).map(
-              ([contentType, { schema }]) => (
-                <ResponseSchema>
-                  <Line spacing={0}>
-                    <SchemaView
-                      schema={JSONSchemaDecoder.decode(schema, (ref) => {
-                        return [openapi$.schema(ref) ?? {}, refName(ref)];
-                      })}
-                    />
-                  </Line>
-                  <div data-content-type>{contentType}</div>
-                </ResponseSchema>
-              ),
-            )}
+            {Object.entries(props.response.content ?? {}).map(([contentType, { schema }]) => (
+              <ResponseSchema>
+                <Line spacing={0}>
+                  <SchemaView
+                    schema={JSONSchemaDecoder.decode(schema, (ref) => {
+                      return [openapi$.schema(ref) ?? {}, refName(ref)];
+                    })}
+                  />
+                </Line>
+                <div data-content-type>{contentType}</div>
+              </ResponseSchema>
+            ))}
           </>
           <>
             {statusErrors.length > 0 ? (

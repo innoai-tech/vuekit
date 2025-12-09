@@ -3,11 +3,7 @@ import type { DesignTokenOption } from "./DesignToken";
 import { isMap } from "./util";
 
 export class Mixin {
-  static walkValue = (
-    o: any,
-    cb: (v: any, path: any[]) => void,
-    parent: any[] = [],
-  ) => {
+  static walkValue = (o: any, cb: (v: any, path: any[]) => void, parent: any[] = []) => {
     for (const k in o) {
       const v = o[k] as any;
       if (isMap(v)) {

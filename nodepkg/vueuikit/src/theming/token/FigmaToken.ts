@@ -109,20 +109,13 @@ function parseToRgb(color: string) {
   return [rgb.red, rgb.green, rgb.blue];
 }
 
-function walkFigmaTokens(
-  tokens: FigmaTokenValues[],
-  cb: (value: any, path: string[]) => void,
-) {
+function walkFigmaTokens(tokens: FigmaTokenValues[], cb: (value: any, path: string[]) => void) {
   for (const token of tokens) {
     walkValue(token, cb);
   }
 }
 
-function walkValue(
-  o: any,
-  cb: (v: any, path: any[]) => void,
-  parent: any[] = [],
-) {
+function walkValue(o: any, cb: (v: any, path: any[]) => void, parent: any[] = []) {
   for (const k in o) {
     const v = o[k] as any;
 
@@ -155,9 +148,7 @@ export const groupSysColors = (figmaTokensValues: FigmaTokenValues) => {
     ...figmaTokensValues,
     color: {
       sys: mapValues(groups, (matches) => {
-        return pickBy(sysColors, (_, token) =>
-          some(matches, (m) => token.indexOf(m) > -1),
-        );
+        return pickBy(sysColors, (_, token) => some(matches, (m) => token.indexOf(m) > -1));
       }),
     },
   };

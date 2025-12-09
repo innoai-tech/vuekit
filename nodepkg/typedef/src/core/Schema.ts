@@ -3,15 +3,14 @@ import type { OmitBy, PickBy } from "./Type.ts";
 
 export type Simplify<T> = T extends any[] ? T : { [K in keyof T]: T[K] } & {};
 
-export type Optionalize<S extends object> = OmitBy<S, undefined> &
-  Partial<PickBy<S, undefined>>;
+export type Optionalize<S extends object> = OmitBy<S, undefined> & Partial<PickBy<S, undefined>>;
 
 export type PropertyNames<O extends {}> = {
   [K in keyof O as K extends symbol ? never : K]: O[K];
 };
 
 export type Constructor = {
-  new(...args: any[]): any;
+  new (...args: any[]): any;
 };
 
 export class Schema {
@@ -31,26 +30,26 @@ export class Schema {
   };
 
   static create<S extends {}>(
-    schema: S
+    schema: S,
   ): Simplify<
     PropertyNames<S> & {
-    metadata: Record<string, any>;
-  }
+      metadata: Record<string, any>;
+    }
   >;
 
   static create<S extends {}, E extends {}>(
     schema: S,
-    origin: E
+    origin: E,
   ): Simplify<PropertyNames<S> & PropertyNames<E>>;
   static create<S extends {}, E extends {}>(
     schema: S,
     origin: E,
-    scope?: symbol
+    scope?: symbol,
   ): Simplify<PropertyNames<S> & PropertyNames<E>>;
   static create<S extends {}, E extends {}>(
     base: S,
     origin?: E,
-    scope?: symbol
+    scope?: symbol,
   ): Simplify<PropertyNames<S> & PropertyNames<E>> {
     const parent = origin ?? (base as any)[Schema.underlying]?.["schema"] ?? {};
 
@@ -68,7 +67,10 @@ export class Schema {
       },
 
       getOwnPropertyDescriptor(base: {}, p: string | symbol): PropertyDescriptor | undefined {
-        return Object.getOwnPropertyDescriptor(base, p) || (parent ? Object.getOwnPropertyDescriptor(parent, p) : undefined);
+        return (
+          Object.getOwnPropertyDescriptor(base, p) ||
+          (parent ? Object.getOwnPropertyDescriptor(parent, p) : undefined)
+        );
       },
 
       get(base: {}, p: string | symbol): any {
@@ -94,21 +96,15 @@ export class Schema {
         }
 
         return parent ? (parent as any)[p] : undefined;
-      }
+      },
     }) as any;
   }
 
-  static schemaProp<T = any>(
-    withSchema: { schema: any },
-    key: string | symbol
-  ): T | undefined {
+  static schemaProp<T = any>(withSchema: { schema: any }, key: string | symbol): T | undefined {
     return getSchema(withSchema.schema, key);
   }
 
-  static metaProp<T = any>(
-    withSchema: { schema: any },
-    key: string | symbol
-  ): T | undefined {
+  static metaProp<T = any>(withSchema: { schema: any }, key: string | symbol): T | undefined {
     return getMeta(withSchema.schema, key);
   }
 }
@@ -138,8 +134,7 @@ const getMeta = (schema: any, metaKey: any): any => {
 };
 
 class Collector {
-  constructor(private deref: boolean = false) {
-  }
+  constructor(private deref: boolean = false) {}
 
   toValue(v: any): any {
     if (v) {

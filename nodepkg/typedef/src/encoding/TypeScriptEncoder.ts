@@ -53,10 +53,7 @@ export ${t} ${name} = ${decl}`;
         // set to lock to avoid loop
         this.def.set(refName, ["type", "any"]);
 
-        const decl = this._encode(
-          Schema.schemaProp(type, Schema.unwrap)(),
-          refName
-        );
+        const decl = this._encode(Schema.schemaProp(type, Schema.unwrap)(), refName);
 
         if (decl) {
           if (type.type === "enums") {
@@ -118,12 +115,9 @@ export ${t} ${name} = ${decl}`;
             "enum",
             `{
 ${Schema.schemaProp(type, "enum")
-              .map(
-                (v: any) =>
-                  `${isPrefixDigit(v) ? `_${toSafeID(v)}` : toSafeID(v)} = ${JSON.stringify(v)}`
-              )
-              .join(",\n")}         
-}`
+  .map((v: any) => `${isPrefixDigit(v) ? `_${toSafeID(v)}` : toSafeID(v)} = ${JSON.stringify(v)}`)
+  .join(",\n")}         
+}`,
           ]);
 
           const enumLabels = rawType.meta["enumLabels"] as any[];
@@ -134,13 +128,10 @@ ${Schema.schemaProp(type, "enum")
               `(v: ${declName}) => {
   return ({
 ${Schema.schemaProp(type, "enum")
-                .map(
-                  (v: any, i: number) =>
-                    `${JSON.stringify(v)}: ${JSON.stringify(enumLabels[i])}`
-                )
-                .join(",\n")}   
+  .map((v: any, i: number) => `${JSON.stringify(v)}: ${JSON.stringify(enumLabels[i])}`)
+  .join(",\n")}   
   })[v] ?? v      
-}`
+}`,
             ]);
           }
 
@@ -153,9 +144,7 @@ ${Schema.schemaProp(type, "enum")
       }
 
       case "record": {
-        const keyType = this._encode(
-          Schema.schemaProp(type, "propertyNames") ?? t.string()
-        );
+        const keyType = this._encode(Schema.schemaProp(type, "propertyNames") ?? t.string());
 
         if (keyType.startsWith("/* @type:enums */")) {
           return `{ [k in ${keyType}]: ${this._encode(Schema.schemaProp(type, "additionalProperties") ?? t.any())} }`;
@@ -169,7 +158,7 @@ ${Schema.schemaProp(type, "enum")
 `;
 
         for (const [p, propType] of Object.entries(
-          (Schema.schemaProp(type, "properties") ?? {}) as Record<string, Type>
+          (Schema.schemaProp(type, "properties") ?? {}) as Record<string, Type>,
         )) {
           ts += `  ${JSON.stringify(p)}`;
           if (Schema.schemaProp(propType, Schema.optional)) {

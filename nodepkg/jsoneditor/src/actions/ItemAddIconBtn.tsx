@@ -47,7 +47,7 @@ export const ItemAddIconBtn = component$<{
       const items = Schema.schemaProp(props.typedef, "items") as Type;
 
       const [err, value] = items.validate(inputValue, { coerce: true });
-      if (!!err) {
+      if (err) {
         editor$.setError(props.ctx.path, err);
         return;
       }
@@ -68,6 +68,7 @@ export const ItemAddIconBtn = component$<{
           const v = JSON.parse(raw);
           editor$.update(props.ctx.path, v);
           reset();
+          // oxlint-disable-next-line no-unused-vars
         } catch (err) {
           editor$.setError(props.ctx.path, "无效的 JSON 字符串");
         }
@@ -76,6 +77,7 @@ export const ItemAddIconBtn = component$<{
       if (raw.startsWith("{") && raw.endsWith("}")) {
         try {
           commit(JSON.parse(raw));
+          // oxlint-disable-next-line no-unused-vars
         } catch (err) {
           editor$.setError(props.ctx.path, "无效的 JSON 字符串");
         }
@@ -108,27 +110,17 @@ export const ItemAddIconBtn = component$<{
           placement={"right-start"}
           $content={
             <ValueInputActions>
-              <ActionBtn
-                type={"button"}
-                onClick={() => inputAction$.next({ type: "CANCEL" })}
-              >
+              <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "CANCEL" })}>
                 <Icon path={mdiCancel} />
               </ActionBtn>
-              <ActionBtn
-                type={"button"}
-                onClick={() => inputAction$.next({ type: "COMMIT" })}
-              >
+              <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "COMMIT" })}>
                 <Icon path={mdiCheckBold} />
               </ActionBtn>
             </ValueInputActions>
           }
         >
           <InputWrapper>
-            <input
-              ref={inputEl$}
-              type="text"
-              placeholder={"添加数组项 (可粘贴 JSON 字符串)"}
-            />
+            <input ref={inputEl$} type="text" placeholder={"添加数组项 (可粘贴 JSON 字符串)"} />
           </InputWrapper>
         </Popper>
       );

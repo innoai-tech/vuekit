@@ -3,18 +3,11 @@
   "compilerOptions": {
     "noErrorTruncation": true,
     "baseUrl": ".",
-    "lib": [
-      "ESNext",
-      "dom"
-    ],
+    "lib": ["ESNext", "dom"],
     "paths": {
-      "@webapp/vuekit/*": [
-        "./webapp/vuekit/*"
-      ],
-      "@innoai-tech/*": [
-        "./nodepkg/*/src/index.ts"
-      ]
+      "@webapp/vuekit/*": ["./webapp/vuekit/*"],
+      "@innoai-tech/*": ["./nodepkg/*/src/index.ts"],
     },
-    "jsxImportSource": "@innoai-tech/vuekit"
-  }
+    "jsxImportSource": "@innoai-tech/vuekit",
+  },
 }

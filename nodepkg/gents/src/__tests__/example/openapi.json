@@ -30,9 +30,7 @@
         "type": "object",
         "properties": {
           "grant_type": {
-            "enum": [
-              "password"
-            ],
+            "enum": ["password"],
             "title": "授权类型",
             "x-tag-validate": "@string{password}"
           },
@@ -58,11 +56,7 @@
             "title": "Client Secret"
           }
         },
-        "required": [
-          "grant_type",
-          "username",
-          "password"
-        ],
+        "required": ["grant_type", "username", "password"],
         "title": "https://www.oauth.com/oauth2-servers/access-tokens/password-grant/"
       },
       "OpenidV1ProviderMeta": {
@@ -81,10 +75,7 @@
             "title": "登录入口"
           }
         },
-        "required": [
-          "code",
-          "name"
-        ]
+        "required": ["code", "name"]
       },
       "OpenidV1ConfigurationWithExternalProviders": {
         "type": "object",
@@ -194,19 +185,14 @@
             "description": "预留，暂时无实现"
           }
         },
-        "required": [
-          "token_type",
-          "access_token"
-        ],
+        "required": ["token_type", "access_token"],
         "title": "https://www.oauth.com/oauth2-servers/access-tokens/access-token-response/"
       },
       "OpenidV1AuthorizationCodeRequest": {
         "type": "object",
         "properties": {
           "response_type": {
-            "enum": [
-              "code"
-            ],
+            "enum": ["code"],
             "x-tag-validate": "@string{code}"
           },
           "client_id": {
@@ -228,11 +214,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "response_type",
-          "client_id",
-          "redirect_uri"
-        ],
+        "required": ["response_type", "client_id", "redirect_uri"],
         "title": "https://www.oauth.com/oauth2-servers/authorization/the-authorization-request/"
       },
       "StringAsFilter": {
@@ -242,30 +224,18 @@
         "$ref": "#/components/schemas/AccountV1IdentityType"
       },
       "AccountV1AccountType": {
-        "enum": [
-          "USER",
-          "AGENT",
-          "CLIENT"
-        ],
+        "enum": ["USER", "AGENT", "CLIENT"],
         "title": "账户类型",
-        "x-enum-labels": [
-          "用户",
-          "集群代理",
-          "客户端"
-        ]
+        "x-enum-labels": ["用户", "集群代理", "客户端"]
       },
       "AccountV1AccountIdentityRequestForCreate": {
         "type": "object",
         "properties": {
           "kind": {
-            "enum": [
-              "AccountIdentity"
-            ]
+            "enum": ["AccountIdentity"]
           },
           "apiVersion": {
-            "enum": [
-              "v1"
-            ]
+            "enum": ["v1"]
           },
           "name": {
             "type": "string",
@@ -293,10 +263,7 @@
             "$ref": "#/components/schemas/AccountV1IdentityType"
           }
         },
-        "required": [
-          "code",
-          "identityType"
-        ],
+        "required": ["code", "identityType"],
         "title": "账户标识（创建）"
       },
       "OpenidV1Jwk": {
@@ -328,14 +295,7 @@
             "title": "RSA 公钥的指数"
           }
         },
-        "required": [
-          "kty",
-          "alg",
-          "kid",
-          "use",
-          "e",
-          "n"
-        ]
+        "required": ["kty", "alg", "kid", "use", "e", "n"]
       },
       "OpenidV1ResourceAccess": {
         "type": "object",
@@ -394,9 +354,7 @@
             "title": "其他资源访问权限上下文"
           }
         },
-        "required": [
-          "sub"
-        ],
+        "required": ["sub"],
         "title": "https://openid.net/specs/openid-connect-core-1_0.html#UserInfoResponse"
       },
       "OpenidV1BindingAsList": {
@@ -432,14 +390,10 @@
             "title": "资源 id"
           },
           "kind": {
-            "enum": [
-              "AccountIdentity"
-            ]
+            "enum": ["AccountIdentity"]
           },
           "apiVersion": {
-            "enum": [
-              "v1"
-            ]
+            "enum": ["v1"]
           },
           "name": {
             "type": "string",
@@ -475,25 +429,17 @@
             "x-go-star-level": 1
           }
         },
-        "required": [
-          "code",
-          "id",
-          "identityType"
-        ],
+        "required": ["code", "id", "identityType"],
         "title": "账户标识"
       },
       "AccountV1AccountRequestForCreateAsUser": {
         "type": "object",
         "properties": {
           "kind": {
-            "enum": [
-              "Account"
-            ]
+            "enum": ["Account"]
           },
           "apiVersion": {
-            "enum": [
-              "v1"
-            ]
+            "enum": ["v1"]
           },
           "name": {
             "type": "string",
@@ -518,9 +464,7 @@
             "title": "用户定义"
           }
         },
-        "required": [
-          "spec"
-        ]
+        "required": ["spec"]
       },
       "RbacV1MemberSpec": {
         "type": "object",
@@ -529,17 +473,13 @@
             "$ref": "#/components/schemas/RbacV1MemberRoleType"
           }
         },
-        "required": [
-          "roleType"
-        ]
+        "required": ["roleType"]
       },
       "OpenidV1RefreshTokenGrant": {
         "type": "object",
         "properties": {
           "grant_type": {
-            "enum": [
-              "refresh_token"
-            ],
+            "enum": ["refresh_token"],
             "title": "授权类型",
             "x-tag-validate": "@string{refresh_token}"
           },
@@ -560,10 +500,7 @@
             "title": "Client Secret"
           }
         },
-        "required": [
-          "grant_type",
-          "refresh_token"
-        ],
+        "required": ["grant_type", "refresh_token"],
         "title": "https://www.oauth.com/oauth2-servers/access-tokens/refreshing-access-tokens/"
       },
       "AccountV1AccountIDAsFilter": {
@@ -577,14 +514,10 @@
             "title": "账户资源 id"
           },
           "kind": {
-            "enum": [
-              "Account"
-            ]
+            "enum": ["Account"]
           },
           "apiVersion": {
-            "enum": [
-              "v1"
-            ]
+            "enum": ["v1"]
           },
           "name": {
             "type": "string",
@@ -621,24 +554,17 @@
             "title": "账户状态"
           }
         },
-        "required": [
-          "id",
-          "spec"
-        ],
+        "required": ["id", "spec"],
         "title": "账户"
       },
       "AccountV1AccountRequestForCreateAsClient": {
         "type": "object",
         "properties": {
           "kind": {
-            "enum": [
-              "Account"
-            ]
+            "enum": ["Account"]
           },
           "apiVersion": {
-            "enum": [
-              "v1"
-            ]
+            "enum": ["v1"]
           },
           "name": {
             "type": "string",
@@ -672,9 +598,7 @@
             "title": "账户标识"
           }
         },
-        "required": [
-          "identities"
-        ]
+        "required": ["identities"]
       },
       "OpenidV1Authorization": {
         "type": "string"
@@ -762,42 +686,22 @@
             }
           }
         },
-        "required": [
-          "roles"
-        ]
+        "required": ["roles"]
       },
       "AccountV1IdentityType": {
-        "enum": [
-          "EMAIL",
-          "USERNAME"
-        ],
+        "enum": ["EMAIL", "USERNAME"],
         "title": "标识类型",
-        "x-enum-labels": [
-          "邮箱",
-          "用户名"
-        ]
+        "x-enum-labels": ["邮箱", "用户名"]
       },
       "RbacV1MemberRoleType": {
-        "enum": [
-          "GUEST",
-          "MEMBER",
-          "ADMIN",
-          "OWNER"
-        ],
-        "x-enum-labels": [
-          "访问者",
-          "成员",
-          "管理员",
-          "拥有者"
-        ]
+        "enum": ["GUEST", "MEMBER", "ADMIN", "OWNER"],
+        "x-enum-labels": ["访问者", "成员", "管理员", "拥有者"]
       },
       "OpenidV1ClientCredentialsGrant": {
         "type": "object",
         "properties": {
           "grant_type": {
-            "enum": [
-              "client_credentials"
-            ],
+            "enum": ["client_credentials"],
             "title": "授权类型",
             "x-tag-validate": "@string{client_credentials}"
           },
@@ -814,9 +718,7 @@
             "title": "Client Secret"
           }
         },
-        "required": [
-          "grant_type"
-        ],
+        "required": ["grant_type"],
         "title": "https://www.oauth.com/oauth2-servers/access-tokens/client-credentials/"
       },
       "AccountV1AccountSpec": {
@@ -875,9 +777,7 @@
         "type": "object",
         "properties": {
           "grant_type": {
-            "enum": [
-              "authorization_code"
-            ],
+            "enum": ["authorization_code"],
             "title": "授权类型",
             "x-tag-validate": "@string{authorization_code}"
           },
@@ -901,10 +801,7 @@
             "title": "Client Secret"
           }
         },
-        "required": [
-          "grant_type",
-          "code"
-        ],
+        "required": ["grant_type", "code"],
         "title": "https://www.oauth.com/oauth2-servers/access-tokens/authorization-code-request/"
       },
       "AccountV1AccountIdentityCodeAsFilter": {
@@ -934,9 +831,7 @@
             "title": "密钥列表"
           }
         },
-        "required": [
-          "keys"
-        ]
+        "required": ["keys"]
       },
       "AccountV1AccountID": {
         "type": "string",
@@ -952,10 +847,7 @@
             "$ref": "#/components/schemas/OpenidV1ProviderMeta"
           }
         },
-        "required": [
-          "sub",
-          "provider"
-        ]
+        "required": ["sub", "provider"]
       },
       "AlgoidpUserNewPasswordPayload": {
         "type": "object",
@@ -964,9 +856,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "password"
-        ]
+        "required": ["password"]
       },
       "AccountV1AccountIdentityID": {
         "type": "string",
@@ -977,9 +867,7 @@
   "paths": {
     "/api/algo-idp": {
       "get": {
-        "tags": [
-          "httprouter"
-        ],
+        "tags": ["httprouter"],
         "summary": "OpenAPI",
         "operationId": "OpenAPI",
         "responses": {
@@ -994,9 +882,7 @@
     },
     "/api/algo-idp/_view/0": {
       "get": {
-        "tags": [
-          "httprouter"
-        ],
+        "tags": ["httprouter"],
         "summary": "OpenAPIView",
         "operationId": "OpenAPIView",
         "responses": {
@@ -1011,9 +897,7 @@
     },
     "/api/algo-idp/.well-known/jwks.json": {
       "get": {
-        "tags": [
-          "wellknown"
-        ],
+        "tags": ["wellknown"],
         "summary": "密钥列表",
         "operationId": "JWKs",
         "responses": {
@@ -1032,9 +916,7 @@
     },
     "/api/algo-idp/.well-known/openid-configuration": {
       "get": {
-        "tags": [
-          "wellknown"
-        ],
+        "tags": ["wellknown"],
         "summary": "Openid Connect Discovery",
         "operationId": "OpenidConfiguration",
         "responses": {
@@ -1053,9 +935,7 @@
     },
     "/api/algo-idp/v1/admin/members/{accountID}": {
       "delete": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "移除管理员",
         "operationId": "DeleteAdminMember",
         "parameters": [
@@ -1102,9 +982,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1112,9 +990,7 @@
         }
       },
       "put": {
-        "tags": [
-          "admin"
-        ],
+        "tags": ["admin"],
         "summary": "分配管理员",
         "operationId": "PutAdminMember",
         "parameters": [
@@ -1171,9 +1047,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1183,9 +1057,7 @@
     },
     "/api/algo-idp/v1/auth/providers/{providerCode}/token": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "三方 openid 通过 code 置换登录（或绑定）",
         "operationId": "ExchangeTokenFromOpenidProvider",
         "parameters": [
@@ -1276,18 +1148,14 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "auth.ErrUnauthorized{message=\"Unauthorized: {Reason}\"}"
-            ]
+            "x-status-return-errors": ["auth.ErrUnauthorized{message=\"Unauthorized: {Reason}\"}"]
           }
         }
       }
     },
     "/api/algo-idp/v1/auth/sessions": {
       "delete": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "退出登录",
         "operationId": "SessionLogout",
         "parameters": [
@@ -1325,9 +1193,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1337,9 +1203,7 @@
     },
     "/api/algo-idp/v1/auth/providers/{providerCode}/authorize": {
       "get": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "三方 openid 登录发起授权",
         "operationId": "AuthorizeOfOpenidProvider",
         "parameters": [
@@ -1390,9 +1254,7 @@
     },
     "/api/algo-idp/v1/auth/token": {
       "post": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "换取访问凭证（OAuth）",
         "operationId": "ExchangeToken",
         "parameters": [
@@ -1491,16 +1353,12 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           }
         }
       },
       "get": {
-        "tags": [
-          "auth"
-        ],
+        "tags": ["auth"],
         "summary": "换取访问凭证（OAuth）",
         "description": "grant=client_credentials 需要",
         "operationId": "ExchangeTokenFromGet",
@@ -1586,9 +1444,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "429": {
             "description": "",
@@ -1608,9 +1464,7 @@
     },
     "/api/algo-idp/v1/user/openid-bindings/{providerCode}": {
       "delete": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "解绑三方登录",
         "operationId": "UnbindingOpenid",
         "parameters": [
@@ -1642,9 +1496,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1668,9 +1520,7 @@
     },
     "/api/algo-idp/v1/user/auth/authorized": {
       "post": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "授权签发 Authorization Code",
         "operationId": "Authorized",
         "parameters": [
@@ -1704,9 +1554,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "201": {
             "description": "",
@@ -1750,9 +1598,7 @@
     },
     "/api/algo-idp/v1/user/info": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "当前登录用户信息 (oauth 用)",
         "operationId": "CurrentUserInfo",
         "parameters": [
@@ -1776,9 +1622,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -1822,9 +1666,7 @@
     },
     "/api/algo-idp/v1/user/openid-bindings": {
       "get": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "ListOpenidBinding",
         "operationId": "ListOpenidBinding",
         "parameters": [
@@ -1862,9 +1704,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -1881,9 +1721,7 @@
     },
     "/api/algo-idp/v1/user/reset-password": {
       "put": {
-        "tags": [
-          "user"
-        ],
+        "tags": ["user"],
         "summary": "重设密码",
         "operationId": "ResetPassword",
         "parameters": [
@@ -1934,18 +1772,14 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           }
         }
       }
     },
     "/api/algo-idp/v1/account/users": {
       "get": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "拉取用户列表",
         "operationId": "ListUser",
         "parameters": [
@@ -2045,9 +1879,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2062,9 +1894,7 @@
         }
       },
       "put": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "创建用户",
         "operationId": "CreateUser",
         "parameters": [
@@ -2098,9 +1928,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2156,9 +1984,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "批量删除机器人账号",
         "operationId": "DeleteAllUser",
         "parameters": [
@@ -2192,9 +2018,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "403": {
             "description": "",
@@ -2219,9 +2043,7 @@
     },
     "/api/algo-idp/v1/account/users/{userID}/passwords": {
       "put": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "重置用户密码",
         "operationId": "RenewUserPassword",
         "parameters": [
@@ -2268,9 +2090,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2300,9 +2120,7 @@
     },
     "/api/algo-idp/v1/account/accounts/{accountID}": {
       "get": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "获取账户信息",
         "operationId": "GetAccount",
         "parameters": [
@@ -2369,9 +2187,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2388,9 +2204,7 @@
     },
     "/api/algo-idp/v1/account/clients/{clientID}": {
       "patch": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "更新机器人账号信息",
         "operationId": "PatchClient",
         "parameters": [
@@ -2447,9 +2261,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2492,9 +2304,7 @@
     },
     "/api/algo-idp/v1/account/users/{userID}": {
       "patch": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "更新用户",
         "operationId": "PatchUser",
         "parameters": [
@@ -2551,9 +2361,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2596,9 +2404,7 @@
     },
     "/api/algo-idp/v1/account/clients/{clientID}/secrets": {
       "put": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "重新生成机器人账号 Secret",
         "operationId": "RenewClientSecret",
         "parameters": [
@@ -2645,9 +2451,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2677,9 +2481,7 @@
     },
     "/api/algo-idp/v1/account/clients": {
       "put": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "创建或更新机器人账号信息",
         "operationId": "CreateClient",
         "parameters": [
@@ -2728,9 +2530,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2771,9 +2571,7 @@
         }
       },
       "delete": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "批量删除机器人账号",
         "operationId": "DeleteAllClient",
         "parameters": [
@@ -2822,9 +2620,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -2832,9 +2628,7 @@
         }
       },
       "get": {
-        "tags": [
-          "account"
-        ],
+        "tags": ["account"],
         "summary": "拉取机器人账号",
         "operationId": "ListClient",
         "parameters": [
@@ -2916,9 +2710,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",

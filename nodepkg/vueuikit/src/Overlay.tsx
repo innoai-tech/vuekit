@@ -67,12 +67,8 @@ class OverlayContext {
     const contentEl = unref(this.contentRef);
 
     return (
-      (triggerEl &&
-        (triggerEl === event.target ||
-          event.composedPath().includes(triggerEl))) ||
-      (contentEl &&
-        (contentEl === event.target ||
-          event.composedPath().includes(contentEl)))
+      (triggerEl && (triggerEl === event.target || event.composedPath().includes(triggerEl))) ||
+      (contentEl && (contentEl === event.target || event.composedPath().includes(contentEl)))
     );
   };
 
@@ -153,9 +149,7 @@ export const Overlay = component<{
       const content = props.isOpen
         ? cloneVNode(
             <div {...attrs} ref={contentRef} style={props.style}>
-              <OverlayProvider value={popperContext}>
-                {slots.default?.()}
-              </OverlayProvider>
+              <OverlayProvider value={popperContext}>{slots.default?.()}</OverlayProvider>
             </div>,
             {
               onVnodeBeforeMount: () => {

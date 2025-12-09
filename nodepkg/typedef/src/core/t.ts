@@ -1,11 +1,6 @@
 import { TypeRef } from "./TypeRef.ts";
 import { TypeAny } from "./TypeAny.ts";
-import {
-  defineModifier,
-  type Infer,
-  type InferSchema,
-  type Type,
-} from "./Type.ts";
+import { defineModifier, type Infer, type InferSchema, type Type } from "./Type.ts";
 import { TypeNull } from "./TypeNull.ts";
 import { TypeString } from "./TypeString.ts";
 import { TypeNumber } from "./TypeNumber.ts";
@@ -19,12 +14,7 @@ import { TypeArray } from "./TypeArray.ts";
 import { TypeTuple } from "./TypeTuple.ts";
 import { TypeIntersection } from "./TypeIntersection.ts";
 import { TypeUnion } from "./TypeUnion.ts";
-import {
-  DefaultedType,
-  OptionalType,
-  TypeUnknown,
-  TypeWrapper,
-} from "./TypeUnknown.ts";
+import { DefaultedType, OptionalType, TypeUnknown, TypeWrapper } from "./TypeUnknown.ts";
 import { TypeNever } from "./TypeNever.ts";
 import { Schema } from "./Schema.ts";
 import { isArray } from "es-toolkit/compat";
@@ -45,8 +35,7 @@ export const minLength = defineModifier(
           return true;
         }
         return (
-          msg ??
-          `Expected string value length great than or equal ${min}, but received "${value}"`
+          msg ?? `Expected string value length great than or equal ${min}, but received "${value}"`
         );
       },
       {
@@ -65,8 +54,7 @@ export const maxLength = defineModifier(
           return true;
         }
         return (
-          msg ??
-          `Expected string value length less than or equal ${max}, but received "${value}"`
+          msg ?? `Expected string value length less than or equal ${max}, but received "${value}"`
         );
       },
       {
@@ -117,10 +105,7 @@ export const minimum = defineModifier(
         if (value >= min) {
           return true;
         }
-        return (
-          msg ??
-          `Expected value great than or equal ${min}, but received "${value}"`
-        );
+        return msg ?? `Expected value great than or equal ${min}, but received "${value}"`;
       },
       {
         minimum: min,
@@ -137,9 +122,7 @@ export const exclusiveMinimum = defineModifier(
         if (value > min) {
           return true;
         }
-        return (
-          msg ?? `Expected value great than ${min}, but received "${value}"`
-        );
+        return msg ?? `Expected value great than ${min}, but received "${value}"`;
       },
       {
         exclusiveMinimum: min,
@@ -156,10 +139,7 @@ export const maximum = defineModifier(
         if (value <= max) {
           return true;
         }
-        return (
-          msg ??
-          `Expected value less than or equal ${max}, but received "${value}"`
-        );
+        return msg ?? `Expected value less than or equal ${max}, but received "${value}"`;
       },
       {
         maximum: max,
@@ -176,10 +156,7 @@ export const exclusiveMaximum = defineModifier(
         if (value < max) {
           return true;
         }
-        return (
-          msg ??
-          `Expected value less than or equal ${max}, but received "${value}"`
-        );
+        return msg ?? `Expected value less than or equal ${max}, but received "${value}"`;
       },
       {
         exclusiveMaximum: max,
@@ -196,10 +173,7 @@ export const multipleOf = defineModifier(
         if (value % multipleOf == 0) {
           return true;
         }
-        return (
-          msg ??
-          `Expected value multiple of ${multipleOf}, but received "${value}"`
-        );
+        return msg ?? `Expected value multiple of ${multipleOf}, but received "${value}"`;
       },
       {
         multipleOf: multipleOf,
@@ -229,10 +203,7 @@ export const minItems = defineModifier(
         if (isArray(value) && value.length >= minItems) {
           return true;
         }
-        return (
-          msg ??
-          `Expected array value at least ${minItems}, but received "${value?.length}"`
-        );
+        return msg ?? `Expected array value at least ${minItems}, but received "${value?.length}"`;
       },
       {
         minItems: minItems,
@@ -249,10 +220,7 @@ export const maxItems = defineModifier(
         if (isArray(value) && value.length <= maxItems) {
           return true;
         }
-        return (
-          msg ??
-          `Expected array value  ${maxItems}, but received "${value?.length}"`
-        );
+        return msg ?? `Expected array value  ${maxItems}, but received "${value?.length}"`;
       },
       {
         maxItems: maxItems,

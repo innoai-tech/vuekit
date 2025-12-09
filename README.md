@@ -12,14 +12,14 @@ webapp/<APP_NAME>/
     mod/                        # 业务模块
         auth/
         account/
-    layout/  
-    client/                                           
+    layout/
+    client/
     page/                       # File System Routing
         accounts/
             [id].tsx
             index.tsx
         accounts.tsx            # 作为 /accounts/* 的 Wrap
-        about.tsx   
+        about.tsx
         index.tsx
         [...all].tsx            # 其他
 ```

@@ -20,6 +20,9 @@ clean-web:
 fmt-web:
     {{ turbo }} run fmt
 
+lint-web:
+    {{ turbo }} run lint
+
 bootstrap:
     {{ monobundle }}
 

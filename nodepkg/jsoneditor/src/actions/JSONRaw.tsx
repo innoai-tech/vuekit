@@ -6,7 +6,7 @@ import { ActionBtn, Tooltip } from "../views";
 
 export const CopyAsJSONIconBtn = component$<{
   value?: any;
-}>((props, {}) => {
+}>((props, _) => {
   return () => (
     <Tooltip $title={"复制当前节点为 JSON 字符串"}>
       <ActionBtn

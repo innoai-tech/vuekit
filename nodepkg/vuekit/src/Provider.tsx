@@ -29,18 +29,14 @@ export function createProvider<Context extends object, Props extends {}>(
   create: CreateFunction<Context, Props>,
   options?: ComponentOptions,
 ): ProviderComponent<Context, Props>;
-export function createProvider<
-  Context extends object,
-  PropTypes extends Record<string, Type>,
->(
+export function createProvider<Context extends object, PropTypes extends Record<string, Type>>(
   propTypes: PropTypes,
   create: CreateFunction<Context, PublicPropsOf<PropTypes>>,
   options?: ComponentOptions,
 ): ProviderComponent<Context, PublicPropsOf<PropTypes>>;
-export function createProvider<
-  Context extends object,
-  PropTypes extends Record<string, Type>,
->(...args: any[]): ProviderComponent<Context, PublicPropsOf<PropTypes>> {
+export function createProvider<Context extends object, PropTypes extends Record<string, Type>>(
+  ...args: any[]
+): ProviderComponent<Context, PublicPropsOf<PropTypes>> {
   let finalPropTypes: Record<string, Type> = {};
   let finalCreate: any = undefined;
   let finalOptions: Record<string, any> = {};

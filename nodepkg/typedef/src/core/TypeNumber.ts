@@ -21,6 +21,7 @@ export class TypeNumber extends TypeUnknown<number, { type: "number" }> {
       if (isNumber(ret)) {
         return ret;
       }
+      // oxlint-disable-next-line no-unused-vars
     } catch (err) {}
 
     return undefined;

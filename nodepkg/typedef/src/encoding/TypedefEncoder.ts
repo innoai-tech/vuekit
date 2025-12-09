@@ -172,10 +172,8 @@ export ${type} ${name} ${decl}`;
 
       case "record": {
         return `t.record(${this._typedef(
-          Schema.schemaProp(type, "propertyNames") ?? t.string()
-        )}, ${this._typedef(
-          Schema.schemaProp(type, "additionalProperties") ?? t.any()
-        )})`;
+          Schema.schemaProp(type, "propertyNames") ?? t.string(),
+        )}, ${this._typedef(Schema.schemaProp(type, "additionalProperties") ?? t.any())})`;
       }
       case "object": {
         const ref = this._encode(type);

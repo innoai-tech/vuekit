@@ -1,17 +1,13 @@
 import { describe, expect, test } from "vitest";
 import { defineModifier, t, type Type } from "../index";
 
-const label = defineModifier(
-  <T extends Type<string>>(type: T, label: string) => {
-    return t.annotate({ label: label }).modify(type);
-  },
-);
+const label = defineModifier(<T extends Type<string>>(type: T, label: string) => {
+  return t.annotate({ label: label }).modify(type);
+});
 
-const readOnly = defineModifier(
-  <T extends Type<string>>(type: T, readOnly?: boolean) => {
-    return t.annotate({ readOnly: readOnly }).modify(type);
-  },
-);
+const readOnly = defineModifier(<T extends Type<string>>(type: T, readOnly?: boolean) => {
+  return t.annotate({ readOnly: readOnly }).modify(type);
+});
 
 enum EnvType {
   DEV = "DEV",
@@ -25,10 +21,7 @@ enum NetType {
 
 class MetaSchema {
   @label("名称")
-  @t.pattern(
-    /[a-z][a-z0-9-]+/,
-    "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
-  )
+  @t.pattern(/[a-z][a-z0-9-]+/, "只能包含小写字符，数字与短横 -， 且必须由小写字符开头")
   @t.string()
   name!: string;
 }
@@ -82,10 +75,7 @@ describe("Meta", () => {
           continue;
         }
 
-        fields[String(k)] = [
-          s.meta?.["label"],
-          ...((s.schema as any)?.["enum"] ?? []),
-        ]
+        fields[String(k)] = [s.meta?.["label"], ...((s.schema as any)?.["enum"] ?? [])]
           .filter((v) => !!v)
           .join("|");
       }
@@ -108,10 +98,7 @@ describe("Meta", () => {
           continue;
         }
 
-        fields[String(k)] = [
-          s.meta["label"] ?? "",
-          ...((s.schema as any)?.["enum"] ?? []),
-        ]
+        fields[String(k)] = [s.meta["label"] ?? "", ...((s.schema as any)?.["enum"] ?? [])]
           .filter((v) => !!v)
           .join("|");
       }

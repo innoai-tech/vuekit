@@ -19,10 +19,7 @@ export interface Module {
 }
 
 export const viteVueComponentHMR = (options: VueJsxHmrOptions = {}): Plugin => {
-  const filter = createFilter(
-    options.include || [/\.tsx$/, /\.mdx?$/],
-    options.exclude,
-  );
+  const filter = createFilter(options.include || [/\.tsx$/, /\.mdx?$/], options.exclude);
 
   let hmrEnabled = false;
 
@@ -79,8 +76,7 @@ ${callbackBlock}
 }
 
 export const exportScanner = (id: string, filename = id) => {
-  const re =
-    /export (const (?<name>\w+) =|default) (?<defStart>(styled|component\$?)\()/;
+  const re = /export (const (?<name>\w+) =|default) (?<defStart>(styled|component\$?)\()/;
 
   return {
     scan(code: string): Module {
@@ -105,9 +101,7 @@ export const exportScanner = (id: string, filename = id) => {
         const local =
           exported !== "default"
             ? exported
-            : `c${upperFirst(
-                camelCase(`${basename(filename, extname(filename))}Default`),
-              )}`;
+            : `c${upperFirst(camelCase(`${basename(filename, extname(filename))}Default`))}`;
 
         const range = {
           start: m.index ?? 0,

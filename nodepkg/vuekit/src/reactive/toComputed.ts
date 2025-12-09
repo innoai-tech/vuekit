@@ -1,10 +1,5 @@
 import { Observable } from "rxjs";
-import {
-  type ComputedRef,
-  type DebuggerOptions,
-  computed,
-  shallowRef,
-} from "vue";
+import { type ComputedRef, type DebuggerOptions, computed, shallowRef } from "vue";
 import { rx } from "./rx";
 import { subscribeUntilUnmount } from "./subscribe";
 
@@ -14,10 +9,7 @@ export interface ObservableWithValue<T> extends Observable<T> {
 
 export function toComputed<T>(debugOptions?: DebuggerOptions) {
   function computedObservable(ob$: ObservableWithValue<T>): ComputedRef<T>;
-  function computedObservable(
-    ob$: Observable<T>,
-    initialValue?: T,
-  ): ComputedRef<T | undefined>;
+  function computedObservable(ob$: Observable<T>, initialValue?: T): ComputedRef<T | undefined>;
   function computedObservable(
     ob$: Observable<T> | ObservableWithValue<T>,
     initialValue?: T,

@@ -7,10 +7,7 @@ export const refName = (ref: string) => {
 };
 
 export class JSONSchemaDecoder {
-  static decode(
-    type: JSONSchema | false,
-    resolveRef: (ref: string) => [JSONSchema, string],
-  ): Type {
+  static decode(type: JSONSchema | false, resolveRef: (ref: string) => [JSONSchema, string]): Type {
     if (type === false) {
       return t.never() as any;
     }
@@ -41,7 +38,7 @@ export class JSONSchemaDecoder {
           }),
         );
       } else {
-        const [title, ...others] = jsonSchema?.["description"].split(/[.\n]/);
+        const [title, ...others] = jsonSchema?.["description"].split(/[.\n]/) ?? [];
 
         tt = tt.use(
           t.annotate({
@@ -56,12 +53,7 @@ export class JSONSchemaDecoder {
       for (const rule of validationRules) {
         if (!isUndefined(jsonSchema[rule])) {
           if (rule == "pattern") {
-            tt = tt.use(
-              t.pattern(
-                new RegExp(jsonSchema[rule]),
-                jsonSchema["x-pattern-err-msg"],
-              ),
-            );
+            tt = tt.use(t.pattern(new RegExp(jsonSchema[rule]), jsonSchema["x-pattern-err-msg"]));
             delete jsonSchema[rule];
             continue;
           }
@@ -122,17 +114,13 @@ export class JSONSchemaDecoder {
     }
 
     if (schema["discriminator"]) {
-      const discriminatorPropertyName = schema["discriminator"][
-        "propertyName"
-      ] as string;
+      const discriminatorPropertyName = schema["discriminator"]["propertyName"] as string;
 
       if (discriminatorPropertyName) {
         const mapping: Record<string, any> = {};
 
         if (schema["discriminator"]["mapping"]) {
-          const discriminatorMapping = schema["discriminator"][
-            "mapping"
-          ] as Record<string, any>;
+          const discriminatorMapping = schema["discriminator"]["mapping"] as Record<string, any>;
 
           if (discriminatorMapping) {
             for (const k of Object.keys(discriminatorMapping).toSorted()) {
@@ -145,10 +133,9 @@ export class JSONSchemaDecoder {
           for (const o of schema["oneOf"]) {
             const sub = this.decode(o);
 
-            const discriminatorPropertyType = Schema.schemaProp(
-              sub,
-              "properties",
-            )?.[discriminatorPropertyName];
+            const discriminatorPropertyType = Schema.schemaProp(sub, "properties")?.[
+              discriminatorPropertyName
+            ];
 
             if (discriminatorPropertyType) {
               const discriminatorPropertyValue = Schema.schemaProp(
@@ -208,9 +195,7 @@ export class JSONSchemaDecoder {
 
       if (additionalProperties) {
         return t.record(
-          this.decode(
-            schema["propertyNames"] ?? { type: "string" },
-          ) as Type<string>,
+          this.decode(schema["propertyNames"] ?? { type: "string" }) as Type<string>,
           this.decode(additionalProperties),
         );
       }
@@ -220,9 +205,7 @@ export class JSONSchemaDecoder {
 
     if (isArrayType(schema)) {
       if (isArray(schema["items"])) {
-        return t.tuple(
-          (schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any,
-        );
+        return t.tuple((schema["items"] as JSONSchema[]).map((s) => this.decode(s)) as any);
       }
 
       return t.array(this.decode(schema["items"]));
@@ -297,13 +280,7 @@ const typeRelationKeywords: { [k: string]: string[] } = {
     "maxLength",
     "minLength",
   ],
-  number: [
-    "maximum",
-    "minimum",
-    "multipleOf",
-    "exclusiveMaximum",
-    "exclusiveMinimum",
-  ],
+  number: ["maximum", "minimum", "multipleOf", "exclusiveMaximum", "exclusiveMinimum"],
 };
 
 export const validationRules = [
@@ -325,10 +302,7 @@ export const validationRules = [
   "exclusiveMinimum",
 ];
 
-const hasProps = <T extends object>(
-  schema: T,
-  props: Array<keyof T>,
-): boolean => {
+const hasProps = <T extends object>(schema: T, props: Array<keyof T>): boolean => {
   return props.some((prop) => Object.hasOwn(schema, prop));
 };
 

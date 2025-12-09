@@ -2,9 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "baseUrl": ".",
-    "types": [
-      "bun-types"
-    ],
+    "types": ["bun-types"],
     "module": "esnext",
     "target": "esnext",
     "moduleResolution": "bundler",
@@ -34,6 +32,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false,
     "jsx": "react-jsx",
-    "jsxImportSource": "@innoai-tech/vuekit"
-  }
+    "jsxImportSource": "@innoai-tech/vuekit",
+  },
 }

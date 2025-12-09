@@ -6,7 +6,7 @@ import { mdiMinusBoxOutline } from "@mdi/js";
 export const PropRemoveIconBtn = component$<{
   $default?: VNodeChild;
   onRemove?: () => void;
-}>(({}, { emit }) => {
+}>((_, { emit }) => {
   return () => (
     <Tooltip $title={"删除属性"}>
       <ActionBtn type={"button"} onClick={() => emit("remove")}>

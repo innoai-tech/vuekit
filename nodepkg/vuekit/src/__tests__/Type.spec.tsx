@@ -9,7 +9,7 @@ describe("Type", () => {
   test("render with optional props", () => {
     enum InputType {
       text = "text",
-      select = "text",
+      select = "select",
     }
 
     const propTypes = {

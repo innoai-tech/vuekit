@@ -10,11 +10,7 @@ export type DesignTokenValues<T> = {
 export type DesignTokenValue<Tokens extends DesignTokenValues<any>> =
   Tokens extends DesignTokenValues<infer V> ? V : never;
 
-export type FlattenTokenNames<
-  T,
-  O extends Record<string, unknown>,
-  K = keyof O,
-> = K extends string
+export type FlattenTokenNames<T, O extends Record<string, unknown>, K = keyof O> = K extends string
   ? O[K] extends Record<string, unknown>
     ? O[K]["__mixin"] extends boolean // mixin values
       ? `${K}`
@@ -62,8 +58,9 @@ export interface DesignTokenOption<
 
 export type DesignTokenOptionAny = DesignTokenOption<any, any, any>;
 
-export type DesignTokens<O extends Record<string, DesignTokenOptionAny>> =
-  Partial<UnionToIntersection<ValuesOf<O>["__CSSTokens"]>>;
+export type DesignTokens<O extends Record<string, DesignTokenOptionAny>> = Partial<
+  UnionToIntersection<ValuesOf<O>["__CSSTokens"]>
+>;
 
 export type WithMixin<T extends {}> = {
   __mixin: true;
@@ -95,13 +92,7 @@ export class DesignToken {
       transform?: DesignTokenTransform<InputValueType, ValueType>;
       fallback?: Fallback;
     },
-  ): DesignTokenOption<
-    Tokens,
-    CSSPropNames,
-    InputValueType,
-    ValueType,
-    Fallback
-  > {
+  ): DesignTokenOption<Tokens, CSSPropNames, InputValueType, ValueType, Fallback> {
     return {
       type,
       value,
@@ -114,9 +105,7 @@ export class DesignToken {
     };
   }
 
-  static color<T extends DesignTokenValues<[number, number, number] | string>>(
-    value: T,
-  ) {
+  static color<T extends DesignTokenValues<[number, number, number] | string>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
       value,
       on: expandAliases(
@@ -129,10 +118,7 @@ export class DesignToken {
         CSSAllProperty.fill,
         CSSAllProperty.stroke,
       ),
-      transform: (
-        rgb: [number, number, number] | string,
-        cssVar: (token: string) => string,
-      ) => {
+      transform: (rgb: [number, number, number] | string, cssVar: (token: string) => string) => {
         return isString(rgb)
           ? {
               default: `var(${cssVar(rgb)})`,
@@ -238,9 +224,7 @@ export class DesignToken {
     });
   }
 
-  static transitionTimingFunction<T extends DesignTokenValues<string>>(
-    value: T,
-  ) {
+  static transitionTimingFunction<T extends DesignTokenValues<string>>(value: T) {
     return DesignToken.create(DesignTokenType.var, {
       value,
       on: expandAliases(CSSAllProperty.transitionTimingFunction),

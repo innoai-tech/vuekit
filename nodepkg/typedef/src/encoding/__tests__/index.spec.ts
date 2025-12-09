@@ -74,10 +74,7 @@ describe("Encoding", () => {
     const jsonSchema = JSONSchemaEncoder.encode(schema);
 
     const schema2 = JSONSchemaDecoder.decode(jsonSchema, (ref) => {
-      return [
-        get(jsonSchema, ref.split("#/")[1]?.split("/") ?? ""),
-        refName(ref),
-      ];
+      return [get(jsonSchema, ref.split("#/")[1]?.split("/") ?? ""), refName(ref)];
     });
 
     const jsonSchema2 = JSONSchemaEncoder.encode(schema2);

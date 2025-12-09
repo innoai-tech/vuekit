@@ -1,11 +1,4 @@
-import {
-  get,
-  isFunction,
-  isPlainObject,
-  isString,
-  isUndefined,
-  set,
-} from "es-toolkit/compat";
+import { get, isFunction, isPlainObject, isString, isUndefined, set } from "es-toolkit/compat";
 import {
   type Component,
   EmptyContext,
@@ -19,13 +12,8 @@ import {
 import { distinctUntilChanged, map, Observable, Subject } from "rxjs";
 
 export class FormData<T extends {}> extends Subject<T> {
-  static of<T extends {}>(
-    schema: Type<T>,
-    initials: Partial<T> | (() => Partial<T>),
-  ) {
-    return new FormData<T>(schema, () =>
-      isFunction(initials) ? initials() : initials,
-    );
+  static of<T extends {}>(schema: Type<T>, initials: Partial<T> | (() => Partial<T>)) {
+    return new FormData<T>(schema, () => (isFunction(initials) ? initials() : initials));
   }
 
   public readonly inputs$: ImmerBehaviorSubject<Partial<T>>;
@@ -47,17 +35,13 @@ export class FormData<T extends {}> extends Subject<T> {
 
   field(pointerOrPath: any[] | string) {
     return this.#fields.get(
-      isString(pointerOrPath)
-        ? pointerOrPath
-        : JSONPointer.create(pointerOrPath),
+      isString(pointerOrPath) ? pointerOrPath : JSONPointer.create(pointerOrPath),
     );
   }
 
   delete(pointerOrPath: any[] | string) {
     return this.#fields.delete(
-      isString(pointerOrPath)
-        ? pointerOrPath
-        : JSONPointer.create(pointerOrPath),
+      isString(pointerOrPath) ? pointerOrPath : JSONPointer.create(pointerOrPath),
     );
   }
 
@@ -199,13 +183,11 @@ export interface Field<T extends any = any> extends ImmerSubject<FieldState> {
   validate(value: any): string[] | undefined;
 }
 
-class FieldImpl<T extends any = any>
-  extends ImmerBehaviorSubject<FieldState>
-  implements Field<T>
-{
+class FieldImpl<T extends any = any> extends ImmerBehaviorSubject<FieldState> implements Field<T> {
   static defaultValue = (def: Type) => {
     try {
       return def.create(undefined);
+      // oxlint-disable-next-line no-unused-vars
     } catch (e) {
       return;
     }
@@ -223,11 +205,7 @@ class FieldImpl<T extends any = any>
   }
 
   get input(): T | undefined {
-    return get(
-      this.form$.inputs$.value,
-      this.path,
-      FieldImpl.defaultValue(this.typedef),
-    ) as any;
+    return get(this.form$.inputs$.value, this.path, FieldImpl.defaultValue(this.typedef)) as any;
   }
 
   get meta(): FieldMeta<T> {
@@ -256,9 +234,7 @@ class FieldImpl<T extends any = any>
     if (typeof this.#input$ === "undefined") {
       this.#input$ = rx(
         this.form$.inputs$,
-        map(
-          (v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any,
-        ),
+        map((v) => get(v, this.path, FieldImpl.defaultValue(this.typedef)) as any),
         distinctUntilChanged(),
       );
     }
@@ -311,9 +287,7 @@ class FieldImpl<T extends any = any>
     }
 
     // ignore sub errors
-    const failures = err
-      .failures()
-      .filter((v) => v.type !== "never" && v.path.length === 0);
+    const failures = err.failures().filter((v) => v.type !== "never" && v.path.length === 0);
 
     if (failures.length === 0) {
       // FIXME

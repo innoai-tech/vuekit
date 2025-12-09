@@ -37,10 +37,7 @@ export function styled<DefaultComponent extends VElementType>(
 }>;
 // have to keep decl the DefaultComponent
 // https://github.com/microsoft/TypeScript/pull/26349
-export function styled<
-  Props extends Record<string, any>,
-  _DefaultComponent extends VElementType,
->(
+export function styled<Props extends Record<string, any>, _DefaultComponent extends VElementType>(
   defaultComponent: _DefaultComponent,
   setup?: StyledSetupFunction<Props, _DefaultComponent>,
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
@@ -65,10 +62,7 @@ export function styled<
   props: Simplify<JSXProps<PublicPropsOf<PropTypes>> & Partial<SxProps>>;
   defaultComponent: DefaultComponent;
 }>;
-export function styled<
-  Props extends Record<string, any>,
-  DefaultComponent extends VElementType,
->(
+export function styled<Props extends Record<string, any>, DefaultComponent extends VElementType>(
   ...args: any[]
 ): (presetSx: SystemStyleObject) => OverridableComponent<{
   props: Props & Partial<SxProps>;

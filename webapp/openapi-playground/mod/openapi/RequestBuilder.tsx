@@ -84,9 +84,8 @@ export const RequestBuilder = component$<{
   const tryParseParams = () => {
     try {
       const params = route.query["params"];
-      return JSON.parse(
-        atob((Array.isArray(params) ? params[0] : params) ?? ""),
-      );
+      return JSON.parse(atob((Array.isArray(params) ? params[0] : params) ?? ""));
+      // oxlint-disable-next-line no-unused-vars
     } catch (err) {}
     return {};
   };
@@ -111,9 +110,7 @@ export const RequestBuilder = component$<{
   const $requestPreview = rx(
     form$.inputs$,
     render((inputs) => {
-      const createConfig = openapi$.asRequestConfigCreator(
-        props.operation.operationId,
-      );
+      const createConfig = openapi$.asRequestConfigCreator(props.operation.operationId);
       if (!createConfig) {
         return null;
       }
@@ -201,9 +198,7 @@ const ParameterInput = component$<{
       let Input: any = Schema.metaProp(field$.typedef, "inputBy") ?? TextInput;
 
       const readOnly =
-        (Schema.metaProp(field$.typedef, "readOnlyWhenInitialExist") ??
-          false) &&
-        !!s.initial;
+        (Schema.metaProp(field$.typedef, "readOnlyWhenInitialExist") ?? false) && !!s.initial;
 
       return (
         <TextField
@@ -259,16 +254,19 @@ export const TextInput = component(
               case "number":
                 try {
                   field$.update(field$.typedef.create(parseFloat(v)));
+                  // oxlint-disable-next-line no-unused-vars
                 } catch (e) {}
                 break;
               case "integer":
                 try {
                   field$.update(field$.typedef.create(parseInt(v)));
+                  // oxlint-disable-next-line no-unused-vars
                 } catch (e) {}
                 break;
               case "boolean":
                 try {
                   field$.update(field$.typedef.create(v !== "false" || !!v));
+                  // oxlint-disable-next-line no-unused-vars
                 } catch (e) {}
                 break;
               default:

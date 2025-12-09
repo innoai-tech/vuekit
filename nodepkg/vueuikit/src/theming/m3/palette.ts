@@ -36,17 +36,11 @@ export type AccentColorPalettes<KeyColors extends {}> = {
 } & {
   [K in keyof KeyColors as K extends string ? `${K}` : never]: ConditionColors;
 } & {
-  [K in keyof KeyColors as K extends string
-    ? `on-${K}`
-    : never]: ConditionColors;
+  [K in keyof KeyColors as K extends string ? `on-${K}` : never]: ConditionColors;
 } & {
-  [K in keyof KeyColors as K extends string
-    ? `${K}-container`
-    : never]: ConditionColors;
+  [K in keyof KeyColors as K extends string ? `${K}-container` : never]: ConditionColors;
 } & {
-  [K in keyof KeyColors as K extends string
-    ? `on-${K}-container`
-    : never]: ConditionColors;
+  [K in keyof KeyColors as K extends string ? `on-${K}-container` : never]: ConditionColors;
 };
 
 export type SurfacePalettes = {
@@ -170,15 +164,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
   static fromColors = <Colors extends SeedColors = SeedColors>(
     colors: Partial<Colors> & { primary: string },
   ) => {
-    const {
-      primary,
-      secondary,
-      tertiary,
-      neutral,
-      neutralVariant,
-      error,
-      ...otherColors
-    } = colors;
+    const { primary, secondary, tertiary, neutral, neutralVariant, error, ...otherColors } = colors;
 
     const palette = CorePalette.contentFromColors({
       primary: argbFromHex(primary),
@@ -192,10 +178,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
     }
 
     if (neutralVariant) {
-      palette.n2 = TonalPalette.fromHueAndChroma(
-        argbFromHex(neutralVariant),
-        8,
-      );
+      palette.n2 = TonalPalette.fromHueAndChroma(argbFromHex(neutralVariant), 8);
     }
 
     return new Palette<Colors>({
@@ -213,9 +196,7 @@ export class Palette<Colors extends SeedColors = SeedColors> {
 
   constructor(public seeds: { [K in keyof Colors]: TonalPalette }) {}
 
-  normalizeRoleRules(
-    rules: Partial<RoleColorRules<Colors>> = {},
-  ): RoleColorRules<Colors> {
+  normalizeRoleRules(rules: Partial<RoleColorRules<Colors>> = {}): RoleColorRules<Colors> {
     const seed = Palette.createRoleColorSourcePicker<Colors>();
 
     let defaultRoleRules = Palette.createRoleColorRuleBuilder<Colors>()
@@ -376,18 +357,14 @@ export class Palette<Colors extends SeedColors = SeedColors> {
     };
 
     const color = DesignToken.color({
-      ...mapValues(this.seeds as { [K in keyof Colors]: TonalPalette }, (tp) =>
-        toTonalPalette(tp),
-      ),
+      ...mapValues(this.seeds as { [K in keyof Colors]: TonalPalette }, (tp) => toTonalPalette(tp)),
       white: [255, 255, 255],
       black: [0, 0, 0],
       sys: sysColors as unknown as ColorPalettes<Colors>,
     });
 
     const containerStyle = DesignToken.customMixin("containerStyle", {
-      sys: containerStyles as ContainerStyles<
-        Omit<Colors, "neutral" | "neutralVariant">
-      >,
+      sys: containerStyles as ContainerStyles<Omit<Colors, "neutral" | "neutralVariant">>,
     });
 
     return {
@@ -409,8 +386,5 @@ export type ContainerStyles<
 } & {
   [K in keyof KeyColors as K extends string ? `${K}-container` : never]: Mixin;
 } & {
-  [K in keyof Omit<
-    SurfacePalettes,
-    "inverse-surface" | "inverse-on-surface-variant"
-  >]: Mixin;
+  [K in keyof Omit<SurfacePalettes, "inverse-surface" | "inverse-on-surface-variant">]: Mixin;
 };

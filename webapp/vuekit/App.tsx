@@ -1,11 +1,5 @@
 import { groupBy, last, map, partition } from "es-toolkit/compat";
-import {
-  component,
-  RouterLink,
-  RouterView,
-  t,
-  useRouter,
-} from "@innoai-tech/vuekit";
+import { component, RouterLink, RouterView, t, useRouter } from "@innoai-tech/vuekit";
 import {
   Icon,
   IconButton,
@@ -42,10 +36,7 @@ export const Nav = component(() => {
     return (
       <Box sx={{ py: 16, px: 0, textTransform: "capitalize" }}>
         {map(groups, (routes, group) => {
-          const [index, subRoutes] = partition(
-            routes,
-            (r) => r.path === `/${group}`,
-          );
+          const [index, subRoutes] = partition(routes, (r) => r.path === `/${group}`);
 
           return (
             <Box key={group} sx={{ px: 8 }}>
@@ -145,27 +136,16 @@ export const Scaffold = component(
             >
               <Icon path={mdiGithub} />
             </IconButton>
-            <Tooltip
-              title={`切换到${
-                themeMode.value === "light" ? "深色模式" : "浅色模式"
-              }`}
-            >
+            <Tooltip title={`切换到${themeMode.value === "light" ? "深色模式" : "浅色模式"}`}>
               <Box
                 component={IconButton}
                 data-test={true}
                 sx={{ color: "sys.on-surface-variant" }}
                 onClick={() => {
-                  themeMode.value =
-                    themeMode.value === "light" ? "dark" : "light";
+                  themeMode.value = themeMode.value === "light" ? "dark" : "light";
                 }}
               >
-                <Icon
-                  path={
-                    themeMode.value === "light"
-                      ? mdiWeatherNight
-                      : mdiWhiteBalanceSunny
-                  }
-                />
+                <Icon path={themeMode.value === "light" ? mdiWeatherNight : mdiWhiteBalanceSunny} />
               </Box>
             </Tooltip>
           </Box>

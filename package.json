@@ -37,6 +37,7 @@
     "@innoai-tech/vuedevconfig": "workspace:*",
     "@mdi/js": "^7.4.47",
     "@playwright/test": "^1.57.0",
+    "@typescript/native-preview": "^7.0.0-dev.20251208.1",
     "@vitest/ui": "^4.0.15",
     "@vue/test-utils": "^2.4.6",
     "bun-types": "latest",
@@ -44,10 +45,10 @@
     "core-js": "^3.47.0",
     "es-toolkit": "^1.42.0",
     "normalize.css": "^8.0.1",
-    "oxfmt": "^0.16.0",
+    "oxfmt": "^0.17.0",
+    "oxlint": "^1.32.0",
     "playwright": "^1.57.0",
     "turbo": "^2.6.3",
-    "typescript": "^5.9.3",
     "vite": "^8.0.0-beta.0",
     "vitest": "^4.0.15",
     "vue": "^3.5.25"
@@ -58,6 +59,7 @@
     "vue": "^3.5.25"
   },
   "scripts": {
-    "fmt": "bunx --bun oxfmt ."
+    "fmt": "bunx --bun oxfmt .",
+    "lint": "bunx --bun oxlint ."
   }
 }

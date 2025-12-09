@@ -35,21 +35,16 @@ export const mdx = (): PluginOption => {
           const { tagName, data, properties, children } = pre.children[0];
 
           if (tagName === "code" && data && data.meta) {
-            if (
-              properties.className.includes("language-tsx") &&
-              data.meta.includes("preview")
-            ) {
+            if (properties.className.includes("language-tsx") && data.meta.includes("preview")) {
               const metadata = parseMetadata(data.meta);
               const rawCode = children[0].value;
 
-              const exportName = `CodeBlock${getHash(
-                `${metadata["filename"] ?? pos}`,
-              )}`;
+              const exportName = `CodeBlock${getHash(`${metadata["filename"] ?? pos}`)}`;
 
               const id = vc.store(`${mdxFile}~${exportName}.tsx`, rawCode);
 
               additionalImports.set(mdxFile, {
-                ...(additionalImports.get(mdxFile) ?? {}),
+                ...additionalImports.get(mdxFile),
                 [id]: exportName,
               });
 
@@ -122,10 +117,7 @@ import ${codeBlockImports[importPath]} from ${JSON.stringify(importPath)}`,
             
 import { defineComponent, h } from "vue"              
 
-${ret.code.replace(
-  "export default function MDXContent(",
-  "function MDXContent(",
-)}
+${ret.code.replace("export default function MDXContent(", "function MDXContent(")}
 
 export default defineComponent(() => {
   return () => h(MDXContent, {
@@ -133,9 +125,7 @@ export default defineComponent(() => {
 ${Object.keys(codeBlockImports)
   .map(
     (importPath) =>
-      `${codeBlockImports[importPath]?.toLowerCase()}: ${
-        codeBlockImports[importPath]
-      }`,
+      `${codeBlockImports[importPath]?.toLowerCase()}: ${codeBlockImports[importPath]}`,
   )
   .join(",\n")}
     }

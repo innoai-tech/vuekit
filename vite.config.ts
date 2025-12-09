@@ -1,9 +1,4 @@
-import {
-  app,
-  chunkCleanup,
-  viteChunkSplit,
-  viteVue,
-} from "./nodedevpkg/vue-vite-presets/src";
+import { app, chunkCleanup, viteChunkSplit, viteVue } from "./nodedevpkg/vue-vite-presets/src";
 import { injectWebAppConfig } from "@innoai-tech/config/vite-plugin-inject-config";
 import { defineConfig } from "vite";
 import * as process from "node:process";

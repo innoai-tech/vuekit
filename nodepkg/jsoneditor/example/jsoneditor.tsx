@@ -67,7 +67,7 @@ export default component(() => {
   const editor$ = JSONEditor.of(x, {
     name: "name",
     annotations: {
-      longtext: new Array(100).fill("longtext").join(""),
+      longtext: Array({ length: 100 }).fill("longtext").join(""),
     },
     ports: [],
     paths: "/x",
@@ -94,7 +94,7 @@ export default component(() => {
     editor$,
     tap((v) => {
       const [err] = x.validate(v);
-      if (!!err) {
+      if (err) {
         for (const x of err.failures()) {
           editor$.setError(x.path, x.message);
         }

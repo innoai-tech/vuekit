@@ -16,10 +16,7 @@ export const isVariant = (fn: any): fn is Variant<any> => {
   return isFunction(fn) && has(fn, "token");
 };
 
-export function variant<T extends string>(
-  token: T,
-  toVariant: (v: string) => any,
-): T {
+export function variant<T extends string>(token: T, toVariant: (v: string) => any): T {
   // FIXME fake type to bump as Token
   return Object.assign(
     (cssVar: string): any => {
