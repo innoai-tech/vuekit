@@ -22,7 +22,7 @@ jobs:
         env:
           INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ github.token }}
 
-      - uses: JamesIves/github-pages-deploy-action@v4.7.4
+      - uses: JamesIves/github-pages-deploy-action@v4.7.6
         with:
           folder: public/openapi-playground
           repository-name: innoai-tech/openapi-playground
@@ -30,7 +30,7 @@ jobs:
           ssh-key: ${{ secrets.OPENAPI_PLAYGROUND_DEPLOY_KEY }}
           clean: true
 
-      - uses: JamesIves/github-pages-deploy-action@v4.7.4
+      - uses: JamesIves/github-pages-deploy-action@v4.7.6
         with:
           folder: public/vuekit
           branch: gh-pages
