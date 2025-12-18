@@ -7,7 +7,7 @@
     }
   },
   "dependencies": {
-    "es-toolkit": "^1.42.0"
+    "es-toolkit": "^1.43.0"
   },
   "peerDependencies": {},
   "exports": {

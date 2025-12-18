@@ -4,7 +4,7 @@ vite := 'bunx --bun vite'
 vitest := 'bunx --bun vitest'
 taze := 'bunx --bun taze'
 monobundle := 'bunx --bun monobundle'
-playwright := 'bun playwright'
+playwright := 'PW_DISABLE_TS_ESM=1 bunx --bun playwright'
 
 dep-web:
     {{ bun }} install --no-cache
