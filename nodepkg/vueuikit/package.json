@@ -1,10 +1,30 @@
 {
   "name": "@innoai-tech/vueuikit",
   "version": "0.16.1",
-  "monobundle": {
-    "exports": {
-      ".": "./src/index.ts"
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/vueuikit"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "import": {
+        "types": "./src/index.ts",
+        "default": "./dist/index.mjs"
+      }
     }
+  },
+  "files": [
+    "!/**/__tests__",
+    "dist/*",
+    "src/*"
+  ],
+  "scripts": {
+    "build": "bunx --bun @innoai-tech/monobundle",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "@emotion/cache": "^11.14.0",
@@ -17,36 +37,16 @@
     "es-toolkit": "^1.43.0",
     "polished": "^4.3.1",
     "popmotion": "^11.0.5",
-    "vue": "^3.5.25"
+    "vue": "^3.5.26"
   },
   "peerDependencies": {},
-  "exports": {
-    ".": {
-      "bun": "./src/index.ts",
-      "import": {
-        "types": "./src/index.ts",
-        "default": "./dist/index.mjs"
-      }
-    }
-  },
-  "files": [
-    "dist/*",
-    "src/*",
-    "!/**/__tests__"
-  ],
-  "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/vueuikit"
-  },
-  "scripts": {
-    "build": "bunx --bun @innoai-tech/monobundle",
-    "prepublishOnly": "bun run build"
-  },
-  "type": "module"
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  }
 }

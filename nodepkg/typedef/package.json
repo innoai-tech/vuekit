@@ -1,18 +1,13 @@
 {
   "name": "@innoai-tech/typedef",
-  "version": "0.4.7",
-  "monobundle": {
-    "exports": {
-      ".": "./src/index.ts"
-    }
+  "version": "0.4.8",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/typedef"
   },
-  "dependencies": {
-    "immer": "^11.0.1",
-    "reflect-metadata": "^0.2.2"
-  },
-  "peerDependencies": {
-    "es-toolkit": "^1.40.0"
-  },
+  "license": "MIT",
+  "type": "module",
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -23,23 +18,28 @@
     }
   },
   "files": [
+    "!/**/__tests__",
     "dist/*",
-    "src/*",
-    "!/**/__tests__"
+    "src/*"
   ],
-  "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/typedef"
-  },
   "scripts": {
     "build": "bunx --bun @innoai-tech/monobundle",
     "prepublishOnly": "bun run build"
   },
-  "type": "module"
+  "dependencies": {
+    "immer": "^11.1.0",
+    "reflect-metadata": "^0.2.2"
+  },
+  "peerDependencies": {
+    "es-toolkit": "^1.43.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  }
 }

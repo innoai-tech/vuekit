@@ -1,13 +1,30 @@
 {
   "name": "@innoai-tech/vuemarkdown",
   "version": "0.5.1",
-  "monobundle": {
-    "build": {
-      "clean": true
-    },
-    "exports": {
-      ".": "./src/index.ts"
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/vuemarkdown"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "bun": "./src/index.ts",
+      "import": {
+        "types": "./src/index.ts",
+        "default": "./dist/index.mjs"
+      }
     }
+  },
+  "files": [
+    "!/**/__tests__",
+    "dist/*",
+    "src/*"
+  ],
+  "scripts": {
+    "build": "bunx --bun @innoai-tech/monobundle",
+    "prepublishOnly": "bun run build"
   },
   "dependencies": {
     "@innoai-tech/vuekit": "workspace:^",
@@ -20,33 +37,16 @@
     "micromark-extension-gfm": "^3.0.0"
   },
   "peerDependencies": {},
-  "exports": {
-    ".": {
-      "bun": "./src/index.ts",
-      "import": {
-        "types": "./src/index.ts",
-        "default": "./dist/index.mjs"
-      }
-    }
-  },
-  "files": [
-    "dist/*",
-    "src/*",
-    "!/**/__tests__"
-  ],
-  "license": "MIT",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
   },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/vuemarkdown"
-  },
-  "scripts": {
-    "build": "bunx --bun @innoai-tech/monobundle",
-    "prepublishOnly": "bun run build"
-  },
-  "type": "module"
+  "monobundle": {
+    "build": {
+      "clean": true
+    },
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  }
 }

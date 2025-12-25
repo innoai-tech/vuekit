@@ -1,15 +1,13 @@
 {
   "name": "@innoai-tech/expression",
   "version": "0.2.0",
-  "monobundle": {
-    "exports": {
-      ".": "./src/index.ts"
-    }
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/expression"
   },
-  "dependencies": {
-    "es-toolkit": "^1.43.0"
-  },
-  "peerDependencies": {},
+  "license": "MIT",
+  "type": "module",
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -20,23 +18,25 @@
     }
   },
   "files": [
+    "!/**/__tests__",
     "dist/*",
-    "src/*",
-    "!/**/__tests__"
+    "src/*"
   ],
-  "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/expression"
-  },
   "scripts": {
     "build": "bunx --bun @innoai-tech/monobundle",
     "prepublishOnly": "bun run build"
   },
-  "type": "module"
+  "dependencies": {
+    "es-toolkit": "^1.43.0"
+  },
+  "peerDependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  }
 }

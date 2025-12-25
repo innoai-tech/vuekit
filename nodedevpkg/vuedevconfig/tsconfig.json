@@ -32,6 +32,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": false,
     "jsx": "react-jsx",
-    "jsxImportSource": "@innoai-tech/vuekit",
-  },
+    "jsxImportSource": "@innoai-tech/vuekit"
+  }
 }

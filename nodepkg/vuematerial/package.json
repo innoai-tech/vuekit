@@ -1,20 +1,13 @@
 {
   "name": "@innoai-tech/vuematerial",
   "version": "0.7.2",
-  "monobundle": {
-    "exports": {
-      ".": "./src/index.ts"
-    }
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/vuematerial"
   },
-  "dependencies": {
-    "@floating-ui/dom": "^1.7.4",
-    "@innoai-tech/vuekit": "workspace:^",
-    "@innoai-tech/vueuikit": "workspace:^",
-    "@mdi/js": "^7.4.47",
-    "es-toolkit": "^1.43.0",
-    "vue": "^3.5.25"
-  },
-  "peerDependencies": {},
+  "license": "MIT",
+  "type": "module",
   "exports": {
     ".": {
       "bun": "./src/index.ts",
@@ -25,23 +18,30 @@
     }
   },
   "files": [
+    "!/**/__tests__",
     "dist/*",
-    "src/*",
-    "!/**/__tests__"
+    "src/*"
   ],
-  "license": "MIT",
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com",
-    "access": "public"
-  },
-  "repository": {
-    "type": "git",
-    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
-    "directory": "nodepkg/vuematerial"
-  },
   "scripts": {
     "build": "bunx --bun @innoai-tech/monobundle",
     "prepublishOnly": "bun run build"
   },
-  "type": "module"
+  "dependencies": {
+    "@floating-ui/dom": "^1.7.4",
+    "@innoai-tech/vuekit": "workspace:^",
+    "@innoai-tech/vueuikit": "workspace:^",
+    "@mdi/js": "^7.4.47",
+    "es-toolkit": "^1.43.0",
+    "vue": "^3.5.26"
+  },
+  "peerDependencies": {},
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts"
+    }
+  }
 }
