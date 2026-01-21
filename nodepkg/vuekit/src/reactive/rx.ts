@@ -1,6 +1,15 @@
-import { Observable, type ObservableInput, type UnaryFunction, from, pipe } from "rxjs";
+import {
+  Observable,
+  type ObservableInput,
+  type UnaryFunction,
+  from,
+  pipe,
+} from "rxjs";
 
-export function rx<S extends ObservableInput<any>, A>(source: S, op1: UnaryFunction<S, A>): A;
+export function rx<S extends ObservableInput<any>, A>(
+  source: S,
+  op1: UnaryFunction<S, A>,
+): A;
 export function rx<S extends ObservableInput<any>, A, B>(
   source: S,
   op1: UnaryFunction<S, A>,

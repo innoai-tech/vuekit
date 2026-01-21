@@ -46,7 +46,8 @@ export class TypedError extends TypeError {
     const { message, explanation, ...rest } = failure;
     const { path } = failure;
 
-    const msg = path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
+    const msg =
+      path.length === 0 ? message : `At path: ${path.join(".")} -- ${message}`;
 
     super(explanation ?? msg);
 
@@ -76,7 +77,11 @@ export interface TypeModifier<T, R> {
 
 export type AnyType = Type<any>;
 
-export type Entity = [string | number | symbol, unknown, Type<any> | Type<never>];
+export type Entity = [
+  string | number | symbol,
+  unknown,
+  Type<any> | Type<never>,
+];
 
 export const isType = (t: unknown): t is Type => {
   return !!t && (t as any)[SymbolType] == SymbolType;
@@ -179,7 +184,9 @@ export interface Type<T extends any = unknown, Schema = unknown> {
     op9: TypeModifier<H, I>,
   ): I;
 
-  use(...ops: TypeModifier<Type<T, Schema>, Type<T, Schema>>[]): Type<T, Schema>;
+  use(
+    ...ops: TypeModifier<Type<T, Schema>, Type<T, Schema>>[]
+  ): Type<T, Schema>;
 }
 
 export type Infer<T extends Type> = T[typeof SymbolType];
@@ -347,7 +354,12 @@ export function* run<T, S>(
 
   let status: Status = Status.valid;
 
-  for (const failure of toFailures(t.validator(value, ctx), ctx, t, inputValue)) {
+  for (const failure of toFailures(
+    t.validator(value, ctx),
+    ctx,
+    t,
+    inputValue,
+  )) {
     failure.explanation = options.message;
     status = Status.not_valid;
     yield [failure, undefined];
@@ -357,7 +369,8 @@ export function* run<T, S>(
     const ts = run(v, st as Type, {
       path: k === undefined ? path : [...path, k],
       branch: k === undefined ? branch : [...branch, v],
-      node: k === undefined ? node : ({ current: st, parent: node } as TypeNode),
+      node:
+        k === undefined ? node : ({ current: st, parent: node } as TypeNode),
       coerce,
       mask,
       message: options.message,
@@ -365,7 +378,8 @@ export function* run<T, S>(
 
     for (const t of ts) {
       if (t[0]) {
-        status = t[0].refinement != null ? Status.not_refined : Status.not_valid;
+        status =
+          t[0].refinement != null ? Status.not_refined : Status.not_valid;
         yield [t[0], undefined];
       } else if (coerce) {
         v = t[1];
@@ -384,7 +398,12 @@ export function* run<T, S>(
   }
 
   if (status !== Status.not_valid) {
-    for (const failure of toFailures(t.refiner(value as T, ctx), ctx, t, inputValue)) {
+    for (const failure of toFailures(
+      t.refiner(value as T, ctx),
+      ctx,
+      t,
+      inputValue,
+    )) {
       failure.explanation = options.message;
       status = Status.not_refined;
       yield [failure, undefined];
@@ -408,9 +427,13 @@ export const defineType = <Args extends any[], T extends Type>(
   return (...args: Args) => {
     const type = create(...args);
 
-    const propertyDecorator = (target: object, propertyKey: string | symbol) => {
+    const propertyDecorator = (
+      target: object,
+      propertyKey: string | symbol,
+    ) => {
       const current =
-        Metadata.get<TypeDefineObject>(target, propertyKey) ?? ({} as TypeDefineObject);
+        Metadata.get<TypeDefineObject>(target, propertyKey) ??
+        ({} as TypeDefineObject);
 
       Metadata.define(target, propertyKey, { ...current, type });
     };
@@ -419,7 +442,10 @@ export const defineType = <Args extends any[], T extends Type>(
 
     return new Proxy(propertyDecorator, {
       ownKeys(): ArrayLike<string | symbol> {
-        return [...Object.getOwnPropertyNames(type), ...Object.getOwnPropertySymbols(type)];
+        return [
+          ...Object.getOwnPropertyNames(type),
+          ...Object.getOwnPropertySymbols(type),
+        ];
       },
       get(_: any, p: string | symbol): any {
         return (type as any)[p];
@@ -433,7 +459,11 @@ export type TypeDefineObject = {
   modifies?: TypeModifier<Type, Type>[];
 };
 
-export const defineModifier = <I extends Type, O extends Type, Args extends any[]>(
+export const defineModifier = <
+  I extends Type,
+  O extends Type,
+  Args extends any[],
+>(
   create: (i: I, ...args: Args) => O,
 ): ((...args: Args) => PropertyDecorator & TypeModifier<I, O>) => {
   return (...args: Args) => {

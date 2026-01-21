@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@innoai-tech/typedef": "workspace:^",
-    "es-toolkit": "^1.43.0"
+    "es-toolkit": "^1.44.0"
   },
   "devDependencies": {
     "@innoai-tech/fetcher": "^0.7.3"

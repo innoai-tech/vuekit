@@ -11,7 +11,11 @@ export const Icon = styled<
 >("span", (props, _) => (Wrapper) => {
   const size = props.size ?? 24;
   return (
-    <Wrapper data-icon data-placement={props.placement} data-has-size={!!props.size}>
+    <Wrapper
+      data-icon
+      data-placement={props.placement}
+      data-has-size={!!props.size}
+    >
       <svg viewBox={`0 0 ${size} ${size}`} width={size} height={size}>
         <path d={props.path}>
           {props.animate && (

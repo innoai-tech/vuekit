@@ -128,18 +128,19 @@ export const MenuItem = styled<
   },
 });
 
-export const handleMenuValueSelected = (onMenuValueSelected: (v: string) => void) => (e: Event) => {
-  const target = [e.target, ...e.composedPath()].find((t) => {
-    return (t as HTMLElement)?.hasAttribute?.("data-value");
-  });
+export const handleMenuValueSelected =
+  (onMenuValueSelected: (v: string) => void) => (e: Event) => {
+    const target = [e.target, ...e.composedPath()].find((t) => {
+      return (t as HTMLElement)?.hasAttribute?.("data-value");
+    });
 
-  if (target) {
-    const v = (target as HTMLElement)?.getAttribute("data-value");
-    if (v !== null) {
-      onMenuValueSelected(v);
+    if (target) {
+      const v = (target as HTMLElement)?.getAttribute("data-value");
+      if (v !== null) {
+        onMenuValueSelected(v);
+      }
     }
-  }
-};
+  };
 
 export const Menu = component<{
   isOpen?: boolean;
@@ -194,7 +195,11 @@ export const Menu = component<{
         }}
         placement={props.fullWidth ? "bottom-start" : props.placement}
         middleware={props.fullWidth ? [sameWidth] : undefined}
-        $content={<MenuContainer onClick={handleItemClick}>{slots.menu?.() ?? []}</MenuContainer>}
+        $content={
+          <MenuContainer onClick={handleItemClick}>
+            {slots.menu?.() ?? []}
+          </MenuContainer>
+        }
       >
         {trigger
           ? !props.disabled

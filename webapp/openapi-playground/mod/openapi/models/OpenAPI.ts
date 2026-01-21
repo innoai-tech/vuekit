@@ -1,5 +1,13 @@
 import { ImmerBehaviorSubject, rx } from "@innoai-tech/vuekit";
-import { BehaviorSubject, EMPTY, map, merge, type Observable, of, switchMap } from "rxjs";
+import {
+  BehaviorSubject,
+  EMPTY,
+  map,
+  merge,
+  type Observable,
+  of,
+  switchMap,
+} from "rxjs";
 import {
   createFetcher,
   createRequestSubject,
@@ -81,7 +89,9 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
     transformRequestBody,
   });
 
-  #requests$ = new BehaviorSubject(new Map<string, RequestSubject<any, any, any>>());
+  #requests$ = new BehaviorSubject(
+    new Map<string, RequestSubject<any, any, any>>(),
+  );
 
   get #baseURL() {
     return this.value.servers?.[0]?.url ?? "";
@@ -103,7 +113,9 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
   requesting$(operationId: string): Observable<boolean> {
     return rx(
       this.#requests$,
-      switchMap((requests$) => requests$.get(operationId)?.requesting$ ?? of(false)),
+      switchMap(
+        (requests$) => requests$.get(operationId)?.requesting$ ?? of(false),
+      ),
     );
   }
 
@@ -124,10 +136,15 @@ export class OpenAPI extends ImmerBehaviorSubject<OpenAPIObject> {
         url: this.#baseURL + compilePath(op.path, inputs),
         params: pick(
           inputs,
-          op.parameters?.filter((p) => p.in == "query").map((p) => p.name) ?? [],
+          op.parameters?.filter((p) => p.in == "query").map((p) => p.name) ??
+            [],
         ),
         headers: {
-          ...pick(inputs, op.parameters?.filter((p) => p.in == "header").map((p) => p.name) ?? []),
+          ...pick(
+            inputs,
+            op.parameters?.filter((p) => p.in == "header").map((p) => p.name) ??
+              [],
+          ),
           ...(contentType
             ? {
                 "Content-Type": contentType,
@@ -245,11 +262,17 @@ function* operations(
 
       if (filters.operationId) {
         if (filters.operationId.startsWith("*")) {
-          if (!o.operationId.toLowerCase().includes(filters.operationId.slice(1).toLowerCase())) {
+          if (
+            !o.operationId
+              .toLowerCase()
+              .includes(filters.operationId.slice(1).toLowerCase())
+          ) {
             continue;
           }
         } else {
-          if (o.operationId.toLowerCase() != filters.operationId.toLowerCase()) {
+          if (
+            o.operationId.toLowerCase() != filters.operationId.toLowerCase()
+          ) {
             continue;
           }
         }
@@ -265,7 +288,10 @@ function* operations(
   }
 }
 
-export const compilePath = (path: string, params: Record<string, any> = {}): string =>
+export const compilePath = (
+  path: string,
+  params: Record<string, any> = {},
+): string =>
   path.replace(/{([\s\S]+?)}/g, (target: string, key: string) =>
     ([] as string[]).concat(params[key] || target).join(","),
   );

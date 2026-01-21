@@ -15,7 +15,14 @@ import {
   ValueContainer,
   ValueInputActions,
 } from "../inputs";
-import { ActionBtn, Menu, MenuItem, PopupStatus, PropDescription, PropName } from "../views";
+import {
+  ActionBtn,
+  Menu,
+  MenuItem,
+  PopupStatus,
+  PropDescription,
+  PropName,
+} from "../views";
 import { JSONEditorProvider } from "../models";
 import { combineLatest, tap } from "rxjs";
 import { Popper, styled } from "@innoai-tech/vueuikit";
@@ -78,7 +85,9 @@ export const PropValueAddInput = component$<{
 
   const commit = (prop?: string) => {
     if (props.options) {
-      prop ??= props.options[selectFocus$.value.index % props.options.length]?.propName;
+      prop ??=
+        props.options[selectFocus$.value.index % props.options.length]
+          ?.propName;
     } else {
       prop ??= inputText$.value;
     }
@@ -171,17 +180,27 @@ export const PropValueAddInput = component$<{
             placement={"right-start"}
             $content={
               <ValueInputActions>
-                <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "CANCEL" })}>
+                <ActionBtn
+                  type={"button"}
+                  onClick={() => inputAction$.next({ type: "CANCEL" })}
+                >
                   <Icon path={mdiCancel} />
                 </ActionBtn>
-                <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "COMMIT" })}>
+                <ActionBtn
+                  type={"button"}
+                  onClick={() => inputAction$.next({ type: "COMMIT" })}
+                >
                   <Icon path={mdiCheckBold} />
                 </ActionBtn>
               </ValueInputActions>
             }
           >
             <InputWrapper>
-              <input ref={inputEl$} type="text" placeholder={"添加属性 (可粘贴 JSON 字符串)"} />
+              <input
+                ref={inputEl$}
+                type="text"
+                placeholder={"添加属性 (可粘贴 JSON 字符串)"}
+              />
             </InputWrapper>
           </Popper>
         </ValueContainer>
@@ -197,10 +216,14 @@ const PropMenuItem = component<{
   return () => {
     return (
       <AddPropMenuItemContainer data-value={props.propName} tabindex={0}>
-        <PropName optional={!!Schema.schemaProp(props.typedef, Schema.optional)}>
+        <PropName
+          optional={!!Schema.schemaProp(props.typedef, Schema.optional)}
+        >
           {props.propName}
         </PropName>
-        <PropDescription>{Schema.metaProp<string>(props.typedef, "title")}</PropDescription>
+        <PropDescription>
+          {Schema.metaProp<string>(props.typedef, "title")}
+        </PropDescription>
       </AddPropMenuItemContainer>
     );
   };

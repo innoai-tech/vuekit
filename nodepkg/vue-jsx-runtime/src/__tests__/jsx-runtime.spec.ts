@@ -6,7 +6,10 @@ import { defineComponent, h, renderSlot } from "vue";
 import { Fragment, jsx } from "../jsx-runtime";
 
 const Layout = defineComponent((_, { slots }) => () => {
-  return h("div", {}, [renderSlot(slots, "title"), renderSlot(slots, "default")]);
+  return h("div", {}, [
+    renderSlot(slots, "title"),
+    renderSlot(slots, "default"),
+  ]);
 });
 
 describe("jsx-runtime", () => {

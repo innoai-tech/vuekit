@@ -3,13 +3,20 @@ import { map, Observable, tap } from "rxjs";
 import { component } from "../component";
 import { type RenderFunction, type VNodeChild } from "../vue.ts";
 import { rx } from "./rx";
-import { subscribeOnMountedUntilUnmount, subscribeUntilUnmount } from "./subscribe";
+import {
+  subscribeOnMountedUntilUnmount,
+  subscribeUntilUnmount,
+} from "./subscribe";
 import { observableRef } from "./observableRef.ts";
 
 export function render<T>(renderFunc: (value: T) => VNodeChild) {
   return (input$: Observable<T>): JSX.Element => {
     return (
-      <RxSlot renderFn$={input$.pipe(map<T, RenderFunction>((v) => () => renderFunc(v)))}>
+      <RxSlot
+        renderFn$={input$.pipe(
+          map<T, RenderFunction>((v) => () => renderFunc(v)),
+        )}
+      >
         {{}}
       </RxSlot>
     );

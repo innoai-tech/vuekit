@@ -6,6 +6,8 @@ export default component(
     operationId: t.string(),
   },
   (props) => {
-    return () => <OperationView operationId={props.operationId} key={props.operationId} />;
+    return () => (
+      <OperationView operationId={props.operationId} key={props.operationId} />
+    );
   },
 );

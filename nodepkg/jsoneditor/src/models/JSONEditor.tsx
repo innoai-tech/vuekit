@@ -9,7 +9,15 @@ import {
   t,
   type Type,
 } from "@innoai-tech/vuekit";
-import { get, isArray, isFunction, isNumber, isString, last, set } from "es-toolkit/compat";
+import {
+  get,
+  isArray,
+  isFunction,
+  isNumber,
+  isString,
+  last,
+  set,
+} from "es-toolkit/compat";
 import { distinctUntilChanged, map, Observable } from "rxjs";
 import { normalizeArray } from "../util.ts";
 
@@ -71,7 +79,12 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
     defaultValue?: T,
     valueType?: Type,
   ): void {
-    console.log("[json-editor]", "update", JSON.stringify(path), this.typedef.type);
+    console.log(
+      "[json-editor]",
+      "update",
+      JSON.stringify(path),
+      this.typedef.type,
+    );
 
     this.#error$.next({});
 
@@ -127,7 +140,9 @@ export class JSONEditor<T extends Type> extends Observable<Infer<T>> {
   }
 
   #error$ = new ImmerBehaviorSubject<Record<string, any>>({});
-  #foldedPointerPrefixes$ = new ImmerBehaviorSubject<Record<string, boolean>>({});
+  #foldedPointerPrefixes$ = new ImmerBehaviorSubject<Record<string, boolean>>(
+    {},
+  );
 
   get error$(): Observable<Record<string, any>> {
     return this.#error$;
@@ -207,6 +222,10 @@ export type ValueContext = Context & { readOnly?: boolean };
 
 export const JSONEditorSlotsProvider = createProvider(() => {
   return {} as {
-    $value?: (_t: Type, _value: any, _ctx: ValueContext) => JSX.Element | null | undefined;
+    $value?: (
+      _t: Type,
+      _value: any,
+      _ctx: ValueContext,
+    ) => JSX.Element | null | undefined;
   };
 });

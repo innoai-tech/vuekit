@@ -127,7 +127,9 @@ export ${type} ${name} ${decl}`;
 
           const mapping = Schema.schemaProp(type, "oneOf")
             .map((t: any) => {
-              const discriminatorSchema = Schema.schemaProp(t, "properties")[propName];
+              const discriminatorSchema = Schema.schemaProp(t, "properties")[
+                propName
+              ];
 
               if (!discriminatorSchema) {
                 return "";

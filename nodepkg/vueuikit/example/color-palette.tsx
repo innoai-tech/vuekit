@@ -33,7 +33,8 @@ export default component(() => {
                     value={color}
                     onChange={(evt) => {
                       p.next((x) => {
-                        (x.seed as any)[name] = (evt.target as HTMLInputElement).value as string;
+                        (x.seed as any)[name] = (evt.target as HTMLInputElement)
+                          .value as string;
                       });
                     }}
                   />
@@ -44,7 +45,9 @@ export default component(() => {
           <Box sx={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
             {map(p.value.rules, ([base, tone], role) => {
               return (
-                <Box sx={{ display: "flex", alignItems: "center", width: "30%" }}>
+                <Box
+                  sx={{ display: "flex", alignItems: "center", width: "30%" }}
+                >
                   <Box sx={{ flex: 1 }}>{role}</Box>
                   <Box
                     sx={{
@@ -64,14 +67,18 @@ export default component(() => {
                       max={100}
                       min={0}
                       style={{
-                        backgroundColor: Palette.toHEX(pp.seeds[base].tone(tone)),
+                        backgroundColor: Palette.toHEX(
+                          pp.seeds[base].tone(tone),
+                        ),
                         color: tone > 50 ? "black" : "white",
                       }}
                       data-color={Palette.toHEX(pp.seeds[base].tone(tone))}
                       data-theme={"dark"}
                       onChange={(evt) => {
                         try {
-                          const v = parseInt((evt.target as HTMLInputElement).value);
+                          const v = parseInt(
+                            (evt.target as HTMLInputElement).value,
+                          );
                           p.next((x) => {
                             (x.rules as any)[role] = [base, v, tone];
                           });

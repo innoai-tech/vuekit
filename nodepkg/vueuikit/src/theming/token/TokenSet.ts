@@ -5,7 +5,11 @@ import { isMap } from "./util";
 export class TokenSet<T extends DesignTokenOptionAny, V = T["__ValueType"]> {
   static defaultMode = "_default";
 
-  static walkValues = (o: any, cb: (v: any, path: any[]) => void, parent: any[] = []) => {
+  static walkValues = (
+    o: any,
+    cb: (v: any, path: any[]) => void,
+    parent: any[] = [],
+  ) => {
     for (const k in o) {
       const v = o[k] as any;
       if (isMap(v)) {
@@ -39,7 +43,9 @@ export class TokenSet<T extends DesignTokenOptionAny, V = T["__ValueType"]> {
       const token = p.join(".");
 
       const forEachTransformed = (v: any, each: (v: any, k: string) => any) => {
-        const ret = dt.transform ? dt.transform(v, cssVar) : transformFallback(v);
+        const ret = dt.transform
+          ? dt.transform(v, cssVar)
+          : transformFallback(v);
 
         if (isObject(ret)) {
           for (const i in ret) {
@@ -58,7 +64,11 @@ export class TokenSet<T extends DesignTokenOptionAny, V = T["__ValueType"]> {
 
         for (const k in v) {
           forEachTransformed(v[k], (value, variant) => {
-            set(this._values, [`${token}${variant ? `/${variant}` : ""}`, k], value);
+            set(
+              this._values,
+              [`${token}${variant ? `/${variant}` : ""}`, k],
+              value,
+            );
           });
         }
       } else {

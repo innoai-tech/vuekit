@@ -31,10 +31,22 @@ export const extensions = {
   borderY: [CSSProperty.borderTop, CSSProperty.borderBottom],
   color: [CSSProperty.color, CSSProperty.fill],
 
-  borderTopRadius: [CSSProperty.borderTopLeftRadius, CSSProperty.borderTopRightRadius],
-  borderBottomRadius: [CSSProperty.borderBottomLeftRadius, CSSProperty.borderBottomRightRadius],
-  borderRightRadius: [CSSProperty.borderTopRightRadius, CSSProperty.borderBottomRightRadius],
-  borderLeftRadius: [CSSProperty.borderTopLeftRadius, CSSProperty.borderBottomLeftRadius],
+  borderTopRadius: [
+    CSSProperty.borderTopLeftRadius,
+    CSSProperty.borderTopRightRadius,
+  ],
+  borderBottomRadius: [
+    CSSProperty.borderBottomLeftRadius,
+    CSSProperty.borderBottomRightRadius,
+  ],
+  borderRightRadius: [
+    CSSProperty.borderTopRightRadius,
+    CSSProperty.borderBottomRightRadius,
+  ],
+  borderLeftRadius: [
+    CSSProperty.borderTopLeftRadius,
+    CSSProperty.borderBottomLeftRadius,
+  ],
 
   backgroundGradient: [CSSProperty.backgroundImage],
 
@@ -44,14 +56,17 @@ export const extensions = {
 export type ElementOf<T> = T extends Array<infer E> ? E : never;
 
 export type CSSExtensions<Extends = typeof extensions> = {
-  [K in keyof Extends as K extends string ? K : never]: ElementOf<Extends[K]> extends keyof CSSProps
+  [K in keyof Extends as K extends string ? K : never]: ElementOf<
+    Extends[K]
+  > extends keyof CSSProps
     ? CSSProps[ElementOf<Extends[K]>]
     : never;
 };
 
 export type CSSExtendedProps = CSSProps & Partial<CSSExtensions>;
 
-export const CSSExtendedProperty = createNameGetter<Required<CSSExtendedProps>>();
+export const CSSExtendedProperty =
+  createNameGetter<Required<CSSExtendedProps>>();
 
 export const aliases = {
   font: CSSExtendedProperty.fontFamily,
@@ -106,7 +121,9 @@ export const aliases = {
 };
 
 export type CSSAliases<Aliases = typeof aliases> = {
-  [K in keyof Aliases as K extends string ? K : never]: Aliases[K] extends keyof CSSExtendedProps
+  [K in keyof Aliases as K extends string
+    ? K
+    : never]: Aliases[K] extends keyof CSSExtendedProps
     ? CSSExtendedProps[Aliases[K]]
     : never;
 };
@@ -115,9 +132,10 @@ export type CSSAllProps = CSSExtendedProps & Partial<CSSAliases>;
 
 export const CSSAllProperty = createNameGetter<Required<CSSAllProps>>();
 
-export type ExpandedAliases<P extends keyof CSSAllProps, Aliases = typeof aliases> =
-  | P
-  | ValuesOf<P extends keyof Aliases ? Pick<Aliases, P> : never>;
+export type ExpandedAliases<
+  P extends keyof CSSAllProps,
+  Aliases = typeof aliases,
+> = P | ValuesOf<P extends keyof Aliases ? Pick<Aliases, P> : never>;
 
 export const expandAliases = <P extends keyof CSSAllProps>(
   ...props: P[]

@@ -1,6 +1,17 @@
-import { isFunction, isPlainObject, isUndefined, kebabCase, partition } from "es-toolkit/compat";
+import {
+  isFunction,
+  isPlainObject,
+  isUndefined,
+  kebabCase,
+  partition,
+} from "es-toolkit/compat";
 import { Fragment as OriginFragment } from "vue";
-import type { Component, PublicPropsOf, SetupFunction, WithDefaultSlot } from "./vue";
+import type {
+  Component,
+  PublicPropsOf,
+  SetupFunction,
+  WithDefaultSlot,
+} from "./vue";
 
 import { type Type, isType } from "@innoai-tech/typedef";
 
@@ -24,7 +35,10 @@ export const isPropTypes = (o: any): o is Record<string, Type> => {
   return isType(Object.values(o)[0]);
 };
 
-export function component(setup: SetupFunction<{}>, options?: ComponentOptions): Component<{}>;
+export function component(
+  setup: SetupFunction<{}>,
+  options?: ComponentOptions,
+): Component<{}>;
 export function component<Props extends {}>(
   setup: SetupFunction<Props>,
   options?: ComponentOptions,
@@ -52,50 +66,57 @@ export function component<Props extends {}>(...args: any[]): Component<Props> {
     }
   }
 
-  const [emits, props] = partition(Object.keys(finalPropTypes), (v: string) => /^on[A-Z]/.test(v));
+  const [emits, props] = partition(Object.keys(finalPropTypes), (v: string) =>
+    /^on[A-Z]/.test(v),
+  );
 
   const emitsAndProps = {
-    emits: [...emits.map((v) => kebabCase(v.slice("on".length))), ...(finalOptions["emits"] ?? [])],
-    props: [...props.filter((p) => !/^[$]/.test(p)), ...(finalOptions["props"] ?? [])].reduce(
-      (ret, prop) => {
-        const d = finalPropTypes[prop]!;
+    emits: [
+      ...emits.map((v) => kebabCase(v.slice("on".length))),
+      ...(finalOptions["emits"] ?? []),
+    ],
+    props: [
+      ...props.filter((p) => !/^[$]/.test(p)),
+      ...(finalOptions["props"] ?? []),
+    ].reduce((ret, prop) => {
+      const d = finalPropTypes[prop]!;
 
-        if (d) {
-          return {
-            ...ret,
-            [prop]: {
-              default() {
-                try {
-                  return d.create(undefined);
-                } catch (e) {
-                  console.log(e);
-                }
-                return;
-              },
-              validator: (value: any) => {
-                return d.validate(value);
-              },
-            },
-          };
-        }
-
+      if (d) {
         return {
           ...ret,
           [prop]: {
             default() {
-              return undefined;
+              try {
+                return d.create(undefined);
+              } catch (e) {
+                console.log(e);
+              }
+              return;
+            },
+            validator: (value: any) => {
+              return d.validate(value);
             },
           },
         };
-      },
-      {},
-    ),
+      }
+
+      return {
+        ...ret,
+        [prop]: {
+          default() {
+            return undefined;
+          },
+        },
+      };
+    }, {}),
   };
 
   return {
     ...finalOptions,
     get name() {
-      return this.displayName ?? finalOptions["displayName"] ?? finalOptions["name"];
+      return (
+        this.displayName ?? finalOptions["displayName"] ?? finalOptions["name"]
+      );
     },
     set name(n: string) {
       finalOptions["name"] = n;

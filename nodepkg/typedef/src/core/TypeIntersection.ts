@@ -10,7 +10,10 @@ import {
 } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
 
-type IntersectionTypes<Types extends any[]> = Types extends [infer T, ...infer O]
+type IntersectionTypes<Types extends any[]> = Types extends [
+  infer T,
+  ...infer O,
+]
   ? T extends Type
     ? Infer<T> & IntersectionTypes<O>
     : unknown
@@ -32,7 +35,10 @@ export class TypeIntersection<T, S extends [...Type[]]> extends TypeUnknown<
     return "intersection";
   }
 
-  override *entries(value: unknown, ctx: Context = EmptyContext): Iterable<Entity> {
+  override *entries(
+    value: unknown,
+    ctx: Context = EmptyContext,
+  ): Iterable<Entity> {
     for (const t of this.schema.allOf) {
       yield* t.entries(value, ctx);
     }

@@ -21,7 +21,10 @@ export default component(() => {
     <Container>
       <Box sx={{ display: "flex", flexDirection: "column", gap: 48 }}>
         {map(buttons, (TextField, name) => (
-          <Box key={name} sx={{ display: "flex", flexDirection: "column", gap: 16 }}>
+          <Box
+            key={name}
+            sx={{ display: "flex", flexDirection: "column", gap: 16 }}
+          >
             {[
               (props: any) => (
                 <TextField {...props}>

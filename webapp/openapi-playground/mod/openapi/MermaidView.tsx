@@ -1,6 +1,11 @@
 import { styled } from "@innoai-tech/vueuikit";
 import type { VNodeChild } from "vue";
-import { component$, observableRef, rx, subscribeOnMountedUntilUnmount } from "@innoai-tech/vuekit";
+import {
+  component$,
+  observableRef,
+  rx,
+  subscribeOnMountedUntilUnmount,
+} from "@innoai-tech/vuekit";
 import { EMPTY, from, switchMap } from "rxjs";
 
 export const PreWithMermaid = styled<
@@ -33,7 +38,8 @@ const Mermaid = component$<{
         return from(
           (async () => {
             // @ts-ignore
-            const { default: mermaid } = await import("mermaid/dist/mermaid.esm.min.mjs");
+            const { default: mermaid } =
+              await import("mermaid/dist/mermaid.esm.min.mjs");
 
             await mermaid.run({ nodes: [el] });
           })(),

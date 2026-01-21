@@ -99,7 +99,9 @@ export const Menu = component$<{
           placement={"bottom-start"}
           middleware={[sameWidth]}
           $content={
-            <PopoverContainer onClick={handleSelected}>{slots.content?.()}</PopoverContainer>
+            <PopoverContainer onClick={handleSelected}>
+              {slots.content?.()}
+            </PopoverContainer>
           }
         >
           {slots.default?.()?.[0] ?? null}

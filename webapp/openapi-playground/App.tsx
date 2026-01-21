@@ -1,5 +1,14 @@
-import { RouterView, component, rx, subscribeOnMountedUntilUnmount } from "@innoai-tech/vuekit";
-import { createFetcher, paramsSerializer, transformRequestBody } from "@innoai-tech/fetcher";
+import {
+  RouterView,
+  component,
+  rx,
+  subscribeOnMountedUntilUnmount,
+} from "@innoai-tech/vuekit";
+import {
+  createFetcher,
+  paramsSerializer,
+  transformRequestBody,
+} from "@innoai-tech/fetcher";
 
 import { CSSReset, GlobalStyle, ThemeProvider } from "@innoai-tech/vueuikit";
 

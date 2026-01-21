@@ -1,6 +1,9 @@
 import vue from "@vitejs/plugin-vue";
 import type { PluginOption } from "vite";
-import vitePages, { type PageResolver, type PageOptions } from "vite-plugin-pages";
+import vitePages, {
+  type PageResolver,
+  type PageOptions,
+} from "vite-plugin-pages";
 import { mdx } from "./mdx";
 import {
   createPageMetaResolver,

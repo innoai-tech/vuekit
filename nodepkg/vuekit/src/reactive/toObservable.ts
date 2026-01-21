@@ -2,7 +2,10 @@ import { isFunction } from "es-toolkit/compat";
 import { BehaviorSubject, Observable, isObservable } from "rxjs";
 import { watch } from "vue";
 
-export const toObservable = <O extends {}, K extends keyof O>(obj: O, key: K): Observable<O[K]> => {
+export const toObservable = <O extends {}, K extends keyof O>(
+  obj: O,
+  key: K,
+): Observable<O[K]> => {
   const value$ = new BehaviorSubject(obj[key]);
   watch(
     () => obj[key],

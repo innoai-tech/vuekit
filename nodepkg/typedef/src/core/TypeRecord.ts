@@ -16,20 +16,22 @@ export class TypeRecord<
     type: "object";
   } & S
 > {
-  static create = defineType(<K extends Type<string>, V extends Type>(k: K, v: V) => {
-    return new TypeRecord<
-      Infer<K>,
-      Infer<V>,
-      {
-        propertyNames: K;
-        additionalProperties: V;
-      }
-    >({
-      type: "object",
-      propertyNames: k,
-      additionalProperties: v,
-    });
-  });
+  static create = defineType(
+    <K extends Type<string>, V extends Type>(k: K, v: V) => {
+      return new TypeRecord<
+        Infer<K>,
+        Infer<V>,
+        {
+          propertyNames: K;
+          additionalProperties: V;
+        }
+      >({
+        type: "object",
+        propertyNames: k,
+        additionalProperties: v,
+      });
+    },
+  );
 
   override get type() {
     return "record";

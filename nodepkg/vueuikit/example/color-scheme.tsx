@@ -34,63 +34,71 @@ export default component(() => {
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 16 }}>
-              {["primary", "secondary", "tertiary", "error", "warning", "success"].map(
-                (keyColor) => {
-                  return (
+              {[
+                "primary",
+                "secondary",
+                "tertiary",
+                "error",
+                "warning",
+                "success",
+              ].map((keyColor) => {
+                return (
+                  <Box
+                    key={keyColor}
+                    sx={{
+                      flex: 1,
+                      minW: 1 / 4,
+                      display: "flex",
+                      alignItems: "stretch",
+                    }}
+                  >
                     <Box
-                      key={keyColor}
-                      sx={{
-                        flex: 1,
-                        minW: 1 / 4,
-                        display: "flex",
-                        alignItems: "stretch",
-                      }}
+                      sx={{ flex: 1, display: "flex", flexDirection: "column" }}
                     >
-                      <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-                        {["", "-container"].map((suffix) => (
-                          <Fragment key={suffix}>
-                            <Box
-                              sx={{
-                                bgColor: `sys.${keyColor}${suffix}` as any,
-                                color: `sys.on-${keyColor}${suffix}` as any,
-                                p: 8,
-                                flex: 3,
-                              }}
-                            >
-                              {`${keyColor}${suffix}`}
-                            </Box>
-                            <Box
-                              sx={{
-                                color: `sys.${keyColor}${suffix}` as any,
-                                bgColor: `sys.on-${keyColor}${suffix}` as any,
-                                p: 8,
-                                flex: 1,
-                              }}
-                            >
-                              {`on-${keyColor}${suffix}`}
-                            </Box>
-                          </Fragment>
-                        ))}
-                      </Box>
-                      <Box sx={{ display: "flex", flexDirection: "column" }}>
-                        {map(tones, (_, k) => (
+                      {["", "-container"].map((suffix) => (
+                        <Fragment key={suffix}>
                           <Box
                             sx={{
-                              color: `${keyColor}.${parseInt(k) > 50 ? 0 : 100}` as any,
-                              bgColor: `${keyColor}.${k}` as any,
-                              w: 60,
+                              bgColor: `sys.${keyColor}${suffix}` as any,
+                              color: `sys.on-${keyColor}${suffix}` as any,
                               p: 8,
-                              textAlign: "right",
+                              flex: 3,
                             }}
                           >
-                            .{k}
+                            {`${keyColor}${suffix}`}
                           </Box>
-                        ))}
-                      </Box>
+                          <Box
+                            sx={{
+                              color: `sys.${keyColor}${suffix}` as any,
+                              bgColor: `sys.on-${keyColor}${suffix}` as any,
+                              p: 8,
+                              flex: 1,
+                            }}
+                          >
+                            {`on-${keyColor}${suffix}`}
+                          </Box>
+                        </Fragment>
+                      ))}
                     </Box>
-                  );
-                },
-              )}
+                    <Box sx={{ display: "flex", flexDirection: "column" }}>
+                      {map(tones, (_, k) => (
+                        <Box
+                          sx={{
+                            color:
+                              `${keyColor}.${parseInt(k) > 50 ? 0 : 100}` as any,
+                            bgColor: `${keyColor}.${k}` as any,
+                            w: 60,
+                            p: 8,
+                            textAlign: "right",
+                          }}
+                        >
+                          .{k}
+                        </Box>
+                      ))}
+                    </Box>
+                  </Box>
+                );
+              })}
             </Box>
 
             <div>
@@ -123,7 +131,12 @@ export default component(() => {
                 ))}
               </Box>
               <Box sx={{ display: "flex", "& > *": { width: 1 / 4 } }}>
-                {["on-surface", "on-surface-variant", "outline", "outline-variant"].map((color) => (
+                {[
+                  "on-surface",
+                  "on-surface-variant",
+                  "outline",
+                  "outline-variant",
+                ].map((color) => (
                   <Box
                     sx={{
                       color: color.includes("outline-variant")

@@ -64,7 +64,13 @@ export const DatabaseErView = component$<{
       <DatabaseErMain>
         <DatabaseErHeader>{props.database.name}</DatabaseErHeader>
         {Object.entries(props.database.tables).map(([tableName, t]) => {
-          return <DatabaseErTableView database={props.database} table={t} tableName={tableName} />;
+          return (
+            <DatabaseErTableView
+              database={props.database}
+              table={t}
+              tableName={tableName}
+            />
+          );
         })}
       </DatabaseErMain>
     );
@@ -97,9 +103,14 @@ const DatabaseErTableView = component$<{
               <DatabaseErTableDef data-hover={focusColumns.includes(colName)}>
                 <DatabaseErTableColumnName>{colName}</DatabaseErTableColumnName>
                 {col.of ? (
-                  <DatabaseErTableColumnOfView database={props.database} of={col.of} />
+                  <DatabaseErTableColumnOfView
+                    database={props.database}
+                    of={col.of}
+                  />
                 ) : (
-                  <DatabaseErTableColumnType>{col.type}</DatabaseErTableColumnType>
+                  <DatabaseErTableColumnType>
+                    {col.type}
+                  </DatabaseErTableColumnType>
                 )}
                 <DatabaseErTableColumnComment>
                   <DatabaseDescription meta={col} />

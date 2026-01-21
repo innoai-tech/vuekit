@@ -7,8 +7,13 @@ export interface ComponentCompleterOptions {
   exclude?: string[];
 }
 
-export const viteVueComponentCompleter = (options: ComponentCompleterOptions = {}): Plugin => {
-  const filter = createFilter(options.include || [/\.tsx$/, /\.mdx?$/], options.exclude);
+export const viteVueComponentCompleter = (
+  options: ComponentCompleterOptions = {},
+): Plugin => {
+  const filter = createFilter(
+    options.include || [/\.tsx$/, /\.mdx?$/],
+    options.exclude,
+  );
 
   return {
     name: "vite-plugin/vue-component-completer",

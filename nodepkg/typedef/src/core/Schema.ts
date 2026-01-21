@@ -3,7 +3,8 @@ import type { OmitBy, PickBy } from "./Type.ts";
 
 export type Simplify<T> = T extends any[] ? T : { [K in keyof T]: T[K] } & {};
 
-export type Optionalize<S extends object> = OmitBy<S, undefined> & Partial<PickBy<S, undefined>>;
+export type Optionalize<S extends object> = OmitBy<S, undefined> &
+  Partial<PickBy<S, undefined>>;
 
 export type PropertyNames<O extends {}> = {
   [K in keyof O as K extends symbol ? never : K]: O[K];
@@ -66,7 +67,10 @@ export class Schema {
         return [...new Set([...baseKeys, ...parentKeys])];
       },
 
-      getOwnPropertyDescriptor(base: {}, p: string | symbol): PropertyDescriptor | undefined {
+      getOwnPropertyDescriptor(
+        base: {},
+        p: string | symbol,
+      ): PropertyDescriptor | undefined {
         return (
           Object.getOwnPropertyDescriptor(base, p) ||
           (parent ? Object.getOwnPropertyDescriptor(parent, p) : undefined)
@@ -100,11 +104,17 @@ export class Schema {
     }) as any;
   }
 
-  static schemaProp<T = any>(withSchema: { schema: any }, key: string | symbol): T | undefined {
+  static schemaProp<T = any>(
+    withSchema: { schema: any },
+    key: string | symbol,
+  ): T | undefined {
     return getSchema(withSchema.schema, key);
   }
 
-  static metaProp<T = any>(withSchema: { schema: any }, key: string | symbol): T | undefined {
+  static metaProp<T = any>(
+    withSchema: { schema: any },
+    key: string | symbol,
+  ): T | undefined {
     return getMeta(withSchema.schema, key);
   }
 }

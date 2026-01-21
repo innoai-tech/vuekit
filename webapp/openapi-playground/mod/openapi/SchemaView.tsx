@@ -311,7 +311,9 @@ const SchemaViewLink = component$<{
                   <DialogContainer>
                     <Line>
                       <Token>{id}</Token>
-                      <IntentContextProvider value={{ indent: 0 }}>{$inline}</IntentContextProvider>
+                      <IntentContextProvider value={{ indent: 0 }}>
+                        {$inline}
+                      </IntentContextProvider>
                     </Line>
                   </DialogContainer>
                 </Dialog>
@@ -383,7 +385,9 @@ export const SchemaView = component$<{
         return (
           <Token sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}>
             <Token>{"Array<"}</Token>
-            <SchemaView schema={Schema.schemaProp(schema, "items") ?? t.any()} />
+            <SchemaView
+              schema={Schema.schemaProp(schema, "items") ?? t.any()}
+            />
             <Token>{">"}</Token>
           </Token>
         );
@@ -394,7 +398,10 @@ export const SchemaView = component$<{
             <Indent>
               <>
                 {Object.entries(
-                  (Schema.schemaProp(schema, "properties") ?? {}) as Record<string, Type>,
+                  (Schema.schemaProp(schema, "properties") ?? {}) as Record<
+                    string,
+                    Type
+                  >,
                 ).map(([propName, propSchema]) => {
                   if (!propSchema) {
                     return null;
@@ -404,12 +411,16 @@ export const SchemaView = component$<{
                     <>
                       <Line spacing={2}>
                         <Description schema={propSchema} />
-                        <Token sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}>
+                        <Token
+                          sx={{ wordBreak: "keep-all", whiteSpace: "nowrap" }}
+                        >
                           <PropName
                             nullable={Schema.schemaProp(schema, "nullable")}
                             deprecated={Schema.schemaProp(schema, "deprecated")}
                             optional={
-                              !(Schema.schemaProp(schema, "required") ?? []).includes(propName)
+                              !(
+                                Schema.schemaProp(schema, "required") ?? []
+                              ).includes(propName)
                             }
                           >
                             {propName}
@@ -435,10 +446,17 @@ export const SchemaView = component$<{
                 <Indent>
                   <Line>
                     <Token sx={{ mr: 1 }}>{"[K:"}&nbsp;</Token>
-                    <SchemaView schema={Schema.schemaProp(schema, "propertyNames") ?? t.string()} />
+                    <SchemaView
+                      schema={
+                        Schema.schemaProp(schema, "propertyNames") ?? t.string()
+                      }
+                    />
                     <Token sx={{ mr: 1 }}>{"]:"}&nbsp;</Token>
                     <SchemaView
-                      schema={Schema.schemaProp(schema, "additionalProperties") ?? t.any()}
+                      schema={
+                        Schema.schemaProp(schema, "additionalProperties") ??
+                        t.any()
+                      }
                     />
                   </Line>
                 </Indent>
@@ -497,7 +515,9 @@ export const SchemaView = component$<{
         <Token sx={{ fontWeight: "bold" }}>{type || "any"}</Token>
         <Indent>
           {format && <Annotation name={"format"} value={format} />}
-          {!isUndefined(defaultValue) && <Annotation name={"default"} value={defaultValue} />}
+          {!isUndefined(defaultValue) && (
+            <Annotation name={"default"} value={defaultValue} />
+          )}
           {validateProps.map((prop) => {
             const v = Schema.schemaProp(schema, prop);
             if (isUndefined(v)) {

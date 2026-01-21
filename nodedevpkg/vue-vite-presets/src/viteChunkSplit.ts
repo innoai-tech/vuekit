@@ -2,14 +2,21 @@ import { basename, dirname, extname, join, relative, resolve } from "path";
 import { get, last } from "es-toolkit/compat";
 import { type OutputOptions, type PreRenderedChunk } from "rolldown";
 import { globby } from "globby";
-import { createFilter, type FilterPattern, type PluginOption, searchForWorkspaceRoot } from "vite";
+import {
+  createFilter,
+  type FilterPattern,
+  type PluginOption,
+  searchForWorkspaceRoot,
+} from "vite";
 import { readFile } from "fs/promises";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
 }
 
-export const viteChunkSplit = (options: ChunkSplitOptions = {}): PluginOption => {
+export const viteChunkSplit = (
+  options: ChunkSplitOptions = {},
+): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   let cs: ChunkSplit;
 
@@ -25,7 +32,8 @@ export const viteChunkSplit = (options: ChunkSplitOptions = {}): PluginOption =>
 
       c.build.rolldownOptions = c.build.rolldownOptions ?? {};
 
-      c.build.rolldownOptions.output = c.build.rolldownOptions.output ?? ({} as OutputOptions);
+      c.build.rolldownOptions.output =
+        c.build.rolldownOptions.output ?? ({} as OutputOptions);
 
       const chunkFileNames = get(
         c.build.rolldownOptions.output,
@@ -204,7 +212,11 @@ class ChunkSplit {
       const pkgName = this.normalizePkgName(id);
 
       if (id.includes(".min/") || id.includes(".min.")) {
-        return pkgName.replace("vendor-", "vendor-min-") + "~" + basename(id, extname(id));
+        return (
+          pkgName.replace("vendor-", "vendor-min-") +
+          "~" +
+          basename(id, extname(id))
+        );
       }
 
       if (this.isDirectVendor(pkgName)) {
@@ -333,4 +345,6 @@ class ChunkSplit {
   }
 }
 
-type Group = NonNullable<NonNullable<OutputOptions["advancedChunks"]>["groups"]>["0"];
+type Group = NonNullable<
+  NonNullable<OutputOptions["advancedChunks"]>["groups"]
+>["0"];

@@ -22,7 +22,9 @@ export const descBy = <T extends {}>(prop: keyof T) => {
   };
 };
 
-export const order = <T extends {}>(...compares: Array<(a: T, b: T) => number>) => {
+export const order = <T extends {}>(
+  ...compares: Array<(a: T, b: T) => number>
+) => {
   return (a: T, b: T): number => {
     for (const compare of compares) {
       let ret = compare(a, b);

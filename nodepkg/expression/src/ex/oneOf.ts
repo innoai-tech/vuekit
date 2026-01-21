@@ -11,15 +11,23 @@ export const oneOf = defineExpression(
 
       return () => {
         const fn = (value: any) => includes(values, value);
-        fn.errMsg = values.length > 1 ? `需要是 ${values.join(",")} 之一` : `需要是 ${values[0]}`;
+        fn.errMsg =
+          values.length > 1
+            ? `需要是 ${values.join(",")} 之一`
+            : `需要是 ${values[0]}`;
         return fn;
       };
     }
 
-    const buildExprFns = valuesOrBuildExprFns as ExpressionBuildFunc<any, boolean>[];
+    const buildExprFns = valuesOrBuildExprFns as ExpressionBuildFunc<
+      any,
+      boolean
+    >[];
 
     return (ctx) => {
-      const fns = buildExprFns.map((buildExprFn) => buildExprFn(ctx)).filter((fn) => !!fn);
+      const fns = buildExprFns
+        .map((buildExprFn) => buildExprFn(ctx))
+        .filter((fn) => !!fn);
 
       const fn = (v: any, c = ctx) => {
         let count = 0;

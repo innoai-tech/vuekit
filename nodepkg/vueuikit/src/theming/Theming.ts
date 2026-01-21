@@ -70,7 +70,8 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
   private readonly propValues: { [K in string]: TokenSet<any> } = {};
   private readonly mixins: { [K: string]: Mixin } = {} as any;
 
-  dp = (v: number) => (v === 0 ? 0 : `calc(${v} * var(${this.cssVar("space", "dp")}))`);
+  dp = (v: number) =>
+    v === 0 ? 0 : `calc(${v} * var(${this.cssVar("space", "dp")}))`;
 
   private transformFallback = (p: string, v: any) => {
     if (Theming.propsCanBaseDp[p] && isNumber(v)) {
@@ -147,23 +148,30 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
   }
 
   token: {
-    [K in keyof T]: TokenGetter<TokenSet<T[K]>["__Tokens"], T[K]["__ValueType"]>;
+    [K in keyof T]: TokenGetter<
+      TokenSet<T[K]>["__Tokens"],
+      T[K]["__ValueType"]
+    >;
   } = new Proxy(
     {},
     {
       get: (_, prop) => {
         if (this.tokens[prop as any]) {
           return Object.assign(
-            (token: string) => this.tokens[prop as any]?.get(token, `_${this.mode}`),
+            (token: string) =>
+              this.tokens[prop as any]?.get(token, `_${this.mode}`),
             {
               tokens: this.tokens[prop as any]?.tokens,
             },
           );
         }
         if (this.mixins[prop as any]) {
-          return Object.assign((token: string) => this.mixins[prop as any]?.get(token), {
-            tokens: this.mixins[prop as any]?.tokens,
-          });
+          return Object.assign(
+            (token: string) => this.mixins[prop as any]?.get(token),
+            {
+              tokens: this.mixins[prop as any]?.tokens,
+            },
+          );
         }
         return;
       },
@@ -178,7 +186,9 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     return this.propValues[p]?.use(v) ?? this.transformFallback(p, v);
   };
 
-  unstable_sx = (sx: FullCSSObject<DesignTokens<T> & CSSAllProps>): Array<Record<string, any>> => {
+  unstable_sx = (
+    sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
+  ): Array<Record<string, any>> => {
     return new CSSProcessor({
       mixins: this.mixins,
       varPrefix: this.varPrefix,
@@ -186,12 +196,16 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
     }).processAll(sx);
   };
 
-  unstable_css(cache: EmotionCache, sx: FullCSSObject<DesignTokens<T> & CSSAllProps>) {
+  unstable_css(
+    cache: EmotionCache,
+    sx: FullCSSObject<DesignTokens<T> & CSSAllProps>,
+  ) {
     const inputs = (sx ?? {}) as any;
 
     // mutate for cache
     inputs.__emotion_styles =
-      inputs.__emotion_styles ?? serializeStyles(this.unstable_sx(sx), cache?.registered, {});
+      inputs.__emotion_styles ??
+      serializeStyles(this.unstable_sx(sx), cache?.registered, {});
 
     return inputs.__emotion_styles;
   }
@@ -240,7 +254,9 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
 
               return `{${keyPath}}`;
             })
-            .replace(/calc\(.+\)$/g, (v) => v.slice("calc(".length, v.length - 1)),
+            .replace(/calc\(.+\)$/g, (v) =>
+              v.slice("calc(".length, v.length - 1),
+            ),
         };
       }
 
@@ -263,12 +279,24 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
             const defaultValue = ts.get(t, "_default");
             const darkValue = ts.get(t, "_dark");
 
-            setTo(baseTokens, [topic, ...t.split(".")], toFigmaToken(type, defaultValue));
+            setTo(
+              baseTokens,
+              [topic, ...t.split(".")],
+              toFigmaToken(type, defaultValue),
+            );
             if (defaultValue !== darkValue) {
-              setTo(darkTokens, [topic, ...t.split(".")], toFigmaToken(type, darkValue));
+              setTo(
+                darkTokens,
+                [topic, ...t.split(".")],
+                toFigmaToken(type, darkValue),
+              );
             }
           } else {
-            setTo(seedTokens, [topic, ...t.split(".")], toFigmaToken(type, ts.get(t, "_default")));
+            setTo(
+              seedTokens,
+              [topic, ...t.split(".")],
+              toFigmaToken(type, ts.get(t, "_default")),
+            );
           }
         }
       };
@@ -309,7 +337,11 @@ export class Theming<T extends Record<string, DesignTokenOptionAny>> {
 
           const value = this.unstable_sx(v)[0];
 
-          setTo(baseTokens, [topic, ...t.split(".")], toFigmaToken(type, value));
+          setTo(
+            baseTokens,
+            [topic, ...t.split(".")],
+            toFigmaToken(type, value),
+          );
         }
       };
 

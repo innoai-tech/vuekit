@@ -1,11 +1,19 @@
 import { isUndefined } from "es-toolkit/compat";
-import { type ExpressionBuildFunc, isValidBuildExprFn, defineExpression } from "../Expression";
+import {
+  type ExpressionBuildFunc,
+  isValidBuildExprFn,
+  defineExpression,
+} from "../Expression";
 
 export const anyOf = defineExpression(
   "anyOf",
-  <TTarget extends any>(...buildExprFns: ExpressionBuildFunc<TTarget, boolean>[]) =>
+  <TTarget extends any>(
+    ...buildExprFns: ExpressionBuildFunc<TTarget, boolean>[]
+  ) =>
     (ctx) => {
-      const fns = buildExprFns.map((buildExprFn) => buildExprFn(ctx)).filter(isValidBuildExprFn);
+      const fns = buildExprFns
+        .map((buildExprFn) => buildExprFn(ctx))
+        .filter(isValidBuildExprFn);
 
       const fn = (v: TTarget, c = ctx) => {
         const isUndefinedValue = isUndefined(v);

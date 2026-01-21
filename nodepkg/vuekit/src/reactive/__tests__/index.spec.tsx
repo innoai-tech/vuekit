@@ -2,7 +2,13 @@
 import { describe, expect, test } from "vitest";
 import { mount } from "@vue/test-utils";
 import { filter, map, of } from "rxjs";
-import { component$, observableRef, rx, subscribeUntilUnmount, toComputed } from "..";
+import {
+  component$,
+  observableRef,
+  rx,
+  subscribeUntilUnmount,
+  toComputed,
+} from "..";
 import { component, t, type VNode } from "../../index";
 
 describe("vue reactive", () => {
@@ -106,28 +112,31 @@ describe("vue reactive", () => {
   });
 
   test("when props changed, should rerender", async () => {
-    const C = component$({ input: t.number() }, ({ input$, input }, { render }) => {
-      const localInput$ = observableRef(input);
+    const C = component$(
+      { input: t.number() },
+      ({ input$, input }, { render }) => {
+        const localInput$ = observableRef(input);
 
-      rx(input$, subscribeUntilUnmount(localInput$.next));
+        rx(input$, subscribeUntilUnmount(localInput$.next));
 
-      const inputEl = rx(
-        localInput$,
-        render((v) => <div data-role="input">{v}</div>),
-      );
+        const inputEl = rx(
+          localInput$,
+          render((v) => <div data-role="input">{v}</div>),
+        );
 
-      return rx(
-        input$,
-        filter((v) => v % 2 !== 0),
-        map((v) => v * v),
-        render((v) => (
-          <div>
-            <div data-role="result">{v}</div>
-            {inputEl}
-          </div>
-        )),
-      );
-    });
+        return rx(
+          input$,
+          filter((v) => v % 2 !== 0),
+          map((v) => v * v),
+          render((v) => (
+            <div>
+              <div data-role="result">{v}</div>
+              {inputEl}
+            </div>
+          )),
+        );
+      },
+    );
 
     const wrapper = mount(C, {
       props: {
@@ -148,7 +157,9 @@ describe("vue reactive", () => {
       if (i % 2 !== 0) {
         expect(wrapper.find("[data-role=result]").text()).toContain(`${i * i}`);
       } else {
-        expect(wrapper.find("[data-role=result]").text()).toContain(`${(i - 1) * (i - 1)}`);
+        expect(wrapper.find("[data-role=result]").text()).toContain(
+          `${(i - 1) * (i - 1)}`,
+        );
       }
     }
   });

@@ -8,10 +8,14 @@ export interface OverridableTypeMap {
 
 type BaseProps<M extends OverridableTypeMap> = M["props"];
 
-type DistributiveOmit<T, K extends keyof any> = T extends any ? Omit<T, K> : never;
+type DistributiveOmit<T, K extends keyof any> = T extends any
+  ? Omit<T, K>
+  : never;
 
-type OverrideProps<M extends OverridableTypeMap, C extends VElementType> = BaseProps<M> &
-  DistributiveOmit<ComponentProps<C>, keyof BaseProps<M>>;
+type OverrideProps<
+  M extends OverridableTypeMap,
+  C extends VElementType,
+> = BaseProps<M> & DistributiveOmit<ComponentProps<C>, keyof BaseProps<M>>;
 
 type DefaultComponentProps<M extends OverridableTypeMap> = BaseProps<M> &
   DistributiveOmit<ComponentProps<M["defaultComponent"]>, keyof BaseProps<M>>;
@@ -27,7 +31,10 @@ export interface OverridableComponent<
   M extends OverridableTypeMap,
   P extends Record<string, any> = Simplify<DefaultComponentProps<M>>,
 > extends Component<P> {
-  <C extends VElementType>(props: { component: C } & OverrideProps<M, C>, ctx: any): any;
+  <C extends VElementType>(
+    props: { component: C } & OverrideProps<M, C>,
+    ctx: any,
+  ): any;
 
   (props: JSXProps<P>, ctx: any): any;
 }

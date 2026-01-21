@@ -15,7 +15,13 @@ export const chunkCleanup = (
     };
   } = {},
 ): Plugin => {
-  const isJSOrLike = createFilter([/\.vue$/, /\.mdx$/, /\.tsx?$/, /\.mjs$/, /\.jsx?$/]);
+  const isJSOrLike = createFilter([
+    /\.vue$/,
+    /\.mdx$/,
+    /\.tsx?$/,
+    /\.mjs$/,
+    /\.jsx?$/,
+  ]);
 
   return {
     name: "monobundle/chunk-cleanup",

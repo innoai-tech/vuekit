@@ -54,7 +54,9 @@ export const PropName = component$<{
         data-optional={props.optional}
         data-nullable={props.nullable}
       >
-        {slots.leading && <PropLeading data-visible-on-hover>{slots.leading()}</PropLeading>}
+        {slots.leading && (
+          <PropLeading data-visible-on-hover>{slots.leading()}</PropLeading>
+        )}
         {slots.default?.()}
       </PropNameView>
     );

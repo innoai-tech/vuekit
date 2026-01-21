@@ -110,17 +110,27 @@ export const ItemAddIconBtn = component$<{
           placement={"right-start"}
           $content={
             <ValueInputActions>
-              <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "CANCEL" })}>
+              <ActionBtn
+                type={"button"}
+                onClick={() => inputAction$.next({ type: "CANCEL" })}
+              >
                 <Icon path={mdiCancel} />
               </ActionBtn>
-              <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "COMMIT" })}>
+              <ActionBtn
+                type={"button"}
+                onClick={() => inputAction$.next({ type: "COMMIT" })}
+              >
                 <Icon path={mdiCheckBold} />
               </ActionBtn>
             </ValueInputActions>
           }
         >
           <InputWrapper>
-            <input ref={inputEl$} type="text" placeholder={"添加数组项 (可粘贴 JSON 字符串)"} />
+            <input
+              ref={inputEl$}
+              type="text"
+              placeholder={"添加数组项 (可粘贴 JSON 字符串)"}
+            />
           </InputWrapper>
         </Popper>
       );

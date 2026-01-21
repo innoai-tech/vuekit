@@ -29,7 +29,14 @@ import { alpha, Popper, styled, variant } from "@innoai-tech/vueuikit";
 import { Icon } from "@innoai-tech/vuematerial";
 import { mdiCancel, mdiCheckBold } from "@mdi/js";
 import { isUndefined } from "es-toolkit/compat";
-import { ActionBtn, Menu, MenuItem, PopupStatus, PropDescription, PropName } from "../views";
+import {
+  ActionBtn,
+  Menu,
+  MenuItem,
+  PopupStatus,
+  PropDescription,
+  PropName,
+} from "../views";
 
 export class InputText extends ImmerBehaviorSubject<string> {
   static from<T extends HTMLElement>(inputEl$: Observable<T | null>) {
@@ -386,7 +393,9 @@ export const ValueInput = component$<{
                 tap((e) => {
                   if (e.relatedTarget) {
                     if (
-                      containerEl$.value?.contains(e.relatedTarget as HTMLElement) ||
+                      containerEl$.value?.contains(
+                        e.relatedTarget as HTMLElement,
+                      ) ||
                       actionsEl$.value?.contains(e.relatedTarget as HTMLElement)
                     ) {
                       return;
@@ -419,8 +428,10 @@ export const ValueInput = component$<{
     return rx(
       combineLatest([props.value$, editing$, selectFocus$]),
       render(([value, editing, { index }]) => {
-        const enumValues = Schema.schemaProp<any[]>(props.typedef, "enum") ?? [];
-        const enumLabels = Schema.metaProp<any[]>(props.typedef, "enumLabels") ?? [];
+        const enumValues =
+          Schema.schemaProp<any[]>(props.typedef, "enum") ?? [];
+        const enumLabels =
+          Schema.metaProp<any[]>(props.typedef, "enumLabels") ?? [];
 
         return (
           <ValueContainer
@@ -493,17 +504,27 @@ export const ValueInput = component$<{
               placement={"right-start"}
               $content={
                 <ValueInputActions ref={actionsEl$}>
-                  <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "CANCEL" })}>
+                  <ActionBtn
+                    type={"button"}
+                    onClick={() => inputAction$.next({ type: "CANCEL" })}
+                  >
                     <Icon path={mdiCancel} />
                   </ActionBtn>
-                  <ActionBtn type={"button"} onClick={() => inputAction$.next({ type: "COMMIT" })}>
+                  <ActionBtn
+                    type={"button"}
+                    onClick={() => inputAction$.next({ type: "COMMIT" })}
+                  >
                     <Icon path={mdiCheckBold} />
                   </ActionBtn>
                 </ValueInputActions>
               }
             >
               <InputWrapper>
-                <textarea ref={inputEl$} rows={1} value={value == undefined ? "" : `${value}`} />
+                <textarea
+                  ref={inputEl$}
+                  rows={1}
+                  value={value == undefined ? "" : `${value}`}
+                />
               </InputWrapper>
             </Popper>
           ) : (

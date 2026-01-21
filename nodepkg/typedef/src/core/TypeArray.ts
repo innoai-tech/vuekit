@@ -27,7 +27,10 @@ export class TypeArray<T, S extends Type> extends TypeUnknown<
     return this.schema.type;
   }
 
-  override *entries(value: unknown, _ctx: Context = EmptyContext): Iterable<Entity> {
+  override *entries(
+    value: unknown,
+    _ctx: Context = EmptyContext,
+  ): Iterable<Entity> {
     if (Array.isArray(value)) {
       for (const [i, v] of value.entries()) {
         yield [i, v, this.schema.items];

@@ -27,7 +27,7 @@
     "prepublishOnly": "bun run build"
   },
   "dependencies": {
-    "es-toolkit": "^1.43.0"
+    "es-toolkit": "^1.44.0"
   },
   "peerDependencies": {},
   "publishConfig": {

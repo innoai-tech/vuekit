@@ -6,7 +6,12 @@ import {
   subscribeOnMountedUntilUnmount,
   type VNodeChild,
 } from "@innoai-tech/vuekit";
-import { defineTransition, Overlay, styled, transition } from "@innoai-tech/vueuikit";
+import {
+  defineTransition,
+  Overlay,
+  styled,
+  transition,
+} from "@innoai-tech/vueuikit";
 import { timer } from "rxjs";
 import { onMounted } from "vue";
 

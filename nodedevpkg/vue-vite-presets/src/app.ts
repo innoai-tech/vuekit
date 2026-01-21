@@ -1,12 +1,20 @@
 import { resolve } from "path";
-import { type OxcOptions, type PluginOption, searchForWorkspaceRoot, type UserConfig } from "vite";
+import {
+  type OxcOptions,
+  type PluginOption,
+  searchForWorkspaceRoot,
+  type UserConfig,
+} from "vite";
 
 export interface AppConfig {
   enableBaseHref?: boolean;
   buildWithPlaceHolder?: boolean;
 }
 
-export const app = (appName: string, appConfig: AppConfig = {}): PluginOption[] => {
+export const app = (
+  appName: string,
+  appConfig: AppConfig = {},
+): PluginOption[] => {
   (process.env as any).APP_VERSION = "__VERSION__";
 
   const viteConfigRoot = searchForWorkspaceRoot(".");
@@ -33,11 +41,16 @@ export const app = (appName: string, appConfig: AppConfig = {}): PluginOption[] 
 
         c.build.target = "esnext";
 
-        c.build.outDir = resolve(viteConfigRoot, c.build.outDir ?? `./public/${appName}`);
+        c.build.outDir = resolve(
+          viteConfigRoot,
+          c.build.outDir ?? `./public/${appName}`,
+        );
         c.build.emptyOutDir = true;
 
         c.build.rolldownOptions = c.build.rolldownOptions ?? {};
-        c.build.rolldownOptions.external = c.build.rolldownOptions.external ?? ["csstype"];
+        c.build.rolldownOptions.external = c.build.rolldownOptions.external ?? [
+          "csstype",
+        ];
 
         c.build.assetsDir = c.build.assetsDir ?? "__built__";
 

@@ -23,7 +23,11 @@ export const TextField = styled<
 
     const children = (slots.default?.() ?? []).map((c) => {
       if (c.type === "input") {
-        valued = !!get(c.props, ["value"], get(c.props, ["placeholder"], valued));
+        valued = !!get(
+          c.props,
+          ["value"],
+          get(c.props, ["placeholder"], valued),
+        );
 
         disabled = get(c.props, ["disabled"], disabled);
 
@@ -55,10 +59,14 @@ export const TextField = styled<
           <div data-input-row>
             {slots.leading && <Maker role="leading">{slots.leading()}</Maker>}
             {children}
-            {slots.trailing && <Maker role={"trailing"}>{slots.trailing()}</Maker>}
+            {slots.trailing && (
+              <Maker role={"trailing"}>{slots.trailing()}</Maker>
+            )}
           </div>
         </div>
-        {slots.supporting && <div data-input-supporting>{slots.supporting?.()}</div>}
+        {slots.supporting && (
+          <div data-input-supporting>{slots.supporting?.()}</div>
+        )}
       </Wrap>
     );
   };

@@ -1,5 +1,9 @@
 import { component, t } from "@innoai-tech/vuekit";
-import { type Easing, animate, cubicBezier as cubicBezierFunc } from "popmotion";
+import {
+  type Easing,
+  animate,
+  cubicBezier as cubicBezierFunc,
+} from "popmotion";
 import { Transition } from "vue";
 
 const cubicBezier = (mX1: number, mY1: number, mX2: number, mY2: number) => {
