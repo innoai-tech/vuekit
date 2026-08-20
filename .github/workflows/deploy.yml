@@ -6,24 +6,36 @@ on:
       - main
 
 jobs:
-  deploy:
+  check:
     runs-on: ubuntu-latest
-
-    env:
-      INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ github.token }}
 
     steps:
       - uses: actions/checkout@v7
       - uses: jdx/mise-action@v4
 
-      - name: Configure npm registry auth
-        run: |
-          pnpm config set "//npm.pkg.github.com/:_authToken" "$INNOAI_TECH_REGISTRY_AUTH_TOKEN" --location global
-          pnpm config set "@innoai-tech:registry" "https://npm.pkg.github.com" --location global
+      - run: node ./scripts/login.mts
+        env:
+          INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: just ts::dep
       - run: just webapp::setup-e2e
       - run: just ci
+
+  release:
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
+
+      - run: node ./scripts/login.mts
+        env:
+          INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: just ts::dep
+      - run: just pub
+      - run: just build
+      - run: just webapp::build-all
 
       - uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:

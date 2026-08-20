@@ -14,8 +14,9 @@ export default defineConfig({
     trace: "on-first-retry",
   },
   webServer: {
-    command: "just serve-example",
+    command: "just example::serve",
     url: "http://localhost:8081",
     reuseExistingServer: true,
+    timeout: 50000,
   },
 });

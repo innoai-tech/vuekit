@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/bundle-purge",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -30,6 +30,5 @@
   "dependencies": {
     "oxc-codegen": "^0.146.0",
     "oxc-parser": "^0.146.0"
-  },
-  "peerDependencies": {}
+  }
 }

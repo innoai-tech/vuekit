@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vuemarkdown",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -39,6 +39,5 @@
     "micromark-extension-directive": "^4.0.0",
     "micromark-extension-gfm": "^3.0.0",
     "vfile": "^6.0.3"
-  },
-  "peerDependencies": {}
+  }
 }

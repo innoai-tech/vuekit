@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueuikit",
-  "version": "0.16.1",
+  "version": "0.17.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -38,6 +38,5 @@
     "polished": "^4.3.1",
     "popmotion": "^11.0.5",
     "vue": "^3.5.41"
-  },
-  "peerDependencies": {}
+  }
 }

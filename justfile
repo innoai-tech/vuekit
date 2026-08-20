@@ -10,17 +10,11 @@ mod example "internal/cmd/example/justfile"
 default:
     @just --list --list-submodules
 
-# 启动 example 服务（e2e 依赖，Go 工具）
-[group("serve")]
-[no-cd]
-serve-example:
-    @just example serve
-
-# 发布所有库包
+# 发布所有库包（按依赖拓扑顺序，跳过已发布的版本）
 [group("publish")]
 [no-cd]
 pub:
-    @pnpm dlx @morlay/bunpublish
+    @pnpm exec -r tsx {{ justfile_directory() }}/scripts/publish-if-need.mts
 
 # 构建所有库包（按依赖拓扑顺序）
 [group("build")]
@@ -33,4 +27,4 @@ ci:
     just build
     just webapp::build-all
     just ts test
-    just webapp test-e2e
+    just webapp::test-e2e

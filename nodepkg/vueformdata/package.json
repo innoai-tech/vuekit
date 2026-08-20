@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/vueformdata",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -31,6 +31,5 @@
     "@innoai-tech/vuekit": "workspace:^",
     "es-toolkit": "^1.51.0",
     "rxjs": "^7.8.2"
-  },
-  "peerDependencies": {}
+  }
 }

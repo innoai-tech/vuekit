@@ -4,11 +4,10 @@ import (
 	nethttp "net/http"
 	"strings"
 
-	"github.com/innoai-tech/infra/cmd/example/apis"
-	"github.com/innoai-tech/infra/cmd/example/ui"
 	"github.com/innoai-tech/infra/pkg/cli"
 	"github.com/innoai-tech/infra/pkg/http"
 	"github.com/innoai-tech/infra/pkg/otel"
+	"github.com/innoai-tech/vuekit/internal/cmd/example/apis"
 )
 
 func init() {
@@ -21,7 +20,6 @@ func init() {
 				handler.ServeHTTP(rw, req)
 				return
 			}
-			ui.UI.ServeHTTP(rw, req)
 		})
 	})
 }

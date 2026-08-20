@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test("openapi playground", async ({ page }) => {
   await test.step("when nav to home page, page should be loaded", async () => {
-    await page.goto("/api/example/_view");
+    await page.goto("/api/example/_view/");
     await expect(page.locator(".OperationListItem").first()).toHaveAttribute("href");
 
     await test.step("when click some operation, operation page should be naved", async () => {

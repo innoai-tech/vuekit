@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/jsoneditor",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -36,6 +36,5 @@
     "@innoai-tech/vueuikit": "workspace:^",
     "@mdi/js": "^7.4.47",
     "copy-to-clipboard": "^4.0.2"
-  },
-  "peerDependencies": {}
+  }
 }
