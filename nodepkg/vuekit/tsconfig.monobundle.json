@@ -1,8 +1,0 @@
-{
-  "extends": "@innoai-tech/vuedevconfig/tsconfig.json",
-  "compilerOptions": {
-    "rootDir": "./src",
-    "jsxImportSource": "@innoai-tech/vue-jsx-runtime"
-  },
-  "exclude": ["./example"]
-}

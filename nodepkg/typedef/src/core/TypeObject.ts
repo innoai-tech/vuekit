@@ -23,25 +23,20 @@ type ObjectSchema<Props extends Record<string, Type>> = {
   required: string[];
 };
 
-type ConstructorType<
-  C extends Constructor,
-  T = Simplify<InstanceType<C>>,
-> = Type<T, Simplify<ObjectSchema<{ [K in keyof T]: Type<T[K], any> }>>>;
+type ConstructorType<C extends Constructor, T = Simplify<InstanceType<C>>> = Type<
+  T,
+  Simplify<ObjectSchema<{ [K in keyof T]: Type<T[K], any> }>>
+>;
 
 export class TypeObject<
   T extends Record<string, any>,
   Props extends Record<string, Type>,
 > extends TypeUnknown<T, Simplify<ObjectSchema<Props>>> {
   static create(): Type<{}, ObjectSchema<{}>> & PropertyDecorator;
-  static create<C extends Constructor>(
-    c: C,
-  ): ConstructorType<C> & PropertyDecorator;
+  static create<C extends Constructor>(c: C): ConstructorType<C> & PropertyDecorator;
   static create<Props extends Record<string, Type>>(
     props: Props,
-  ): Type<
-    { [K in keyof Props]: Infer<Props[K]> },
-    Simplify<ObjectSchema<Props>>
-  > &
+  ): Type<{ [K in keyof Props]: Infer<Props[K]> }, Simplify<ObjectSchema<Props>>> &
     PropertyDecorator;
   static create<Props extends Record<string, Type>>(props?: Props) {
     const pickRequired = (props: Record<string, Type> = {}): string[] => {
@@ -72,29 +67,22 @@ export class TypeObject<
             const typeObject = Metadata.get(t, propName);
 
             if (typeObject) {
-              const propType = TypeUnknown.fromTypeObject(
-                typeObject,
-                properties[propName],
-              );
+              const propType = TypeUnknown.fromTypeObject(typeObject, properties[propName]);
 
               if (propName in properties) {
-                properties[propName] = propType.default(
-                  properties[propName].schema?.enum?.[0],
-                );
+                properties[propName] = propType.default(properties[propName].schema?.enum?.[0]);
               } else {
                 properties[propName] = propType;
               }
             }
           }
 
-          return new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>(
-            {
-              type: "object",
-              properties: properties,
-              required: pickRequired(properties),
-              additionalProperties: TypeNever.create(),
-            },
-          );
+          return new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>({
+            type: "object",
+            properties: properties,
+            required: pickRequired(properties),
+            additionalProperties: TypeNever.create(),
+          });
         }
 
         return new TypeObject<{ [K in keyof Props]: Infer<Props[K]> }, Props>({
@@ -128,11 +116,7 @@ export class TypeObject<
       if (this.schema.properties) {
         for (const key in this.schema.properties) {
           propNames.delete(key);
-          yield [
-            key,
-            (value as any)[key],
-            (this.schema.properties as any)[key],
-          ];
+          yield [key, (value as any)[key], (this.schema.properties as any)[key]];
         }
       }
 

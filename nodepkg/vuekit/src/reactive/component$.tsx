@@ -15,8 +15,8 @@ import { type Observables, toObservables } from "./toObservable";
 
 export { render };
 
-export type ObservablesAndProps<Props extends Record<string, any>> =
-  Observables<Props> & Omit<Props, keyof Observables<Props>>;
+export type ObservablesAndProps<Props extends Record<string, any>> = Observables<Props> &
+  Omit<Props, keyof Observables<Props>>;
 
 export type ObservableSetupFunction<Props extends Record<string, any>> = (
   props: ObservablesAndProps<InternalPropsOf<Props>>,
@@ -38,9 +38,7 @@ export function component$<PropTypes extends Record<string, Type>>(
   setup: ObservableSetupFunction<PublicPropsOf<PropTypes>>,
   options?: ComponentOptions,
 ): Component<PublicPropsOf<PropTypes>>;
-export function component$<Props extends Record<string, any>>(
-  ...args: any[]
-): Component<Props> {
+export function component$<Props extends Record<string, any>>(...args: any[]): Component<Props> {
   let finalPropTypes: Record<string, Type> = {};
   let finalSetup: any = undefined;
   let finalOptions: Record<string, any> = {};

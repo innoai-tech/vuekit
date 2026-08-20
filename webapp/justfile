@@ -1,0 +1,53 @@
+# 启动 $APP（开发模式）
+[group("dev")]
+[no-cd]
+dev $APP='vuekit':
+    pnpm exec vite --config=vite.config.ts dev
+
+# 构建 $APP（生产）
+[group("build")]
+[no-cd]
+build $APP='vuekit':
+    pnpm exec vite --config=vite.config.ts build --mode=production
+    {{ if APP == "openapi-playground" { _copy_openapi_playground } else { "" } }}
+    {{ if APP == "vuekit" { _copy_vuekit } else { "" } }}
+
+# 预览构建产物
+[group("dev")]
+[no-cd]
+preview $APP='vuekit':
+    pnpm exec vite preview
+
+# 构建全部 web 应用
+[group("build")]
+build-all: (build "vuekit") (build "openapi-playground")
+
+# 安装 e2e 浏览器
+[group("test")]
+[no-cd]
+setup-e2e:
+    pnpm exec playwright install --with-deps chromium
+
+# 运行 e2e 测试
+[group("test")]
+test-e2e: (build 'openapi-playground')
+    pnpm exec playwright test -c ../e2e/openapi-playground/playwright.config.ts
+
+# 运行 e2e 测试（UI 模式）
+[group("test")]
+[no-cd]
+test-e2e-ui:
+    pnpm exec playwright test --ui -c ../e2e/openapi-playground/playwright.config.ts
+
+[private]
+_copy_openapi_playground := '''
+    cp ./tool/openapiview/index.go ./public/openapi-playground/index.go;
+    cp ./tool/openapiview/go.mod ./public/openapi-playground/go.mod;
+    ls -al ./public/openapi-playground;
+    '''
+
+[private]
+_copy_vuekit := '''
+    cp ./public/vuekit/index.html ./public/vuekit/404.html
+    ls -al ./public/vuekit;
+    '''

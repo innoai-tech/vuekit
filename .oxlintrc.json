@@ -1,0 +1,9 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc"],
+  "ignorePatterns": ["target/**", "public/**", "dist/**", ".pnpm-store/**", ".npm-cache/**"],
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  }
+}

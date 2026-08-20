@@ -19,7 +19,7 @@ export const Tooltip = component$<{
       return (
         <Popper
           isOpen={isOpen}
-          placement={props.placement ?? "left"}
+          placement={props["placement"] ?? "left"}
           $content={
             <TooltipWrapper>
               <TooltipContainer>{slots.title()}</TooltipContainer>

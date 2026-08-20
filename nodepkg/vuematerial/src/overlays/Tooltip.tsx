@@ -46,9 +46,7 @@ export const Tooltip = component<{
         <Popper
           isOpen={isOpen.value}
           onClickOutside={() => (isOpen.value = false)}
-          $transition={({ content }) => (
-            <FadeInOutTransition>{content}</FadeInOutTransition>
-          )}
+          $transition={({ content }) => <FadeInOutTransition>{content}</FadeInOutTransition>}
           $content={<TooltipContainer>{$title}</TooltipContainer>}
         >
           {$trigger

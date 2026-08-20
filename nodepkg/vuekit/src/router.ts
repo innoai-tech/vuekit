@@ -13,10 +13,4 @@ export const RouterLink: Component<RouterLinkProps> = _RouterLink as any;
 export type RouterViewProps = _RouterViewProps & WithDefaultSlot;
 export const RouterView: Component<RouterViewProps> = _RouterView as any;
 
-export {
-  useLink,
-  useRoute,
-  useRouter,
-  createRouter,
-  createWebHistory,
-} from "vue-router";
+export { useLink, useRoute, useRouter, createRouter, createWebHistory } from "vue-router";

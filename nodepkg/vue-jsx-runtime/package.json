@@ -1,50 +1,38 @@
 {
   "name": "@innoai-tech/vue-jsx-runtime",
   "version": "0.4.0",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",
     "directory": "nodepkg/vue-jsx-runtime"
-  },
-  "license": "MIT",
-  "type": "module",
-  "exports": {
-    "./jsx-dev-runtime": {
-      "bun": "./src/jsx-dev-runtime.ts",
-      "import": {
-        "types": "./src/jsx-dev-runtime.ts",
-        "default": "./dist/jsx-dev-runtime.mjs"
-      }
-    },
-    "./jsx-runtime": {
-      "bun": "./src/jsx-runtime.ts",
-      "import": {
-        "types": "./src/jsx-runtime.ts",
-        "default": "./dist/jsx-runtime.mjs"
-      }
-    }
   },
   "files": [
     "!/**/__tests__",
     "dist/*",
     "src/*"
   ],
-  "scripts": {
-    "build": "bunx --bun @innoai-tech/monobundle",
-    "prepublishOnly": "bun run build"
+  "type": "module",
+  "exports": {
+    "./jsx-dev-runtime": {
+      "types": "./dist/jsx-dev-runtime.d.mts",
+      "import": "./dist/jsx-dev-runtime.mjs"
+    },
+    "./jsx-runtime": {
+      "types": "./dist/jsx-runtime.d.mts",
+      "import": "./dist/jsx-runtime.mjs"
+    }
   },
-  "dependencies": {
-    "vue": "^3.5.27"
-  },
-  "peerDependencies": {},
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
-  "monobundle": {
-    "exports": {
-      "./jsx-runtime": "./src/jsx-runtime.ts",
-      "./jsx-dev-runtime": "./src/jsx-dev-runtime.ts"
-    }
-  }
+  "scripts": {
+    "build": "tsdown",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "vue": "^3.5.41"
+  },
+  "peerDependencies": {}
 }

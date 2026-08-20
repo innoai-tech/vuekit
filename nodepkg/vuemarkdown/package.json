@@ -1,52 +1,44 @@
 {
   "name": "@innoai-tech/vuemarkdown",
   "version": "0.5.1",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",
     "directory": "nodepkg/vuemarkdown"
-  },
-  "license": "MIT",
-  "type": "module",
-  "exports": {
-    ".": {
-      "bun": "./src/index.ts",
-      "import": {
-        "types": "./src/index.ts",
-        "default": "./dist/index.mjs"
-      }
-    }
   },
   "files": [
     "!/**/__tests__",
     "dist/*",
     "src/*"
   ],
-  "scripts": {
-    "build": "bunx --bun @innoai-tech/monobundle",
-    "prepublishOnly": "bun run build"
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
   },
-  "dependencies": {
-    "@innoai-tech/vuekit": "workspace:^",
-    "hast-util-to-jsx-runtime": "^2.3.6",
-    "mdast-util-directive": "^3.1.0",
-    "mdast-util-from-markdown": "^2.0.2",
-    "mdast-util-gfm": "^3.1.0",
-    "mdast-util-to-hast": "^13.2.1",
-    "micromark-extension-directive": "^4.0.0",
-    "micromark-extension-gfm": "^3.0.0"
-  },
-  "peerDependencies": {},
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
-  "monobundle": {
-    "build": {
-      "clean": true
-    },
-    "exports": {
-      ".": "./src/index.ts"
-    }
-  }
+  "scripts": {
+    "build": "tsdown",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@innoai-tech/vuekit": "workspace:^",
+    "@types/hast": "^3.0.5",
+    "@types/mdast": "^4.0.4",
+    "hast-util-to-jsx-runtime": "^2.3.6",
+    "mdast-util-directive": "^3.1.0",
+    "mdast-util-from-markdown": "^2.0.3",
+    "mdast-util-gfm": "^3.1.0",
+    "mdast-util-to-hast": "^13.2.1",
+    "micromark-extension-directive": "^4.0.0",
+    "micromark-extension-gfm": "^3.0.0",
+    "vfile": "^6.0.3"
+  },
+  "peerDependencies": {}
 }

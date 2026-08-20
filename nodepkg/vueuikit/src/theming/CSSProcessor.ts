@@ -1,25 +1,12 @@
-import {
-  get,
-  isEmpty,
-  isPlainObject,
-  kebabCase,
-  last,
-  set,
-} from "es-toolkit/compat";
-import {
-  aliases,
-  extensions,
-  getSupportedPseudoClasses,
-  pseudoSelectors,
-} from "./csstype";
+import { get, isEmpty, isPlainObject, kebabCase, last, set } from "es-toolkit/compat";
+import { aliases, extensions, getSupportedPseudoClasses, pseudoSelectors } from "./csstype";
 
 export interface Mixin {
   get(token: string): {} | undefined;
 }
 
 export class CSSProcessor {
-  static supportedPseudoClasses: Record<string, string> =
-    getSupportedPseudoClasses();
+  static supportedPseudoClasses: Record<string, string> = getSupportedPseudoClasses();
 
   static convertSelector = (sel: string) => {
     if ((pseudoSelectors as any)[sel]) {
@@ -28,11 +15,7 @@ export class CSSProcessor {
 
     let selector = sel;
 
-    if (
-      selector.startsWith("$") ||
-      selector.endsWith("$") ||
-      selector.startsWith("_")
-    ) {
+    if (selector.startsWith("$") || selector.endsWith("$") || selector.startsWith("_")) {
       let prefix = "";
       let suffix = "";
 
@@ -100,8 +83,7 @@ export class CSSProcessor {
       const v = others[k] as any;
 
       const finalDefault = others["default"] ?? ctx["default"];
-      const selectorForCurrentNode =
-        $ ?? get(finalDefault, [...ctx.path.slice(1), "$"]);
+      const selectorForCurrentNode = $ ?? get(finalDefault, [...ctx.path.slice(1), "$"]);
       const selectorPath = selectorForCurrentNode
         ? [...ctx.selectorPath, selectorForCurrentNode]
         : ctx.selectorPath;

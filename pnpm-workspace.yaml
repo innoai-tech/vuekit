@@ -1,0 +1,9 @@
+packages:
+  - nodepkg/*
+  - nodedevpkg/*
+
+allowBuilds:
+  core-js: true
+  esbuild: true
+
+minimumReleaseAge: 0

@@ -18,10 +18,7 @@ const schema = t.intersection(
     name: t
       .string()
       .use(
-        t.pattern(
-          /[a-z][a-z0-9-]+/,
-          "只能包含小写字符，数字与短横 -， 且必须由小写字符开头",
-        ),
+        t.pattern(/[a-z][a-z0-9-]+/, "只能包含小写字符，数字与短横 -， 且必须由小写字符开头"),
         f.label("名称"),
         f.readOnlyWhenInitialExist(),
       ),

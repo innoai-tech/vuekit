@@ -1,22 +1,15 @@
 import { basename, dirname, extname, join, relative, resolve } from "path";
 import { get, last } from "es-toolkit/compat";
-import { type OutputOptions, type PreRenderedChunk } from "rolldown";
+import { type CodeSplittingGroup, type OutputOptions, type PreRenderedChunk } from "rolldown";
 import { globby } from "globby";
-import {
-  createFilter,
-  type FilterPattern,
-  type PluginOption,
-  searchForWorkspaceRoot,
-} from "vite";
+import { createFilter, type FilterPattern, type PluginOption, searchForWorkspaceRoot } from "vite";
 import { readFile } from "fs/promises";
 
 export interface ChunkSplitOptions {
   lib?: FilterPattern;
 }
 
-export const viteChunkSplit = (
-  options: ChunkSplitOptions = {},
-): PluginOption => {
+export const viteChunkSplit = (options: ChunkSplitOptions = {}): PluginOption => {
   const viteRoot = searchForWorkspaceRoot(".");
   let cs: ChunkSplit;
 
@@ -32,8 +25,7 @@ export const viteChunkSplit = (
 
       c.build.rolldownOptions = c.build.rolldownOptions ?? {};
 
-      c.build.rolldownOptions.output =
-        c.build.rolldownOptions.output ?? ({} as OutputOptions);
+      c.build.rolldownOptions.output = c.build.rolldownOptions.output ?? ({} as OutputOptions);
 
       const chunkFileNames = get(
         c.build.rolldownOptions.output,
@@ -57,15 +49,18 @@ export const viteChunkSplit = (
       };
     },
     outputOptions(o) {
-      o.legalComments = "none";
+      o.comments = {
+        legal: false,
+      };
 
-      o.advancedChunks = {
+      o.codeSplitting = {
         groups: [
           ...cs.directDepGroups(),
           {
             name: (moduleId: string): string | null => {
               return cs.chunkName(moduleId);
             },
+            maxSize: 300 * 1024,
           },
         ],
       };
@@ -212,11 +207,7 @@ class ChunkSplit {
       const pkgName = this.normalizePkgName(id);
 
       if (id.includes(".min/") || id.includes(".min.")) {
-        return (
-          pkgName.replace("vendor-", "vendor-min-") +
-          "~" +
-          basename(id, extname(id))
-        );
+        return pkgName.replace("vendor-", "vendor-min-") + "~" + basename(id, extname(id));
       }
 
       if (this.isDirectVendor(pkgName)) {
@@ -317,7 +308,7 @@ class ChunkSplit {
     return this.ctx.dependencies[pkgName];
   }
 
-  directDepGroups(): Group[] {
+  directDepGroups(): CodeSplittingGroup[] {
     const groups = [];
 
     for (const [name, pkg] of Object.entries(this.ctx.packages)) {
@@ -329,7 +320,7 @@ class ChunkSplit {
             name: groupName,
             test: (id) => pkg.dirs().some((p) => id.includes(p)),
             minShareCount: 1,
-          } as Group);
+          } as CodeSplittingGroup);
         }
 
         continue;
@@ -338,13 +329,9 @@ class ChunkSplit {
       groups.push({
         test: (id) => id.includes(`node_modules/${name}`),
         name: (id) => this.chunkName(id),
-      } as Group);
+      } as CodeSplittingGroup);
     }
 
     return groups;
   }
 }
-
-type Group = NonNullable<
-  NonNullable<OutputOptions["advancedChunks"]>["groups"]
->["0"];

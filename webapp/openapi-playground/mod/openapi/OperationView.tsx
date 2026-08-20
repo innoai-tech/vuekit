@@ -1,9 +1,4 @@
-import {
-  component$,
-  ImmerBehaviorSubject,
-  render,
-  rx,
-} from "@innoai-tech/vuekit";
+import { component$, ImmerBehaviorSubject, render, rx } from "@innoai-tech/vuekit";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
 import { filter, switchMap } from "rxjs";
 import { Box, styled } from "@innoai-tech/vueuikit";
@@ -110,9 +105,7 @@ export const OperationView = component$<{
         <RequestBuilder key={op.operationId} operation={op}>
           <>
             {Object.entries(op.responses ?? {}).map(([code, response]) => {
-              return (
-                <ResponseView key={code} code={code} response={response} />
-              );
+              return <ResponseView key={code} code={code} response={response} />;
             })}
           </>
         </RequestBuilder>

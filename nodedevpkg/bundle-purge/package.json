@@ -1,0 +1,35 @@
+{
+  "name": "@innoai-tech/bundle-purge",
+  "version": "0.1.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodedevpkg/bundle-purge"
+  },
+  "files": [
+    "!/**/__tests__",
+    "dist/*",
+    "src/*"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "oxc-codegen": "^0.146.0",
+    "oxc-parser": "^0.146.0"
+  },
+  "peerDependencies": {}
+}

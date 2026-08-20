@@ -1,22 +1,22 @@
 {
   "name": "@innoai-tech/csstype",
   "version": "0.1.2",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",
     "directory": "nodepkg/csstype"
   },
-  "license": "MIT",
-  "sideEffects": false,
   "type": "module",
+  "sideEffects": false,
   "main": "index.js",
   "types": "index.d.ts",
-  "scripts": {},
-  "dependencies": {
-    "csstype": "^3.2.3"
-  },
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
+  },
+  "scripts": {},
+  "dependencies": {
+    "csstype": "^3.2.3"
   }
 }

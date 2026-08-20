@@ -5,12 +5,6 @@
       "dependsOn": ["^build"],
       "inputs": ["src/*", "package.json"],
       "outputs": ["dist/*"]
-    },
-    "//#fmt": {
-      "cache": false
-    },
-    "//#lint": {
-      "cache": false
     }
   }
 }

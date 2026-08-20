@@ -1,4 +1,5 @@
 import { describe, it } from "vitest";
+import { execFileSync } from "child_process";
 import { dirname, join } from "path";
 import { fileURLToPath } from "url";
 
@@ -18,6 +19,6 @@ describe("#generateClient", () => {
       },
     });
 
-    await Bun.$`oxfmt ${join(__dirname, "client")}`;
+    execFileSync("oxfmt", [join(__dirname, "client")], { stdio: "inherit" });
   });
 });

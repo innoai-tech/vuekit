@@ -100,10 +100,7 @@ export default component(() => {
   const inputValue = ref("");
 
   return () => (
-    <List
-      $title={<div>Inputted: {inputValue.value}</div>}
-      $item={(o) => <div>{o.label}</div>}
-    >
+    <List $title={<div>Inputted: {inputValue.value}</div>} $item={(o) => <div>{o.label}</div>}>
       <TextInput
         type={"text"}
         onValueChange={(value) => {

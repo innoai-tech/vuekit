@@ -1,0 +1,6 @@
+# 启动 example 服务（e2e 依赖）
+[group("serve")]
+[no-cd]
+serve:
+    @go tool example serve -c \
+    	--server-addr=:8081

@@ -1,44 +1,23 @@
-import { transform, usePlugin } from "@innoai-tech/purebundle";
+import { transform } from "@innoai-tech/bundle-purge";
 import { createFilter, type Plugin } from "vite";
-import { isUndefined } from "es-toolkit/compat";
 
-export const chunkCleanup = (
-  opt: {
-    annotatePure?: boolean;
-    minify?: boolean;
-    env?: {
-      targets?: string | { [K: string]: string };
-      mode?: string;
-      coreJs?: string;
-      exclude?: string[];
-      include?: string[];
-    };
-  } = {},
-): Plugin => {
-  const isJSOrLike = createFilter([
-    /\.vue$/,
-    /\.mdx$/,
-    /\.tsx?$/,
-    /\.mjs$/,
-    /\.jsx?$/,
-  ]);
+export const chunkCleanup = (opt: { annotatePure?: boolean } = {}): Plugin => {
+  const isJSOrLike = createFilter([/\.vue$/, /\.mdx$/, /\.tsx?$/, /\.mjs$/, /\.jsx?$/]);
+
+  void opt;
 
   return {
-    name: "monobundle/chunk-cleanup",
+    name: "chunk-cleanup",
     enforce: "post",
     apply: "build",
 
-    config(c) {
-      c.build = c.build ?? {};
-
-      if (!isUndefined(opt.minify)) {
-        // when minify set, disable default minify
-        c.build.minify = false;
-      }
-    },
-
     async transform(code, id) {
       if (!isJSOrLike(id)) {
+        return null;
+      }
+
+      // 已 minify 的产物无需再处理
+      if (id.includes(".min/") || id.includes(".min.")) {
         return null;
       }
 
@@ -49,34 +28,26 @@ export const chunkCleanup = (
       // only for build
       const result = await transform(code, {
         filename: id,
-        env: opt.env ?? { targets: "defaults" },
-        minify: false,
       });
 
       return (
         result.code && {
           code: result.code,
-          map: result.map || null,
         }
       );
     },
 
     async renderChunk(code: string, c) {
-      if (c.fileName.includes("/vendor-min-")) {
-        return (
-          await transform(code, {
-            minify: false,
-            plugins: [usePlugin({})],
-          })
-        ).code;
+      // 已 minify 的 chunk 无需再处理
+      if (c.fileName.includes("vendor-min-")) {
+        return null;
       }
 
-      return (
-        await transform(code, {
-          minify: opt.minify ?? false,
-          plugins: [usePlugin({})],
-        })
-      ).code;
+      const result = await transform(code, {
+        filename: c.fileName,
+      });
+
+      return result.code;
     },
   };
 };

@@ -9,20 +9,23 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
 
+    env:
+      INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ github.token }}
+
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
+      - uses: jdx/mise-action@v4
 
-      - uses: oven-sh/setup-bun@v2
-      - uses: actions/setup-go@v6
-        with:
-          go-version: ">=1.25.x"
-      - uses: extractions/setup-just@v3
+      - name: Configure npm registry auth
+        run: |
+          pnpm config set "//npm.pkg.github.com/:_authToken" "$INNOAI_TECH_REGISTRY_AUTH_TOKEN" --location global
+          pnpm config set "@innoai-tech:registry" "https://npm.pkg.github.com" --location global
 
-      - run: just dep-web setup-e2e ci
-        env:
-          INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ github.token }}
+      - run: just ts::dep
+      - run: just webapp::setup-e2e
+      - run: just ci
 
-      - uses: JamesIves/github-pages-deploy-action@v4.7.4
+      - uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:
           folder: public/openapi-playground
           repository-name: innoai-tech/openapi-playground
@@ -30,7 +33,7 @@ jobs:
           ssh-key: ${{ secrets.OPENAPI_PLAYGROUND_DEPLOY_KEY }}
           clean: true
 
-      - uses: JamesIves/github-pages-deploy-action@v4.7.4
+      - uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:
           folder: public/vuekit
           branch: gh-pages

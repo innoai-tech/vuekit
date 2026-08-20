@@ -2,7 +2,6 @@
   "extends": "./nodedevpkg/vuedevconfig/tsconfig.json",
   "compilerOptions": {
     "noErrorTruncation": true,
-    "baseUrl": ".",
     "lib": ["ESNext", "dom"],
     "paths": {
       "@webapp/vuekit/*": ["./webapp/vuekit/*"],

@@ -503,7 +503,8 @@ export type ExchangeTokenInputs = {
   body: /* @type:union */ OpenidV1GrantPayload;
 };
 
-export type OpenidV1GrantPayload = /* @type:object */ | OpenidV1AuthorizationCodeGrant
+export type OpenidV1GrantPayload =
+  | /* @type:object */ OpenidV1AuthorizationCodeGrant
   | /* @type:object */ OpenidV1ClientCredentialsGrant
   | /* @type:object */ OpenidV1PasswordGrant
   | /* @type:object */ OpenidV1RefreshTokenGrant;
@@ -674,42 +675,42 @@ export type UnbindingOpenidInputs = {
 
 export class AuthorizeOfOpenidProviderInputsSchema {
   @t.string()
-  providerCode!: /* @type:string */ OpenidV1ProviderCode;
+  "providerCode"!: /* @type:string */ OpenidV1ProviderCode;
 
   @t.string()
-  redirect_uri!: string;
+  "redirect_uri"!: string;
 
   @t.string()
   @t.optional()
-  state?: string;
+  "state"?: string;
 }
 
 export class OpenidV1AuthorizationCodeRequestSchema {
   @t.enums(["code"])
-  response_type!: "code";
+  "response_type"!: "code";
 
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  client_id!: /* @type:string */ AccountV1AccountID;
+  "client_id"!: /* @type:string */ AccountV1AccountID;
 
   @t.string()
-  redirect_uri!: string;
-
-  @t.string()
-  @t.optional()
-  scope?: string;
+  "redirect_uri"!: string;
 
   @t.string()
   @t.optional()
-  state?: string;
+  "scope"?: string;
 
   @t.string()
   @t.optional()
-  code_challenge?: string;
+  "state"?: string;
 
   @t.string()
   @t.optional()
-  code_challenge_method?: string;
+  "code_challenge"?: string;
+
+  @t.string()
+  @t.optional()
+  "code_challenge_method"?: string;
 }
 
 export class AuthorizedInputsSchema {
@@ -719,220 +720,220 @@ export class AuthorizedInputsSchema {
   @t.ref("OpenidV1AuthorizationCodeRequestSchema", () =>
     t.object(OpenidV1AuthorizationCodeRequestSchema),
   )
-  body!: /* @type:object */ OpenidV1AuthorizationCodeRequest;
+  "body"!: /* @type:object */ OpenidV1AuthorizationCodeRequest;
 }
 
 export class OpenidV1AuthorizationCodeGrantSchema {
   @t.annotate({ title: "授权类型" })
   @t.enums(["authorization_code"])
-  grant_type!: "authorization_code";
+  "grant_type"!: "authorization_code";
 
   @t.annotate({ title: "临时凭证 code" })
   @t.string()
-  code!: string;
+  "code"!: string;
 
   @t.annotate({ title: "重定向地址" })
   @t.string()
   @t.optional()
-  redirect_uri?: string;
+  "redirect_uri"?: string;
 
   @t.string()
   @t.optional()
-  code_verifier?: string;
+  "code_verifier"?: string;
 
   @t.annotate({ title: "Client ID" })
   @t.string()
   @t.optional()
-  client_id?: string;
+  "client_id"?: string;
 
   @t.annotate({ title: "Client Secret" })
   @t.string()
   @t.optional()
-  client_secret?: string;
+  "client_secret"?: string;
 }
 
 export class AccountV1AccountRequestForCreateAsClientSchema {
   @t.enums(["Account"])
   @t.optional()
-  kind?: "Account";
+  "kind"?: "Account";
 
   @t.enums(["v1"])
   @t.optional()
-  apiVersion?: "v1";
+  "apiVersion"?: "v1";
 
   @t.annotate({ title: "客户端名称" })
   @t.string()
   @t.optional()
-  name?: string;
+  "name"?: string;
 
   @t.annotate({ title: "客户端描述" })
   @t.string()
   @t.optional()
-  description?: string;
+  "description"?: string;
 
   @t.annotate({ title: "客户端其他注解" })
   @t.record(t.string(), t.string())
   @t.optional()
-  annotations?: { [k: string]: string };
+  "annotations"?: { [k: string]: string };
 }
 
 export class CreateClientInputsSchema {
   @t.ref("AccountV1AccountRequestForCreateAsClientSchema", () =>
     t.object(AccountV1AccountRequestForCreateAsClientSchema),
   )
-  body!: /* @type:object */ AccountV1AccountRequestForCreateAsClient;
+  "body"!: /* @type:object */ AccountV1AccountRequestForCreateAsClient;
 }
 
 export class AccountV1AccountIdentitySchema {
   @t.annotate({ title: "编码" })
   @t.string()
-  code!: /* @type:string */ AccountV1AccountIdentityCode;
+  "code"!: /* @type:string */ AccountV1AccountIdentityCode;
 
   @t.annotate({ title: "资源 id" })
   @t.string()
-  id!: /* @type:string */ AccountV1AccountIdentityID;
+  "id"!: /* @type:string */ AccountV1AccountIdentityID;
 
   @t.enums(["AccountIdentity"])
   @t.optional()
-  kind?: "AccountIdentity";
+  "kind"?: "AccountIdentity";
 
   @t.enums(["v1"])
   @t.optional()
-  apiVersion?: "v1";
+  "apiVersion"?: "v1";
 
   @t.annotate({ title: "名称" })
   @t.string()
   @t.optional()
-  name?: string;
+  "name"?: string;
 
   @t.annotate({ title: "描述" })
   @t.string()
   @t.optional()
-  description?: string;
+  "description"?: string;
 
   @t.annotate({ title: "其他注解" })
   @t.record(t.string(), t.string())
   @t.optional()
-  annotations?: { [k: string]: string };
+  "annotations"?: { [k: string]: string };
 
   @t.annotate({ title: "创建时间" })
   @t.string()
   @t.optional()
-  creationTimestamp?: /* @type:string */ SqltypeTimeTimestamp;
+  "creationTimestamp"?: /* @type:string */ SqltypeTimeTimestamp;
 
   @t.annotate({ title: "更新时间" })
   @t.string()
   @t.optional()
-  modificationTimestamp?: /* @type:string */ SqltypeTimeTimestamp;
+  "modificationTimestamp"?: /* @type:string */ SqltypeTimeTimestamp;
 
   @t.annotate({ title: "标识类型" })
   @t.nativeEnum(AccountV1IdentityType)
-  identityType!: /* @type:enums */ AccountV1IdentityType;
+  "identityType"!: /* @type:enums */ AccountV1IdentityType;
 
   @t.annotate({ title: "账户" })
   @t.ref("AccountV1AccountSchema", () => t.object(AccountV1AccountSchema))
   @t.optional()
-  account?: /* @type:object */ AccountV1Account;
+  "account"?: /* @type:object */ AccountV1Account;
 }
 
 export class AccountV1AccountSpecSchema {
   @t.annotate({ title: "账户类型" })
   @t.nativeEnum(AccountV1AccountType)
   @t.optional()
-  accountType?: /* @type:enums */ AccountV1AccountType;
+  "accountType"?: /* @type:enums */ AccountV1AccountType;
 
   @t.annotate({ title: "账户标识" })
   @t.array(t.ref("AccountV1AccountIdentitySchema", () => t.object(AccountV1AccountIdentitySchema)))
   @t.optional()
-  identities?: Array</* @type:object */ AccountV1AccountIdentity>;
+  "identities"?: Array</* @type:object */ AccountV1AccountIdentity>;
 }
 
 export class AccountV1StatusSchema {
   @t.annotate({ title: "最近登录时间" })
   @t.string()
   @t.optional()
-  lastLogonAt?: /* @type:string */ SqltypeTimeTimestamp;
+  "lastLogonAt"?: /* @type:string */ SqltypeTimeTimestamp;
 }
 
 export class AccountV1AccountSchema {
   @t.annotate({ title: "账户资源 id" })
   @t.string()
-  id!: /* @type:string */ AccountV1AccountID;
+  "id"!: /* @type:string */ AccountV1AccountID;
 
   @t.enums(["Account"])
   @t.optional()
-  kind?: "Account";
+  "kind"?: "Account";
 
   @t.enums(["v1"])
   @t.optional()
-  apiVersion?: "v1";
+  "apiVersion"?: "v1";
 
   @t.annotate({ title: "账户名称" })
   @t.string()
   @t.optional()
-  name?: string;
+  "name"?: string;
 
   @t.annotate({ title: "账户描述" })
   @t.string()
   @t.optional()
-  description?: string;
+  "description"?: string;
 
   @t.annotate({ title: "账户其他注解" })
   @t.record(t.string(), t.string())
   @t.optional()
-  annotations?: { [k: string]: string };
+  "annotations"?: { [k: string]: string };
 
   @t.annotate({ title: "账户创建时间" })
   @t.string()
   @t.optional()
-  creationTimestamp?: /* @type:string */ SqltypeTimeTimestamp;
+  "creationTimestamp"?: /* @type:string */ SqltypeTimeTimestamp;
 
   @t.annotate({ title: "账户更新时间" })
   @t.string()
   @t.optional()
-  modificationTimestamp?: /* @type:string */ SqltypeTimeTimestamp;
+  "modificationTimestamp"?: /* @type:string */ SqltypeTimeTimestamp;
 
   @t.annotate({ title: "账户定义" })
   @t.ref("AccountV1AccountSpecSchema", () => t.object(AccountV1AccountSpecSchema))
-  spec!: /* @type:object */ AccountV1AccountSpec;
+  "spec"!: /* @type:object */ AccountV1AccountSpec;
 
   @t.annotate({ title: "账户状态" })
   @t.ref("AccountV1StatusSchema", () => t.object(AccountV1StatusSchema))
   @t.optional()
-  status?: /* @type:object */ AccountV1Status;
+  "status"?: /* @type:object */ AccountV1Status;
 }
 
 export class AccountV1AccountIdentityRequestForCreateSchema {
   @t.enums(["AccountIdentity"])
   @t.optional()
-  kind?: "AccountIdentity";
+  "kind"?: "AccountIdentity";
 
   @t.enums(["v1"])
   @t.optional()
-  apiVersion?: "v1";
+  "apiVersion"?: "v1";
 
   @t.annotate({ title: "名称" })
   @t.string()
   @t.optional()
-  name?: string;
+  "name"?: string;
 
   @t.annotate({ title: "描述" })
   @t.string()
   @t.optional()
-  description?: string;
+  "description"?: string;
 
   @t.annotate({ title: "其他注解" })
   @t.record(t.string(), t.string())
   @t.optional()
-  annotations?: { [k: string]: string };
+  "annotations"?: { [k: string]: string };
 
   @t.annotate({ title: "编码" })
   @t.string()
-  code!: /* @type:string */ AccountV1AccountIdentityCode;
+  "code"!: /* @type:string */ AccountV1AccountIdentityCode;
 
   @t.annotate({ title: "标识类型" })
   @t.nativeEnum(AccountV1IdentityType)
-  identityType!: /* @type:enums */ AccountV1IdentityType;
+  "identityType"!: /* @type:enums */ AccountV1IdentityType;
 }
 
 export class AccountV1AccountRequestSpecForUserSchema {
@@ -942,91 +943,91 @@ export class AccountV1AccountRequestSpecForUserSchema {
       t.object(AccountV1AccountIdentityRequestForCreateSchema),
     ),
   )
-  identities!: Array</* @type:object */ AccountV1AccountIdentityRequestForCreate>;
+  "identities"!: Array</* @type:object */ AccountV1AccountIdentityRequestForCreate>;
 }
 
 export class AccountV1AccountRequestForCreateAsUserSchema {
   @t.enums(["Account"])
   @t.optional()
-  kind?: "Account";
+  "kind"?: "Account";
 
   @t.enums(["v1"])
   @t.optional()
-  apiVersion?: "v1";
+  "apiVersion"?: "v1";
 
   @t.annotate({ title: "用户名称" })
   @t.string()
   @t.optional()
-  name?: string;
+  "name"?: string;
 
   @t.annotate({ title: "用户描述" })
   @t.string()
   @t.optional()
-  description?: string;
+  "description"?: string;
 
   @t.annotate({ title: "用户其他注解" })
   @t.record(t.string(), t.string())
   @t.optional()
-  annotations?: { [k: string]: string };
+  "annotations"?: { [k: string]: string };
 
   @t.annotate({ title: "用户定义" })
   @t.ref("AccountV1AccountRequestSpecForUserSchema", () =>
     t.object(AccountV1AccountRequestSpecForUserSchema),
   )
-  spec!: /* @type:object */ AccountV1AccountRequestSpecForUser;
+  "spec"!: /* @type:object */ AccountV1AccountRequestSpecForUser;
 }
 
 export class CreateUserInputsSchema {
   @t.ref("AccountV1AccountRequestForCreateAsUserSchema", () =>
     t.object(AccountV1AccountRequestForCreateAsUserSchema),
   )
-  body!: /* @type:object */ AccountV1AccountRequestForCreateAsUser;
+  "body"!: /* @type:object */ AccountV1AccountRequestForCreateAsUser;
 }
 
 export class OpenidV1AccessSchema {
   @t.array(t.nativeEnum(RbacV1MemberRoleType))
-  roles!: Array</* @type:enums */ RbacV1MemberRoleType>;
+  "roles"!: Array</* @type:enums */ RbacV1MemberRoleType>;
 }
 
 export class OpenidV1UserInfoSchema {
   @t.annotate({ title: "用户标识" })
   @t.string()
-  sub!: string;
+  "sub"!: string;
 
   @t.annotate({ title: "姓名" })
   @t.string()
   @t.optional()
-  name?: string;
+  "name"?: string;
 
   @t.annotate({ title: "昵称" })
   @t.string()
   @t.optional()
-  nickname?: string;
+  "nickname"?: string;
 
   @t.annotate({ title: "自定义用户名" })
   @t.string()
   @t.optional()
-  preferred_username?: string;
+  "preferred_username"?: string;
 
   @t.annotate({ title: "邮箱" })
   @t.string()
   @t.optional()
-  email?: string;
+  "email"?: string;
 
   @t.annotate({ title: "已验证邮箱" })
   @t.boolean()
   @t.optional()
-  email_verified?: boolean;
+  "email_verified"?: boolean;
 
   @t.annotate({ title: "手机号" })
   @t.string()
   @t.optional()
-  phone_number?: string;
+  "phone_number"?: string;
 
   @t.annotate({ title: "已验证手机号" })
   @t.boolean()
   @t.optional()
-  phone_number_verified?: boolean;
+  "phone_number_verified"?: boolean;
 
   @t.annotate({ title: "其他资源访问权限上下文" })
   @t.record(
@@ -1037,13 +1038,13 @@ export class OpenidV1UserInfoSchema {
     ),
   )
   @t.optional()
-  resource_access?: /* @type:record */ OpenidV1ResourceAccess;
+  "resource_access"?: /* @type:record */ OpenidV1ResourceAccess;
 }
 
 export class DeleteAdminMemberInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  accountID!: /* @type:string */ AccountV1AccountID;
+  "accountID"!: /* @type:string */ AccountV1AccountID;
 }
 
 export class DeleteAllClientInputsSchema {
@@ -1063,76 +1064,76 @@ export class DeleteAllUserInputsSchema {
 export class OpenidV1ClientCredentialsGrantSchema {
   @t.annotate({ title: "授权类型" })
   @t.enums(["client_credentials"])
-  grant_type!: "client_credentials";
+  "grant_type"!: "client_credentials";
 
   @t.annotate({ title: "授权范围" })
   @t.string()
   @t.optional()
-  scope?: string;
+  "scope"?: string;
 
   @t.annotate({ title: "Client ID" })
   @t.string()
   @t.optional()
-  client_id?: string;
+  "client_id"?: string;
 
   @t.annotate({ title: "Client Secret" })
   @t.string()
   @t.optional()
-  client_secret?: string;
+  "client_secret"?: string;
 }
 
 export class OpenidV1PasswordGrantSchema {
   @t.annotate({ title: "授权类型" })
   @t.enums(["password"])
-  grant_type!: "password";
+  "grant_type"!: "password";
 
   @t.annotate({ title: "用户标识" })
   @t.string()
-  username!: string;
+  "username"!: string;
 
   @t.annotate({ title: "密码" })
   @t.string()
-  password!: string;
+  "password"!: string;
 
   @t.annotate({ title: "授权范围" })
   @t.string()
   @t.optional()
-  scope?: string;
+  "scope"?: string;
 
   @t.annotate({ title: "Client ID" })
   @t.string()
   @t.optional()
-  client_id?: string;
+  "client_id"?: string;
 
   @t.annotate({ title: "Client Secret" })
   @t.string()
   @t.optional()
-  client_secret?: string;
+  "client_secret"?: string;
 }
 
 export class OpenidV1RefreshTokenGrantSchema {
   @t.annotate({ title: "授权类型" })
   @t.enums(["refresh_token"])
-  grant_type!: "refresh_token";
+  "grant_type"!: "refresh_token";
 
   @t.annotate({ title: "刷新 Token" })
   @t.string()
-  refresh_token!: string;
+  "refresh_token"!: string;
 
   @t.annotate({ title: "授权范围" })
   @t.string()
   @t.optional()
-  scope?: string;
+  "scope"?: string;
 
   @t.annotate({ title: "Client ID" })
   @t.string()
   @t.optional()
-  client_id?: string;
+  "client_id"?: string;
 
   @t.annotate({ title: "Client Secret" })
   @t.string()
   @t.optional()
-  client_secret?: string;
+  "client_secret"?: string;
 }
 
 export class ExchangeTokenInputsSchema {
@@ -1148,32 +1149,32 @@ export class ExchangeTokenInputsSchema {
       t.object(OpenidV1RefreshTokenGrantSchema),
     ),
   })
-  body!: /* @type:union */ OpenidV1GrantPayload;
+  "body"!: /* @type:union */ OpenidV1GrantPayload;
 }
 
 export class OpenidV1TokenSchema {
   @t.annotate({ title: "Token 类型" })
   @t.string()
-  token_type!: string;
+  "token_type"!: string;
 
   @t.annotate({ title: "过期时间（单位：秒）" })
   @t.integer()
   @t.optional()
-  expires_in?: number;
+  "expires_in"?: number;
 
   @t.annotate({ title: "访问凭证" })
   @t.string()
-  access_token!: string;
+  "access_token"!: string;
 
   @t.annotate({ title: "刷新凭证" })
   @t.string()
   @t.optional()
-  refresh_token?: string;
+  "refresh_token"?: string;
 
   @t.annotate({ title: "凭证范围" })
   @t.string()
   @t.optional()
-  scope?: string;
+  "scope"?: string;
 }
 
 export class ExchangeTokenFromGetInputsSchema {
@@ -1189,21 +1190,21 @@ export class ExchangeTokenFromGetInputsSchema {
       t.object(OpenidV1RefreshTokenGrantSchema),
     ),
   })
-  body!: /* @type:union */ AlgoidpAuthGrantPayloadWrapper;
+  "body"!: /* @type:union */ AlgoidpAuthGrantPayloadWrapper;
 }
 
 export class ExchangeTokenFromOpenidProviderInputsSchema {
   @t.string()
-  providerCode!: /* @type:string */ OpenidV1ProviderCode;
+  "providerCode"!: /* @type:string */ OpenidV1ProviderCode;
 
   @t.string()
-  code!: string;
+  "code"!: string;
 }
 
 export class GetAccountInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  accountID!: /* @type:string */ AccountV1AccountID;
+  "accountID"!: /* @type:string */ AccountV1AccountID;
 
   @t.string()
   @t.optional()
@@ -1213,33 +1214,33 @@ export class GetAccountInputsSchema {
 export class OpenidV1JwkSchema {
   @t.annotate({ title: "密钥类型" })
   @t.string()
-  kty!: string;
+  "kty"!: string;
 
   @t.annotate({ title: "密钥算法类型" })
   @t.string()
-  alg!: string;
+  "alg"!: string;
 
   @t.annotate({ title: "密钥 ID" })
   @t.string()
-  kid!: string;
+  "kid"!: string;
 
   @t.annotate({ title: "用途" })
   @t.string()
-  use!: string;
+  "use"!: string;
 
   @t.annotate({ title: "RSA 公钥的模数" })
   @t.string()
-  e!: string;
+  "e"!: string;
 
   @t.annotate({ title: "RSA 公钥的指数" })
   @t.string()
-  n!: string;
+  "n"!: string;
 }
 
 export class OpenidV1JwksSchema {
   @t.annotate({ title: "密钥列表" })
   @t.array(t.ref("OpenidV1JwkSchema", () => t.object(OpenidV1JwkSchema)))
-  keys!: Array</* @type:object */ OpenidV1Jwk>;
+  "keys"!: Array</* @type:object */ OpenidV1Jwk>;
 }
 
 export class ListClientInputsSchema {
@@ -1256,61 +1257,61 @@ export class ListClientInputsSchema {
   @t.annotate({ title: "分页偏移" })
   @t.integer()
   @t.optional()
-  offset?: number;
+  "offset"?: number;
 
   @t.annotate({ title: "分页数" })
   @t.integer()
   @t.maximum(50)
   @t.minimum(-1)
   @t.optional()
-  limit?: number;
+  "limit"?: number;
 }
 
 export class AccountV1AccountAsListSchema {
   @t.annotate({ title: "列表" })
   @t.array(t.ref("AccountV1AccountSchema", () => t.object(AccountV1AccountSchema)))
   @t.optional()
-  items?: Array</* @type:object */ AccountV1Account>;
+  "items"?: Array</* @type:object */ AccountV1Account>;
 
   @t.annotate({ title: "总数" })
   @t.integer()
   @t.optional()
-  total?: number;
+  "total"?: number;
 }
 
 export class OpenidV1ProviderMetaSchema {
   @t.annotate({ title: "标识" })
   @t.string()
-  code!: /* @type:string */ OpenidV1ProviderCode;
+  "code"!: /* @type:string */ OpenidV1ProviderCode;
 
   @t.annotate({ title: "名称" })
   @t.string()
-  name!: string;
+  "name"!: string;
 
   @t.annotate({ title: "登录入口" })
   @t.string()
   @t.optional()
-  authorizationEndpoint?: string;
+  "authorizationEndpoint"?: string;
 }
 
 export class OpenidV1BindingSchema {
   @t.string()
-  sub!: string;
+  "sub"!: string;
 
   @t.ref("OpenidV1ProviderMetaSchema", () => t.object(OpenidV1ProviderMetaSchema))
-  provider!: /* @type:object */ OpenidV1ProviderMeta;
+  "provider"!: /* @type:object */ OpenidV1ProviderMeta;
 }
 
 export class OpenidV1BindingAsListSchema {
   @t.annotate({ title: "列表" })
   @t.array(t.ref("OpenidV1BindingSchema", () => t.object(OpenidV1BindingSchema)))
   @t.optional()
-  items?: Array</* @type:object */ OpenidV1Binding>;
+  "items"?: Array</* @type:object */ OpenidV1Binding>;
 
   @t.annotate({ title: "总数" })
   @t.integer()
   @t.optional()
-  total?: number;
+  "total"?: number;
 }
 
 export class ListUserInputsSchema {
@@ -1337,130 +1338,130 @@ export class ListUserInputsSchema {
   @t.annotate({ title: "分页偏移" })
   @t.integer()
   @t.optional()
-  offset?: number;
+  "offset"?: number;
 
   @t.annotate({ title: "分页数" })
   @t.integer()
   @t.maximum(50)
   @t.minimum(-1)
   @t.optional()
-  limit?: number;
+  "limit"?: number;
 }
 
 export class OpenidV1ConfigurationWithExternalProvidersSchema {
   @t.array(t.string())
-  id_token_signing_alg_values_supported!: Array<string>;
+  "id_token_signing_alg_values_supported"!: Array<string>;
 
   @t.string()
-  issuer!: string;
+  "issuer"!: string;
 
   @t.string()
-  jwks_uri!: string;
+  "jwks_uri"!: string;
 
   @t.string()
-  token_endpoint!: string;
+  "token_endpoint"!: string;
 
   @t.string()
-  userinfo_endpoint!: string;
+  "userinfo_endpoint"!: string;
 
   @t.string()
   @t.optional()
-  authorization_endpoint?: string;
+  "authorization_endpoint"?: string;
 
   @t.array(t.string())
-  subject_types_supported!: Array<string>;
+  "subject_types_supported"!: Array<string>;
 
   @t.array(t.string())
-  token_endpoint_auth_methods_supported!: Array<string>;
+  "token_endpoint_auth_methods_supported"!: Array<string>;
 
   @t.array(t.string())
-  grant_types_supported!: Array<string>;
+  "grant_types_supported"!: Array<string>;
 
   @t.array(t.string())
-  response_types_supported!: Array<string>;
+  "response_types_supported"!: Array<string>;
 
   @t.array(t.string())
-  scopes_supported!: Array<string>;
+  "scopes_supported"!: Array<string>;
 
   @t.array(t.string())
-  claims_supported!: Array<string>;
+  "claims_supported"!: Array<string>;
 
   @t.array(t.ref("OpenidV1ProviderMetaSchema", () => t.object(OpenidV1ProviderMetaSchema)))
   @t.optional()
-  externalProviders?: Array</* @type:object */ OpenidV1ProviderMeta>;
+  "externalProviders"?: Array</* @type:object */ OpenidV1ProviderMeta>;
 }
 
 export class PatchClientInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  clientID!: /* @type:string */ AccountV1AccountID;
+  "clientID"!: /* @type:string */ AccountV1AccountID;
 
   @t.ref("AccountV1AccountRequestForCreateAsClientSchema", () =>
     t.object(AccountV1AccountRequestForCreateAsClientSchema),
   )
-  body!: /* @type:object */ AccountV1AccountRequestForCreateAsClient;
+  "body"!: /* @type:object */ AccountV1AccountRequestForCreateAsClient;
 }
 
 export class PatchUserInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  userID!: /* @type:string */ AccountV1AccountID;
+  "userID"!: /* @type:string */ AccountV1AccountID;
 
   @t.ref("AccountV1AccountRequestForCreateAsUserSchema", () =>
     t.object(AccountV1AccountRequestForCreateAsUserSchema),
   )
-  body!: /* @type:object */ AccountV1AccountRequestForCreateAsUser;
+  "body"!: /* @type:object */ AccountV1AccountRequestForCreateAsUser;
 }
 
 export class RbacV1MemberSpecSchema {
   @t.nativeEnum(RbacV1MemberRoleType)
-  roleType!: /* @type:enums */ RbacV1MemberRoleType;
+  "roleType"!: /* @type:enums */ RbacV1MemberRoleType;
 }
 
 export class PutAdminMemberInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  accountID!: /* @type:string */ AccountV1AccountID;
+  "accountID"!: /* @type:string */ AccountV1AccountID;
 
   @t.ref("RbacV1MemberSpecSchema", () => t.object(RbacV1MemberSpecSchema))
-  body!: /* @type:object */ RbacV1MemberSpec;
+  "body"!: /* @type:object */ RbacV1MemberSpec;
 }
 
 export class RenewClientSecretInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  clientID!: /* @type:string */ AccountV1AccountID;
+  "clientID"!: /* @type:string */ AccountV1AccountID;
 }
 
 export class OpenidV1ClientAuthSchema {
   @t.annotate({ title: "Client ID" })
   @t.string()
   @t.optional()
-  client_id?: string;
+  "client_id"?: string;
 
   @t.annotate({ title: "Client Secret" })
   @t.string()
   @t.optional()
-  client_secret?: string;
+  "client_secret"?: string;
 }
 
 export class RenewUserPasswordInputsSchema {
   @t.annotate({ title: "账户 AccountID" })
   @t.string()
-  userID!: /* @type:string */ AccountV1AccountID;
+  "userID"!: /* @type:string */ AccountV1AccountID;
 }
 
 export class AlgoidpUserNewPasswordPayloadSchema {
   @t.string()
-  password!: string;
+  "password"!: string;
 }
 
 export class ResetPasswordInputsSchema {
   @t.ref("AlgoidpUserNewPasswordPayloadSchema", () => t.object(AlgoidpUserNewPasswordPayloadSchema))
-  body!: /* @type:object */ AlgoidpUserNewPasswordPayload;
+  "body"!: /* @type:object */ AlgoidpUserNewPasswordPayload;
 }
 
 export class UnbindingOpenidInputsSchema {
   @t.string()
-  providerCode!: /* @type:string */ OpenidV1ProviderCode;
+  "providerCode"!: /* @type:string */ OpenidV1ProviderCode;
 }

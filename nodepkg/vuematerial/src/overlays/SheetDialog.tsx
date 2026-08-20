@@ -173,17 +173,12 @@ const SheetDialog = component<{
             }}
           >
             {animateToEnterOrLeave.value ? (
-              <div
-                data-dialog-backdrop
-                onClick={() => (animateToEnterOrLeave.value = false)}
-              />
+              <div data-dialog-backdrop onClick={() => (animateToEnterOrLeave.value = false)} />
             ) : null}
           </FadeInOutTransition>
           <SlideInOutTransition>
             {animateToEnterOrLeave.value ? (
-              <div data-dialog-content={props.position}>
-                {slots.default?.()}
-              </div>
+              <div data-dialog-content={props.position}>{slots.default?.()}</div>
             ) : null}
           </SlideInOutTransition>
         </SheetDialogWrapper>
@@ -210,11 +205,7 @@ const useSheetDialog = (
     open$,
     render((isOpen) => {
       return (
-        <SheetDialog
-          isOpen={isOpen}
-          position={opt.position}
-          onClose={() => open$.hide()}
-        >
+        <SheetDialog isOpen={isOpen} position={opt.position} onClose={() => open$.hide()}>
           <Defer setup={() => setup(open$)} />
         </SheetDialog>
       );
@@ -226,26 +217,18 @@ const useSheetDialog = (
   });
 };
 
-export const useRightSheetDialog = (
-  setup: (dialog$: DialogStatus) => () => JSX.Element,
-) => {
+export const useRightSheetDialog = (setup: (dialog$: DialogStatus) => () => JSX.Element) => {
   return useSheetDialog(setup, { position: "right" });
 };
 
-export const useBottomSheetDialog = (
-  setup: (dialog$: DialogStatus) => () => JSX.Element,
-) => {
+export const useBottomSheetDialog = (setup: (dialog$: DialogStatus) => () => JSX.Element) => {
   return useSheetDialog(setup, { position: "bottom" });
 };
 
-export const useTopSheetDialog = (
-  setup: (dialog$: DialogStatus) => () => JSX.Element,
-) => {
+export const useTopSheetDialog = (setup: (dialog$: DialogStatus) => () => JSX.Element) => {
   return useSheetDialog(setup, { position: "top" });
 };
 
-export const useLeftSheetDialog = (
-  setup: (dialog$: DialogStatus) => () => JSX.Element,
-) => {
+export const useLeftSheetDialog = (setup: (dialog$: DialogStatus) => () => JSX.Element) => {
   return useSheetDialog(setup, { position: "left" });
 };

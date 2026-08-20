@@ -16,9 +16,7 @@ const equal = (a: any, b: any) => {
   return Object.is(a, b);
 };
 
-export const tapEffect = <T>(
-  create: (input: T) => (() => void) | undefined,
-) => {
+export const tapEffect = <T>(create: (input: T) => (() => void) | undefined) => {
   let cleanup: (() => void) | undefined = undefined;
   let prevInput: T | null = null;
 

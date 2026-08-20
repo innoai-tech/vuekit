@@ -1,0 +1,50 @@
+[group("runtime")]
+[no-cd]
+pnpm *args:
+    @pnpm {{ args }}
+
+[group("runtime")]
+[no-cd]
+exec *args:
+    @pnpm exec {{ args }}
+
+[group("lint")]
+[no-cd]
+lint *args=".":
+    @pnpm exec oxlint {{ args }}
+
+[group("fmt")]
+[no-cd]
+fmt *args=".":
+    @pnpm exec oxfmt {{ args }}
+
+[group("test")]
+[no-cd]
+playwright *args:
+    pnpm exec playwright {{ args }}
+
+[group("test")]
+[no-cd]
+test *args:
+    @pnpm exec vitest --run {{ args }}
+
+# 依赖安装
+[group("env")]
+[no-cd]
+dep:
+    pnpm install
+
+# 依赖升级
+[group("env")]
+[no-cd]
+update:
+    pnpm dlx taze -w -r latest
+
+# 目录清理
+[group("env")]
+[no-cd]
+clean:
+    rm -f pnpm-lock.yaml;
+    find . -type d \
+        -name "node_modules" \
+        -prune -print -exec rm -rf '{}' \;

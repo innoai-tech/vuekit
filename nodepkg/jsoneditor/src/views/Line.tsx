@@ -44,16 +44,13 @@ export const LineNumber = styled(TokenView)({
   font: "code",
 });
 
-export const LineFoldable = styled<{ folded: boolean }, typeof TokenView>(
-  TokenView,
-  (props) => {
-    return (Wrap) => (
-      <Wrap>
-        <Icon path={props.folded ? mdiChevronRight : mdiChevronDown} />
-      </Wrap>
-    );
-  },
-)({
+export const LineFoldable = styled<{ folded: boolean }, typeof TokenView>(TokenView, (props) => {
+  return (Wrap) => (
+    <Wrap>
+      <Icon path={props.folded ? mdiChevronRight : mdiChevronDown} />
+    </Wrap>
+  );
+})({
   position: "absolute",
   top: 0,
   left: 2,

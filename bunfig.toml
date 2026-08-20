@@ -1,3 +1,0 @@
-[install.scopes]
-# publish only
-"@innoai-tech" = { url = "https://npm.pkg.github.com", token = "$INNOAI_TECH_REGISTRY_AUTH_TOKEN" }

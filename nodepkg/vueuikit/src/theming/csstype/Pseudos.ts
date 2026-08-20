@@ -9,12 +9,11 @@ export const pseudoSelectors = {
 
 export type Pseudos = typeof pseudoSelectors;
 
-type DistributePseudoElement<U> =
-  U extends `::-${"moz" | "ms" | "khtml" | "webkit"}-${string}`
-    ? never
-    : U extends `::${string}`
-      ? U
-      : never;
+type DistributePseudoElement<U> = U extends `::-${"moz" | "ms" | "khtml" | "webkit"}-${string}`
+  ? never
+  : U extends `::${string}`
+    ? U
+    : never;
 
 type DistributePseudoClass<U> = U extends `::${string}`
   ? never
@@ -27,30 +26,28 @@ type DistributePseudoClass<U> = U extends `::${string}`
 type PseudoElements = DistributePseudoElement<SimplePseudos>;
 type PseudoClasses = DistributePseudoClass<SimplePseudos>;
 
-type ToCamelCase<S> = S extends `${infer T}-${infer U}`
-  ? `${T}${Capitalize<ToCamelCase<U>>}`
-  : S;
+type ToCamelCase<S> = S extends `${infer T}-${infer U}` ? `${T}${Capitalize<ToCamelCase<U>>}` : S;
 
 type DistributePseudoElementNames<U> = U extends `::${infer N}` ? N : never;
 type DistributePseudoClassNames<U> = U extends `:${infer N}` ? N : never;
 
 export type PseudoElementAliases = {
-  [K in DistributePseudoElementNames<PseudoElements> as K extends string
-    ? `_$${ToCamelCase<K>}`
-    : never]: K;
+  [
+    K in DistributePseudoElementNames<PseudoElements> as K extends string
+      ? `_$${ToCamelCase<K>}`
+      : never
+  ]: K;
 };
 
 export type PseudoClassAliases = {
-  [K in DistributePseudoClassNames<PseudoClasses> as K extends string
-    ? `_${ToCamelCase<K>}`
-    : never]: K;
+  [
+    K in DistributePseudoClassNames<PseudoClasses> as K extends string
+      ? `_${ToCamelCase<K>}`
+      : never
+  ]: K;
 };
 
-export function getSupportedPseudoClasses(): {
-  [K in DistributePseudoClassNames<PseudoClasses> as K extends string
-    ? `${ToCamelCase<K>}`
-    : never]: K;
-} {
+export function getSupportedPseudoClasses(): Record<string, string> {
   return {
     active: "active",
     after: "after",
@@ -83,8 +80,6 @@ export function getSupportedPseudoClasses(): {
     left: "left",
     link: "link",
     localLink: "local-link",
-    nthCol: "nth-col",
-    nthLastCol: "nth-last-col",
     onlyChild: "only-child",
     onlyOfType: "only-of-type",
     optional: "optional",

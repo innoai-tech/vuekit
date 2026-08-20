@@ -1,5 +1,6 @@
 *.log
 *.iml
+*.tsbuildinfo
 
 .temp/
 dist/
@@ -8,10 +9,14 @@ dist/
 .turbo/
 .swc/
 
-*.mjs
+# local caches (workspace-scoped npm/pnpm)
+.pnpm-home/
+.pnpm-store/
+.npm-cache/
+
 .DS_Store
 
 public/
 node_modules/
-.idea/
-.sonda/
+
+.changeset/

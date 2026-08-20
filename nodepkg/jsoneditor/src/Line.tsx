@@ -1,30 +1,8 @@
-import {
-  component$,
-  type Context,
-  JSONPointer,
-  rx,
-  Schema,
-  type Type,
-} from "@innoai-tech/vuekit";
-import {
-  DirtyType,
-  Folded,
-  JSONEditorProvider,
-  JSONEditorSlotsProvider,
-} from "./models";
-import {
-  isArray,
-  isPlainObject,
-  isString,
-  isUndefined,
-  last,
-} from "es-toolkit/compat";
+import { component$, type Context, JSONPointer, rx, Schema, type Type } from "@innoai-tech/vuekit";
+import { DirtyType, Folded, JSONEditorProvider, JSONEditorSlotsProvider } from "./models";
+import { isArray, isPlainObject, isString, isUndefined, last } from "es-toolkit/compat";
 import { combineLatest } from "rxjs";
-import {
-  CopyAsJSONIconBtn,
-  ItemAddIconBtn,
-  ItemRemoveIconBtn,
-} from "./actions";
+import { CopyAsJSONIconBtn, ItemAddIconBtn, ItemRemoveIconBtn } from "./actions";
 import {
   ActionToolbar,
   LineContainer,
@@ -135,10 +113,7 @@ export const Line = component$<{
                         <PropValueAddInput
                           ctx={props.ctx}
                           onAdd={(prop) => {
-                            editor$.update(
-                              [...props.ctx.path, prop],
-                              undefined,
-                            );
+                            editor$.update([...props.ctx.path, prop], undefined);
                           }}
                           options={
                             props.typedef.type != "record"
@@ -188,13 +163,7 @@ export const Line = component$<{
                   )
                 }
               >
-                <Box
-                  sx={
-                    isString(nameOrIndex)
-                      ? { opacity: 1 }
-                      : { opacity: 0.3, font: "code" }
-                  }
-                >
+                <Box sx={isString(nameOrIndex) ? { opacity: 1 } : { opacity: 0.3, font: "code" }}>
                   {`${nameOrIndex}`}
                 </Box>
               </PropName>

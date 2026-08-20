@@ -15,10 +15,7 @@ import { TypeUnknown, TypeWrapper } from "./TypeUnknown.ts";
 import { type Constructor, Schema, type Simplify } from "./Schema.ts";
 import { isClass } from "./util.ts";
 
-type DiscriminatedUnionType<
-  D extends string,
-  Mapping extends Record<string, Type>,
-> = ValueOf<{
+type DiscriminatedUnionType<D extends string, Mapping extends Record<string, Type>> = ValueOf<{
   [K in keyof Mapping]: { [k in D]: K } & Infer<Mapping[K]>;
 }>;
 
@@ -39,18 +36,11 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
     });
   });
 
-  static discriminatorMapping<
-    D extends string,
-    Mapping extends Record<string, Type>,
-  >(
+  static discriminatorMapping<D extends string, Mapping extends Record<string, Type>>(
     discriminatorPropertyName: D,
     mapping: Mapping,
-  ): TypeUnion<Simplify<DiscriminatedUnionType<D, Mapping>>, Type[]> &
-    PropertyDecorator;
-  static discriminatorMapping<
-    D extends string,
-    Mapping extends Array<Constructor>,
-  >(
+  ): TypeUnion<Simplify<DiscriminatedUnionType<D, Mapping>>, Type[]> & PropertyDecorator;
+  static discriminatorMapping<D extends string, Mapping extends Array<Constructor>>(
     discriminatorPropertyName: D,
     ...mapping: Mapping
   ): TypeUnion<
@@ -62,10 +52,7 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
     }
   > &
     PropertyDecorator;
-  static discriminatorMapping(
-    discriminatorPropertyName: string,
-    ...mapping: any[]
-  ) {
+  static discriminatorMapping(discriminatorPropertyName: string, ...mapping: any[]) {
     return defineType(() => {
       const oneOf: Array<Type<any, any>> = [];
 
@@ -108,8 +95,7 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
 
   discriminatorPropType(ctx: Context) {
     return (this._discriminatorPropName ??= (() => {
-      const discriminatorPropName =
-        this.schema.discriminator?.propertyName ?? "";
+      const discriminatorPropName = this.schema.discriminator?.propertyName ?? "";
 
       const values: any[] = [];
       const metas: any[] = [];
@@ -138,23 +124,16 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
 
   _discriminatorMappingProps = new Map<string, Record<string, Type>>();
 
-  discriminatorMapping(
-    discriminatorPropName: string,
-    discriminatorPropValue: any,
-    ctx: Context,
-  ) {
+  discriminatorMapping(discriminatorPropName: string, discriminatorPropValue: any, ctx: Context) {
     if (this._discriminatorMappingProps.get(discriminatorPropValue)) {
       return this._discriminatorMappingProps.get(discriminatorPropValue);
     }
 
-    const enumValues =
-      (this.discriminatorPropType(ctx)?.schema as any)?.["enum"] ?? [];
+    const enumValues = (this.discriminatorPropType(ctx)?.schema as any)?.["enum"] ?? [];
 
     if (enumValues.includes(discriminatorPropValue)) {
       const matched = this.schema.oneOf.find((s) => {
-        const t = Schema.schemaProp(s, "properties")[
-          discriminatorPropName
-        ] as Type;
+        const t = Schema.schemaProp(s, "properties")[discriminatorPropName] as Type;
 
         if (t) {
           const [err, _] = t.validate(discriminatorPropValue);
@@ -168,9 +147,7 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
         if (!this._discriminatorMappingProps.has(discriminatorPropValue)) {
           const props: Record<string, any> = {};
 
-          for (const [prop, t] of Object.entries(
-            Schema.schemaProp(matched, "properties"),
-          )) {
+          for (const [prop, t] of Object.entries(Schema.schemaProp(matched, "properties"))) {
             if (prop === discriminatorPropName) {
               continue;
             }
@@ -186,21 +163,14 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
     return {};
   }
 
-  override *entries(
-    value: unknown,
-    context: Context = EmptyContext,
-  ): Iterable<Entity> {
+  override *entries(value: unknown, context: Context = EmptyContext): Iterable<Entity> {
     if (this.schema.discriminator) {
       const discriminatorPropName = this.schema.discriminator.propertyName;
       const discriminatorPropValue = (value as any)?.[discriminatorPropName];
 
       const base = TypeObject.create({
         [discriminatorPropName]: this.discriminatorPropType(context),
-        ...this.discriminatorMapping(
-          discriminatorPropName,
-          discriminatorPropValue,
-          context,
-        ),
+        ...this.discriminatorMapping(discriminatorPropName, discriminatorPropValue, context),
       });
 
       yield* base.entries(value, context);
@@ -228,11 +198,7 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
 
       return TypeObject.create({
         [discriminatorPropName]: this.discriminatorPropType(context),
-        ...this.discriminatorMapping(
-          discriminatorPropName,
-          discriminatorPropValue,
-          context,
-        ),
+        ...this.discriminatorMapping(discriminatorPropName, discriminatorPropValue, context),
       }).validator(value, context);
     }
 

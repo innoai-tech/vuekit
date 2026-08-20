@@ -23,17 +23,9 @@ export default component(() => {
       onClickOutside={() => (isOpen.value = false)}
       placement={"bottom-start"}
       modifiers={[sameWidth]}
-      $content={
-        <Box sx={{ containerStyle: "sys.on-surface" }}>
-          Popper {`${isOpen.value}`}!
-        </Box>
-      }
+      $content={<Box sx={{ containerStyle: "sys.on-surface" }}>Popper {`${isOpen.value}`}!</Box>}
     >
-      <Box
-        sx={{ p: 4 }}
-        component={"button"}
-        onClick={() => (isOpen.value = !isOpen.value)}
-      >
+      <Box sx={{ p: 4 }} component={"button"} onClick={() => (isOpen.value = !isOpen.value)}>
         Click Trigger Popper
       </Box>
     </Popper>
@@ -54,9 +46,7 @@ export default component(() => {
   return () => (
     <Popper
       isOpen={isOpen.value}
-      $content={
-        <Box sx={{ containerStyle: "sys.on-surface" }}>Popper Content!</Box>
-      }
+      $content={<Box sx={{ containerStyle: "sys.on-surface" }}>Popper Content!</Box>}
     >
       <Box
         component={"button"}
@@ -76,13 +66,7 @@ export default component(() => {
 ```tsx preview
 import { ref } from "vue";
 import { component } from "@innoai-tech/vuekit";
-import {
-  Box,
-  defineTransition,
-  Popper,
-  transition,
-  triangle,
-} from "@innoai-tech/vueuikit";
+import { Box, defineTransition, Popper, transition, triangle } from "@innoai-tech/vueuikit";
 
 export const FadeInOutTransition = defineTransition(
   {
@@ -113,9 +97,7 @@ export default component(() => {
   return () => (
     <Popper
       isOpen={isOpen.value}
-      $transition={({ content }) => (
-        <FadeInOutTransition>{content}</FadeInOutTransition>
-      )}
+      $transition={({ content }) => <FadeInOutTransition>{content}</FadeInOutTransition>}
       $content={
         <Box
           sx={{

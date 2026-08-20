@@ -1,8 +1,4 @@
-import {
-  type FetcherResponse,
-  paramsSerializer,
-  type RequestConfig,
-} from "@innoai-tech/fetcher";
+import { type FetcherResponse, paramsSerializer, type RequestConfig } from "@innoai-tech/fetcher";
 import { Box } from "@innoai-tech/vueuikit";
 import { component, t, type VNodeChild } from "@innoai-tech/vuekit";
 import { isArray, isObject } from "es-toolkit/compat";
@@ -70,8 +66,7 @@ ${isObject(v) ? JSON.stringify(v) : String(v)}
 
 function stringifyBody(request: RequestConfig<any>) {
   if (isContentTypeMultipartFormData(request.headers)) {
-    const boundary =
-      "----WebKitFormBoundaryfakefakefakefakefakefakefakefakefake";
+    const boundary = "----WebKitFormBoundaryfakefakefakefakefakefakefakefakefake";
 
     request.headers = {
       ...request.headers,
@@ -177,10 +172,7 @@ export const HTTPResponse = component(
       if (isContentTypeImage(response.headers)) {
         return (
           <div>
-            <img
-              src={toDataURI(response.body, getContentType(response.headers))}
-              alt={""}
-            />
+            <img src={toDataURI(response.body, getContentType(response.headers))} alt={""} />
           </div>
         );
       }
@@ -223,8 +215,7 @@ function isContentTypeMultipartFormData(headers: any) {
   return getContentType(headers).includes("multipart/form-data");
 }
 
-const isContentTypeJSON = (headers: any) =>
-  getContentType(headers).includes("application/json");
+const isContentTypeJSON = (headers: any) => getContentType(headers).includes("application/json");
 
 function isContentTypeFormURLEncoded(headers: any) {
   return getContentType(headers).includes("application/x-www-form-urlencoded");

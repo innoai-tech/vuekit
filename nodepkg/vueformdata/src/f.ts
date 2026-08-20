@@ -8,31 +8,27 @@ import {
 } from "@innoai-tech/vuekit";
 import type { Field, InputComponentProps } from "./FormData";
 
-export const label = defineModifier(
-  <T extends Type>(type: T, label: string): T => {
-    return t
-      .annotate<
-        T,
-        {
-          label: typeof label;
-        }
-      >({ label })
-      .modify(type);
-  },
-);
+export const label = defineModifier(<T extends Type>(type: T, label: string): T => {
+  return t
+    .annotate<
+      T,
+      {
+        label: typeof label;
+      }
+    >({ label })
+    .modify(type);
+});
 
-export const hint = defineModifier(
-  <T extends Type>(type: T, hint: string): T => {
-    return t
-      .annotate<
-        T,
-        {
-          hint: typeof hint;
-        }
-      >({ hint })
-      .modify(type);
-  },
-);
+export const hint = defineModifier(<T extends Type>(type: T, hint: string): T => {
+  return t
+    .annotate<
+      T,
+      {
+        hint: typeof hint;
+      }
+    >({ hint })
+    .modify(type);
+});
 
 export const valueDisplay = defineModifier(
   <V extends any, T extends Type<V> = Type<V>>(

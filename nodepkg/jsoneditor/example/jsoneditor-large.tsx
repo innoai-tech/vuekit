@@ -104,20 +104,12 @@ const data = {
         {
           verbs: ["get", "list", "watch"],
           apiGroups: ["cert-manager.io"],
-          resources: [
-            "certificates",
-            "certificaterequests",
-            "clusterissuers",
-            "issuers",
-          ],
+          resources: ["certificates", "certificaterequests", "clusterissuers", "issuers"],
         },
         {
           verbs: ["update"],
           apiGroups: ["cert-manager.io"],
-          resources: [
-            "certificates/finalizers",
-            "certificaterequests/finalizers",
-          ],
+          resources: ["certificates/finalizers", "certificaterequests/finalizers"],
         },
         {
           verbs: ["create", "delete", "get", "list", "watch"],
@@ -125,15 +117,7 @@ const data = {
           resources: ["orders"],
         },
         {
-          verbs: [
-            "get",
-            "list",
-            "watch",
-            "create",
-            "update",
-            "delete",
-            "patch",
-          ],
+          verbs: ["get", "list", "watch", "create", "update", "delete", "patch"],
           apiGroups: [""],
           resources: ["secrets"],
         },
@@ -211,10 +195,7 @@ const data = {
           verbs: ["sign"],
           apiGroups: ["certificates.k8s.io"],
           resources: ["signers"],
-          resourceNames: [
-            "issuers.cert-manager.io/*",
-            "clusterissuers.cert-manager.io/*",
-          ],
+          resourceNames: ["issuers.cert-manager.io/*", "clusterissuers.cert-manager.io/*"],
         },
         {
           verbs: ["create"],
@@ -310,12 +291,7 @@ const data = {
         {
           verbs: ["get", "list", "watch"],
           apiGroups: ["cert-manager.io"],
-          resources: [
-            "certificates",
-            "certificaterequests",
-            "issuers",
-            "clusterissuers",
-          ],
+          resources: ["certificates", "certificaterequests", "issuers", "clusterissuers"],
         },
         {
           verbs: ["get", "list", "watch"],
@@ -357,10 +333,7 @@ const data = {
           verbs: ["approve"],
           apiGroups: ["cert-manager.io"],
           resources: ["signers"],
-          resourceNames: [
-            "issuers.cert-manager.io/*",
-            "clusterissuers.cert-manager.io/*",
-          ],
+          resourceNames: ["issuers.cert-manager.io/*", "clusterissuers.cert-manager.io/*"],
         },
         {
           verbs: ["get", "patch", "list", "watch", "update", "create"],

@@ -12,10 +12,7 @@ type RouteMetadata = {
   meta: Record<string, any>;
 };
 
-export const extractRouteMeta = (
-  id: string,
-  jsdoc: string,
-): RouteMetadata | undefined => {
+export const extractRouteMeta = (id: string, jsdoc: string): RouteMetadata | undefined => {
   let r:
     | {
         imports: Record<string, Record<string, boolean>>;
@@ -29,9 +26,7 @@ export const extractRouteMeta = (
     const type = m.groups?.["type"] ?? "";
 
     // Support import("@innoai-tech/vuematerial").mdiPlus
-    const importType = type.match(
-      /(typeof +)?import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/,
-    );
+    const importType = type.match(/(typeof +)?import\(['"](?<importPath>[^)]+)['"]\)\.(?<name>.+)/);
 
     if (isUndefined(r)) {
       r = {
@@ -44,11 +39,7 @@ export const extractRouteMeta = (
     if (importType) {
       set(
         r,
-        [
-          "imports",
-          importType.groups?.["importPath"] ?? "",
-          importType.groups?.["name"] ?? "",
-        ],
+        ["imports", importType.groups?.["importPath"] ?? "", importType.groups?.["name"] ?? ""],
         true,
       );
       set(r, keyPath, importType.groups?.["name"] ?? "");

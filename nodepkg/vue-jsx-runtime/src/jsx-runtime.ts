@@ -33,12 +33,7 @@ const isTagOrInternal = (val: any) => {
 };
 
 const isSlots = (children: any) => {
-  return (
-    children &&
-    !Array.isArray(children) &&
-    !isVNode(children) &&
-    typeof children === "object"
-  );
+  return children && !Array.isArray(children) && !isVNode(children) && typeof children === "object";
 };
 
 const wrapSlot = (children: any) => {
@@ -51,10 +46,7 @@ const wrapSlot = (children: any) => {
   return isUndefined(children) ? children : () => children;
 };
 
-const pickPropsWithoutSlots = (
-  rawProps: Record<string, any>,
-  key?: string,
-): [any, any] => {
+const pickPropsWithoutSlots = (rawProps: Record<string, any>, key?: string): [any, any] => {
   const { children, ...otherProps } = rawProps;
 
   // pass slots as children
@@ -138,10 +130,8 @@ declare global {
       [name: string]: any;
     }
 
-    type ReservedPropsWithElementChildren = ReservedProps & {
+    export interface IntrinsicAttributes extends ReservedProps {
       children?: VNodeChild | {};
-    };
-
-    export interface IntrinsicAttributes extends ReservedPropsWithElementChildren {}
+    }
   }
 }

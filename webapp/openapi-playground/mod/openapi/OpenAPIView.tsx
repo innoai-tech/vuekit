@@ -67,11 +67,7 @@ export const OpenAPIView = component$((_props, _ctx) => {
 
           // wait all inserted
           setTimeout(() => {
-            scrollTo(
-              scrollContainerEl.querySelector<HTMLElement>(
-                ".router-link-active",
-              ),
-            );
+            scrollTo(scrollContainerEl.querySelector<HTMLElement>(".router-link-active"));
           }, 100);
 
           return () => {
@@ -138,11 +134,7 @@ export const OpenAPIView = component$((_props, _ctx) => {
                               <div data-operation-id>{op.operationId}</div>
                               {op.summary ? (
                                 <div data-operation-summary>
-                                  {op.summary != op.operationId ? (
-                                    op.summary
-                                  ) : (
-                                    <span>&nbsp;</span>
-                                  )}
+                                  {op.summary != op.operationId ? op.summary : <span>&nbsp;</span>}
                                 </div>
                               ) : undefined}
                             </div>

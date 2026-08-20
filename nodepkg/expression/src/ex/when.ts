@@ -3,10 +3,7 @@ import { type ExpressionBuildFunc, defineExpression } from "../Expression";
 
 export const when = defineExpression(
   "when",
-  (
-    condition: ExpressionBuildFunc<any, boolean>,
-    then: ExpressionBuildFunc<any, any>,
-  ) => {
+  (condition: ExpressionBuildFunc<any, boolean>, then: ExpressionBuildFunc<any, any>) => {
     return (ctx) => {
       if (condition(ctx)(get(ctx, "root"))) {
         return then(ctx);

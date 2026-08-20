@@ -982,9 +982,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1049,9 +1047,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1152,9 +1148,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "auth.ErrUnauthorized{message=\"Unauthorized: {Reason}\"}"
-            ]
+            "x-status-return-errors": ["auth.ErrUnauthorized{message=\"Unauthorized: {Reason}\"}"]
           }
         }
       }
@@ -1199,9 +1193,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1361,9 +1353,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           }
         }
       },
@@ -1454,9 +1444,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "429": {
             "description": "",
@@ -1508,9 +1496,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -1568,9 +1554,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "201": {
             "description": "",
@@ -1638,9 +1622,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -1722,9 +1704,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -1792,9 +1772,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           }
         }
       }
@@ -1901,9 +1879,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -1952,9 +1928,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2044,9 +2018,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "403": {
             "description": "",
@@ -2118,9 +2090,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2217,9 +2187,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2293,9 +2261,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2395,9 +2361,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2487,9 +2451,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2568,9 +2530,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",
@@ -2660,9 +2620,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "204": {
             "description": ""
@@ -2752,9 +2710,7 @@
                 }
               }
             },
-            "x-status-return-errors": [
-              "openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"
-            ]
+            "x-status-return-errors": ["openidv1.ErrInvalidToken{message=\"无效访问凭证\"}"]
           },
           "200": {
             "description": "",

@@ -1,51 +1,41 @@
 {
   "name": "@innoai-tech/jsoneditor",
   "version": "0.5.2",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "ssh://git@github.com:innoai-tech/vuekit.git",
     "directory": "nodepkg/jsoneditor"
-  },
-  "license": "MIT",
-  "type": "module",
-  "exports": {
-    ".": {
-      "bun": "./src/index.ts",
-      "import": {
-        "types": "./src/index.ts",
-        "default": "./dist/index.mjs"
-      }
-    }
   },
   "files": [
     "!/**/__tests__",
     "dist/*",
     "src/*"
   ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.mts",
+      "import": "./dist/index.mjs"
+    }
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://npm.pkg.github.com"
+  },
   "scripts": {
-    "build": "bunx --bun @innoai-tech/monobundle",
-    "prepublishOnly": "bun run build"
+    "build": "tsdown",
+    "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/core": "^1.8.0",
+    "@floating-ui/dom": "^1.8.0",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vuemarkdown": "workspace:^",
     "@innoai-tech/vuematerial": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
     "@mdi/js": "^7.4.47",
-    "copy-to-clipboard": "^3.3.3"
+    "copy-to-clipboard": "^4.0.2"
   },
-  "peerDependencies": {},
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://npm.pkg.github.com"
-  },
-  "monobundle": {
-    "build": {
-      "clean": true
-    },
-    "exports": {
-      ".": "./src/index.ts"
-    }
-  }
+  "peerDependencies": {}
 }
