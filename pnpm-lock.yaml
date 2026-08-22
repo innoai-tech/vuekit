@@ -131,6 +131,9 @@ importers:
       '@happy-dom/global-registrator':
         specifier: ^20.11.6
         version: 20.11.6
+      '@innoai-tech/bundle-purge':
+        specifier: workspace:*
+        version: link:nodedevpkg/bundle-purge
       '@innoai-tech/config':
         specifier: ^0.7.0
         version: 0.7.0(rolldown@1.2.5)
@@ -194,6 +197,9 @@ importers:
       playwright:
         specifier: ^1.62.1
         version: 1.62.1
+      rolldown:
+        specifier: ^1.2.5
+        version: 1.2.5
       tsdown:
         specifier: ^0.22.14
         version: 0.22.14(tsx@4.23.12)(typescript@7.0.2)

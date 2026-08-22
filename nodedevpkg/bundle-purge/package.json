@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/bundle-purge",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -17,6 +17,10 @@
     ".": {
       "types": "./dist/index.d.mts",
       "import": "./dist/index.mjs"
+    },
+    "./rolldown-plugin": {
+      "types": "./dist/rolldown-plugin.d.mts",
+      "import": "./dist/rolldown-plugin.mjs"
     }
   },
   "publishConfig": {

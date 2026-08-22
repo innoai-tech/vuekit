@@ -1,6 +1,6 @@
 {
   "name": "vuekit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "repository": {
     "type": "git",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@happy-dom/global-registrator": "^20.11.6",
+    "@innoai-tech/bundle-purge": "workspace:*",
     "@innoai-tech/config": "^0.7.0",
     "@innoai-tech/devconfig": "^0.5.0",
     "@innoai-tech/vue-vite-presets": "workspace:*",
@@ -42,6 +43,7 @@
     "oxlint": "^1.79.0",
     "oxlint-tsgolint": "^7.0.2001",
     "playwright": "^1.62.1",
+    "rolldown": "^1.2.5",
     "tsdown": "^0.22.14",
     "tsx": "^4.23.12",
     "turbo": "^2.10.11",

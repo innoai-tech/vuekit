@@ -2,10 +2,6 @@ import { parse } from "oxc-parser";
 
 export interface TransformOptions {
   filename?: string;
-  /** 是否添加 #__PURE__ 注释并删除 side imports（默认 true） */
-  annotatePure?: boolean;
-  /** 是否补全组件 displayName/props/emits（默认 false） */
-  completeComponent?: boolean;
 }
 
 export interface TransformResult {
@@ -25,6 +21,20 @@ interface Node {
   start: number;
   end: number;
   [key: string]: any;
+}
+
+/** 应用编辑：从后往前，避免位置偏移 */
+function applyEdits(code: string, edits: Edit[]): string {
+  edits.sort((a, b) => b.start - a.start);
+  let out = code;
+  for (const edit of edits) {
+    if (edit.end !== undefined) {
+      out = out.slice(0, edit.start) + edit.content + out.slice(edit.end);
+    } else {
+      out = out.slice(0, edit.start) + edit.content + out.slice(edit.start);
+    }
+  }
+  return out;
 }
 
 const isCallExpr = (n: any): n is Node =>
@@ -254,45 +264,76 @@ function collectComponentCompleterEdits(program: any): Edit[] {
   return edits;
 }
 
-export async function transform(
+async function parseProgram(code: string, filename: string) {
+  const result = await parse(filename, code, {});
+  return { program: result.program, comments: result.comments };
+}
+
+/** 清理：加 #__PURE__ 注释并删除 side imports */
+export async function purge(
   code: string,
   opts: TransformOptions = {},
 ): Promise<TransformResult> {
   const filename = opts.filename ?? "unknown.tsx";
-  const result = await parse(filename, code, {});
-  const program = result.program;
+  const { program, comments } = await parseProgram(code, filename);
+
+  const edits: Edit[] = [];
+
+  for (const pos of collectPureTargets(program)) {
+    if (!hasPureComment(comments, pos)) {
+      edits.push({ start: pos, content: PURE_COMMENT });
+    }
+  }
+
+  for (const [start, end] of collectSideImports(program)) {
+    edits.push({ start, end, content: "" });
+  }
+
+  return { code: applyEdits(code, edits) };
+}
+
+/** 组件补全：为 styled/component/component$ 调用追加 { displayName, props, emits } */
+export async function completeComponent(
+  code: string,
+  opts: TransformOptions = {},
+): Promise<TransformResult> {
+  const filename = opts.filename ?? "unknown.tsx";
+  const { program } = await parseProgram(code, filename);
+
+  const edits: Edit[] = collectComponentCompleterEdits(program);
+
+  return { code: applyEdits(code, edits) };
+}
+
+/** 兼容旧入口：组合 purge 与 completeComponent */
+export async function transform(
+  code: string,
+  opts: TransformOptions & {
+    /** 是否添加 #__PURE__ 注释并删除 side imports（默认 true） */
+    annotatePure?: boolean;
+    /** 是否补全组件 displayName/props/emits（默认 false） */
+    completeComponent?: boolean;
+  } = {},
+): Promise<TransformResult> {
+  const filename = opts.filename ?? "unknown.tsx";
+  const { program, comments } = await parseProgram(code, filename);
 
   const edits: Edit[] = [];
 
   if (opts.annotatePure !== false) {
-    // 加 #__PURE__ 注释
     for (const pos of collectPureTargets(program)) {
-      if (!hasPureComment(result.comments, pos)) {
+      if (!hasPureComment(comments, pos)) {
         edits.push({ start: pos, content: PURE_COMMENT });
       }
     }
-
-    // 删除 side imports
     for (const [start, end] of collectSideImports(program)) {
       edits.push({ start, end, content: "" });
     }
   }
 
   if (opts.completeComponent) {
-    // 组件补全
     edits.push(...collectComponentCompleterEdits(program));
   }
 
-  // 从后往前应用编辑，避免位置偏移
-  edits.sort((a, b) => b.start - a.start);
-  let out = code;
-  for (const edit of edits) {
-    if (edit.end !== undefined) {
-      out = out.slice(0, edit.start) + edit.content + out.slice(edit.end);
-    } else {
-      out = out.slice(0, edit.start) + edit.content + out.slice(edit.start);
-    }
-  }
-
-  return { code: out };
+  return { code: applyEdits(code, edits) };
 }
