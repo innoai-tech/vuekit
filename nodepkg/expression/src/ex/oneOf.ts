@@ -3,7 +3,7 @@ import { type ExpressionBuildFunc, defineExpression } from "../Expression";
 
 export const oneOf = defineExpression(
   "oneOf",
-  (...valuesOrBuildExprFns: Array<any | ExpressionBuildFunc<any, boolean>>) => {
+  (...valuesOrBuildExprFns: any[]) => {
     let asEnum = some(valuesOrBuildExprFns, (v) => isString(v));
 
     if (asEnum) {

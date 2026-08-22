@@ -110,7 +110,7 @@ export class CSSProcessor {
     },
   ) {}
 
-  processAll(src: Record<string, any>, full = true) {
+  processAll(src: Record<string, any> = {}, full = true) {
     const ret: Array<Record<string, any>> = [];
 
     const { state, extends: ex, ...others } = src;

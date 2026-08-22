@@ -25,6 +25,7 @@ build *args:
 [group("ci")]
 ci:
     just build
+    just ts::lint
     just webapp::build-all
-    just ts test
+    just ts::test
     just webapp::test-e2e

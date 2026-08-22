@@ -181,15 +181,15 @@ export class HctSolver {
     let leftHue = HctSolver.hueOf(left);
     let right = segment[1]!;
     for (let axis = 0; axis < 3; axis++) {
-      if (left[axis]!! !== right[axis]!!) {
+      if (left[axis]! !== right[axis]!) {
         let lPlane = -1;
         let rPlane = 255;
-        if (left[axis]!! < right[axis]!!) {
-          lPlane = HctSolver.criticalPlaneBelow(HctSolver.trueDelinearized(left[axis]!!));
-          rPlane = HctSolver.criticalPlaneAbove(HctSolver.trueDelinearized(right[axis]!!));
+        if (left[axis]! < right[axis]!) {
+          lPlane = HctSolver.criticalPlaneBelow(HctSolver.trueDelinearized(left[axis]!));
+          rPlane = HctSolver.criticalPlaneAbove(HctSolver.trueDelinearized(right[axis]!));
         } else {
-          lPlane = HctSolver.criticalPlaneAbove(HctSolver.trueDelinearized(left[axis]!!));
-          rPlane = HctSolver.criticalPlaneBelow(HctSolver.trueDelinearized(right[axis]!!));
+          lPlane = HctSolver.criticalPlaneAbove(HctSolver.trueDelinearized(left[axis]!));
+          rPlane = HctSolver.criticalPlaneBelow(HctSolver.trueDelinearized(right[axis]!));
         }
         for (let i = 0; i < 8; i++) {
           if (Math.abs(rPlane - lPlane) <= 1) {
@@ -257,18 +257,18 @@ export class HctSolver {
       // ===========================================================
       // Operations inlined from Cam16 to avoid repeated calculation
       // ===========================================================
-      if (linrgb[0]!! < 0 || linrgb[1]!! < 0 || linrgb[2]!! < 0) {
+      if (linrgb[0]! < 0 || linrgb[1]! < 0 || linrgb[2]! < 0) {
         return 0;
       }
       const kR = HctSolver.Y_FROM_LINRGB[0]!;
       const kG = HctSolver.Y_FROM_LINRGB[1]!;
       const kB = HctSolver.Y_FROM_LINRGB[2]!;
-      const fnj = kR * linrgb[0]!! + kG * linrgb[1]!! + kB * linrgb[2]!!;
+      const fnj = kR * linrgb[0]! + kG * linrgb[1]! + kB * linrgb[2]!;
       if (fnj <= 0) {
         return 0;
       }
       if (iterationRound === 4 || Math.abs(fnj - y) < 0.002) {
-        if (linrgb[0]!! > 100.01 || linrgb[1]!! > 100.01 || linrgb[2]!! > 100.01) {
+        if (linrgb[0]! > 100.01 || linrgb[1]! > 100.01 || linrgb[2]! > 100.01) {
           return 0;
         }
         return colorUtils.argbFromLinrgb(linrgb);

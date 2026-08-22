@@ -34,7 +34,7 @@ export class JSONPointer {
     return str.replace(/~1/g, "/").replace(/~0/g, "~");
   }
 
-  static escape(p: string | number | symbol) {
+  static escape(this: void, p: string | number | symbol) {
     if (p == Schema.RecordKey) {
       return "";
     }

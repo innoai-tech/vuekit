@@ -9,9 +9,10 @@ export type NativeEnumLike = {
 export class TypeEnum<U, S extends any[]> extends TypeUnknown<U, { enum: S }> {
   static create = defineType(TypeEnum.createEnum);
 
-  static createEnum<U extends number, T extends readonly U[]>(values: T): TypeEnum<T[number], U[]>;
-  static createEnum<U extends string, T extends readonly U[]>(values: T): TypeEnum<T[number], U[]>;
+  static createEnum<U extends number, T extends readonly U[]>(this: void, values: T): TypeEnum<T[number], U[]>;
+  static createEnum<U extends string, T extends readonly U[]>(this: void, values: T): TypeEnum<T[number], U[]>;
   static createEnum<U extends string | number, T extends readonly U[]>(
+    this: void,
     values: U[],
   ): TypeEnum<T[number], U[]> {
     return new TypeEnum<T[number], U[]>({ enum: values });

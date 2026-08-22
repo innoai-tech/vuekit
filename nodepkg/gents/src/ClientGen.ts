@@ -40,7 +40,7 @@ export class ClientGen extends Genfile {
     this.import("@innoai-tech/typedef", "t", "");
     this.import(this.requestCreator.importPath, this.requestCreator.expose, "");
 
-    const operations: Record<string, { method: string; path: string } & any> = {};
+    const operations: Record<string, { method: string; path: string }> = {};
 
     for (const path in this.openapi.paths) {
       const ops = this.openapi.paths[path];

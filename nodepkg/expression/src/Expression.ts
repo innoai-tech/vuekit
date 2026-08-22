@@ -43,7 +43,7 @@ export const keyPathToSchemaKeyPath = (ref: string) => {
     .replace(/\[[0-9]+]/g, ".items");
 };
 
-const noop = Object.assign((_: void) => null, {
+const noop = Object.assign(() => null, {
   type: "noop",
 });
 

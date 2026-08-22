@@ -13,7 +13,7 @@ export const Progress = styled<
     progress: number;
   },
   "span"
->("span", (props, _) => {
+>("span", (props) => {
   const el$ = observableRef<HTMLSpanElement | null>(null);
   const progress$ = toObservable(props, "progress");
 

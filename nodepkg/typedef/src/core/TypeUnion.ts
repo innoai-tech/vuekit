@@ -37,10 +37,12 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
   });
 
   static discriminatorMapping<D extends string, Mapping extends Record<string, Type>>(
+    this: void,
     discriminatorPropertyName: D,
     mapping: Mapping,
   ): TypeUnion<Simplify<DiscriminatedUnionType<D, Mapping>>, Type[]> & PropertyDecorator;
   static discriminatorMapping<D extends string, Mapping extends Array<Constructor>>(
+    this: void,
     discriminatorPropertyName: D,
     ...mapping: Mapping
   ): TypeUnion<
@@ -52,7 +54,7 @@ export class TypeUnion<T, S extends Type[]> extends TypeUnknown<
     }
   > &
     PropertyDecorator;
-  static discriminatorMapping(discriminatorPropertyName: string, ...mapping: any[]) {
+  static discriminatorMapping(this: void, discriminatorPropertyName: string, ...mapping: any[]) {
     return defineType(() => {
       const oneOf: Array<Type<any, any>> = [];
 

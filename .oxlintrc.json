@@ -5,5 +5,8 @@
   "options": {
     "typeAware": true,
     "typeCheck": true
+  },
+  "rules": {
+    "typescript/restrict-template-expressions": "off"
   }
 }

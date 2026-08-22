@@ -7,7 +7,7 @@ import { toHast } from "mdast-util-to-hast";
 export const Markdown = component$<{
   text: string;
   components?: Record<string, Component<any>>;
-}>((props, _) => {
+}>((props) => {
   return rx(
     props.text$,
     distinctUntilChanged(),

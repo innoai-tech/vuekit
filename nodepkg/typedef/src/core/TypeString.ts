@@ -1,6 +1,6 @@
 import { type Context, defineType } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isNull, isString, isUndefined } from "es-toolkit/compat";
+import { isBoolean, isNull, isNumber, isString, isUndefined } from "es-toolkit/compat";
 
 export class TypeString extends TypeUnknown<string, { type: "string" }> {
   static create = defineType(() => {
@@ -19,6 +19,9 @@ export class TypeString extends TypeUnknown<string, { type: "string" }> {
     if (isUndefined(value) || isNull(value)) {
       return value as any;
     }
-    return String(value);
+    if (isString(value) || isNumber(value) || isBoolean(value)) {
+      return String(value);
+    }
+    return undefined;
   }
 }

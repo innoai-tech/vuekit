@@ -153,7 +153,7 @@ function hasPureComment(comments: any[], pos: number): boolean {
 const toKebabCase = (s: string): string => s.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 
 /** 找到可补全的调用：styled(...)(...) 的最内层 styled 调用，或 component/component$ 调用 */
-function findCompletableCall(expr: any): any | null {
+function findCompletableCall(expr: any): any {
   let e = expr;
   while (e && e.type === "CallExpression") {
     const callee = unwrapParens(e.callee);

@@ -32,13 +32,14 @@ export class TypeObject<
   T extends Record<string, any>,
   Props extends Record<string, Type>,
 > extends TypeUnknown<T, Simplify<ObjectSchema<Props>>> {
-  static create(): Type<{}, ObjectSchema<{}>> & PropertyDecorator;
-  static create<C extends Constructor>(c: C): ConstructorType<C> & PropertyDecorator;
+  static create(this: void): Type<{}, ObjectSchema<{}>> & PropertyDecorator;
+  static create<C extends Constructor>(this: void, c: C): ConstructorType<C> & PropertyDecorator;
   static create<Props extends Record<string, Type>>(
+    this: void,
     props: Props,
   ): Type<{ [K in keyof Props]: Infer<Props[K]> }, Simplify<ObjectSchema<Props>>> &
     PropertyDecorator;
-  static create<Props extends Record<string, Type>>(props?: Props) {
+  static create<Props extends Record<string, Type>>(this: void, props?: Props) {
     const pickRequired = (props: Record<string, Type> = {}): string[] => {
       const required: string[] = [];
 

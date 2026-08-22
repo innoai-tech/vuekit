@@ -8,7 +8,7 @@ export const Icon = styled<
     size?: number;
   },
   "span"
->("span", (props, _) => (Wrapper) => {
+>("span", (props) => (Wrapper) => {
   const size = props.size ?? 24;
   return (
     <Wrapper data-icon data-placement={props.placement} data-has-size={!!props.size}>

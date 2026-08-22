@@ -21,7 +21,7 @@ const RxSlot = component(
   {
     renderFn$: t.custom<Observable<RenderFunction>>(),
   },
-  (props, _) => {
+  (props) => {
     let renderFunc: RenderFunction | null = null;
 
     rx(

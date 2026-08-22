@@ -6,7 +6,7 @@ const equal = (a: any, b: any) => {
     if (a.length !== b.length) {
       return false;
     }
-    for (const i in a) {
+    for (let i = 0; i < a.length; i++) {
       if (!Object.is(a[i], b[i])) {
         return false;
       }

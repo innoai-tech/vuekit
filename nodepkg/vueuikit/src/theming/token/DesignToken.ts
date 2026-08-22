@@ -36,7 +36,7 @@ export type DesignTokenTransform<I, O> = (
 
 export interface DesignTokenOption<
   Tokens extends DesignTokenValues<any>,
-  CSSPropNames extends keyof CSSAllProps | string,
+  CSSPropNames extends string,
   InputValueType = DesignTokenValue<Tokens>,
   ValueType = InputValueType,
   Fallback = unknown,
@@ -76,7 +76,7 @@ type Color = RGB | RGBA | HEX;
 export class DesignToken {
   static create<
     Tokens extends DesignTokenValues<any>,
-    CSSPropNames extends keyof CSSAllProps | string,
+    CSSPropNames extends string,
     InputValueType = DesignTokenValue<Tokens>,
     ValueType = InputValueType,
     Fallback = unknown,

@@ -1,7 +1,7 @@
-import { type AppConfig, type AppContext, confLoader } from "@innoai-tech/config";
+import { type AppConfig, confLoader } from "@innoai-tech/config";
 
 const APP_CONFIG = {
-  OPENAPI: (_: AppContext) => {
+  OPENAPI: () => {
     return "";
   },
 };

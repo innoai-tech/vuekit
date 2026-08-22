@@ -67,7 +67,7 @@ export default component(() => {
   const editor$ = JSONEditor.of(x, {
     name: "name",
     annotations: {
-      longtext: Array({ length: 100 }).fill("longtext").join(""),
+      longtext: "longtext".repeat(100),
     },
     ports: [],
     paths: "/x",

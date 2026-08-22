@@ -135,7 +135,7 @@ export const HttpRequest = component(
               ...getDefaultHeads(),
               ...request.headers,
             })
-              .toSorted()
+              .toSorted((a, b) => a[0].localeCompare(b[0]))
               .map(([key, value]) => (
                 <HeadRow key={key} field={key} value={value} />
               ))}
@@ -165,7 +165,7 @@ export const HTTPResponse = component(
   {
     response: t.custom<FetcherResponse<any, any>>(),
   },
-  (props, _) => {
+  (props) => {
     return () => {
       const response = props.response;
 

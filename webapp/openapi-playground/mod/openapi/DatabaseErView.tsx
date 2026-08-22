@@ -1,7 +1,7 @@
 import { component$, ImmerBehaviorSubject, rx } from "@innoai-tech/vuekit";
 import type { OperationWithMethodPath } from "./models";
 import { OpenAPIProvider } from "./OpenAPIProvider.tsx";
-import { onMounted } from "vue";
+import { onMounted } from "@innoai-tech/vuekit";
 import { alpha, Box, styled, variant } from "@innoai-tech/vueuikit";
 import { Dialog, Icon, mdiKey, Tooltip } from "@innoai-tech/vuematerial";
 import { mdiHelpBox, mdiKeyOutline } from "@mdi/js";
@@ -265,7 +265,7 @@ export const DatabaseDescription = styled<
     meta: { title?: string; description?: string };
   },
   "div"
->("div", (props, _) => {
+>("div", (props) => {
   return (Root) => {
     return (
       <Root>

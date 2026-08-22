@@ -8,7 +8,7 @@ import { component, createProvider } from "../index";
 describe("Provider", () => {
   describe("static", () => {
     const P = createProvider(() => ({ context: "default" }));
-    const C = component((_, _1) => {
+    const C = component(() => {
       const p = P.use();
       return () => <div>{p.context}</div>;
     });
@@ -20,7 +20,7 @@ describe("Provider", () => {
     });
 
     test("could inject custom value", () => {
-      const With = component((_, _1) => {
+      const With = component(() => {
         return () => (
           <P value={{ context: "injected" }}>
             <C />
@@ -37,7 +37,7 @@ describe("Provider", () => {
 
   describe("reactive", () => {
     const P = createProvider(() => ref({ context: "default" }));
-    const C = component((_, _1) => {
+    const C = component(() => {
       const p = P.use();
       return () => <div>{p.value.context}</div>;
     });
@@ -52,7 +52,7 @@ describe("Provider", () => {
       const With = component<{
         context?: string;
       }>(
-        (props, _) => {
+        (props) => {
           const r = ref({ context: props.context ?? "injected" });
 
           watch(
@@ -95,7 +95,7 @@ describe("Provider", () => {
       },
     );
 
-    const C = component((_, _1) => {
+    const C = component(() => {
       const p = P.use();
       return () => <div>{p.context}</div>;
     });
@@ -107,7 +107,7 @@ describe("Provider", () => {
     });
 
     test("could inject custom value", async () => {
-      const With = component((_, _1) => {
+      const With = component(() => {
         return () => (
           <P input={"injected"}>
             <C />
@@ -141,7 +141,7 @@ describe("Provider", () => {
       },
     );
 
-    const C = component((_, _1) => {
+    const C = component(() => {
       const p = P.use();
 
       return () => <div>{p.value}</div>;
@@ -157,7 +157,7 @@ describe("Provider", () => {
       const With = component<{
         input?: string;
       }>(
-        (props, _) => {
+        (props) => {
           return () => (
             <P input={props.input ?? "injected"}>
               <C />

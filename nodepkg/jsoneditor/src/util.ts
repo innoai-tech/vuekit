@@ -10,7 +10,7 @@ type ValueLine = {
   close?: boolean;
 };
 
-export const normalizeArray = (value: any | any[]) => {
+export const normalizeArray = (value: any) => {
   return isArray(value) ? value : !isUndefined(value) ? [value] : [];
 };
 

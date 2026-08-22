@@ -33,8 +33,10 @@ export const viteChunkSplit = (options: ChunkSplitOptions = {}): PluginOption =>
         `${assetsDir}/[name].[hash].chunk.js`,
       );
 
+      const output = c.build.rolldownOptions.output ?? ({} as OutputOptions);
+
       c.build.rolldownOptions.output = {
-        ...c.build.rolldownOptions.output,
+        ...(Array.isArray(output) ? output[0] : output),
         chunkFileNames: (chunkInfo: PreRenderedChunk) => {
           if (
             chunkInfo.name.startsWith("lib-") ||

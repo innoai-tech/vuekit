@@ -23,7 +23,7 @@ export const PreWithMermaid = styled<
 
 const Mermaid = component$<{
   code: string;
-}>((props, _) => {
+}>((props) => {
   const $el = observableRef(null);
 
   rx(

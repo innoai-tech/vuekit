@@ -13,7 +13,7 @@ import { MarkdownContainer } from "./SchemaView.tsx";
 
 export const OperationView = component$<{
   operationId: string;
-}>((props, _) => {
+}>((props) => {
   const openapi$ = OpenAPIProvider.use();
 
   const op$ = rx(

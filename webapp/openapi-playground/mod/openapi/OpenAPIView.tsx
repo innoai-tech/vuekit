@@ -102,7 +102,7 @@ export const OpenAPIView = component$((_props, _ctx) => {
           </NavSearchBox>
           <Nav sx={{ flex: 1, overflow: "scroll" }} ref={scrollContainerEl$}>
             {Object.entries(grouped)
-              .toSorted()
+              .toSorted((a, b) => a[0].localeCompare(b[0]))
               .map(([group, operations]) => {
                 return (
                   <div data-nav-group>

@@ -147,6 +147,7 @@ export class TypeWrapper<T, Schema> extends TypeUnknown<T, Schema> {
   }
 
   static refine<U extends Type, S extends Record<string, any>>(
+    this: void,
     t: U,
     refiner: (v: Infer<U>, ctx: Context) => Result,
     schema: S,

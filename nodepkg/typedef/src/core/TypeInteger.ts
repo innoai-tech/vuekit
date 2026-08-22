@@ -1,6 +1,6 @@
 import { type Context, defineType } from "./Type.ts";
 import { TypeUnknown } from "./TypeUnknown.ts";
-import { isInteger } from "es-toolkit/compat";
+import { isInteger, isNumber, isString } from "es-toolkit/compat";
 
 export class TypeInteger extends TypeUnknown<number, { type: "integer" }> {
   static create = defineType(() => {
@@ -17,10 +17,9 @@ export class TypeInteger extends TypeUnknown<number, { type: "integer" }> {
 
   override coercer(value: unknown, _: Context) {
     try {
-      const ret = value != undefined ? parseInt(String(value)) : undefined;
+      const ret = isString(value) || isNumber(value) ? parseInt(String(value)) : undefined;
       return isInteger(ret) ? ret : undefined;
-      // oxlint-disable-next-line no-unused-vars
-    } catch (err) {
+    } catch {
       return undefined;
     }
   }
