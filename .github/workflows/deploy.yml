@@ -18,7 +18,6 @@ jobs:
           INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: just ts::dep
-      - run: just webapp::setup-e2e
       - run: just ci
 
   release:
@@ -33,9 +32,12 @@ jobs:
           INNOAI_TECH_REGISTRY_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - run: just ts::dep
-      - run: just pub
       - run: just build
+      - run: just pub
+
       - run: just webapp::build-all
+      - run: just webapp::setup-e2e
+      - run: just webapp::test-e2e
 
       - uses: JamesIves/github-pages-deploy-action@v4.9.0
         with:

@@ -26,6 +26,4 @@ build *args:
 ci:
     just build
     just ts::lint
-    just webapp::build-all
     just ts::test
-    just webapp::test-e2e
