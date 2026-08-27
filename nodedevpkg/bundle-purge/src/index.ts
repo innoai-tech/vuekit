@@ -270,10 +270,7 @@ async function parseProgram(code: string, filename: string) {
 }
 
 /** 清理：加 #__PURE__ 注释并删除 side imports */
-export async function purge(
-  code: string,
-  opts: TransformOptions = {},
-): Promise<TransformResult> {
+export async function purge(code: string, opts: TransformOptions = {}): Promise<TransformResult> {
   const filename = opts.filename ?? "unknown.tsx";
   const { program, comments } = await parseProgram(code, filename);
 

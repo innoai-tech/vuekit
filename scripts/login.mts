@@ -10,7 +10,4 @@ if (!token) {
 
 // pnpm publish 拒绝脏 working tree，认证 token 写到全局 ~/.npmrc
 // @innoai-tech 依赖只在 GitHub Packages，scope registry 一并配置
-writeFileSync(
-  join(homedir(), ".npmrc"),
-  `//npm.pkg.github.com/:_authToken=${token}`,
-);
+writeFileSync(join(homedir(), ".npmrc"), `//npm.pkg.github.com/:_authToken=${token}`);

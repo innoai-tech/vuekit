@@ -109,7 +109,10 @@ describe("vue reactive", () => {
     const C = component$({ input: t.number() }, ({ input$, input }, { render }) => {
       const localInput$ = observableRef(input);
 
-      rx(input$, subscribeUntilUnmount((v) => localInput$.next(v)));
+      rx(
+        input$,
+        subscribeUntilUnmount((v) => localInput$.next(v)),
+      );
 
       const inputEl = rx(
         localInput$,

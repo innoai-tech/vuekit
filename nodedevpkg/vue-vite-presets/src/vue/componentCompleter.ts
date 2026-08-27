@@ -6,8 +6,6 @@ export interface ComponentCompleterOptions {
   exclude?: RegExp[];
 }
 
-export const viteVueComponentCompleter = (
-  options: ComponentCompleterOptions = {},
-): Plugin => {
+export const viteVueComponentCompleter = (options: ComponentCompleterOptions = {}): Plugin => {
   return vueComponentCompleter(options) as Plugin;
 };
