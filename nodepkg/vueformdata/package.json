@@ -8,18 +8,18 @@
     "directory": "nodepkg/vueformdata"
   },
   "files": [
-    "!/**/__tests__",
-    "dist/*",
-    "src/*"
+    "dist/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    },
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@innoai-tech/vuekit": "workspace:^",
-    "es-toolkit": "^1.51.0",
+    "es-toolkit": "^1.52.0",
     "rxjs": "^7.8.2"
   }
 }

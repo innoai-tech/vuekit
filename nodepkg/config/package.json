@@ -1,0 +1,44 @@
+{
+  "name": "@innoai-tech/config",
+  "version": "0.7.0",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/config"
+  },
+  "files": [
+    "dist/*",
+    "src/*",
+    "!/**/__tests__"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": "./dist/index.mjs",
+    "./loader": "./dist/loader.mjs",
+    "./vite-plugin-inject-config": "./dist/vite-plugin-inject-config.mjs",
+    "./package.json": "./package.json"
+  },
+  "scripts": {
+    "build": "pnpm exec tsdown",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "es-toolkit": "^1.44.0"
+  },
+  "peerDependencies": {
+    "rolldown": "*",
+    "vite": "*"
+  },
+  "browserslist": [
+    "defaults"
+  ],
+  "monobundle": {
+    "exports": {
+      ".": "./src/index.ts",
+      "./loader": "./src/loader/index.ts",
+      "./vite-plugin-inject-config": "./src/vite-plugin-inject-config/index.ts"
+    }
+  }
+}

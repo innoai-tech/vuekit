@@ -4,8 +4,7 @@
     "noErrorTruncation": true,
     "lib": ["ESNext", "dom"],
     "paths": {
-      "@webapp/vuekit/*": ["./webapp/vuekit/*"],
-      "@innoai-tech/*": ["./nodepkg/*/src/index.ts"]
+      "@webapp/vuekit/*": ["./webapp/vuekit/*"]
     },
     "jsxImportSource": "@innoai-tech/vuekit"
   }

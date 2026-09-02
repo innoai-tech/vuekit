@@ -8,23 +8,19 @@
     "directory": "nodepkg/typedef"
   },
   "files": [
-    "!/**/__tests__",
-    "dist/*",
-    "src/*"
+    "dist/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "pnpm exec tsdown",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {

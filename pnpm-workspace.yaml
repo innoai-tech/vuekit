@@ -5,5 +5,12 @@ packages:
 allowBuilds:
   core-js: true
   esbuild: true
+  wasm-pack: true
 
 minimumReleaseAge: 0
+
+overrides:
+  rolldown: ^1.2.6
+  rxjs: ^7.8.2
+  vite: ^8.2.2
+  vue: ^3.5.42

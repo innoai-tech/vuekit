@@ -13,17 +13,18 @@
     "src/*"
   ],
   "type": "module",
+  "types": "./dist/index.d.cts",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    },
-    "./rolldown-plugin": {
-      "types": "./dist/rolldown-plugin.d.mts",
-      "import": "./dist/rolldown-plugin.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./rolldown-plugin": "./dist/rolldown-plugin.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./rolldown-plugin": "./dist/rolldown-plugin.mjs",
+      "./package.json": "./package.json"
+    },
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
@@ -32,7 +33,12 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "oxc-codegen": "^0.147.0",
-    "oxc-parser": "^0.147.0"
+    "oxc-codegen": "^0.148.0",
+    "oxc-parser": "^0.148.0"
+  },
+  "inlinedDependencies": {
+    "@oxc-project/types": "0.147.0",
+    "@rolldown/pluginutils": "1.0.1",
+    "rolldown": "1.2.6"
   }
 }

@@ -6,5 +6,11 @@ export default defineConfig({
     "jsx-dev-runtime": "src/jsx-dev-runtime.ts",
   },
   format: ["esm"],
+  exports: {
+    packageJson: true,
+  },
+  deps: {
+    onlyBundle: false,
+  },
   clean: true,
 });

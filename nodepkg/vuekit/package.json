@@ -8,40 +8,30 @@
     "directory": "nodepkg/vuekit"
   },
   "files": [
-    "!/**/__tests__",
-    "dist/*",
-    "src/*"
+    "dist/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    },
-    "./jsx-dev-runtime": {
-      "types": "./dist/jsx-dev-runtime.d.mts",
-      "import": "./dist/jsx-dev-runtime.mjs"
-    },
-    "./jsx-runtime": {
-      "types": "./dist/jsx-runtime.d.mts",
-      "import": "./dist/jsx-runtime.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./jsx-dev-runtime": "./dist/jsx-dev-runtime.mjs",
+    "./jsx-runtime": "./dist/jsx-runtime.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "pnpm exec tsdown",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@innoai-tech/typedef": "workspace:^",
     "@innoai-tech/vue-jsx-runtime": "workspace:^",
-    "es-toolkit": "^1.51.0",
+    "es-toolkit": "^1.52.0",
     "immer": "^11.1.18",
     "rxjs": "^7.8.2",
-    "vue": "^3.5.41",
-    "vue-router": "^5.2.0"
+    "vue": "^3.5.42",
+    "vue-router": "^5.3.0"
   }
 }

@@ -8,33 +8,46 @@
     "directory": "nodepkg/jsoneditor"
   },
   "files": [
-    "!/**/__tests__",
-    "dist/*",
-    "src/*"
+    "dist/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
   "scripts": {
-    "build": "tsdown",
+    "build": "pnpm exec tsdown",
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
     "@floating-ui/core": "^1.8.0",
     "@floating-ui/dom": "^1.8.0",
+    "@innoai-tech/typedef": "workspace:^",
     "@innoai-tech/vuekit": "workspace:^",
     "@innoai-tech/vuemarkdown": "workspace:^",
     "@innoai-tech/vuematerial": "workspace:^",
     "@innoai-tech/vueuikit": "workspace:^",
     "@mdi/js": "^7.4.47",
     "copy-to-clipboard": "^4.0.2"
+  },
+  "inlinedDependencies": {
+    "@babel/parser": "7.29.8",
+    "@vue/compiler-core": "3.5.42",
+    "@vue/compiler-dom": "3.5.42",
+    "@vue/reactivity": "3.5.42",
+    "@vue/runtime-core": "3.5.42",
+    "@vue/runtime-dom": "3.5.42",
+    "@vue/shared": "3.5.42",
+    "csstype": "3.2.3",
+    "entities": "7.0.1",
+    "es-toolkit": "1.52.0",
+    "estree-walker": "2.0.2",
+    "rxjs": "7.8.2",
+    "source-map-js": "1.2.1",
+    "vue": "3.5.42"
   }
 }

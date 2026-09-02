@@ -3,8 +3,9 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "inputs": ["src/*", "package.json"],
-      "outputs": ["dist/*"]
+      "inputs": ["src/*", "*.config.ts", "package.json"],
+      "outputs": ["dist/*", "pkg/*"],
+      "passThroughEnv": ["RUSTUP_HOME", "RUSTUP_TOOLCHAIN", "CARGO_HOME", "WASM_PACK_CACHE"]
     }
   }
 }

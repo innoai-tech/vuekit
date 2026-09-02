@@ -8,16 +8,12 @@
     "directory": "nodepkg/vuemarkdown"
   },
   "files": [
-    "!/**/__tests__",
-    "dist/*",
-    "src/*"
+    "dist/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public",
@@ -39,5 +35,8 @@
     "micromark-extension-directive": "^4.0.0",
     "micromark-extension-gfm": "^3.0.0",
     "vfile": "^6.0.3"
+  },
+  "inlinedDependencies": {
+    "rxjs": "7.8.2"
   }
 }

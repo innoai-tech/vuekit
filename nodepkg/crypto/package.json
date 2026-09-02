@@ -1,0 +1,35 @@
+{
+  "name": "@innoai-tech/crypto",
+  "version": "0.2.1",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "ssh://git@github.com:innoai-tech/vuekit.git",
+    "directory": "nodepkg/crypto"
+  },
+  "files": [
+    "index.d.ts",
+    "index.mjs",
+    "pkg/crypto.d.ts",
+    "pkg/crypto.js",
+    "pkg/crypto_bg.wasm"
+  ],
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./index.d.ts",
+        "default": "./index.mjs"
+      }
+    }
+  },
+  "scripts": {
+    "test:rust": "cargo test -- --nocapture",
+    "update": "cargo update",
+    "build": "pnpm exec wasm-pack build --release --target web --no-pack",
+    "prepublishOnly": "pnpm run build"
+  },
+  "devDependencies": {
+    "wasm-pack": "^0.15.0"
+  }
+}

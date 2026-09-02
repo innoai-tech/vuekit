@@ -9,13 +9,13 @@ export const JSONEditorInput = component$<{
   field$: Field<any>;
   readOnly?: boolean;
 }>((props, _ctx) => {
-  const editor$ = JSONEditor.of(
+  const editor$: JSONEditor<any> = JSONEditor.of(
     props.field$.typedef,
     !isUndefined(props.field$.input) ? props.field$.input : undefined,
   );
 
   rx(
-    editor$,
+    editor$ as any,
     skip(1),
     tap((values) => {
       props.field$.update(values);

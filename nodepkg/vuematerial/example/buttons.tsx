@@ -6,7 +6,7 @@ import { mdiPlus, mdiSend } from "@mdi/js";
 import { Container } from "@webapp/vuekit/layout";
 
 export default component(() => {
-  const stateProps = {
+  const stateProps: Record<string, { disabled?: boolean; hover?: boolean; focus?: boolean; active?: boolean }> = {
     Enabled: {},
     Disabled: { disabled: true },
     Hovered: { hover: true },
@@ -14,7 +14,7 @@ export default component(() => {
     Pressed: { active: true },
   };
 
-  const buttons = {
+  const buttons: Record<string, typeof FilledButton> = {
     FilledButton: FilledButton,
     OutlinedButton: OutlinedButton,
     TextButton: TextButton,

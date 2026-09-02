@@ -8,18 +8,19 @@
     "directory": "nodepkg/expression"
   },
   "files": [
-    "!/**/__tests__",
     "dist/*",
     "src/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
+    "exports": {
+      ".": "./dist/index.mjs",
+      "./package.json": "./package.json"
+    },
     "access": "public",
     "registry": "https://npm.pkg.github.com"
   },
@@ -28,6 +29,6 @@
     "prepublishOnly": "pnpm run build"
   },
   "dependencies": {
-    "es-toolkit": "^1.51.0"
+    "es-toolkit": "^1.52.0"
   }
 }

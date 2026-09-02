@@ -8,16 +8,12 @@
     "directory": "nodepkg/gents"
   },
   "files": [
-    "!/**/__tests__",
-    "dist/*",
-    "src/*"
+    "dist/*"
   ],
   "type": "module",
   "exports": {
-    ".": {
-      "types": "./dist/index.d.mts",
-      "import": "./dist/index.mjs"
-    }
+    ".": "./dist/index.mjs",
+    "./package.json": "./package.json"
   },
   "publishConfig": {
     "access": "public",
@@ -29,10 +25,10 @@
   },
   "dependencies": {
     "@innoai-tech/typedef": "workspace:^",
-    "es-toolkit": "^1.51.0"
+    "es-toolkit": "^1.52.0"
   },
   "devDependencies": {
-    "@innoai-tech/fetcher": "^0.7.3"
+    "@innoai-tech/fetcher": "workspace:^"
   },
   "peerDependencies": {
     "@innoai-tech/config": "*"

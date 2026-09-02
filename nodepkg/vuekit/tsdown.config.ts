@@ -7,7 +7,14 @@ export default defineConfig({
     "jsx-runtime": "src/jsx-runtime.ts",
     "jsx-dev-runtime": "src/jsx-dev-runtime.ts",
   },
-  format: ["esm"],
-  clean: true,
   plugins: [vueComponentCompleter()],
+  format: ["esm"],
+  dts: true,
+  exports: {
+    packageJson: true,
+  },
+  deps: {
+    onlyBundle: false,
+  },
+  clean: true,
 });
