@@ -6,7 +6,7 @@ import {
   greenFromArgb,
   redFromArgb,
   TonalPalette,
-} from "./material";
+} from "../../material";
 import { DesignToken, type WithMixin } from "../token";
 
 const tones = {
