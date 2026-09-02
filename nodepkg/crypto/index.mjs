@@ -6,7 +6,7 @@ import init, {
   generate_aes_256_key as _generate_aes_256_key,
   generate_chacha20_key as _generate_chacha20_key,
   rsa_oaep_encrypt as _rsa_oaep_encrypt,
-} from "./pkg/crypto";
+} from "./pkg/crypto.js";
 
 const isNode =
   typeof process !== "undefined" && process.versions != null && process.versions.node != null;
