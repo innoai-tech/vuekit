@@ -1,6 +1,6 @@
 {
   "name": "@innoai-tech/fetcher",
-  "version": "0.7.3",
+  "version": "0.7.4",
   "license": "MIT",
   "repository": {
     "type": "git",
@@ -20,13 +20,12 @@
     "build": "pnpm exec tsdown",
     "prepublishOnly": "pnpm run build"
   },
-  "dependencies": {},
-  "peerDependencies": {
-    "rxjs": "7.x"
-  },
   "monobundle": {
     "exports": {
       ".": "./src/index.ts"
     }
+  },
+  "peerDependencies": {
+    "rxjs": "7.x"
   }
 }
